@@ -3,7 +3,7 @@
  *
  * Main window for the RPGMapper
  * 
- * Copyright (C) 2014, Oliver Maurhart, <dyle@dyle.org>
+ * Copyright (C) 2015, Oliver Maurhart, <dyle@dyle.org>
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,10 +53,14 @@ main_window::main_window() : QMainWindow() {
     refresh();
 
     // model connectors
-    connect(m_cAtlas, SIGNAL(modified()), SLOT(refresh()));
+    connect(m_cAtlas, 
+        SIGNAL(modified()), 
+        SLOT(refresh()));
 
     // widget connectors
-    connect(ui->twAtlas, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), SLOT(atlasCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
+    connect(ui->twAtlas, 
+        SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), 
+        SLOT(atlasCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
 
     evaluate();
 }
@@ -228,7 +232,7 @@ void main_window::refresh() {
                 cMapGroupItem->addChild(cMapItem);
             }
 
-            // adjust mapset values
+            // adjust map values
             cMapItem->setText(0, QString::fromStdString((*cMapIter)->name()));
             cMapItem->setText(1, sKey);
             QPixmapCache::find("map", &cPixmap);

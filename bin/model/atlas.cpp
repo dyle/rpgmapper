@@ -3,7 +3,7 @@
  *
  * A RPG atlas
  * 
- * Copyright (C) 2014, Oliver Maurhart, <dyle@dyle.org>
+ * Copyright (C) 2015, Oliver Maurhart, <dyle@dyle.org>
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +44,8 @@ using namespace rpg;
  * @param   sName           name of atlas
  * @param   sDescription    description of atlas
  */
-atlas::atlas(QObject * cParent, std::string const & sName, std::string const & sDescription) : QObject(cParent), m_sName(sName), m_sDescription(sDescription), m_bUnsaved(false) {
+atlas::atlas(QObject * cParent, std::string const & sName, std::string const & sDescription) 
+    : QObject(cParent), m_sName(sName), m_sDescription(sDescription), m_bUnsaved(false) {
    
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(deleteLater()));
 

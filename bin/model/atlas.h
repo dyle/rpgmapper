@@ -3,7 +3,7 @@
  *
  * A RPG atlas
  * 
- * Copyright (C) 2014, Oliver Maurhart, <dyle@dyle.org>
+ * Copyright (C) 2015, Oliver Maurhart, <dyle@dyle.org>
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -128,7 +128,11 @@ public:
      * 
      * @param   sDescription        the new description of the atlas
      */
-    void set_description(std::string const & sDescription) { m_sDescription = sDescription; m_bUnsaved = true; emit modified(); };
+    void set_description(std::string const & sDescription) { 
+        m_sDescription = sDescription; 
+        m_bUnsaved = true; 
+        emit modified(); 
+    };
 
 
     /**

@@ -3,7 +3,7 @@
  *
  * Main startup for RPGMapper
  * 
- * Copyright (C) 2014, Oliver Maurhart, <dyle@dyle.org>
+ * Copyright (C) 2015, Oliver Maurhart, <dyle@dyle.org>
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ int main(int argc, char ** argv) {
         "\n\
         This is a nifty tool to draw RPG dungeon maps.\n\
         \n\
-        Copyright (C) 2014, Oliver Maurhart, <dyle@dyle.org>\n\
+        Copyright (C) 2015, Oliver Maurhart, <dyle@dyle.org>\n\
         Licenseed under the GNU General Public License 3\n\
         See: http://www.gnu.org/licenses/ for details.");
     std::string sSynopsis = std::string("Usage: ") + argv[0] + " [OPTIONS] [ATLAS-FILE]";
@@ -116,7 +116,10 @@ int main(int argc, char ** argv) {
     }
     // we need a name
     if (cVariableMap.count("ATLAS-FILE") == 1) {
-        std::cerr << "TO BE IMPLEMENTED: LOAD ATLAS FROM CMD-LINE: " << cVariableMap["ATLAS-FILE"].as<std::string>() << std::endl;
+        std::cerr 
+            << "TO BE IMPLEMENTED: LOAD ATLAS FROM CMD-LINE: " 
+            << cVariableMap["ATLAS-FILE"].as<std::string>() 
+            << std::endl;
     }
    
     // start Qt

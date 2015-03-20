@@ -1,7 +1,7 @@
 # ------------------------------------------------------------
 # CMakeLists.txt for RPGMapper/bin
 #
-# Copyright (C) 2014, Oliver Maurhart, <dyle@dyle.org>
+# Copyright (C) 2015, Oliver Maurhart, <dyle@dyle.org>
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>main_window</class>
+ <widget class="QMainWindow" name="main_window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>815</width>
+    <height>487</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>RPGMapper</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="rpgmapper.qrc">
+    <normaloff>:/icons/gfx/rpgmapper_32.png</normaloff>:/icons/gfx/rpgmapper_32.png</iconset>
+  </property>
+  <widget class="QWidget" name="wdCentral">
+   <layout class="QVBoxLayout" name="lyMain">
+    <item>
+     <widget class="QTabWidget" name="tabMap">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Tab 1</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Tab 2</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="mnMain">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>815</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="mnFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="acNew"/>
+    <addaction name="acOpen"/>
+    <addaction name="acSave"/>
+    <addaction name="acSaveAs"/>
+    <addaction name="acAtlasProperties"/>
+    <addaction name="separator"/>
+    <addaction name="acQuit"/>
+   </widget>
+   <widget class="QMenu" name="mnHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="acAbout"/>
+   </widget>
+   <widget class="QMenu" name="menuMap">
+    <property name="title">
+     <string>Map</string>
+    </property>
+    <addaction name="acNewMapSet"/>
+    <addaction name="acDeleteMapSet"/>
+    <addaction name="acMapSetProperties"/>
+    <addaction name="separator"/>
+    <addaction name="acNewMap"/>
+    <addaction name="acDeleteMap"/>
+    <addaction name="acOpenMap"/>
+    <addaction name="acCloseMap"/>
+    <addaction name="acMapProperties"/>
+   </widget>
+   <addaction name="mnFile"/>
+   <addaction name="menuMap"/>
+   <addaction name="mnHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="stbMain"/>
+  <widget class="QToolBar" name="tbMain">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="acNew"/>
+   <addaction name="acOpen"/>
+   <addaction name="acSave"/>
+   <addaction name="separator"/>
+   <addaction name="acNewMap"/>
+   <addaction name="acDeleteMap"/>
+  </widget>
+  <widget class="QDockWidget" name="dwIcons">
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dwIconsContent">
+    <layout class="QVBoxLayout" name="lyIconsContent">
+     <item>
+      <widget class="QToolBox" name="tbIcons">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="page">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>246</width>
+          <height>89</height>
+         </rect>
+        </property>
+        <attribute name="label">
+         <string>Page 1</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="page_2">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>94</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <attribute name="label">
+         <string>Page 2</string>
+        </attribute>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dwAtlasTree">
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dwAtlasTreeContent">
+    <layout class="QVBoxLayout" name="lyAtlasContent">
+     <item>
+      <widget class="QTreeWidget" name="twAtlas">
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="rootIsDecorated">
+        <bool>false</bool>
+       </property>
+       <property name="uniformRowHeights">
+        <bool>true</bool>
+       </property>
+       <property name="sortingEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="animated">
+        <bool>true</bool>
+       </property>
+       <property name="allColumnsShowFocus">
+        <bool>true</bool>
+       </property>
+       <property name="columnCount">
+        <number>1</number>
+       </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string notr="true">1</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <action name="acNew">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/atlas-new.png</normaloff>:/icons/gfx/atlas-new.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;New Atlas</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new atlas</string>
+   </property>
+  </action>
+  <action name="acOpen">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/atlas-open.png</normaloff>:/icons/gfx/atlas-open.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Open Atlas</string>
+   </property>
+   <property name="toolTip">
+    <string>Open an atlas from file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="acSave">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/atlas-save.png</normaloff>:/icons/gfx/atlas-save.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Save Atlas</string>
+   </property>
+   <property name="toolTip">
+    <string>Save atlas to file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="acAbout">
+   <property name="text">
+    <string>&amp;About</string>
+   </property>
+   <property name="toolTip">
+    <string>About RPGMapper</string>
+   </property>
+  </action>
+  <action name="acQuit">
+   <property name="text">
+    <string>&amp;Quit</string>
+   </property>
+   <property name="toolTip">
+    <string>Quit RPGMapper</string>
+   </property>
+  </action>
+  <action name="acAtlasProperties">
+   <property name="text">
+    <string>Atlas &amp;Properties</string>
+   </property>
+   <property name="toolTip">
+    <string>Properties of the current atlas</string>
+   </property>
+  </action>
+  <action name="acSaveAs">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/atlas-save-as.png</normaloff>:/icons/gfx/atlas-save-as.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Save Atlas as ...</string>
+   </property>
+   <property name="toolTip">
+    <string>Save current atlas under a new name</string>
+   </property>
+  </action>
+  <action name="acNewMap">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/map-new.png</normaloff>:/icons/gfx/map-new.png</iconset>
+   </property>
+   <property name="text">
+    <string>New &amp;Map</string>
+   </property>
+   <property name="toolTip">
+    <string>Add a new map to the atlas</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="acDeleteMap">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/map-delete.png</normaloff>:/icons/gfx/map-delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete Map</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete current map from atlas</string>
+   </property>
+  </action>
+  <action name="acMapProperties">
+   <property name="text">
+    <string>Map Properties</string>
+   </property>
+   <property name="toolTip">
+    <string>Properties of the current map</string>
+   </property>
+  </action>
+  <action name="acNewMapSet">
+   <property name="text">
+    <string>New Map Set</string>
+   </property>
+  </action>
+  <action name="acDeleteMapSet">
+   <property name="text">
+    <string>Delete Map Set</string>
+   </property>
+  </action>
+  <action name="acMapSetProperties">
+   <property name="text">
+    <string>Map Set Properties</string>
+   </property>
+  </action>
+  <action name="acOpenMap">
+   <property name="text">
+    <string>Open Map</string>
+   </property>
+  </action>
+  <action name="acCloseMap">
+   <property name="text">
+    <string>Close Map</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="rpgmapper.qrc"/>
+ </resources>
+ <connections/>
+</ui>

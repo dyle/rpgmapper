@@ -105,6 +105,17 @@ public slots:
     void refresh();
 
 
+protected:
+
+
+    /**
+     * handle close event
+     *
+     * @param   cEvent      the event passed
+     */
+    virtual void closeEvent(QCloseEvent* cEvent);
+ 
+
 private slots:
 
 

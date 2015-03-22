@@ -29,6 +29,7 @@
 // Qt
 #include <QDesktopWidget>
 #include <QPixmapCache>
+#include <QSettings>
 
 // rpgmapper
 #include "../common_macros.h"
@@ -97,6 +98,12 @@ main_window::main_window() : QMainWindow() {
         SIGNAL(triggered()), SLOT(action_close_map()));
     connect(ui->acMapProperties, 
         SIGNAL(triggered()), SLOT(action_map_properties()));
+
+    // load and set any stored settings
+    QSettings cSettings("rpgmapper", "rpgmapper");
+    if (cSettings.contains("geometry")) restoreGeometry(cSettings.value("geometry").toByteArray());
+    else center_window();
+    restoreState(cSettings.value("window_state").toByteArray());
 
     evaluate();
 }
@@ -205,6 +212,7 @@ void main_window::action_open_map() {
  * quit action triggered
  */
 void main_window::action_quit() {
+    close();
 }
 
 
@@ -249,6 +257,19 @@ void main_window::center_window() {
  */
 void main_window::clear() {
     ui->twAtlas->clear();
+}
+
+
+/**
+ * handle close event
+ *
+ * @param   cEvent      the event passed
+ */
+void main_window::closeEvent(QCloseEvent* cEvent) {
+     QSettings cSettings("rpgmapper", "rpgmapper");
+     cSettings.setValue("geometry", saveGeometry());
+     cSettings.setValue("window_state", saveState());
+     QMainWindow::closeEvent(cEvent);
 }
 
 

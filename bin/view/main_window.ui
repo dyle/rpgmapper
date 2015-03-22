@@ -44,7 +44,7 @@
      <x>0</x>
      <y>0</y>
      <width>815</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnFile">
@@ -65,7 +65,7 @@
     </property>
     <addaction name="acAbout"/>
    </widget>
-   <widget class="QMenu" name="menuMap">
+   <widget class="QMenu" name="mnMap">
     <property name="title">
      <string>Map</string>
     </property>
@@ -80,7 +80,7 @@
     <addaction name="acMapProperties"/>
    </widget>
    <addaction name="mnFile"/>
-   <addaction name="menuMap"/>
+   <addaction name="mnMap"/>
    <addaction name="mnHelp"/>
   </widget>
   <widget class="QStatusBar" name="stbMain"/>
@@ -118,7 +118,7 @@
           <x>0</x>
           <y>0</y>
           <width>246</width>
-          <height>89</height>
+          <height>86</height>
          </rect>
         </property>
         <attribute name="label">
@@ -130,8 +130,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>94</width>
-          <height>24</height>
+          <width>246</width>
+          <height>86</height>
          </rect>
         </property>
         <attribute name="label">

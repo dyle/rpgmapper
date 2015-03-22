@@ -37,6 +37,7 @@
 
 
 // fwd
+class QAction;
 namespace rpg { class atlas; }
 class Ui_main_window;
 
@@ -126,12 +127,6 @@ private slots:
 
 
     /**
-     * save as action triggered
-     */
-    void action_save_as();
-
-
-    /**
      * show atlas properties action triggered
      */
     void action_atlas_properties();
@@ -156,6 +151,20 @@ private slots:
 
 
     /**
+     * an action is hovered (sender() must be an QAction)
+     */
+    void action_hovered();
+
+
+    /**
+     * an action is hovered 
+     *
+     * @param   cAction         the action hovered
+     */
+    void action_hovered(QAction * cAction);
+
+
+     /**
      * show map properties action triggered
      */
     void action_map_properties();
@@ -207,6 +216,12 @@ private slots:
      * save atlas action triggered
      */
     void action_save();
+
+
+    /**
+     * save as action triggered
+     */
+    void action_save_as();
 
 
     /**

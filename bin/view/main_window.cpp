@@ -49,7 +49,10 @@ main_window::main_window() : QMainWindow() {
     
     ui = new Ui_main_window;
     ui->setupUi(this);
+    statusBar()->setSizeGripEnabled(true);
+    statusBar()->showMessage(tr("Ready"));
 
+    // empty new default atlas
     m_cAtlas = new rpg::atlas(this);
 
     refresh();
@@ -64,40 +67,43 @@ main_window::main_window() : QMainWindow() {
         SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), 
         SLOT(atlas_current_item_changed(QTreeWidgetItem*, QTreeWidgetItem*)));
 
-
     // main actions connectors
-    connect(ui->acQuit, 
-        SIGNAL(triggered()), SLOT(action_quit()));
-    connect(ui->acAbout, 
-        SIGNAL(triggered()), SLOT(action_about()));
-    connect(ui->acNew, 
-        SIGNAL(triggered()), SLOT(action_new()));
-    connect(ui->acOpen, 
-        SIGNAL(triggered()), SLOT(action_open()));
-    connect(ui->acSave, 
-        SIGNAL(triggered()), SLOT(action_save()));
-    connect(ui->acSaveAs, 
-        SIGNAL(triggered()), SLOT(action_save_as()));
-    connect(ui->acAtlasProperties, 
-        SIGNAL(triggered()), SLOT(action_atlas_properties()));
+    connect(ui->acQuit, SIGNAL(triggered()), SLOT(action_quit()));
+    connect(ui->acQuit, SIGNAL(hovered()), SLOT(action_hovered()));
+    connect(ui->acAbout, SIGNAL(triggered()), SLOT(action_about()));
+    connect(ui->acAbout, SIGNAL(hovered()), SLOT(action_hovered()));
+    connect(ui->acNew, SIGNAL(triggered()), SLOT(action_new()));
+    connect(ui->acNew, SIGNAL(hovered()), SLOT(action_hovered()));
+    connect(ui->acOpen, SIGNAL(triggered()), SLOT(action_open()));
+    connect(ui->acOpen, SIGNAL(hovered()), SLOT(action_hovered()));
+    connect(ui->acSave, SIGNAL(triggered()), SLOT(action_save()));
+    connect(ui->acSave, SIGNAL(hovered()), SLOT(action_hovered()));
+    connect(ui->acSaveAs, SIGNAL(triggered()), SLOT(action_save_as()));
+    connect(ui->acSaveAs, SIGNAL(hovered()), SLOT(action_hovered()));
+    connect(ui->acAtlasProperties, SIGNAL(triggered()), SLOT(action_atlas_properties()));
+    connect(ui->acAtlasProperties, SIGNAL(hovered()), SLOT(action_hovered()));
 
-    connect(ui->acNewMapSet, 
-        SIGNAL(triggered()), SLOT(action_new_mapset()));
-    connect(ui->acDeleteMapSet, 
-        SIGNAL(triggered()), SLOT(action_del_mapset()));
-    connect(ui->acMapSetProperties, 
-        SIGNAL(triggered()), SLOT(action_mapset_properties()));
+    connect(ui->acNewMapSet, SIGNAL(triggered()), SLOT(action_new_mapset()));
+    connect(ui->acNewMapSet, SIGNAL(hovered()), SLOT(action_hovered()));
+    connect(ui->acDeleteMapSet, SIGNAL(triggered()), SLOT(action_del_mapset()));
+    connect(ui->acDeleteMapSet, SIGNAL(hovered()), SLOT(action_hovered()));
+    connect(ui->acMapSetProperties, SIGNAL(triggered()), SLOT(action_mapset_properties()));
+    connect(ui->acMapSetProperties, SIGNAL(hovered()), SLOT(action_hovered()));
 
-    connect(ui->acNewMap, 
-        SIGNAL(triggered()), SLOT(action_new_map()));
-    connect(ui->acDeleteMap, 
-        SIGNAL(triggered()), SLOT(action_del_map()));
-    connect(ui->acOpenMap, 
-        SIGNAL(triggered()), SLOT(action_open_map()));
-    connect(ui->acCloseMap, 
-        SIGNAL(triggered()), SLOT(action_close_map()));
-    connect(ui->acMapProperties, 
-        SIGNAL(triggered()), SLOT(action_map_properties()));
+    connect(ui->acNewMap, SIGNAL(triggered()), SLOT(action_new_map()));
+    connect(ui->acNewMap, SIGNAL(hovered()), SLOT(action_hovered()));
+    connect(ui->acDeleteMap, SIGNAL(triggered()), SLOT(action_del_map()));
+    connect(ui->acDeleteMap, SIGNAL(hovered()), SLOT(action_hovered()));
+    connect(ui->acOpenMap, SIGNAL(triggered()), SLOT(action_open_map()));
+    connect(ui->acOpenMap, SIGNAL(hovered()), SLOT(action_hovered()));
+    connect(ui->acCloseMap, SIGNAL(triggered()), SLOT(action_close_map()));
+    connect(ui->acCloseMap, SIGNAL(hovered()), SLOT(action_hovered()));
+    connect(ui->acMapProperties, SIGNAL(triggered()), SLOT(action_map_properties()));
+    connect(ui->acMapProperties, SIGNAL(hovered()), SLOT(action_hovered()));
+
+    connect(ui->mnFile, SIGNAL(hovered(QAction*)), SLOT(action_hovered(QAction*)));
+    connect(ui->mnMap, SIGNAL(hovered(QAction*)), SLOT(action_hovered(QAction*)));
+    connect(ui->mnHelp, SIGNAL(hovered(QAction*)), SLOT(action_hovered(QAction*)));
 
     // load and set any stored settings
     QSettings cSettings("rpgmapper", "rpgmapper");
@@ -121,13 +127,6 @@ main_window::~main_window() {
  * about action triggered
  */
 void main_window::action_about() {
-}
-
-
-/**
- * save as action triggered
- */
-void main_window::action_save_as() {
 }
 
 
@@ -156,6 +155,26 @@ void main_window::action_del_map() {
  * del a whole mapset action triggered
  */
 void main_window::action_del_mapset() {
+}
+
+
+/**
+ * an action is hovered (sender() must be an QAction)
+ */
+void main_window::action_hovered() {
+    QAction * cAction = qobject_cast<QAction*>(sender());
+    action_hovered(cAction);
+}
+
+
+/**
+ * an action is hovered 
+ *
+ * @param   cAction         the action hovered
+ */
+void main_window::action_hovered(QAction * cAction) {
+    if (cAction == nullptr) return;
+    statusBar()->showMessage(cAction->toolTip());
 }
 
 
@@ -220,6 +239,13 @@ void main_window::action_quit() {
  * save atlas action triggered
  */
 void main_window::action_save() {
+}
+
+
+/**
+ * save as action triggered
+ */
+void main_window::action_save_as() {
 }
 
 
@@ -352,6 +378,25 @@ QTreeWidgetItem * main_window::find_mapset(std::string const & sName) {
 
 
 /**
+ * figure out which item type is the given item
+ *
+ * @param   cItem       the TreeWidgetItem in consideration
+ * @return  if represents an atlas, mapset or map
+ */
+main_window::tree_item_type main_window::item_type(QTreeWidgetItem * cItem) {
+
+    if (!cItem) throw std::invalid_argument("can't identify item type of a nullptr");
+   
+    if (cItem->text(1).left(strlen("atlas")) == "atlas") return tree_item_type::ATLAS;
+    if (cItem->text(1).left(strlen("mapset:")) == "mapset:") return tree_item_type::MAPSET;
+    if (cItem->text(1).left(strlen("map:")) == "map:") return tree_item_type::MAP;
+
+    throw std::invalid_argument("unknown item type");
+    return tree_item_type::UNKNOWN;
+}
+
+
+/**
  * refresh data display
  */
 void main_window::refresh() {
@@ -419,24 +464,5 @@ void main_window::refresh() {
             cMapItem->setIcon(0, cPixmap);
         }
     }
-}
-
-
-/**
- * figure out which item type is the given item
- *
- * @param   cItem       the TreeWidgetItem in consideration
- * @return  if represents an atlas, mapset or map
- */
-main_window::tree_item_type main_window::item_type(QTreeWidgetItem * cItem) {
-
-    if (!cItem) throw std::invalid_argument("can't identify item type of a nullptr");
-   
-    if (cItem->text(1).left(strlen("atlas")) == "atlas") return tree_item_type::ATLAS;
-    if (cItem->text(1).left(strlen("mapset:")) == "mapset:") return tree_item_type::MAPSET;
-    if (cItem->text(1).left(strlen("map:")) == "map:") return tree_item_type::MAP;
-
-    throw std::invalid_argument("unknown item type");
-    return tree_item_type::UNKNOWN;
 }
 

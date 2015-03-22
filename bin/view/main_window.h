@@ -109,6 +109,96 @@ private slots:
 
 
     /**
+     * about action triggered
+     */
+    void actionAbout();
+
+
+    /**
+     * about action triggered
+     */
+    void actionaSaveAs();
+
+
+    /**
+     * about action triggered
+     */
+    void actionAtlasProperties();
+
+
+    /**
+     * about action triggered
+     */
+    void actionCloseMap();
+
+
+    /**
+     * about action triggered
+     */
+    void actionDelMap();
+
+
+    /**
+     * about action triggered
+     */
+    void actionDelMapset();
+
+
+    /**
+     * about action triggered
+     */
+    void actionMapProperties();
+
+
+    /**
+     * about action triggered
+     */
+    void actionMapsetProperties();
+
+
+    /**
+     * about action triggered
+     */
+    void actionNeMapset();
+
+
+    /**
+     * about action triggered
+     */
+    void actionNew();
+
+
+    /**
+     * about action triggered
+     */
+    void actionNewMap();
+
+
+    /**
+     * about action triggered
+     */
+    void actionOpen();
+
+
+    /**
+     * about action triggered
+     */
+    void actionOpenMap();
+
+
+    /**
+     * about action triggered
+     */
+    void actionQuit();
+
+
+    /**
+     * about action triggered
+     */
+    void actionSave();
+
+
+    /**
      * a new item on the atlas has been set to the current one
      *
      * @param   cItem           the new current item

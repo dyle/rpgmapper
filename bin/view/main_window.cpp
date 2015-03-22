@@ -62,6 +62,26 @@ main_window::main_window() : QMainWindow() {
         SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), 
         SLOT(atlasCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
 
+
+    // main actions connectors
+    connect(ui->acQuit, SIGNAL(triggered()), SLOT(actionQuit()));
+    connect(ui->acAbout, SIGNAL(triggered()), SLOT(actionAbout()));
+    connect(ui->acNew, SIGNAL(triggered()), SLOT(actionNew()));
+    connect(ui->acOpen, SIGNAL(triggered()), SLOT(actionOpen()));
+    connect(ui->acSave, SIGNAL(triggered()), SLOT(actionSave()));
+    connect(ui->acSaveAs, SIGNAL(triggered()), SLOT(actionaSaveAs()));
+    connect(ui->acAtlasProperties, SIGNAL(triggered()), SLOT(actionAtlasProperties()));
+
+    connect(ui->acNewMapSet, SIGNAL(triggered()), SLOT(actionNeMapset()));
+    connect(ui->acDeleteMapSet, SIGNAL(triggered()), SLOT(actionDelMapset()));
+    connect(ui->acMapSetProperties, SIGNAL(triggered()), SLOT(actionMapsetProperties()));
+
+    connect(ui->acNewMap, SIGNAL(triggered()), SLOT(actionNewMap()));
+    connect(ui->acDeleteMap, SIGNAL(triggered()), SLOT(actionDelMap()));
+    connect(ui->acOpenMap, SIGNAL(triggered()), SLOT(actionOpenMap()));
+    connect(ui->acCloseMap, SIGNAL(triggered()), SLOT(actionCloseMap()));
+    connect(ui->acMapProperties, SIGNAL(triggered()), SLOT(actionMapProperties()));
+
     evaluate();
 }
 
@@ -71,6 +91,111 @@ main_window::main_window() : QMainWindow() {
  */
 main_window::~main_window() {
     delete ui;
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionAbout() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionaSaveAs() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionAtlasProperties() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionCloseMap() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionDelMap() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionDelMapset() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionMapProperties() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionMapsetProperties() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionNeMapset() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionNew() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionNewMap() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionOpen() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionOpenMap() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionQuit() {
+}
+
+
+/**
+ * about action triggered
+ */
+void main_window::actionSave() {
 }
 
 

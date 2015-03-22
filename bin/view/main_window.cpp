@@ -27,6 +27,7 @@
 #include <stdexcept>
 
 // Qt
+#include <QDesktopWidget>
 #include <QPixmapCache>
 
 // rpgmapper
@@ -60,27 +61,42 @@ main_window::main_window() : QMainWindow() {
     // widget connectors
     connect(ui->twAtlas, 
         SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), 
-        SLOT(atlasCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
+        SLOT(atlas_current_item_changed(QTreeWidgetItem*, QTreeWidgetItem*)));
 
 
     // main actions connectors
-    connect(ui->acQuit, SIGNAL(triggered()), SLOT(actionQuit()));
-    connect(ui->acAbout, SIGNAL(triggered()), SLOT(actionAbout()));
-    connect(ui->acNew, SIGNAL(triggered()), SLOT(actionNew()));
-    connect(ui->acOpen, SIGNAL(triggered()), SLOT(actionOpen()));
-    connect(ui->acSave, SIGNAL(triggered()), SLOT(actionSave()));
-    connect(ui->acSaveAs, SIGNAL(triggered()), SLOT(actionaSaveAs()));
-    connect(ui->acAtlasProperties, SIGNAL(triggered()), SLOT(actionAtlasProperties()));
+    connect(ui->acQuit, 
+        SIGNAL(triggered()), SLOT(action_quit()));
+    connect(ui->acAbout, 
+        SIGNAL(triggered()), SLOT(action_about()));
+    connect(ui->acNew, 
+        SIGNAL(triggered()), SLOT(action_new()));
+    connect(ui->acOpen, 
+        SIGNAL(triggered()), SLOT(action_open()));
+    connect(ui->acSave, 
+        SIGNAL(triggered()), SLOT(action_save()));
+    connect(ui->acSaveAs, 
+        SIGNAL(triggered()), SLOT(action_save_as()));
+    connect(ui->acAtlasProperties, 
+        SIGNAL(triggered()), SLOT(action_atlas_properties()));
 
-    connect(ui->acNewMapSet, SIGNAL(triggered()), SLOT(actionNeMapset()));
-    connect(ui->acDeleteMapSet, SIGNAL(triggered()), SLOT(actionDelMapset()));
-    connect(ui->acMapSetProperties, SIGNAL(triggered()), SLOT(actionMapsetProperties()));
+    connect(ui->acNewMapSet, 
+        SIGNAL(triggered()), SLOT(action_new_mapset()));
+    connect(ui->acDeleteMapSet, 
+        SIGNAL(triggered()), SLOT(action_del_mapset()));
+    connect(ui->acMapSetProperties, 
+        SIGNAL(triggered()), SLOT(action_mapset_properties()));
 
-    connect(ui->acNewMap, SIGNAL(triggered()), SLOT(actionNewMap()));
-    connect(ui->acDeleteMap, SIGNAL(triggered()), SLOT(actionDelMap()));
-    connect(ui->acOpenMap, SIGNAL(triggered()), SLOT(actionOpenMap()));
-    connect(ui->acCloseMap, SIGNAL(triggered()), SLOT(actionCloseMap()));
-    connect(ui->acMapProperties, SIGNAL(triggered()), SLOT(actionMapProperties()));
+    connect(ui->acNewMap, 
+        SIGNAL(triggered()), SLOT(action_new_map()));
+    connect(ui->acDeleteMap, 
+        SIGNAL(triggered()), SLOT(action_del_map()));
+    connect(ui->acOpenMap, 
+        SIGNAL(triggered()), SLOT(action_open_map()));
+    connect(ui->acCloseMap, 
+        SIGNAL(triggered()), SLOT(action_close_map()));
+    connect(ui->acMapProperties, 
+        SIGNAL(triggered()), SLOT(action_map_properties()));
 
     evaluate();
 }
@@ -97,105 +113,105 @@ main_window::~main_window() {
 /**
  * about action triggered
  */
-void main_window::actionAbout() {
+void main_window::action_about() {
 }
 
 
 /**
- * about action triggered
+ * save as action triggered
  */
-void main_window::actionaSaveAs() {
+void main_window::action_save_as() {
 }
 
 
 /**
- * about action triggered
+ * show atlas properties action triggered
  */
-void main_window::actionAtlasProperties() {
+void main_window::action_atlas_properties() {
 }
 
 
 /**
- * about action triggered
+ * close map action triggered
  */
-void main_window::actionCloseMap() {
+void main_window::action_close_map() {
 }
 
 
 /**
- * about action triggered
+ * delete a map action triggered
  */
-void main_window::actionDelMap() {
+void main_window::action_del_map() {
 }
 
 
 /**
- * about action triggered
+ * del a whole mapset action triggered
  */
-void main_window::actionDelMapset() {
+void main_window::action_del_mapset() {
 }
 
 
 /**
- * about action triggered
+ * show map properties action triggered
  */
-void main_window::actionMapProperties() {
+void main_window::action_map_properties() {
 }
 
 
 /**
- * about action triggered
+ * show mapset properties action triggered
  */
-void main_window::actionMapsetProperties() {
+void main_window::action_mapset_properties() {
 }
 
 
 /**
- * about action triggered
+ * create a new mapset action triggered
  */
-void main_window::actionNeMapset() {
+void main_window::action_new_mapset() {
 }
 
 
 /**
- * about action triggered
+ * new atlas action triggered
  */
-void main_window::actionNew() {
+void main_window::action_new() {
 }
 
 
 /**
- * about action triggered
+ * new map action triggered
  */
-void main_window::actionNewMap() {
+void main_window::action_new_map() {
 }
 
 
 /**
- * about action triggered
+ * open atlas action triggered
  */
-void main_window::actionOpen() {
+void main_window::action_open() {
 }
 
 
 /**
- * about action triggered
+ * open map action triggered
  */
-void main_window::actionOpenMap() {
+void main_window::action_open_map() {
 }
 
 
 /**
- * about action triggered
+ * quit action triggered
  */
-void main_window::actionQuit() {
+void main_window::action_quit() {
 }
 
 
 /**
- * about action triggered
+ * save atlas action triggered
  */
-void main_window::actionSave() {
+void main_window::action_save() {
 }
 
 
@@ -205,8 +221,26 @@ void main_window::actionSave() {
  * @param   cItem           the new current item
  * @param   cPreviousItem   the old previous item
  */
-void main_window::atlasCurrentItemChanged(UNUSED QTreeWidgetItem * cItem, UNUSED QTreeWidgetItem * cPreviousItem) {
+void main_window::atlas_current_item_changed(UNUSED QTreeWidgetItem * cItem, UNUSED QTreeWidgetItem * cPreviousItem) {
     evaluate();
+}
+
+
+/**
+ * centers the window on the desktop with default width and height
+ */
+void main_window::center_window() {
+    
+    const int nDefaultWidth = 600;
+    const int nDefaultHeight = 400;
+    
+    QDesktopWidget* cDesktop = qApp->desktop();
+    int nX = (cDesktop->width() - nDefaultWidth) / 2;
+    int nY = (cDesktop->height() - nDefaultHeight) / 2;
+    
+    // ready to display
+    resize(QSize(nDefaultWidth, nDefaultHeight));
+    move(QPoint(nX, nY));
 }
 
 

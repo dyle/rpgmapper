@@ -111,91 +111,91 @@ private slots:
     /**
      * about action triggered
      */
-    void actionAbout();
+    void action_about();
 
 
     /**
-     * about action triggered
+     * save as action triggered
      */
-    void actionaSaveAs();
+    void action_save_as();
 
 
     /**
-     * about action triggered
+     * show atlas properties action triggered
      */
-    void actionAtlasProperties();
+    void action_atlas_properties();
 
 
     /**
-     * about action triggered
+     * close map action triggered
      */
-    void actionCloseMap();
+    void action_close_map();
 
 
     /**
-     * about action triggered
+     * delete a map action triggered
      */
-    void actionDelMap();
+    void action_del_map();
 
 
     /**
-     * about action triggered
+     * del a whole mapset action triggered
      */
-    void actionDelMapset();
+    void action_del_mapset();
 
 
     /**
-     * about action triggered
+     * show map properties action triggered
      */
-    void actionMapProperties();
+    void action_map_properties();
 
 
     /**
-     * about action triggered
+     * show mapset properties action triggered
      */
-    void actionMapsetProperties();
+    void action_mapset_properties();
 
 
     /**
-     * about action triggered
+     * create a new mapset action triggered
      */
-    void actionNeMapset();
+    void action_new_mapset();
 
 
     /**
-     * about action triggered
+     * new atlas action triggered
      */
-    void actionNew();
+    void action_new();
 
 
     /**
-     * about action triggered
+     * new map action triggered
      */
-    void actionNewMap();
+    void action_new_map();
 
 
     /**
-     * about action triggered
+     * open atlas action triggered
      */
-    void actionOpen();
+    void action_open();
 
 
     /**
-     * about action triggered
+     * open map action triggered
      */
-    void actionOpenMap();
+    void action_open_map();
 
 
     /**
-     * about action triggered
+     * quit action triggered
      */
-    void actionQuit();
+    void action_quit();
 
 
     /**
-     * about action triggered
+     * save atlas action triggered
      */
-    void actionSave();
+    void action_save();
 
 
     /**
@@ -204,10 +204,16 @@ private slots:
      * @param   cItem           the new current item
      * @param   cPreviousItem   the old previous item
      */
-    void atlasCurrentItemChanged(QTreeWidgetItem * cItem, QTreeWidgetItem * cPreviousItem);
+    void atlas_current_item_changed(QTreeWidgetItem * cItem, QTreeWidgetItem * cPreviousItem);
 
 
 private:
+
+
+    /**
+     * centers the window on the desktop with default width and height
+     */
+    void center_window();
 
 
     /**

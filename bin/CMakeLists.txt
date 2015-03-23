@@ -47,11 +47,11 @@ if (HAVE_QT4_PKG)
     qt4_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
 endif (HAVE_QT4_PKG)
 
-
 # Qt MOC
 set(RPGMAPPER_MOC
     model/atlas.h
     model/map.h
+    view/atlas_properties_dialog.h
     view/main_window.h
 )
 if (HAVE_QT5_PKG)
@@ -71,6 +71,7 @@ set(RPGMAPPER_SRC
     model/map.cpp
     model/maps.cpp
 
+    view/atlas_properties_dialog.cpp
     view/main_window.cpp
 )
 

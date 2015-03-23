@@ -151,20 +151,6 @@ private slots:
 
 
     /**
-     * an action is hovered (sender() must be an QAction)
-     */
-    void action_hovered();
-
-
-    /**
-     * an action is hovered 
-     *
-     * @param   cAction         the action hovered
-     */
-    void action_hovered(QAction * cAction);
-
-
-     /**
      * show map properties action triggered
      */
     void action_map_properties();

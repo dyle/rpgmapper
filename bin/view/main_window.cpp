@@ -23,6 +23,7 @@
 // ------------------------------------------------------------
 // incs
 
+    #include    <iostream>
 #include <sstream>
 #include <stdexcept>
 
@@ -50,7 +51,27 @@ main_window::main_window() : QMainWindow() {
     ui = new Ui_main_window;
     ui->setupUi(this);
     statusBar()->setSizeGripEnabled(true);
-    statusBar()->showMessage(tr("Ready"));
+
+    // fix actions
+    for (auto c : std::list<QAction*>{
+        ui->acQuit,
+        ui->acAbout,
+        ui->acNew,
+        ui->acOpen,
+        ui->acSave,
+        ui->acSaveAs,
+        ui->acAtlasProperties,
+        ui->acNewMapSet,
+        ui->acDeleteMapSet,
+        ui->acMapSetProperties,
+        ui->acNewMap,
+        ui->acDeleteMap,
+        ui->acOpenMap,
+        ui->acCloseMap,
+        ui->acMapProperties}) {
+
+        c->setStatusTip(c->toolTip());
+    }
 
     // empty new default atlas
     m_cAtlas = new rpg::atlas(this);
@@ -69,41 +90,22 @@ main_window::main_window() : QMainWindow() {
 
     // main actions connectors
     connect(ui->acQuit, SIGNAL(triggered()), SLOT(action_quit()));
-    connect(ui->acQuit, SIGNAL(hovered()), SLOT(action_hovered()));
     connect(ui->acAbout, SIGNAL(triggered()), SLOT(action_about()));
-    connect(ui->acAbout, SIGNAL(hovered()), SLOT(action_hovered()));
     connect(ui->acNew, SIGNAL(triggered()), SLOT(action_new()));
-    connect(ui->acNew, SIGNAL(hovered()), SLOT(action_hovered()));
     connect(ui->acOpen, SIGNAL(triggered()), SLOT(action_open()));
-    connect(ui->acOpen, SIGNAL(hovered()), SLOT(action_hovered()));
     connect(ui->acSave, SIGNAL(triggered()), SLOT(action_save()));
-    connect(ui->acSave, SIGNAL(hovered()), SLOT(action_hovered()));
     connect(ui->acSaveAs, SIGNAL(triggered()), SLOT(action_save_as()));
-    connect(ui->acSaveAs, SIGNAL(hovered()), SLOT(action_hovered()));
     connect(ui->acAtlasProperties, SIGNAL(triggered()), SLOT(action_atlas_properties()));
-    connect(ui->acAtlasProperties, SIGNAL(hovered()), SLOT(action_hovered()));
 
     connect(ui->acNewMapSet, SIGNAL(triggered()), SLOT(action_new_mapset()));
-    connect(ui->acNewMapSet, SIGNAL(hovered()), SLOT(action_hovered()));
     connect(ui->acDeleteMapSet, SIGNAL(triggered()), SLOT(action_del_mapset()));
-    connect(ui->acDeleteMapSet, SIGNAL(hovered()), SLOT(action_hovered()));
     connect(ui->acMapSetProperties, SIGNAL(triggered()), SLOT(action_mapset_properties()));
-    connect(ui->acMapSetProperties, SIGNAL(hovered()), SLOT(action_hovered()));
 
     connect(ui->acNewMap, SIGNAL(triggered()), SLOT(action_new_map()));
-    connect(ui->acNewMap, SIGNAL(hovered()), SLOT(action_hovered()));
     connect(ui->acDeleteMap, SIGNAL(triggered()), SLOT(action_del_map()));
-    connect(ui->acDeleteMap, SIGNAL(hovered()), SLOT(action_hovered()));
     connect(ui->acOpenMap, SIGNAL(triggered()), SLOT(action_open_map()));
-    connect(ui->acOpenMap, SIGNAL(hovered()), SLOT(action_hovered()));
     connect(ui->acCloseMap, SIGNAL(triggered()), SLOT(action_close_map()));
-    connect(ui->acCloseMap, SIGNAL(hovered()), SLOT(action_hovered()));
     connect(ui->acMapProperties, SIGNAL(triggered()), SLOT(action_map_properties()));
-    connect(ui->acMapProperties, SIGNAL(hovered()), SLOT(action_hovered()));
-
-    connect(ui->mnFile, SIGNAL(hovered(QAction*)), SLOT(action_hovered(QAction*)));
-    connect(ui->mnMap, SIGNAL(hovered(QAction*)), SLOT(action_hovered(QAction*)));
-    connect(ui->mnHelp, SIGNAL(hovered(QAction*)), SLOT(action_hovered(QAction*)));
 
     // load and set any stored settings
     QSettings cSettings("rpgmapper", "rpgmapper");
@@ -155,26 +157,6 @@ void main_window::action_del_map() {
  * del a whole mapset action triggered
  */
 void main_window::action_del_mapset() {
-}
-
-
-/**
- * an action is hovered (sender() must be an QAction)
- */
-void main_window::action_hovered() {
-    QAction * cAction = qobject_cast<QAction*>(sender());
-    action_hovered(cAction);
-}
-
-
-/**
- * an action is hovered 
- *
- * @param   cAction         the action hovered
- */
-void main_window::action_hovered(QAction * cAction) {
-    if (cAction == nullptr) return;
-    statusBar()->showMessage(cAction->toolTip());
 }
 
 

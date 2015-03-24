@@ -24,10 +24,10 @@
 // incs
 
 // rpgmapper
-#include "../model/atlas.h"
-#include "atlas_properties_dialog.h"
+#include "model/atlas.h"
 #include "ui_atlas_properties_dialog.h"
 
+#include "atlas_properties_dialog.h"
 
 // ------------------------------------------------------------
 // code

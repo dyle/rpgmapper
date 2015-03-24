@@ -1,7 +1,7 @@
 /*
- * atlas_properties_dialog.h
+ * atlas_properties_widget.h
  *
- * Show and modify properties of an atlas
+ * Show and modify properties of an atlas (as a custom widget)
  * 
  * Copyright (C) 2015, Oliver Maurhart, <dyle@dyle.org>
  * 
@@ -20,29 +20,35 @@
  */
 
 
-#ifndef __VIEW_ATLAS_PROPERTIES_DIALOG_H
-#define __VIEW_ATLAS_PROPERTIES_DIALOG_H
+#ifndef __VIEW_ATLAS_PROPERTIES_WIDGET_H
+#define __VIEW_ATLAS_PROPERTIES_WIDGET_H
  
 
 // ------------------------------------------------------------
 // incs
 
 // Qt
-#include <QDialog>
+#include <QWidget>
 
 
 // ------------------------------------------------------------
 // decl
 
+// fix some Qt4 uic quirks
+#ifndef AtlasPropertiesWidget
+#define AtlasPropertiesWidget atlas_properties_widget
+#endif
+
 
 // fwd
 namespace rpg { class atlas; }
-class Ui_atlas_properties_dialog;
+class Ui_atlas_properties_widget;
+
 
 /**
  * show and modify the properties of an atlas
  */
-class atlas_properties_dialog : public QDialog {
+class atlas_properties_widget : public QWidget {
 
 
     Q_OBJECT
@@ -53,14 +59,16 @@ public:
 
     /**
      * ctor
+     *
+     * @param   cParent     parent widget
      */
-    atlas_properties_dialog();
+    atlas_properties_widget(QWidget * cParent = nullptr);
 
 
     /**
      * dtor
      */
-    virtual ~atlas_properties_dialog();
+    virtual ~atlas_properties_widget();
 
 
 private:
@@ -68,7 +76,7 @@ private:
 
     rpg::atlas * m_cAtlas;                  /**< the current atlas */
 
-    Ui_atlas_properties_dialog * ui;        /**< user elements */
+    Ui_atlas_properties_widget * ui;        /**< user elements */
 
 };
 

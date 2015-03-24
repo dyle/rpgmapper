@@ -79,7 +79,7 @@
   <customwidget>
    <class>AtlasPropertiesWidget</class>
    <extends>QWidget</extends>
-   <header location="global">ui/atlas_properties_widget.h</header>
+   <header>view/atlas_properties_widget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

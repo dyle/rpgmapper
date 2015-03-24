@@ -1,7 +1,7 @@
 /*
- * atlas_properties_dialog.h
+ * atlas_properties_widget.cpp
  *
- * Show and modify properties of an atlas
+ * Show and modify atlas properties
  * 
  * Copyright (C) 2015, Oliver Maurhart, <dyle@dyle.org>
  * 
@@ -19,59 +19,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-#ifndef __VIEW_ATLAS_PROPERTIES_DIALOG_H
-#define __VIEW_ATLAS_PROPERTIES_DIALOG_H
  
-
 // ------------------------------------------------------------
 // incs
 
-// Qt
-#include <QDialog>
+// rpgmapper
+#include "model/atlas.h"
+#include "view/atlas_properties_widget.h"
 
+#include "ui_atlas_properties_widget.h"
 
 // ------------------------------------------------------------
-// decl
+// code
 
-
-// fwd
-namespace rpg { class atlas; }
-class Ui_atlas_properties_dialog;
 
 /**
- * show and modify the properties of an atlas
+ * ctor
+ *
+ * @param   cParent     parent widget
  */
-class atlas_properties_dialog : public QDialog {
+atlas_properties_widget::atlas_properties_widget(QWidget * cParent) : QWidget(cParent) {
+
+    ui = new Ui_atlas_properties_widget;
+    ui->setupUi(this);
+}
 
 
-    Q_OBJECT
-
-
-public:
-
-
-    /**
-     * ctor
-     */
-    atlas_properties_dialog();
-
-
-    /**
-     * dtor
-     */
-    virtual ~atlas_properties_dialog();
-
-
-private:
-
-
-    rpg::atlas * m_cAtlas;                  /**< the current atlas */
-
-    Ui_atlas_properties_dialog * ui;        /**< user elements */
-
-};
-
-
-#endif
+/**
+ * dtor
+ */
+atlas_properties_widget::~atlas_properties_widget() {
+    delete ui;
+}
 

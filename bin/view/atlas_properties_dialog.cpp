@@ -25,9 +25,10 @@
 
 // rpgmapper
 #include "model/atlas.h"
+#include "view/atlas_properties_dialog.h"
+
 #include "ui_atlas_properties_dialog.h"
 
-#include "atlas_properties_dialog.h"
 
 // ------------------------------------------------------------
 // code
@@ -46,7 +47,7 @@ atlas_properties_dialog::atlas_properties_dialog() : QDialog() {
 /**
  * dtor
  */
-main_window::~main_window() {
+atlas_properties_dialog::~atlas_properties_dialog() {
     delete ui;
 }
 

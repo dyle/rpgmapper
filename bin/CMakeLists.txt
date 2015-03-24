@@ -31,7 +31,6 @@ if (HAVE_QT4_PKG)
     qt4_add_resources(RPGMAPPER_RES ${RPGMAPPER_RCC})
 endif (HAVE_QT4_PKG)
 
-
 # Qt UIC
 set(RPGMAPPER_UI 
     view/about_dialog.ui
@@ -52,6 +51,7 @@ set(RPGMAPPER_MOC
     model/atlas.h
     model/map.h
     view/atlas_properties_dialog.h
+    view/atlas_properties_widget.h
     view/main_window.h
 )
 if (HAVE_QT5_PKG)
@@ -60,7 +60,6 @@ endif (HAVE_QT5_PKG)
 if (HAVE_QT4_PKG)
     qt4_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
 endif (HAVE_QT4_PKG)
-
 
 # sources
 set(RPGMAPPER_SRC
@@ -72,6 +71,7 @@ set(RPGMAPPER_SRC
     model/maps.cpp
 
     view/atlas_properties_dialog.cpp
+    view/atlas_properties_widget.cpp
     view/main_window.cpp
 )
 

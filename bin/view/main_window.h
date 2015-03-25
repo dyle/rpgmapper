@@ -40,6 +40,8 @@
 class QAction;
 namespace rpg { class atlas; }
 class Ui_main_window;
+class atlas_properties_dialog;
+class new_atlas_dialog;
 
 
 /**
@@ -255,9 +257,12 @@ private:
     tree_item_type item_type(QTreeWidgetItem * cItem);
 
 
-    rpg::atlas * m_cAtlas;      /**< the current atlas */
+    rpg::atlas * m_cAtlas;                                  /**< the current atlas */
 
-    Ui_main_window * ui;        /**< user elements */
+    Ui_main_window * ui;                                    /**< user elements */
+
+    atlas_properties_dialog * m_cAtlasPropertiesDialog;     /**< change atlas properties UI */
+    new_atlas_dialog * m_cNewAtlasDialog;                   /**< create a new atlas UI */
  
 
 };

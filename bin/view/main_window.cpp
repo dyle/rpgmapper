@@ -23,18 +23,24 @@
 // ------------------------------------------------------------
 // incs
 
+    #include <iostream>
 #include <sstream>
 #include <stdexcept>
 
 // Qt
 #include <QDesktopWidget>
+#include <QMessageBox>
 #include <QPixmapCache>
 #include <QSettings>
 
 // rpgmapper
-#include "../common_macros.h"
-#include "../model/atlas.h"
+#include "common_macros.h"
+#include "model/atlas.h"
+
+#include "atlas_properties_dialog.h"
 #include "main_window.h"
+#include "new_atlas_dialog.h"
+
 #include "ui_main_window.h"
 
 
@@ -50,6 +56,10 @@ main_window::main_window() : QMainWindow() {
     ui = new Ui_main_window;
     ui->setupUi(this);
     statusBar()->setSizeGripEnabled(true);
+
+    // preload dialogs
+    m_cAtlasPropertiesDialog = new atlas_properties_dialog();
+    m_cNewAtlasDialog = new new_atlas_dialog();
 
     // fix actions
     for (auto c : std::list<QAction*>{
@@ -120,6 +130,8 @@ main_window::main_window() : QMainWindow() {
  * dtor
  */
 main_window::~main_window() {
+    delete m_cAtlasPropertiesDialog;
+    delete m_cNewAtlasDialog;
     delete ui;
 }
 
@@ -184,6 +196,19 @@ void main_window::action_new_mapset() {
  * new atlas action triggered
  */
 void main_window::action_new() {
+
+    if (m_cAtlas->unsaved()) {
+        if (QMessageBox::question(
+                this, 
+                tr("Atlas has unsaved data"), 
+                tr("There is unsaved data. Proceed without saving?"), 
+                QMessageBox::Yes, 
+                QMessageBox::No) == QMessageBox::No) {
+            return;
+        }
+    }
+
+    m_cNewAtlasDialog->exec();
 }
 
 

@@ -41,6 +41,8 @@
 
 
 // fwd
+class QFileDialog;
+class QLabel;
 namespace rpg { class atlas; }
 class Ui_atlas_properties_widget;
 
@@ -97,12 +99,24 @@ public slots:
     void clear();
 
 
+private slots:
+
+
+    /**
+     * let the user select an image file
+     */
+    void select_image_file();
+
+
 private:
 
 
     rpg::atlas * m_cAtlas;                  /**< the current atlas */
 
     Ui_atlas_properties_widget * ui;        /**< user elements */
+
+    QFileDialog * m_cFileDialog;            /**< for opening an image */
+    QLabel * m_cLblPicture;                 /**< the atlas picture widget */
 
 };
 

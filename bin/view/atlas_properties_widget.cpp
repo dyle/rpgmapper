@@ -23,11 +23,18 @@
 // ------------------------------------------------------------
 // incs
 
+// Qt
+#include <QFileDialog>
+#include <QImage>
+#include <QLabel>
+#include <QMessageBox>
+
 // rpgmapper
 #include "model/atlas.h"
 #include "view/atlas_properties_widget.h"
 
 #include "ui_atlas_properties_widget.h"
+
 
 // ------------------------------------------------------------
 // code
@@ -42,12 +49,20 @@ atlas_properties_widget::atlas_properties_widget(QWidget * cParent) : QWidget(cP
 
     ui = new Ui_atlas_properties_widget;
     ui->setupUi(this);
+    m_cLblPicture = new QLabel;
+    ui->scrPicture->setWidget(m_cLblPicture);
+
+    m_cFileDialog = new QFileDialog(this, tr("Select atlas image"));
+    m_cFileDialog->setAcceptMode(QFileDialog::AcceptOpen);
+    m_cFileDialog->setFileMode(QFileDialog::ExistingFile);
+    QStringList sFilerList;
+    sFilerList << tr("Image files (*.png *.xpm *.jpg)") << tr("All files (*)");
+    m_cFileDialog->setNameFilters(sFilerList);
 
     // connect widgets
     connect(ui->edtAtlasName, SIGNAL(textChanged(const QString&)), SIGNAL(changed()));
     connect(ui->edtAtlasDescription, SIGNAL(textChanged(const QString&)), SIGNAL(changed()));
-
-    // TODO: work on atlas picture
+    connect(ui->btnFileOpen, SIGNAL(clicked()), SLOT(select_image_file()));
 }
 
 
@@ -55,6 +70,7 @@ atlas_properties_widget::atlas_properties_widget(QWidget * cParent) : QWidget(cP
  * dtor
  */
 atlas_properties_widget::~atlas_properties_widget() {
+    delete m_cFileDialog;
     delete ui;
 }
 
@@ -65,8 +81,32 @@ atlas_properties_widget::~atlas_properties_widget() {
 void atlas_properties_widget::clear() {
     ui->edtAtlasName->clear();
     ui->edtAtlasDescription->clear();
-    // TODO: clear atlas picture
+    m_cLblPicture->setPixmap(QPixmap());
+}
 
+
+/**
+ * let the user select an image file
+ */
+void atlas_properties_widget::select_image_file() {
+
+    if (m_cFileDialog->exec() == QDialog::Rejected) return;
+    QStringList sFiles = m_cFileDialog->selectedFiles();
+    if (sFiles.count() == 0) return;
+    QString sFile = sFiles.at(0);
+
+    // try to load as image
+    QImage cImage = QImage(sFile);
+    if (cImage.isNull()) {
+        QMessageBox::critical(this, tr("Failed to load image"), QString(tr("Failed to load image file at %1.\nIs this file an image?").arg(sFile)));
+        return;
+    }
+
+    // set image and filename
+    m_cLblPicture->setPixmap(QPixmap::fromImage(cImage));
+    ui->edtFileOpen->setText(sFile);
+
+    emit changed();
 }
 
 

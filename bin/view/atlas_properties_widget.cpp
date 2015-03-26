@@ -42,6 +42,12 @@ atlas_properties_widget::atlas_properties_widget(QWidget * cParent) : QWidget(cP
 
     ui = new Ui_atlas_properties_widget;
     ui->setupUi(this);
+
+    // connect widgets
+    connect(ui->edtAtlasName, SIGNAL(textChanged(const QString&)), SIGNAL(changed()));
+    connect(ui->edtAtlasDescription, SIGNAL(textChanged(const QString&)), SIGNAL(changed()));
+
+    // TODO: work on atlas picture
 }
 
 
@@ -50,5 +56,27 @@ atlas_properties_widget::atlas_properties_widget(QWidget * cParent) : QWidget(cP
  */
 atlas_properties_widget::~atlas_properties_widget() {
     delete ui;
+}
+
+
+/**
+ * clear all widget data
+ */
+void atlas_properties_widget::clear() {
+    ui->edtAtlasName->clear();
+    ui->edtAtlasDescription->clear();
+    // TODO: clear atlas picture
+
+}
+
+
+/**
+ * check if the current widget data represents a valid atlas
+ *
+ * @return  true, if we have valid atlas data
+ */
+bool atlas_properties_widget::valid() {
+    // TODO: calculate atlas validity
+    return false;
 }
 

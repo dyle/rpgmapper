@@ -71,6 +71,32 @@ public:
     virtual ~atlas_properties_widget();
 
 
+    /**
+     * check if the current widget data represents a valid atlas
+     *
+     * @return  true, if we have valid atlas data
+     */
+    bool valid();
+
+
+signals:
+
+
+    /**
+     * atlas data has changed
+     */
+    void changed();
+
+
+public slots:
+
+
+    /**
+     * clear all widget data
+     */
+    void clear();
+
+
 private:
 
 

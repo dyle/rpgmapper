@@ -51,3 +51,6 @@ atlas_properties_dialog::~atlas_properties_dialog() {
     delete ui;
 }
 
+
+
+

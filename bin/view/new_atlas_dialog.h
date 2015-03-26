@@ -64,6 +64,21 @@ public:
     virtual ~new_atlas_dialog();
 
 
+public slots:
+
+
+    /**
+     * clear the dialog
+     */
+    void clear();
+
+
+    /**
+     * evaluate current main window state
+     */
+    void evaluate();
+
+
 private:
 
 

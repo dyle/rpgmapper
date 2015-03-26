@@ -40,6 +40,10 @@ new_atlas_dialog::new_atlas_dialog() : QDialog() {
     
     ui = new Ui_new_atlas_dialog;
     ui->setupUi(this);
+
+    // widget connectors
+    connect(ui->btnCancel, SIGNAL(clicked()), SLOT(reject()));
+    connect(ui->btnOk, SIGNAL(clicked()), SLOT(accept()));
 }
 
 
@@ -48,5 +52,20 @@ new_atlas_dialog::new_atlas_dialog() : QDialog() {
  */
 new_atlas_dialog::~new_atlas_dialog() {
     delete ui;
+}
+
+
+/**
+ * clear the dialog
+ */
+void new_atlas_dialog::clear() {
+    ui->wdAtlasProperties->clear();
+}
+
+
+/**
+ * evaluate current main window state
+ */
+void new_atlas_dialog::evaluate() {
 }
 

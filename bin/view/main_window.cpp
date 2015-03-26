@@ -208,7 +208,10 @@ void main_window::action_new() {
         }
     }
 
-    m_cNewAtlasDialog->exec();
+    m_cNewAtlasDialog->clear();
+    if (m_cNewAtlasDialog->exec() == QDialog::Rejected) return;
+
+std::cout << "create a new atlas" << std::endl;
 }
 
 

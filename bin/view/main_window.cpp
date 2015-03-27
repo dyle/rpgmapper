@@ -23,7 +23,6 @@
 // ------------------------------------------------------------
 // incs
 
-    #include <iostream>
 #include <sstream>
 #include <stdexcept>
 
@@ -39,7 +38,6 @@
 
 #include "atlas_properties_dialog.h"
 #include "main_window.h"
-#include "new_atlas_dialog.h"
 
 #include "ui_main_window.h"
 
@@ -58,8 +56,8 @@ main_window::main_window() : QMainWindow() {
     statusBar()->setSizeGripEnabled(true);
 
     // preload dialogs
-    m_cAtlasPropertiesDialog = new atlas_properties_dialog();
-    m_cNewAtlasDialog = new new_atlas_dialog();
+    m_cAtlasPropertiesDialog = new atlas_properties_dialog(tr("Atlas properties"), tr("Properties of the current atlas:"));
+    m_cNewAtlasDialog = new atlas_properties_dialog(tr("New atlas"), tr("Properties of the new atlas:"));
 
     // fix actions
     for (auto c : std::list<QAction*>{
@@ -211,7 +209,10 @@ void main_window::action_new() {
     m_cNewAtlasDialog->clear();
     if (m_cNewAtlasDialog->exec() == QDialog::Rejected) return;
 
-std::cout << "create a new atlas" << std::endl;
+    // ok, throw away the old and create a new one
+    delete m_cAtlas;
+    m_cAtlas = new rpg::atlas(this);
+    refresh();
 }
 
 

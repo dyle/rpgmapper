@@ -37,7 +37,6 @@ set(RPGMAPPER_UI
     view/atlas_properties_dialog.ui
     view/atlas_properties_widget.ui
     view/main_window.ui
-    view/new_atlas_dialog.ui
 )
 if (HAVE_QT5_PKG)
     qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
@@ -53,7 +52,6 @@ set(RPGMAPPER_MOC
     view/atlas_properties_dialog.h
     view/atlas_properties_widget.h
     view/main_window.h
-    view/new_atlas_dialog.h
 )
 if (HAVE_QT5_PKG)
     qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
@@ -74,7 +72,6 @@ set(RPGMAPPER_SRC
     view/atlas_properties_dialog.cpp
     view/atlas_properties_widget.cpp
     view/main_window.cpp
-    view/new_atlas_dialog.cpp
 )
 
 # bin definition

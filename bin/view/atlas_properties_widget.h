@@ -103,6 +103,14 @@ private slots:
 
 
     /**
+     * some edit field has changed
+     *
+     * @param   sText       the new text (ignored)
+     */
+    void text_changed(QString const & sText);
+
+
+    /**
      * let the user select an image file
      */
     void select_image_file();

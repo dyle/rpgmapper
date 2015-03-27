@@ -71,6 +71,12 @@ public:
 
 
     /**
+     * dtor
+     */
+    ~map();
+
+
+    /**
      * < operator
      *
      * @param   rhs     right hand side

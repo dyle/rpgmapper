@@ -23,6 +23,8 @@
 // ------------------------------------------------------------
 // incs
 
+    #include <iostream>
+
 // Qt
 #include <QApplication>
 
@@ -52,6 +54,14 @@ atlas::atlas(QObject * cParent, std::string const & sName, std::string const & s
     // insert empty new default map
     add_map(new rpg::map());
     m_bUnsaved = false;
+}
+
+
+/**
+ * dtor
+ */
+atlas::~atlas() {
+std::cout << "atlas::~atlas() - 1" << std::endl;
 }
 
 

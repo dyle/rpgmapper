@@ -23,6 +23,7 @@
 // ------------------------------------------------------------
 // incs
 
+
 // rpgmapper
 #include "model/atlas.h"
 #include "view/atlas_properties_dialog.h"
@@ -36,11 +37,22 @@
 
 /**
  * ctor
+ *
+ * @param   sTitle      title of the dialog
+ * @param   sText       additional text to set
  */
-atlas_properties_dialog::atlas_properties_dialog() : QDialog() {
+atlas_properties_dialog::atlas_properties_dialog(QString const & sTitle, QString const & sText) : QDialog() {
     
     ui = new Ui_atlas_properties_dialog;
     ui->setupUi(this);
+
+    setWindowTitle(sTitle);
+    ui->lblText->setText(sText);
+
+    // widget connectors
+    connect(ui->btnCancel, SIGNAL(clicked()), SLOT(reject()));
+    connect(ui->btnOk, SIGNAL(clicked()), SLOT(accept()));
+    connect(ui->wdAtlasProperties, SIGNAL(changed()), SLOT(atlas_properties_changed()));
 }
 
 
@@ -52,5 +64,25 @@ atlas_properties_dialog::~atlas_properties_dialog() {
 }
 
 
+/**
+ * atlas properties have changed
+ */
+void atlas_properties_dialog::atlas_properties_changed() {
+    ui->btnOk->setEnabled(ui->wdAtlasProperties->valid());
+}
 
+
+/**
+ * clear the dialog
+ */
+void atlas_properties_dialog::clear() {
+    ui->wdAtlasProperties->clear();
+}
+
+
+/**
+ * evaluate current main window state
+ */
+void atlas_properties_dialog::evaluate() {
+}
 

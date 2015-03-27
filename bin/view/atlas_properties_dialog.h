@@ -53,14 +53,41 @@ public:
 
     /**
      * ctor
+     *
+     * @param   sTitle      title of the dialog
+     * @param   sText       additional text to set
      */
-    atlas_properties_dialog();
+    atlas_properties_dialog(QString const & sTitle, QString const & sText);
 
 
     /**
      * dtor
      */
     virtual ~atlas_properties_dialog();
+
+
+public slots:
+
+
+    /**
+     * clear the dialog
+     */
+    void clear();
+
+
+    /**
+     * evaluate current main window state
+     */
+    void evaluate();
+
+
+private slots:
+
+
+    /**
+     * atlas properties have changed
+     */
+    void atlas_properties_changed();
 
 
 private:

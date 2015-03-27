@@ -32,6 +32,7 @@
 // rpgmapper
 #include "model/atlas.h"
 #include "view/atlas_properties_widget.h"
+#include "common_macros.h"
 
 #include "ui_atlas_properties_widget.h"
 
@@ -60,8 +61,8 @@ atlas_properties_widget::atlas_properties_widget(QWidget * cParent) : QWidget(cP
     m_cFileDialog->setNameFilters(sFilerList);
 
     // connect widgets
-    connect(ui->edtAtlasName, SIGNAL(textChanged(const QString&)), SIGNAL(changed()));
-    connect(ui->edtAtlasDescription, SIGNAL(textChanged(const QString&)), SIGNAL(changed()));
+    connect(ui->edtAtlasName, SIGNAL(textChanged(const QString&)), SLOT(text_changed(const QString&)));
+    connect(ui->edtAtlasDescription, SIGNAL(textChanged(const QString&)), SLOT(text_changed(const QString &)));
     connect(ui->btnFileOpen, SIGNAL(clicked()), SLOT(select_image_file()));
 }
 
@@ -111,12 +112,21 @@ void atlas_properties_widget::select_image_file() {
 
 
 /**
+ * some edit field has changed
+ *
+ * @param   sText       the new text (ignored)
+ */
+void atlas_properties_widget::text_changed(UNUSED QString const & sText) {
+    emit changed();
+}
+
+
+/**
  * check if the current widget data represents a valid atlas
  *
  * @return  true, if we have valid atlas data
  */
 bool atlas_properties_widget::valid() {
-    // TODO: calculate atlas validity
-    return false;
+    return (ui->edtAtlasName->text().trimmed().length() > 0);    
 }
 

@@ -75,6 +75,12 @@ public:
 
 
     /**
+     * dtor
+     */
+    ~atlas();
+
+
+    /**
      * add a map to the atlas
      *
      * @param   cMap        the map to add

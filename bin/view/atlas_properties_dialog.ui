@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0">
    <item>
-    <widget class="QLabel" name="lblTitle">
+    <widget class="QLabel" name="lblText">
      <property name="text">
       <string>Properties of the current atlas:</string>
      </property>

@@ -32,6 +32,7 @@
 #include <stdexcept>
 
 // Qt
+#include <QImage>
 #include <QObject>
 
 // rpgmapper
@@ -114,6 +115,22 @@ public:
 
 
     /**
+     * get the atlas image
+     *
+     * @return  the atlas image
+     */
+    QImage & image() { return m_cImage; };
+
+
+    /**
+     * get the atlas image
+     *
+     * @return  the atlas image
+     */
+    QImage const & image() const { return m_cImage; };
+
+
+    /**
      * return the maps
      *
      * @return  the maps
@@ -139,6 +156,14 @@ public:
         m_bUnsaved = true; 
         emit modified(); 
     };
+
+
+    /**
+     * set the atlas image
+     *
+     * @param   cImage the new atlas image
+     */
+    void set_image(QImage & cImage) { m_cImage = cImage; emit modified(); };
 
 
     /**
@@ -189,12 +214,14 @@ private slots:
 private:
 
 
-    std::string m_sName;                            /**< atlas name */
-    std::string m_sDescription;                     /**< atlas description */
+    std::string m_sName;            /**< atlas name */
+    std::string m_sDescription;     /**< atlas description */
 
-    rpg::maps m_cMaps;                              /**< all map groups we know */
+    rpg::maps m_cMaps;              /**< all map groups we know */
 
-    bool m_bUnsaved;                                /**< new data needs to be saved */
+    bool m_bUnsaved;                /**< new data needs to be saved */
+
+    QImage m_cImage;                /**< the atlas image */
 
 };
 

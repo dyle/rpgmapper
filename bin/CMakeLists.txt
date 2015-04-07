@@ -51,6 +51,7 @@ set(RPGMAPPER_MOC
     model/map.h
     view/atlas_properties_dialog.h
     view/atlas_properties_widget.h
+    view/clickable_label.h
     view/main_window.h
 )
 if (HAVE_QT5_PKG)
@@ -71,6 +72,7 @@ set(RPGMAPPER_SRC
 
     view/atlas_properties_dialog.cpp
     view/atlas_properties_widget.cpp
+    view/clickable_label.cpp
     view/main_window.cpp
 )
 

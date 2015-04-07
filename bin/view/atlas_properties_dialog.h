@@ -66,6 +66,46 @@ public:
     virtual ~atlas_properties_dialog();
 
 
+    /**
+     * get the atlas description
+     *
+     * @return  description of the atlas
+     */
+    std::string description() const;
+
+
+    /**
+     * get the atlas image
+     *
+     * @return  the atlas image
+     */
+    QImage & image();
+
+
+    /**
+     * get the atlas image
+     *
+     * @return  the atlas image
+     */
+    QImage const & image() const;
+
+
+    /**
+     * get the path to the atlas image
+     *
+     * @return  path to the atlas image
+     */
+    std::string image_path() const;
+
+
+    /**
+     * get the atlas name
+     *
+     * @return  name of the atlas
+     */
+    std::string name() const;
+
+
 public slots:
 
 

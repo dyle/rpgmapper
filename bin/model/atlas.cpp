@@ -23,8 +23,6 @@
 // ------------------------------------------------------------
 // incs
 
-    #include <iostream>
-
 // Qt
 #include <QApplication>
 
@@ -61,7 +59,6 @@ atlas::atlas(QObject * cParent, std::string const & sName, std::string const & s
  * dtor
  */
 atlas::~atlas() {
-std::cout << "atlas::~atlas() - 1" << std::endl;
 }
 
 

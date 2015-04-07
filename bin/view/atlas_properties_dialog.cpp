@@ -81,8 +81,60 @@ void atlas_properties_dialog::clear() {
 
 
 /**
+ * get the atlas description
+ *
+ * @return  description of the atlas
+ */
+std::string atlas_properties_dialog::description() const {
+    return ui->wdAtlasProperties->description();
+}
+
+
+/**
  * evaluate current main window state
  */
 void atlas_properties_dialog::evaluate() {
 }
+
+
+/**
+ * get the atlas image
+ *
+ * @return  the atlas image
+ */
+QImage & atlas_properties_dialog::image() { 
+    return ui->wdAtlasProperties->image();
+}
+
+
+/**
+ * get the atlas image
+ *
+ * @return  the atlas image
+ */
+QImage const & atlas_properties_dialog::image() const { 
+    return ui->wdAtlasProperties->image();
+}
+
+
+/**
+ * get the path to the atlas image
+ *
+ * @return  path to the atlas image
+ */
+std::string atlas_properties_dialog::image_path() const {
+    return ui->wdAtlasProperties->image_path();
+}
+
+
+/**
+ * get the atlas name
+ *
+ * @return  name of the atlas
+ */
+std::string atlas_properties_dialog::name() const {
+    return ui->wdAtlasProperties->name();
+}
+
+
 

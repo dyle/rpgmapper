@@ -27,6 +27,7 @@
 #include <stdexcept>
 
 // Qt
+#include <QCloseEvent>
 #include <QDesktopWidget>
 #include <QMessageBox>
 #include <QPixmapCache>
@@ -211,7 +212,12 @@ void main_window::action_new() {
 
     // ok, throw away the old and create a new one
     delete m_cAtlas;
-    m_cAtlas = new rpg::atlas(this);
+    m_cAtlas = new rpg::atlas(this, m_cNewAtlasDialog->name());
+    m_cAtlas->set_image(m_cNewAtlasDialog->image());
+    m_cAtlas->set_description(m_cNewAtlasDialog->description());
+
+    ui->twAtlas->clear();
+    evaluate();
     refresh();
 }
 
@@ -302,10 +308,23 @@ void main_window::clear() {
  * @param   cEvent      the event passed
  */
 void main_window::closeEvent(QCloseEvent* cEvent) {
-     QSettings cSettings("rpgmapper", "rpgmapper");
-     cSettings.setValue("geometry", saveGeometry());
-     cSettings.setValue("window_state", saveState());
-     QMainWindow::closeEvent(cEvent);
+
+    if (m_cAtlas->unsaved()) {
+        if (QMessageBox::question(
+                this, 
+                tr("Atlas has unsaved data"), 
+                tr("There is unsaved data. Proceed without saving?"), 
+                QMessageBox::Yes, 
+                QMessageBox::No) == QMessageBox::No) {
+            cEvent->ignore();
+            return;
+        }
+    }
+
+    QSettings cSettings("rpgmapper", "rpgmapper");
+    cSettings.setValue("geometry", saveGeometry());
+    cSettings.setValue("window_state", saveState());
+    QMainWindow::closeEvent(cEvent);
 }
 
 

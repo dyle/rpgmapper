@@ -50,7 +50,7 @@ atlas_properties_widget::atlas_properties_widget(QWidget * cParent) : QWidget(cP
 
     ui = new Ui_atlas_properties_widget;
     ui->setupUi(this);
-    m_cLblPicture = new QLabel;
+    m_cLblPicture = new clickable_label();
     ui->scrPicture->setWidget(m_cLblPicture);
 
     m_cFileDialog = new QFileDialog(this, tr("Select atlas image"));
@@ -63,7 +63,7 @@ atlas_properties_widget::atlas_properties_widget(QWidget * cParent) : QWidget(cP
     // connect widgets
     connect(ui->edtAtlasName, SIGNAL(textChanged(const QString&)), SLOT(text_changed(const QString&)));
     connect(ui->edtAtlasDescription, SIGNAL(textChanged(const QString&)), SLOT(text_changed(const QString &)));
-    connect(ui->btnFileOpen, SIGNAL(clicked()), SLOT(select_image_file()));
+    connect(m_cLblPicture, SIGNAL(clicked()), SLOT(select_image_file()));
 }
 
 
@@ -82,7 +82,39 @@ atlas_properties_widget::~atlas_properties_widget() {
 void atlas_properties_widget::clear() {
     ui->edtAtlasName->clear();
     ui->edtAtlasDescription->clear();
+    ui->scrPicture->ensureVisible(0, 0);
     m_cLblPicture->setPixmap(QPixmap());
+    m_cLblPicture->resize(0, 0);
+}
+
+
+/**
+ * get the atlas description
+ *
+ * @return  description of the atlas
+ */
+std::string atlas_properties_widget::description() const {
+    return ui->edtAtlasDescription->text().toStdString();
+}
+
+
+/**
+ * get the path to the atlas image
+ *
+ * @return  path to the atlas image
+ */
+std::string atlas_properties_widget::image_path() const {
+    return m_sImagePath;
+}
+
+
+/**
+ * get the atlas name
+ *
+ * @return  name of the atlas
+ */
+std::string atlas_properties_widget::name() const {
+    return ui->edtAtlasName->text().toStdString();
 }
 
 
@@ -103,11 +135,42 @@ void atlas_properties_widget::select_image_file() {
         return;
     }
 
-    // set image and filename
+    // set new data
     m_cLblPicture->setPixmap(QPixmap::fromImage(cImage));
-    ui->edtFileOpen->setText(sFile);
+    m_cImage = cImage;
+    m_sImagePath = sFile.toStdString();
 
     emit changed();
+}
+
+
+/**
+ * set the atlas description
+ *
+ * @param   sDescription        the new description
+ */
+void atlas_properties_widget::set_description(std::string sDescription) {
+    ui->edtAtlasDescription->setText(QString::fromStdString(sDescription));
+}
+
+
+/**
+ * set the path to the atlas image
+ *
+ * @param   sImagePath      the new image path
+ */
+void atlas_properties_widget::set_image_path(std::string sImagePath) {
+    m_sImagePath = sImagePath;
+}
+
+
+/**
+ * set the atlas name
+ *
+ * @param   sName           the new atlas name
+ */
+void atlas_properties_widget::set_name(std::string sName) {
+    ui->edtAtlasName->setText(QString::fromStdString(sName));
 }
 
 
@@ -126,7 +189,7 @@ void atlas_properties_widget::text_changed(UNUSED QString const & sText) {
  *
  * @return  true, if we have valid atlas data
  */
-bool atlas_properties_widget::valid() {
+bool atlas_properties_widget::valid() const {
     return (ui->edtAtlasName->text().trimmed().length() > 0);    
 }
 

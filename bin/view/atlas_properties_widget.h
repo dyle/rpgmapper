@@ -30,6 +30,9 @@
 // Qt
 #include <QWidget>
 
+// rpgmapper
+#include "view/clickable_label.h"
+
 
 // ------------------------------------------------------------
 // decl
@@ -74,11 +77,83 @@ public:
 
 
     /**
+     * get the atlas description
+     *
+     * @return  description of the atlas
+     */
+    std::string description() const;
+
+
+    /**
+     * get the atlas image
+     *
+     * @return  the atlas image
+     */
+    QImage & image() { return m_cImage; };
+
+
+    /**
+     * get the atlas image
+     *
+     * @return  the atlas image
+     */
+    QImage const & image() const { return m_cImage; };
+
+
+    /**
+     * get the path to the atlas image
+     *
+     * @return  path to the atlas image
+     */
+    std::string image_path() const;
+
+
+    /**
+     * get the atlas name
+     *
+     * @return  name of the atlas
+     */
+    std::string name() const;
+
+
+    /**
+     * set the atlas description
+     *
+     * @param   sDescription        the new description
+     */
+    void set_description(std::string sDescription);
+
+
+    /**
+     * set the atlas image
+     *
+     * @param   cImage the new atlas image
+     */
+    void set_image(QImage & cImage) { m_cImage = cImage; };
+
+
+    /**
+     * set the path to the atlas image
+     *
+     * @param   sImagePath      the new image path
+     */
+    void set_image_path(std::string sImagePath);
+
+
+    /**
+     * set the atlas name
+     *
+     * @param   sName           the new atlas name
+     */
+    void set_name(std::string sName);
+
+
+    /**
      * check if the current widget data represents a valid atlas
      *
      * @return  true, if we have valid atlas data
      */
-    bool valid();
+    bool valid() const;
 
 
 signals:
@@ -120,11 +195,13 @@ private:
 
 
     rpg::atlas * m_cAtlas;                  /**< the current atlas */
+    QImage m_cImage;                        /**< the atlas image */
 
     Ui_atlas_properties_widget * ui;        /**< user elements */
 
     QFileDialog * m_cFileDialog;            /**< for opening an image */
-    QLabel * m_cLblPicture;                 /**< the atlas picture widget */
+    clickable_label * m_cLblPicture;        /**< the atlas picture widget */
+    std::string m_sImagePath;               /**< path to loaded image */
 
 };
 

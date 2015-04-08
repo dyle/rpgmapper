@@ -71,7 +71,7 @@ public:
      *
      * @return  description of the atlas
      */
-    std::string description() const;
+    QString description() const;
 
 
     /**
@@ -95,7 +95,7 @@ public:
      *
      * @return  path to the atlas image
      */
-    std::string image_path() const;
+    QString image_path() const;
 
 
     /**
@@ -103,7 +103,15 @@ public:
      *
      * @return  name of the atlas
      */
-    std::string name() const;
+    QString name() const;
+
+
+    /**
+     * set the image path to search
+     *
+     * @param   sPath       the path to the user's images
+     */
+    void set_image_path(QString const & sPath);
 
 
 public slots:

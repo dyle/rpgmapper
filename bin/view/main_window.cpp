@@ -23,7 +23,6 @@
 // ------------------------------------------------------------
 // incs
 
-#include <sstream>
 #include <stdexcept>
 
 // Qt
@@ -84,8 +83,6 @@ main_window::main_window() : QMainWindow() {
     // empty new default atlas
     m_cAtlas = new rpg::atlas(this);
 
-    refresh();
-
     // model connectors
     connect(m_cAtlas, 
         SIGNAL(modified()), 
@@ -116,12 +113,11 @@ main_window::main_window() : QMainWindow() {
     connect(ui->acMapProperties, SIGNAL(triggered()), SLOT(action_map_properties()));
 
     // load and set any stored settings
-    QSettings cSettings("rpgmapper", "rpgmapper");
-    if (cSettings.contains("geometry")) restoreGeometry(cSettings.value("geometry").toByteArray());
-    else center_window();
-    restoreState(cSettings.value("window_state").toByteArray());
+    load_settings();
 
+    clear();
     evaluate();
+    refresh();
 }
 
 
@@ -208,6 +204,7 @@ void main_window::action_new() {
     }
 
     m_cNewAtlasDialog->clear();
+    m_cNewAtlasDialog->set_image_path(m_sImagePath);
     if (m_cNewAtlasDialog->exec() == QDialog::Rejected) return;
 
     // ok, throw away the old and create a new one
@@ -215,8 +212,12 @@ void main_window::action_new() {
     m_cAtlas = new rpg::atlas(this, m_cNewAtlasDialog->name());
     m_cAtlas->set_image(m_cNewAtlasDialog->image());
     m_cAtlas->set_description(m_cNewAtlasDialog->description());
+    if (!m_cNewAtlasDialog->image_path().isEmpty()) {
+        m_sImagePath = m_cNewAtlasDialog->image_path();
+    }
 
-    ui->twAtlas->clear();
+    // update our ui
+    clear();
     evaluate();
     refresh();
 }
@@ -298,6 +299,7 @@ void main_window::center_window() {
  * clear all visible data items
  */
 void main_window::clear() {
+    ui->tabMap->clear();
     ui->twAtlas->clear();
 }
 
@@ -322,8 +324,11 @@ void main_window::closeEvent(QCloseEvent* cEvent) {
     }
 
     QSettings cSettings("rpgmapper", "rpgmapper");
+    
     cSettings.setValue("geometry", saveGeometry());
     cSettings.setValue("window_state", saveState());
+    cSettings.setValue("image_path", m_sImagePath);
+
     QMainWindow::closeEvent(cEvent);
 }
 
@@ -333,10 +338,10 @@ void main_window::closeEvent(QCloseEvent* cEvent) {
  */
 void main_window::evaluate() {
 
-    std::stringstream ss;
+    QStringList ss;
     ss << "RPGMapper - " << m_cAtlas->name();
     if (m_cAtlas->unsaved()) ss << "*";
-    setWindowTitle(QString::fromStdString(ss.str()));
+    setWindowTitle(ss.join(""));
 
     ui->acQuit->setEnabled(true);
     ui->acAbout->setEnabled(true);
@@ -392,11 +397,11 @@ QTreeWidgetItem * main_window::find_map(unsigned int nIndex) {
  * @param   sName       name of the map group
  * @return  the tree widget for the group (or nullptr)
  */
-QTreeWidgetItem * main_window::find_mapset(std::string const & sName) {
+QTreeWidgetItem * main_window::find_mapset(QString const & sName) {
 
     QTreeWidgetItem * res = nullptr;
 
-    QString sMapKey = QString("mapset:") + QString::fromStdString(sName);
+    QString sMapKey = QString("mapset:") + sName;
     QList<QTreeWidgetItem *> cSearchResult = ui->twAtlas->findItems(sMapKey, Qt::MatchExactly, 1);
     if (cSearchResult.size() > 0) {
         res = cSearchResult.first();
@@ -426,6 +431,22 @@ main_window::tree_item_type main_window::item_type(QTreeWidgetItem * cItem) {
 
 
 /**
+ * load the settings
+ */
+void main_window::load_settings() {
+
+    QSettings cSettings("rpgmapper", "rpgmapper");
+
+    // window position
+    if (cSettings.contains("geometry")) restoreGeometry(cSettings.value("geometry").toByteArray());
+    else center_window();
+    restoreState(cSettings.value("window_state").toByteArray());
+
+    if (cSettings.contains("image_path")) m_sImagePath = cSettings.value("image_path").toString();
+}
+
+
+/**
  * refresh data display
  */
 void main_window::refresh() {
@@ -440,7 +461,7 @@ void main_window::refresh() {
     else {
         cAtlasItem = ui->twAtlas->topLevelItem(0);
     }
-    cAtlasItem->setText(0, QString::fromStdString(m_cAtlas->name()));
+    cAtlasItem->setText(0, m_cAtlas->name());
     cAtlasItem->setText(1, "atlas");
     QPixmapCache::find("atlas", &cPixmap);
     cAtlasItem->setIcon(0, cPixmap);
@@ -451,7 +472,7 @@ void main_window::refresh() {
 
         // pick the old entry or create new one and then set the new values
         QTreeWidgetItem * cMapGroupItem = nullptr;
-        QString sKey = QString("mapset:") + QString::fromStdString((*cMapGroupIter).first);
+        QString sKey = QString("mapset:") + (*cMapGroupIter).first;
         QList<QTreeWidgetItem *> cMapGroupItems = ui->twAtlas->findItems(sKey, Qt::MatchExactly, 1);
         if (cMapGroupItems.size() == 0) {
             cMapGroupItem = new QTreeWidgetItem(cAtlasItem);
@@ -461,7 +482,7 @@ void main_window::refresh() {
         }
 
         // adjust mapset values
-        cMapGroupItem->setText(0, QString::fromStdString((*cMapGroupIter).first));
+        cMapGroupItem->setText(0, (*cMapGroupIter).first);
         cMapGroupItem->setText(1, sKey);
         QPixmapCache::find("mapset", &cPixmap);
         cMapGroupItem->setIcon(0, cPixmap);
@@ -471,7 +492,7 @@ void main_window::refresh() {
 
             // pick the old entry or create new one and then set the new values
             QTreeWidgetItem * cMapItem = nullptr;
-            QString sKey = QString("map:") + QString::fromStdString((*cMapIter)->name());
+            QString sKey = QString("map:") + (*cMapIter)->name();
             QList<QTreeWidgetItem *> cMapItems = ui->twAtlas->findItems(sKey, Qt::MatchExactly, 1);
             if (cMapItems.size() == 0) {
                 cMapItem = new QTreeWidgetItem(cMapGroupItem);
@@ -487,7 +508,7 @@ void main_window::refresh() {
             }
 
             // adjust map values
-            cMapItem->setText(0, QString::fromStdString((*cMapIter)->name()));
+            cMapItem->setText(0, (*cMapIter)->name());
             cMapItem->setText(1, sKey);
             QPixmapCache::find("map", &cPixmap);
             cMapItem->setIcon(0, cPixmap);

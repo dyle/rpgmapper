@@ -81,7 +81,7 @@ public:
      *
      * @return  description of the atlas
      */
-    std::string description() const;
+    QString description() const;
 
 
     /**
@@ -105,7 +105,7 @@ public:
      *
      * @return  path to the atlas image
      */
-    std::string image_path() const;
+    QString image_path() const;
 
 
     /**
@@ -113,7 +113,7 @@ public:
      *
      * @return  name of the atlas
      */
-    std::string name() const;
+    QString name() const;
 
 
     /**
@@ -121,7 +121,7 @@ public:
      *
      * @param   sDescription        the new description
      */
-    void set_description(std::string sDescription);
+    void set_description(QString sDescription);
 
 
     /**
@@ -137,7 +137,7 @@ public:
      *
      * @param   sImagePath      the new image path
      */
-    void set_image_path(std::string sImagePath);
+    void set_image_path(QString sImagePath);
 
 
     /**
@@ -145,7 +145,7 @@ public:
      *
      * @param   sName           the new atlas name
      */
-    void set_name(std::string sName);
+    void set_name(QString sName);
 
 
     /**
@@ -201,7 +201,7 @@ private:
 
     QFileDialog * m_cFileDialog;            /**< for opening an image */
     clickable_label * m_cLblPicture;        /**< the atlas picture widget */
-    std::string m_sImagePath;               /**< path to loaded image */
+    QString m_sImagePath;                   /**< path to loaded image */
 
 };
 

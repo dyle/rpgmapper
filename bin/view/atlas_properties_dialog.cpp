@@ -85,7 +85,7 @@ void atlas_properties_dialog::clear() {
  *
  * @return  description of the atlas
  */
-std::string atlas_properties_dialog::description() const {
+QString atlas_properties_dialog::description() const {
     return ui->wdAtlasProperties->description();
 }
 
@@ -122,7 +122,7 @@ QImage const & atlas_properties_dialog::image() const {
  *
  * @return  path to the atlas image
  */
-std::string atlas_properties_dialog::image_path() const {
+QString atlas_properties_dialog::image_path() const {
     return ui->wdAtlasProperties->image_path();
 }
 
@@ -132,9 +132,17 @@ std::string atlas_properties_dialog::image_path() const {
  *
  * @return  name of the atlas
  */
-std::string atlas_properties_dialog::name() const {
+QString atlas_properties_dialog::name() const {
     return ui->wdAtlasProperties->name();
 }
 
 
+/**
+ * set the image path to search
+ *
+ * @param   sPath       the path to the user's images
+ */
+void atlas_properties_dialog::set_image_path(QString const & sPath) {
+    ui->wdAtlasProperties->set_image_path(sPath);
+}
 

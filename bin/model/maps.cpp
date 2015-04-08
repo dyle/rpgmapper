@@ -62,7 +62,7 @@ rpg::mapset maps::map_set() {
  * @param   sName           name of the map to retrieve
  * @return  true, if the map has been found and erased
  */
-bool maps::erase_map(std::string const & sName) {
+bool maps::erase_map(QString const & sName) {
 
     bool bErased = false;
 
@@ -86,7 +86,7 @@ bool maps::erase_map(std::string const & sName) {
  * @param   name of the map to retrieve
  * @return  the map found (or nullptr if not)
  */
-rpg::map * maps::find_map(std::string const & sName) {
+rpg::map * maps::find_map(QString const & sName) {
     
     for (auto cMapGroupIter = begin(); cMapGroupIter != end(); cMapGroupIter++) {
         rpg::map * cMap = find_map((*cMapGroupIter).first, sName);
@@ -104,7 +104,7 @@ rpg::map * maps::find_map(std::string const & sName) {
  * @param   sName           name of the map to retrieve
  * @return  the map found (or nullptr if not)
  */
-rpg::map * maps::find_map(std::string const & sGroupName, std::string const & sName) {
+rpg::map * maps::find_map(QString const & sGroupName, QString const & sName) {
 
     auto cMapGroupIter = find(sGroupName);
     if (cMapGroupIter == end()) return nullptr;

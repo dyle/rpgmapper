@@ -230,6 +230,12 @@ private:
 
 
     /**
+     * load the settings
+     */
+    void load_settings();
+
+
+    /**
      * find a map by index
      *
      * @param   nIndex      map  index
@@ -244,7 +250,7 @@ private:
      * @param   sName       name of the map group
      * @return  the tree widget for the group (or nullptr)
      */
-    QTreeWidgetItem * find_mapset(std::string const & sName);
+    QTreeWidgetItem * find_mapset(QString const & sName);
 
 
     /**
@@ -263,7 +269,7 @@ private:
     atlas_properties_dialog * m_cAtlasPropertiesDialog;     /**< change atlas properties UI */
     atlas_properties_dialog * m_cNewAtlasDialog;            /**< create a new atlas UI */
  
-
+    QString m_sImagePath;                                   /**< path to user's image files */
 };
 
 

@@ -23,8 +23,11 @@
 // ------------------------------------------------------------
 // incs
 
+    #include <iostream>
+
 // Qt
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QImage>
 #include <QLabel>
 #include <QMessageBox>
@@ -93,8 +96,8 @@ void atlas_properties_widget::clear() {
  *
  * @return  description of the atlas
  */
-std::string atlas_properties_widget::description() const {
-    return ui->edtAtlasDescription->text().toStdString();
+QString atlas_properties_widget::description() const {
+    return ui->edtAtlasDescription->text();
 }
 
 
@@ -103,7 +106,7 @@ std::string atlas_properties_widget::description() const {
  *
  * @return  path to the atlas image
  */
-std::string atlas_properties_widget::image_path() const {
+QString atlas_properties_widget::image_path() const {
     return m_sImagePath;
 }
 
@@ -113,8 +116,8 @@ std::string atlas_properties_widget::image_path() const {
  *
  * @return  name of the atlas
  */
-std::string atlas_properties_widget::name() const {
-    return ui->edtAtlasName->text().toStdString();
+QString atlas_properties_widget::name() const {
+    return ui->edtAtlasName->text();
 }
 
 
@@ -138,7 +141,7 @@ void atlas_properties_widget::select_image_file() {
     // set new data
     m_cLblPicture->setPixmap(QPixmap::fromImage(cImage));
     m_cImage = cImage;
-    m_sImagePath = sFile.toStdString();
+    m_sImagePath = QFileInfo(sFile).dir().path();
 
     emit changed();
 }
@@ -149,8 +152,8 @@ void atlas_properties_widget::select_image_file() {
  *
  * @param   sDescription        the new description
  */
-void atlas_properties_widget::set_description(std::string sDescription) {
-    ui->edtAtlasDescription->setText(QString::fromStdString(sDescription));
+void atlas_properties_widget::set_description(QString sDescription) {
+    ui->edtAtlasDescription->setText(sDescription);
 }
 
 
@@ -159,8 +162,17 @@ void atlas_properties_widget::set_description(std::string sDescription) {
  *
  * @param   sImagePath      the new image path
  */
-void atlas_properties_widget::set_image_path(std::string sImagePath) {
-    m_sImagePath = sImagePath;
+void atlas_properties_widget::set_image_path(QString sImagePath) {
+
+    QFileInfo cPathInfo(sImagePath);
+    if (!cPathInfo.exists()) return;
+
+std::cout << sImagePath.toStdString() << std::endl;    
+    m_sImagePath = cPathInfo.filePath();
+std::cout << m_sImagePath.toStdString() << std::endl;    
+    m_cFileDialog->setDirectory(m_sImagePath);
+
+    //m_cFileDialog->setDirectory("/home/dyle/tmp");
 }
 
 
@@ -169,8 +181,8 @@ void atlas_properties_widget::set_image_path(std::string sImagePath) {
  *
  * @param   sName           the new atlas name
  */
-void atlas_properties_widget::set_name(std::string sName) {
-    ui->edtAtlasName->setText(QString::fromStdString(sName));
+void atlas_properties_widget::set_name(QString sName) {
+    ui->edtAtlasName->setText(sName);
 }
 
 

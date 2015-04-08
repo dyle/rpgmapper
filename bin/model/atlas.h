@@ -66,7 +66,7 @@ public:
      * @param   sName           name of atlas
      * @param   sDescription    description of atlas
      */
-    atlas(QObject * cParent, std::string const & sName = "<unnamed atlas>", std::string const & sDescription = "");
+    atlas(QObject * cParent, QString const & sName = "<unnamed atlas>", QString const & sDescription = "");
 
 
     /**
@@ -94,7 +94,7 @@ public:
      *
      * @param   sName       name of the map to delete
      */
-    void del_map(std::string & sName);
+    void del_map(QString & sName);
 
 
     /**
@@ -102,7 +102,7 @@ public:
      * 
      * @return  the atlas' description
      */
-    std::string const & description() const { return m_sDescription; };
+    QString const & description() const { return m_sDescription; };
 
 
     /**
@@ -111,7 +111,7 @@ public:
      * @param   name of the map to retrieve
      * @return  the map found (or nullptr if not)
      */
-    rpg::map * find(std::string const & sName);
+    rpg::map * find(QString const & sName);
 
 
     /**
@@ -143,7 +143,7 @@ public:
      * 
      * @return  the atlas' name
      */
-    std::string const & name() const { return m_sName; };
+    QString const & name() const { return m_sName; };
 
 
     /**
@@ -151,7 +151,7 @@ public:
      * 
      * @param   sDescription        the new description of the atlas
      */
-    void set_description(std::string const & sDescription) { 
+    void set_description(QString const & sDescription) { 
         m_sDescription = sDescription; 
         m_bUnsaved = true; 
         emit modified(); 
@@ -189,7 +189,7 @@ signals:
      * @param   sGroupName      name of group where added
      * @param   cMap            the new map
      */
-    void map_added(std::string const sGroupName, rpg::map * cMap);
+    void map_added(QString const sGroupName, rpg::map * cMap);
 
 
 private slots:
@@ -214,14 +214,14 @@ private slots:
 private:
 
 
-    std::string m_sName;            /**< atlas name */
-    std::string m_sDescription;     /**< atlas description */
+    QString m_sName;            /**< atlas name */
+    QString m_sDescription;     /**< atlas description */
 
-    rpg::maps m_cMaps;              /**< all map groups we know */
+    rpg::maps m_cMaps;          /**< all map groups we know */
 
-    bool m_bUnsaved;                /**< new data needs to be saved */
+    bool m_bUnsaved;            /**< new data needs to be saved */
 
-    QImage m_cImage;                /**< the atlas image */
+    QImage m_cImage;            /**< the atlas image */
 
 };
 

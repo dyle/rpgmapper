@@ -44,7 +44,7 @@ using namespace rpg;
  * @param   sName           name of atlas
  * @param   sDescription    description of atlas
  */
-atlas::atlas(QObject * cParent, std::string const & sName, std::string const & sDescription) 
+atlas::atlas(QObject * cParent, QString const & sName, QString const & sDescription) 
     : QObject(cParent), m_sName(sName), m_sDescription(sDescription), m_bUnsaved(false) {
    
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(deleteLater()));
@@ -78,7 +78,7 @@ void atlas::add_map(rpg::map * cMap) {
     }
 
     // real insert
-    std::string sDefaultGroup = "<default>";
+    QString sDefaultGroup = "<default>";
     m_cMaps[sDefaultGroup].insert(cMap);
     cMap->setParent(this);
 
@@ -97,7 +97,7 @@ void atlas::add_map(rpg::map * cMap) {
  *
  * @param   sName       name of the map to delete
  */
-void atlas::del_map(std::string & sName) {
+void atlas::del_map(QString & sName) {
 
     rpg::map * cMap = m_cMaps.find_map(sName);
     if (cMap == nullptr) return;

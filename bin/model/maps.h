@@ -45,7 +45,7 @@ namespace rpg {
 /**
  * a somehow clever colletion of maps
  */
-class maps : public std::map<std::string, rpg::mapset> {
+class maps : public std::map<QString, rpg::mapset> {
 
 
 public:
@@ -67,7 +67,7 @@ public:
      * @param   sName           name of the map to retrieve
      * @return  true, if the map has been found and erased
      */
-    bool erase_map(std::string const & sName);
+    bool erase_map(QString const & sName);
 
 
     /**
@@ -76,7 +76,7 @@ public:
      * @param   sName           name of the map to retrieve
      * @return  the map found (or nullptr if not)
      */
-    rpg::map * find_map(std::string const & sName);
+    rpg::map * find_map(QString const & sName);
 
 
     /**
@@ -86,7 +86,7 @@ public:
      * @param   sName           name of the map to retrieve
      * @return  the map found (or nullptr if not)
      */
-    rpg::map * find_map(std::string const & sGroupName, std::string const & sName);
+    rpg::map * find_map(QString const & sGroupName, QString const & sName);
 
 };
 

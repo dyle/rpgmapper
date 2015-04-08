@@ -60,7 +60,7 @@ public:
      * @param   sName           name of map
      * @param   sDescription    description of map
      */
-    map(QObject * cParent = nullptr, std::string const & sName = "<unnamed>", std::string const & sDescription = "") 
+    map(QObject * cParent = nullptr, QString const & sName = "<unnamed>", QString const & sDescription = "") 
         : QObject(cParent), m_sName(sName), m_sDescription(sDescription) {};
 
 
@@ -90,7 +90,7 @@ public:
      * 
      * @return  the map' description
      */
-    std::string const & description() const { return m_sDescription; };
+    QString const & description() const { return m_sDescription; };
 
 
     /**
@@ -98,7 +98,7 @@ public:
      * 
      * @return  the map' name
      */
-    std::string const & name() const { return m_sName; };
+    QString const & name() const { return m_sName; };
 
 
     /**
@@ -106,7 +106,7 @@ public:
      * 
      * @param   sDescription        the new description of the map
      */
-    void set_description(std::string const & sDescription) { m_sDescription = sDescription; emit changed(this); };
+    void set_description(QString const & sDescription) { m_sDescription = sDescription; emit changed(this); };
 
 
     /**
@@ -114,7 +114,7 @@ public:
      * 
      * @param   sName               the new name of the map
      */
-    void set_name(std::string const & sName) { m_sName = sName; emit changed(this); };
+    void set_name(QString const & sName) { m_sName = sName; emit changed(this); };
 
 
 signals:
@@ -131,8 +131,8 @@ signals:
 private:
 
 
-    std::string m_sName;                    /**< map name */
-    std::string m_sDescription;             /**< map description */
+    QString m_sName;            /**< map name */
+    QString m_sDescription;     /**< map description */
 
 };
 

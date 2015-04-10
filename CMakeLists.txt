@@ -135,6 +135,7 @@ endif (Boost_FOUND)
 
 option(BUILD_WITH_QT5 "Build with Qt5 support" off)
 if (BUILD_WITH_QT5)
+
     # Qt5
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
     find_package(Qt5Core REQUIRED)
@@ -142,13 +143,32 @@ if (BUILD_WITH_QT5)
     find_package(Qt5Widgets REQUIRED)
     include_directories(${Qt5Widgets_INCLUDE_DIRS})
     set(HAVE_QT5_PKG 1)
+
 else (BUILD_WITH_QT5)
+
     find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
     include(${QT_USE_FILE})
     set(CMAKE_REQUIRED_LIBRARIES "${QT_LIBRARIES};${CMAKE_REQUIRED_LIBRARIES}")
     set(HAVE_QT4_PKG 1)
+
 endif (BUILD_WITH_QT5)
     
+# QuaZip
+message(STATUS "Looking for QuaZip")
+find_path(QUAZIP_INCLUDE quazip/quazip.h PATHS /usr/include /usr/local/include)
+if (DEFINED QUAZIP_INCLUDE)
+    find_library(QUAZIP_LIBRARY NAMES quazip zipOpen)
+    if (DEFINED QUAZIP_LIBRARY)
+        message(STATUS "Looking for QuaZip - found")
+        set(CMAKE_REQUIRED_INCLUDES "${CMAKE_REQUIRED_INCLUDES};${QUAZIP_INCLUDE}")
+        set(CMAKE_REQUIRED_LIBRARIES "quazip;${CMAKE_REQUIRED_LIBRARIES}")
+        mark_as_advanced(QUAZIP_INCLUDE QUAZIP_LIBRARY)
+    else (DEFINED QUAZIP_LIBRARY)
+        message(FATAL_ERROR "Looking for QuaZip - Library not found")
+    endif (DEFINED QUAZIP_LIBRARY)
+else (DEFINED QUAZIP_INCLUDE)
+    message(FATAL_ERROR "Looking for QuaZip - Header file not found")
+endif (DEFINED QUAZIP_INCLUDE)
 
 
 # ------------------------------------------------------------
@@ -156,7 +176,7 @@ endif (BUILD_WITH_QT5)
 
 # create the config.h and baseinc.h
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QUAZIP_INCLUDE})
 
 
 # ------------------------------------------------------------

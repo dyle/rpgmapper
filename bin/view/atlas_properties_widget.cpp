@@ -58,6 +58,7 @@ atlas_properties_widget::atlas_properties_widget(QWidget * cParent) : QWidget(cP
 
     m_cFileDialog = new QFileDialog(this, tr("Select atlas image"));
     m_cFileDialog->setAcceptMode(QFileDialog::AcceptOpen);
+    m_cFileDialog->setDirectory(QDir::current());
     m_cFileDialog->setFileMode(QFileDialog::ExistingFile);
     QStringList sFilerList;
     sFilerList << tr("Image files (*.png *.xpm *.jpg)") << tr("All files (*)");

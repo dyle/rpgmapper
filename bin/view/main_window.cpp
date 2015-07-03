@@ -80,7 +80,6 @@ main_window::main_window() : QMainWindow() {
         c->setStatusTip(c->toolTip());
     }
 
-    // empty new default atlas
     m_cAtlas = new rpg::atlas(this);
 
     // model connectors

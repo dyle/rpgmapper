@@ -78,11 +78,8 @@ int main(int argc, char ** argv) {
     cCmdLineOptions.add(cOptions);
     cCmdLineOptions.add(cArgs);
 
-    // option variable map
     boost::program_options::variables_map cVariableMap;
-    
     try {
-        // parse action
         boost::program_options::command_line_parser cParser(argc, argv);
         boost::program_options::store(
             cParser.options(cCmdLineOptions).positional(cPositionalDescription).run(), 
@@ -90,55 +87,43 @@ int main(int argc, char ** argv) {
         boost::program_options::notify(cVariableMap);        
     }
     catch (std::exception & cException) {
-        std::cerr << 
-            "error parsing command line: " << 
-            cException.what() << 
-            "\ntype '--help' for help" << 
-            std::endl;        
+        std::cerr << "error parsing command line: " <<  cException.what() 
+                << "\ntype '--help' for help" 
+                << std::endl;        
         return 1;
     }
     
-    // check for "help" set
     if (cVariableMap.count("help")) {
         std::cout << cOptions << std::endl;
-        std::cout << 
-            "ATLAS-FILE: " << 
-            cArgs.find("ATLAS-FILE", false).description() << 
-            "\n" << 
-            std::endl;      
+        std::cout << "ATLAS-FILE: " << cArgs.find("ATLAS-FILE", false).description() 
+                << "\n" 
+                << std::endl;      
         return 0;
     }
     
-    // check for "version" set
     if (cVariableMap.count("version")) {
         std::cout << sApplication << std::endl;
         return 0;
     }
-    // we need a name
+
     if (cVariableMap.count("ATLAS-FILE") == 1) {
         std::cerr 
-            << "TO BE IMPLEMENTED: LOAD ATLAS FROM CMD-LINE: " 
-            << cVariableMap["ATLAS-FILE"].as<std::string>() 
+            << "TO BE IMPLEMENTED: LOAD ATLAS FROM CMD-LINE: " << cVariableMap["ATLAS-FILE"].as<std::string>() 
             << std::endl;
     }
    
-    // start Qt
     QApplication cApplication(argc, argv);
     cApplication.setOrganizationName("Oliver Maurhart <dyle@dyle.org>");
     cApplication.setOrganizationDomain("dyle.org");
     cApplication.setApplicationName("RPGMapper");
     cApplication.setApplicationVersion(VERSION);
 
-    // prepare the QPixmapCache
     QPixmapCache::insert("atlas", QPixmap(":/icons/gfx/atlas.png"));
     QPixmapCache::insert("mapset", QPixmap(":/icons/gfx/mapset.png"));
     QPixmapCache::insert("map", QPixmap(":/icons/gfx/map.png"));
 
-    // get up the mainwindow
     main_window m;
     m.show();
-    
-    // launch!
     cApplication.exec();
     
     return 0;

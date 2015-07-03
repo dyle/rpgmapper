@@ -49,7 +49,6 @@ atlas::atlas(QObject * cParent, QString const & sName, QString const & sDescript
    
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(deleteLater()));
 
-    // insert empty new default map
     add_map(new rpg::map());
     m_bUnsaved = false;
 }
@@ -77,12 +76,10 @@ void atlas::add_map(rpg::map * cMap) {
         throw std::invalid_argument("atlas already contains map");
     }
 
-    // real insert
     QString sDefaultGroup = "<default>";
     m_cMaps[sDefaultGroup].insert(cMap);
     cMap->setParent(this);
 
-    // setup connectors
     connect(cMap, SIGNAL(changed(rpg::map*)), SLOT(map_changed(rpg::map*)));
     connect(cMap, SIGNAL(destroyed(QObject*)), SLOT(map_destroyed(QObject*)));
 

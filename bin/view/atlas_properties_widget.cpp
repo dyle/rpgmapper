@@ -135,7 +135,10 @@ void atlas_properties_widget::select_image_file() {
     // try to load as image
     QImage cImage = QImage(sFile);
     if (cImage.isNull()) {
-        QMessageBox::critical(this, tr("Failed to load image"), QString(tr("Failed to load image file at %1.\nIs this file an image?").arg(sFile)));
+        QMessageBox::critical(
+                this, 
+                tr("Failed to load image"), 
+                QString(tr("Failed to load image file at %1.\nIs this file an image?").arg(sFile)));
         return;
     }
 
@@ -172,8 +175,6 @@ std::cout << sImagePath.toStdString() << std::endl;
     m_sImagePath = cPathInfo.filePath();
 std::cout << m_sImagePath.toStdString() << std::endl;    
     m_cFileDialog->setDirectory(m_sImagePath);
-
-    //m_cFileDialog->setDirectory("/home/dyle/tmp");
 }
 
 

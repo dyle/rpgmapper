@@ -106,7 +106,10 @@ public:
      * 
      * @param   sDescription        the new description of the map
      */
-    void set_description(QString const & sDescription) { m_sDescription = sDescription; emit changed(this); };
+    void set_description(QString const & sDescription) { 
+        m_sDescription = sDescription; 
+        emit changed(this); 
+    };
 
 
     /**
@@ -114,7 +117,10 @@ public:
      * 
      * @param   sName               the new name of the map
      */
-    void set_name(QString const & sName) { m_sName = sName; emit changed(this); };
+    void set_name(QString const & sName) { 
+        m_sName = sName; 
+        emit changed(this); 
+    };
 
 
 signals:

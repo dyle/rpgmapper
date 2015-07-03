@@ -356,7 +356,6 @@ void main_window::evaluate() {
     }
     catch (...) {}
 
-
     ui->acNewMapSet->setEnabled(eCurrentItemType >= main_window::tree_item_type::ATLAS);
     ui->acDeleteMapSet->setEnabled(eCurrentItemType >= main_window::tree_item_type::MAPSET);
     ui->acMapSetProperties->setEnabled(eCurrentItemType >= main_window::tree_item_type::MAPSET);
@@ -418,7 +417,7 @@ QTreeWidgetItem * main_window::find_mapset(QString const & sName) {
  */
 main_window::tree_item_type main_window::item_type(QTreeWidgetItem * cItem) {
 
-    if (!cItem) throw std::invalid_argument("can't identify item type of a nullptr");
+    assert(!cItem);
    
     if (cItem->text(1).left(strlen("atlas")) == "atlas") return tree_item_type::ATLAS;
     if (cItem->text(1).left(strlen("mapset:")) == "mapset:") return tree_item_type::MAPSET;

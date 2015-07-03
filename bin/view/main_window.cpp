@@ -23,6 +23,7 @@
 // ------------------------------------------------------------
 // incs
 
+    #include <iostream>
 #include <stdexcept>
 
 // Qt
@@ -255,6 +256,13 @@ void main_window::action_quit() {
  * save atlas action triggered
  */
 void main_window::action_save() {
+    
+std::cerr << "m_cAtlas->filename = '" << m_cAtlas->filename().toStdString() << "'" << std::endl;
+    if (m_cAtlas->filename().isEmpty()) {
+        action_save_as();
+        return;
+    }
+std::cerr << "main_window::action_save()" << std::endl;
 }
 
 
@@ -262,6 +270,7 @@ void main_window::action_save() {
  * save as action triggered
  */
 void main_window::action_save_as() {
+std::cerr << "main_window::action_save_as()" << std::endl;
 }
 
 
@@ -417,8 +426,8 @@ QTreeWidgetItem * main_window::find_mapset(QString const & sName) {
  */
 main_window::tree_item_type main_window::item_type(QTreeWidgetItem * cItem) {
 
-    assert(!cItem);
-   
+    if (!cItem) return tree_item_type::UNKNOWN;
+
     if (cItem->text(1).left(strlen("atlas")) == "atlas") return tree_item_type::ATLAS;
     if (cItem->text(1).left(strlen("mapset:")) == "mapset:") return tree_item_type::MAPSET;
     if (cItem->text(1).left(strlen("map:")) == "map:") return tree_item_type::MAP;

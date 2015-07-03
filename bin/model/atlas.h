@@ -106,6 +106,14 @@ public:
 
 
     /**
+     * return the filename of the atlas on disk
+     *
+     * @return  the name of the atlas file
+     */
+    QString const & filename() const { return m_sFileName; };
+
+
+    /**
      * return a map
      *
      * @param   name of the map to retrieve
@@ -152,6 +160,7 @@ public:
      * @param   sDescription        the new description of the atlas
      */
     void set_description(QString const & sDescription) { 
+        if (sDescription == m_sDescription) return;
         m_sDescription = sDescription; 
         m_bUnsaved = true; 
         emit modified(); 
@@ -159,11 +168,27 @@ public:
 
 
     /**
+     * set a new filename on disk
+     *
+     * @param   sFileName       the new filename on disk
+     */
+    void set_filename(QString const & sFileName) {
+        if (sFileName == m_sFileName) return;
+        m_sFileName = m_sFileName;
+        m_bUnsaved = true;
+        emit modified();
+    }
+
+
+    /**
      * set the atlas image
      *
      * @param   cImage the new atlas image
      */
-    void set_image(QImage & cImage) { m_cImage = cImage; emit modified(); };
+    void set_image(QImage & cImage) { 
+        m_cImage = cImage; 
+        emit modified(); 
+    };
 
 
     /**
@@ -216,6 +241,7 @@ private:
 
     QString m_sName;            /**< atlas name */
     QString m_sDescription;     /**< atlas description */
+    QString m_sFileName;        /**< the filename of the atlas on disk */
 
     rpg::maps m_cMaps;          /**< all map groups we know */
 

@@ -71,10 +71,16 @@ if (CMAKE_COMPILER_IS_GNUCC)
 
     endif (${CMAKE_C_COMPILER_VERSION} LESS 4.8)
     
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -Werror -Wall -Wextra -pedantic -g -ggdb3 -rdynamic -fPIC")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x -Werror -Wall -Wextra -pedantic -g -ggdb3 -rdynamic -fPIC")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -Werror -Wall -Wextra -pedantic -g -ggdb3 -rdynamic -fPIC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Werror -Wall -Wextra -pedantic -g -ggdb3 -rdynamic -fPIC")
     
 endif (CMAKE_COMPILER_IS_GNUCC)
+
+# set compile flags: clang
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -Wall -Wextra -Werror -g -ggdb3 ")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -g -ggdb3")
+endif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
 
 
 # ------------------------------------------------------------
@@ -133,26 +139,13 @@ else (Boost_FOUND)
 endif (Boost_FOUND)
 
 
-option(BUILD_WITH_QT5 "Build with Qt5 support" off)
-if (BUILD_WITH_QT5)
+# Qt5
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+find_package(Qt5Core REQUIRED)
+include_directories(${Qt5Core_INCLUDE_DIRS})
+find_package(Qt5Widgets REQUIRED)
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
-    # Qt5
-    set(CMAKE_INCLUDE_CURRENT_DIR ON)
-    find_package(Qt5Core REQUIRED)
-    include_directories(${Qt5Core_INCLUDE_DIRS})
-    find_package(Qt5Widgets REQUIRED)
-    include_directories(${Qt5Widgets_INCLUDE_DIRS})
-    set(HAVE_QT5_PKG 1)
-
-else (BUILD_WITH_QT5)
-
-    find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
-    include(${QT_USE_FILE})
-    set(CMAKE_REQUIRED_LIBRARIES "${QT_LIBRARIES};${CMAKE_REQUIRED_LIBRARIES}")
-    set(HAVE_QT4_PKG 1)
-
-endif (BUILD_WITH_QT5)
-    
 # QuaZip
 message(STATUS "Looking for QuaZip headers")
 find_path(QUAZIP_INCLUDE_PATH quazip/quazip.h PATHS /usr/include /usr/local/include)

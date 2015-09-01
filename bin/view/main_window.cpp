@@ -29,6 +29,7 @@
 // Qt
 #include <QCloseEvent>
 #include <QDesktopWidget>
+#include <QFileDialog>
 #include <QMessageBox>
 #include <QPixmapCache>
 #include <QSettings>
@@ -256,8 +257,7 @@ void main_window::action_quit() {
  * save atlas action triggered
  */
 void main_window::action_save() {
-    
-std::cerr << "m_cAtlas->filename = '" << m_cAtlas->filename().toStdString() << "'" << std::endl;
+
     if (m_cAtlas->filename().isEmpty()) {
         action_save_as();
         return;
@@ -270,7 +270,16 @@ std::cerr << "main_window::action_save()" << std::endl;
  * save as action triggered
  */
 void main_window::action_save_as() {
-std::cerr << "main_window::action_save_as()" << std::endl;
+
+    QSettings cSettings("rpgmapper", "rpgmapper");
+    QString sFolder = cSettings.value("folder", "").toString();
+    QString sFileName = QFileDialog::getSaveFileName(
+            this, 
+            tr("RPGMapper Save As"),
+            sFolder,
+            tr("Atlas (*.atlas);;All files (*.*)"));
+
+std::cerr << "filename: " << sFileName.toStdString() << std::endl;
 }
 
 

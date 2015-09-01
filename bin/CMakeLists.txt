@@ -24,12 +24,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 set(RPGMAPPER_RCC
     view/rpgmapper.qrc
 )
-if (HAVE_QT5_PKG)
-    qt5_add_resources(RPGMAPPER_RES ${RPGMAPPER_RCC})
-endif (HAVE_QT5_PKG)
-if (HAVE_QT4_PKG)
-    qt4_add_resources(RPGMAPPER_RES ${RPGMAPPER_RCC})
-endif (HAVE_QT4_PKG)
+qt5_add_resources(RPGMAPPER_RES ${RPGMAPPER_RCC})
 
 # Qt UIC
 set(RPGMAPPER_UI 
@@ -38,12 +33,7 @@ set(RPGMAPPER_UI
     view/atlas_properties_widget.ui
     view/main_window.ui
 )
-if (HAVE_QT5_PKG)
-    qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
-endif (HAVE_QT5_PKG)
-if (HAVE_QT4_PKG)
-    qt4_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
-endif (HAVE_QT4_PKG)
+qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
 
 # Qt MOC
 set(RPGMAPPER_MOC
@@ -54,12 +44,7 @@ set(RPGMAPPER_MOC
     view/clickable_label.h
     view/main_window.h
 )
-if (HAVE_QT5_PKG)
-    qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
-endif (HAVE_QT5_PKG)
-if (HAVE_QT4_PKG)
-    qt4_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
-endif (HAVE_QT4_PKG)
+qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
 
 # sources
 set(RPGMAPPER_SRC
@@ -80,12 +65,7 @@ set(RPGMAPPER_SRC
 add_executable(rpgmapper ${RPGMAPPER_SRC} ${RPGMAPPER_MOC_CPP} ${RPGMAPPER_RES} ${RPGMAPPER_UI_H})
 
 # linkage
-if (HAVE_QT5_PKG)
-    target_link_libraries(rpgmapper ${CMAKE_REQUIRED_LIBRARIES} Qt5::Core Qt5::Widgets)
-endif (HAVE_QT5_PKG)
-if (HAVE_QT4_PKG)
-    target_link_libraries(rpgmapper ${CMAKE_REQUIRED_LIBRARIES})
-endif (HAVE_QT4_PKG)
+target_link_libraries(rpgmapper ${CMAKE_REQUIRED_LIBRARIES} Qt5::Core Qt5::Widgets)
 
 # install
 install(TARGETS rpgmapper RUNTIME DESTINATION bin)

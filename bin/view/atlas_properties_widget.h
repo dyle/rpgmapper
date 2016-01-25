@@ -3,7 +3,7 @@
  *
  * Show and modify properties of an atlas (as a custom widget)
  * 
- * Copyright (C) 2015, Oliver Maurhart, <dyle@dyle.org>
+ * Copyright (C) 2015, 2016 Oliver Maurhart, <dyle@dyle.org>
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

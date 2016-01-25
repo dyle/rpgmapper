@@ -1,6 +1,8 @@
 RPGMapper
 =========
 
+RPG Role Playing Mapper for playing old-school RPGs and map them to grid.
+
 The source code is arranged as a CMake (see: http://www.cmake.org/) project.
 
 
@@ -86,7 +88,7 @@ RPGMapper is licensed under the GPL 3.
 
 
     
-(C)opyright 2015 Oliver Maurhart
+(C)opyright 2015, 2016 Oliver Maurhart
 
 
 Oliver Maurhart

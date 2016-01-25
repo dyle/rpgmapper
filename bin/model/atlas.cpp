@@ -81,7 +81,6 @@ void atlas::add_map(rpg::map * cMap) {
     cMap->setParent(this);
 
     connect(cMap, SIGNAL(changed(rpg::map*)), SLOT(map_changed(rpg::map*)));
-    connect(cMap, SIGNAL(destroyed(QObject*)), SLOT(map_destroyed(QObject*)));
 
     m_bUnsaved = true;
     emit map_added(sDefaultGroup, cMap);
@@ -115,18 +114,3 @@ void atlas::map_changed(UNUSED rpg::map * cMap) {
     m_bUnsaved = true;
     emit modified();
 }
-
-
-/**
- * a map has been destroyed
- *
- * @param   cMap        the map destroyed
- */
-void atlas::map_destroyed(QObject * cMap) {
-
-    if (m_cMaps.erase_map(dynamic_cast<rpg::map *>(cMap)->name())) {
-        m_bUnsaved = true;
-        emit modified();
-    }
-}
-

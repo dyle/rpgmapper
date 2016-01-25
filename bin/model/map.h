@@ -27,6 +27,7 @@
 // ------------------------------------------------------------
 // incs
 
+
 #include <set>
 
 
@@ -40,7 +41,7 @@
 
 namespace rpg {
 
-
+    
 /**
  * a single rpg map
  */
@@ -78,6 +79,8 @@ public:
 
     /**
      * < operator
+     * 
+     * sort criteria based on map's name
      *
      * @param   rhs     right hand side
      * @return  bool if (*this) < rhs

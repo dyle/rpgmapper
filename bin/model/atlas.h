@@ -123,6 +123,15 @@ public:
 
 
     /**
+     * return a map
+     *
+     * @param   name of the map to retrieve
+     * @return  the map found (or nullptr if not)
+     */
+    rpg::map const * find(QString const & sName) const;
+
+
+    /**
      * get the atlas image
      *
      * @return  the atlas image
@@ -136,6 +145,14 @@ public:
      * @return  the atlas image
      */
     QImage const & image() const { return m_cImage; };
+
+
+    /**
+     * return the maps
+     *
+     * @return  the maps
+     */
+    rpg::maps & maps() { return m_cMaps; };
 
 
     /**
@@ -226,14 +243,6 @@ private slots:
      * @param   cMap        the map changed
      */
     void map_changed(rpg::map * cMap);
-
-
-    /**
-     * a map has been destroyed
-     *
-     * @param   cMap        the map destroyed
-     */
-    void map_destroyed(QObject * cMap);
 
 
 private:

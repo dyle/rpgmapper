@@ -43,7 +43,15 @@ namespace rpg {
 
 
 /**
- * a somehow clever colletion of maps
+ * a colletion of maps based on a group name
+ * 
+ * The group name is though to group maps tightly related to
+ * each other. E.g. the Group "Tower of Doom" might have several
+ * maps attached to it. The first might be the entrance level
+ * and then higher up the other maps following.
+ * 
+ * However, all maps ought to have a unique name without respect
+ * to the group name there are attached to.
  */
 class maps : public std::map<QString, rpg::mapset> {
 
@@ -54,20 +62,9 @@ public:
     /**
      * get a flat set of all known maps
      *
-     * @return  a set of all known maps (w/o group stuff)
+     * @return  a set of all known maps
      */
     rpg::mapset map_set();
-
-
-    /**
-     * erase a map
-     *
-     * remove map from the structure (w/o delete the resources)
-     *
-     * @param   sName           name of the map to retrieve
-     * @return  true, if the map has been found and erased
-     */
-    bool erase_map(QString const & sName);
 
 
     /**
@@ -87,7 +84,16 @@ public:
      * @return  the map found (or nullptr if not)
      */
     rpg::map * find_map(QString const & sGroupName, QString const & sName);
+    
 
+    /**
+     * remove a map
+     *
+     * @param   sName           name of the map to retrieve
+     * @return  the map removed
+     */
+    rpg::map * remove_map(QString const & sName);
+    
 };
 
 

@@ -36,7 +36,6 @@ using namespace rpg;
 // code
 
 
-
 /**
  * get a flat set of all known maps
  *
@@ -51,32 +50,6 @@ rpg::mapset maps::map_set() {
     }
 
     return res;
-}
-
-
-/**
- * erase a map
- *
- * remove map from the structure (w/o delete the resources)
- *
- * @param   sName           name of the map to retrieve
- * @return  true, if the map has been found and erased
- */
-bool maps::erase_map(QString const & sName) {
-
-    bool bErased = false;
-
-    for (auto cMapGroupIter = begin(); cMapGroupIter != end() && !bErased; cMapGroupIter++) {
-
-        rpg::mapset & cMaps = (*cMapGroupIter).second;
-        auto cMapIter = std::find_if(cMaps.begin(), cMaps.end(), [&](rpg::map * m)->bool{ return (m->name() == sName); });
-        if (cMapIter != cMaps.end()) {
-            cMaps.erase(cMapIter);
-            bErased = true;
-        }
-    }
-
-    return bErased;
 }
 
 
@@ -118,3 +91,26 @@ rpg::map * maps::find_map(QString const & sGroupName, QString const & sName) {
     return nullptr;
 }
 
+
+/**
+ * remove a map
+ *
+ * @param   sName           name of the map to retrieve
+ * @return  the map removed
+ */
+rpg::map * maps::remove_map(QString const & sName) {
+
+    rpg::map * cMap = nullptr;
+
+    for (auto cMapGroupIter = begin(); cMapGroupIter != end() && !cMap; cMapGroupIter++) {
+
+        rpg::mapset & cMaps = (*cMapGroupIter).second;
+        auto cMapIter = std::find_if(cMaps.begin(), cMaps.end(), [&](rpg::map * m)->bool{ return (m->name() == sName); });
+        if (cMapIter != cMaps.end()) {
+            cMap = *cMapIter;
+            cMaps.erase(cMapIter);
+        }
+    }
+
+    return cMap;
+}

@@ -85,8 +85,9 @@ public:
      * add a map to the atlas
      *
      * @param   cMap        the map to add
+     * @param   sGroup      the map group to add the map to
      */
-    void add_map(rpg::map * cMap);
+    void add_map(rpg::map * cMap, QString sGroup = "<default>");
 
 
     /**

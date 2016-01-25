@@ -65,8 +65,9 @@ atlas::~atlas() {
  * add a map to the atlas
  *
  * @param   cMap        the map to add
+ * @param   sGroup      the map group to add the map to
  */
-void atlas::add_map(rpg::map * cMap) {
+void atlas::add_map(rpg::map * cMap, QString sGroup) {
 
     if (!cMap) throw std::invalid_argument("atlas refuses to add null map");
 
@@ -76,14 +77,13 @@ void atlas::add_map(rpg::map * cMap) {
         throw std::invalid_argument("atlas already contains map");
     }
 
-    QString sDefaultGroup = "<default>";
-    m_cMaps[sDefaultGroup].insert(cMap);
+    m_cMaps[sGroup].insert(cMap);
     cMap->setParent(this);
 
     connect(cMap, SIGNAL(changed(rpg::map*)), SLOT(map_changed(rpg::map*)));
 
     m_bUnsaved = true;
-    emit map_added(sDefaultGroup, cMap);
+    emit map_added(sGroup, cMap);
     emit modified();
 }
 

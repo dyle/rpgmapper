@@ -35,6 +35,17 @@ using namespace rpg;
 
     
 /**
+ * ctor
+ *
+ * @param   cParent         parent object
+ * @param   sName           name of map
+ * @param   sDescription    description of map
+ */
+map::map(QObject * cParent, QString const & sName, QString const & sDescription) : QObject(cParent), m_sName(sName), m_sDescription(sDescription) {
+}
+
+
+/**
  * dtor
  */
 map::~map() {

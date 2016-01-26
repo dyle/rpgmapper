@@ -59,14 +59,14 @@ rpg::mapset maps::map_set() {
  * @param   name of the map to retrieve
  * @return  the map found (or nullptr if not)
  */
-rpg::map * maps::find_map(QString const & sName) {
+rpg::map_ptr maps::find_map(QString const & sName) {
     
     for (auto cMapGroupIter = begin(); cMapGroupIter != end(); cMapGroupIter++) {
-        rpg::map * cMap = find_map((*cMapGroupIter).first, sName);
+        rpg::map_ptr cMap = find_map((*cMapGroupIter).first, sName);
         if (cMap != nullptr) return cMap;
     }
 
-    return nullptr;
+    return rpg::map_ptr(nullptr);
 }
 
 
@@ -77,18 +77,18 @@ rpg::map * maps::find_map(QString const & sName) {
  * @param   sName           name of the map to retrieve
  * @return  the map found (or nullptr if not)
  */
-rpg::map * maps::find_map(QString const & sGroupName, QString const & sName) {
+rpg::map_ptr maps::find_map(QString const & sGroupName, QString const & sName) {
 
     auto cMapGroupIter = find(sGroupName);
-    if (cMapGroupIter == end()) return nullptr;
+    if (cMapGroupIter == end()) return rpg::map_ptr(nullptr);
 
     rpg::mapset & cMaps = (*cMapGroupIter).second;
-    auto cMapIter = std::find_if(cMaps.begin(), cMaps.end(), [&](rpg::map * m)->bool{ return (m->name() == sName); });
+    auto cMapIter = std::find_if(cMaps.begin(), cMaps.end(), [&](rpg::map_ptr const & m)->bool{ return (m->name() == sName); });
     if (cMapIter != cMaps.end()) {
         return *cMapIter;
     }
 
-    return nullptr;
+    return rpg::map_ptr(nullptr);
 }
 
 
@@ -98,14 +98,14 @@ rpg::map * maps::find_map(QString const & sGroupName, QString const & sName) {
  * @param   sName           name of the map to retrieve
  * @return  the map removed
  */
-rpg::map * maps::remove_map(QString const & sName) {
+rpg::map_ptr maps::remove_map(QString const & sName) {
 
-    rpg::map * cMap = nullptr;
+    rpg::map_ptr cMap = rpg::map_ptr(nullptr);
 
     for (auto cMapGroupIter = begin(); cMapGroupIter != end() && !cMap; cMapGroupIter++) {
 
         rpg::mapset & cMaps = (*cMapGroupIter).second;
-        auto cMapIter = std::find_if(cMaps.begin(), cMaps.end(), [&](rpg::map * m)->bool{ return (m->name() == sName); });
+        auto cMapIter = std::find_if(cMaps.begin(), cMaps.end(), [&](rpg::map_ptr const & m)->bool{ return (m->name() == sName); });
         if (cMapIter != cMaps.end()) {
             cMap = *cMapIter;
             cMaps.erase(cMapIter);

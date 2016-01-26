@@ -49,7 +49,7 @@ atlas::atlas(QObject * cParent, QString const & sName, QString const & sDescript
    
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(deleteLater()));
 
-    add_map(new rpg::map());
+    add_map(rpg::map_ptr(new rpg::map()));
     m_bUnsaved = false;
 }
 
@@ -67,7 +67,7 @@ atlas::~atlas() {
  * @param   cMap        the map to add
  * @param   sGroup      the map group to add the map to
  */
-void atlas::add_map(rpg::map * cMap, QString sGroup) {
+void atlas::add_map(rpg::map_ptr cMap, QString sGroup) {
 
     if (!cMap) throw std::invalid_argument("atlas refuses to add null map");
 
@@ -80,10 +80,10 @@ void atlas::add_map(rpg::map * cMap, QString sGroup) {
     m_cMaps[sGroup].insert(cMap);
     cMap->setParent(this);
 
-    connect(cMap, SIGNAL(changed(rpg::map*)), SLOT(map_changed(rpg::map*)));
+    connect(cMap.get(), SIGNAL(changed(rpg::map const *)), SLOT(map_changed(rpg::map const *)));
 
     m_bUnsaved = true;
-    emit map_added(sGroup, cMap);
+    emit map_added(sGroup, cMap.get());
     emit modified();
 }
 
@@ -95,11 +95,9 @@ void atlas::add_map(rpg::map * cMap, QString sGroup) {
  */
 void atlas::del_map(QString & sName) {
 
-    rpg::map * cMap = m_cMaps.find_map(sName);
+    rpg::map_ptr cMap = m_cMaps.remove_map(sName);
     if (cMap == nullptr) return;
 
-    delete cMap;
-    
     m_bUnsaved = true;
     emit modified();
 }
@@ -110,7 +108,46 @@ void atlas::del_map(QString & sName) {
  *
  * @param   cMap        the map changed
  */
-void atlas::map_changed(UNUSED rpg::map * cMap) {
+void atlas::map_changed(UNUSED rpg::map const * cMap) {
     m_bUnsaved = true;
     emit modified();
 }
+
+
+/**
+ * set the description of the atlas
+ * 
+ * @param   sDescription        the new description of the atlas
+ */
+void atlas::set_description(QString const & sDescription) { 
+    if (sDescription == m_sDescription) return;
+    m_sDescription = sDescription; 
+    m_bUnsaved = true; 
+    emit modified(); 
+}
+
+
+/**
+ * set a new filename on disk
+ *
+ * @param   sFileName       the new filename on disk
+ */
+void atlas::set_filename(QString const & sFileName) {
+    if (sFileName == m_sFileName) return;
+    m_sFileName = m_sFileName;
+    m_bUnsaved = true;
+    emit modified();
+}
+
+
+/**
+ * set the atlas image
+ *
+ * @param   cImage the new atlas image
+ */
+void atlas::set_image(QImage & cImage) { 
+    m_cImage = cImage; 
+    emit modified(); 
+}
+
+

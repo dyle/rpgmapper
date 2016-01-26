@@ -73,7 +73,7 @@ public:
      * @param   sName           name of the map to retrieve
      * @return  the map found (or nullptr if not)
      */
-    rpg::map * find_map(QString const & sName);
+    rpg::map_ptr find_map(QString const & sName);
 
 
     /**
@@ -83,7 +83,7 @@ public:
      * @param   sName           name of the map to retrieve
      * @return  the map found (or nullptr if not)
      */
-    rpg::map * find_map(QString const & sGroupName, QString const & sName);
+    rpg::map_ptr find_map(QString const & sGroupName, QString const & sName);
     
 
     /**
@@ -92,7 +92,7 @@ public:
      * @param   sName           name of the map to retrieve
      * @return  the map removed
      */
-    rpg::map * remove_map(QString const & sName);
+    rpg::map_ptr remove_map(QString const & sName);
     
 };
 

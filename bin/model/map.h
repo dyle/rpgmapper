@@ -28,8 +28,8 @@
 // incs
 
 
+#include <memory>
 #include <set>
-
 
 // Qt
 #include <QObject>
@@ -41,6 +41,9 @@
 
 namespace rpg {
 
+
+class map;
+    
     
 /**
  * a single rpg map
@@ -61,8 +64,7 @@ public:
      * @param   sName           name of map
      * @param   sDescription    description of map
      */
-    map(QObject * cParent = nullptr, QString const & sName = "<unnamed>", QString const & sDescription = "") 
-        : QObject(cParent), m_sName(sName), m_sDescription(sDescription) {};
+    map(QObject * cParent = nullptr, QString const & sName = "<unnamed>", QString const & sDescription = "");
 
 
     /**
@@ -134,7 +136,7 @@ signals:
      *
      * @param   cMap        the map changed
      */
-    void changed(rpg::map * cMap);
+    void changed(rpg::map const * cMap);
 
 
 private:
@@ -147,9 +149,15 @@ private:
 
 
 /**
+ * a pointer to a map
+ */
+typedef std::shared_ptr<rpg::map> map_ptr;
+
+
+/**
  * a set of maps
  */
-typedef std::set<rpg::map *> mapset;
+typedef std::set<rpg::map_ptr> mapset;
 
 
 }

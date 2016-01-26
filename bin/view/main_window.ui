@@ -44,7 +44,7 @@
      <x>0</x>
      <y>0</y>
      <width>815</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnFile">
@@ -67,7 +67,7 @@
    </widget>
    <widget class="QMenu" name="mnMap">
     <property name="title">
-     <string>Map</string>
+     <string>&amp;Map</string>
     </property>
     <addaction name="acNewMapSet"/>
     <addaction name="acDeleteMapSet"/>
@@ -102,6 +102,9 @@
    <addaction name="acDeleteMap"/>
   </widget>
   <widget class="QDockWidget" name="dwIcons">
+   <property name="windowTitle">
+    <string>Tiles:</string>
+   </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
@@ -110,15 +113,15 @@
      <item>
       <widget class="QToolBox" name="tbIcons">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="page">
         <property name="geometry">
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>246</width>
-          <height>86</height>
+          <width>256</width>
+          <height>142</height>
          </rect>
         </property>
         <attribute name="label">
@@ -130,8 +133,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>246</width>
-          <height>86</height>
+          <width>256</width>
+          <height>142</height>
          </rect>
         </property>
         <attribute name="label">
@@ -144,6 +147,9 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="dwAtlasTree">
+   <property name="windowTitle">
+    <string>Str&amp;ucture:</string>
+   </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
@@ -260,7 +266,7 @@
      <normaloff>:/icons/gfx/atlas-save-as.png</normaloff>:/icons/gfx/atlas-save-as.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Save Atlas as ...</string>
+    <string>Sa&amp;ve Atlas as ...</string>
    </property>
    <property name="toolTip">
     <string>Save current atlas under a new name</string>
@@ -287,7 +293,7 @@
      <normaloff>:/icons/gfx/map-delete.png</normaloff>:/icons/gfx/map-delete.png</iconset>
    </property>
    <property name="text">
-    <string>Delete Map</string>
+    <string>D&amp;elete Map</string>
    </property>
    <property name="toolTip">
     <string>Delete current map from atlas</string>
@@ -295,7 +301,7 @@
   </action>
   <action name="acMapProperties">
    <property name="text">
-    <string>Map Properties</string>
+    <string>Map &amp;Properties</string>
    </property>
    <property name="toolTip">
     <string>Properties of the current map</string>
@@ -303,27 +309,27 @@
   </action>
   <action name="acNewMapSet">
    <property name="text">
-    <string>New Map Set</string>
+    <string>&amp;New Map Set</string>
    </property>
   </action>
   <action name="acDeleteMapSet">
    <property name="text">
-    <string>Delete Map Set</string>
+    <string>&amp;Delete Map Set</string>
    </property>
   </action>
   <action name="acMapSetProperties">
    <property name="text">
-    <string>Map Set Properties</string>
+    <string>Map &amp;Set Properties</string>
    </property>
   </action>
   <action name="acOpenMap">
    <property name="text">
-    <string>Open Map</string>
+    <string>&amp;Open Map</string>
    </property>
   </action>
   <action name="acCloseMap">
    <property name="text">
-    <string>Close Map</string>
+    <string>&amp;Close Map</string>
    </property>
   </action>
  </widget>

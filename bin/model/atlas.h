@@ -87,7 +87,7 @@ public:
      * @param   cMap        the map to add
      * @param   sGroup      the map group to add the map to
      */
-    void add_map(rpg::map * cMap, QString sGroup = "<default>");
+    void add_map(rpg::map_ptr cMap, QString sGroup = "<default>");
 
 
     /**
@@ -120,7 +120,7 @@ public:
      * @param   name of the map to retrieve
      * @return  the map found (or nullptr if not)
      */
-    rpg::map * find(QString const & sName);
+    rpg::map_ptr find(QString const & sName);
 
 
     /**
@@ -129,7 +129,7 @@ public:
      * @param   name of the map to retrieve
      * @return  the map found (or nullptr if not)
      */
-    rpg::map const * find(QString const & sName) const;
+    rpg::map_ptr const find(QString const & sName) const;
 
 
     /**
@@ -177,12 +177,7 @@ public:
      * 
      * @param   sDescription        the new description of the atlas
      */
-    void set_description(QString const & sDescription) { 
-        if (sDescription == m_sDescription) return;
-        m_sDescription = sDescription; 
-        m_bUnsaved = true; 
-        emit modified(); 
-    };
+    void set_description(QString const & sDescription);
 
 
     /**
@@ -190,12 +185,7 @@ public:
      *
      * @param   sFileName       the new filename on disk
      */
-    void set_filename(QString const & sFileName) {
-        if (sFileName == m_sFileName) return;
-        m_sFileName = m_sFileName;
-        m_bUnsaved = true;
-        emit modified();
-    }
+    void set_filename(QString const & sFileName);
 
 
     /**
@@ -203,10 +193,7 @@ public:
      *
      * @param   cImage the new atlas image
      */
-    void set_image(QImage & cImage) { 
-        m_cImage = cImage; 
-        emit modified(); 
-    };
+    void set_image(QImage & cImage);
 
 
     /**
@@ -243,7 +230,7 @@ private slots:
      *
      * @param   cMap        the map changed
      */
-    void map_changed(rpg::map * cMap);
+    void map_changed(rpg::map const * cMap);
 
 
 private:

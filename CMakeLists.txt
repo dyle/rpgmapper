@@ -1,18 +1,18 @@
 # ------------------------------------------------------------
 # CMakeLists.txt for RPGMapper
 #
-# Copyright (C) 2015, 2016 Oliver Maurhart, <dyle@dyle.org>
-# 
+# Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # ------------------------------------------------------------
@@ -39,41 +39,9 @@ add_definitions(-D_DEFAULT_SOURCE)
 # set compile flags
 if (CMAKE_COMPILER_IS_GNUCC)
 
-    # tweak capabilities of gcc versions prior to 4.8
-    if (${CMAKE_C_COMPILER_VERSION} LESS 4.8)
-    
-        message(STATUS "gcc compiler < 4.8 detected - tweaking flags")
-
-        # make this clear: we use std::thread
-        # so enforce pthread bindings
-        # this may not be needed for gcc >= 4.8
-        add_definitions(-pthread)
-        
-        # this is needed to have
-        #   std::_this_thread::sleep(...)
-        # at hand - at least for gcc 4.6.3 and glibc 2.15
-        add_definitions(-D_GLIBCXX_USE_NANOSLEEP)
-
-        # this is needed to have
-        #   std::_this_thread::yield()
-        # at hand - at least for gcc 4.6.3 and glibc 2.15
-        add_definitions(-D_GLIBCXX_USE_SCHED_YIELD)
-        
-        # this is needed to have
-        #   std::map::emplace available
-        # (this is bult-in available in gcc-4.8)
-        add_definitions(-DFIX_STD_MAP_EMPLACE)
-        
-        # this is needed to have
-        #   std::chrono::time_point be able to add different durations
-        # (this is builtin in gcc-4.8)
-        add_definitions(-DFIX_STD_CHRONO_DURATION_ADD)
-
-    endif (${CMAKE_C_COMPILER_VERSION} LESS 4.8)
-    
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -Werror -Wall -Wextra -pedantic -g -ggdb3 -rdynamic -fPIC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Werror -Wall -Wextra -pedantic -g -ggdb3 -rdynamic -fPIC")
-    
+
 endif (CMAKE_COMPILER_IS_GNUCC)
 
 # set compile flags: clang
@@ -121,13 +89,6 @@ check_include_file(errno.h HAVE_ERRNO_H)
 check_include_file(limits.h HAVE_LIMITS_H)
 
 
-# enforce pthread linkage (may be obsolete with gcc >= 4.8)
-check_library_exists(pthread pthread_kill "/lib;/usr/lib;/usr/local/lib" HAVE_PTHREAD_LIB)
-if (HAVE_PTHREAD_LIB)
-    set(CMAKE_REQUIRED_LIBRARIES "pthread;${CMAKE_REQUIRED_LIBRARIES}")
-endif (HAVE_PTHREAD_LIB)
-
-
 # get BOOST!
 find_package(Boost 1.46.0 COMPONENTS filesystem program_options system)
 if (Boost_FOUND)
@@ -146,23 +107,23 @@ include_directories(${Qt5Core_INCLUDE_DIRS})
 find_package(Qt5Widgets REQUIRED)
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
-# QuaZip
-message(STATUS "Looking for QuaZip headers")
-find_path(QUAZIP_INCLUDE_PATH quazip/quazip.h PATHS /usr/include /usr/local/include)
-if (QUAZIP_INCLUDE_PATH)
-    message(STATUS "Looking for QuaZip headers - ${QUAZIP_INCLUDE_PATH}")
-    message(STATUS "Looking for QuaZip library")
-    find_library(QUAZIP_LIBRARY NAMES quazip zipOpen)
-    if (QUAZIP_LIBRARY)
-        message(STATUS "Looking for QuaZip library - found")
-        set(CMAKE_REQUIRED_INCLUDES "${CMAKE_REQUIRED_INCLUDES};${QUAZIP_INCLUDE}")
-        set(CMAKE_REQUIRED_LIBRARIES "quazip;${CMAKE_REQUIRED_LIBRARIES}")
-    else (QUAZIP_LIBRARY)
-        message(FATAL_ERROR "Looking for QuaZip library not found")
-    endif (QUAZIP_LIBRARY)
-else (QUAZIP_INCLUDE_PATH)
-    message(FATAL_ERROR "Looking for QuaZip headers not found.")
-endif (QUAZIP_INCLUDE_PATH)
+# # QuaZip
+# message(STATUS "Looking for QuaZip headers")
+# find_path(QUAZIP_INCLUDE_PATH quazip/quazip.h PATHS /usr/include /usr/local/include)
+# if (QUAZIP_INCLUDE_PATH)
+#     message(STATUS "Looking for QuaZip headers - ${QUAZIP_INCLUDE_PATH}")
+#     message(STATUS "Looking for QuaZip library")
+#     find_library(QUAZIP_LIBRARY NAMES quazip zipOpen)
+#     if (QUAZIP_LIBRARY)
+#         message(STATUS "Looking for QuaZip library - found")
+#         set(CMAKE_REQUIRED_INCLUDES "${CMAKE_REQUIRED_INCLUDES};${QUAZIP_INCLUDE}")
+#         set(CMAKE_REQUIRED_LIBRARIES "quazip;${CMAKE_REQUIRED_LIBRARIES}")
+#     else (QUAZIP_LIBRARY)
+#         message(FATAL_ERROR "Looking for QuaZip library not found")
+#     endif (QUAZIP_LIBRARY)
+# else (QUAZIP_INCLUDE_PATH)
+#     message(FATAL_ERROR "Looking for QuaZip headers not found.")
+# endif (QUAZIP_INCLUDE_PATH)
 
 
 # ------------------------------------------------------------
@@ -182,42 +143,41 @@ add_subdirectory(bin)
 # ------------------------------------------------------------
 # packaging
 
-set(CPACK_PACKAGE_NAME "rpgmapper")
-
-set(CPACK_PACKAGE_DESCRIPTION "RPGMapper tool for gamers")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "This tool lets you draw maps for Role Playing Games")
-set(CPACK_PACKAGE_CONTACT "Oliver Maurhart <dyle@dyle.org>")
-set(CPACK_PACKAGE_VENDOR "Oliver Maurhart")
-set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "1")
-set(CPACK_PACKAGE_VERSION_PATCH "0")
-set(CPACK_PROJECT_VERSION_STRING "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}" )
-
-set(CPACK_GENERATOR "DEB;RPM;")
-set(CPACK_SOURCE_GENERATOR "TGZ")
-
-set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}-${CMAKE_SYSTEM_PROCESSOR}")
-set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}")
-set(CPACK_SOURCE_IGNORE_FILES "/build/*;/.git/")
-
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.13), libgcc1 (>= 1:4.4)") 
-set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cpack/deb/control/postinst;${CMAKE_CURRENT_SOURCE_DIR}/cmake/cpack/deb/control/postrm;${CMAKE_CURRENT_SOURCE_DIR}/cmake/cpack/deb/control/prerm;")
-
-# debianization
-string(TOLOWER "${CPACK_PACKAGE_NAME}" CPACK_PACKAGE_NAME_LOWERCASE)
-find_program(DPKG_PROGRAM dpkg DOC "dpkg program of Debian-based systems")
-if (DPKG_PROGRAM)
-    # use dpkg to fix the package file name
-    execute_process(
-        COMMAND ${DPKG_PROGRAM} --print-architecture
-        OUTPUT_VARIABLE CPACK_DEBIAN_PACKAGE_ARCHITECTURE
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME_LOWERCASE}_${CPACK_PROJECT_VERSION_STRING}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}")
-else (DPKG_PROGRAM)
-    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME_LOWERCASE}_${CPACK_PROJECT_VERSION_STRING}_${CMAKE_SYSTEM_NAME}")
-endif (DPKG_PROGRAM)
-
-# package it
-include(CPack)
-
+# set(CPACK_PACKAGE_NAME "rpgmapper")
+#
+# set(CPACK_PACKAGE_DESCRIPTION "RPGMapper tool for gamers")
+# set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "This tool lets you draw maps for Role Playing Games")
+# set(CPACK_PACKAGE_CONTACT "Oliver Maurhart <dyle71@gmail.com>")
+# set(CPACK_PACKAGE_VENDOR "Oliver Maurhart")
+# set(CPACK_PACKAGE_VERSION_MAJOR "0")
+# set(CPACK_PACKAGE_VERSION_MINOR "1")
+# set(CPACK_PACKAGE_VERSION_PATCH "0")
+# set(CPACK_PROJECT_VERSION_STRING "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}" )
+#
+# set(CPACK_GENERATOR "DEB;RPM;")
+# set(CPACK_SOURCE_GENERATOR "TGZ")
+#
+# set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}-${CMAKE_SYSTEM_PROCESSOR}")
+# set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}")
+# set(CPACK_SOURCE_IGNORE_FILES "/build/*;/.git/")
+#
+# set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.13), libgcc1 (>= 1:4.4)")
+# set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cpack/deb/control/postinst;${CMAKE_CURRENT_SOURCE_DIR}/cmake/cpack/deb/control/postrm;${CMAKE_CURRENT_SOURCE_DIR}/cmake/cpack/deb/control/prerm;")
+#
+# # debianization
+# string(TOLOWER "${CPACK_PACKAGE_NAME}" CPACK_PACKAGE_NAME_LOWERCASE)
+# find_program(DPKG_PROGRAM dpkg DOC "dpkg program of Debian-based systems")
+# if (DPKG_PROGRAM)
+#     # use dpkg to fix the package file name
+#     execute_process(
+#         COMMAND ${DPKG_PROGRAM} --print-architecture
+#         OUTPUT_VARIABLE CPACK_DEBIAN_PACKAGE_ARCHITECTURE
+#         OUTPUT_STRIP_TRAILING_WHITESPACE
+#     )
+#     set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME_LOWERCASE}_${CPACK_PROJECT_VERSION_STRING}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}")
+# else (DPKG_PROGRAM)
+#     set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME_LOWERCASE}_${CPACK_PROJECT_VERSION_STRING}_${CMAKE_SYSTEM_NAME}")
+# endif (DPKG_PROGRAM)
+#
+# # package it
+# include(CPack)

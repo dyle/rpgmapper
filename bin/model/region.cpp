@@ -1,7 +1,7 @@
 /*
- * atlas.cpp
+ * region.cpp
  *
- * A RPG atlas
+ * A collection of maps
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -23,9 +23,8 @@
 // ------------------------------------------------------------
 // incs
 
-// rpgmappger
-#include "common_macros.h"
-#include "atlas.hpp"
+// rpgmapper
+#include "region.hpp"
 
 using namespace rpgmapper::model;
 

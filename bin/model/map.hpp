@@ -1,7 +1,7 @@
 /*
- * atlas.cpp
+ * map.h
  *
- * A RPG atlas
+ * A single RPG map
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -20,15 +20,38 @@
  */
 
 
-// ------------------------------------------------------------
-// incs
-
-// rpgmappger
-#include "common_macros.h"
-#include "atlas.hpp"
-
-using namespace rpgmapper::model;
+#ifndef MODEL_MAP_H
+#define MODEL_MAP_H
 
 
 // ------------------------------------------------------------
-// code
+// decl
+
+
+namespace rpgmapper {
+namespace model {
+
+
+/**
+ * a single rpg map
+ */
+class Map {
+
+
+public:
+
+
+    /**
+     * ctor
+     */
+    Map() = default;
+
+
+};
+
+
+}
+}
+
+
+#endif

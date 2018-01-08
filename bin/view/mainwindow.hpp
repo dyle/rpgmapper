@@ -1,7 +1,7 @@
 /*
- * atlas.cpp
+ * main_window.h
  *
- * A RPG atlas
+ * Main window for the RPGMapper
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -20,15 +20,84 @@
  */
 
 
+#ifndef VIEW_MAINWINDOW_H_
+#define VIEW_MAINWINDOW_H_
+
+
 // ------------------------------------------------------------
 // incs
 
-// rpgmappger
-#include "common_macros.h"
-#include "atlas.hpp"
-
-using namespace rpgmapper::model;
+// Qt
+#include <QMainWindow>
 
 
 // ------------------------------------------------------------
-// code
+// decl
+
+// fwd
+class Ui_mainwindow;
+
+
+namespace rpgmapper {
+namespace view {
+
+
+/**
+ * the rpgmapper main window
+ */
+class MainWindow : public QMainWindow {
+
+
+    Q_OBJECT
+
+
+public:
+
+
+    /**
+     * ctor
+     */
+    MainWindow();
+
+
+    /**
+     * dtor
+     */
+    virtual ~MainWindow();
+
+
+protected:
+
+
+    /**
+     * handle close event
+     *
+     * @param   cEvent      the event passed
+     */
+    virtual void closeEvent(QCloseEvent * cEvent);
+
+
+private:
+
+
+    /**
+     * centers the window on the desktop with default width and height
+     */
+    void centerWindow();
+
+
+    /**
+     * load the settings
+     */
+    void loadSettings();
+
+
+    Ui_mainwindow * ui;                 /**< qt widgets */
+};
+
+
+}
+}
+
+
+#endif

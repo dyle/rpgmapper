@@ -1,18 +1,18 @@
 # ------------------------------------------------------------
 # CMakeLists.txt for RPGMapper/bin
 #
-# Copyright (C) 2015, 2016 Oliver Maurhart, <dyle@dyle.org>
-# 
+# Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # ------------------------------------------------------------
@@ -27,22 +27,14 @@ set(RPGMAPPER_RCC
 qt5_add_resources(RPGMAPPER_RES ${RPGMAPPER_RCC})
 
 # Qt UIC
-set(RPGMAPPER_UI 
-    view/about_dialog.ui
-    view/atlas_properties_dialog.ui
-    view/atlas_properties_widget.ui
-    view/main_window.ui
+set(RPGMAPPER_UI
+    view/mainwindow.ui
 )
 qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
 
 # Qt MOC
 set(RPGMAPPER_MOC
-    model/atlas.h
-    model/map.h
-    view/atlas_properties_dialog.h
-    view/atlas_properties_widget.h
-    view/clickable_label.h
-    view/main_window.h
+    view/mainwindow.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
 
@@ -53,12 +45,9 @@ set(RPGMAPPER_SRC
 
     model/atlas.cpp
     model/map.cpp
-    model/maps.cpp
+    model/region.cpp
 
-    view/atlas_properties_dialog.cpp
-    view/atlas_properties_widget.cpp
-    view/clickable_label.cpp
-    view/main_window.cpp
+    view/mainwindow.cpp
 )
 
 # bin definition
@@ -69,4 +58,3 @@ target_link_libraries(rpgmapper ${CMAKE_REQUIRED_LIBRARIES} Qt5::Core Qt5::Widge
 
 # install
 install(TARGETS rpgmapper RUNTIME DESTINATION bin)
-

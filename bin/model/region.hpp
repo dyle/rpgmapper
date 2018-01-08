@@ -1,7 +1,7 @@
 /*
- * atlas.cpp
+ * region.h
  *
- * A RPG atlas
+ * A collection of maps
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -20,15 +20,35 @@
  */
 
 
-// ------------------------------------------------------------
-// incs
-
-// rpgmappger
-#include "common_macros.h"
-#include "atlas.hpp"
-
-using namespace rpgmapper::model;
+#ifndef MODEL_REGION_H
+#define MODEL_REGION_H
 
 
 // ------------------------------------------------------------
-// code
+// decl
+
+
+namespace rpgmapper {
+namespace model {
+
+
+/**
+ * a colletion of maps based on a name
+ */
+class Region {
+
+
+public:
+
+
+    Region() = default;
+
+
+};
+
+
+}
+}
+
+
+#endif

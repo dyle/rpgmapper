@@ -44,6 +44,9 @@ namespace rpgmapper {
 namespace model {
 
 
+class Atlas;
+
+
 /**
  * A colletion of maps based on a name.
  *
@@ -52,7 +55,16 @@ namespace model {
 class Region : public Nameable {
 
 
+    friend class Atlas;
+
+
 public:
+
+
+    /**
+     * type of a region's ID
+     */
+    typedef int id_t;
 
 
     /**
@@ -100,6 +112,14 @@ public:
 
 
     /**
+     * return the id of the region
+     *
+     * @return  the id of the region
+     */
+    id_t id() const { return m_nId; }
+
+
+    /**
      * load the region from json
      *
      * @param   cJSON       the json instance to load from
@@ -108,11 +128,45 @@ public:
 
 
     /**
+     * get map by id
+     *
+     * @param   nId         id of the map to get
+     * @return  map instance
+     */
+    Map & map(Map::id_t nId);
+
+
+    /**
+     * get map by id
+     *
+     * @param   nId         id of the map to get
+     * @return  map instance
+     */
+    Map const & map(Map::id_t nId) const;
+
+
+    /**
      * return all the maps managed in this region
      *
      * @return  all maps of this region
      */
     Maps const & maps() const;
+
+
+    /**
+     * means to order this region among other regions
+     *
+     * @return  a value indicating the position of this region among others
+     */
+    int orderValue() const;
+
+
+    /**
+     * set the means to order this region among other regions
+     *
+     * @param   nOrderValue     a value indicating the position of this region among others
+     */
+    void orderValue(int nOrderValue);
 
 
     /**
@@ -132,6 +186,16 @@ private:
     void clear();
 
 
+    /**
+     * set a new id to the region
+     *
+     * @param   nId         the new id of the region
+     */
+    void id(id_t nId) { m_nId = nId; }
+
+
+    id_t m_nId;                                     /**< region id */
+
     class Region_data;                              /**< internal data type */
     std::shared_ptr<Region::Region_data> d;         /**< internal data instance */
 
@@ -139,9 +203,9 @@ private:
 
 
 /**
- * multiple regions indexed by a string (id)
+ * multiple regions
  */
-typedef std::map<unsigned int, Region> Regions;
+typedef std::map<Region::id_t, Region> Regions;
 
 
 }

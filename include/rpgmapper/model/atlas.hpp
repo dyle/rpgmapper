@@ -116,6 +116,24 @@ public:
 
 
     /**
+     * get region by id
+     *
+     * @param   nId         id of the region to get
+     * @return  region instance
+     */
+    Region & region(Region::id_t nId);
+
+
+    /**
+     * get region by id
+     *
+     * @param   nId         id of the region to get
+     * @return  region instance
+     */
+    Region const & region(Region::id_t nId) const;
+
+
+    /**
      * return all the regions managed by this atlas
      *
      * @return  all regions of this atlas

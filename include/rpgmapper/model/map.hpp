@@ -44,6 +44,9 @@ namespace rpgmapper {
 namespace model {
 
 
+class Region;
+
+
 /**
  * A single rpg Map.
  *
@@ -52,7 +55,16 @@ namespace model {
 class Map : public Nameable {
 
 
+    friend class Region;
+
+
 public:
+
+
+    /**
+     * type of a map's ID
+     */
+    typedef int id_t;
 
 
     /**
@@ -76,11 +88,35 @@ public:
 
 
     /**
+     * return the id of the map
+     *
+     * @return  the id of the map
+     */
+    id_t id() const { return m_nId; }
+
+
+    /**
      * load the map from json
      *
      * @param   cJSON       the json instance to load from
      */
     void load(QJsonObject const & cJSON);
+
+
+    /**
+     * means to order this map among other maps
+     *
+     * @return  a value indicating the position of this map among others
+     */
+    int orderValue() const;
+
+
+    /**
+     * set the means to order this map among other maps
+     *
+     * @param   nOrderValue     a value indicating the position of this maps among others
+     */
+    void orderValue(int nOrderValue);
 
 
     /**
@@ -100,15 +136,24 @@ private:
     void clear();
 
 
+    /**
+     * set a new id to the maps
+     *
+     * @param   nId         the new id of the map
+     */
+    void id(id_t nId) { m_nId = nId; }
+
+
+    id_t m_nId;                                 /**< map id */
     class Map_data;                             /**< internal data type */
     std::shared_ptr<Map::Map_data> d;           /**< internal data instance */
 };
 
 
 /**
- * multiple maps indexed by an string (id)
+ * multiple maps
  */
-typedef std::map<unsigned int, Map> Maps;
+typedef std::map<Map::id_t, Map> Maps;
 
 
 }

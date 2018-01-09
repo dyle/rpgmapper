@@ -43,11 +43,11 @@ class Region::Region_data {
 
 public:
 
-    Region_data() : m_nMapIdCounter(0) {
-    }
+    Region_data() = default;
 
     Maps m_cMaps;                       /**< all the maps managed by this region */
-    unsigned int m_nMapIdCounter;       /**< map id counter */
+    Map::id_t m_nMapIdCounter = 0;      /**< map id counter */
+    int m_nOrderValue = 0;              /**< means to order a region among others */
 };
 
 
@@ -151,6 +151,7 @@ Map & Region::createMap() {
 
     Map & cMap = d->m_cMaps[d->m_nMapIdCounter];
     cMap.name("New Map " + std::to_string(d->m_nMapIdCounter));
+    cMap.id(d->m_nMapIdCounter);
 
     return cMap;
 }
@@ -167,12 +168,49 @@ void Region::load(QJsonObject const & cJSON) {
 
     Nameable::load(cJSON);
 
+    if (cJSON.contains("id") && cJSON["id"].isDouble()) {
+        id(cJSON["id"].toInt());
+    }
+
+    if (cJSON.contains("orderValue") && cJSON["orderValue"].isDouble()) {
+        orderValue(cJSON["orderValue"].toInt());
+    }
+
     if (cJSON.contains("maps") && cJSON["maps"].isArray()) {
+
         QJsonArray cJSONMaps = cJSON["maps"].toArray();
         for (auto iter = cJSONMaps.begin(); iter != cJSONMaps.end(); ++iter) {
-            createMap().load((*iter).toObject());
+
+            Map cMap;
+            cMap.load((*iter).toObject());
+
+            auto nId = cMap.id();
+            d->m_cMaps.insert(std::make_pair(nId, std::move(cMap)));
+            d->m_nMapIdCounter = std::max<Map::id_t>(nId, d->m_nMapIdCounter);
         }
     }
+}
+
+
+/**
+ * get map by id
+ *
+ * @param   nId         id of the map to get
+ * @return  map instance
+ */
+Map & Region::map(Map::id_t nId) {
+    return d->m_cMaps[nId];
+}
+
+
+/**
+ * get map by id
+ *
+ * @param   nId         id of the map to get
+ * @return  map instance
+ */
+Map const & Region::map(Map::id_t nId) const {
+    return d->m_cMaps[nId];
 }
 
 
@@ -187,6 +225,30 @@ Maps const & Region::maps() const {
 
 
 /**
+ * means to order this region among other regions
+ *
+ * @return  a value indicating the position of this region among others
+ */
+int Region::orderValue() const {
+    return d->m_nOrderValue;
+}
+
+
+/**
+ * set the means to order this region among other regions
+ *
+ * @param   nOrderValue     a value indicating the position of this region among others
+ */
+void Region::orderValue(int nOrderValue) {
+    if (d->m_nOrderValue == nOrderValue) {
+        return;
+    }
+    d->m_nOrderValue = nOrderValue;
+    changed(true);
+}
+
+
+/**
  * save the region to json
  *
  * @param   cJSON       the json instance to save to
@@ -194,6 +256,9 @@ Maps const & Region::maps() const {
 void Region::save(QJsonObject & cJSON) const {
 
     Nameable::save(cJSON);
+
+    cJSON["id"] = id();
+    cJSON["orderValue"] = orderValue();
 
     QJsonArray cJSONMaps;
     for (auto const & cMap: d->m_cMaps) {

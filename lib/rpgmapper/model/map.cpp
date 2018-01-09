@@ -42,8 +42,9 @@ class Map::Map_data {
 
 public:
 
-    Map_data() {
-    }
+    Map_data() = default;
+
+    int m_nOrderValue = 0;              /**< means to order a map among others */
 
 };
 
@@ -98,8 +99,42 @@ Map Map::clone() const {
  * @param   cJSON       the json instance to load from
  */
 void Map::load(QJsonObject const & cJSON) {
+
     clear();
+
     Nameable::load(cJSON);
+
+    if (cJSON.contains("id") && cJSON["id"].isDouble()) {
+        id(cJSON["id"].toInt());
+    }
+
+    if (cJSON.contains("orderValue") && cJSON["orderValue"].isDouble()) {
+        orderValue(cJSON["orderValue"].toInt());
+    }
+}
+
+
+/**
+ * means to order this map among other maps
+ *
+ * @return  a value indicating the position of this map among others
+ */
+int Map::orderValue() const {
+    return d->m_nOrderValue;
+}
+
+
+/**
+ * set the means to order this map among other maps
+ *
+ * @param   nOrderValue     a value indicating the position of this maps among others
+ */
+void Map::orderValue(int nOrderValue) {
+    if (d->m_nOrderValue == nOrderValue) {
+        return;
+    }
+    d->m_nOrderValue = nOrderValue;
+    changed(true);
 }
 
 
@@ -109,5 +144,9 @@ void Map::load(QJsonObject const & cJSON) {
  * @param   cJSON       the json instance to save to
  */
 void Map::save(QJsonObject & cJSON) const {
+
     Nameable::save(cJSON);
+
+    cJSON["id"] = id();
+    cJSON["orderValue"] = orderValue();
 }

@@ -27,7 +27,6 @@
 
 // ------------------------------------------------------------
 
-#include <cassert>
 #include <iostream>
 
 #include <QJsonDocument>
@@ -42,11 +41,9 @@ using namespace rpgmapper::model;
 // code
 
 int test() {
-
+    // just dump the JSON string to stdout
     Atlas a;
-
-    std::cout << a.json() << std::endl;
-
+    std::cout << a.json(QJsonDocument::Compact) << std::endl;
     return 0;
 }
 

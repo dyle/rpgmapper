@@ -44,11 +44,10 @@ class Atlas::Atlas_data {
 
 public:
 
-    Atlas_data() : m_nRegionIdCounter(0) {
-    }
+    Atlas_data() = default;
 
-    Regions m_cRegions;                 /**< all the regions managed by this Atlas */
-    unsigned int m_nRegionIdCounter;    /**< region id counter */
+    Regions m_cRegions;                         /**< all the regions managed by this Atlas */
+    Region::id_t m_nRegionIdCounter = 0;        /**< region id counter */
 };
 
 
@@ -152,6 +151,7 @@ Region & Atlas::createRegion() {
     d->m_cRegions.emplace(d->m_nRegionIdCounter, Region());
 
     Region & cRegion = d->m_cRegions[d->m_nRegionIdCounter];
+    cRegion.id(d->m_nRegionIdCounter);
     cRegion.name("New Region " + std::to_string(d->m_nRegionIdCounter));
 
     return cRegion;
@@ -189,11 +189,39 @@ void Atlas::load(QJsonObject const & cJSON) {
 
         QJsonArray cJSONRegions = cJSON["regions"].toArray();
         for (auto iter = cJSONRegions.begin(); iter != cJSONRegions.end(); ++iter) {
-            createRegion().load((*iter).toObject());
+
+            Region cRegion;
+            cRegion.load((*iter).toObject());
+
+            auto nId = cRegion.id();
+            d->m_cRegions.insert(std::make_pair(nId, std::move(cRegion)));
+            d->m_nRegionIdCounter = std::max<Region::id_t>(nId, d->m_nRegionIdCounter);
         }
     }
 
     changedAccumulated(false);
+}
+
+
+/**
+ * get region by id
+ *
+ * @param   nId         id of the region to get
+ * @return  region instance
+ */
+Region & Atlas::region(Region::id_t nId) {
+    return d->m_cRegions[nId];
+}
+
+
+/**
+ * get region by id
+ *
+ * @param   nId         id of the region to get
+ * @return  region instance
+ */
+Region const & Atlas::region(Region::id_t nId) const {
+    return d->m_cRegions[nId];
 }
 
 

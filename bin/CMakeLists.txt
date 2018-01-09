@@ -44,7 +44,9 @@ set(RPGMAPPER_SRC
     main.cpp
 
     model/atlas.cpp
+    model/changeable.cpp
     model/map.cpp
+    model/nameable.cpp
     model/region.cpp
 
     view/mainwindow.cpp

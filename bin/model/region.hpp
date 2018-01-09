@@ -25,6 +25,18 @@
 
 
 // ------------------------------------------------------------
+// incs
+
+#include <map>
+#include <memory>
+#include <string>
+
+// rpgmapper
+#include "nameable.hpp"
+#include "map.hpp"
+
+
+// ------------------------------------------------------------
 // decl
 
 
@@ -33,18 +45,65 @@ namespace model {
 
 
 /**
- * a colletion of maps based on a name
+ * A colletion of maps based on a name.
+ *
+ * Note: copy an Region instance is shallow. For a deep copy use the "clone()" method.
  */
-class Region {
+class Region : public Nameable {
 
 
 public:
 
 
-    Region() = default;
+    /**
+     * ctor
+     */
+    Region();
 
+
+    /**
+     * dtor
+     */
+    virtual ~Region();
+
+
+    /**
+     * make a deep copy of this Atlas
+     *
+     * @return  a new deep copied instance
+     */
+    Region clone() const;
+
+
+    /**
+     * Creates a new Map to this region
+     *
+     * @return  a reference to the new Map
+     */
+    Map & createMap();
+
+
+    /**
+     * return all the maps managed in this region
+     *
+     * @return  all maps of this region
+     */
+    Maps const & maps() const;
+
+
+private:
+
+
+    class Region_data;                              /**< internal data type */
+    std::shared_ptr<Region::Region_data> d;         /**< internal data instance */
 
 };
+
+
+/**
+ * multiple regions indexed by a string (id)
+ */
+typedef std::map<unsigned int, Region> Regions;
 
 
 }

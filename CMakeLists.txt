@@ -17,11 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # ------------------------------------------------------------
 
-# project data
 project(rpgmapper C CXX)
 cmake_minimum_required(VERSION 2.8.9)
 
-# load necessary basic cmake modules
+enable_testing()
+
 include(CheckIncludeFile)
 include(CheckIncludeFileCXX)
 include(CheckIncludeFiles)
@@ -30,7 +30,7 @@ include(FindPkgConfig)
 
 
 # ------------------------------------------------------------
-# set global compiler flags
+# global compiler flags
 
 set(VERSION "0.1")
 add_definitions(-DVERSION=\"${VERSION}\")
@@ -38,10 +38,8 @@ add_definitions(-D_DEFAULT_SOURCE)
 
 # set compile flags
 if (CMAKE_COMPILER_IS_GNUCC)
-
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -Werror -Wall -Wextra -pedantic -g -ggdb3 -rdynamic -fPIC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Werror -Wall -Wextra -pedantic -g -ggdb3 -rdynamic -fPIC")
-
 endif (CMAKE_COMPILER_IS_GNUCC)
 
 # set compile flags: clang
@@ -129,7 +127,6 @@ include_directories(${Qt5Widgets_INCLUDE_DIRS})
 # ------------------------------------------------------------
 # dump the config file
 
-# create the config.h and baseinc.h
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QUAZIP_INCLUDE})
 
@@ -138,6 +135,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QUAZIP_INCLUDE})
 # go through the subs
 
 add_subdirectory(bin)
+add_subdirectory(test)
 
 
 # ------------------------------------------------------------

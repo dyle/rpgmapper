@@ -25,6 +25,16 @@
 
 
 // ------------------------------------------------------------
+// incs
+
+#include <memory>
+
+// rpgmapper
+#include "nameable.hpp"
+#include "region.hpp"
+
+
+// ------------------------------------------------------------
 // decl
 
 
@@ -33,9 +43,11 @@ namespace model {
 
 
 /**
- * a single atlas holds regions with maps each
+ * A single atlas holds regions with maps each.
+ *
+ * Note: copy an Atlas instance is shallow. For a deep copy use the "clone()" method.
  */
-class Atlas {
+class Atlas : public Nameable {
 
 
 public:
@@ -44,8 +56,58 @@ public:
     /**
      * ctor
      */
-    Atlas() = default;
+    Atlas();
 
+
+    /**
+     * dtor
+     */
+    virtual ~Atlas();
+
+
+    /**
+     * make a deep copy of this Atlas
+     *
+     * @return  a new deep copied instance
+     */
+    Atlas clone() const;
+
+
+    /**
+     * Creates a new region to this atlas
+     *
+     * @return  a reference to the new region
+     */
+    Region & createRegion();
+
+
+    /**
+     * Check if the data needs to be saved.
+     *
+     * @return  true, if the data has to be saved.
+      */
+    bool needSave() const;
+
+
+    /**
+     * return all the regions managed in this region
+     *
+     * @return  all regions of this region
+     */
+    Regions const & regions() const;
+
+
+    /**
+     * Enforce that no save is yet needed.
+      */
+    void resetSave();
+
+
+private:
+
+
+    class Atlas_data;                               /**< internal data type */
+    std::shared_ptr<Atlas::Atlas_data> d;           /**< internal data instance */
 
 };
 

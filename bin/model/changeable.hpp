@@ -1,7 +1,7 @@
 /*
- * map.h
+ * changeable.h
  *
- * A single RPG map
+ * A changeable object knows, if its data has been changed.
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -20,20 +20,8 @@
  */
 
 
-#ifndef MODEL_MAP_H
-#define MODEL_MAP_H
-
-
-// ------------------------------------------------------------
-// incs
-
-
-#include <map>
-#include <memory>
-#include <string>
-
-// rpgmapper
-#include "nameable.hpp"
+#ifndef MODEL_CHANGEABLE_H
+#define MODEL_CHANGEABLE_H
 
 
 // ------------------------------------------------------------
@@ -45,11 +33,9 @@ namespace model {
 
 
 /**
- * A single rpg Map.
- *
- * Note: copy an Map instance is shallow. For a deep copy use the "clone()" method.
+ * A changable object knows if its inner state has been changed.
  */
-class Map : public Nameable {
+class Changeable {
 
 
 public:
@@ -58,35 +44,37 @@ public:
     /**
      * ctor
      */
-    Map();
+    Changeable();
 
 
     /**
      * dtor
      */
-    virtual ~Map();
+    virtual ~Changeable();
 
 
     /**
-     * make a deep copy of this Map
+     * state if the object instance data has changed
      *
-     * @return  a new deep copied instance
+     * @return  true if the object instance data has changed
      */
-    Map clone() const;
+    bool changed() const;
+
+
+    /**
+     * set the object instance data changed flag
+     *
+     * @param   bChanged        the new object instance data changed flag
+     */
+    void changed(bool bChanged);
 
 
 private:
 
 
-    class Map_data;                             /**< internal data type */
-    std::shared_ptr<Map::Map_data> d;           /**< internal data instance */
+    bool m_bChanged;
+
 };
-
-
-/**
- * multiple maps indexed by an string (id)
- */
-typedef std::map<unsigned int, Map> Maps;
 
 
 }

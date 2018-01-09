@@ -1,7 +1,7 @@
 /*
- * map.cpp
+ * changeable.cpp
  *
- * A RPG map
+ * A changeable object knows, if its data has been changed.
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -20,38 +20,14 @@
  */
 
 
-// ------------------------------------------------------------
-// incs
+ // ------------------------------------------------------------
+ // incs
 
-// rpgmapper
-#include "map.hpp"
+ // rpgmappger
+ #include "common_macros.h"
+ #include "changeable.hpp"
 
-
-using namespace rpgmapper::model;
-
-
-// ------------------------------------------------------------
-// decl
-
-namespace rpgmapper {
-namespace model {
-
-
-/**
- * Internal data of a Map object.
- */
-class Map::Map_data {
-
-public:
-
-    Map_data() {
-    }
-
-};
-
-
-}
-}
+ using namespace rpgmapper::model;
 
 
 // ------------------------------------------------------------
@@ -61,13 +37,32 @@ public:
 /**
  * ctor
  */
-Map::Map() : Nameable() {
-    d = std::shared_ptr<Map::Map_data>(new Map::Map_data());
+Changeable::Changeable() : m_bChanged(false) {
 }
 
 
 /**
  * dtor
  */
-Map::~Map() {
+Changeable::~Changeable() {
+}
+
+
+/**
+ * state if the object instance data has changed
+ *
+ * @return  true if the object instance  data has changed
+ */
+bool Changeable::changed() const {
+    return m_bChanged;
+}
+
+
+/**
+ * set the object instance  data changed flag
+ *
+ * @param   bChanged        the new object instance  data changed flag
+ */
+void Changeable::changed(bool bChanged) {
+    m_bChanged = bChanged;
 }

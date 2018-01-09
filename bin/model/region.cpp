@@ -30,4 +30,84 @@ using namespace rpgmapper::model;
 
 
 // ------------------------------------------------------------
+// decl
+
+namespace rpgmapper {
+namespace model {
+
+
+/**
+ * Internal data of a Region object.
+ */
+class Region::Region_data {
+
+public:
+
+    Region_data() : m_nMapIdCounter(0) {
+    }
+
+    Maps m_cMaps;                       /**< all the maps managed by this region */
+    unsigned int m_nMapIdCounter;       /**< map id counter */
+};
+
+
+}
+}
+
+
+// ------------------------------------------------------------
 // code
+
+
+/**
+ * ctor
+ */
+Region::Region() : Nameable() {
+    d = std::shared_ptr<Region::Region_data>(new Region::Region_data());
+    name("New region");
+}
+
+
+/**
+ * dtor
+ */
+Region::~Region() {
+}
+
+
+/**
+ * make a deep copy of this Region
+ *
+ * @return  a new deep copied instance
+ */
+Region Region::clone() const {
+    // TODO
+    return Region();
+}
+
+
+/**
+ * Creates a new Map to this region
+ *
+ * @return  a reference to the new Map
+ */
+Map & Region::createMap() {
+
+    d->m_nMapIdCounter += 1;
+    d->m_cMaps.emplace(d->m_nMapIdCounter, Map());
+
+    Map & Map = d->m_cMaps[d->m_nMapIdCounter];
+    Map.name("New Map " + std::to_string(d->m_nMapIdCounter));
+
+    return Map;
+}
+
+
+/**
+ * return all the maps managed in this region
+ *
+ * @return  all maps of this region
+ */
+Maps const & Region::maps() const {
+    return d->m_cMaps;
+}

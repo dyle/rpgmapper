@@ -1,7 +1,7 @@
 /*
- * map.h
+ * nameable.h
  *
- * A single RPG map
+ * A nameable object knows its name
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -20,20 +20,18 @@
  */
 
 
-#ifndef MODEL_MAP_H
-#define MODEL_MAP_H
+#ifndef MODEL_NAMEABLE_H
+#define MODEL_NAMEABLE_H
 
 
 // ------------------------------------------------------------
 // incs
 
 
-#include <map>
-#include <memory>
 #include <string>
 
 // rpgmapper
-#include "nameable.hpp"
+#include "changeable.hpp"
 
 
 // ------------------------------------------------------------
@@ -45,11 +43,9 @@ namespace model {
 
 
 /**
- * A single rpg Map.
- *
- * Note: copy an Map instance is shallow. For a deep copy use the "clone()" method.
+ * A nameable object knows its name
  */
-class Map : public Nameable {
+class Nameable : public Changeable {
 
 
 public:
@@ -58,35 +54,37 @@ public:
     /**
      * ctor
      */
-    Map();
+    Nameable();
 
 
     /**
      * dtor
      */
-    virtual ~Map();
+    virtual ~Nameable();
 
 
     /**
-     * make a deep copy of this Map
+     * Get the name.
      *
-     * @return  a new deep copied instance
+     * @return  the name
      */
-    Map clone() const;
+    std::string const & name() const;
+
+
+    /**
+     * Set the name.
+     *
+     * @param   sName       the new name
+     */
+    void name(std::string sName);
 
 
 private:
 
 
-    class Map_data;                             /**< internal data type */
-    std::shared_ptr<Map::Map_data> d;           /**< internal data instance */
+    std::string m_sName;
+
 };
-
-
-/**
- * multiple maps indexed by an string (id)
- */
-typedef std::map<unsigned int, Map> Maps;
 
 
 }

@@ -1,8 +1,6 @@
 /*
  * map.cpp
  *
- * A RPG map
- *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify

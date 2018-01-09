@@ -1,7 +1,5 @@
 /*
- * atlas.h
- *
- * A RPG atlas
+ * atlas.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *

@@ -1,7 +1,5 @@
 /*
- * region.h
- *
- * A collection of maps
+ * region.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *

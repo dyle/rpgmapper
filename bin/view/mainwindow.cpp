@@ -1,7 +1,5 @@
 /*
- * MainWindow.cpp
- *
- * Main window for the RPGMapper
+ * mainwindow.cpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *

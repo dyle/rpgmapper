@@ -1,7 +1,5 @@
 /*
- * nameable.h
- *
- * A nameable object knows its name
+ * nameable.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *

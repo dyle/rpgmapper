@@ -1,8 +1,6 @@
 /*
  * changeable.cpp
  *
- * A changeable object knows, if its data has been changed.
- *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify

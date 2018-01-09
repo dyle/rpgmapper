@@ -1,7 +1,5 @@
 /*
- * test_changeable.cpp
- *
- * This the Changeable object.
+ * test_atlas_changeable.cpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *

@@ -1,5 +1,5 @@
 /*
- * test_nameable.cpp
+ * test_atlas_clone.cpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -29,9 +29,10 @@
 
 #include <cassert>
 #include <iostream>
+#include <vector>
 
 // rpgmapper
-#include <rpgmapper/model/nameable.hpp>
+#include <rpgmapper/model/atlas.hpp>
 
 using namespace rpgmapper::model;
 
@@ -41,13 +42,12 @@ using namespace rpgmapper::model;
 
 int test() {
 
-    Nameable n;
-    assert(n.changed() == false);
-    assert(n.name() == "");
+    Atlas a1;
+    a1.name("Atlas a1");
+    a1.createRegion().name("Region a1.r1");
 
-    n.name("foo");
-    assert(n.changed() == true);
-    assert(n.name() == "foo");
+    Atlas a2 = a1.clone();
+    assert(a2.name() == "Atlas a1");
 
     return 0;
 }

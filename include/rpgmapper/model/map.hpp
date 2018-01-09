@@ -1,7 +1,5 @@
 /*
- * map.h
- *
- * A single RPG map
+ * map.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *

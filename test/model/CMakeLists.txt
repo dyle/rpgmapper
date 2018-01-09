@@ -29,3 +29,10 @@ set(TEST_ATLAS_CHANGEABLE_SRC                   test_atlas_changeable.cpp)
 add_executable(test_atlas_changeable            ${TEST_ATLAS_CHANGEABLE_SRC})
 target_link_libraries(test_atlas_changeable     rpgmapper_model  ${CMAKE_REQUIRED_LIBRARIES})
 add_test(model/atlas_changeable                 test_atlas_changeable)
+
+
+# test: Atlas Cloning
+set(TEST_ATLAS_CLONE_SRC                        test_atlas_clone.cpp)
+add_executable(test_atlas_clone                 ${TEST_ATLAS_CLONE_SRC})
+target_link_libraries(test_atlas_clone          rpgmapper_model  ${CMAKE_REQUIRED_LIBRARIES})
+add_test(model/atlas_clone                      test_atlas_clone)

@@ -110,8 +110,15 @@ void Region::changedAccumulated(bool bChanged) {
  * @return  a new deep copied instance
  */
 Region Region::clone() const {
-    // TODO
-    return Region();
+
+    Region r;
+
+    r.name(name());
+    for (auto const & m: d->m_cMaps) {
+        r.createMap() = m.second.clone();
+    }
+
+    return r;
 }
 
 

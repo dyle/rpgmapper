@@ -69,3 +69,15 @@ Map::Map() : Nameable() {
  */
 Map::~Map() {
 }
+
+
+/**
+ * make a deep copy of this Map
+ *
+ * @return  a new deep copied instance
+ */
+Map Map::clone() const {
+    Map m;
+    m.name(name());
+    return m;
+}

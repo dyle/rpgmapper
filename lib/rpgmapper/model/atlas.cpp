@@ -111,8 +111,15 @@ void Atlas::changedAccumulated(bool bChanged) {
  * @return  a new deep copied instance
  */
 Atlas Atlas::clone() const {
-    // TODO
-    return Atlas();
+
+    Atlas a;
+
+    a.name(name());
+    for (auto const & r: d->m_cRegions) {
+        a.createRegion() = r.second.clone();
+    }
+
+    return a;
 }
 
 

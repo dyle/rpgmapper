@@ -36,3 +36,10 @@ set(TEST_ATLAS_CLONE_SRC                        test_atlas_clone.cpp)
 add_executable(test_atlas_clone                 ${TEST_ATLAS_CLONE_SRC})
 target_link_libraries(test_atlas_clone          rpgmapper_model  ${CMAKE_REQUIRED_LIBRARIES})
 add_test(model/atlas_clone                      test_atlas_clone)
+
+
+# test: Atlas JSON
+set(TEST_ATLAS_JSON_SRC                         test_atlas_json.cpp)
+add_executable(test_atlas_json                  ${TEST_ATLAS_JSON_SRC})
+target_link_libraries(test_atlas_json           rpgmapper_model  ${CMAKE_REQUIRED_LIBRARIES})
+add_test(model/atlas_json                       test_atlas_json)

@@ -30,6 +30,8 @@
 #include <memory>
 #include <string>
 
+#include <QJsonObject>
+
 // rpgmapper
 #include "nameable.hpp"
 
@@ -73,7 +75,29 @@ public:
     Map clone() const;
 
 
+    /**
+     * load the map from json
+     *
+     * @param   cJSON       the json instance to load from
+     */
+    void load(QJsonObject const & cJSON);
+
+
+    /**
+     * save the map to json
+     *
+     * @param   cJSON       the json instance to save to
+     */
+    void save(QJsonObject & cJSON) const;
+
+
 private:
+
+
+    /**
+     * reset the map to empty state
+     */
+    void clear();
 
 
     class Map_data;                             /**< internal data type */

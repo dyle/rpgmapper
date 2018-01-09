@@ -29,6 +29,8 @@
 #include <memory>
 #include <string>
 
+#include <QJsonObject>
+
 // rpgmapper
 #include "nameable.hpp"
 #include "map.hpp"
@@ -82,7 +84,7 @@ public:
 
 
     /**
-     * make a deep copy of this Atlas
+     * make a deep copy of this region
      *
      * @return  a new deep copied instance
      */
@@ -98,6 +100,14 @@ public:
 
 
     /**
+     * load the region from json
+     *
+     * @param   cJSON       the json instance to load from
+     */
+    void load(QJsonObject const & cJSON);
+
+
+    /**
      * return all the maps managed in this region
      *
      * @return  all maps of this region
@@ -105,7 +115,21 @@ public:
     Maps const & maps() const;
 
 
+    /**
+     * save the region to json
+     *
+     * @param   cJSON       the json instance to save to
+     */
+    void save(QJsonObject & cJSON) const;
+
+
 private:
+
+
+    /**
+     * reset the region to empty state
+     */
+    void clear();
 
 
     class Region_data;                              /**< internal data type */

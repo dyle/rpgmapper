@@ -47,6 +47,18 @@ Nameable::~Nameable() {
 
 
 /**
+ * load the name from json
+ *
+ * @param   cJSON       the json instance to load from
+ */
+void Nameable::load(QJsonObject const & cJSON) {
+    if (cJSON.contains("name") && cJSON["name"].isString()) {
+        name(cJSON["name"].toString().toStdString());
+    }
+}
+
+
+/**
  * Get the name.
  *
  * @return  the name
@@ -66,4 +78,14 @@ void Nameable::name(std::string sName) {
         m_sName = sName;
         changed(true);
     }
+}
+
+
+/**
+ * save the name to json
+ *
+ * @param   cJSON       the json instance to save to
+ */
+void Nameable::save(QJsonObject & cJSON) const {
+    cJSON["name"] = QString::fromStdString(name());
 }

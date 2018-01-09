@@ -72,12 +72,42 @@ Map::~Map() {
 
 
 /**
+ * reset the region to empty state
+ */
+void Map::clear() {
+    name("");
+    changed(true);
+}
+
+
+/**
  * make a deep copy of this Map
  *
  * @return  a new deep copied instance
  */
 Map Map::clone() const {
-    Map m;
-    m.name(name());
-    return m;
+    Map cMap;
+    cMap.name(name());
+    return cMap;
+}
+
+
+/**
+ * load the map from json
+ *
+ * @param   cJSON       the json instance to load from
+ */
+void Map::load(QJsonObject const & cJSON) {
+    clear();
+    Nameable::load(cJSON);
+}
+
+
+/**
+ * save the map to json
+ *
+ * @param   cJSON       the json instance to save to
+ */
+void Map::save(QJsonObject & cJSON) const {
+    Nameable::save(cJSON);
 }

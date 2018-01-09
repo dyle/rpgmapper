@@ -21,6 +21,8 @@
 // ------------------------------------------------------------
 // incs
 
+#include <QJsonArray>
+
 // rpgmapper
 #include <rpgmapper/model/region.hpp>
 
@@ -62,7 +64,8 @@ public:
  */
 Region::Region() : Nameable() {
     d = std::shared_ptr<Region::Region_data>(new Region::Region_data());
-    name("New region");
+    name("New Region");
+    createMap();
 }
 
 
@@ -79,14 +82,17 @@ Region::~Region() {
  * @return  true if the region or any dependend object changed.
  */
 bool Region::changedAccumulated() const {
+
     if (changed()) {
         return true;
     }
-    for (auto const & map: d->m_cMaps) {
-        if (map.second.changedAccumulated()) {
+
+    for (auto const & cMap: d->m_cMaps) {
+        if (cMap.second.changedAccumulated()) {
             return true;
         }
     }
+
     return false;
 }
 
@@ -98,9 +104,20 @@ bool Region::changedAccumulated() const {
  */
 void Region::changedAccumulated(bool bChanged) {
     changed(bChanged);
-    for (auto & map: d->m_cMaps) {
-        map.second.changedAccumulated(bChanged);
+    for (auto & cMap: d->m_cMaps) {
+        cMap.second.changedAccumulated(bChanged);
     }
+}
+
+
+/**
+ * reset the region to empty state
+ */
+void Region::clear() {
+    name("");
+    d->m_cMaps.clear();
+    d->m_nMapIdCounter = 0;
+    changed(true);
 }
 
 
@@ -111,14 +128,14 @@ void Region::changedAccumulated(bool bChanged) {
  */
 Region Region::clone() const {
 
-    Region r;
+    Region cRegion;
 
-    r.name(name());
-    for (auto const & m: d->m_cMaps) {
-        r.createMap() = m.second.clone();
+    cRegion.name(name());
+    for (auto const & cMap: d->m_cMaps) {
+        cRegion.createMap() = cMap.second.clone();
     }
 
-    return r;
+    return cRegion;
 }
 
 
@@ -132,10 +149,30 @@ Map & Region::createMap() {
     d->m_nMapIdCounter += 1;
     d->m_cMaps.emplace(d->m_nMapIdCounter, Map());
 
-    Map & Map = d->m_cMaps[d->m_nMapIdCounter];
-    Map.name("New Map " + std::to_string(d->m_nMapIdCounter));
+    Map & cMap = d->m_cMaps[d->m_nMapIdCounter];
+    cMap.name("New Map " + std::to_string(d->m_nMapIdCounter));
 
-    return Map;
+    return cMap;
+}
+
+
+/**
+ * load the region from json
+ *
+ * @param   cJSON       the json instance to load from
+ */
+void Region::load(QJsonObject const & cJSON) {
+
+    clear();
+
+    Nameable::load(cJSON);
+
+    if (cJSON.contains("maps") && cJSON["maps"].isArray()) {
+        QJsonArray cJSONMaps = cJSON["maps"].toArray();
+        for (auto iter = cJSONMaps.begin(); iter != cJSONMaps.end(); ++iter) {
+            createMap().load((*iter).toObject());
+        }
+    }
 }
 
 
@@ -146,4 +183,23 @@ Map & Region::createMap() {
  */
 Maps const & Region::maps() const {
     return d->m_cMaps;
+}
+
+
+/**
+ * save the region to json
+ *
+ * @param   cJSON       the json instance to save to
+ */
+void Region::save(QJsonObject & cJSON) const {
+
+    Nameable::save(cJSON);
+
+    QJsonArray cJSONMaps;
+    for (auto const & cMap: d->m_cMaps) {
+        QJsonObject jo;
+        cMap.second.save(jo);
+        cJSONMaps.append(jo);
+    }
+    cJSON["maps"] = cJSONMaps;
 }

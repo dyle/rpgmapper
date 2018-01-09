@@ -27,6 +27,7 @@
 
 #include <memory>
 
+#include <QJsonDocument>
 #include <QJsonObject>
 
 // rpgmapper
@@ -98,6 +99,15 @@ public:
 
 
     /**
+     * create a json string form this Atlas
+     *
+     * @param   eJsonFormat     the format for representation
+     * @return  a striing holding the atlas in json format
+     */
+    std::string json(QJsonDocument::JsonFormat eJsonFormat = QJsonDocument::Indented) const;
+
+
+    /**
      * load the atlas from json
      *
      * @param   cJSON       the json instance to load from
@@ -106,9 +116,9 @@ public:
 
 
     /**
-     * return all the regions managed in this region
+     * return all the regions managed by this atlas
      *
-     * @return  all regions of this region
+     * @return  all regions of this atlas
      */
     Regions const & regions() const;
 
@@ -122,6 +132,12 @@ public:
 
 
 private:
+
+
+    /**
+     * reset the atlas to empty state
+     */
+    void clear();
 
 
     class Atlas_data;                               /**< internal data type */

@@ -21,6 +21,8 @@
 // ------------------------------------------------------------
 // incs
 
+#include <QJsonArray>
+
 // rpgmappger
 #include <rpgmapper/common_macros.h>
 #include <rpgmapper/model/atlas.hpp>
@@ -63,7 +65,8 @@ public:
  */
 Atlas::Atlas() : Nameable() {
     d = std::shared_ptr<Atlas::Atlas_data>(new Atlas::Atlas_data);
-    name("New atlas");
+    name("New Atlas");
+    createRegion();
 }
 
 
@@ -80,14 +83,17 @@ Atlas::~Atlas() {
  * @return  true if the atlas or any dependend object changed.
  */
 bool Atlas::changedAccumulated() const {
+
     if (changed()) {
         return true;
     }
-    for (auto const & region: d->m_cRegions) {
-        if (region.second.changedAccumulated()) {
+
+    for (auto const & cRegion: d->m_cRegions) {
+        if (cRegion.second.changedAccumulated()) {
             return true;
         }
     }
+
     return false;
 }
 
@@ -98,10 +104,22 @@ bool Atlas::changedAccumulated() const {
  * @param   bChanged        the new changed information
  */
 void Atlas::changedAccumulated(bool bChanged) {
+
     changed(bChanged);
-    for (auto & region: d->m_cRegions) {
-        region.second.changedAccumulated(bChanged);
+    for (auto & cRegion: d->m_cRegions) {
+        cRegion.second.changedAccumulated(bChanged);
     }
+}
+
+
+/**
+ * reset the atlas to empty state
+ */
+void Atlas::clear() {
+    name("");
+    d->m_cRegions.clear();
+    d->m_nRegionIdCounter = 0;
+    changed(true);
 }
 
 
@@ -112,14 +130,14 @@ void Atlas::changedAccumulated(bool bChanged) {
  */
 Atlas Atlas::clone() const {
 
-    Atlas a;
+    Atlas cAtlas;
 
-    a.name(name());
-    for (auto const & r: d->m_cRegions) {
-        a.createRegion() = r.second.clone();
+    cAtlas.name(name());
+    for (auto const & cRegion: d->m_cRegions) {
+        cAtlas.createRegion() = cRegion.second.clone();
     }
 
-    return a;
+    return cAtlas;
 }
 
 
@@ -133,10 +151,26 @@ Region & Atlas::createRegion() {
     d->m_nRegionIdCounter += 1;
     d->m_cRegions.emplace(d->m_nRegionIdCounter, Region());
 
-    Region & region = d->m_cRegions[d->m_nRegionIdCounter];
-    region.name("New Region " + std::to_string(d->m_nRegionIdCounter));
+    Region & cRegion = d->m_cRegions[d->m_nRegionIdCounter];
+    cRegion.name("New Region " + std::to_string(d->m_nRegionIdCounter));
 
-    return region;
+    return cRegion;
+}
+
+
+/**
+ * create a json string form this Atlas
+ *
+ * @param   eJsonFormat     the format for representation
+ * @return  a striing holding the atlas in json format
+ */
+std::string Atlas::json(QJsonDocument::JsonFormat eJsonFormat) const {
+
+    QJsonObject cJSON;
+    save(cJSON);
+
+    QJsonDocument cJSONDoc(cJSON);
+    return std::string(cJSONDoc.toJson(eJsonFormat).data());
 }
 
 
@@ -147,16 +181,26 @@ Region & Atlas::createRegion() {
  */
 void Atlas::load(QJsonObject const & cJSON) {
 
-    if (cJSON.contains("name") && cJSON["name"].isString()) {
-        name(cJSON["name"].toString().toStdString());
+    clear();
+
+    Nameable::load(cJSON);
+
+    if (cJSON.contains("regions") && cJSON["regions"].isArray()) {
+
+        QJsonArray cJSONRegions = cJSON["regions"].toArray();
+        for (auto iter = cJSONRegions.begin(); iter != cJSONRegions.end(); ++iter) {
+            createRegion().load((*iter).toObject());
+        }
     }
+
+    changedAccumulated(false);
 }
 
 
 /**
- * return all the regions managed in this region
+ * return all the regions managed by this atlas
  *
- * @return  all regions of this region
+ * @return  all regions of this atlas
  */
 Regions const & Atlas::regions() const {
     return d->m_cRegions;
@@ -169,5 +213,14 @@ Regions const & Atlas::regions() const {
  * @param   cJSON       the json instance to save to
  */
 void Atlas::save(QJsonObject & cJSON) const {
-    cJSON["name"] = QString::fromStdString(name());
+
+    Nameable::save(cJSON);
+
+    QJsonArray cJSONRegions;
+    for (auto const & cRegion: d->m_cRegions) {
+        QJsonObject jo;
+        cRegion.second.save(jo);
+        cJSONRegions.append(jo);
+    }
+    cJSON["regions"] = cJSONRegions;
 }

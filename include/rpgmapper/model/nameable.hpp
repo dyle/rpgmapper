@@ -28,6 +28,8 @@
 
 #include <string>
 
+#include <QJsonObject>
+
 // rpgmapper
 #include "changeable.hpp"
 
@@ -62,6 +64,14 @@ public:
 
 
     /**
+     * load the name from json
+     *
+     * @param   cJSON       the json instance to load from
+     */
+    void load(QJsonObject const & cJSON);
+
+
+    /**
      * Get the name.
      *
      * @return  the name
@@ -75,6 +85,14 @@ public:
      * @param   sName       the new name
      */
     void name(std::string sName);
+
+
+    /**
+     * save the name to json
+     *
+     * @param   cJSON       the json instance to save to
+     */
+    void save(QJsonObject & cJSON) const;
 
 
 private:

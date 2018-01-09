@@ -29,7 +29,7 @@
 #include <QSettings>
 
 // rpgmapper
-#include "common_macros.h"
+#include <rpgmapper/common_macros.h>
 
 #include "mainwindow.hpp"
 

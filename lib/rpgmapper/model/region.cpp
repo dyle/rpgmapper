@@ -24,7 +24,7 @@
 // incs
 
 // rpgmapper
-#include "region.hpp"
+#include <rpgmapper/model/region.hpp>
 
 using namespace rpgmapper::model;
 
@@ -72,6 +72,37 @@ Region::Region() : Nameable() {
  * dtor
  */
 Region::~Region() {
+}
+
+
+/**
+ * check if the region or any aggregated objects changed.
+ *
+ * @return  true if the region or any dependend object changed.
+ */
+bool Region::changedAccumulated() const {
+    if (changed()) {
+        return true;
+    }
+    for (auto const & map: d->m_cMaps) {
+        if (map.second.changedAccumulated()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+/**
+ * set the change flag of the region and any dependend objects
+ *
+ * @param   bChanged        the new changed information
+ */
+void Region::changedAccumulated(bool bChanged) {
+    changed(bChanged);
+    for (auto & map: d->m_cMaps) {
+        map.second.changedAccumulated(bChanged);
+    }
 }
 
 

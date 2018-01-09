@@ -24,8 +24,8 @@
 // incs
 
 // rpgmappger
-#include "common_macros.h"
-#include "atlas.hpp"
+#include <rpgmapper/common_macros.h>
+#include <rpgmapper/model/atlas.hpp>
 
 using namespace rpgmapper::model;
 
@@ -77,6 +77,37 @@ Atlas::~Atlas() {
 
 
 /**
+ * check if the atlas or any aggregated objects changed.
+ *
+ * @return  true if the atlas or any dependend object changed.
+ */
+bool Atlas::changedAccumulated() const {
+    if (changed()) {
+        return true;
+    }
+    for (auto const & region: d->m_cRegions) {
+        if (region.second.changedAccumulated()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+/**
+ * set the change flag of the atlas and any dependend objects
+ *
+ * @param   bChanged        the new changed information
+ */
+void Atlas::changedAccumulated(bool bChanged) {
+    changed(bChanged);
+    for (auto & region: d->m_cRegions) {
+        region.second.changedAccumulated(bChanged);
+    }
+}
+
+
+/**
  * make a deep copy of this Atlas
  *
  * @return  a new deep copied instance
@@ -105,58 +136,10 @@ Region & Atlas::createRegion() {
 
 
 /**
- * Check if the data needs to be saved.
- *
- * @return  true, if the data has to be saved.
-  */
-bool Atlas::needSave() const {
-
-    // a save is needed if at least a single data
-    // particle has been changed
-
-    if (changed()) {
-        return true;
-    }
-
-    for (auto const & region: regions()) {
-
-        if (region.second.changed()) {
-            return true;
-        }
-
-        for (auto const & map: region.second.maps()) {
-            if (map.second.changed()) {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-
-/**
  * return all the regions managed in this region
  *
  * @return  all regions of this region
  */
 Regions const & Atlas::regions() const {
     return d->m_cRegions;
-}
-
-
-/**
- * Enforce that no save is yet needed.
- */
-void Atlas::resetSave() {
-
-    // a save is needed, when at least a single
-    // data particle has changed
-    // TODO
-    // for (auto & region: d->m_cRegions()) {
-    //     region.second.changed(false);
-    //     for (auto & map: region.second.maps()) {
-    //         map.second.changed(false);
-    //     }
-    // }
 }

@@ -34,7 +34,7 @@
 #include <vector>
 
 // rpgmapper
-#include "model/changeable.hpp"
+#include <rpgmapper/model/changeable.hpp>
 
 using namespace rpgmapper::model;
 

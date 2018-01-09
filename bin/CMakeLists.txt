@@ -18,7 +18,7 @@
 # ------------------------------------------------------------
 
 # additional includes
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 # Qt resources
 set(RPGMAPPER_RCC
@@ -43,12 +43,6 @@ set(RPGMAPPER_SRC
 
     main.cpp
 
-    model/atlas.cpp
-    model/changeable.cpp
-    model/map.cpp
-    model/nameable.cpp
-    model/region.cpp
-
     view/mainwindow.cpp
 )
 
@@ -56,7 +50,7 @@ set(RPGMAPPER_SRC
 add_executable(rpgmapper ${RPGMAPPER_SRC} ${RPGMAPPER_MOC_CPP} ${RPGMAPPER_RES} ${RPGMAPPER_UI_H})
 
 # linkage
-target_link_libraries(rpgmapper ${CMAKE_REQUIRED_LIBRARIES} Qt5::Core Qt5::Widgets)
+target_link_libraries(rpgmapper rpgmapper_model ${CMAKE_REQUIRED_LIBRARIES} Qt5::Core Qt5::Widgets)
 
 # install
 install(TARGETS rpgmapper RUNTIME DESTINATION bin)

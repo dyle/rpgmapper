@@ -20,14 +20,14 @@
  */
 
 
- // ------------------------------------------------------------
- // incs
+// ------------------------------------------------------------
+// incs
 
- // rpgmappger
- #include "common_macros.h"
- #include "changeable.hpp"
+// rpgmappger
+#include <rpgmapper/common_macros.h>
+#include <rpgmapper/model/changeable.hpp>
 
- using namespace rpgmapper::model;
+using namespace rpgmapper::model;
 
 
 // ------------------------------------------------------------

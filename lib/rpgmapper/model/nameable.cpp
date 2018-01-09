@@ -1,7 +1,7 @@
 /*
- * map.cpp
+ * nameable.cpp
  *
- * A RPG map
+ * A nameable object knows its name
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -23,35 +23,11 @@
 // ------------------------------------------------------------
 // incs
 
-// rpgmapper
-#include "map.hpp"
-
+// rpgmappger
+#include <rpgmapper/common_macros.h>
+#include <rpgmapper/model/nameable.hpp>
 
 using namespace rpgmapper::model;
-
-
-// ------------------------------------------------------------
-// decl
-
-namespace rpgmapper {
-namespace model {
-
-
-/**
- * Internal data of a Map object.
- */
-class Map::Map_data {
-
-public:
-
-    Map_data() {
-    }
-
-};
-
-
-}
-}
 
 
 // ------------------------------------------------------------
@@ -61,13 +37,35 @@ public:
 /**
  * ctor
  */
-Map::Map() : Nameable() {
-    d = std::shared_ptr<Map::Map_data>(new Map::Map_data());
+Nameable::Nameable() : Changeable() {
 }
 
 
 /**
  * dtor
  */
-Map::~Map() {
+Nameable::~Nameable() {
+}
+
+
+/**
+ * Get the name.
+ *
+ * @return  the name
+ */
+std::string const & Nameable::name() const {
+    return m_sName;
+}
+
+
+/**
+ * Set the name.
+ *
+ * @param   sName       the new name
+ */
+void Nameable::name(std::string sName) {
+    if (m_sName != sName) {
+        m_sName = sName;
+        changed(true);
+    }
 }

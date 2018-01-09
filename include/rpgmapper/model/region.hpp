@@ -68,6 +68,22 @@ public:
 
 
     /**
+     * check if the region or any aggregated objects changed.
+     *
+     * @return  true if the region or any dependend object changed.
+     */
+    virtual bool changedAccumulated() const;
+
+
+    /**
+     * set the change flag of the region and any dependend objects
+     *
+     * @param   bChanged        the new changed information
+     */
+    virtual void changedAccumulated(bool bChanged);
+
+
+    /**
      * make a deep copy of this Atlas
      *
      * @return  a new deep copied instance

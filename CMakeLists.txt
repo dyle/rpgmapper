@@ -134,6 +134,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QUAZIP_INCLUDE})
 # ------------------------------------------------------------
 # go through the subs
 
+add_subdirectory(lib)
 add_subdirectory(bin)
 add_subdirectory(test)
 

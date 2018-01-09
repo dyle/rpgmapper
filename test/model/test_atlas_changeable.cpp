@@ -1,7 +1,7 @@
 /*
- * nameable.cpp
+ * test_changeable.cpp
  *
- * A nameable object knows its name
+ * This the Changeable object.
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -20,12 +20,21 @@
  */
 
 
-// ------------------------------------------------------------
-// incs
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
 
-// rpgmappger
-#include "common_macros.h"
-#include "nameable.hpp"
+
+// ------------------------------------------------------------
+
+#include <cassert>
+#include <iostream>
+#include <vector>
+
+// rpgmapper
+#include <rpgmapper/model/atlas.hpp>
 
 using namespace rpgmapper::model;
 
@@ -33,39 +42,29 @@ using namespace rpgmapper::model;
 // ------------------------------------------------------------
 // code
 
+int test() {
 
-/**
- * ctor
- */
-Nameable::Nameable() : Changeable() {
+    Atlas a;
+    assert(a.changedAccumulated() == true);
+    a.changedAccumulated(false);
+    assert(a.changedAccumulated() == false);
+
+    a.name("bar");
+    assert(a.changedAccumulated() == true);
+    a.changedAccumulated(false);
+    assert(a.changedAccumulated() == false);
+
+    Region & r = a.createRegion();
+    assert(a.changedAccumulated() == true);
+    a.changedAccumulated(false);
+    assert(a.changedAccumulated() == false);
+
+    r.name("foobar");
+    assert(a.changedAccumulated() == true);
+
+    return 0;
 }
 
-
-/**
- * dtor
- */
-Nameable::~Nameable() {
-}
-
-
-/**
- * Get the name.
- *
- * @return  the name
- */
-std::string const & Nameable::name() const {
-    return m_sName;
-}
-
-
-/**
- * Set the name.
- *
- * @param   sName       the new name
- */
-void Nameable::name(std::string sName) {
-    if (m_sName != sName) {
-        m_sName = sName;
-        changed(true);
-    }
+int main(UNUSED int argc, UNUSED char ** argv) {
+    return test();
 }

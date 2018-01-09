@@ -1,7 +1,7 @@
 /*
- * test_nameable.cpp
+ * map.cpp
  *
- * This the Nameable object.
+ * A RPG map
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -20,40 +20,54 @@
  */
 
 
-#if defined(__GNUC__) || defined(__GNUCPP__)
-#   define UNUSED   __attribute__((unused))
-#else
-#   define UNUSED
-#endif
-
-
 // ------------------------------------------------------------
-
-#include <cassert>
-#include <iostream>
+// incs
 
 // rpgmapper
-#include <rpgmapper/model/nameable.hpp>
+#include <rpgmapper/model/map.hpp>
+
 
 using namespace rpgmapper::model;
 
 
 // ------------------------------------------------------------
-// code
+// decl
 
-int test() {
+namespace rpgmapper {
+namespace model {
 
-    Nameable n;
-    assert(n.changed() == false);
-    assert(n.name() == "");
 
-    n.name("foo");
-    assert(n.changed() == true);
-    assert(n.name() == "foo");
+/**
+ * Internal data of a Map object.
+ */
+class Map::Map_data {
 
-    return 0;
+public:
+
+    Map_data() {
+    }
+
+};
+
+
+}
 }
 
-int main(UNUSED int argc, UNUSED char ** argv) {
-    return test();
+
+// ------------------------------------------------------------
+// code
+
+
+/**
+ * ctor
+ */
+Map::Map() : Nameable() {
+    d = std::shared_ptr<Map::Map_data>(new Map::Map_data());
+}
+
+
+/**
+ * dtor
+ */
+Map::~Map() {
 }

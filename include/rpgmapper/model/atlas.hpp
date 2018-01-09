@@ -66,6 +66,22 @@ public:
 
 
     /**
+     * check if the atlas or any aggregated objects changed.
+     *
+     * @return  true if the atlas or any dependend object changed.
+     */
+    virtual bool changedAccumulated() const;
+
+
+    /**
+     * set the change flag of the atlas and any dependend objects
+     *
+     * @param   bChanged        the new changed information
+     */
+    virtual void changedAccumulated(bool bChanged);
+
+
+    /**
      * make a deep copy of this Atlas
      *
      * @return  a new deep copied instance
@@ -82,25 +98,11 @@ public:
 
 
     /**
-     * Check if the data needs to be saved.
-     *
-     * @return  true, if the data has to be saved.
-      */
-    bool needSave() const;
-
-
-    /**
      * return all the regions managed in this region
      *
      * @return  all regions of this region
      */
     Regions const & regions() const;
-
-
-    /**
-     * Enforce that no save is yet needed.
-      */
-    void resetSave();
 
 
 private:

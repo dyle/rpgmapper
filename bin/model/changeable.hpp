@@ -69,6 +69,22 @@ public:
     void changed(bool bChanged);
 
 
+    /**
+     * state if the object instance data has changed or of one of its aggregated objects.
+     *
+     * @return  true if the object instance data or one of its aggregated objects has changed
+     */
+    virtual bool changedAccumulated() const;
+
+
+    /**
+     * applies the new changed flag to this instance and all aggreated objects
+     *
+     * @param   bChanged        the new object instance data changed flag for all objects
+     */
+    virtual void changedAccumulated(bool bChanged);
+
+
 private:
 
 

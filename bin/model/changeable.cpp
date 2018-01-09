@@ -66,3 +66,23 @@ bool Changeable::changed() const {
 void Changeable::changed(bool bChanged) {
     m_bChanged = bChanged;
 }
+
+
+/**
+ * state if the object instance data has changed or of one of its aggregated objects.
+ *
+ * @return  true if the object instance data or one of its aggregated objects has changed
+ */
+bool Changeable::changedAccumulated() const {
+    return changed();
+}
+
+
+/**
+ * applies the new changed flag to this instance and all aggreated objects
+ *
+ * @param   bChanged        the new object instance data changed flag for all objects
+ */
+void Changeable::changedAccumulated(bool bChanged) {
+    return changed(bChanged);
+}

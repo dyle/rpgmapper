@@ -31,6 +31,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <vector>
 
 // rpgmapper
 #include "model/changeable.hpp"
@@ -39,15 +40,72 @@ using namespace rpgmapper::model;
 
 
 // ------------------------------------------------------------
+// decl
+
+
+class A : public Changeable {
+
+public:
+
+
+    A() = default;
+
+
+    bool changedAccumulated() const {
+        if (changed()) {
+            return true;
+        }
+        for (auto const & c: v) {
+            if (c.changedAccumulated()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    void changedAccumulated(bool bChanged) {
+        changed(bChanged);
+        for (auto & c: v) {
+            c.changedAccumulated(bChanged);
+        }
+    }
+
+
+    std::vector<Changeable> v = { Changeable(), Changeable(), Changeable() };
+
+};
+
+
+// ------------------------------------------------------------
 // code
 
 int test() {
+
+    // single object
 
     Changeable c;
     assert(c.changed() == false);
 
     c.changed(true);
     assert(c.changed() == true);
+
+    // object hierarchie
+
+    A a;
+    assert(a.changed() == false);
+    for (auto & c: a.v) {
+        assert(c.changed() == false);
+    }
+    assert(a.changedAccumulated() == false);
+
+    a.v[1].changed(true);
+    assert(a.changed() == false);
+    assert(a.changedAccumulated() == true);
+
+    a.changedAccumulated(false);
+    assert(a.changed() == false);
+    assert(a.changedAccumulated() == false);
 
     return 0;
 }

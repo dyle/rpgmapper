@@ -32,3 +32,4 @@ set(RPGMAPPER_MODEL_SRC
 
 # define library
 add_library(rpgmapper_model STATIC ${RPGMAPPER_MODEL_SRC})
+target_link_libraries(rpgmapper_model Qt5::Core ${CMAKE_REQUIRED_LIBRARIES})

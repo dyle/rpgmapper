@@ -27,6 +27,8 @@
 
 #include <memory>
 
+#include <QJsonObject>
+
 // rpgmapper
 #include "nameable.hpp"
 #include "region.hpp"
@@ -96,11 +98,27 @@ public:
 
 
     /**
+     * load the atlas from json
+     *
+     * @param   cJSON       the json instance to load from
+     */
+    void load(QJsonObject const & cJSON);
+
+
+    /**
      * return all the regions managed in this region
      *
      * @return  all regions of this region
      */
     Regions const & regions() const;
+
+
+    /**
+     * save the atlas to json
+     *
+     * @param   cJSON       the json instance to save to
+     */
+    void save(QJsonObject & cJSON) const;
 
 
 private:

@@ -141,10 +141,33 @@ Region & Atlas::createRegion() {
 
 
 /**
+ * load the atlas from json
+ *
+ * @param   cJSON       the json instance to load from
+ */
+void Atlas::load(QJsonObject const & cJSON) {
+
+    if (cJSON.contains("name") && cJSON["name"].isString()) {
+        name(cJSON["name"].toString().toStdString());
+    }
+}
+
+
+/**
  * return all the regions managed in this region
  *
  * @return  all regions of this region
  */
 Regions const & Atlas::regions() const {
     return d->m_cRegions;
+}
+
+
+/**
+ * save the atlas to json
+ *
+ * @param   cJSON       the json instance to save to
+ */
+void Atlas::save(QJsonObject & cJSON) const {
+    cJSON["name"] = QString::fromStdString(name());
 }

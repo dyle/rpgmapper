@@ -61,7 +61,7 @@ public:
  * ctor
  */
 Map::Map() : Nameable() {
-    d = std::shared_ptr<Map::Map_data>(new Map::Map_data());
+    d = std::make_shared<Map::Map_data>();
 }
 
 

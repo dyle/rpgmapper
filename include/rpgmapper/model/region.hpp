@@ -48,7 +48,7 @@ class Atlas;
 
 
 /**
- * A colletion of maps based on a name.
+ * A collection of maps based on a name.
  *
  * Note: copy an Region instance is shallow. For a deep copy use the "clone()" method.
  */
@@ -82,13 +82,13 @@ public:
     /**
      * check if the region or any aggregated objects changed.
      *
-     * @return  true if the region or any dependend object changed.
+     * @return  true if the region or any dependent object changed.
      */
     virtual bool changedAccumulated() const;
 
 
     /**
-     * set the change flag of the region and any dependend objects
+     * set the change flag of the region and any dependent objects
      *
      * @param   bChanged        the new changed information
      */

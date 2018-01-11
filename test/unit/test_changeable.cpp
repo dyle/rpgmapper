@@ -49,7 +49,7 @@ public:
     A() = default;
 
 
-    bool changedAccumulated() const {
+    bool changedAccumulated() const override {
         if (changed()) {
             return true;
         }
@@ -62,7 +62,7 @@ public:
     }
 
 
-    void changedAccumulated(bool bChanged) {
+    void changedAccumulated(bool bChanged) override {
         changed(bChanged);
         for (auto & c: v) {
             c.changedAccumulated(bChanged);
@@ -82,28 +82,28 @@ int test() {
 
     // single object
 
-    Changeable c;
-    assert(c.changed() == false);
+    Changeable cChangeable;
+    assert(!cChangeable.changed());
 
-    c.changed(true);
-    assert(c.changed() == true);
+    cChangeable.changed(true);
+    assert(cChangeable.changed());
 
-    // object hierarchie
+    // object hierarchy
 
     A a;
-    assert(a.changed() == false);
+    assert(!a.changed());
     for (auto & c: a.v) {
-        assert(c.changed() == false);
+        assert(!c.changed());
     }
-    assert(a.changedAccumulated() == false);
+    assert(!a.changedAccumulated());
 
     a.v[1].changed(true);
-    assert(a.changed() == false);
-    assert(a.changedAccumulated() == true);
+    assert(!a.changed());
+    assert(a.changedAccumulated());
 
     a.changedAccumulated(false);
-    assert(a.changed() == false);
-    assert(a.changedAccumulated() == false);
+    assert(!a.changed());
+    assert(!a.changedAccumulated());
 
     return 0;
 }

@@ -31,7 +31,7 @@ namespace model {
 
 
 /**
- * A changable object knows if its inner state has been changed.
+ * A changeable object knows if its inner state has been changed.
  */
 class Changeable {
 
@@ -76,7 +76,7 @@ public:
 
 
     /**
-     * applies the new changed flag to this instance and all aggreated objects
+     * applies the new changed flag to this instance and all aggregated objects
      *
      * @param   bChanged        the new object instance data changed flag for all objects
      */

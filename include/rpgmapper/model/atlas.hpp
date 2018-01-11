@@ -69,13 +69,13 @@ public:
     /**
      * check if the atlas or any aggregated objects changed.
      *
-     * @return  true if the atlas or any dependend object changed.
+     * @return  true if the atlas or any dependent object changed.
      */
     virtual bool changedAccumulated() const;
 
 
     /**
-     * set the change flag of the atlas and any dependend objects
+     * set the change flag of the atlas and any dependent objects
      *
      * @param   bChanged        the new changed information
      */
@@ -102,7 +102,7 @@ public:
      * create a json string form this Atlas
      *
      * @param   eJsonFormat     the format for representation
-     * @return  a striing holding the atlas in json format
+     * @return  a string holding the atlas in json format
      */
     std::string json(QJsonDocument::JsonFormat eJsonFormat = QJsonDocument::Indented) const;
 

@@ -1,6 +1,9 @@
 # vi swap files
 .*.swp
 
+# IDEs
+.idea/
+
 # build folder
 build/
 

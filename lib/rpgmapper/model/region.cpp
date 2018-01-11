@@ -63,7 +63,7 @@ public:
  * ctor
  */
 Region::Region() : Nameable() {
-    d = std::shared_ptr<Region::Region_data>(new Region::Region_data());
+    d = std::make_shared<Region::Region_data>();
     name("New Region");
     createMap();
 }
@@ -79,7 +79,7 @@ Region::~Region() {
 /**
  * check if the region or any aggregated objects changed.
  *
- * @return  true if the region or any dependend object changed.
+ * @return  true if the region or any dependent object changed.
  */
 bool Region::changedAccumulated() const {
 
@@ -98,7 +98,7 @@ bool Region::changedAccumulated() const {
 
 
 /**
- * set the change flag of the region and any dependend objects
+ * set the change flag of the region and any dependent objects
  *
  * @param   bChanged        the new changed information
  */
@@ -179,10 +179,10 @@ void Region::load(QJsonObject const & cJSON) {
     if (cJSON.contains("maps") && cJSON["maps"].isArray()) {
 
         QJsonArray cJSONMaps = cJSON["maps"].toArray();
-        for (auto iter = cJSONMaps.begin(); iter != cJSONMaps.end(); ++iter) {
+        for (auto && cJSONMap : cJSONMaps) {
 
             Map cMap;
-            cMap.load((*iter).toObject());
+            cMap.load(cJSONMap.toObject());
 
             auto nId = cMap.id();
             d->m_cMaps.insert(std::make_pair(nId, std::move(cMap)));

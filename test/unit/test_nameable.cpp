@@ -41,13 +41,13 @@ using namespace rpgmapper::model;
 
 int test() {
 
-    Nameable n;
-    assert(n.changed() == false);
-    assert(n.name() == "");
+    Nameable cNameable;
+    assert(!cNameable.changed());
+    assert(cNameable.name().empty());
 
-    n.name("foo");
-    assert(n.changed() == true);
-    assert(n.name() == "foo");
+    cNameable.name("foo");
+    assert(cNameable.changed());
+    assert(cNameable.name() == "foo");
 
     return 0;
 }

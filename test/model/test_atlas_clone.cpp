@@ -29,7 +29,6 @@
 
 #include <cassert>
 #include <iostream>
-#include <vector>
 
 // rpgmapper
 #include <rpgmapper/model/atlas.hpp>

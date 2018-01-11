@@ -23,8 +23,7 @@
 
 #include <QJsonArray>
 
-// rpgmappger
-#include <rpgmapper/common_macros.h>
+// rpgmapper
 #include <rpgmapper/model/atlas.hpp>
 
 using namespace rpgmapper::model;
@@ -63,7 +62,7 @@ public:
  * ctor
  */
 Atlas::Atlas() : Nameable() {
-    d = std::shared_ptr<Atlas::Atlas_data>(new Atlas::Atlas_data);
+    d = std::make_shared<Atlas::Atlas_data>();
     name("New Atlas");
     createRegion();
 }
@@ -79,7 +78,7 @@ Atlas::~Atlas() {
 /**
  * check if the atlas or any aggregated objects changed.
  *
- * @return  true if the atlas or any dependend object changed.
+ * @return  true if the atlas or any dependent object changed.
  */
 bool Atlas::changedAccumulated() const {
 
@@ -98,7 +97,7 @@ bool Atlas::changedAccumulated() const {
 
 
 /**
- * set the change flag of the atlas and any dependend objects
+ * set the change flag of the atlas and any dependent objects
  *
  * @param   bChanged        the new changed information
  */
@@ -162,7 +161,7 @@ Region & Atlas::createRegion() {
  * create a json string form this Atlas
  *
  * @param   eJsonFormat     the format for representation
- * @return  a striing holding the atlas in json format
+ * @return  a string holding the atlas in json format
  */
 std::string Atlas::json(QJsonDocument::JsonFormat eJsonFormat) const {
 
@@ -188,10 +187,10 @@ void Atlas::load(QJsonObject const & cJSON) {
     if (cJSON.contains("regions") && cJSON["regions"].isArray()) {
 
         QJsonArray cJSONRegions = cJSON["regions"].toArray();
-        for (auto iter = cJSONRegions.begin(); iter != cJSONRegions.end(); ++iter) {
+        for (auto &&cJSONRegion : cJSONRegions) {
 
             Region cRegion;
-            cRegion.load((*iter).toObject());
+            cRegion.load(cJSONRegion.toObject());
 
             auto nId = cRegion.id();
             d->m_cRegions.insert(std::make_pair(nId, std::move(cRegion)));

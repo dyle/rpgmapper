@@ -29,7 +29,6 @@
 
 #include <cassert>
 #include <iostream>
-#include <vector>
 
 // rpgmapper
 #include <rpgmapper/model/atlas.hpp>
@@ -42,23 +41,23 @@ using namespace rpgmapper::model;
 
 int test() {
 
-    Atlas a;
-    assert(a.changedAccumulated() == true);
-    a.changedAccumulated(false);
-    assert(a.changedAccumulated() == false);
+    Atlas cAtlas;
+    assert(cAtlas.changedAccumulated());
+    cAtlas.changedAccumulated(false);
+    assert(!cAtlas.changedAccumulated());
 
-    a.name("bar");
-    assert(a.changedAccumulated() == true);
-    a.changedAccumulated(false);
-    assert(a.changedAccumulated() == false);
+    cAtlas.name("bar");
+    assert(cAtlas.changedAccumulated());
+    cAtlas.changedAccumulated(false);
+    assert(!cAtlas.changedAccumulated());
 
-    Region & r = a.createRegion();
-    assert(a.changedAccumulated() == true);
-    a.changedAccumulated(false);
-    assert(a.changedAccumulated() == false);
+    Region & cRegion = cAtlas.createRegion();
+    assert(cAtlas.changedAccumulated());
+    cAtlas.changedAccumulated(false);
+    assert(!cAtlas.changedAccumulated());
 
-    r.name("foobar");
-    assert(a.changedAccumulated() == true);
+    cRegion.name("foobar");
+    assert(cAtlas.changedAccumulated());
 
     return 0;
 }

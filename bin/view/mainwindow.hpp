@@ -61,7 +61,7 @@ public:
     /**
      * dtor
      */
-    virtual ~MainWindow();
+    ~MainWindow() override;
 
 
 protected:
@@ -72,7 +72,7 @@ protected:
      *
      * @param   cEvent      the event passed
      */
-    virtual void closeEvent(QCloseEvent * cEvent);
+    void closeEvent(QCloseEvent * cEvent) override;
 
 
 private:

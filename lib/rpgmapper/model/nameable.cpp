@@ -21,8 +21,7 @@
 // ------------------------------------------------------------
 // incs
 
-// rpgmappger
-#include <rpgmapper/common_macros.h>
+// rpgmapper
 #include <rpgmapper/model/nameable.hpp>
 
 using namespace rpgmapper::model;

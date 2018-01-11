@@ -21,8 +21,7 @@
 // ------------------------------------------------------------
 // incs
 
-// rpgmappger
-#include <rpgmapper/common_macros.h>
+// rpgmapper
 #include <rpgmapper/model/changeable.hpp>
 
 using namespace rpgmapper::model;
@@ -77,7 +76,7 @@ bool Changeable::changedAccumulated() const {
 
 
 /**
- * applies the new changed flag to this instance and all aggreated objects
+ * applies the new changed flag to this instance and all aggregated objects
  *
  * @param   bChanged        the new object instance data changed flag for all objects
  */

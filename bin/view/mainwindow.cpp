@@ -27,8 +27,6 @@
 #include <QSettings>
 
 // rpgmapper
-#include <rpgmapper/common_macros.h>
-
 #include "mainwindow.hpp"
 
 #include "ui_mainwindow.h"

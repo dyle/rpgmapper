@@ -29,7 +29,7 @@
 #include <QApplication>
 #include <QPixmapCache>
 
-// rpgmappger
+// rpgmapper
 #include "view/mainwindow.hpp"
 
 
@@ -78,7 +78,7 @@ int main(int argc, char ** argv) {
 
     boost::program_options::variables_map cVariableMap;
     try {
-        boost::program_options::command_line_parser cParser(argc, argv);
+        boost::program_options::command_line_parser cParser(argc, reinterpret_cast<const char *const *>(argv));
         boost::program_options::store(
             cParser.options(cCmdLineOptions).positional(cPositionalDescription).run(),
             cVariableMap);

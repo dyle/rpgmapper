@@ -1,7 +1,5 @@
 # ------------------------------------------------------------
-# CMakeLists.txt
-#
-# Author: Oliver Maurhart, <oliver.maurhart@ait.ac.at>
+# CMakeLists.txt for RPGMapper/bin
 #
 # Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
 #
@@ -19,5 +17,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # ------------------------------------------------------------
 
-add_subdirectory(QtTAR)
-add_subdirectory(rpgmapper)
+# additional includes
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+# sources
+set(QTTAR_SRC
+
+    qttar.cpp
+    tarball.cpp
+)
+
+# define library
+add_library(qttar STATIC ${QTTAR_SRC})
+target_link_libraries(qttar Qt5::Core ${CMAKE_REQUIRED_LIBRARIES})

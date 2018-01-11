@@ -21,11 +21,7 @@
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # sources
-set(QTTAR_SRC
-
-    qttar.cpp
-    tarball.cpp
-)
+set(QTTAR_SRC qttar.cpp)
 
 # define library
 add_library(qttar STATIC ${QTTAR_SRC})

@@ -22,7 +22,7 @@
  ****************************************************************************/
 
 #define ENABLE_HIDDEN_FILE_INFO_STRUCTURE
-#include <QtTAR/QtTAR>
+#include <QtTAR/qttar.h>
 
 #include <stdio.h>
 #include <stdlib.h>

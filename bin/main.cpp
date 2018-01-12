@@ -34,6 +34,36 @@
 
 
 // ------------------------------------------------------------
+// decl
+
+
+/**
+ * Parses the command line and returns true to proceed.
+ *
+ * @param   cVariableMap        receives parsed options and arguments
+ * @param   argc                number of arguments (as for main())
+ * @param   argv                vector of arguments (as for main())
+ * @return  true, if we should proceed and show the main window
+ */
+bool parseCommandLine(boost::program_options::variables_map & cVariableMap, int argc, char ** argv);
+
+
+// ------------------------------------------------------------
+// vars
+
+
+/**
+ * program description
+ */
+std::string const g_sDescription = "\
+This is a nifty tool to draw RPG dungeon maps.\n\
+\n\
+Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>\n\
+Licenseed under the GNU General Public License 3\n\
+See: http://www.gnu.org/licenses/ for details.";
+
+
+// ------------------------------------------------------------
 // code
 
 
@@ -46,22 +76,52 @@
  */
 int main(int argc, char ** argv) {
 
+    boost::program_options::variables_map cVariableMap;
+    if (!parseCommandLine(cVariableMap, argc, argv)) {
+        return 0;
+    }
+
+    if (cVariableMap.count("ATLAS-FILE") == 1) {
+        // TODO: remove this once we can load an atlas file from the cmd line
+        std::cerr << "TO BE IMPLEMENTED: LOAD ATLAS FROM CMD-LINE: "
+                  << cVariableMap["ATLAS-FILE"].as<std::string>()
+                  << std::endl;
+    }
+
+    QApplication cApplication(argc, argv);
+    cApplication.setOrganizationName("Oliver Maurhart <dyle71@gmail.com>");
+    cApplication.setOrganizationDomain("");
+    cApplication.setApplicationName("RPGMapper");
+    cApplication.setApplicationVersion(VERSION);
+
+    QPixmapCache::insert("atlas", QPixmap(":/icons/gfx/atlas.png"));
+    QPixmapCache::insert("mapset", QPixmap(":/icons/gfx/mapset.png"));
+    QPixmapCache::insert("map", QPixmap(":/icons/gfx/map.png"));
+
+    rpgmapper::view::MainWindow cMainWindow;
+    cMainWindow.show();
+    return cApplication.exec();
+}
+
+
+/**
+ * Parses the command line and returns true to proceed.
+ *
+ * @param   cVariableMap        receives parsed options and arguments
+ * @param   argc                number of arguments (as for main())
+ * @param   argv                vector of arguments (as for main())
+ * @return  true, if we should proceed and show the main window
+ */
+bool parseCommandLine(boost::program_options::variables_map & cVariableMap, int argc, char ** argv) {
+
     // create the command line header
     std::string sApplication = std::string("rpgmapper - Dyle's RPGMapper V") + VERSION;
-    std::string sDescription = std::string(
-        "\n\
-        This is a nifty tool to draw RPG dungeon maps.\n\
-        \n\
-        Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>\n\
-        Licenseed under the GNU General Public License 3\n\
-        See: http://www.gnu.org/licenses/ for details.");
+    std::string sDescription = std::string(g_sDescription);
     std::string sSynopsis = std::string("Usage: ") + argv[0] + " [OPTIONS] [ATLAS-FILE]";
 
     // define program options
     boost::program_options::options_description cOptions(
-        sApplication + "\n" +
-        sDescription + "\n\n\t" +
-        sSynopsis + "\n\nAllowed Options");
+            sApplication + sDescription + "\n\n" + sSynopsis + "\n\nAllowed Options");
     cOptions.add_options()("help,h", "this page");
     cOptions.add_options()("version,v", "print version string");
 
@@ -76,53 +136,32 @@ int main(int argc, char ** argv) {
     cCmdLineOptions.add(cOptions);
     cCmdLineOptions.add(cArgs);
 
-    boost::program_options::variables_map cVariableMap;
     try {
         boost::program_options::command_line_parser cParser(argc, reinterpret_cast<char const * const *>(argv));
         boost::program_options::store(
-            cParser.options(cCmdLineOptions).positional(cPositionalDescription).run(),
-            cVariableMap);
+                cParser.options(cCmdLineOptions).positional(cPositionalDescription).run(),
+                cVariableMap);
         boost::program_options::notify(cVariableMap);
     }
     catch (std::exception & cException) {
         std::cerr << "error parsing command line: " <<  cException.what()
-                << "\ntype '--help' for help"
-                << std::endl;
-        return 1;
+                  << "\ntype '--help' for help"
+                  << std::endl;
+        std::exit(1);
     }
 
     if (cVariableMap.count("help")) {
         std::cout << cOptions << std::endl;
         std::cout << "ATLAS-FILE: " << cArgs.find("ATLAS-FILE", false).description()
-                << "\n"
-                << std::endl;
-        return 0;
+                  << "\n"
+                  << std::endl;
+        return false;
     }
 
     if (cVariableMap.count("version")) {
         std::cout << sApplication << std::endl;
-        return 0;
+        return false;
     }
 
-    if (cVariableMap.count("ATLAS-FILE") == 1) {
-        std::cerr
-            << "TO BE IMPLEMENTED: LOAD ATLAS FROM CMD-LINE: " << cVariableMap["ATLAS-FILE"].as<std::string>()
-            << std::endl;
-    }
-
-    QApplication cApplication(argc, argv);
-    cApplication.setOrganizationName("Oliver Maurhart <dyle71@gmail.com>");
-    cApplication.setOrganizationDomain("");
-    cApplication.setApplicationName("RPGMapper");
-    cApplication.setApplicationVersion(VERSION);
-
-    QPixmapCache::insert("atlas", QPixmap(":/icons/gfx/atlas.png"));
-    QPixmapCache::insert("mapset", QPixmap(":/icons/gfx/mapset.png"));
-    QPixmapCache::insert("map", QPixmap(":/icons/gfx/map.png"));
-
-    rpgmapper::view::MainWindow m;
-    m.show();
-    cApplication.exec();
-
-    return 0;
+    return true;
 }

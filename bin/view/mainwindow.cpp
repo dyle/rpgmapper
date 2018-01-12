@@ -22,6 +22,7 @@
 // incs
 
 // Qt
+#include <QApplication>
 #include <QCloseEvent>
 #include <QDesktopWidget>
 #include <QSettings>
@@ -68,7 +69,7 @@ void MainWindow::centerWindow() {
     const int nDefaultWidth = 600;
     const int nDefaultHeight = 400;
 
-    QDesktopWidget * cDesktop = qApp->desktop();
+    QDesktopWidget * cDesktop = dynamic_cast<QApplication *>(QApplication::instance())->desktop();
     int nX = (cDesktop->width() - nDefaultWidth) / 2;
     int nY = (cDesktop->height() - nDefaultHeight) / 2;
 

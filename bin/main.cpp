@@ -34,6 +34,17 @@
 
 
 // ------------------------------------------------------------
+// defs
+
+#define PROGRAM_DESCRIPTION "\
+This is a nifty tool to draw RPG dungeon maps.\n\
+\n\
+Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>\n\
+Licenseed under the GNU General Public License 3\n\
+See: http://www.gnu.org/licenses/ for details."
+
+
+// ------------------------------------------------------------
 // decl
 
 
@@ -46,21 +57,6 @@
  * @return  true, if we should proceed and show the main window
  */
 bool parseCommandLine(boost::program_options::variables_map & cVariableMap, int argc, char ** argv);
-
-
-// ------------------------------------------------------------
-// vars
-
-
-/**
- * program description
- */
-std::string const g_sDescription = "\
-This is a nifty tool to draw RPG dungeon maps.\n\
-\n\
-Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>\n\
-Licenseed under the GNU General Public License 3\n\
-See: http://www.gnu.org/licenses/ for details.";
 
 
 // ------------------------------------------------------------
@@ -116,7 +112,7 @@ bool parseCommandLine(boost::program_options::variables_map & cVariableMap, int 
 
     // create the command line header
     std::string sApplication = std::string("rpgmapper - Dyle's RPGMapper V") + VERSION;
-    std::string sDescription = std::string(g_sDescription);
+    std::string sDescription = std::string(PROGRAM_DESCRIPTION);
     std::string sSynopsis = std::string("Usage: ") + argv[0] + " [OPTIONS] [ATLAS-FILE]";
 
     // define program options

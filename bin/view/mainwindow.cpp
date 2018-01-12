@@ -45,19 +45,11 @@ using namespace rpgmapper::view;
  */
 MainWindow::MainWindow() : QMainWindow() {
 
-    ui = new Ui_mainwindow;
+    ui = std::make_shared<Ui_mainwindow>();
     ui->setupUi(this);
     statusBar()->setSizeGripEnabled(true);
 
     loadSettings();
-}
-
-
-/**
- * dtor
- */
-MainWindow::~MainWindow() {
-    delete ui;
 }
 
 

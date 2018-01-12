@@ -25,6 +25,8 @@
 // ------------------------------------------------------------
 // incs
 
+#include <memory>
+
 // Qt
 #include <QMainWindow>
 
@@ -58,12 +60,6 @@ public:
     MainWindow();
 
 
-    /**
-     * dtor
-     */
-    ~MainWindow() override;
-
-
 protected:
 
 
@@ -90,7 +86,7 @@ private:
     void loadSettings();
 
 
-    Ui_mainwindow * ui;                 /**< qt widgets */
+    std::shared_ptr<Ui_mainwindow> ui;      /**< user interface */
 };
 
 

@@ -23,11 +23,13 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 # sources
 set(RPGMAPPER_MODEL_SRC
 
-    atlas.cpp
-    changeable.cpp
-    map.cpp
-    nameable.cpp
-    region.cpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/common_macros.h
+
+    atlas.cpp               ${CMAKE_SOURCE_DIR}/include/rpgmapper/model/atlas.hpp
+    changeable.cpp          ${CMAKE_SOURCE_DIR}/include/rpgmapper/model/changeable.hpp
+    map.cpp                 ${CMAKE_SOURCE_DIR}/include/rpgmapper/model/map.hpp
+    nameable.cpp            ${CMAKE_SOURCE_DIR}/include/rpgmapper/model/nameable.hpp
+    region.cpp              ${CMAKE_SOURCE_DIR}/include/rpgmapper/model/region.hpp
 )
 
 # define library

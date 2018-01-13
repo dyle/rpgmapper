@@ -18,8 +18,8 @@
  */
 
 
-#ifndef VIEW_MAINWINDOW_H_
-#define VIEW_MAINWINDOW_H_
+#ifndef VIEW_MAINWINDOW_HPP
+#define VIEW_MAINWINDOW_HPP
 
 
 // ------------------------------------------------------------

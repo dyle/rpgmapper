@@ -18,8 +18,8 @@
  */
 
 
-#ifndef MODEL_NAMEABLE_H
-#define MODEL_NAMEABLE_H
+#ifndef MODEL_NAMEABLE_HPP
+#define MODEL_NAMEABLE_HPP
 
 
 // ------------------------------------------------------------

@@ -18,8 +18,8 @@
  */
 
 
-#ifndef MODEL_MAP_H
-#define MODEL_MAP_H
+#ifndef MODEL_MAP_HPP
+#define MODEL_MAP_HPP
 
 
 // ------------------------------------------------------------

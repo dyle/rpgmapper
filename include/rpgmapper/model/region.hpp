@@ -18,8 +18,8 @@
  */
 
 
-#ifndef MODEL_REGION_H
-#define MODEL_REGION_H
+#ifndef MODEL_REGION_HPP
+#define MODEL_REGION_HPP
 
 
 // ------------------------------------------------------------

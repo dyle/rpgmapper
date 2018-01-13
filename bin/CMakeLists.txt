@@ -41,9 +41,10 @@ qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
 # sources
 set(RPGMAPPER_SRC
 
-    main.cpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/common_macros.h
 
-    view/mainwindow.cpp
+    main.cpp
+    view/mainwindow.cpp             view/mainwindow.hpp
 )
 
 # bin definition

@@ -18,8 +18,8 @@
  */
 
 
-#ifndef MODEL_CHANGEABLE_H
-#define MODEL_CHANGEABLE_H
+#ifndef MODEL_CHANGEABLE_HPP
+#define MODEL_CHANGEABLE_HPP
 
 
 // ------------------------------------------------------------

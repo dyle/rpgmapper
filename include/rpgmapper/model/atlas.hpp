@@ -18,8 +18,8 @@
  */
 
 
-#ifndef MODEL_ATLAS_H
-#define MODEL_ATLAS_H
+#ifndef MODEL_ATLAS_HPP
+#define MODEL_ATLAS_HPP
 
 
 // ------------------------------------------------------------

@@ -21,8 +21,6 @@
 // ------------------------------------------------------------
 // incs
 
-#include <iostream>
-
 #include <quazip/quazip.h>
 #include <quazip/quazipfile.h>
 

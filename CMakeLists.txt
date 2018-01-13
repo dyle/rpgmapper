@@ -38,21 +38,15 @@ add_definitions(-D_DEFAULT_SOURCE)
 
 # set compile flags
 if (CMAKE_COMPILER_IS_GNUCC)
+    # Hence, -std=c11 might not be needed any longer.
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -Werror -Wall -Wextra -pedantic -g -ggdb3 -rdynamic -fPIC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Werror -Wall -Wextra -pedantic -g -ggdb3 -rdynamic -fPIC")
 endif (CMAKE_COMPILER_IS_GNUCC)
-
-# set compile flags: clang
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -Wall -Wextra -Werror -g -ggdb3 ")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -g -ggdb3")
-endif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
 
 
 # ------------------------------------------------------------
 # check libs and packages (headers + lib)
 
-# standard C files
 check_include_file(stdio.h HAVE_STDIO_H)
 check_include_file(stddef.h HAVE_STDDEF_H)
 check_include_file(stdlib.h HAVE_STDLIB_H)
@@ -60,69 +54,40 @@ check_include_file(inttypes.h HAVE_INTTYPES_H)
 check_include_file(memory.h HAVE_MEMORY_H)
 check_include_file(string.h HAVE_STRING_H)
 check_include_file(unistd.h HAVE_UNISTD_H)
-
-# time
 check_include_file(sys/time.h HAVE_SYS_TIME_H)
 check_include_file(time.h HAVE_TIME_H)
-
-# math
 check_include_file(math.h HAVE_MATH_H)
-
-# stdbool
 check_include_file(stdbool.h HAVE_STDBOOL_H)
-
-# endian
 check_include_file(endian.h HAVE_ENDIAN_H)
-
-# math.h
 check_include_file(math.h HAVE_MATH_H)
-
-# assert
 check_include_file(assert.h HAVE_ASSERT_H)
-
-# errno
 check_include_file(errno.h HAVE_ERRNO_H)
-
-# limits
 check_include_file(limits.h HAVE_LIMITS_H)
 
-
-# get BOOST!
-find_package(Boost 1.46.0 COMPONENTS filesystem program_options system)
+# boost
+find_package(Boost 1.62.0 COMPONENTS filesystem program_options system)
 if (Boost_FOUND)
     set(CMAKE_REQUIRED_LIBRARIES "${Boost_LIBRARIES};${CMAKE_REQUIRED_LIBRARIES}")
     include_directories(${Boost_INCLUDE_DIRS})
     set(HAVE_BOOST_LIB 1)
 else (Boost_FOUND)
-    message(FATAL_ERROR "Boost >= 1.46.0 library not found.")
+    message(FATAL_ERROR "Boost >= 1.62.0 library not found.")
 endif (Boost_FOUND)
 
-
 # Qt5
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+message (STATUS "Looking for Qt5")
 find_package(Qt5Core REQUIRED)
+message (STATUS "Looking for Qt5 - found, version ${Qt5Core_VERSION_STRING}")
 include_directories(${Qt5Core_INCLUDE_DIRS})
 find_package(Qt5Widgets REQUIRED)
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
-# # QuaZip
-# message(STATUS "Looking for QuaZip headers")
-# find_path(QUAZIP_INCLUDE_PATH quazip/quazip.h PATHS /usr/include /usr/local/include)
-# if (QUAZIP_INCLUDE_PATH)
-#     message(STATUS "Looking for QuaZip headers - ${QUAZIP_INCLUDE_PATH}")
-#     message(STATUS "Looking for QuaZip library")
-#     find_library(QUAZIP_LIBRARY NAMES quazip zipOpen)
-#     if (QUAZIP_LIBRARY)
-#         message(STATUS "Looking for QuaZip library - found")
-#         set(CMAKE_REQUIRED_INCLUDES "${CMAKE_REQUIRED_INCLUDES};${QUAZIP_INCLUDE}")
-#         set(CMAKE_REQUIRED_LIBRARIES "quazip;${CMAKE_REQUIRED_LIBRARIES}")
-#     else (QUAZIP_LIBRARY)
-#         message(FATAL_ERROR "Looking for QuaZip library not found")
-#     endif (QUAZIP_LIBRARY)
-# else (QUAZIP_INCLUDE_PATH)
-#     message(FATAL_ERROR "Looking for QuaZip headers not found.")
-# endif (QUAZIP_INCLUDE_PATH)
-
+# libminizip
+if (PKG_CONFIG_FOUND)
+    pkg_check_modules(MINIZIP minizip)
+else (PKG_CONFIG_FOUND)
+    message(FATAL_ERROR "Need pkgconfig to look for libminizip.")
+endif (PKG_CONFIG_FOUND)
 
 # ------------------------------------------------------------
 # dump the config file

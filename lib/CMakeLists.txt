@@ -19,5 +19,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # ------------------------------------------------------------
 
-add_subdirectory(QtTAR)
 add_subdirectory(rpgmapper)

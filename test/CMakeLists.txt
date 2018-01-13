@@ -19,8 +19,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # ------------------------------------------------------------
 
-add_subdirectory(qttar)
-
 add_subdirectory(unit)
 add_subdirectory(model)
 add_subdirectory(ctrl)

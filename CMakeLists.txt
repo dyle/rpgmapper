@@ -82,12 +82,23 @@ include_directories(${Qt5Core_INCLUDE_DIRS})
 find_package(Qt5Widgets REQUIRED)
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
-# libminizip
-if (PKG_CONFIG_FOUND)
-    pkg_check_modules(MINIZIP minizip)
-else (PKG_CONFIG_FOUND)
-    message(FATAL_ERROR "Need pkgconfig to look for libminizip.")
-endif (PKG_CONFIG_FOUND)
+# quazip5
+message(STATUS "Looking for QuaZip")
+find_path(QUAZIP_INCLUDE quazip/quazip.h)
+if (DEFINED QUAZIP_INCLUDE)
+    find_library(QUAZIP_LIBRARY NAMES quazip zipOpen)
+    if (DEFINED QUAZIP_LIBRARY)
+        message(STATUS "Looking for QuaZip - found")
+        #set(CMAKE_REQUIRED_INCLUDES "${CMAKE_REQUIRED_INCLUDES};${QUAZIP_INCLUDE}")
+        #set(CMAKE_REQUIRED_LIBRARIES "quazip;${CMAKE_REQUIRED_LIBRARIES}")
+        mark_as_advanced(QUAZIP_INCLUDE QUAZIP_LIBRARY)
+    else (DEFINED QUAZIP_LIBRARY)
+        message(FATAL_ERROR "Looking for QuaZip - Library not found")
+    endif (DEFINED QUAZIP_LIBRARY)
+else (DEFINED QUAZIP_INCLUDE)
+    message(FATAL_ERROR "Looking for QuaZip - Header file not found")
+endif (DEFINED QUAZIP_INCLUDE)
+
 
 # ------------------------------------------------------------
 # dump the config file

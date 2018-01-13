@@ -62,8 +62,7 @@ int test() {
     assert(cFileToLoad.list().size() == 1);
     auto iter = cFileToLoad.list().find("afolder/afile/dummy.txt");
     assert(iter != cFileToLoad.list().end());
-
-    std::cout << cFileToLoad.list()["afolder/afile/dummy.txt"].data() << std::endl;
+    assert((*iter).second.data() == std::string(DUMMY_TEXT));
 
     return 0;
 }

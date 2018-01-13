@@ -31,4 +31,4 @@ set(RPGMAPPER_CTRL_SRC
 
 # define library
 add_library(rpgmapper_ctrl STATIC ${RPGMAPPER_CTRL_SRC})
-target_link_libraries(rpgmapper_ctrl rpgmapper_model Qt5::Core ${MINIZIP_LIBRARIES} ${CMAKE_REQUIRED_LIBRARIES})
+target_link_libraries(rpgmapper_ctrl rpgmapper_model quazip5 Qt5::Core ${CMAKE_REQUIRED_LIBRARIES})

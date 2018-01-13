@@ -23,13 +23,11 @@
 
 #include <iostream>
 
-#include <boost/filesystem.hpp>
-
-#include <minizip/unzip.h>
-#include <minizip/zip.h>
+#include <quazip/quazip.h>
+#include <quazip/quazipfile.h>
+#include <quazip/quazipnewinfo.h>
 
 // rpgmapper
-#include <rpgmapper/common_macros.h>
 #include <rpgmapper/ctrl/file.hpp>
 
 using namespace rpgmapper::ctrl;
@@ -47,36 +45,33 @@ using namespace rpgmapper::ctrl;
  */
 bool File::load(std::string sFileName) {
 
-    auto zf = unzOpen64(sFileName.c_str());
-    if (!zf) {
+    QuaZip cQuaZip;
+    cQuaZip.setZipName(sFileName.c_str());
+    if (!cQuaZip.open(QuaZip::mdUnzip)) {
         return false;
     }
 
-    m_cData.clear();
+    for (auto bFilePresent = cQuaZip.goToFirstFile(); bFilePresent; bFilePresent = cQuaZip.goToNextFile()) {
 
-    char sName[1024];
-    auto nZipIter = unzGoToFirstFile(zf);
-    while (nZipIter == UNZ_OK) {
+        QuaZipFileInfo zfi;
+        if (!cQuaZip.getCurrentFileInfo(&zfi)) {
+            return false;
+        }
 
-        memset(sName, 0, 1024);
-        unz_file_info64 zfi = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0}};
-        unzGetCurrentFileInfo64(zf, &zfi, sName, 1024, nullptr, 0, nullptr, 0);
-        auto nSize = static_cast<unsigned int>(zfi.uncompressed_size);
+        QuaZipFile zf(&cQuaZip);
+        if (!zf.open(QIODevice::ReadOnly)) {
+            return false;
+        }
 
         QByteArray cData;
-        cData.resize(nSize);
+        cData.resize(zfi.uncompressedSize);
+        zf.read(cData.data(), zfi.uncompressedSize);
 
-        char t[1024];
-        UNUSED int err = unzReadCurrentFile(zf, t, nSize);
-        auto s = std::string(t);
-
-        unzCloseCurrentFile(zf);
-
-
-        m_cData.insert(std::make_pair(sName, cData));
-
-        nZipIter = unzGoToNextFile(zf);
+        UNUSED auto s = cData.data();
+        m_cData.insert(std::make_pair(zf.getActualFileName().toStdString(), cData));
     }
+
+    cQuaZip.close();
 
     return true;
 }
@@ -90,28 +85,26 @@ bool File::load(std::string sFileName) {
  */
 bool File::save(std::string sFileName) const {
 
-    auto zf = zipOpen64(sFileName.c_str(), APPEND_STATUS_CREATE);
-    if (!zf) {
+    QuaZip cQuaZip;
+
+    cQuaZip.setZipName(sFileName.c_str());
+    cQuaZip.setFileNameCodec("UTF-8");
+    if (!cQuaZip.open(QuaZip::mdCreate, nullptr)) {
         return false;
     }
 
     for (auto const & cEntry: m_cData) {
-        zip_fileinfo zfi = { {0, 0, 0, 0, 0, 0}, 0, 0, 0};
-        zipOpenNewFileInZip64(zf,
-                              cEntry.first.c_str(),
-                              &zfi,
-                              nullptr,
-                              0,
-                              nullptr,
-                              0,
-                              nullptr,
-                              0,
-                              Z_DEFAULT_COMPRESSION,
-                              1);
-        zipWriteInFileInZip(zf, cEntry.second.constData(), cEntry.second.size());
-        zipCloseFileInZip(zf);
+
+        QuaZipFile zf(&cQuaZip);
+        QuaZipNewInfo zfi(cEntry.first.c_str());
+
+        if (!zf.open(QIODevice::WriteOnly, zfi)) {
+            return false;
+        }
+        zf.write(cEntry.second.data(), cEntry.second.size());
     }
-    zipClose(zf, nullptr);
+
+    cQuaZip.close();
 
     return true;
 }

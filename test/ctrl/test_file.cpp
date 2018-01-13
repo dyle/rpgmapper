@@ -1,5 +1,5 @@
 /*
- * file.hpp
+ * test_file.cpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,45 +18,29 @@
  */
 
 
-#ifndef CTRL_FILE_HPP
-#define CTRL_FILE_HPP
-
-
-// ------------------------------------------------------------
-// incs
-
-
-
-// ------------------------------------------------------------
-// decl
-
-
-namespace rpgmapper {
-namespace ctrl {
-
-
-/**
- * This is the class managing rpgmapper files.
- *
- * Actually it is a mere wrapper around working on gzipped tarballs.
- */
-class File {
-
-
-public:
-
-
-    /**
-     * Ctor.
-     */
-    File() = default;
-
-
-
-};
-
-
-}
-}
-
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
 #endif
+
+
+// ------------------------------------------------------------
+
+// rpgmapper
+#include <rpgmapper/ctrl/file.hpp>
+
+using namespace rpgmapper::ctrl;
+
+
+// ------------------------------------------------------------
+// code
+
+int test() {
+    File cFile;
+    return 0;
+}
+
+int main(UNUSED int argc, UNUSED char ** argv) {
+    return test();
+}

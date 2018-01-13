@@ -19,8 +19,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # ------------------------------------------------------------
 
-add_subdirectory(qttar)
+# additional includes
+include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR})
 
-add_subdirectory(unit)
-add_subdirectory(model)
-add_subdirectory(ctrl)
+# test: File
+set(TEST_FILE_SRC                       test_file.cpp)
+add_executable(test_file                ${TEST_FILE_SRC})
+target_link_libraries(test_file         rpgmapper_model  ${CMAKE_REQUIRED_LIBRARIES})
+add_test(ctrl/file                      test_file)

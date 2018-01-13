@@ -1,5 +1,5 @@
 /*
- * nameable.hpp
+ * controller.cpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,93 +18,65 @@
  */
 
 
-#ifndef MODEL_NAMEABLE_HPP
-#define MODEL_NAMEABLE_HPP
-
-
 // ------------------------------------------------------------
 // incs
 
-
-#include <string>
-
-#include <QJsonObject>
-
 // rpgmapper
-#include "changeable.hpp"
+#include <rpgmapper/ctrl/controller.hpp>
+
+using namespace rpgmapper::ctrl;
 
 
 // ------------------------------------------------------------
 // decl
 
-
 namespace rpgmapper {
-namespace model {
-
+namespace ctrl {
 
 /**
- * A nameable object knows its name
+ * Internal data of an Atlas object.
  */
-class Nameable : public Changeable {
-
+class Controller::Controller_data {
 
 public:
 
-
-    /**
-     * ctor
-     */
-    Nameable();
+    Controller_data() = default;
 
 
-    /**
-     * dtor
-     */
-    virtual ~Nameable();
-
-
-    /**
-     * load the name from json
-     *
-     * @param   cJSON       the json instance to load from
-     */
-    virtual void load(QJsonObject const & cJSON);
-
-
-    /**
-     * Get the name.
-     *
-     * @return  the name
-     */
-    std::string const & name() const;
-
-
-    /**
-     * Set the name.
-     *
-     * @param   sName       the new name
-     */
-    void name(std::string sName);
-
-
-    /**
-     * save the name to json
-     *
-     * @param   cJSON       the json instance to save to
-     */
-    virtual void save(QJsonObject & cJSON) const;
-
-
-private:
-
-
-    std::string m_sName;
-
+    rpgmapper::model::Atlas m_cAtlas;       /**< the atlas managed by this controller */
 };
 
-
 }
 }
 
+// ------------------------------------------------------------
+// code
 
-#endif
+
+/**
+ * Ctor.
+ */
+Controller::Controller() {
+    d = std::make_shared<Controller::Controller_data>();
+}
+
+
+/**
+ * Get the current atlas
+ *
+ * @return  the current atlas instance
+ */
+rpgmapper::model::Atlas & Controller::atlas() {
+    return d->m_cAtlas;
+}
+
+
+/**
+ * Get the singleton controller instance.
+ *
+ * @return  the singleton controller instance of rpgmapper.
+ */
+Controller & Controller::instance() {
+    static Controller cController;
+    return cController;
+}

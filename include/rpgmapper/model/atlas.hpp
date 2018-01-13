@@ -112,7 +112,7 @@ public:
      *
      * @param   cJSON       the json instance to load from
      */
-    void load(QJsonObject const & cJSON);
+    void load(QJsonObject const & cJSON) override;
 
 
     /**
@@ -146,7 +146,7 @@ public:
      *
      * @param   cJSON       the json instance to save to
      */
-    void save(QJsonObject & cJSON) const;
+    void save(QJsonObject & cJSON) const override;
 
 
 private:

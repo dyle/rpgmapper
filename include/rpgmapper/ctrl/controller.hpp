@@ -1,5 +1,5 @@
 /*
- * nameable.hpp
+ * controller.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,20 +18,18 @@
  */
 
 
-#ifndef MODEL_NAMEABLE_HPP
-#define MODEL_NAMEABLE_HPP
+#ifndef CTRL_CONTROLLER_HPP
+#define CTRL_CONTROLLER_HPP
 
 
 // ------------------------------------------------------------
 // incs
 
+#include <memory>
 
-#include <string>
-
-#include <QJsonObject>
 
 // rpgmapper
-#include "changeable.hpp"
+#include <rpgmapper/model/atlas.hpp>
 
 
 // ------------------------------------------------------------
@@ -39,72 +37,49 @@
 
 
 namespace rpgmapper {
-namespace model {
+namespace ctrl {
 
 
 /**
- * A nameable object knows its name
+ * This is the main rpgmapper controller instance
  */
-class Nameable : public Changeable {
+class Controller {
 
 
 public:
 
 
     /**
-     * ctor
-     */
-    Nameable();
-
-
-    /**
-     * dtor
-     */
-    virtual ~Nameable();
-
-
-    /**
-     * load the name from json
+     * Get the current atlas
      *
-     * @param   cJSON       the json instance to load from
+     * @return  the current atlas instance
      */
-    virtual void load(QJsonObject const & cJSON);
+    rpgmapper::model::Atlas & atlas();
 
 
     /**
-     * Get the name.
+     * Get the singleton controller instance.
      *
-     * @return  the name
+     * @return  the singleton controller instance of rpgmapper.
      */
-    std::string const & name() const;
-
-
-    /**
-     * Set the name.
-     *
-     * @param   sName       the new name
-     */
-    void name(std::string sName);
-
-
-    /**
-     * save the name to json
-     *
-     * @param   cJSON       the json instance to save to
-     */
-    virtual void save(QJsonObject & cJSON) const;
+    static Controller & instance();
 
 
 private:
 
 
-    std::string m_sName;
+    /**
+     * Ctor.
+     */
+    Controller();
 
+
+    class Controller_data;                              /**< internal data type */
+    std::shared_ptr<Controller::Controller_data> d;     /**< internal data instance */
 };
 
 
 }
 }
-
 
 #endif

@@ -1,8 +1,6 @@
 # ------------------------------------------------------------
 # CMakeLists.txt
 #
-# Author: Oliver Maurhart, <oliver.maurhart@ait.ac.at>
-#
 # Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,5 +17,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # ------------------------------------------------------------
 
-add_subdirectory(model)
-add_subdirectory(ctrl)
+# additional includes
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+# sources
+set(RPGMAPPER_CTRL_SRC
+
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/common_macros.h
+
+        controller.cpp ${CMAKE_SOURCE_DIR}/include/rpgmapper/ctrl/controller.hpp
+    file.cpp                ${CMAKE_SOURCE_DIR}/include/rpgmapper/ctrl/file.hpp
+)
+
+# define library
+add_library(rpgmapper_ctrl STATIC ${RPGMAPPER_CTRL_SRC})
+target_link_libraries(rpgmapper_ctrl rpgmapper_model Qt5::Core ${CMAKE_REQUIRED_LIBRARIES})

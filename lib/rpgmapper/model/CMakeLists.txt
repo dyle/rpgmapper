@@ -1,5 +1,5 @@
 # ------------------------------------------------------------
-# CMakeLists.txt for RPGMapper/bin
+# CMakeLists.txt
 #
 # Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
 #

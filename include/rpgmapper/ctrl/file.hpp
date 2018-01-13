@@ -57,7 +57,7 @@ public:
 
 
     /**
-     * All the internal bytearrays managed by this instance.
+     * All the internal byte arrays managed by this instance.
      *
      * @return  all byte arrays of this object instance.
      */

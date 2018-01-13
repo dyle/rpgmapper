@@ -25,7 +25,6 @@
 
 #include <quazip/quazip.h>
 #include <quazip/quazipfile.h>
-#include <quazip/quazipnewinfo.h>
 
 // rpgmapper
 #include <rpgmapper/ctrl/file.hpp>
@@ -67,7 +66,6 @@ bool File::load(std::string sFileName) {
         cData.resize(zfi.uncompressedSize);
         zf.read(cData.data(), zfi.uncompressedSize);
 
-        UNUSED auto s = cData.data();
         m_cData.insert(std::make_pair(zf.getActualFileName().toStdString(), cData));
     }
 

@@ -25,5 +25,5 @@ include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR})
 # test: File
 set(TEST_FILE_SRC                       test_file.cpp)
 add_executable(test_file                ${TEST_FILE_SRC})
-target_link_libraries(test_file         rpgmapper_model  ${CMAKE_REQUIRED_LIBRARIES})
+target_link_libraries(test_file         rpgmapper_ctrl ${CMAKE_REQUIRED_LIBRARIES})
 add_test(ctrl/file                      test_file)

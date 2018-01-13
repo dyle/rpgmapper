@@ -27,6 +27,9 @@
 
 // ------------------------------------------------------------
 
+#include <iostream>
+#include <cassert>
+
 // rpgmapper
 #include <rpgmapper/ctrl/file.hpp>
 
@@ -34,10 +37,34 @@ using namespace rpgmapper::ctrl;
 
 
 // ------------------------------------------------------------
+// defs
+
+#define DUMMY_TEXT \
+"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, \n"\
+"sed diam nonumy eirmod tempor invidunt ut labore et dolore \n"\
+"magna aliquyam erat, sed diam voluptua.\n"
+
+
+// ------------------------------------------------------------
 // code
 
 int test() {
-    File cFile;
+
+    File cFileToWrite;
+
+    std::string sText = DUMMY_TEXT;
+    QByteArray cData1(sText.c_str(), static_cast<int>(sText.size()));
+    cFileToWrite.list().insert(std::make_pair("afolder/afile/dummy.txt", cData1));
+    cFileToWrite.save("test_file.zip");
+
+    File cFileToLoad;
+    cFileToLoad.load("test_file.zip");
+    assert(cFileToLoad.list().size() == 1);
+    auto iter = cFileToLoad.list().find("afolder/afile/dummy.txt");
+    assert(iter != cFileToLoad.list().end());
+
+    std::cout << cFileToLoad.list()["afolder/afile/dummy.txt"].data() << std::endl;
+
     return 0;
 }
 

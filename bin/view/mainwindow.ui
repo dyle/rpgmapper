@@ -44,7 +44,7 @@
      <x>0</x>
      <y>0</y>
      <width>815</width>
-     <height>27</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnFile">
@@ -69,14 +69,11 @@
     <property name="title">
      <string>&amp;Map</string>
     </property>
-    <addaction name="acNewMapSet"/>
-    <addaction name="acDeleteMapSet"/>
-    <addaction name="acMapSetProperties"/>
     <addaction name="separator"/>
     <addaction name="acNewMap"/>
-    <addaction name="acDeleteMap"/>
     <addaction name="acOpenMap"/>
     <addaction name="acCloseMap"/>
+    <addaction name="acDeleteMap"/>
     <addaction name="acMapProperties"/>
    </widget>
    <addaction name="mnFile"/>
@@ -120,8 +117,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>256</width>
-          <height>123</height>
+          <width>96</width>
+          <height>26</height>
          </rect>
         </property>
         <attribute name="label">
@@ -134,7 +131,7 @@
           <x>0</x>
           <y>0</y>
           <width>256</width>
-          <height>123</height>
+          <height>122</height>
          </rect>
         </property>
         <attribute name="label">

@@ -55,6 +55,8 @@ MainWindow::MainWindow() : QMainWindow() {
 
     loadSettings();
     ui->twAtlas->resetStructure();
+
+    connectActions();
 }
 
 
@@ -72,6 +74,14 @@ void MainWindow::centerWindow() {
 
     resize(QSize(nDefaultWidth, nDefaultHeight));
     move(QPoint(nX, nY));
+}
+
+
+/**
+ * Connects all action signals for this MainWindow.
+ */
+void MainWindow::connectActions() {
+    connect(ui->acQuit, &QAction::triggered, this, &MainWindow::close);
 }
 
 

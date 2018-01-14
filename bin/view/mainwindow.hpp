@@ -81,6 +81,12 @@ private:
 
 
     /**
+     * Connects all action signals for this MainWindow.
+     */
+    void connectActions();
+
+
+    /**
      * load the settings
      */
     void loadSettings();

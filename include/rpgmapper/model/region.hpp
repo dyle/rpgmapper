@@ -83,7 +83,7 @@ public:
      *
      * @return  true if the region or any dependent object changed.
      */
-    virtual bool changedAccumulated() const;
+    bool changedAccumulated() const override;
 
 
     /**
@@ -91,7 +91,7 @@ public:
      *
      * @param   bChanged        the new changed information
      */
-    virtual void changedAccumulated(bool bChanged);
+    void changedAccumulated(bool bChanged) override;
 
 
     /**

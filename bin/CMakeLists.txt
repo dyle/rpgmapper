@@ -35,6 +35,7 @@ qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
 # Qt MOC
 set(RPGMAPPER_MOC
     view/mainwindow.hpp
+    view/structuraltreewidget.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
 
@@ -44,7 +45,8 @@ set(RPGMAPPER_SRC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/common_macros.h
 
     main.cpp
-    view/mainwindow.cpp             view/mainwindow.hpp
+    view/mainwindow.cpp                 view/mainwindow.hpp
+    view/structuraltreewidget.cpp       view/structuraltreewidget.hpp
 )
 
 # bin definition

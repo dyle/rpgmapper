@@ -156,7 +156,7 @@
    <widget class="QWidget" name="dwAtlasTreeContent">
     <layout class="QVBoxLayout" name="lyAtlasContent">
      <item>
-      <widget class="QTreeWidget" name="twAtlas">
+      <widget class="rpgmapper::view::StructuralTreeWidget" name="twAtlas">
        <property name="contextMenuPolicy">
         <enum>Qt::CustomContextMenu</enum>
        </property>
@@ -336,6 +336,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>rpgmapper::view::StructuralTreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header>view/structuraltreewidget.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="rpgmapper.qrc"/>
  </resources>

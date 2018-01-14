@@ -28,7 +28,6 @@
 // ------------------------------------------------------------
 
 #include <cassert>
-#include <iostream>
 
 // rpgmapper
 #include <rpgmapper/model/nameable.hpp>

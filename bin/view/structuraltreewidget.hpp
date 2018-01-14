@@ -54,8 +54,16 @@ public:
      *
      * @param   cParent     parent widget
      */
-    StructuralTreeWidget(QWidget * cParent = nullptr);
+    explicit StructuralTreeWidget(QWidget * cParent = nullptr);
 
+
+public slots:
+
+
+    /**
+     * Reset structure (builds Atlas structure anew)
+     */
+    void resetStructure();
 
 };
 

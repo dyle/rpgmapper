@@ -60,15 +60,6 @@ public:
     MainWindow();
 
 
-public slots:
-
-
-    /**
-     * Clear all and apply the current atlas to the widgets.
-     */
-    void reset();
-
-
 protected:
 
 

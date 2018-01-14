@@ -25,12 +25,12 @@
 #include <QApplication>
 #include <QCloseEvent>
 #include <QDesktopWidget>
-#include <QPixmapCache>
 #include <QSettings>
 
 // rpgmapper
 #include <rpgmapper/ctrl/controller.hpp>
 #include "mainwindow.hpp"
+#include "structuraltreewidget.hpp"
 
 #include "ui_mainwindow.h"
 
@@ -38,38 +38,6 @@
 using namespace rpgmapper::ctrl;
 using namespace rpgmapper::model;
 using namespace rpgmapper::view;
-
-
-// ------------------------------------------------------------
-// decl
-
-
-/**
- * Add the atlas to the structural tree view
- *
- * @param   cTWAtlas        the QTreeWidget structural widget
- */
-static void appendStructureAtlas(QTreeWidget * cTWAtlas);
-
-
-/**
- * Add a map structural tree view
- *
- * @param   cTIRegion       the QTreeWidgetItem holding the region item
- * @param   cMap            the map to add
- * @return  The QTreeWidgetItem created
- */
-static QTreeWidgetItem * appendStructureMap(QTreeWidgetItem * cTWRegion, Map const & cMap);
-
-
-/**
- * Add a region structural tree view
- *
- * @param   cTIAtlas        the QTreeWidgetItem holding the atlas item
- * @param   cRegion         the region to add
- * @return  The QTreeWidgetItem created
- */
-static QTreeWidgetItem * appendStructureRegion(QTreeWidgetItem * cTWAtlas, Region const & cRegion);
 
 
 // ------------------------------------------------------------
@@ -86,7 +54,7 @@ MainWindow::MainWindow() : QMainWindow() {
     statusBar()->setSizeGripEnabled(true);
 
     loadSettings();
-    reset();
+    ui->twAtlas->resetStructure();
 }
 
 
@@ -137,85 +105,4 @@ void MainWindow::loadSettings() {
         centerWindow();
     }
     restoreState(cSettings.value("windowState").toByteArray());
-}
-
-
-/**
- * Clear all and apply the current atlas to the widgets.
- */
-void MainWindow::reset() {
-    ui->twAtlas->clear();
-    appendStructureAtlas(ui->twAtlas);
-}
-
-
-/**
- * Add the atlas to the structural tree view
- *
- * @param   cTWAtlas        the QTreeWidget structural widget
- */
-void appendStructureAtlas(QTreeWidget * cTWAtlas) {
-
-    QTreeWidgetItem * cTWItem = nullptr;
-    QPixmap cPixmap;
-    QStringList sl;
-
-    sl << Controller::instance().atlas().name() << "atlas" << "";
-    cTWItem = new QTreeWidgetItem(sl);
-    QPixmapCache::find("atlas", &cPixmap);
-    cTWItem->setIcon(0, cPixmap);
-    cTWAtlas->insertTopLevelItem(0, cTWItem);
-
-    for (auto const & cRegion: Controller::instance().atlas().regions()) {
-        auto cTWRegion = appendStructureRegion(cTWItem, cRegion.second);
-        cTWRegion->setExpanded(true);
-    }
-
-    cTWItem->setExpanded(true);
-}
-
-
-/**
- * Add a map structural tree view
- *
- * @param   cTIRegion       the QTreeWidgetItem holding the region item
- * @param   cMap            the map to add
- * @return  The QTreeWidgetItem created
- */
-QTreeWidgetItem * appendStructureMap(QTreeWidgetItem * cTWRegion, Map const & cMap) {
-
-    QPixmap cPixmap;
-    QStringList sl;
-
-    sl << cMap.name() << "map" << QString::number(cMap.id());
-    auto cTWMapItem = new QTreeWidgetItem(cTWRegion, sl);
-    QPixmapCache::find("map", &cPixmap);
-    cTWMapItem->setIcon(0, cPixmap);
-
-    return cTWMapItem;
-}
-
-
-/**
- * Add a region structural tree view
- *
- * @param   cTIAtlas        the QTreeWidgetItem holding the atlas item
- * @param   cRegion         the region to add
- * @return  The QTreeWidgetItem created
- */
-QTreeWidgetItem * appendStructureRegion(QTreeWidgetItem * cTWAtlas, Region const & cRegion) {
-
-    QPixmap cPixmap;
-    QStringList sl;
-
-    sl << cRegion.name() << "region" << QString::number(cRegion.id());
-    auto cTWRegionItem = new QTreeWidgetItem(cTWAtlas, sl);
-    QPixmapCache::find("region", &cPixmap);
-    cTWRegionItem->setIcon(0, cPixmap);
-
-    for (auto const & cMap: cRegion.maps()) {
-        auto cTWMap = appendStructureMap(cTWRegionItem, cMap.second);
-        cTWMap->setExpanded(true);
-    }
-    return cTWRegionItem;
 }

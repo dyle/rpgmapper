@@ -51,7 +51,7 @@ set(RPGMAPPER_SRC
 add_executable(rpgmapper ${RPGMAPPER_SRC} ${RPGMAPPER_MOC_CPP} ${RPGMAPPER_RES} ${RPGMAPPER_UI_H})
 
 # linkage
-target_link_libraries(rpgmapper rpgmapper_model ${CMAKE_REQUIRED_LIBRARIES} Qt5::Core Qt5::Widgets)
+target_link_libraries(rpgmapper rpgmapper_ctrl rpgmapper_model ${CMAKE_REQUIRED_LIBRARIES} Qt5::Core Qt5::Widgets)
 
 # install
 install(TARGETS rpgmapper RUNTIME DESTINATION bin)

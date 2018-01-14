@@ -2,8 +2,8 @@
   <qresource prefix="icons">
     <file>gfx/atlas.png</file>
     <file>gfx/map.png</file>
-    <file>gfx/mapset.png</file>
     <file>gfx/rpgmapper_32.png</file>
+    <file>gfx/region.png</file>
     <file>gfx/atlas-new.png</file>
     <file>gfx/atlas-open.png</file>
     <file>gfx/atlas-save-as.png</file>

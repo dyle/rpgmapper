@@ -108,7 +108,7 @@
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="QWidget" name="dwIconsContent">
+   <widget class="QWidget" name="wdIconsContent">
     <layout class="QVBoxLayout" name="lyIconsContent">
      <item>
       <widget class="QToolBox" name="tbIcons">
@@ -120,8 +120,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>96</width>
-          <height>26</height>
+          <width>256</width>
+          <height>123</height>
          </rect>
         </property>
         <attribute name="label">
@@ -178,6 +178,9 @@
        <property name="allColumnsShowFocus">
         <bool>true</bool>
        </property>
+       <property name="expandsOnDoubleClick">
+        <bool>false</bool>
+       </property>
        <property name="columnCount">
         <number>1</number>
        </property>
@@ -200,7 +203,7 @@
      <normaloff>:/icons/gfx/atlas-new.png</normaloff>:/icons/gfx/atlas-new.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;New Atlas</string>
+    <string>&amp;New</string>
    </property>
    <property name="toolTip">
     <string>Create a new atlas</string>
@@ -212,7 +215,7 @@
      <normaloff>:/icons/gfx/atlas-open.png</normaloff>:/icons/gfx/atlas-open.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Open Atlas</string>
+    <string>&amp;Open</string>
    </property>
    <property name="toolTip">
     <string>Open an atlas from file</string>
@@ -227,7 +230,7 @@
      <normaloff>:/icons/gfx/atlas-save.png</normaloff>:/icons/gfx/atlas-save.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Save Atlas</string>
+    <string>&amp;Save</string>
    </property>
    <property name="toolTip">
     <string>Save atlas to file</string>
@@ -254,7 +257,7 @@
   </action>
   <action name="acAtlasProperties">
    <property name="text">
-    <string>Atlas &amp;Properties</string>
+    <string>&amp;Properties</string>
    </property>
    <property name="toolTip">
     <string>Properties of the current atlas</string>
@@ -266,7 +269,7 @@
      <normaloff>:/icons/gfx/atlas-save-as.png</normaloff>:/icons/gfx/atlas-save-as.png</iconset>
    </property>
    <property name="text">
-    <string>Sa&amp;ve Atlas as ...</string>
+    <string>Sa&amp;ve as ...</string>
    </property>
    <property name="toolTip">
     <string>Save current atlas under a new name</string>

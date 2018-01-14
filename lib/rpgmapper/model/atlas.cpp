@@ -22,6 +22,7 @@
 // incs
 
 #include <QJsonArray>
+#include <QTextCodec>
 
 // rpgmapper
 #include <rpgmapper/model/atlas.hpp>
@@ -151,7 +152,7 @@ Region & Atlas::createRegion() {
 
     Region & cRegion = d->m_cRegions[d->m_nRegionIdCounter];
     cRegion.id(d->m_nRegionIdCounter);
-    cRegion.name("New Region " + std::to_string(d->m_nRegionIdCounter));
+    cRegion.name("New Region " + QString::number(d->m_nRegionIdCounter));
 
     return cRegion;
 }
@@ -163,13 +164,13 @@ Region & Atlas::createRegion() {
  * @param   eJsonFormat     the format for representation
  * @return  a string holding the atlas in json format
  */
-std::string Atlas::json(QJsonDocument::JsonFormat eJsonFormat) const {
+QString Atlas::json(QJsonDocument::JsonFormat eJsonFormat) const {
 
     QJsonObject cJSON;
     save(cJSON);
 
     QJsonDocument cJSONDoc(cJSON);
-    return std::string(cJSONDoc.toJson(eJsonFormat).data());
+    return  QTextCodec::codecForName("UTF-8")->toUnicode(cJSONDoc.toJson(eJsonFormat).data());
 }
 
 

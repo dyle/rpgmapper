@@ -26,9 +26,8 @@
 // incs
 
 
-#include <string>
-
 #include <QJsonObject>
+#include <QString>
 
 // rpgmapper
 #include "changeable.hpp"
@@ -76,7 +75,7 @@ public:
      *
      * @return  the name
      */
-    std::string const & name() const;
+    QString const & name() const;
 
 
     /**
@@ -84,7 +83,7 @@ public:
      *
      * @param   sName       the new name
      */
-    void name(std::string sName);
+    void name(QString sName);
 
 
     /**
@@ -98,7 +97,7 @@ public:
 private:
 
 
-    std::string m_sName;
+    QString m_sName;
 
 };
 

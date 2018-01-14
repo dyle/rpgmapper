@@ -160,7 +160,7 @@ void appendStructureAtlas(QTreeWidget * cTWAtlas) {
     QPixmap cPixmap;
     QStringList sl;
 
-    sl << QString::fromStdString(Controller::instance().atlas().name()) << "atlas" << "";
+    sl << Controller::instance().atlas().name() << "atlas" << "";
     cTWItem = new QTreeWidgetItem(sl);
     QPixmapCache::find("atlas", &cPixmap);
     cTWItem->setIcon(0, cPixmap);
@@ -187,7 +187,7 @@ QTreeWidgetItem * appendStructureMap(QTreeWidgetItem * cTWRegion, Map const & cM
     QPixmap cPixmap;
     QStringList sl;
 
-    sl << QString::fromStdString(cMap.name()) << "map" << QString::number(cMap.id());
+    sl << cMap.name() << "map" << QString::number(cMap.id());
     auto cTWMapItem = new QTreeWidgetItem(cTWRegion, sl);
     QPixmapCache::find("map", &cPixmap);
     cTWMapItem->setIcon(0, cPixmap);
@@ -208,7 +208,7 @@ QTreeWidgetItem * appendStructureRegion(QTreeWidgetItem * cTWAtlas, Region const
     QPixmap cPixmap;
     QStringList sl;
 
-    sl << QString::fromStdString(cRegion.name()) << "region" << QString::number(cRegion.id());
+    sl << cRegion.name() << "region" << QString::number(cRegion.id());
     auto cTWRegionItem = new QTreeWidgetItem(cTWAtlas, sl);
     QPixmapCache::find("region", &cPixmap);
     cTWRegionItem->setIcon(0, cPixmap);

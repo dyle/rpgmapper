@@ -26,9 +26,9 @@
 // incs
 
 #include <map>
-#include <string>
 
 #include <QByteArray>
+#include <QString>
 
 
 // ------------------------------------------------------------
@@ -61,7 +61,7 @@ public:
      *
      * @return  all byte arrays of this object instance.
      */
-    std::map<std::string, QByteArray> & list() { return m_cData; }
+    std::map<QString, QByteArray> & list() { return m_cData; }
 
 
     /**
@@ -70,7 +70,7 @@ public:
      * @param   sFileName       name of the file to load
      * @return  true, for success
      */
-    bool load(std::string sFileName);
+    bool load(QString sFileName);
 
 
     /**
@@ -79,7 +79,7 @@ public:
      * @param   sFileName       name of the file to save
      * @return  true, for success
      */
-    bool save(std::string sFileName) const;
+    bool save(QString sFileName) const;
 
 
 private:
@@ -88,7 +88,7 @@ private:
     /**
      * Data hold by this file.
      */
-    std::map<std::string, QByteArray> m_cData;
+    std::map<QString, QByteArray> m_cData;
 };
 
 

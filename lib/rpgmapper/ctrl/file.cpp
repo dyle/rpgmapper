@@ -40,10 +40,10 @@ using namespace rpgmapper::ctrl;
  * @param   sFileName       name of the file to load
  * @return  true, for success
  */
-bool File::load(std::string sFileName) {
+bool File::load(QString sFileName) {
 
     QuaZip cQuaZip;
-    cQuaZip.setZipName(sFileName.c_str());
+    cQuaZip.setZipName(sFileName);
     if (!cQuaZip.open(QuaZip::mdUnzip)) {
         return false;
     }
@@ -64,7 +64,7 @@ bool File::load(std::string sFileName) {
         cData.resize(zfi.uncompressedSize);
         zf.read(cData.data(), zfi.uncompressedSize);
 
-        m_cData.insert(std::make_pair(zf.getActualFileName().toStdString(), cData));
+        m_cData.insert(std::make_pair(zf.getActualFileName(), cData));
     }
 
     cQuaZip.close();
@@ -79,11 +79,11 @@ bool File::load(std::string sFileName) {
  * @param   sFileName       name of the file to save
  * @return  true, for success
  */
-bool File::save(std::string sFileName) const {
+bool File::save(QString sFileName) const {
 
     QuaZip cQuaZip;
 
-    cQuaZip.setZipName(sFileName.c_str());
+    cQuaZip.setZipName(sFileName);
     cQuaZip.setFileNameCodec("UTF-8");
     if (!cQuaZip.open(QuaZip::mdCreate, nullptr)) {
         return false;
@@ -92,7 +92,7 @@ bool File::save(std::string sFileName) const {
     for (auto const & cEntry: m_cData) {
 
         QuaZipFile zf(&cQuaZip);
-        QuaZipNewInfo zfi(cEntry.first.c_str());
+        QuaZipNewInfo zfi(cEntry.first);
 
         if (!zf.open(QIODevice::WriteOnly, zfi)) {
             return false;

@@ -29,6 +29,7 @@
 
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QString>
 
 // rpgmapper
 #include "nameable.hpp"
@@ -104,7 +105,7 @@ public:
      * @param   eJsonFormat     the format for representation
      * @return  a string holding the atlas in json format
      */
-    std::string json(QJsonDocument::JsonFormat eJsonFormat = QJsonDocument::Indented) const;
+    QString json(QJsonDocument::JsonFormat eJsonFormat = QJsonDocument::Indented) const;
 
 
     /**

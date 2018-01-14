@@ -150,7 +150,7 @@ Map & Region::createMap() {
     d->m_cMaps.emplace(d->m_nMapIdCounter, Map());
 
     Map & cMap = d->m_cMaps[d->m_nMapIdCounter];
-    cMap.name("New Map " + std::to_string(d->m_nMapIdCounter));
+    cMap.name("New Map " + QString::number(d->m_nMapIdCounter));
     cMap.id(d->m_nMapIdCounter);
 
     return cMap;

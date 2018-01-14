@@ -43,7 +43,7 @@ int test() {
 
     Nameable cNameable;
     assert(!cNameable.changed());
-    assert(cNameable.name().empty());
+    assert(cNameable.name().isNull());
 
     cNameable.name("foo");
     assert(cNameable.changed());

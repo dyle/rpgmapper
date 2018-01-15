@@ -46,11 +46,11 @@ class A : public Changeable {
 public:
 
 
-    A() = default;
+    A() : Changeable() {}
 
 
     bool modified() const override {
-        if (modified()) {
+        if (Changeable::modified()) {
             return true;
         }
         for (auto const & c: v) {
@@ -63,14 +63,16 @@ public:
 
 
     void modified(bool bModified) override {
-        modified(bModified);
+        Changeable::modified(bModified);
         for (auto & c: v) {
             c.modified(bModified);
         }
     }
 
 
-    std::vector<Changeable> v = { Changeable(), Changeable(), Changeable() };
+    std::vector v = { ChangeablePointer(new Changeable),
+                      ChangeablePointer(new Changeable),
+                      ChangeablePointer(new Changeable) };
 
 };
 

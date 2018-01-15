@@ -45,6 +45,13 @@ namespace model {
 
 
 class Atlas;
+class Region;
+
+
+/**
+ * Smart pointer to a region.
+ */
+typedef QSharedPointer<Region> RegionPointer;
 
 
 /**
@@ -69,19 +76,13 @@ public:
 
 
     /**
-     * Ctor.
+     * Create a new region (factory method).
      *
-     * @param   cParent     parent object
+     * @param   cParent     parent object (should be an atlas instance)
+     * @param   nId         the id of the new region (id < 0 a new will be assigned)
+     * @return  a new region
      */
-    explicit Region(QObject * cParent = nullptr);
-
-
-    /**
-     * Creates a new Map to this region
-     *
-     * @return  a reference to the new Map
-     */
-    MapPointer createMap();
+    static RegionPointer create(QObject * cParent = nullptr, id_t nId = -1);
 
 
     /**
@@ -98,14 +99,6 @@ public:
      * @param   cJSON       the json instance to load from
      */
     void load(QJsonObject const & cJSON) override;
-
-
-    /**
-     * Return all the maps managed in this region.
-     *
-     * @return  all maps of this region
-     */
-    Maps const & maps() const;
 
 
     /**
@@ -161,11 +154,12 @@ private:
 
 
     /**
-     * Set a new id to the region.
+     * Ctor.
      *
-     * @param   nId         the new id of the region
+     * @param   cParent     parent object (should be an atlas instance)
+     * @param   nId     id of the region
      */
-    void id(id_t nId) { m_nId = nId; }
+    explicit Region(QObject * cParent, Region::id_t nId);
 
 
     id_t m_nId;                                     /**< region id */
@@ -174,12 +168,6 @@ private:
     std::shared_ptr<Region::Region_data> d;         /**< internal data instance */
 
 };
-
-
-/**
- * Smart pointer to a region.
- */
-typedef QSharedPointer<Region> RegionPointer;
 
 
 /**

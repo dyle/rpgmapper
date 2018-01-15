@@ -65,10 +65,12 @@ static Map::id_t g_nMapIdCounter = 0;
 /**
  * Ctor.
  *
+ * @param   cParent     parent object (should be an atlas instance)
  * @param   nId     id of the map
  */
-Map::Map(Map::id_t nId) : Nameable(nullptr), m_nId(nId) {
+Map::Map(QObject * cParent, Map::id_t nId) : Nameable(cParent), m_nId(nId) {
     d = std::make_shared<Map::Map_data>();
+    name("New map " + QString::number(id()));
 }
 
 
@@ -83,12 +85,13 @@ void Map::clear() {
 /**
  * Create a new map (factory method).
  *
+ * @param   cParent     parent object (should be an atlas instance)
  * @param   nId         the id of the new map (id < 0 a new will be assigned)
  * @return  a new map
  */
-MapPointer Map::create(id_t nId) {
+MapPointer Map::create(QObject * cParent, id_t nId) {
     nId = nId < 0 ? ++g_nMapIdCounter : nId;
-    return MapPointer(new Map(nId), &Map::deleteLater);
+    return MapPointer(new Map(cParent, nId), &Map::deleteLater);
 }
 
 

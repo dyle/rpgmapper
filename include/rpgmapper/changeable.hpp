@@ -26,7 +26,7 @@
 // incs
 
 #include <QObject>
-
+#include <QSharedPointer>
 
 // ------------------------------------------------------------
 // decl
@@ -34,6 +34,15 @@
 
 namespace rpgmapper {
 namespace model {
+
+
+class Changeable;
+
+
+/**
+* Smart pointer to a map.
+*/
+typedef QSharedPointer<Changeable> ChangeablePointer;
 
 
 /**

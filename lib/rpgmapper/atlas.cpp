@@ -25,6 +25,7 @@
 #include <QTextCodec>
 
 // rpgmapper
+#include <rpgmapper/common_macros.h>
 #include <rpgmapper/atlas.hpp>
 
 using namespace rpgmapper::model;
@@ -46,8 +47,8 @@ public:
 
     Atlas_data() = default;
 
-    Regions m_cRegions;                         /**< all the regions managed by this Atlas */
-    Region::id_t m_nRegionIdCounter = 0;        /**< region id counter */
+    Maps m_cMaps;                               /**< All the maps managed by this atlas. */
+    Regions m_cRegions;                         /**< All the regions managed by this atlas. */
 };
 
 
@@ -67,7 +68,8 @@ public:
 Atlas::Atlas(QObject * cParent) : Nameable(cParent) {
     d = std::make_shared<Atlas::Atlas_data>();
     name("New Atlas");
-    createRegion();
+    UNUSED auto cRegion = createRegion();
+    UNUSED auto cMap = createMap();
 }
 
 
@@ -76,9 +78,21 @@ Atlas::Atlas(QObject * cParent) : Nameable(cParent) {
  */
 void Atlas::clear() {
     name("");
+    d->m_cMaps.clear();
     d->m_cRegions.clear();
-    d->m_nRegionIdCounter = 0;
     modified(true);
+}
+
+
+/**
+ * Creates a new map to this atlas
+ *
+ * @return  a reference to the new map
+ */
+MapPointer Atlas::createMap() {
+    auto cMap = Map::create(this);
+    d->m_cMaps.insert(std::make_pair(cMap->id(), cMap));
+    return cMap;
 }
 
 
@@ -88,14 +102,8 @@ void Atlas::clear() {
  * @return  a reference to the new region
  */
 RegionPointer Atlas::createRegion() {
-
-    d->m_nRegionIdCounter += 1;
-    auto cPair = d->m_cRegions.emplace(d->m_nRegionIdCounter, RegionPointer(new Region(), &Region::deleteLater));
-    auto cRegion = (*cPair.first).second;
-
-    cRegion->id(d->m_nRegionIdCounter);
-    cRegion->name("New Region " + QString::number(d->m_nRegionIdCounter));
-
+    auto cRegion = Region::create(this);
+    d->m_cRegions.insert(std::make_pair(cRegion->id(), cRegion));
     return cRegion;
 }
 
@@ -132,12 +140,24 @@ void Atlas::load(QJsonObject const & cJSON) {
         QJsonArray cJSONRegions = cJSON["regions"].toArray();
         for (auto &&cJSONRegion : cJSONRegions) {
 
-            RegionPointer cRegion(new Region(), &Region::deleteLater);
+            auto cRegion = createRegion();
             cRegion->load(cJSONRegion.toObject());
 
             auto nId = cRegion->id();
             d->m_cRegions.insert(std::make_pair(nId, cRegion));
-            d->m_nRegionIdCounter = std::max<Region::id_t>(nId, d->m_nRegionIdCounter);
+        }
+    }
+
+    if (cJSON.contains("maps") && cJSON["maps"].isArray()) {
+
+        QJsonArray cJSONMaps = cJSON["maps"].toArray();
+        for (auto && cJSONMap : cJSONMaps) {
+
+            auto cMap = createMap();
+            cMap->load(cJSONMap.toObject());
+
+            auto nId = cMap->id();
+            d->m_cMaps.insert(std::make_pair(nId, cMap));
         }
     }
 
@@ -196,4 +216,12 @@ void Atlas::save(QJsonObject & cJSON) const {
         cJSONRegions.append(jo);
     }
     cJSON["regions"] = cJSONRegions;
+
+    QJsonArray cJSONMaps;
+    for (auto const & cMap: d->m_cMaps) {
+        QJsonObject jo;
+        cMap.second->save(jo);
+        cJSONMaps.append(jo);
+    }
+    cJSON["maps"] = cJSONMaps;
 }

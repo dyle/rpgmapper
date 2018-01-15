@@ -67,6 +67,14 @@ public:
 
 
     /**
+     * Creates a new map to this atlas
+     *
+     * @return  a reference to the new map
+     */
+    MapPointer createMap();
+
+
+    /**
      * Creates a new region to this atlas
      *
      * @return  a reference to the new region

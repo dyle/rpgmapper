@@ -45,10 +45,14 @@ public:
 
     Region_data() = default;
 
-    Maps m_cMaps;                       /**< all the maps managed by this region */
-    Map::id_t m_nMapIdCounter = 0;      /**< map id counter */
     int m_nOrderValue = 0;              /**< means to order a region among others */
 };
+
+
+/**
+ * Global region id counter.
+ */
+static Region::id_t g_nRegionIdCounter = 0;
 
 
 }
@@ -62,12 +66,12 @@ public:
 /**
  * Ctor.
  *
- * @param   cParent     parent object
+ * @param   cParent     parent object (should be an atlas instance)
+ * @param   nId     id of the region
  */
-Region::Region(QObject * cParent) : Nameable(cParent) {
+Region::Region(QObject * cParent, Region::id_t nId) : Nameable(cParent), m_nId(nId) {
     d = std::make_shared<Region::Region_data>();
-    name("New Region");
-    createMap();
+    name("New Region " + QString::number(id()));
 }
 
 
@@ -76,27 +80,20 @@ Region::Region(QObject * cParent) : Nameable(cParent) {
  */
 void Region::clear() {
     name("");
-    d->m_cMaps.clear();
-    d->m_nMapIdCounter = 0;
     modified(true);
 }
 
 
 /**
- * Creates a new Map to this region.
+ * Create a new region (factory method).
  *
- * @return  a reference to the new Map
+ * @param   cParent     parent object (should be an atlas instance)
+ * @param   nId         the id of the new region (id < 0 a new will be assigned)
+ * @return  a new region
  */
-MapPointer Region::createMap() {
-
-    d->m_nMapIdCounter += 1;
-    auto cPair = d->m_cMaps.emplace(d->m_nMapIdCounter, MapPointer(new Map(), &Map::deleteLater));
-    auto cMap = (*cPair.first).second;
-
-    cMap->name("New Map " + QString::number(d->m_nMapIdCounter));
-    cMap->id(d->m_nMapIdCounter);
-
-    return cMap;
+RegionPointer Region::create(QObject * cParent, id_t nId) {
+    nId = nId < 0 ? ++g_nRegionIdCounter : nId;
+    return RegionPointer(new Region(cParent, nId), &Region::deleteLater);
 }
 
 
@@ -112,36 +109,12 @@ void Region::load(QJsonObject const & cJSON) {
     Nameable::load(cJSON);
 
     if (cJSON.contains("id") && cJSON["id"].isDouble()) {
-        id(cJSON["id"].toInt());
+        m_nId = cJSON["id"].toInt();
+        g_nRegionIdCounter = std::max(g_nRegionIdCounter, m_nId);
     }
-
     if (cJSON.contains("orderValue") && cJSON["orderValue"].isDouble()) {
         orderValue(cJSON["orderValue"].toInt());
     }
-
-    if (cJSON.contains("maps") && cJSON["maps"].isArray()) {
-
-        QJsonArray cJSONMaps = cJSON["maps"].toArray();
-        for (auto && cJSONMap : cJSONMaps) {
-
-            MapPointer cMap(new Map(), &Map::deleteLater);
-            cMap->load(cJSONMap.toObject());
-
-            auto nId = cMap->id();
-            d->m_cMaps.insert(std::make_pair(nId, cMap));
-            d->m_nMapIdCounter = std::max<Map::id_t>(nId, d->m_nMapIdCounter);
-        }
-    }
-}
-
-
-/**
- * Return all the maps managed in this region.
- *
- * @return  all maps of this region
- */
-Maps const & Region::maps() const {
-    return d->m_cMaps;
 }
 
 
@@ -205,12 +178,4 @@ void Region::save(QJsonObject & cJSON) const {
 
     cJSON["id"] = id();
     cJSON["orderValue"] = orderValue();
-
-    QJsonArray cJSONMaps;
-    for (auto const & cMap: d->m_cMaps) {
-        QJsonObject jo;
-        cMap.second->save(jo);
-        cJSONMaps.append(jo);
-    }
-    cJSON["maps"] = cJSONMaps;
 }

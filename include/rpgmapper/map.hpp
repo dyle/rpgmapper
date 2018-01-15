@@ -76,10 +76,11 @@ public:
     /**
      * Create a new map (factory method).
      *
+     * @param   cParent     parent object (should be an atlas instance)
      * @param   nId         the id of the new map (id < 0 a new will be assigned)
      * @return  a new map
      */
-    static MapPointer create(id_t nId = -1);
+    static MapPointer create(QObject * cParent = nullptr, id_t nId = -1);
 
 
     /**
@@ -137,9 +138,10 @@ private:
     /**
      * Ctor.
      *
-     * @param   nId     id of the map
+     * @param   cParent     parent object (should be an atlas instance)
+     * @param   nId         id of the map
      */
-    explicit Map(Map::id_t nId);
+    explicit Map(QObject * cParent, Map::id_t nId);
 
 
     id_t m_nId;                                 /**< map id */

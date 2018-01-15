@@ -23,6 +23,12 @@
 
 
 // ------------------------------------------------------------
+// incs
+
+#include <QObject>
+
+
+// ------------------------------------------------------------
 // decl
 
 
@@ -33,54 +39,56 @@ namespace model {
 /**
  * A changeable object knows if its inner state has been changed.
  */
-class Changeable {
+class Changeable : public QObject {
+
+
+    Q_OBJECT
 
 
 public:
 
 
     /**
-     * ctor
+     * Ctor.
+     *
+     * @param   cParent     parent object
      */
-    Changeable();
+    explicit Changeable(QObject * cParent = nullptr);
 
 
     /**
-     * state if the object instance data has changed
+     * State if the object instance data has changed.
      *
-     * @return  true if the object instance data has changed
+     * This will also check any of the object's children.
+     *
+     * @return  true if the object instance data and any of its children has changed
      */
-    bool changed() const;
+    virtual bool modified() const;
 
 
     /**
-     * set the object instance data changed flag
+     * Set the object instance data changed flag.
      *
-     * @param   bChanged        the new object instance data changed flag
+     * The new flag is also applied to any of the object's children.
+     *
+     * @param   bModified       the new object instance data changed flag
      */
-    void changed(bool bChanged);
+    virtual void modified(bool bModified);
+
+
+signals:
 
 
     /**
-     * state if the object instance data has changed or of one of its aggregated objects.
-     *
-     * @return  true if the object instance data or one of its aggregated objects has changed
+     * The object has changed.
      */
-    virtual bool changedAccumulated() const;
-
-
-    /**
-     * applies the new changed flag to this instance and all aggregated objects
-     *
-     * @param   bChanged        the new object instance data changed flag for all objects
-     */
-    virtual void changedAccumulated(bool bChanged);
+    void changed();
 
 
 private:
 
 
-    bool m_bChanged;
+    bool m_bModified;
 
 };
 

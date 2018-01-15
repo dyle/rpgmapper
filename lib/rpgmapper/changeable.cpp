@@ -32,47 +32,36 @@ using namespace rpgmapper::model;
 
 
 /**
- * ctor
+ * Ctor
+ *
+ * @param   cParent     parent object
  */
-Changeable::Changeable() : m_bChanged(false) {
+Changeable::Changeable(QObject * cParent) : QObject(cParent), m_bModified(false) {
 }
 
 
 /**
- * state if the object instance data has changed
+ * State if the object instance data has changed.
  *
- * @return  true if the object instance  data has changed
+ * This will also check any of the object's children.
+ *
+ * @return  true if the object instance data and any of its children has changed
  */
-bool Changeable::changed() const {
-    return m_bChanged;
+bool Changeable::modified() const {
+    return m_bModified;
 }
 
 
 /**
- * set the object instance  data changed flag
+ * Set the object instance data changed flag.
  *
- * @param   bChanged        the new object instance  data changed flag
- */
-void Changeable::changed(bool bChanged) {
-    m_bChanged = bChanged;
-}
-
-
-/**
- * state if the object instance data has changed or of one of its aggregated objects.
+ * The new flag is also applied to any of the object's children.
  *
- * @return  true if the object instance data or one of its aggregated objects has changed
+ * @param   bModified       the new object instance data changed flag
  */
-bool Changeable::changedAccumulated() const {
-    return changed();
-}
-
-
-/**
- * applies the new changed flag to this instance and all aggregated objects
- *
- * @param   bChanged        the new object instance data changed flag for all objects
- */
-void Changeable::changedAccumulated(bool bChanged) {
-    return changed(bChanged);
+void Changeable::modified(bool bModified) {
+    if (bModified && (m_bModified != bModified)) {
+        emit changed();
+    }
+    m_bModified = bModified;
 }

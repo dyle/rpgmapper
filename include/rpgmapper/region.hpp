@@ -29,6 +29,7 @@
 #include <memory>
 
 #include <QJsonObject>
+#include <QSharedPointer>
 
 // rpgmapper
 #include "nameable.hpp"
@@ -53,6 +54,7 @@ class Atlas;
  */
 class Region : public Nameable {
 
+    Q_OBJECT
 
     friend class Atlas;
 
@@ -61,31 +63,17 @@ public:
 
 
     /**
-     * type of a region's ID
+     * Type of a region's ID.
      */
     typedef int id_t;
 
 
     /**
-     * ctor
-     */
-    Region();
-
-
-    /**
-     * check if the region or any aggregated objects changed.
+     * Ctor.
      *
-     * @return  true if the region or any dependent object changed.
+     * @param   cParent     parent object
      */
-    bool changedAccumulated() const override;
-
-
-    /**
-     * set the change flag of the region and any dependent objects
-     *
-     * @param   bChanged        the new changed information
-     */
-    void changedAccumulated(bool bChanged) override;
+    explicit Region(QObject * cParent = nullptr);
 
 
     /**
@@ -93,11 +81,11 @@ public:
      *
      * @return  a reference to the new Map
      */
-    Map & createMap();
+    MapPointer createMap();
 
 
     /**
-     * return the id of the region
+     * Return the id of the region.
      *
      * @return  the id of the region
      */
@@ -105,7 +93,7 @@ public:
 
 
     /**
-     * load the region from json
+     * Load the region from json.
      *
      * @param   cJSON       the json instance to load from
      */
@@ -113,7 +101,7 @@ public:
 
 
     /**
-     * return all the maps managed in this region
+     * Return all the maps managed in this region.
      *
      * @return  all maps of this region
      */
@@ -121,7 +109,23 @@ public:
 
 
     /**
-     * means to order this region among other regions
+     * State if the region (and any descendants) has changed.
+     *
+     * @return  true, if the region (or any descendants) has changed.
+     */
+    bool modified() const override;
+
+
+    /**
+     * Set the region and all descendants to a new modification state.
+     *
+     * @param   bModified       the new modification state
+     */
+    void modified(bool bModified) override;
+
+
+    /**
+     * Means to order this region among other regions.
      *
      * @return  a value indicating the position of this region among others
      */
@@ -129,7 +133,7 @@ public:
 
 
     /**
-     * set the means to order this region among other regions
+     * Set the means to order this region among other regions.
      *
      * @param   nOrderValue     a value indicating the position of this region among others
      */
@@ -137,24 +141,27 @@ public:
 
 
     /**
-     * save the region to json
+     * Save the region to json.
      *
      * @param   cJSON       the json instance to save to
      */
     void save(QJsonObject & cJSON) const override;
 
 
-private:
+public slots:
 
 
     /**
-     * reset the region to empty state
+     * Reset the region to empty state.
      */
     void clear();
 
 
+private:
+
+
     /**
-     * set a new id to the region
+     * Set a new id to the region.
      *
      * @param   nId         the new id of the region
      */
@@ -170,9 +177,15 @@ private:
 
 
 /**
+ * Smart pointer to a region.
+ */
+typedef QSharedPointer<Region> RegionPointer;
+
+
+/**
  * multiple regions
  */
-typedef std::map<Region::id_t, Region> Regions;
+typedef std::map<Region::id_t, RegionPointer> Regions;
 
 
 }

@@ -60,47 +60,14 @@ public:
 
 
 /**
- * ctor
+ * Ctor.
+ *
+ * @param   cParent     parent object
  */
-Atlas::Atlas() : Nameable() {
+Atlas::Atlas(QObject * cParent) : Nameable(cParent) {
     d = std::make_shared<Atlas::Atlas_data>();
     name("New Atlas");
     createRegion();
-}
-
-
-/**
- * check if the atlas or any aggregated objects changed.
- *
- * @return  true if the atlas or any dependent object changed.
- */
-bool Atlas::changedAccumulated() const {
-
-    if (changed()) {
-        return true;
-    }
-
-    for (auto const & cRegion: d->m_cRegions) {
-        if (cRegion.second.changedAccumulated()) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-
-/**
- * set the change flag of the atlas and any dependent objects
- *
- * @param   bChanged        the new changed information
- */
-void Atlas::changedAccumulated(bool bChanged) {
-
-    changed(bChanged);
-    for (auto & cRegion: d->m_cRegions) {
-        cRegion.second.changedAccumulated(bChanged);
-    }
 }
 
 
@@ -111,7 +78,7 @@ void Atlas::clear() {
     name("");
     d->m_cRegions.clear();
     d->m_nRegionIdCounter = 0;
-    changed(true);
+    modified(true);
 }
 
 
@@ -120,21 +87,21 @@ void Atlas::clear() {
  *
  * @return  a reference to the new region
  */
-Region & Atlas::createRegion() {
+RegionPointer Atlas::createRegion() {
 
     d->m_nRegionIdCounter += 1;
-    d->m_cRegions.emplace(d->m_nRegionIdCounter, Region());
+    auto cPair = d->m_cRegions.emplace(d->m_nRegionIdCounter, RegionPointer(new Region(), &Region::deleteLater));
+    auto cRegion = (*cPair.first).second;
 
-    Region & cRegion = d->m_cRegions[d->m_nRegionIdCounter];
-    cRegion.id(d->m_nRegionIdCounter);
-    cRegion.name("New Region " + QString::number(d->m_nRegionIdCounter));
+    cRegion->id(d->m_nRegionIdCounter);
+    cRegion->name("New Region " + QString::number(d->m_nRegionIdCounter));
 
     return cRegion;
 }
 
 
 /**
- * create a json string form this Atlas
+ * Create a json string form this atlas.
  *
  * @param   eJsonFormat     the format for representation
  * @return  a string holding the atlas in json format
@@ -150,7 +117,7 @@ QString Atlas::json(QJsonDocument::JsonFormat eJsonFormat) const {
 
 
 /**
- * load the atlas from json
+ * Load the atlas from json.
  *
  * @param   cJSON       the json instance to load from
  */
@@ -165,21 +132,46 @@ void Atlas::load(QJsonObject const & cJSON) {
         QJsonArray cJSONRegions = cJSON["regions"].toArray();
         for (auto &&cJSONRegion : cJSONRegions) {
 
-            Region cRegion;
-            cRegion.load(cJSONRegion.toObject());
+            RegionPointer cRegion(new Region(), &Region::deleteLater);
+            cRegion->load(cJSONRegion.toObject());
 
-            auto nId = cRegion.id();
-            d->m_cRegions.insert(std::make_pair(nId, std::move(cRegion)));
+            auto nId = cRegion->id();
+            d->m_cRegions.insert(std::make_pair(nId, cRegion));
             d->m_nRegionIdCounter = std::max<Region::id_t>(nId, d->m_nRegionIdCounter);
         }
     }
 
-    changedAccumulated(false);
+    modified(false);
 }
 
 
 /**
- * return all the regions managed by this atlas
+ * State if the atlas (and any descendants) has changed.
+ *
+ * @return  true, if the atlas (or any descendants) has changed.
+ */
+bool Atlas::modified() const {
+    if (Nameable::modified()) {
+        return true;
+    }
+    // TODO: work on descendants
+    return false;
+}
+
+
+/**
+ * Set the atlas and all descendants to a new modification state.
+ *
+ * @param   bModified       the new modification state
+ */
+void Atlas::modified(bool bModified) {
+    Nameable::modified(bModified);
+    // TODO: work on descendants
+}
+
+
+/**
+ * Return all the regions managed by this atlas.
  *
  * @return  all regions of this atlas
  */
@@ -189,7 +181,7 @@ Regions const & Atlas::regions() const {
 
 
 /**
- * save the atlas to json
+ * Save the atlas to json.
  *
  * @param   cJSON       the json instance to save to
  */
@@ -200,7 +192,7 @@ void Atlas::save(QJsonObject & cJSON) const {
     QJsonArray cJSONRegions;
     for (auto const & cRegion: d->m_cRegions) {
         QJsonObject jo;
-        cRegion.second.save(jo);
+        cRegion.second->save(jo);
         cJSONRegions.append(jo);
     }
     cJSON["regions"] = cJSONRegions;

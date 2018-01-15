@@ -32,9 +32,11 @@ using namespace rpgmapper::model;
 
 
 /**
- * ctor
+ * Ctor.
+ *
+ * @param   cParent     parent object
  */
-Nameable::Nameable() : Changeable() {
+Nameable::Nameable(QObject * cParent) : Changeable(cParent) {
 }
 
 
@@ -68,7 +70,7 @@ QString const & Nameable::name() const {
 void Nameable::name(QString sName) {
     if (m_sName != sName) {
         m_sName = sName;
-        changed(true);
+        modified(true);
     }
 }
 

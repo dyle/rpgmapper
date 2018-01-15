@@ -60,9 +60,11 @@ public:
 
 
 /**
- * ctor
+ * Ctor.
+ *
+ * @param   cParent     parent object
  */
-Region::Region() : Nameable() {
+Region::Region(QObject * cParent) : Nameable(cParent) {
     d = std::make_shared<Region::Region_data>();
     name("New Region");
     createMap();
@@ -70,70 +72,36 @@ Region::Region() : Nameable() {
 
 
 /**
- * check if the region or any aggregated objects changed.
- *
- * @return  true if the region or any dependent object changed.
- */
-bool Region::changedAccumulated() const {
-
-    if (changed()) {
-        return true;
-    }
-
-    for (auto const & cMap: d->m_cMaps) {
-        if (cMap.second.changedAccumulated()) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-
-/**
- * set the change flag of the region and any dependent objects
- *
- * @param   bChanged        the new changed information
- */
-void Region::changedAccumulated(bool bChanged) {
-    changed(bChanged);
-    for (auto & cMap: d->m_cMaps) {
-        cMap.second.changedAccumulated(bChanged);
-    }
-}
-
-
-/**
- * reset the region to empty state
+ * Reset the region to empty state.
  */
 void Region::clear() {
     name("");
     d->m_cMaps.clear();
     d->m_nMapIdCounter = 0;
-    changed(true);
+    modified(true);
 }
 
 
 /**
- * Creates a new Map to this region
+ * Creates a new Map to this region.
  *
  * @return  a reference to the new Map
  */
-Map & Region::createMap() {
+MapPointer Region::createMap() {
 
     d->m_nMapIdCounter += 1;
-    d->m_cMaps.emplace(d->m_nMapIdCounter, Map());
+    auto cPair = d->m_cMaps.emplace(d->m_nMapIdCounter, MapPointer(new Map(), &Map::deleteLater));
+    auto cMap = (*cPair.first).second;
 
-    Map & cMap = d->m_cMaps[d->m_nMapIdCounter];
-    cMap.name("New Map " + QString::number(d->m_nMapIdCounter));
-    cMap.id(d->m_nMapIdCounter);
+    cMap->name("New Map " + QString::number(d->m_nMapIdCounter));
+    cMap->id(d->m_nMapIdCounter);
 
     return cMap;
 }
 
 
 /**
- * load the region from json
+ * Load the region from json.
  *
  * @param   cJSON       the json instance to load from
  */
@@ -156,11 +124,11 @@ void Region::load(QJsonObject const & cJSON) {
         QJsonArray cJSONMaps = cJSON["maps"].toArray();
         for (auto && cJSONMap : cJSONMaps) {
 
-            Map cMap;
-            cMap.load(cJSONMap.toObject());
+            MapPointer cMap(new Map(), &Map::deleteLater);
+            cMap->load(cJSONMap.toObject());
 
-            auto nId = cMap.id();
-            d->m_cMaps.insert(std::make_pair(nId, std::move(cMap)));
+            auto nId = cMap->id();
+            d->m_cMaps.insert(std::make_pair(nId, cMap));
             d->m_nMapIdCounter = std::max<Map::id_t>(nId, d->m_nMapIdCounter);
         }
     }
@@ -168,7 +136,7 @@ void Region::load(QJsonObject const & cJSON) {
 
 
 /**
- * return all the maps managed in this region
+ * Return all the maps managed in this region.
  *
  * @return  all maps of this region
  */
@@ -178,7 +146,32 @@ Maps const & Region::maps() const {
 
 
 /**
- * means to order this region among other regions
+ * State if the region (and any descendants) has changed.
+ *
+ * @return  true, if the region (or any descendants) has changed.
+ */
+bool Region::modified() const {
+    if (Nameable::modified()) {
+        return true;
+    }
+    // TODO: work on descendants
+    return false;
+}
+
+
+/**
+ * Set the region and all descendants to a new modification state.
+ *
+ * @param   bModified       the new modification state
+ */
+void Region::modified(bool bModified) {
+    Nameable::modified(bModified);
+    // TODO: work on descendants
+}
+
+
+/**
+ * Means to order this region among other regions.
  *
  * @return  a value indicating the position of this region among others
  */
@@ -188,7 +181,7 @@ int Region::orderValue() const {
 
 
 /**
- * set the means to order this region among other regions
+ * Set the means to order this region among other regions.
  *
  * @param   nOrderValue     a value indicating the position of this region among others
  */
@@ -197,12 +190,12 @@ void Region::orderValue(int nOrderValue) {
         return;
     }
     d->m_nOrderValue = nOrderValue;
-    changed(true);
+    modified(true);
 }
 
 
 /**
- * save the region to json
+ * Save the region to json.
  *
  * @param   cJSON       the json instance to save to
  */
@@ -216,7 +209,7 @@ void Region::save(QJsonObject & cJSON) const {
     QJsonArray cJSONMaps;
     for (auto const & cMap: d->m_cMaps) {
         QJsonObject jo;
-        cMap.second.save(jo);
+        cMap.second->save(jo);
         cJSONMaps.append(jo);
     }
     cJSON["maps"] = cJSONMaps;

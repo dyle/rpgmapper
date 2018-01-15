@@ -30,6 +30,7 @@
 #include <memory>
 
 #include <QJsonObject>
+#include <QSharedPointer>
 
 // rpgmapper
 #include "nameable.hpp"
@@ -54,6 +55,8 @@ class Region;
 class Map : public Nameable {
 
 
+    Q_OBJECT
+
     friend class Region;
 
 
@@ -67,13 +70,15 @@ public:
 
 
     /**
-     * ctor
+     * Ctor.
+     *
+     * @param   cParent     parent object
      */
-    Map();
+    explicit Map(QObject * cParent = nullptr);
 
 
     /**
-     * return the id of the map
+     * Return the id of the map.
      *
      * @return  the id of the map
      */
@@ -81,7 +86,7 @@ public:
 
 
     /**
-     * load the map from json
+     * Load the map from json.
      *
      * @param   cJSON       the json instance to load from
      */
@@ -89,7 +94,7 @@ public:
 
 
     /**
-     * means to order this map among other maps
+     * Means to order this map among other maps.
      *
      * @return  a value indicating the position of this map among others
      */
@@ -97,7 +102,7 @@ public:
 
 
     /**
-     * set the means to order this map among other maps
+     * Set the means to order this map among other maps.
      *
      * @param   nOrderValue     a value indicating the position of this maps among others
      */
@@ -105,20 +110,23 @@ public:
 
 
     /**
-     * save the map to json
+     * Save the map to json.
      *
      * @param   cJSON       the json instance to save to
      */
     void save(QJsonObject & cJSON) const override;
 
 
-private:
+public slots:
 
 
     /**
-     * reset the map to empty state
+     * Reset the map to empty state.
      */
     void clear();
+
+
+private:
 
 
     /**
@@ -136,9 +144,15 @@ private:
 
 
 /**
- * multiple maps
+ * Smart pointer to a map.
  */
-typedef std::map<Map::id_t, Map> Maps;
+typedef QSharedPointer<Map> MapPointer;
+
+
+/**
+ * Multiple maps.
+ */
+typedef std::map<Map::id_t, MapPointer> Maps;
 
 
 }

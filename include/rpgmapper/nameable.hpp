@@ -27,6 +27,7 @@
 
 
 #include <QJsonObject>
+#include <QObject>
 #include <QString>
 
 // rpgmapper
@@ -47,17 +48,22 @@ namespace model {
 class Nameable : public Changeable {
 
 
+    Q_OBJECT
+
+
 public:
 
 
     /**
-     * ctor
+     * Ctor.
+     *
+     * @param   cParent     parent object
      */
-    Nameable();
+    explicit Nameable(QObject * cParent = nullptr);
 
 
     /**
-     * load the name from json
+     * Load the name from json.
      *
      * @param   cJSON       the json instance to load from
      */
@@ -81,7 +87,7 @@ public:
 
 
     /**
-     * save the name to json
+     * Save the name to json.
      *
      * @param   cJSON       the json instance to save to
      */

@@ -58,24 +58,25 @@ public:
 
 
 /**
- * ctor
+ * Ctor.
+ *
+ * @param   cParent     parent object
  */
-Map::Map() : Nameable() {
+Map::Map(QObject * cParent) : Nameable(cParent) {
     d = std::make_shared<Map::Map_data>();
 }
 
 
 /**
- * reset the region to empty state
+ * Reset the region to empty state.
  */
 void Map::clear() {
     name("");
-    changed(true);
 }
 
 
 /**
- * load the map from json
+ * Load the map from json.
  *
  * @param   cJSON       the json instance to load from
  */
@@ -96,7 +97,7 @@ void Map::load(QJsonObject const & cJSON) {
 
 
 /**
- * means to order this map among other maps
+ * Means to order this map among other maps.
  *
  * @return  a value indicating the position of this map among others
  */
@@ -106,7 +107,7 @@ int Map::orderValue() const {
 
 
 /**
- * set the means to order this map among other maps
+ * Set the means to order this map among other maps.
  *
  * @param   nOrderValue     a value indicating the position of this maps among others
  */
@@ -115,12 +116,12 @@ void Map::orderValue(int nOrderValue) {
         return;
     }
     d->m_nOrderValue = nOrderValue;
-    changed(true);
+    modified(true);
 }
 
 
 /**
- * save the map to json
+ * Save the map to json.
  *
  * @param   cJSON       the json instance to save to
  */

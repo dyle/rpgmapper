@@ -41,11 +41,11 @@ using namespace rpgmapper::model;
 int test() {
 
     Nameable cNameable;
-    assert(!cNameable.changed());
+    assert(!cNameable.modified());
     assert(cNameable.name().isNull());
 
     cNameable.name("foo");
-    assert(cNameable.changed());
+    assert(cNameable.modified());
     assert(cNameable.name() == "foo");
 
     return 0;

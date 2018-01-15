@@ -52,29 +52,18 @@ namespace model {
 class Atlas : public Nameable {
 
 
+    Q_OBJECT
+
+
 public:
 
 
     /**
-     * ctor
-     */
-    Atlas();
-
-
-    /**
-     * check if the atlas or any aggregated objects changed.
+     * Ctor.
      *
-     * @return  true if the atlas or any dependent object changed.
+     * @param   cParent     parent object
      */
-    bool changedAccumulated() const override;
-
-
-    /**
-     * set the change flag of the atlas and any dependent objects
-     *
-     * @param   bChanged        the new changed information
-     */
-    void changedAccumulated(bool bChanged) override;
+    explicit Atlas(QObject * cParent = nullptr);
 
 
     /**
@@ -82,11 +71,11 @@ public:
      *
      * @return  a reference to the new region
      */
-    Region & createRegion();
+    RegionPointer createRegion();
 
 
     /**
-     * create a json string form this Atlas
+     * Create a json string form this atlas.
      *
      * @param   eJsonFormat     the format for representation
      * @return  a string holding the atlas in json format
@@ -95,7 +84,7 @@ public:
 
 
     /**
-     * load the atlas from json
+     * Load the atlas from json.
      *
      * @param   cJSON       the json instance to load from
      */
@@ -103,7 +92,23 @@ public:
 
 
     /**
-     * return all the regions managed by this atlas
+     * State if the atlas (and any descendants) has changed.
+     *
+     * @return  true, if the atlas (or any descendants) has changed.
+     */
+    bool modified() const override;
+
+
+    /**
+     * Set the atlas and all descendants to a new modification state.
+     *
+     * @param   bModified       the new modification state
+     */
+    void modified(bool bModified) override;
+
+
+    /**
+     * Return all the regions managed by this atlas.
      *
      * @return  all regions of this atlas
      */
@@ -111,7 +116,7 @@ public:
 
 
     /**
-     * save the atlas to json
+     * Save the atlas to json.
      *
      * @param   cJSON       the json instance to save to
      */

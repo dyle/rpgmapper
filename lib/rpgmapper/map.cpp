@@ -44,9 +44,14 @@ public:
 
     Map_data() = default;
 
-    int m_nOrderValue = 0;              /**< means to order a map among others */
-
+    int m_nOrderValue = 0;                      /**< means to order a map among others */
 };
+
+
+/**
+ * Global map id counter.
+ */
+static Map::id_t g_nMapIdCounter = 0;
 
 
 }
@@ -60,9 +65,9 @@ public:
 /**
  * Ctor.
  *
- * @param   cParent     parent object
+ * @param   nId     id of the map
  */
-Map::Map(QObject * cParent) : Nameable(cParent) {
+Map::Map(Map::id_t nId) : Nameable(nullptr), m_nId(nId) {
     d = std::make_shared<Map::Map_data>();
 }
 
@@ -72,6 +77,18 @@ Map::Map(QObject * cParent) : Nameable(cParent) {
  */
 void Map::clear() {
     name("");
+}
+
+
+/**
+ * Create a new map (factory method).
+ *
+ * @param   nId         the id of the new map (id < 0 a new will be assigned)
+ * @return  a new map
+ */
+MapPointer Map::create(id_t nId) {
+    nId = nId < 0 ? ++g_nMapIdCounter : nId;
+    return MapPointer(new Map(nId), &Map::deleteLater);
 }
 
 
@@ -87,7 +104,8 @@ void Map::load(QJsonObject const & cJSON) {
     Nameable::load(cJSON);
 
     if (cJSON.contains("id") && cJSON["id"].isDouble()) {
-        id(cJSON["id"].toInt());
+        m_nId = cJSON["id"].toInt();
+        g_nMapIdCounter = std::max(g_nMapIdCounter, m_nId);
     }
 
     if (cJSON.contains("orderValue") && cJSON["orderValue"].isDouble()) {

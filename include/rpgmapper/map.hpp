@@ -44,7 +44,13 @@ namespace rpgmapper {
 namespace model {
 
 
-class Region;
+class Map;
+
+
+/**
+ * Smart pointer to a map.
+ */
+typedef QSharedPointer<Map> MapPointer;
 
 
 /**
@@ -57,8 +63,6 @@ class Map : public Nameable {
 
     Q_OBJECT
 
-    friend class Region;
-
 
 public:
 
@@ -70,11 +74,12 @@ public:
 
 
     /**
-     * Ctor.
+     * Create a new map (factory method).
      *
-     * @param   cParent     parent object
+     * @param   nId         the id of the new map (id < 0 a new will be assigned)
+     * @return  a new map
      */
-    explicit Map(QObject * cParent = nullptr);
+    static MapPointer create(id_t nId = -1);
 
 
     /**
@@ -130,23 +135,17 @@ private:
 
 
     /**
-     * set a new id to the maps
+     * Ctor.
      *
-     * @param   nId         the new id of the map
+     * @param   nId     id of the map
      */
-    void id(id_t nId) { m_nId = nId; }
+    explicit Map(Map::id_t nId);
 
 
     id_t m_nId;                                 /**< map id */
     class Map_data;                             /**< internal data type */
     std::shared_ptr<Map::Map_data> d;           /**< internal data instance */
 };
-
-
-/**
- * Smart pointer to a map.
- */
-typedef QSharedPointer<Map> MapPointer;
 
 
 /**

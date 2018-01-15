@@ -39,13 +39,6 @@ Changeable::Changeable() : m_bChanged(false) {
 
 
 /**
- * dtor
- */
-Changeable::~Changeable() {
-}
-
-
-/**
  * state if the object instance data has changed
  *
  * @return  true if the object instance  data has changed

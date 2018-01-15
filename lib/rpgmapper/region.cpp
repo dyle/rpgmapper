@@ -70,13 +70,6 @@ Region::Region() : Nameable() {
 
 
 /**
- * dtor
- */
-Region::~Region() {
-}
-
-
-/**
  * check if the region or any aggregated objects changed.
  *
  * @return  true if the region or any dependent object changed.
@@ -118,24 +111,6 @@ void Region::clear() {
     d->m_cMaps.clear();
     d->m_nMapIdCounter = 0;
     changed(true);
-}
-
-
-/**
- * make a deep copy of this Region
- *
- * @return  a new deep copied instance
- */
-Region Region::clone() const {
-
-    Region cRegion;
-
-    cRegion.name(name());
-    for (auto const & cMap: d->m_cMaps) {
-        cRegion.createMap() = cMap.second.clone();
-    }
-
-    return cRegion;
 }
 
 
@@ -189,28 +164,6 @@ void Region::load(QJsonObject const & cJSON) {
             d->m_nMapIdCounter = std::max<Map::id_t>(nId, d->m_nMapIdCounter);
         }
     }
-}
-
-
-/**
- * get map by id
- *
- * @param   nId         id of the map to get
- * @return  map instance
- */
-Map & Region::map(Map::id_t nId) {
-    return d->m_cMaps[nId];
-}
-
-
-/**
- * get map by id
- *
- * @param   nId         id of the map to get
- * @return  map instance
- */
-Map const & Region::map(Map::id_t nId) const {
-    return d->m_cMaps[nId];
 }
 
 

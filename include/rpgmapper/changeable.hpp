@@ -46,12 +46,6 @@ public:
 
 
     /**
-     * dtor
-     */
-    virtual ~Changeable();
-
-
-    /**
      * state if the object instance data has changed
      *
      * @return  true if the object instance data has changed

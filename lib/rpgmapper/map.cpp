@@ -66,30 +66,11 @@ Map::Map() : Nameable() {
 
 
 /**
- * dtor
- */
-Map::~Map() {
-}
-
-
-/**
  * reset the region to empty state
  */
 void Map::clear() {
     name("");
     changed(true);
-}
-
-
-/**
- * make a deep copy of this Map
- *
- * @return  a new deep copied instance
- */
-Map Map::clone() const {
-    Map cMap;
-    cMap.name(name());
-    return cMap;
 }
 
 

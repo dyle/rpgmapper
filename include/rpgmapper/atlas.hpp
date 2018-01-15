@@ -62,12 +62,6 @@ public:
 
 
     /**
-     * dtor
-     */
-    virtual ~Atlas();
-
-
-    /**
      * check if the atlas or any aggregated objects changed.
      *
      * @return  true if the atlas or any dependent object changed.
@@ -81,14 +75,6 @@ public:
      * @param   bChanged        the new changed information
      */
     void changedAccumulated(bool bChanged) override;
-
-
-    /**
-     * make a deep copy of this Atlas
-     *
-     * @return  a new deep copied instance
-     */
-    Atlas clone() const;
 
 
     /**
@@ -114,24 +100,6 @@ public:
      * @param   cJSON       the json instance to load from
      */
     void load(QJsonObject const & cJSON) override;
-
-
-    /**
-     * get region by id
-     *
-     * @param   nId         id of the region to get
-     * @return  region instance
-     */
-    Region & region(Region::id_t nId);
-
-
-    /**
-     * get region by id
-     *
-     * @param   nId         id of the region to get
-     * @return  region instance
-     */
-    Region const & region(Region::id_t nId) const;
 
 
     /**

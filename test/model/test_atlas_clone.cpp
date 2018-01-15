@@ -44,9 +44,6 @@ int test() {
     a1.name("Atlas a1");
     a1.createRegion().name("Region a1.r1");
 
-    Atlas a2 = a1.clone();
-    assert(a2.name() == "Atlas a1");
-
     return 0;
 }
 

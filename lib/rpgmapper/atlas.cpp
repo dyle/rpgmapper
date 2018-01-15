@@ -70,13 +70,6 @@ Atlas::Atlas() : Nameable() {
 
 
 /**
- * dtor
- */
-Atlas::~Atlas() {
-}
-
-
-/**
  * check if the atlas or any aggregated objects changed.
  *
  * @return  true if the atlas or any dependent object changed.
@@ -119,24 +112,6 @@ void Atlas::clear() {
     d->m_cRegions.clear();
     d->m_nRegionIdCounter = 0;
     changed(true);
-}
-
-
-/**
- * make a deep copy of this Atlas
- *
- * @return  a new deep copied instance
- */
-Atlas Atlas::clone() const {
-
-    Atlas cAtlas;
-
-    cAtlas.name(name());
-    for (auto const & cRegion: d->m_cRegions) {
-        cAtlas.createRegion() = cRegion.second.clone();
-    }
-
-    return cAtlas;
 }
 
 
@@ -200,28 +175,6 @@ void Atlas::load(QJsonObject const & cJSON) {
     }
 
     changedAccumulated(false);
-}
-
-
-/**
- * get region by id
- *
- * @param   nId         id of the region to get
- * @return  region instance
- */
-Region & Atlas::region(Region::id_t nId) {
-    return d->m_cRegions[nId];
-}
-
-
-/**
- * get region by id
- *
- * @param   nId         id of the region to get
- * @return  region instance
- */
-Region const & Atlas::region(Region::id_t nId) const {
-    return d->m_cRegions[nId];
 }
 
 

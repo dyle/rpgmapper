@@ -73,20 +73,6 @@ public:
 
 
     /**
-     * dtor
-     */
-    virtual ~Map();
-
-
-    /**
-     * make a deep copy of this Map
-     *
-     * @return  a new deep copied instance
-     */
-    Map clone() const;
-
-
-    /**
      * return the id of the map
      *
      * @return  the id of the map

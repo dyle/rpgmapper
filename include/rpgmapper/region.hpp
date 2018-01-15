@@ -73,12 +73,6 @@ public:
 
 
     /**
-     * dtor
-     */
-    virtual ~Region();
-
-
-    /**
      * check if the region or any aggregated objects changed.
      *
      * @return  true if the region or any dependent object changed.
@@ -92,14 +86,6 @@ public:
      * @param   bChanged        the new changed information
      */
     void changedAccumulated(bool bChanged) override;
-
-
-    /**
-     * make a deep copy of this region
-     *
-     * @return  a new deep copied instance
-     */
-    Region clone() const;
 
 
     /**
@@ -124,24 +110,6 @@ public:
      * @param   cJSON       the json instance to load from
      */
     void load(QJsonObject const & cJSON) override;
-
-
-    /**
-     * get map by id
-     *
-     * @param   nId         id of the map to get
-     * @return  map instance
-     */
-    Map & map(Map::id_t nId);
-
-
-    /**
-     * get map by id
-     *
-     * @param   nId         id of the map to get
-     * @return  map instance
-     */
-    Map const & map(Map::id_t nId) const;
 
 
     /**

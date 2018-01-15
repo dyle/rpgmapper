@@ -39,13 +39,6 @@ Nameable::Nameable() : Changeable() {
 
 
 /**
- * dtor
- */
-Nameable::~Nameable() {
-}
-
-
-/**
  * load the name from json
  *
  * @param   cJSON       the json instance to load from

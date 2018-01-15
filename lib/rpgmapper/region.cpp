@@ -24,7 +24,7 @@
 #include <QJsonArray>
 
 // rpgmapper
-#include <rpgmapper/model/region.hpp>
+#include <rpgmapper/region.hpp>
 
 using namespace rpgmapper::model;
 

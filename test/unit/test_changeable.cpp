@@ -32,7 +32,7 @@
 #include <vector>
 
 // rpgmapper
-#include <rpgmapper/model/changeable.hpp>
+#include <rpgmapper/changeable.hpp>
 
 using namespace rpgmapper::model;
 

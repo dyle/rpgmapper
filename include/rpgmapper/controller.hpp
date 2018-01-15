@@ -1,5 +1,5 @@
 /*
- * controller.cpp
+ * controller.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,65 +18,68 @@
  */
 
 
+#ifndef CTRL_CONTROLLER_HPP
+#define CTRL_CONTROLLER_HPP
+
+
 // ------------------------------------------------------------
 // incs
 
-// rpgmapper
-#include <rpgmapper/ctrl/controller.hpp>
+#include <memory>
 
-using namespace rpgmapper::ctrl;
+
+// rpgmapper
+#include <rpgmapper/atlas.hpp>
 
 
 // ------------------------------------------------------------
 // decl
 
+
 namespace rpgmapper {
-namespace ctrl {
+namespace model {
+
 
 /**
- * Internal data of an Atlas object.
+ * This is the main rpgmapper controller instance
  */
-class Controller::Controller_data {
+class Controller {
+
 
 public:
 
-    Controller_data() = default;
+
+    /**
+     * Get the current atlas
+     *
+     * @return  the current atlas instance
+     */
+    rpgmapper::model::Atlas & atlas();
 
 
-    rpgmapper::model::Atlas m_cAtlas;       /**< the atlas managed by this controller */
+    /**
+     * Get the singleton controller instance.
+     *
+     * @return  the singleton controller instance of rpgmapper.
+     */
+    static Controller & instance();
+
+
+private:
+
+
+    /**
+     * Ctor.
+     */
+    Controller();
+
+
+    class Controller_data;                              /**< internal data type */
+    std::shared_ptr<Controller::Controller_data> d;     /**< internal data instance */
 };
 
+
 }
 }
 
-// ------------------------------------------------------------
-// code
-
-
-/**
- * Ctor.
- */
-Controller::Controller() {
-    d = std::make_shared<Controller::Controller_data>();
-}
-
-
-/**
- * Get the current atlas
- *
- * @return  the current atlas instance
- */
-rpgmapper::model::Atlas & Controller::atlas() {
-    return d->m_cAtlas;
-}
-
-
-/**
- * Get the singleton controller instance.
- *
- * @return  the singleton controller instance of rpgmapper.
- */
-Controller & Controller::instance() {
-    static Controller cController;
-    return cController;
-}
+#endif

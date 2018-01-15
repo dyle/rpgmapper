@@ -28,14 +28,13 @@
 #include <QSettings>
 
 // rpgmapper
-#include <rpgmapper/ctrl/controller.hpp>
+#include <rpgmapper/controller.hpp>
 #include "mainwindow.hpp"
 #include "structuraltreewidget.hpp"
 
 #include "ui_mainwindow.h"
 
 
-using namespace rpgmapper::ctrl;
 using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 

@@ -25,7 +25,7 @@
 #include <QTextCodec>
 
 // rpgmapper
-#include <rpgmapper/model/atlas.hpp>
+#include <rpgmapper/atlas.hpp>
 
 using namespace rpgmapper::model;
 

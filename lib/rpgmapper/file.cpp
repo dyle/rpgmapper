@@ -25,9 +25,9 @@
 #include <quazip/quazipfile.h>
 
 // rpgmapper
-#include <rpgmapper/ctrl/file.hpp>
+#include <rpgmapper/file.hpp>
 
-using namespace rpgmapper::ctrl;
+using namespace rpgmapper::model;
 
 
 // ------------------------------------------------------------

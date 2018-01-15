@@ -1,5 +1,5 @@
 /*
- * test_atlas_changeable.cpp
+ * controller.cpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,49 +18,65 @@
  */
 
 
-#if defined(__GNUC__) || defined(__GNUCPP__)
-#   define UNUSED   __attribute__((unused))
-#else
-#   define UNUSED
-#endif
-
-
 // ------------------------------------------------------------
-
-#include <cassert>
+// incs
 
 // rpgmapper
-#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/controller.hpp>
 
 using namespace rpgmapper::model;
 
 
 // ------------------------------------------------------------
-// code
+// decl
 
-int test() {
+namespace rpgmapper {
+namespace model {
 
-    Atlas cAtlas;
-    assert(cAtlas.changedAccumulated());
-    cAtlas.changedAccumulated(false);
-    assert(!cAtlas.changedAccumulated());
+/**
+ * Internal data of an Atlas object.
+ */
+class Controller::Controller_data {
 
-    cAtlas.name("bar");
-    assert(cAtlas.changedAccumulated());
-    cAtlas.changedAccumulated(false);
-    assert(!cAtlas.changedAccumulated());
+public:
 
-    Region & cRegion = cAtlas.createRegion();
-    assert(cAtlas.changedAccumulated());
-    cAtlas.changedAccumulated(false);
-    assert(!cAtlas.changedAccumulated());
+    Controller_data() = default;
 
-    cRegion.name("foobar");
-    assert(cAtlas.changedAccumulated());
 
-    return 0;
+    rpgmapper::model::Atlas m_cAtlas;       /**< the atlas managed by this controller */
+};
+
+}
 }
 
-int main(UNUSED int argc, UNUSED char ** argv) {
-    return test();
+// ------------------------------------------------------------
+// code
+
+
+/**
+ * Ctor.
+ */
+Controller::Controller() {
+    d = std::make_shared<Controller::Controller_data>();
+}
+
+
+/**
+ * Get the current atlas
+ *
+ * @return  the current atlas instance
+ */
+rpgmapper::model::Atlas & Controller::atlas() {
+    return d->m_cAtlas;
+}
+
+
+/**
+ * Get the singleton controller instance.
+ *
+ * @return  the singleton controller instance of rpgmapper.
+ */
+Controller & Controller::instance() {
+    static Controller cController;
+    return cController;
 }

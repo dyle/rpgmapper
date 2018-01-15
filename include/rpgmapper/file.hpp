@@ -1,5 +1,5 @@
 /*
- * controller.hpp
+ * file.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,18 +18,17 @@
  */
 
 
-#ifndef CTRL_CONTROLLER_HPP
-#define CTRL_CONTROLLER_HPP
+#ifndef CTRL_FILE_HPP
+#define CTRL_FILE_HPP
 
 
 // ------------------------------------------------------------
 // incs
 
-#include <memory>
+#include <map>
 
-
-// rpgmapper
-#include <rpgmapper/model/atlas.hpp>
+#include <QByteArray>
+#include <QString>
 
 
 // ------------------------------------------------------------
@@ -37,45 +36,59 @@
 
 
 namespace rpgmapper {
-namespace ctrl {
+namespace model {
 
 
 /**
- * This is the main rpgmapper controller instance
+ * This is the class managing rpgmapper files.
+ *
+ * Actually it is a mere wrapper around working on gzipped tarballs.
  */
-class Controller {
+class File {
 
 
 public:
 
 
     /**
-     * Get the current atlas
-     *
-     * @return  the current atlas instance
+     * Ctor.
      */
-    rpgmapper::model::Atlas & atlas();
+    File() = default;
 
 
     /**
-     * Get the singleton controller instance.
+     * All the internal byte arrays managed by this instance.
      *
-     * @return  the singleton controller instance of rpgmapper.
+     * @return  all byte arrays of this object instance.
      */
-    static Controller & instance();
+    std::map<QString, QByteArray> & list() { return m_cData; }
+
+
+    /**
+     * Load a file.
+     *
+     * @param   sFileName       name of the file to load
+     * @return  true, for success
+     */
+    bool load(QString sFileName);
+
+
+    /**
+     * Save a file.
+     *
+     * @param   sFileName       name of the file to save
+     * @return  true, for success
+     */
+    bool save(QString sFileName) const;
 
 
 private:
 
 
     /**
-     * Ctor.
+     * Data hold by this file.
      */
-    Controller();
-
-
-    class Controller_data;                              /**< internal data type */
-    std::shared_ptr<Controller::Controller_data> d;     /**< internal data instance */
+    std::map<QString, QByteArray> m_cData;
 };
 
 

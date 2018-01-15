@@ -25,17 +25,23 @@ include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR})
 # test: Atlas Changing
 set(TEST_ATLAS_CHANGEABLE_SRC                   test_atlas_changeable.cpp)
 add_executable(test_atlas_changeable            ${TEST_ATLAS_CHANGEABLE_SRC})
-target_link_libraries(test_atlas_changeable     rpgmapper_model  ${CMAKE_REQUIRED_LIBRARIES})
+target_link_libraries(test_atlas_changeable     rpgm  ${CMAKE_REQUIRED_LIBRARIES})
 add_test(model/atlas_changeable                 test_atlas_changeable)
 
 # test: Atlas Cloning
 set(TEST_ATLAS_CLONE_SRC                        test_atlas_clone.cpp)
 add_executable(test_atlas_clone                 ${TEST_ATLAS_CLONE_SRC})
-target_link_libraries(test_atlas_clone          rpgmapper_model  ${CMAKE_REQUIRED_LIBRARIES})
+target_link_libraries(test_atlas_clone          rpgm  ${CMAKE_REQUIRED_LIBRARIES})
 add_test(model/atlas_clone                      test_atlas_clone)
 
 # test: Atlas JSON
 set(TEST_ATLAS_JSON_SRC                         test_atlas_json.cpp)
 add_executable(test_atlas_json                  ${TEST_ATLAS_JSON_SRC})
-target_link_libraries(test_atlas_json           rpgmapper_model  ${CMAKE_REQUIRED_LIBRARIES})
+target_link_libraries(test_atlas_json           rpgm  ${CMAKE_REQUIRED_LIBRARIES})
 add_test(model/atlas_json                       test_atlas_json)
+
+# test: File
+set(TEST_FILE_SRC                               test_file.cpp)
+add_executable(test_file                        ${TEST_FILE_SRC})
+target_link_libraries(test_file                 rpgm ${CMAKE_REQUIRED_LIBRARIES})
+add_test(ctrl/file                              test_file)

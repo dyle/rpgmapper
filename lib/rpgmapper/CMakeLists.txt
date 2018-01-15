@@ -19,5 +19,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # ------------------------------------------------------------
 
-add_subdirectory(model)
-add_subdirectory(ctrl)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+set(RPGMAPPER_LIB_SRC
+
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/common_macros.h
+
+    atlas.cpp               ${CMAKE_SOURCE_DIR}/include/rpgmapper/atlas.hpp
+    changeable.cpp          ${CMAKE_SOURCE_DIR}/include/rpgmapper/changeable.hpp
+    controller.cpp          ${CMAKE_SOURCE_DIR}/include/rpgmapper/controller.hpp
+    file.cpp                ${CMAKE_SOURCE_DIR}/include/rpgmapper/file.hpp
+    map.cpp                 ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
+    nameable.cpp            ${CMAKE_SOURCE_DIR}/include/rpgmapper/nameable.hpp
+    region.cpp              ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
+)
+
+add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC})
+target_link_libraries(rpgm quazip5 Qt5::Core ${CMAKE_REQUIRED_LIBRARIES})

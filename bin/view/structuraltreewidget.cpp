@@ -24,10 +24,9 @@
 #include <QPixmapCache>
 
 // rpgmapper
-#include <rpgmapper/ctrl/controller.hpp>
+#include <rpgmapper/controller.hpp>
 #include "structuraltreewidget.hpp"
 
-using namespace rpgmapper::ctrl;
 using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 

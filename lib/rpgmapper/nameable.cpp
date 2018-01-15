@@ -22,7 +22,7 @@
 // incs
 
 // rpgmapper
-#include <rpgmapper/model/nameable.hpp>
+#include <rpgmapper/nameable.hpp>
 
 using namespace rpgmapper::model;
 

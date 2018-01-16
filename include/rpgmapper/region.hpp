@@ -58,19 +58,21 @@ public:
 
 
     /**
-     * Type of a region's ID.
-     */
-    typedef int id_t;
-
-
-    /**
      * Create a new region (factory method).
      *
      * @param   cAtlas      parent object
      * @param   nId         the id of the new region (id < 0 a new will be assigned)
      * @return  a new region
      */
-    static RegionPointer create(Atlas * cAtlas, id_t nId = -1);
+    static RegionPointer create(Atlas * cAtlas, regionid_t nId = -1);
+
+
+    /**
+     * Adds a map to this region.
+     *
+     * @param   cMap    the map to add.
+     */
+    void addMap(MapPointer cMap);
 
 
     /**
@@ -78,7 +80,7 @@ public:
      *
      * @return  the id of the region
      */
-    id_t id() const { return m_nId; }
+    regionid_t id() const { return m_nId; }
 
 
     /**
@@ -87,6 +89,14 @@ public:
      * @param   cJSON       the json instance to load from
      */
     void load(QJsonObject const & cJSON) override;
+
+
+    /**
+     * Get all maps of this region.
+     *
+     * @return  The maps of this region.
+     */
+    Maps maps() const;
 
 
     /**
@@ -106,6 +116,14 @@ public:
 
 
     /**
+     * Removes a map from this region.
+     *
+     * @param   cMap    the map to remove.
+     */
+    void removeMap(MapPointer cMap);
+
+
+    /**
      * Save the region to json.
      *
      * @param   cJSON       the json instance to save to
@@ -122,7 +140,26 @@ public slots:
     void clear();
 
 
+private slots:
+
+
+    /**
+     * A map changed its Id.
+     *
+     * @param   nOldId      Old id of the map
+     */
+    void changedMapId(mapid_t nOldId);
+
+
 signals:
+
+
+    /**
+     * A map has been added to this region.
+     *
+     * @param   cMap        the map added
+     */
+    void addedMap(MapPointer cMap);
 
 
     /**
@@ -130,7 +167,15 @@ signals:
      *
      * @param   nOldId      the old id
      */
-    void changedId(id_t nOldId);
+    void changedId(regionid_t nOldId);
+
+
+    /**
+     * A map has been removed from this region.
+     *
+     * @param   cMap        the map removed
+     */
+    void removedMap(MapPointer cMap);
 
 
 private:
@@ -142,21 +187,30 @@ private:
      * @param   cAtlas      parent object
      * @param   nId     id of the region
      */
-    explicit Region(Atlas * cAtlas, Region::id_t nId);
+    explicit Region(Atlas * cAtlas, regionid_t nId);
 
 
-    id_t m_nId;                                     /**< region id */
+    /**
+     * Get our own smart pointer as hold by the governing atlas.
+     *
+     * @return  a smart pointer to our own instance derived from the atlas.
+     */
+    RegionPointer self();
 
-    class Region_data;                              /**< internal data type */
-    std::shared_ptr<Region::Region_data> d;         /**< internal data instance */
+
+    /**
+     * Get our own smart pointer as hold by the governing atlas.
+     *
+     * @return  a smart pointer to our own instance derived from the atlas.
+     */
+    RegionPointer const self() const;
+
+
+    regionid_t m_nId;                               /**< Region id. */
+    class Region_data;                              /**< Internal data type. */
+    std::shared_ptr<Region::Region_data> d;         /**< Internal data instance. */
 
 };
-
-
-/**
- * Multiple regions.
- */
-typedef std::map<Region::id_t, RegionPointer> Regions;
 
 
 }

@@ -36,14 +36,18 @@ namespace rpgmapper {
 namespace model {
 
 
-class Atlas;                                            /**< An atlas. */
-typedef QSharedPointer<Atlas> AtlasPointer;             /**< Atlas smart pointer. */
+class Atlas;                                                /**< An atlas. */
+typedef QSharedPointer<Atlas> AtlasPointer;                 /**< Atlas smart pointer. */
 
-class Map;                                              /**< A map. */
-typedef QSharedPointer<Map> MapPointer;                 /**< Map smart pointer. */
+class Map;                                                  /**< A map. */
+typedef QSharedPointer<Map> MapPointer;                     /**< Map smart pointer. */
+typedef int mapid_t;                                        /**< Id of a map. */
+typedef std::map<mapid_t, MapPointer> Maps;                 /**< Multiple maps. */
 
-class Region;                                           /**< A region. */
-typedef QSharedPointer<Region> RegionPointer;           /**< Map smart pointer. */
+class Region;                                               /**< A region. */
+typedef QSharedPointer<Region> RegionPointer;               /**< Map smart pointer. */
+typedef int regionid_t;                                     /**< Id of a region */
+typedef std::map<regionid_t, RegionPointer> Regions;        /**< Multiple regions. */
 
 
 }

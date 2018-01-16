@@ -79,7 +79,7 @@ Atlas::Atlas(QObject * cParent) : Nameable(cParent) {
  *
  * @param   nOldId      the old id
  */
-void Atlas::changedMapId(Map::id_t nOldId) {
+void Atlas::changedMapId(mapid_t nOldId) {
     qDebug() << "TODO: Changed Map Id from " << nOldId;
 }
 
@@ -89,7 +89,7 @@ void Atlas::changedMapId(Map::id_t nOldId) {
  *
  * @param   nOldId      the old id
  */
-void Atlas::changedRegionId(Region::id_t nOldId) {
+void Atlas::changedRegionId(regionid_t nOldId) {
     qDebug() << "TODO: Changed Region Id from " << nOldId;
 }
 
@@ -238,11 +238,11 @@ void Atlas::modified(bool bModified) {
 
     std::for_each(maps().begin(),
                   maps().end(),
-                  [&](Maps::value_type & cPair) { cPair.second->modified(bModified); });
+                  [&] (Maps::value_type & cPair) { cPair.second->modified(bModified); });
 
     std::for_each(regions().begin(),
                   regions().end(),
-                  [&](Regions::value_type & cPair) { cPair.second->modified(bModified); });
+                  [&] (Regions::value_type & cPair) { cPair.second->modified(bModified); });
 }
 
 

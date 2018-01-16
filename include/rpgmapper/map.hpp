@@ -59,19 +59,13 @@ public:
 
 
     /**
-     * Type of a map's ID.
-     */
-    typedef int id_t;
-
-
-    /**
      * Create a new map (factory method).
      *
      * @param   cAtlas      parent object
      * @param   nId         the id of the new map (id < 0 a new will be assigned)
      * @return  a new map
      */
-    static MapPointer create(Atlas * cAtlas, id_t nId = -1);
+    static MapPointer create(Atlas * cAtlas, mapid_t nId = -1);
 
 
     /**
@@ -79,7 +73,7 @@ public:
      *
      * @return  the id of the map
      */
-    id_t id() const { return m_nId; }
+    mapid_t id() const { return m_nId; }
 
 
     /**
@@ -104,6 +98,22 @@ public:
      * @param   nOrderValue     a value indicating the position of this maps among others
      */
     void orderValue(int nOrderValue);
+
+
+    /**
+     * Return the region to which this map belongs to.
+     *
+     * @return  the region of this map
+     */
+    RegionPointer const region() const;
+
+
+    /**
+     * Set the region this map belongs.
+     *
+     * @param   cRegion     the new region of this map
+     */
+    void region(RegionPointer cRegion);
 
 
     /**
@@ -134,6 +144,12 @@ signals:
     void changedId(id_t nOldId);
 
 
+    /**
+     * The map changed its region.
+     */
+    void changedRegion();
+
+
 private:
 
 
@@ -143,19 +159,29 @@ private:
      * @param   cAtlas      parent object
      * @param   nId         id of the map
      */
-    explicit Map(Atlas * cAtlas, Map::id_t nId);
+    explicit Map(Atlas * cAtlas, mapid_t nId);
 
 
-    id_t m_nId;                                 /**< map id */
-    class Map_data;                             /**< internal data type */
-    std::shared_ptr<Map::Map_data> d;           /**< internal data instance */
+    /**
+     * Get our own smart pointer as hold by the governing atlas.
+     *
+     * @return  a smart pointer to our own instance derived from the atlas.
+     */
+    MapPointer self();
+
+
+    /**
+     * Get our own smart pointer as hold by the governing atlas.
+     *
+     * @return  a smart pointer to our own instance derived from the atlas.
+     */
+    MapPointer const self() const;
+
+
+    mapid_t m_nId;                              /**< Map id. */
+    class Map_data;                             /**< Internal data type. */
+    std::shared_ptr<Map::Map_data> d;           /**< Internal data instance. */
 };
-
-
-/**
- * Multiple maps.
- */
-typedef std::map<Map::id_t, MapPointer> Maps;
 
 
 }

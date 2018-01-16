@@ -165,7 +165,7 @@ private slots:
      *
      * @param   nOldId      the old id
      */
-    void changedMapId(Map::id_t nOldId);
+    void changedMapId(mapid_t nOldId);
 
 
     /**
@@ -173,7 +173,7 @@ private slots:
      *
      * @param   nOldId      the old id
      */
-    void changedRegionId(Region::id_t nOldId);
+    void changedRegionId(regionid_t nOldId);
 
 
 private:

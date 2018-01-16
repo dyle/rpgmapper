@@ -21,9 +21,12 @@
 // ------------------------------------------------------------
 // incs
 
+#include <set>
+#include <QDebug>
 #include <QJsonArray>
 
 // rpgmapper
+#include <rpgmapper/common_macros.h>
 #include <rpgmapper/atlas.hpp>
 
 using namespace rpgmapper::model;
@@ -45,14 +48,16 @@ public:
 
     Region_data() = default;
 
-    int m_nOrderValue = 0;              /**< means to order a region among others */
+    Atlas * m_cAtlas = nullptr;         /**< Parent atlas back pointer. */
+    std::set<mapid_t> m_cMaps;          /**< All the associated maps of this region. */
+    int m_nOrderValue = 0;              /**< Means to order a region among others */
 };
 
 
 /**
  * Global region id counter.
  */
-static Region::id_t g_nRegionIdCounter = 0;
+static regionid_t g_nRegionIdCounter = 0;
 
 
 }
@@ -69,9 +74,43 @@ static Region::id_t g_nRegionIdCounter = 0;
  * @param   cAtlas      parent object
  * @param   nId     id of the region
  */
-Region::Region(Atlas * cAtlas, Region::id_t nId) : Nameable(cAtlas), m_nId(nId) {
+Region::Region(Atlas * cAtlas, regionid_t nId) : Nameable(cAtlas), m_nId(nId) {
+
+    Q_ASSERT(cAtlas);
+
     d = std::make_shared<Region::Region_data>();
+    d->m_cAtlas = cAtlas;
     name("New Region " + QString::number(id()));
+}
+
+
+/**
+ * Adds a map to this region.
+ *
+ * @param   cMap    the map to add.
+ */
+void Region::addMap(MapPointer cMap) {
+
+    if (d->m_cMaps.find(cMap->id()) == d->m_cMaps.end()) {
+        d->m_cMaps.insert(cMap->id());
+        cMap->region(self());
+        connect(cMap.data(), &Map::changedId, this, &Region::changedMapId);
+        emit addedMap(cMap);
+    }
+}
+
+
+/**
+ * A map changed its Id.
+ *
+ * @param   nOldId      Old id of the map
+ */
+void Region::changedMapId(mapid_t nOldId) {
+    d->m_cMaps.erase(nOldId);
+    auto * cMap = dynamic_cast<Map *>(QObject::sender());
+    if (cMap) {
+        d->m_cMaps.insert(cMap->id());
+    }
 }
 
 
@@ -90,7 +129,7 @@ void Region::clear() {
  * @param   nId         the id of the new region (id < 0 a new will be assigned)
  * @return  a new region
  */
-RegionPointer Region::create(Atlas * cAtlas, id_t nId) {
+RegionPointer Region::create(Atlas * cAtlas, regionid_t nId) {
     nId = nId < 0 ? ++g_nRegionIdCounter : nId;
     return RegionPointer(new Region(cAtlas, nId), &Region::deleteLater);
 }
@@ -123,6 +162,21 @@ void Region::load(QJsonObject const & cJSON) {
 
 
 /**
+ * Get all maps of this region.
+ *
+ * @return  The maps of this region.
+ */
+Maps Region::maps() const {
+
+    Maps cMaps;
+    std::for_each(d->m_cMaps.begin(),
+                  d->m_cMaps.end(),
+                  [&] (mapid_t nId) { cMaps.insert(std::make_pair(nId, d->m_cAtlas->maps()[nId])); });
+    return cMaps;
+}
+
+
+/**
  * Means to order this region among other regions.
  *
  * @return  a value indicating the position of this region among others
@@ -147,6 +201,22 @@ void Region::orderValue(int nOrderValue) {
 
 
 /**
+ * Removes a map from this region.
+ *
+ * @param   cMap    the map to remove.
+ */
+void Region::removeMap(MapPointer cMap) {
+
+    auto iter = d->m_cMaps.find(cMap->id());
+    if (iter != d->m_cMaps.end()) {
+        d->m_cMaps.erase(iter);
+        disconnect(cMap.data(), &Map::changedId, this, &Region::changedMapId);
+        emit removedMap(cMap);
+    }
+}
+
+
+/**
  * Save the region to json.
  *
  * @param   cJSON       the json instance to save to
@@ -157,4 +227,24 @@ void Region::save(QJsonObject & cJSON) const {
 
     cJSON["id"] = id();
     cJSON["orderValue"] = orderValue();
+}
+
+
+/**
+ * Get our own smart pointer as hold by the governing atlas.
+ *
+ * @return  a smart pointer to our own instance derived from the atlas.
+ */
+RegionPointer Region::self() {
+    return d->m_cAtlas->regions()[id()];
+}
+
+
+/**
+ * Get our own smart pointer as hold by the governing atlas.
+ *
+ * @return  a smart pointer to our own instance derived from the atlas.
+ */
+RegionPointer const Region::self() const {
+    return d->m_cAtlas->regions()[id()];
 }

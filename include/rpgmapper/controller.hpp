@@ -29,7 +29,7 @@
 
 
 // rpgmapper
-#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/types.hpp>
 
 
 // ------------------------------------------------------------
@@ -54,7 +54,7 @@ public:
      *
      * @return  the current atlas instance
      */
-    rpgmapper::model::Atlas & atlas();
+    AtlasPointer & atlas();
 
 
     /**

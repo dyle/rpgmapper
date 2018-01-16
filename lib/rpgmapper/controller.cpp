@@ -22,6 +22,7 @@
 // incs
 
 // rpgmapper
+#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/controller.hpp>
 
 using namespace rpgmapper::model;
@@ -43,7 +44,7 @@ public:
     Controller_data() = default;
 
 
-    rpgmapper::model::Atlas m_cAtlas;       /**< the atlas managed by this controller */
+    AtlasPointer m_cAtlas;              /**< the atlas managed by this controller */
 };
 
 }
@@ -58,6 +59,7 @@ public:
  */
 Controller::Controller() {
     d = std::make_shared<Controller::Controller_data>();
+    d->m_cAtlas = AtlasPointer(new Atlas);
 }
 
 
@@ -66,7 +68,7 @@ Controller::Controller() {
  *
  * @return  the current atlas instance
  */
-rpgmapper::model::Atlas & Controller::atlas() {
+AtlasPointer & Controller::atlas() {
     return d->m_cAtlas;
 }
 

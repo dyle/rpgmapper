@@ -24,6 +24,7 @@
 #include <QPixmapCache>
 
 // rpgmapper
+#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/controller.hpp>
 #include "structuraltreewidget.hpp"
 
@@ -97,13 +98,13 @@ void appendStructureAtlas(StructuralTreeWidget * cTWStructure) {
     QPixmap cPixmap;
     QStringList sl;
 
-    sl << Controller::instance().atlas().name() << "atlas" << "";
+    sl << Controller::instance().atlas()->name() << "atlas" << "";
     cTWItem = new QTreeWidgetItem(sl);
     QPixmapCache::find("atlas", &cPixmap);
     cTWItem->setIcon(0, cPixmap);
     cTWStructure->insertTopLevelItem(0, cTWItem);
 
-    for (auto const & cRegion: Controller::instance().atlas().regions()) {
+    for (auto const & cRegion: Controller::instance().atlas()->regions()) {
         auto cTWRegion = appendStructureRegion(cTWItem, cRegion.second);
         cTWRegion->setExpanded(true);
     }

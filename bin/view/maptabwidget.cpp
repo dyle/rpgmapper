@@ -21,10 +21,12 @@
 // ------------------------------------------------------------
 // incs
 
-#include <iostream>
+#include <cassert>
+#include <QPixmapCache>
 
 // rpgmapper
-#include <rpgmapper/map.hpp>
+#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/controller.hpp>
 #include "maptabwidget.hpp"
 
 using namespace rpgmapper::model;
@@ -39,7 +41,7 @@ namespace view {
 
 
 /**
- * Internal data of a Map object.
+ * Internal data of a MapTabWidget.
  */
 class MapTabWidget::MapTabWidget_data {
 
@@ -47,6 +49,7 @@ public:
 
     MapTabWidget_data() = default;
 
+    std::map<mapid_t, QWidget *> m_cMapViews;       /**< all current map views */
 };
 
 
@@ -74,5 +77,21 @@ MapTabWidget::MapTabWidget(QWidget * cParent) : QTabWidget(cParent) {
  * @param   nMapId      ID of the map
  */
 void MapTabWidget::selectMap(mapid_t nMapId) {
-    std::cout << "MapTabWidget::selectMap: nMapId=" << nMapId << std::endl;
+
+    auto iter = d->m_cMapViews.find(nMapId);
+    if (iter == d->m_cMapViews.end()) {
+
+        auto cMap = Controller::instance().atlas()->maps()[nMapId];
+        assert(cMap.data());
+
+        auto cMapView = new QWidget(this);
+        d->m_cMapViews.emplace(nMapId, cMapView);
+
+        QPixmap cPixmap;
+        QPixmapCache::find("map", &cPixmap);
+        addTab(cMapView, cPixmap, cMap->name());
+    }
+    else {
+        setCurrentWidget((*iter).second);
+    }
 }

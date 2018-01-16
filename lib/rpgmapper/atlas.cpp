@@ -69,8 +69,7 @@ public:
 Atlas::Atlas(QObject * cParent) : Nameable(cParent) {
     d = std::make_shared<Atlas::Atlas_data>();
     name("New Atlas");
-    UNUSED auto cRegion = createRegion();
-    UNUSED auto cMap = createMap();
+    createRegion()->addMap(createMap());
 }
 
 

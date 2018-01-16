@@ -19,6 +19,18 @@
   </property>
   <widget class="QWidget" name="wdCentral">
    <layout class="QVBoxLayout" name="lyMain">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
     <item>
      <widget class="rpgmapper::view::MapTabWidget" name="tabMap">
       <property name="autoFillBackground">

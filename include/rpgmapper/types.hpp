@@ -39,6 +39,9 @@ namespace model {
 class Atlas;                                                /**< An atlas. */
 typedef QSharedPointer<Atlas> AtlasPointer;                 /**< Atlas smart pointer. */
 
+class Changeable;                                           /**< An object capable of recording changes */
+typedef QSharedPointer<Changeable> ChangeablePointer;       /**< Changeable smart pointer. */
+
 class Map;                                                  /**< A map. */
 typedef QSharedPointer<Map> MapPointer;                     /**< Map smart pointer. */
 typedef int mapid_t;                                        /**< Id of a map. */

@@ -54,7 +54,7 @@ public:
             return true;
         }
         for (auto const & c: v) {
-            if (c.modified()) {
+            if (c->modified()) {
                 return true;
             }
         }
@@ -65,14 +65,16 @@ public:
     void modified(bool bModified) override {
         Changeable::modified(bModified);
         for (auto & c: v) {
-            c.modified(bModified);
+            c->modified(bModified);
         }
     }
 
 
-    std::vector v = { ChangeablePointer(new Changeable),
-                      ChangeablePointer(new Changeable),
-                      ChangeablePointer(new Changeable) };
+    std::vector<rpgmapper::model::ChangeablePointer> v = {
+            rpgmapper::model::ChangeablePointer(new Changeable),
+            rpgmapper::model::ChangeablePointer(new Changeable),
+            rpgmapper::model::ChangeablePointer(new Changeable)
+    };
 
 };
 
@@ -84,21 +86,21 @@ int test() {
 
     // single object
 
-    Changeable cChangeable;
-    assert(!cChangeable.modified());
+    ChangeablePointer cChangeable(new Changeable);
+    assert(!cChangeable->modified());
 
-    cChangeable.modified(true);
-    assert(cChangeable.modified());
+    cChangeable->modified(true);
+    assert(cChangeable->modified());
 
     // object hierarchy
 
     A a;
     assert(!a.modified());
     for (auto & c: a.v) {
-        assert(!c.modified());
+        assert(!c->modified());
     }
 
-    a.v[1].modified(true);
+    a.v[1]->modified(true);
     assert(a.modified());
 
     a.modified(false);

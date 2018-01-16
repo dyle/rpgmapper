@@ -41,22 +41,22 @@ using namespace rpgmapper::model;
 int test() {
 
     Atlas cAtlas;
-    assert(cAtlas.changedAccumulated());
-    cAtlas.changedAccumulated(false);
-    assert(!cAtlas.changedAccumulated());
+    assert(cAtlas.modified());
+    cAtlas.modified(false);
+    assert(!cAtlas.modified());
 
     cAtlas.name("bar");
-    assert(cAtlas.changedAccumulated());
-    cAtlas.changedAccumulated(false);
-    assert(!cAtlas.changedAccumulated());
+    assert(cAtlas.modified());
+    cAtlas.modified(false);
+    assert(!cAtlas.modified());
 
-    Region & cRegion = cAtlas.createRegion();
-    assert(cAtlas.changedAccumulated());
-    cAtlas.changedAccumulated(false);
-    assert(!cAtlas.changedAccumulated());
+    auto cRegion = cAtlas.createRegion();
+    assert(cAtlas.modified());
+    cAtlas.modified(false);
+    assert(!cAtlas.modified());
 
-    cRegion.name("foobar");
-    assert(cAtlas.changedAccumulated());
+    cRegion->name("foobar");
+    assert(cAtlas.modified());
 
     return 0;
 }

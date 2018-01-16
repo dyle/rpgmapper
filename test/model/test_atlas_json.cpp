@@ -41,9 +41,19 @@ using namespace rpgmapper::model;
 // code
 
 int test() {
+
     // just dump the JSON string to stdout
-    Atlas a;
-    std::cout << a.json(QJsonDocument::Compact).toStdString() << std::endl;
+    Atlas cAtlas1;
+    std::cout << cAtlas1.json(QJsonDocument::Compact).toStdString() << std::endl;
+
+    cAtlas1.maps()[1]->region(cAtlas1.regions()[1]);
+    std::cout << cAtlas1.json(QJsonDocument::Compact).toStdString() << std::endl;
+
+    auto cRegion2 = cAtlas1.createRegion();
+    auto cMap2 = cAtlas1.createMap();
+    cRegion2->addMap(cMap2);
+    std::cout << cAtlas1.json(QJsonDocument::Compact).toStdString() << std::endl;
+
     return 0;
 }
 

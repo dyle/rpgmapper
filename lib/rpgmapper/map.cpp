@@ -190,6 +190,7 @@ void Map::save(QJsonObject & cJSON) const {
     Nameable::save(cJSON);
 
     cJSON["id"] = id();
+    cJSON["region"] = d->m_nRegionId;
     cJSON["orderValue"] = orderValue();
 }
 

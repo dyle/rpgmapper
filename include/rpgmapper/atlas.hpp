@@ -35,6 +35,7 @@
 #include "nameable.hpp"
 #include "map.hpp"
 #include "region.hpp"
+#include "types.hpp"
 
 
 // ------------------------------------------------------------

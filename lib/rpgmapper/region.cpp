@@ -24,7 +24,7 @@
 #include <QJsonArray>
 
 // rpgmapper
-#include <rpgmapper/region.hpp>
+#include <rpgmapper/atlas.hpp>
 
 using namespace rpgmapper::model;
 
@@ -66,10 +66,10 @@ static Region::id_t g_nRegionIdCounter = 0;
 /**
  * Ctor.
  *
- * @param   cParent     parent object (should be an atlas instance)
+ * @param   cAtlas      parent object
  * @param   nId     id of the region
  */
-Region::Region(QObject * cParent, Region::id_t nId) : Nameable(cParent), m_nId(nId) {
+Region::Region(Atlas * cAtlas, Region::id_t nId) : Nameable(cAtlas), m_nId(nId) {
     d = std::make_shared<Region::Region_data>();
     name("New Region " + QString::number(id()));
 }
@@ -86,13 +86,13 @@ void Region::clear() {
 /**
  * Create a new region (factory method).
  *
- * @param   cParent     parent object (should be an atlas instance)
+ * @param   cAtlas      parent object
  * @param   nId         the id of the new region (id < 0 a new will be assigned)
  * @return  a new region
  */
-RegionPointer Region::create(QObject * cParent, id_t nId) {
+RegionPointer Region::create(Atlas * cAtlas, id_t nId) {
     nId = nId < 0 ? ++g_nRegionIdCounter : nId;
-    return RegionPointer(new Region(cParent, nId), &Region::deleteLater);
+    return RegionPointer(new Region(cAtlas, nId), &Region::deleteLater);
 }
 
 

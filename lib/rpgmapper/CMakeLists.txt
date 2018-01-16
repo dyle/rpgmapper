@@ -33,6 +33,7 @@ qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
 set(RPGMAPPER_LIB_SRC
 
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/common_macros.h
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/types.hpp
 
     atlas.cpp               ${CMAKE_SOURCE_DIR}/include/rpgmapper/atlas.hpp
     changeable.cpp          ${CMAKE_SOURCE_DIR}/include/rpgmapper/changeable.hpp

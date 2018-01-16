@@ -32,6 +32,7 @@
 
 // rpgmapper
 #include "nameable.hpp"
+#include "types.hpp"
 
 
 // ------------------------------------------------------------
@@ -40,16 +41,6 @@
 
 namespace rpgmapper {
 namespace model {
-
-
-class Atlas;
-class Region;
-
-
-/**
- * Smart pointer to a region.
- */
-typedef QSharedPointer<Region> RegionPointer;
 
 
 /**
@@ -75,11 +66,11 @@ public:
     /**
      * Create a new region (factory method).
      *
-     * @param   cParent     parent object (should be an atlas instance)
+     * @param   cAtlas      parent object
      * @param   nId         the id of the new region (id < 0 a new will be assigned)
      * @return  a new region
      */
-    static RegionPointer create(QObject * cParent = nullptr, id_t nId = -1);
+    static RegionPointer create(Atlas * cAtlas, id_t nId = -1);
 
 
     /**
@@ -148,10 +139,10 @@ private:
     /**
      * Ctor.
      *
-     * @param   cParent     parent object (should be an atlas instance)
+     * @param   cAtlas      parent object
      * @param   nId     id of the region
      */
-    explicit Region(QObject * cParent, Region::id_t nId);
+    explicit Region(Atlas * cAtlas, Region::id_t nId);
 
 
     id_t m_nId;                                     /**< region id */
@@ -163,7 +154,7 @@ private:
 
 
 /**
- * multiple regions
+ * Multiple regions.
  */
 typedef std::map<Region::id_t, RegionPointer> Regions;
 

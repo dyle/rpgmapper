@@ -22,7 +22,7 @@
 // incs
 
 // rpgmapper
-#include <rpgmapper/map.hpp>
+#include <rpgmapper/atlas.hpp>
 
 
 using namespace rpgmapper::model;
@@ -65,10 +65,10 @@ static Map::id_t g_nMapIdCounter = 0;
 /**
  * Ctor.
  *
- * @param   cParent     parent object (should be an atlas instance)
+ * @param   cAtlas      parent object
  * @param   nId     id of the map
  */
-Map::Map(QObject * cParent, Map::id_t nId) : Nameable(cParent), m_nId(nId) {
+Map::Map(Atlas * cAtlas, Map::id_t nId) : Nameable(cAtlas), m_nId(nId) {
     d = std::make_shared<Map::Map_data>();
     name("New map " + QString::number(id()));
 }
@@ -85,13 +85,13 @@ void Map::clear() {
 /**
  * Create a new map (factory method).
  *
- * @param   cParent     parent object (should be an atlas instance)
+ * @param   cAtlas      parent object
  * @param   nId         the id of the new map (id < 0 a new will be assigned)
  * @return  a new map
  */
-MapPointer Map::create(QObject * cParent, id_t nId) {
+MapPointer Map::create(Atlas * cAtlas, id_t nId) {
     nId = nId < 0 ? ++g_nMapIdCounter : nId;
-    return MapPointer(new Map(cParent, nId), &Map::deleteLater);
+    return MapPointer(new Map(cAtlas, nId), &Map::deleteLater);
 }
 
 

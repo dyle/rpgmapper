@@ -41,7 +41,7 @@ Nameable::Nameable(QObject * cParent) : Changeable(cParent) {
 
 
 /**
- * load the name from json
+ * Load the name from json.
  *
  * @param   cJSON       the json instance to load from
  */
@@ -76,7 +76,7 @@ void Nameable::name(QString sName) {
 
 
 /**
- * save the name to json
+ * Save the name to json.
  *
  * @param   cJSON       the json instance to save to
  */

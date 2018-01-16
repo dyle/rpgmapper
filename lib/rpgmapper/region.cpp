@@ -76,11 +76,10 @@ Region::Region(QObject * cParent, Region::id_t nId) : Nameable(cParent), m_nId(n
 
 
 /**
- * Reset the region to empty state.
+ * Reset the region to an empty state.
  */
 void Region::clear() {
     name("");
-    modified(true);
 }
 
 
@@ -108,6 +107,7 @@ void Region::load(QJsonObject const & cJSON) {
 
     Nameable::load(cJSON);
 
+    auto nId = id();
     if (cJSON.contains("id") && cJSON["id"].isDouble()) {
         m_nId = cJSON["id"].toInt();
         g_nRegionIdCounter = std::max(g_nRegionIdCounter, m_nId);
@@ -115,31 +115,10 @@ void Region::load(QJsonObject const & cJSON) {
     if (cJSON.contains("orderValue") && cJSON["orderValue"].isDouble()) {
         orderValue(cJSON["orderValue"].toInt());
     }
-}
 
-
-/**
- * State if the region (and any descendants) has changed.
- *
- * @return  true, if the region (or any descendants) has changed.
- */
-bool Region::modified() const {
-    if (Nameable::modified()) {
-        return true;
+    if (nId != id()) {
+        emit changedId(nId);
     }
-    // TODO: work on descendants
-    return false;
-}
-
-
-/**
- * Set the region and all descendants to a new modification state.
- *
- * @param   bModified       the new modification state
- */
-void Region::modified(bool bModified) {
-    Nameable::modified(bModified);
-    // TODO: work on descendants
 }
 
 

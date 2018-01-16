@@ -29,7 +29,6 @@
 #include <map>
 #include <memory>
 
-#include <QJsonObject>
 #include <QSharedPointer>
 
 // rpgmapper
@@ -68,7 +67,7 @@ public:
 
 
     /**
-     * type of a map's ID
+     * Type of a map's ID.
      */
     typedef int id_t;
 
@@ -127,9 +126,20 @@ public slots:
 
 
     /**
-     * Reset the map to empty state.
+     * Reset the map to an empty state.
      */
     void clear();
+
+
+signals:
+
+
+    /**
+     * The id of the map changed.
+     *
+     * @param   nOldId      the old id
+     */
+    void changedId(id_t nOldId);
 
 
 private:

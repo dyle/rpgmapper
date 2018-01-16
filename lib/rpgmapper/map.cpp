@@ -44,7 +44,7 @@ public:
 
     Map_data() = default;
 
-    int m_nOrderValue = 0;                      /**< means to order a map among others */
+    int m_nOrderValue = 0;                      /**< Means to order a map among others. */
 };
 
 
@@ -75,7 +75,7 @@ Map::Map(QObject * cParent, Map::id_t nId) : Nameable(cParent), m_nId(nId) {
 
 
 /**
- * Reset the region to empty state.
+ * Reset the region to an empty state.
  */
 void Map::clear() {
     name("");
@@ -106,6 +106,7 @@ void Map::load(QJsonObject const & cJSON) {
 
     Nameable::load(cJSON);
 
+    auto nId = id();
     if (cJSON.contains("id") && cJSON["id"].isDouble()) {
         m_nId = cJSON["id"].toInt();
         g_nMapIdCounter = std::max(g_nMapIdCounter, m_nId);
@@ -113,6 +114,10 @@ void Map::load(QJsonObject const & cJSON) {
 
     if (cJSON.contains("orderValue") && cJSON["orderValue"].isDouble()) {
         orderValue(cJSON["orderValue"].toInt());
+    }
+
+    if (nId != id()) {
+        emit changedId(nId);
     }
 }
 

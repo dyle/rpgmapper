@@ -21,6 +21,7 @@
 // ------------------------------------------------------------
 // incs
 
+#include <QDebug>
 #include <QJsonArray>
 #include <QTextCodec>
 
@@ -74,7 +75,27 @@ Atlas::Atlas(QObject * cParent) : Nameable(cParent) {
 
 
 /**
- * reset the atlas to empty state
+ * The id of a map changed.
+ *
+ * @param   nOldId      the old id
+ */
+void Atlas::changedMapId(Map::id_t nOldId) {
+    qDebug() << "TODO: Changed Map Id from " << nOldId;
+}
+
+
+/**
+ * The id of a region changed.
+ *
+ * @param   nOldId      the old id
+ */
+void Atlas::changedRegionId(Region::id_t nOldId) {
+    qDebug() << "TODO: Changed Region Id from " << nOldId;
+}
+
+
+/**
+ * Reset the atlas to an empty state.
  */
 void Atlas::clear() {
     name("");
@@ -85,24 +106,26 @@ void Atlas::clear() {
 
 
 /**
- * Creates a new map to this atlas
+ * Creates a new map to this atlas.
  *
  * @return  a reference to the new map
  */
 MapPointer Atlas::createMap() {
     auto cMap = Map::create(this);
+    connect(cMap.data(), &Map::changedId, this, &Atlas::changedMapId);
     d->m_cMaps.insert(std::make_pair(cMap->id(), cMap));
     return cMap;
 }
 
 
 /**
- * Creates a new region to this atlas
+ * Creates a new region to this atlas.
  *
  * @return  a reference to the new region
  */
 RegionPointer Atlas::createRegion() {
     auto cRegion = Region::create(this);
+    connect(cRegion.data(), &Region::changedId, this, &Atlas::changedRegionId);
     d->m_cRegions.insert(std::make_pair(cRegion->id(), cRegion));
     return cRegion;
 }
@@ -139,12 +162,8 @@ void Atlas::load(QJsonObject const & cJSON) {
 
         QJsonArray cJSONRegions = cJSON["regions"].toArray();
         for (auto &&cJSONRegion : cJSONRegions) {
-
             auto cRegion = createRegion();
             cRegion->load(cJSONRegion.toObject());
-
-            auto nId = cRegion->id();
-            d->m_cRegions.insert(std::make_pair(nId, cRegion));
         }
     }
 
@@ -152,16 +171,32 @@ void Atlas::load(QJsonObject const & cJSON) {
 
         QJsonArray cJSONMaps = cJSON["maps"].toArray();
         for (auto && cJSONMap : cJSONMaps) {
-
             auto cMap = createMap();
             cMap->load(cJSONMap.toObject());
-
-            auto nId = cMap->id();
-            d->m_cMaps.insert(std::make_pair(nId, cMap));
         }
     }
 
     modified(false);
+}
+
+
+/**
+ * Return all the maps managed by this atlas.
+ *
+ * @return  all maps of this atlas
+ */
+Maps & Atlas::maps() {
+    return d->m_cMaps;
+}
+
+
+/**
+ * Return all the maps managed by this atlas.
+ *
+ * @return  all maps of this atlas
+ */
+Maps const & Atlas::maps() const {
+    return d->m_cMaps;
 }
 
 
@@ -171,10 +206,23 @@ void Atlas::load(QJsonObject const & cJSON) {
  * @return  true, if the atlas (or any descendants) has changed.
  */
 bool Atlas::modified() const {
+
     if (Nameable::modified()) {
         return true;
     }
-    // TODO: work on descendants
+
+    for (auto const & cMap: maps()) {
+        if (cMap.second->modified()) {
+            return true;
+        }
+    }
+
+    for (auto const & cRegion: regions()) {
+        if (cRegion.second->modified()) {
+            return true;
+        }
+    }
+
     return false;
 }
 
@@ -185,8 +233,26 @@ bool Atlas::modified() const {
  * @param   bModified       the new modification state
  */
 void Atlas::modified(bool bModified) {
+
     Nameable::modified(bModified);
-    // TODO: work on descendants
+
+    std::for_each(maps().begin(),
+                  maps().end(),
+                  [&](Maps::value_type & cPair) { cPair.second->modified(bModified); });
+
+    std::for_each(regions().begin(),
+                  regions().end(),
+                  [&](Regions::value_type & cPair) { cPair.second->modified(bModified); });
+}
+
+
+/**
+ * Return all the regions managed by this atlas.
+ *
+ * @return  all regions of this atlas
+ */
+Regions & Atlas::regions() {
+    return d->m_cRegions;
 }
 
 

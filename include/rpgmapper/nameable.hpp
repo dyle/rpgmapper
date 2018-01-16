@@ -97,7 +97,7 @@ public:
 private:
 
 
-    QString m_sName;
+    QString m_sName;        /**< The name itself. */
 
 };
 

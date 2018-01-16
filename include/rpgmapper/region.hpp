@@ -29,11 +29,9 @@
 #include <memory>
 
 #include <QJsonObject>
-#include <QSharedPointer>
 
 // rpgmapper
 #include "nameable.hpp"
-#include "map.hpp"
 
 
 // ------------------------------------------------------------
@@ -61,9 +59,8 @@ typedef QSharedPointer<Region> RegionPointer;
  */
 class Region : public Nameable {
 
-    Q_OBJECT
 
-    friend class Atlas;
+    Q_OBJECT
 
 
 public:
@@ -102,22 +99,6 @@ public:
 
 
     /**
-     * State if the region (and any descendants) has changed.
-     *
-     * @return  true, if the region (or any descendants) has changed.
-     */
-    bool modified() const override;
-
-
-    /**
-     * Set the region and all descendants to a new modification state.
-     *
-     * @param   bModified       the new modification state
-     */
-    void modified(bool bModified) override;
-
-
-    /**
      * Means to order this region among other regions.
      *
      * @return  a value indicating the position of this region among others
@@ -145,9 +126,20 @@ public slots:
 
 
     /**
-     * Reset the region to empty state.
+     * Reset the region to an empty state.
      */
     void clear();
+
+
+signals:
+
+
+    /**
+     * The id of the region changed.
+     *
+     * @param   nOldId      the old id
+     */
+    void changedId(id_t nOldId);
 
 
 private:

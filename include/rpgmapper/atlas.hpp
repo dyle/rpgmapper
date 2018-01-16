@@ -33,6 +33,7 @@
 
 // rpgmapper
 #include "nameable.hpp"
+#include "map.hpp"
 #include "region.hpp"
 
 
@@ -67,7 +68,7 @@ public:
 
 
     /**
-     * Creates a new map to this atlas
+     * Creates a new map to this atlas.
      *
      * @return  a reference to the new map
      */
@@ -75,7 +76,7 @@ public:
 
 
     /**
-     * Creates a new region to this atlas
+     * Creates a new region to this atlas.
      *
      * @return  a reference to the new region
      */
@@ -100,6 +101,22 @@ public:
 
 
     /**
+     * Return all the maps managed by this atlas.
+     *
+     * @return  all maps of this atlas
+     */
+    Maps & maps();
+
+
+    /**
+     * Return all the maps managed by this atlas.
+     *
+     * @return  all maps of this atlas
+     */
+    Maps const & maps() const;
+
+
+    /**
      * State if the atlas (and any descendants) has changed.
      *
      * @return  true, if the atlas (or any descendants) has changed.
@@ -120,6 +137,14 @@ public:
      *
      * @return  all regions of this atlas
      */
+    Regions & regions();
+
+
+    /**
+     * Return all the regions managed by this atlas.
+     *
+     * @return  all regions of this atlas
+     */
     Regions const & regions() const;
 
 
@@ -131,11 +156,30 @@ public:
     void save(QJsonObject & cJSON) const override;
 
 
+private slots:
+
+
+    /**
+     * The id of a map changed.
+     *
+     * @param   nOldId      the old id
+     */
+    void changedMapId(Map::id_t nOldId);
+
+
+    /**
+     * The id of a region changed.
+     *
+     * @param   nOldId      the old id
+     */
+    void changedRegionId(Region::id_t nOldId);
+
+
 private:
 
 
     /**
-     * reset the atlas to empty state
+     * Reset the atlas to an empty state.
      */
     void clear();
 

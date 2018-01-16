@@ -176,10 +176,7 @@ void Map::region(RegionPointer cRegion) {
     }
 
     d->m_nRegionId = cRegion->id();
-    cRegion->addMap(self());
-    d->m_cAtlas->regions()[nRegionId]->removeMap(self());
-
-    emit changedRegion();
+    emit changedRegion(nRegionId);
 }
 
 

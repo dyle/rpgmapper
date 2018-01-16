@@ -116,14 +116,6 @@ public:
 
 
     /**
-     * Removes a map from this region.
-     *
-     * @param   cMap    the map to remove.
-     */
-    void removeMap(MapPointer cMap);
-
-
-    /**
      * Save the region to json.
      *
      * @param   cJSON       the json instance to save to
@@ -146,9 +138,17 @@ private slots:
     /**
      * A map changed its Id.
      *
-     * @param   nOldId      Old id of the map
+     * @param   nOldId              old id of the map
      */
     void changedMapId(mapid_t nOldId);
+
+
+    /**
+     * A map changed its region.
+     *
+     * @param   nOldRegionId        id of the old region
+     */
+    void changedMapRegion(regionid_t nOldRegionId);
 
 
 signals:

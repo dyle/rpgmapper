@@ -95,6 +95,7 @@ void Region::addMap(MapPointer cMap) {
         d->m_cMaps.insert(cMap->id());
         cMap->region(self());
         connect(cMap.data(), &Map::changedId, this, &Region::changedMapId);
+        connect(cMap.data(), &Map::changedRegion, this, &Region::changedMapRegion);
         emit addedMap(cMap);
     }
 }
@@ -103,7 +104,7 @@ void Region::addMap(MapPointer cMap) {
 /**
  * A map changed its Id.
  *
- * @param   nOldId      Old id of the map
+ * @param   nOldId              old id of the map
  */
 void Region::changedMapId(mapid_t nOldId) {
     d->m_cMaps.erase(nOldId);
@@ -111,6 +112,35 @@ void Region::changedMapId(mapid_t nOldId) {
     if (cMap) {
         d->m_cMaps.insert(cMap->id());
     }
+}
+
+
+/**
+ * A map changed its region.
+ *
+ * @param   nOldRegionId        id of the old region
+ */
+void Region::changedMapRegion(regionid_t nOldRegionId) {
+
+    auto * cMap = dynamic_cast<Map *>(QObject::sender());
+    if (!cMap) {
+        return;
+    }
+
+    auto nMapId = cMap->id();
+    auto nRegionId = cMap->region()->id();
+
+    if ((nOldRegionId == id()) && (d->m_cMaps.find(nMapId) != d->m_cMaps.end())) {
+        d->m_cMaps.erase(nMapId);
+        disconnect(cMap, &Map::changedId, this, &Region::changedMapId);
+        disconnect(cMap, &Map::changedRegion, this, &Region::changedMapRegion);
+        emit removedMap(d->m_cAtlas->maps()[nMapId]);
+    }
+
+    if ((nRegionId == id()) && (d->m_cMaps.find(nMapId) == d->m_cMaps.end())) {
+        addMap(d->m_cAtlas->maps()[nMapId]);
+    }
+
 }
 
 
@@ -197,22 +227,6 @@ void Region::orderValue(int nOrderValue) {
     }
     d->m_nOrderValue = nOrderValue;
     modified(true);
-}
-
-
-/**
- * Removes a map from this region.
- *
- * @param   cMap    the map to remove.
- */
-void Region::removeMap(MapPointer cMap) {
-
-    auto iter = d->m_cMaps.find(cMap->id());
-    if (iter != d->m_cMaps.end()) {
-        d->m_cMaps.erase(iter);
-        disconnect(cMap.data(), &Map::changedId, this, &Region::changedMapId);
-        emit removedMap(cMap);
-    }
 }
 
 

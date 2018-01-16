@@ -139,15 +139,17 @@ signals:
     /**
      * The id of the map changed.
      *
-     * @param   nOldId      the old id
+     * @param   nOldId              the old id
      */
-    void changedId(id_t nOldId);
+    void changedId(mapid_t nOldId);
 
 
     /**
      * The map changed its region.
+     *
+     * @param   nOldRegionId        id of the old region
      */
-    void changedRegion();
+    void changedRegion(regionid_t nOldId);
 
 
 private:

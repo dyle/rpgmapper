@@ -1,5 +1,5 @@
 /*
- * structuraltreewidget.hpp
+ * maptabwidget.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,15 +18,15 @@
  */
 
 
-#ifndef VIEW_STRUCTURALTREEWIDGET_HPP
-#define VIEW_STRUCTURALTREEWIDGET_HPP
+#ifndef VIEW_MAPTABWIDGET_HPP
+#define VIEW_MAPTABWIDGET_HPP
 
 
 // ------------------------------------------------------------
 // incs
 
 // Qt
-#include <QTreeWidget>
+#include <QTabWidget>
 
 // rpgmapper
 #include <rpgmapper/types.hpp>
@@ -43,10 +43,10 @@ namespace view {
 /**
  * A QTreeWidget which displays the Atlas structure.
  */
-class StructuralTreeWidget : public QTreeWidget {
+class MapTabWidget : public QTabWidget {
 
 
-    Q_OBJECT
+Q_OBJECT
 
 
 public:
@@ -57,58 +57,19 @@ public:
      *
      * @param   cParent     parent widget
      */
-    explicit StructuralTreeWidget(QWidget * cParent = nullptr);
+    explicit MapTabWidget(QWidget * cParent = nullptr);
 
 
 public slots:
 
 
     /**
-     * Selects the first available Map in the structure.
-     */
-    void selectFirstMap();
-
-
-    /**
-     * Reset structure (builds Atlas structure anew)
-     */
-    void resetStructure();
-
-
-private slots:
-
-
-    /**
-     * The changed the selected item.
+     * Select a map.
      *
-     * @param   cCurrent        new selected item
+     * @param   nMapId      ID of the map
      */
-    void changedCurrentItem(QTreeWidgetItem * cCurrent);
+    void selectMap(rpgmapper::model::mapid_t nMapId);
 
-
-signals:
-
-
-    /**
-     * Selected the atlas.
-     */
-    void selectedAtlas();
-
-
-    /**
-     * Selected a map.
-     *
-     * @param   nMapId      id of the newly selected map
-     */
-    void selectedMap(rpgmapper::model::mapid_t nMapId);
-
-
-    /**
-     * Selected a region.
-     *
-     * @param   nRegionId   id of the newly selected region
-     */
-    void selectedRegion(rpgmapper::model::regionid_t cRegionId);
 };
 
 

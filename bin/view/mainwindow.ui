@@ -20,9 +20,18 @@
   <widget class="QWidget" name="wdCentral">
    <layout class="QVBoxLayout" name="lyMain">
     <item>
-     <widget class="QTabWidget" name="tabMap">
+     <widget class="rpgmapper::view::MapTabWidget" name="tabMap">
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
       <property name="currentIndex">
        <number>0</number>
+      </property>
+      <property name="tabsClosable">
+       <bool>true</bool>
+      </property>
+      <property name="movable">
+       <bool>true</bool>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -65,9 +74,9 @@
     </property>
     <addaction name="acAbout"/>
    </widget>
-   <widget class="QMenu" name="mnMap">
+   <widget class="QMenu" name="mnEdit">
     <property name="title">
-     <string>&amp;Map</string>
+     <string>&amp;Edit</string>
     </property>
     <addaction name="separator"/>
     <addaction name="acNewMap"/>
@@ -77,7 +86,7 @@
     <addaction name="acMapProperties"/>
    </widget>
    <addaction name="mnFile"/>
-   <addaction name="mnMap"/>
+   <addaction name="mnEdit"/>
    <addaction name="mnHelp"/>
   </widget>
   <widget class="QStatusBar" name="stbMain"/>
@@ -117,8 +126,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>96</width>
-          <height>26</height>
+          <width>256</width>
+          <height>122</height>
          </rect>
         </property>
         <attribute name="label">
@@ -338,6 +347,12 @@
    <class>rpgmapper::view::StructuralTreeWidget</class>
    <extends>QTreeWidget</extends>
    <header>view/structuraltreewidget.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>rpgmapper::view::MapTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>view/maptabwidget.hpp</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

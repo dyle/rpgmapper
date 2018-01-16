@@ -21,6 +21,7 @@
 // ------------------------------------------------------------
 // incs
 
+#include <iostream>
 #include <QPixmapCache>
 
 // rpgmapper
@@ -74,7 +75,32 @@ static QTreeWidgetItem * appendStructureRegion(QTreeWidgetItem * cTWAtlas, Regio
  * @param   cParent     parent widget
  */
 StructuralTreeWidget::StructuralTreeWidget(QWidget * cParent) : QTreeWidget(cParent) {
+    connect(this, &QTreeWidget::currentItemChanged, this, &StructuralTreeWidget::changedCurrentItem);
+}
 
+
+/**
+ * The changed the selected item.
+ *
+ * @param   cCurrent        new selected item
+ */
+void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * cCurrent) {
+
+    if (!cCurrent || (cCurrent->columnCount() < 2)){
+        return;
+    }
+    if (cCurrent->text(1) == "atlas") {
+        emit selectedAtlas();
+    }
+
+    if (cCurrent->columnCount() >= 3) {
+        if (cCurrent->text(1) == "region") {
+            emit selectedRegion(cCurrent->text(2).toInt());
+        }
+        if (cCurrent->text(1) == "map") {
+            emit selectedMap(cCurrent->text(2).toInt());
+        }
+    }
 }
 
 
@@ -84,6 +110,39 @@ StructuralTreeWidget::StructuralTreeWidget(QWidget * cParent) : QTreeWidget(cPar
 void StructuralTreeWidget::resetStructure() {
     clear();
     appendStructureAtlas(this);
+}
+
+
+/**
+ * Selects the first available Map in the structure.
+ */
+void StructuralTreeWidget::selectFirstMap() {
+
+    auto cAtlasItem = topLevelItem(0);
+    if (!cAtlasItem) {
+        return;
+    }
+
+    for (int i = 0; i < cAtlasItem->childCount(); ++i) {
+
+        auto cRegionItem = cAtlasItem->child(i);
+        if (!cRegionItem) {
+            continue;
+        }
+
+        for (int j = 0; j < cRegionItem->childCount(); ++j) {
+
+            auto cMapItem = cRegionItem->child(j);
+            if (!cMapItem) {
+                continue;
+            }
+
+            if ((cMapItem->columnCount() >= 2) && (cMapItem->text(1) == "map")) {
+                scrollToItem(cMapItem);
+                setCurrentItem(cMapItem);
+            }
+        }
+    }
 }
 
 

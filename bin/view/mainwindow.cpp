@@ -52,10 +52,12 @@ MainWindow::MainWindow() : QMainWindow() {
     ui->setupUi(this);
     statusBar()->setSizeGripEnabled(true);
 
-    loadSettings();
-    ui->twAtlas->resetStructure();
-
     connectActions();
+    loadSettings();
+
+    ui->tabMap->clear();
+    ui->twAtlas->resetStructure();
+    ui->twAtlas->selectFirstMap();
 }
 
 
@@ -81,6 +83,7 @@ void MainWindow::centerWindow() {
  */
 void MainWindow::connectActions() {
     connect(ui->acQuit, &QAction::triggered, this, &MainWindow::close);
+    connect(ui->twAtlas, &StructuralTreeWidget::selectedMap, ui->tabMap, &MapTabWidget::selectMap);
 }
 
 

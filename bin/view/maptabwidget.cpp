@@ -32,6 +32,29 @@ using namespace rpgmapper::view;
 
 
 // ------------------------------------------------------------
+// decl
+
+namespace rpgmapper {
+namespace view {
+
+
+/**
+ * Internal data of a Map object.
+ */
+class MapTabWidget::MapTabWidget_data {
+
+public:
+
+    MapTabWidget_data() = default;
+
+};
+
+
+}
+}
+
+
+// ------------------------------------------------------------
 // code
 
 
@@ -41,6 +64,7 @@ using namespace rpgmapper::view;
  * @param   cParent     parent widget
  */
 MapTabWidget::MapTabWidget(QWidget * cParent) : QTabWidget(cParent) {
+    d = std::make_shared<MapTabWidget::MapTabWidget_data>();
 }
 
 

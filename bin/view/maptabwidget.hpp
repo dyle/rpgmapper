@@ -25,6 +25,8 @@
 // ------------------------------------------------------------
 // incs
 
+#include <memory>
+
 // Qt
 #include <QTabWidget>
 
@@ -69,6 +71,13 @@ public slots:
      * @param   nMapId      ID of the map
      */
     void selectMap(rpgmapper::model::mapid_t nMapId);
+
+
+private:
+
+
+    class MapTabWidget_data;                               /**< Internal data type. */
+    std::shared_ptr<MapTabWidget::MapTabWidget_data> d;    /**< Internal data instance. */
 
 };
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>815</width>
-    <height>596</height>
+    <width>876</width>
+    <height>694</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -64,8 +64,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>815</width>
-     <height>26</height>
+     <width>876</width>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnFile">
@@ -119,14 +119,43 @@
    <addaction name="acNewMap"/>
    <addaction name="acDeleteMap"/>
   </widget>
-  <widget class="QDockWidget" name="dwIcons">
+  <widget class="QDockWidget" name="dwMiniMap">
+   <property name="windowTitle">
+    <string>&amp;Minimap:</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dwMiniMapContent">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QScrollArea" name="saMiniMap">
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="saMiniMapContent">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>160</width>
+          <height>82</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dwTiles">
    <property name="windowTitle">
     <string>Ti&amp;les:</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="QWidget" name="wdIconsContent">
+   <widget class="QWidget" name="wdTilesContent">
     <layout class="QVBoxLayout" name="lyIconsContent">
      <item>
       <widget class="QToolBox" name="tbIcons">
@@ -138,8 +167,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>256</width>
-          <height>122</height>
+          <width>164</width>
+          <height>82</height>
          </rect>
         </property>
         <attribute name="label">
@@ -151,8 +180,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>256</width>
-          <height>122</height>
+          <width>164</width>
+          <height>82</height>
          </rect>
         </property>
         <attribute name="label">
@@ -205,6 +234,27 @@
        <attribute name="headerVisible">
         <bool>false</bool>
        </attribute>
+       <column>
+        <property name="text">
+         <string notr="true">1</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dwMapLayers">
+   <property name="windowTitle">
+    <string>La&amp;yers:</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dwMapLayersContents">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QTreeWidget" name="twMapLayers">
        <column>
         <property name="text">
          <string notr="true">1</string>

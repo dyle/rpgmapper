@@ -33,9 +33,11 @@
 // ------------------------------------------------------------
 // incs
 
+#include <QJsonArray>
+
 // rpgmapper
 #include <rpgmapper/atlas.hpp>
-
+#include <rpgmapper/layer.hpp>
 
 using namespace rpgmapper::model;
 
@@ -57,6 +59,7 @@ public:
     Map_data() = default;
 
     Atlas * m_cAtlas = nullptr;                                     /**< Parent atlas back pointer. */
+    Layers m_cLayers;                                               /**< The layers of this map. */
     int m_nOrderValue = 0;                                          /**< Means to order a map among others. */
     regionid_t m_nRegionId = -1;                                    /**< Id of the region of this map. */
     QSize m_cSize = QSize(MAP_WIDTH_DEFAULT, MAP_HEIGHT_DEFAULT);   /**< Size of the map. */
@@ -84,9 +87,14 @@ static mapid_t g_nMapIdCounter = 0;
  * @param   nId     id of the map
  */
 Map::Map(Atlas * cAtlas, mapid_t nId) : Nameable(cAtlas), m_nId(nId) {
+
     Q_ASSERT(cAtlas);
+
     d = std::make_shared<Map::Map_data>();
     d->m_cAtlas = cAtlas;
+
+    createDefaultLayers();
+
     name("New map " + QString::number(id()));
 }
 
@@ -109,6 +117,36 @@ void Map::clear() {
 MapPointer Map::create(Atlas * cAtlas, mapid_t nId) {
     nId = nId < 0 ? ++g_nMapIdCounter : nId;
     return MapPointer(new Map(cAtlas, nId), &Map::deleteLater);
+}
+
+
+/**
+ * Adds the standard default layers to the map.
+ */
+void Map::createDefaultLayers() {
+
+    auto cLayers = std::map<Layer::default_ids, QString> {
+        { Layer::default_ids::background, tr("Background") },
+        { Layer::default_ids::base, tr("Base") },
+        { Layer::default_ids::walls, tr("Walls") },
+        { Layer::default_ids::effects, tr("Effects") },
+        { Layer::default_ids::text, tr("Text") }};
+
+    for (auto cPair : cLayers) {
+        auto nLayerId = static_cast<layerid_t>(cPair.first);
+        d->m_cLayers[nLayerId] = Layer::create(this, nLayerId);
+        d->m_cLayers[nLayerId]->name(cPair.second);
+    }
+}
+
+
+/**
+ * Get the layers of this map.
+ *
+ * @return  the layers of this map
+ */
+Layers const & Map::layers() const {
+    return d->m_cLayers;
 }
 
 
@@ -244,6 +282,20 @@ void Map::save(QJsonObject & cJSON) const {
     cJSON["id"] = id();
     cJSON["region"] = d->m_nRegionId;
     cJSON["orderValue"] = orderValue();
+
+    QJsonObject cJSONSize;
+    cJSONSize["width"] = size().width();
+    cJSONSize["height"] = size().height();
+    cJSON["size"] = cJSONSize;
+
+    QJsonArray cJSONLayers;
+    for (auto const & cLayer: layers()) {
+        QJsonObject cJSONLayer;
+        cLayer.second->save(cJSONLayer);
+        cJSONLayers.append(cJSONLayer);
+    }
+    cJSON["layers"] = cJSONLayers;
+
 }
 
 

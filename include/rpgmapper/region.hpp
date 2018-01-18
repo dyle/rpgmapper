@@ -31,8 +31,8 @@
 #include <QJsonObject>
 
 // rpgmapper
-#include "nameable.hpp"
-#include "types.hpp"
+#include <rpgmapper/nameable.hpp>
+#include <rpgmapper/types.hpp>
 
 
 // ------------------------------------------------------------
@@ -45,8 +45,6 @@ namespace model {
 
 /**
  * A collection of maps based on a name.
- *
- * Note: copy an Region instance is shallow. For a deep copy use the "clone()" method.
  */
 class Region : public Nameable {
 

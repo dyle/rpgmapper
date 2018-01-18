@@ -33,8 +33,8 @@
 #include <QSize>
 
 // rpgmapper
-#include "nameable.hpp"
-#include "types.hpp"
+#include <rpgmapper/nameable.hpp>
+#include <rpgmapper/types.hpp>
 
 
 // ------------------------------------------------------------
@@ -46,9 +46,7 @@ namespace model {
 
 
 /**
- * A single rpg Map.
- *
- * Note: copy an Map instance is shallow. For a deep copy use the "clone()" method.
+ * A single RPG Map.
  */
 class Map : public Nameable {
 
@@ -75,6 +73,14 @@ public:
      * @return  the id of the map
      */
     mapid_t id() const { return m_nId; }
+
+
+    /**
+     * Get the layers of this map.
+     *
+     * @return  the layers of this map
+     */
+    Layers const & layers() const;
 
 
     /**
@@ -217,6 +223,12 @@ private:
      * @param   nId         id of the map
      */
     explicit Map(Atlas * cAtlas, mapid_t nId);
+
+
+    /**
+     * Adds the standard default layers to the map.
+     */
+    void createDefaultLayers();
 
 
     /**

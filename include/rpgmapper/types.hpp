@@ -42,6 +42,11 @@ typedef QSharedPointer<Atlas> AtlasPointer;                 /**< Atlas smart poi
 class Changeable;                                           /**< An object capable of recording changes */
 typedef QSharedPointer<Changeable> ChangeablePointer;       /**< Changeable smart pointer. */
 
+class Layer;                                                /**< A layer on a map. */
+typedef QSharedPointer<Layer> LayerPointer;                 /**< Layer smart pointer. */
+typedef int layerid_t;                                      /**< Id of a layer == serves as Z order value. */
+typedef std::map<layerid_t, LayerPointer> Layers;           /**< Multiple layers. */
+
 class Map;                                                  /**< A map. */
 typedef QSharedPointer<Map> MapPointer;                     /**< Map smart pointer. */
 typedef int mapid_t;                                        /**< Id of a map. */

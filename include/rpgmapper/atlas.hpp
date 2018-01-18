@@ -32,10 +32,10 @@
 #include <QString>
 
 // rpgmapper
-#include "nameable.hpp"
-#include "map.hpp"
-#include "region.hpp"
-#include "types.hpp"
+#include <rpgmapper/nameable.hpp>
+#include <rpgmapper/map.hpp>
+#include <rpgmapper/region.hpp>
+#include <rpgmapper/types.hpp>
 
 
 // ------------------------------------------------------------
@@ -48,8 +48,6 @@ namespace model {
 
 /**
  * A single atlas holds regions with maps each.
- *
- * Note: copy an Atlas instance is shallow. For a deep copy use the "clone()" method.
  */
 class Atlas : public Nameable {
 

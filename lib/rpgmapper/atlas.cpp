@@ -276,17 +276,17 @@ void Atlas::save(QJsonObject & cJSON) const {
 
     QJsonArray cJSONRegions;
     for (auto const & cRegion: d->m_cRegions) {
-        QJsonObject jo;
-        cRegion.second->save(jo);
-        cJSONRegions.append(jo);
+        QJsonObject cJSONRegion;
+        cRegion.second->save(cJSONRegion);
+        cJSONRegions.append(cJSONRegion);
     }
     cJSON["regions"] = cJSONRegions;
 
     QJsonArray cJSONMaps;
     for (auto const & cMap: d->m_cMaps) {
-        QJsonObject jo;
-        cMap.second->save(jo);
-        cJSONMaps.append(jo);
+        QJsonObject cJSONMap;
+        cMap.second->save(cJSONMap);
+        cJSONMaps.append(cJSONMap);
     }
     cJSON["maps"] = cJSONMaps;
 }

@@ -31,7 +31,7 @@
 #include <QString>
 
 // rpgmapper
-#include "changeable.hpp"
+#include <rpgmapper/changeable.hpp>
 
 
 // ------------------------------------------------------------

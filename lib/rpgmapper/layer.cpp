@@ -47,7 +47,6 @@ public:
     Layer_data() = default;
 
     Map * m_cMap = nullptr;             /**< Parent Map back pointer. */
-    QString m_sName;                    /**< Layer name. */
 };
 
 
@@ -64,8 +63,9 @@ public:
  *
  * @param   cMap        parent object
  * @param   nId         id of the layer
+ * @param   eLayer      the layer type
  */
-Layer::Layer(Map * cMap, layerid_t nId) : Nameable(cMap), m_nId(nId) {
+Layer::Layer(Map * cMap, layerid_t nId, layer_t eLayer) : Nameable(cMap), m_nId(nId), m_eLayer(eLayer) {
     Q_ASSERT(cMap);
     d = std::make_shared<Layer::Layer_data>();
     d->m_cMap = cMap;
@@ -85,10 +85,11 @@ void Layer::clear() {
  *
  * @param   cMap        parent object
  * @param   nId         the id of the new map layer
+ * @param   eLayer      the layer type
  * @return  a new layer
  */
-LayerPointer Layer::create(Map * cMap, layerid_t nId) {
-    return LayerPointer(new Layer(cMap, nId), &Layer::deleteLater);
+LayerPointer Layer::create(Map * cMap, layerid_t nId, layer_t eLayer) {
+    return LayerPointer(new Layer(cMap, nId, eLayer), &Layer::deleteLater);
 }
 
 
@@ -106,6 +107,9 @@ void Layer::load(QJsonObject const & cJSON) {
     if (cJSON.contains("id") && cJSON["id"].isDouble()) {
         m_nId = cJSON["id"].toInt();
     }
+    if (cJSON.contains("type") && cJSON["type"].isDouble()) {
+        m_eLayer = static_cast<Layer::layer_t>(cJSON["type"].toInt());
+    }
 }
 
 
@@ -119,4 +123,5 @@ void Layer::save(QJsonObject & cJSON) const {
     Nameable::save(cJSON);
 
     cJSON["id"] = id();
+    cJSON["type"] = static_cast<int>(type());
 }

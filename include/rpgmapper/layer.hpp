@@ -53,18 +53,13 @@ public:
 
 
     /**
-     * These are the layer default ids.
-     *
-     * The layer id also serves as Z-order, meaning the lower the id
-     * the more the layer is rendered on the bottom.
+     * These are the layer types supported.
      */
-    enum class default_ids : layerid_t {
-
-        background = 0,                 /**< Default layer id for background. */
-        base = 1,                       /**< Default layer id for base tiles (like walls, rocks, ...). */
-        walls = 2,                      /**< Default layer id for dungeon walls. */
-        effects = 3,                    /**< Default layer id for tile effects stuff. */
-        text = 4                        /**< Default layer id for text annotations. */
+    enum class layer_t {
+        background,                 /**< A layer rendering a full background image. */
+        grid,                       /**< A layer rendering a grid. */
+        tile,                       /**< A layer taking bases, walls, specials, ... */
+        text                        /**< A layer positioning text. */
     };
 
 
@@ -73,9 +68,10 @@ public:
      *
      * @param   cMap        parent object
      * @param   nId         the id of the new map layer
+     * @param   eLayer      the layer type
      * @return  a new layer
      */
-    static LayerPointer create(Map * cMap, layerid_t nId);
+    static LayerPointer create(Map * cMap, layerid_t nId, layer_t eLayer);
 
 
     /**
@@ -102,6 +98,14 @@ public:
     void save(QJsonObject & cJSON) const override;
 
 
+    /**
+     * Get the type of the layer.
+     *
+     * @return  the layer type enum value.
+     */
+    layer_t type() const { return m_eLayer; }
+
+
 public slots:
 
 
@@ -111,7 +115,7 @@ public slots:
     void clear();
 
 
-private:
+protected:
 
 
     /**
@@ -119,12 +123,16 @@ private:
      *
      * @param   cMap        parent object
      * @param   nId         id of the layer
+     * @param   eLayer      the layer type
      */
-    explicit Layer(Map * cMap, layerid_t nId);
+    explicit Layer(Map * cMap, layerid_t nId, layer_t eLayer);
 
 
+private:
 
-    layerid_t m_nId;                            /**< Map id. */
+
+    layerid_t m_nId;                            /**< Layer id. */
+    layer_t m_eLayer;                           /**< Layer type enum value. */
     class Layer_data;                           /**< Internal data type. */
     std::shared_ptr<Layer::Layer_data> d;       /**< Internal data instance. */
 };

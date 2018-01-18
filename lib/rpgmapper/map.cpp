@@ -125,17 +125,26 @@ MapPointer Map::create(Atlas * cAtlas, mapid_t nId) {
  */
 void Map::createDefaultLayers() {
 
-    auto cLayers = std::map<Layer::default_ids, QString> {
-        { Layer::default_ids::background, tr("Background") },
-        { Layer::default_ids::base, tr("Base") },
-        { Layer::default_ids::walls, tr("Walls") },
-        { Layer::default_ids::effects, tr("Effects") },
-        { Layer::default_ids::text, tr("Text") }};
+    struct LayerDefinition {
+        layerid_t nId;
+        Layer::layer_t eLayer;
+        QString sName;
+    };
 
-    for (auto cPair : cLayers) {
-        auto nLayerId = static_cast<layerid_t>(cPair.first);
-        d->m_cLayers[nLayerId] = Layer::create(this, nLayerId);
-        d->m_cLayers[nLayerId]->name(cPair.second);
+    std::vector<LayerDefinition> cDefaultLayers {
+        { 0, Layer::layer_t::background, "Background"},
+        { 1, Layer::layer_t::tile, "Base"},
+        { 2, Layer::layer_t::tile, "Walls"},
+        { 3, Layer::layer_t::grid, "Grid"},
+        { 4, Layer::layer_t::tile, "Specials"},
+        { 5, Layer::layer_t::text, "Text"},
+    };
+
+    for (auto const & cLayerDefinition : cDefaultLayers) {
+        d->m_cLayers[cLayerDefinition.nId] = Layer::create(this,
+                                                           cLayerDefinition.nId,
+                                                           cLayerDefinition.eLayer);
+        d->m_cLayers[cLayerDefinition.nId]->name(cLayerDefinition.sName);
     }
 }
 

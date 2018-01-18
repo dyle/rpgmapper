@@ -1,5 +1,5 @@
 /*
- * test_atlas_json.cpp
+ * test_map_json.cpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -27,9 +27,8 @@
 
 // ------------------------------------------------------------
 
+#include <cassert>
 #include <iostream>
-
-#include <QJsonDocument>
 
 // rpgmapper
 #include <rpgmapper/atlas.hpp>
@@ -42,17 +41,26 @@ using namespace rpgmapper::model;
 
 int test() {
 
-    // just dump the JSON string to stdout
-    Atlas cAtlas1;
-    std::cout << cAtlas1.json(QJsonDocument::Compact).toStdString() << std::endl;
+    Atlas cAtlas;
+    auto cMap = cAtlas.createMap();
+    std::cout << "Map: width=" << cMap->size().width() << ", height=" << cMap->size().height() << std::endl;
 
-    cAtlas1.maps()[1]->region(cAtlas1.regions()[1]);
-    std::cout << cAtlas1.json(QJsonDocument::Compact).toStdString() << std::endl;
+    cMap->size(QSize(100, 100));
+    std::cout << "Map: width=" << cMap->size().width() << ", height=" << cMap->size().height() << std::endl;
+    assert(cMap->size().width() == 100);
+    assert(cMap->size().height() == 100);
 
-    auto cRegion2 = cAtlas1.createRegion();
-    auto cMap2 = cAtlas1.createMap();
-    cRegion2->addMap(cMap2);
-    std::cout << cAtlas1.json(QJsonDocument::Compact).toStdString() << std::endl;
+    try {
+        cMap->size(QSize(Map::minimumWidth() - 1, Map::minimumHeight() - 1));
+        assert(false);
+    }
+    catch (...) {}
+
+    try {
+        cMap->size(QSize(Map::maximumWidth(), Map::maximumHeight()));
+        assert(false);
+    }
+    catch (...) {}
 
     return 0;
 }

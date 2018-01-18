@@ -19,6 +19,18 @@
 
 
 // ------------------------------------------------------------
+// defs
+
+#define MAP_HEIGHT_DEFAULT          10
+#define MAP_HEIGHT_MAXIMUM          1000
+#define MAP_HEIGHT_MINIMUM          0
+
+#define MAP_WIDTH_DEFAULT           10
+#define MAP_WIDTH_MAXIMUM           1000
+#define MAP_WIDTH_MINIMUM           0
+
+
+// ------------------------------------------------------------
 // incs
 
 // rpgmapper
@@ -44,9 +56,10 @@ public:
 
     Map_data() = default;
 
-    Atlas * m_cAtlas = nullptr;                 /**< Parent atlas back pointer. */
-    int m_nOrderValue = 0;                      /**< Means to order a map among others. */
-    regionid_t m_nRegionId = -1;                /**< Id of the region of this map. */
+    Atlas * m_cAtlas = nullptr;                                     /**< Parent atlas back pointer. */
+    int m_nOrderValue = 0;                                          /**< Means to order a map among others. */
+    regionid_t m_nRegionId = -1;                                    /**< Id of the region of this map. */
+    QSize m_cSize = QSize(MAP_WIDTH_DEFAULT, MAP_HEIGHT_DEFAULT);   /**< Size of the map. */
 };
 
 
@@ -115,7 +128,6 @@ void Map::load(QJsonObject const & cJSON) {
         m_nId = cJSON["id"].toInt();
         g_nMapIdCounter = std::max(g_nMapIdCounter, m_nId);
     }
-
     if (cJSON.contains("orderValue") && cJSON["orderValue"].isDouble()) {
         orderValue(cJSON["orderValue"].toInt());
     }
@@ -123,6 +135,46 @@ void Map::load(QJsonObject const & cJSON) {
     if (nId != id()) {
         emit changedId(nId);
     }
+}
+
+
+/**
+ * Returns the maximum height of a map.
+ *
+ * @return  the maximum height of a map.
+ */
+int Map::maximumHeight() {
+    return MAP_HEIGHT_MAXIMUM;
+}
+
+
+/**
+ * Returns the maximum width of a map.
+ *
+ * @return  the maximum width of a map.
+ */
+int Map::maximumWidth() {
+    return MAP_WIDTH_MAXIMUM;
+}
+
+
+/**
+ * Returns the minimum height of a map.
+ *
+ * @return  the minimum height of a map.
+ */
+int Map::minimumHeight() {
+    return MAP_HEIGHT_MINIMUM;
+}
+
+
+/**
+ * Returns the minimum width of a map.
+ *
+ * @return  the minimum width of a map.
+ */
+int Map::minimumWidth() {
+    return MAP_WIDTH_MINIMUM;
 }
 
 
@@ -212,4 +264,43 @@ MapPointer Map::self() {
  */
 MapPointer const Map::self() const {
     return d->m_cAtlas->maps()[id()];
+}
+
+
+/**
+ * Returns the size of the map.
+ *
+ * @return  the size of the map
+ */
+QSize Map::size() const {
+    return d->m_cSize;
+}
+
+
+/**
+ * Sets a new size of the map.
+ *
+ * @param   cSize       the new size of the map
+ */
+void Map::size(QSize cSize) {
+
+    if (d->m_cSize == cSize) {
+        return;
+    }
+
+    if (cSize.width() < Map::minimumWidth()) {
+        throw std::out_of_range("Map width may not be below " + std::to_string(Map::minimumWidth()) + ".");
+    }
+    if (cSize.height() < Map::minimumHeight()) {
+        throw std::out_of_range("Map height may not be below " + std::to_string(Map::minimumHeight()) + ".");
+    }
+    if (cSize.width() >= Map::maximumWidth()) {
+        throw std::out_of_range("Map width may not be above " + std::to_string(Map::maximumWidth()) + ".");
+    }
+    if (cSize.height() >= Map::maximumHeight()) {
+        throw std::out_of_range("Map height may not be above " + std::to_string(Map::maximumHeight()) + ".");
+    }
+
+    d->m_cSize = cSize;
+    emit changedSize();
 }

@@ -30,6 +30,7 @@
 #include <memory>
 
 #include <QSharedPointer>
+#include <QSize>
 
 // rpgmapper
 #include "nameable.hpp"
@@ -85,6 +86,38 @@ public:
 
 
     /**
+     * Returns the maximum height of a map.
+     *
+     * @return  the maximum height of a map.
+     */
+    static int maximumHeight();
+
+
+    /**
+     * Returns the maximum width of a map.
+     *
+     * @return  the maximum width of a map.
+     */
+    static int maximumWidth();
+
+
+    /**
+     * Returns the minimum height of a map.
+     *
+     * @return  the minimum height of a map.
+     */
+    static int minimumHeight();
+
+
+    /**
+     * Returns the minimum width of a map.
+     *
+     * @return  the minimum width of a map.
+     */
+    static int minimumWidth();
+
+
+    /**
      * Means to order this map among other maps.
      *
      * @return  a value indicating the position of this map among others
@@ -124,6 +157,22 @@ public:
     void save(QJsonObject & cJSON) const override;
 
 
+    /**
+     * Returns the size of the map.
+     *
+     * @return  the size of the map
+     */
+    QSize size() const;
+
+
+    /**
+     * Sets a new size of the map.
+     *
+     * @param   cSize       the new size of the map
+     */
+    void size(QSize cSize);
+
+
 public slots:
 
 
@@ -150,6 +199,12 @@ signals:
      * @param   nOldRegionId        id of the old region
      */
     void changedRegion(regionid_t nOldId);
+
+
+    /**
+     * The size of the map has changed.
+     */
+    void changedSize();
 
 
 private:

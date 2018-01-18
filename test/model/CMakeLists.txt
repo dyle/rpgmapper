@@ -38,4 +38,10 @@ add_test(model/atlas_json                       test_atlas_json)
 set(TEST_FILE_SRC                               test_file.cpp)
 add_executable(test_file                        ${TEST_FILE_SRC})
 target_link_libraries(test_file                 rpgm ${CMAKE_REQUIRED_LIBRARIES})
-add_test(ctrl/file                              test_file)
+add_test(model/file                             test_file)
+
+# test: Map_size
+set(TEST_MAP_SIZE_SRC                           test_map_size.cpp)
+add_executable(test_map_size                    ${TEST_MAP_SIZE_SRC})
+target_link_libraries(test_map_size             rpgm ${CMAKE_REQUIRED_LIBRARIES})
+add_test(model/map_size                         test_map_size)

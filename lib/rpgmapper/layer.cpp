@@ -24,7 +24,6 @@
 #include <QJsonObject>
 
 // rpgmapper
-#include <rpgmapper/common_macros.h>
 #include <rpgmapper/layer.hpp>
 #include <rpgmapper/map.hpp>
 
@@ -74,6 +73,14 @@ Layer::Layer(Map * cMap, layerid_t nId) : Nameable(cMap), m_nId(nId) {
 
 
 /**
+ * Reset the layer to an empty state.
+ */
+void Layer::clear() {
+    name("");
+}
+
+
+/**
  * Create a new layer (factory method) for a map.
  *
  * @param   cMap        parent object
@@ -90,7 +97,15 @@ LayerPointer Layer::create(Map * cMap, layerid_t nId) {
  *
  * @param   cJSON       the json instance to load from
  */
-void Layer::load(UNUSED QJsonObject const & cJSON) {
+void Layer::load(QJsonObject const & cJSON) {
+
+    clear();
+
+    Nameable::load(cJSON);
+
+    if (cJSON.contains("id") && cJSON["id"].isDouble()) {
+        m_nId = cJSON["id"].toInt();
+    }
 }
 
 
@@ -101,6 +116,7 @@ void Layer::load(UNUSED QJsonObject const & cJSON) {
  */
 void Layer::save(QJsonObject & cJSON) const {
 
+    Nameable::save(cJSON);
+
     cJSON["id"] = id();
-    cJSON["name"] = name();
 }

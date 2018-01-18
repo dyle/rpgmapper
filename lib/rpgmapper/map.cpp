@@ -100,7 +100,7 @@ Map::Map(Atlas * cAtlas, mapid_t nId) : Nameable(cAtlas), m_nId(nId) {
 
 
 /**
- * Reset the region to an empty state.
+ * Reset the map to an empty state.
  */
 void Map::clear() {
     name("");

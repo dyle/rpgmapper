@@ -35,8 +35,9 @@ qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
 # Qt MOC
 set(RPGMAPPER_MOC
     view/mainwindow.hpp
+    view/mapscrollarea.hpp
     view/maptabwidget.hpp
-    view/mapview.hpp
+    view/mapwidget.hpp
     view/structuraltreewidget.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
@@ -48,8 +49,9 @@ set(RPGMAPPER_SRC
 
     main.cpp
     view/mainwindow.cpp                 view/mainwindow.hpp
+    view/mapscrollarea.cpp              view/mapscrollarea.hpp
     view/maptabwidget.cpp               view/maptabwidget.hpp
-    view/mapview.cpp                    view/mapview.hpp
+    view/mapwidget.cpp                  view/mapwidget.hpp
     view/structuraltreewidget.cpp       view/structuraltreewidget.hpp
 )
 

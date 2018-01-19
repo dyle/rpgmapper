@@ -26,7 +26,7 @@
 // rpgmapper
 #include <rpgmapper/common_macros.h>
 #include <rpgmapper/map.hpp>
-#include "mapview.hpp"
+#include "mapwidget.hpp"
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::view;
@@ -42,7 +42,7 @@ namespace view {
 /**
  * Internal data of a MapView.
  */
-class MapView::MapView_data {
+class MapWidget::MapView_data {
 
 public:
 
@@ -66,8 +66,8 @@ public:
  * @param   cParent     parent widget
  * @param   cMap        the map to be drawn
  */
-MapView::MapView(QWidget * cParent, MapPointer & cMap) : QWidget{cParent} {
-    d = std::make_shared<MapView::MapView_data>();
+MapWidget::MapWidget(QWidget * cParent, MapPointer & cMap) : QWidget{cParent} {
+    d = std::make_shared<MapWidget::MapView_data>();
     d->m_cMap = cMap;
 }
 
@@ -77,10 +77,10 @@ MapView::MapView(QWidget * cParent, MapPointer & cMap) : QWidget{cParent} {
  *
  * @param   cEvent      paint event
  */
-void MapView::paintEvent(UNUSED QPaintEvent * cEvent) {
+void MapWidget::paintEvent(UNUSED QPaintEvent * cEvent) {
 
-    std::cout << "MapView::paintEvent() - 1: this=" << this << std::endl;
-    std::cout << "MapView::paintEvent() - 2: d->m_cMap.name()=" << d->m_cMap->name().toStdString() << std::endl;
+    std::cout << "MapWidget::paintEvent() - 1: this=" << this << std::endl;
+    std::cout << "MapWidget::paintEvent() - 2: d->m_cMap.name()=" << d->m_cMap->name().toStdString() << std::endl;
 
 }
 

@@ -1,5 +1,5 @@
 /*
- * mapview.hpp
+ * mapscrollarea.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,18 +18,17 @@
  */
 
 
-#ifndef VIEW_MAPVIEW_HPP
-#define VIEW_MAPVIEW_HPP
+#ifndef VIEW_MAPSCROLLAREA_HPP
+#define VIEW_MAPSCROLLAREA_HPP
 
 
 // ------------------------------------------------------------
 // incs
 
-#include <memory>
-#include <QWidget>
+#include <QScrollArea>
 
 // rpgmapper
-#include <rpgmapper/types.hpp>
+#include "mapwidget.hpp"
 
 
 // ------------------------------------------------------------
@@ -41,9 +40,9 @@ namespace view {
 
 
 /**
- * A MapView is the widget which draws a map.
+ * A MapScrollArea can show a scrollable map widget
  */
-class MapView : public QWidget {
+class MapScrollArea : public QScrollArea {
 
 
     Q_OBJECT
@@ -55,25 +54,11 @@ public:
     /**
      * Ctor
      *
-     * @param   cParent     parent widget
-     * @param   cMap        the map to be drawn
+     * @param   cParent         parent widget
+     * @param   cMapWidget      the map widget enclosed
      */
-    explicit MapView(QWidget * cParent, rpgmapper::model::MapPointer & cMap);
+    explicit MapScrollArea(QWidget * cParent, MapWidget * cMapWidget);
 
-
-protected:
-
-
-    /**
-     * Draw the map.
-     *
-     * @param   cEvent      paint event
-     */
-    void paintEvent(QPaintEvent * cEvent) override;
-
-
-    class MapView_data;                              /**< Internal data type. */
-    std::shared_ptr<MapView::MapView_data> d;        /**< Internal data instance. */
 };
 
 }

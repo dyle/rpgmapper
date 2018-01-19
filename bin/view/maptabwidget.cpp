@@ -23,12 +23,13 @@
 
 #include <cassert>
 #include <QPixmapCache>
+#include <QScrollArea>
 
 // rpgmapper
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/controller.hpp>
+#include "mapscrollarea.hpp"
 #include "maptabwidget.hpp"
-#include "mapview.hpp"
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::view;
@@ -50,7 +51,7 @@ public:
 
     MapTabWidget_data() = default;
 
-    std::map<mapid_t, MapView *> m_cMapViews;           /**< all current map views */
+    std::map<mapid_t, MapScrollArea *> m_cMapViews;     /**< all current map views */
 };
 
 
@@ -85,7 +86,7 @@ void MapTabWidget::selectMap(mapid_t nMapId) {
         auto cMap = Controller::instance().atlas()->maps()[nMapId];
         assert(cMap.data());
 
-        auto cMapView = new MapView{this, cMap};
+        auto cMapView = new MapScrollArea{this, new MapWidget{this, cMap}};
         d->m_cMapViews.emplace(nMapId, cMapView);
 
         QPixmap cPixmap;

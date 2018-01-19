@@ -61,6 +61,31 @@ public:
     explicit MapWidget(QWidget * cParent, rpgmapper::model::MapPointer & cMap);
 
 
+    /**
+     * Get the current scale factor value.
+     *
+     * @return  the current scale factor value
+     */
+    float scaleFactor() const;
+
+
+    /**
+     * Set the current scale factor value.
+     *
+     * @param   nScaleFactor       the new scale factor value
+     */
+    void scaleFactor(float nScaleFactor);
+
+
+public slots:
+
+
+    /**
+     * The map has changed.
+     */
+    void changedMap();
+
+
 protected:
 
 

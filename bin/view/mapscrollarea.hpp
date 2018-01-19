@@ -59,6 +59,14 @@ public:
      */
     explicit MapScrollArea(QWidget * cParent, MapWidget * cMapWidget);
 
+
+    /**
+     * Return the internal MapWidget
+     *
+     * @return  the pointer to the internal map widget
+     */
+    MapWidget * mapWidget() { return dynamic_cast<MapWidget *>(widget()); }
+
 };
 
 }

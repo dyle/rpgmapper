@@ -38,5 +38,7 @@ using namespace rpgmapper::view;
  * @param   cMapWidget      the map widget enclosed
  */
 MapScrollArea::MapScrollArea(QWidget * cParent, MapWidget * cMapWidget) : QScrollArea{cParent} {
+    setBackgroundRole(QPalette::Dark);
     setWidget(cMapWidget);
+    cMapWidget->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }

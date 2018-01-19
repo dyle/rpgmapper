@@ -66,7 +66,7 @@ public:
  *
  * @param   cParent     parent object
  */
-Atlas::Atlas(QObject * cParent) : Nameable(cParent) {
+Atlas::Atlas(QObject * cParent) : Nameable{cParent} {
     d = std::make_shared<Atlas::Atlas_data>();
     name("New Atlas");
     createRegion()->addMap(createMap());
@@ -137,11 +137,9 @@ RegionPointer Atlas::createRegion() {
  * @return  a string holding the atlas in json format
  */
 QString Atlas::json(QJsonDocument::JsonFormat eJsonFormat) const {
-
     QJsonObject cJSON;
     save(cJSON);
-
-    QJsonDocument cJSONDoc(cJSON);
+    QJsonDocument cJSONDoc{cJSON};
     return  QTextCodec::codecForName("UTF-8")->toUnicode(cJSONDoc.toJson(eJsonFormat).data());
 }
 
@@ -210,19 +208,15 @@ bool Atlas::modified() const {
         return true;
     }
 
-    for (auto const & cMap: maps()) {
-        if (cMap.second->modified()) {
-            return true;
-        }
+    if (std::any_of(maps().begin(),
+                    maps().end(),
+                    [](Maps::value_type const & cPair) { return cPair.second->modified(); })) {
+        return true;
     }
 
-    for (auto const & cRegion: regions()) {
-        if (cRegion.second->modified()) {
-            return true;
-        }
-    }
-
-    return false;
+    return std::any_of(regions().begin(),
+                       regions().end(),
+                       [](Regions::value_type const & cPair) { return cPair.second->modified(); });
 }
 
 

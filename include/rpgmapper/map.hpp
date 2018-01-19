@@ -231,22 +231,6 @@ private:
     void createDefaultLayers();
 
 
-    /**
-     * Get our own smart pointer as hold by the governing atlas.
-     *
-     * @return  a smart pointer to our own instance derived from the atlas.
-     */
-    MapPointer self();
-
-
-    /**
-     * Get our own smart pointer as hold by the governing atlas.
-     *
-     * @return  a smart pointer to our own instance derived from the atlas.
-     */
-    MapPointer const self() const;
-
-
     mapid_t m_nId;                              /**< Map id. */
     class Map_data;                             /**< Internal data type. */
     std::shared_ptr<Map::Map_data> d;           /**< Internal data instance. */

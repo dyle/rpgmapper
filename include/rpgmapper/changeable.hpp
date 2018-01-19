@@ -92,7 +92,7 @@ signals:
 private:
 
 
-    bool m_bModified;
+    bool m_bModified;           /**< The modified flag. */
 
 };
 

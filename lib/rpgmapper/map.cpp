@@ -62,7 +62,7 @@ public:
     Layers m_cLayers;                                               /**< The layers of this map. */
     int m_nOrderValue = 0;                                          /**< Means to order a map among others. */
     regionid_t m_nRegionId = -1;                                    /**< Id of the region of this map. */
-    QSize m_cSize = QSize(MAP_WIDTH_DEFAULT, MAP_HEIGHT_DEFAULT);   /**< Size of the map. */
+    QSize m_cSize{MAP_WIDTH_DEFAULT, MAP_HEIGHT_DEFAULT};           /**< Size of the map. */
 };
 
 
@@ -86,7 +86,7 @@ static mapid_t g_nMapIdCounter = 0;
  * @param   cAtlas      parent object
  * @param   nId     id of the map
  */
-Map::Map(Atlas * cAtlas, mapid_t nId) : Nameable(cAtlas), m_nId(nId) {
+Map::Map(Atlas * cAtlas, mapid_t nId) : Nameable{cAtlas}, m_nId{nId} {
 
     Q_ASSERT(cAtlas);
 
@@ -305,26 +305,6 @@ void Map::save(QJsonObject & cJSON) const {
     }
     cJSON["layers"] = cJSONLayers;
 
-}
-
-
-/**
- * Get our own smart pointer as hold by the governing atlas.
- *
- * @return  a smart pointer to our own instance derived from the atlas.
- */
-MapPointer Map::self() {
-    return d->m_cAtlas->maps()[id()];
-}
-
-
-/**
- * Get our own smart pointer as hold by the governing atlas.
- *
- * @return  a smart pointer to our own instance derived from the atlas.
- */
-MapPointer const Map::self() const {
-    return d->m_cAtlas->maps()[id()];
 }
 
 

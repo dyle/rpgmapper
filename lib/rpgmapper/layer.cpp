@@ -47,6 +47,7 @@ public:
     Layer_data() = default;
 
     Map * m_cMap = nullptr;             /**< Parent Map back pointer. */
+    MapItems m_cTiles;                  /**< All map items on this layer. */
 };
 
 
@@ -110,6 +111,8 @@ void Layer::load(QJsonObject const & cJSON) {
     if (cJSON.contains("type") && cJSON["type"].isDouble()) {
         m_eLayer = static_cast<Layer::layer_t>(cJSON["type"].toInt());
     }
+
+    // TODO: load tiles
 }
 
 
@@ -124,4 +127,16 @@ void Layer::save(QJsonObject & cJSON) const {
 
     cJSON["id"] = id();
     cJSON["type"] = static_cast<int>(type());
+
+    // TODO: save tiles
+}
+
+
+/**
+ * Get all the map items of this layer.
+ *
+ * @return  all tiles on this layer
+ */
+MapItems const & Layer::tiles() const {
+    return d->m_cTiles;
 }

@@ -99,6 +99,14 @@ public:
 
 
     /**
+     * Get all the map items of this layer.
+     *
+     * @return  all tiles on this layer
+     */
+    MapItems const & tiles() const;
+
+
+    /**
      * Get the type of the layer.
      *
      * @return  the layer type enum value.

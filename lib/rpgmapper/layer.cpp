@@ -21,11 +21,13 @@
 // ------------------------------------------------------------
 // incs
 
+#include <QJsonArray>
 #include <QJsonObject>
 
 // rpgmapper
 #include <rpgmapper/layer.hpp>
 #include <rpgmapper/map.hpp>
+#include <rpgmapper/tile.hpp>
 
 using namespace rpgmapper::model;
 
@@ -46,8 +48,7 @@ public:
 
     Layer_data() = default;
 
-    Map * m_cMap = nullptr;             /**< Parent Map back pointer. */
-    MapItems m_cTiles;                  /**< All map items on this layer. */
+    Tiles m_cTiles;                     /**< All map items on this layer. */
 };
 
 
@@ -67,9 +68,24 @@ public:
  * @param   eLayer      the layer type
  */
 Layer::Layer(Map * cMap, layerid_t nId, layer_t eLayer) : Nameable{cMap}, m_nId{nId}, m_eLayer{eLayer} {
+
     Q_ASSERT(cMap);
+
     d = std::make_shared<Layer::Layer_data>();
-    d->m_cMap = cMap;
+    if (eLayer == layer_t::background) {
+        addTile(Tile{QPoint{0, 0}, {{"color", QString{"#00007f"}}}});
+    }
+}
+
+
+/**
+ * Adds a tile to the layer.
+ *
+ * @param   cTile       the tile to add to the layer
+ */
+void Layer::addTile(Tile cTile) {
+    d->m_cTiles[Map::convertPointToIndex(cTile.cPosition)] = cTile;
+    modified(true);
 }
 
 
@@ -128,7 +144,11 @@ void Layer::save(QJsonObject & cJSON) const {
     cJSON["id"] = id();
     cJSON["type"] = static_cast<int>(type());
 
-    // TODO: save tiles
+    QJsonArray cJSONTiles;
+    for (auto const & cPair: tiles()) {
+        cJSONTiles.append(saveToJson(cPair.second));
+    }
+    cJSON["tiles"] = cJSONTiles;
 }
 
 
@@ -137,6 +157,6 @@ void Layer::save(QJsonObject & cJSON) const {
  *
  * @return  all tiles on this layer
  */
-MapItems const & Layer::tiles() const {
+Tiles const & Layer::tiles() const {
     return d->m_cTiles;
 }

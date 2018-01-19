@@ -44,6 +44,7 @@ set(RPGMAPPER_LIB_SRC
     map.cpp                 ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
     nameable.cpp            ${CMAKE_SOURCE_DIR}/include/rpgmapper/nameable.hpp
     region.cpp              ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
+    tile.cpp                ${CMAKE_SOURCE_DIR}/include/rpgmapper/tile.hpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

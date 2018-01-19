@@ -29,6 +29,7 @@
 #include <map>
 #include <memory>
 
+#include <QPoint>
 #include <QSharedPointer>
 #include <QSize>
 
@@ -55,6 +56,24 @@ class Map : public Nameable {
 
 
 public:
+
+
+    /**
+     * Convert a point coordinate into a tile index value.
+     *
+     * @param   cPoint      the point with x and y coordinate
+     * @return  a value indicating the proper index into a MapItems field
+     */
+    static int convertPointToIndex(QPoint const & cPoint) { return cPoint.y() * maximumWidth() + cPoint.x(); }
+
+
+    /**
+     * Convert an index value to a point coordinate.
+     *
+     * @param   nIndex      the index into a MapItems collection
+     * @return  the corresponding point value
+     */
+    static QPoint convertIndexToPoint(int nIndex) { return QPoint{nIndex % maximumWidth(), nIndex / maximumWidth()}; }
 
 
     /**

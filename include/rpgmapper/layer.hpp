@@ -64,6 +64,14 @@ public:
 
 
     /**
+     * Adds a tile to the layer.
+     *
+     * @param   cTile       the tile to add to the layer
+     */
+    void addTile(Tile cTile);
+
+
+    /**
      * Create a new layer (factory method) for a map.
      *
      * @param   cMap        parent object
@@ -103,7 +111,7 @@ public:
      *
      * @return  all tiles on this layer
      */
-    MapItems const & tiles() const;
+    Tiles const & tiles() const;
 
 
     /**

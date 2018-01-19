@@ -175,9 +175,34 @@ void Map::load(QJsonObject const & cJSON) {
         m_nId = cJSON["id"].toInt();
         g_nMapIdCounter = std::max(g_nMapIdCounter, m_nId);
     }
+    
     if (cJSON.contains("orderValue") && cJSON["orderValue"].isDouble()) {
         orderValue(cJSON["orderValue"].toInt());
     }
+    
+    if (cJSON.contains("size") && cJSON["size"].isObject()) {
+        
+        auto cJSONSize = cJSON["size"].toObject();
+        QSize cSize{0, 0};
+        
+        if (cJSONSize.contains("width") && cJSONSize["width"].isDouble()) {
+            cSize.setWidth(cJSONSize["width"].toInt());
+        }
+        if (cJSONSize.contains("height") && cJSONSize["height"].isDouble()) {
+            cSize.setHeight(cJSONSize["height"].toInt());
+        }
+
+        size(cSize);
+    }
+
+//      TODO
+//    QJsonArray cJSONLayers;
+//    for (auto const & cLayer: d->m_cLayers) {
+//        QJsonObject cJSONLayer;
+//        cLayer.second->save(cJSONLayer);
+//        cJSONLayers.append(cJSONLayer);
+//    }
+//    cJSON["layers"] = cJSONLayers;
 
     if (nId != id()) {
         emit changedId(nId);
@@ -304,7 +329,6 @@ void Map::save(QJsonObject & cJSON) const {
         cJSONLayers.append(cJSONLayer);
     }
     cJSON["layers"] = cJSONLayers;
-
 }
 
 

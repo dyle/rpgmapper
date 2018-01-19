@@ -25,7 +25,7 @@
 // ------------------------------------------------------------
 // incs
 
-#include <QPointF>
+#include <QPoint>
 #include <QSharedPointer>
 #include <QVariant>
 
@@ -54,20 +54,19 @@ typedef QSharedPointer<Map> MapPointer;                     /**< Map smart point
 typedef int mapid_t;                                        /**< Id of a map. */
 typedef std::map<mapid_t, MapPointer> Maps;                 /**< Multiple maps. */
 
-/**
- * A single element on a map.
- */
-struct MapItem {
-    QPointF cPosition;                                      /**< Position of this element on the map. */
-    QString sURI;                                           /**< Resource describing the map element. */
-    std::map<QString, QVariant> cAttributes;                /**< Additional attributes interpreting the URI. */
-};
-typedef std::map<qreal, MapItem> MapItems;                  /**< Multiple map items. */
-
 class Region;                                               /**< A region. */
 typedef QSharedPointer<Region> RegionPointer;               /**< Map smart pointer. */
 typedef int regionid_t;                                     /**< Id of a region */
 typedef std::map<regionid_t, RegionPointer> Regions;        /**< Multiple regions. */
+
+/**
+ * A single element on a map.
+ */
+struct Tile {
+    QPoint cPosition;                                       /**< Position of this element on the map. */
+    std::map<QString, QString> cAttributes;                 /**< Attributes of the item (mainly "uri"). */
+};
+typedef std::map<int, Tile> Tiles;                          /**< Multiple map items. */
 
 
 }

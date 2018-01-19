@@ -84,7 +84,7 @@ int main(int argc, char ** argv) {
                   << std::endl;
     }
 
-    QApplication cApplication(argc, argv);
+    QApplication cApplication{argc, argv};
     cApplication.setOrganizationName("Oliver Maurhart <dyle71@gmail.com>");
     cApplication.setOrganizationDomain("");
     cApplication.setApplicationName("RPGMapper");
@@ -96,6 +96,7 @@ int main(int argc, char ** argv) {
 
     rpgmapper::view::MainWindow cMainWindow;
     cMainWindow.show();
+
     return cApplication.exec();
 }
 
@@ -111,29 +112,29 @@ int main(int argc, char ** argv) {
 bool parseCommandLine(boost::program_options::variables_map & cVariableMap, int argc, char ** argv) {
 
     // create the command line header
-    std::string sApplication = std::string("rpgmapper - Dyle's RPGMapper V") + VERSION;
-    std::string sDescription = std::string(PROGRAM_DESCRIPTION);
-    std::string sSynopsis = std::string("Usage: ") + argv[0] + " [OPTIONS] [ATLAS-FILE]";
+    std::string sApplication = std::string{"rpgmapper - Dyle's RPGMapper V"} + VERSION;
+    std::string sDescription = std::string{PROGRAM_DESCRIPTION};
+    std::string sSynopsis = std::string{"Usage: "} + argv[0] + " [OPTIONS] [ATLAS-FILE]";
 
     // define program options
-    boost::program_options::options_description cOptions(
-            sApplication + sDescription + "\n\n" + sSynopsis + "\n\nAllowed Options");
+    boost::program_options::options_description cOptions{
+            sApplication + sDescription + "\n\n" + sSynopsis + "\n\nAllowed Options"};
     cOptions.add_options()("help,h", "this page");
     cOptions.add_options()("version,v", "print version string");
 
     // final arguments
-    boost::program_options::options_description cArgs("Arguments");
+    boost::program_options::options_description cArgs{"Arguments"};
     cArgs.add_options()("ATLAS-FILE", "atlas file to open");
     boost::program_options::positional_options_description cPositionalDescription;
     cPositionalDescription.add("ATLAS-FILE", 1);
 
     // construct overall options
-    boost::program_options::options_description cCmdLineOptions("Command Line");
+    boost::program_options::options_description cCmdLineOptions{"Command Line"};
     cCmdLineOptions.add(cOptions);
     cCmdLineOptions.add(cArgs);
 
     try {
-        boost::program_options::command_line_parser cParser(argc, reinterpret_cast<char const * const *>(argv));
+        boost::program_options::command_line_parser cParser{argc, reinterpret_cast<char const * const *>(argv)};
         boost::program_options::store(
                 cParser.options(cCmdLineOptions).positional(cPositionalDescription).run(),
                 cVariableMap);

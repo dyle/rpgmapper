@@ -116,7 +116,7 @@ void Map::clear() {
  */
 MapPointer Map::create(Atlas * cAtlas, mapid_t nId) {
     nId = nId < 0 ? ++g_nMapIdCounter : nId;
-    return MapPointer(new Map(cAtlas, nId), &Map::deleteLater);
+    return MapPointer{new Map{cAtlas, nId}, &Map::deleteLater};
 }
 
 
@@ -256,7 +256,7 @@ void Map::orderValue(int nOrderValue) {
  */
 RegionPointer const Map::region() const {
     if (d->m_nRegionId < 0) {
-        return RegionPointer(nullptr);
+        return RegionPointer{nullptr};
     }
     return d->m_cAtlas->regions()[d->m_nRegionId];
 }

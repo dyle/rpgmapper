@@ -46,7 +46,7 @@ class A : public Changeable {
 public:
 
 
-    A() : Changeable() {}
+    A() : Changeable{} {}
 
 
     bool modified() const override {
@@ -71,9 +71,9 @@ public:
 
 
     std::vector<rpgmapper::model::ChangeablePointer> v = {
-            rpgmapper::model::ChangeablePointer(new Changeable),
-            rpgmapper::model::ChangeablePointer(new Changeable),
-            rpgmapper::model::ChangeablePointer(new Changeable)
+            rpgmapper::model::ChangeablePointer{new Changeable},
+            rpgmapper::model::ChangeablePointer{new Changeable},
+            rpgmapper::model::ChangeablePointer{new Changeable}
     };
 
 };
@@ -84,15 +84,11 @@ public:
 
 int test() {
 
-    // single object
-
-    ChangeablePointer cChangeable(new Changeable);
+    ChangeablePointer cChangeable{new Changeable};
     assert(!cChangeable->modified());
 
     cChangeable->modified(true);
     assert(cChangeable->modified());
-
-    // object hierarchy
 
     A a;
     assert(!a.modified());

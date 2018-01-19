@@ -26,7 +26,6 @@
 #include <QTextCodec>
 
 // rpgmapper
-#include <rpgmapper/common_macros.h>
 #include <rpgmapper/atlas.hpp>
 
 using namespace rpgmapper::model;
@@ -140,7 +139,7 @@ QString Atlas::json(QJsonDocument::JsonFormat eJsonFormat) const {
     QJsonObject cJSON;
     save(cJSON);
     QJsonDocument cJSONDoc{cJSON};
-    return  QTextCodec::codecForName("UTF-8")->toUnicode(cJSONDoc.toJson(eJsonFormat).data());
+    return QTextCodec::codecForName("UTF-8")->toUnicode(cJSONDoc.toJson(eJsonFormat).data());
 }
 
 

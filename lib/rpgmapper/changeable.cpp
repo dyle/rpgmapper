@@ -36,7 +36,7 @@ using namespace rpgmapper::model;
  *
  * @param   cParent     parent object
  */
-Changeable::Changeable(QObject * cParent) : QObject(cParent), m_bModified(false) {
+Changeable::Changeable(QObject * cParent) : QObject{cParent}, m_bModified{false} {
 }
 
 

@@ -36,7 +36,7 @@ using namespace rpgmapper::model;
  *
  * @param   cParent     parent object
  */
-Nameable::Nameable(QObject * cParent) : Changeable(cParent) {
+Nameable::Nameable(QObject * cParent) : Changeable{cParent} {
 }
 
 

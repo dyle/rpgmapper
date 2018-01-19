@@ -74,7 +74,7 @@ static regionid_t g_nRegionIdCounter = 0;
  * @param   cAtlas      parent object
  * @param   nId     id of the region
  */
-Region::Region(Atlas * cAtlas, regionid_t nId) : Nameable(cAtlas), m_nId(nId) {
+Region::Region(Atlas * cAtlas, regionid_t nId) : Nameable{cAtlas}, m_nId{nId} {
 
     Q_ASSERT(cAtlas);
 
@@ -92,10 +92,13 @@ Region::Region(Atlas * cAtlas, regionid_t nId) : Nameable(cAtlas), m_nId(nId) {
 void Region::addMap(MapPointer cMap) {
 
     if (d->m_cMaps.find(cMap->id()) == d->m_cMaps.end()) {
+
         d->m_cMaps.insert(cMap->id());
         cMap->region(self());
+
         connect(cMap.data(), &Map::changedId, this, &Region::changedMapId);
         connect(cMap.data(), &Map::changedRegion, this, &Region::changedMapRegion);
+
         emit addedMap(cMap);
     }
 }
@@ -107,7 +110,9 @@ void Region::addMap(MapPointer cMap) {
  * @param   nOldId              old id of the map
  */
 void Region::changedMapId(mapid_t nOldId) {
+
     d->m_cMaps.erase(nOldId);
+
     auto * cMap = dynamic_cast<Map *>(QObject::sender());
     if (cMap) {
         d->m_cMaps.insert(cMap->id());
@@ -131,9 +136,12 @@ void Region::changedMapRegion(regionid_t nOldRegionId) {
     auto nRegionId = cMap->region()->id();
 
     if ((nOldRegionId == id()) && (d->m_cMaps.find(nMapId) != d->m_cMaps.end())) {
+
         d->m_cMaps.erase(nMapId);
+
         disconnect(cMap, &Map::changedId, this, &Region::changedMapId);
         disconnect(cMap, &Map::changedRegion, this, &Region::changedMapRegion);
+
         emit removedMap(d->m_cAtlas->maps()[nMapId]);
     }
 
@@ -161,7 +169,7 @@ void Region::clear() {
  */
 RegionPointer Region::create(Atlas * cAtlas, regionid_t nId) {
     nId = nId < 0 ? ++g_nRegionIdCounter : nId;
-    return RegionPointer(new Region(cAtlas, nId), &Region::deleteLater);
+    return RegionPointer{new Region{cAtlas, nId}, &Region::deleteLater};
 }
 
 
@@ -222,9 +230,11 @@ int Region::orderValue() const {
  * @param   nOrderValue     a value indicating the position of this region among others
  */
 void Region::orderValue(int nOrderValue) {
+
     if (d->m_nOrderValue == nOrderValue) {
         return;
     }
+
     d->m_nOrderValue = nOrderValue;
     modified(true);
 }
@@ -250,15 +260,5 @@ void Region::save(QJsonObject & cJSON) const {
  * @return  a smart pointer to our own instance derived from the atlas.
  */
 RegionPointer Region::self() {
-    return d->m_cAtlas->regions()[id()];
-}
-
-
-/**
- * Get our own smart pointer as hold by the governing atlas.
- *
- * @return  a smart pointer to our own instance derived from the atlas.
- */
-RegionPointer const Region::self() const {
     return d->m_cAtlas->regions()[id()];
 }

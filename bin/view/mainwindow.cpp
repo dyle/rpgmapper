@@ -46,7 +46,7 @@ using namespace rpgmapper::view;
 /**
  * ctor
  */
-MainWindow::MainWindow() : QMainWindow() {
+MainWindow::MainWindow() : QMainWindow{} {
 
     ui = std::make_shared<Ui_mainwindow>();
     ui->setupUi(this);
@@ -94,7 +94,7 @@ void MainWindow::connectActions() {
  */
 void MainWindow::closeEvent(QCloseEvent* cEvent) {
 
-    QSettings cSettings("rpgmapper", "rpgmapper");
+    QSettings cSettings{"rpgmapper", "rpgmapper"};
 
     cSettings.setValue("geometry", saveGeometry());
     cSettings.setValue("windowState", saveState());
@@ -108,7 +108,7 @@ void MainWindow::closeEvent(QCloseEvent* cEvent) {
  */
 void MainWindow::loadSettings() {
 
-    QSettings cSettings("rpgmapper", "rpgmapper");
+    QSettings cSettings{"rpgmapper", "rpgmapper"};
 
     if (cSettings.contains("geometry")) {
         restoreGeometry(cSettings.value("geometry").toByteArray());

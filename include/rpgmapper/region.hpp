@@ -196,14 +196,6 @@ private:
     RegionPointer self();
 
 
-    /**
-     * Get our own smart pointer as hold by the governing atlas.
-     *
-     * @return  a smart pointer to our own instance derived from the atlas.
-     */
-    RegionPointer const self() const;
-
-
     regionid_t m_nId;                               /**< Region id. */
     class Region_data;                              /**< Internal data type. */
     std::shared_ptr<Region::Region_data> d;         /**< Internal data instance. */

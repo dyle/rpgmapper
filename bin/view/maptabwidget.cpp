@@ -66,7 +66,7 @@ public:
  *
  * @param   cParent     parent widget
  */
-MapTabWidget::MapTabWidget(QWidget * cParent) : QTabWidget(cParent) {
+MapTabWidget::MapTabWidget(QWidget * cParent) : QTabWidget{cParent} {
     d = std::make_shared<MapTabWidget::MapTabWidget_data>();
 }
 
@@ -84,7 +84,7 @@ void MapTabWidget::selectMap(mapid_t nMapId) {
         auto cMap = Controller::instance().atlas()->maps()[nMapId];
         assert(cMap.data());
 
-        auto cMapView = new QWidget(this);
+        auto cMapView = new QWidget{this};
         d->m_cMapViews.emplace(nMapId, cMapView);
 
         QPixmap cPixmap;

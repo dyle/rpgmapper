@@ -43,7 +43,6 @@ public:
 
     Controller_data() = default;
 
-
     AtlasPointer m_cAtlas;              /**< the atlas managed by this controller */
 };
 
@@ -59,7 +58,7 @@ public:
  */
 Controller::Controller() {
     d = std::make_shared<Controller::Controller_data>();
-    d->m_cAtlas = AtlasPointer(new Atlas);
+    d->m_cAtlas = AtlasPointer{new Atlas};
 }
 
 

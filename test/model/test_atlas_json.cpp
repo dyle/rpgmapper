@@ -42,7 +42,6 @@ using namespace rpgmapper::model;
 
 int test() {
 
-    // just dump the JSON string to stdout
     Atlas cAtlas1;
     std::cout << cAtlas1.json(QJsonDocument::Compact).toStdString() << std::endl;
 

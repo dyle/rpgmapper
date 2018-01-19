@@ -65,7 +65,7 @@ public:
  * @param   nId         id of the layer
  * @param   eLayer      the layer type
  */
-Layer::Layer(Map * cMap, layerid_t nId, layer_t eLayer) : Nameable(cMap), m_nId(nId), m_eLayer(eLayer) {
+Layer::Layer(Map * cMap, layerid_t nId, layer_t eLayer) : Nameable{cMap}, m_nId{nId}, m_eLayer{eLayer} {
     Q_ASSERT(cMap);
     d = std::make_shared<Layer::Layer_data>();
     d->m_cMap = cMap;
@@ -89,7 +89,7 @@ void Layer::clear() {
  * @return  a new layer
  */
 LayerPointer Layer::create(Map * cMap, layerid_t nId, layer_t eLayer) {
-    return LayerPointer(new Layer(cMap, nId, eLayer), &Layer::deleteLater);
+    return LayerPointer{new Layer{cMap, nId, eLayer}, &Layer::deleteLater};
 }
 
 

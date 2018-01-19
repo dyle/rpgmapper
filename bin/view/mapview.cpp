@@ -1,5 +1,5 @@
 /*
- * maptabwidget.cpp
+ * mapview.cpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -21,13 +21,11 @@
 // ------------------------------------------------------------
 // incs
 
-#include <cassert>
-#include <QPixmapCache>
+#include <iostream>
 
 // rpgmapper
-#include <rpgmapper/atlas.hpp>
-#include <rpgmapper/controller.hpp>
-#include "maptabwidget.hpp"
+#include <rpgmapper/common_macros.h>
+#include <rpgmapper/map.hpp>
 #include "mapview.hpp"
 
 using namespace rpgmapper::model;
@@ -42,15 +40,15 @@ namespace view {
 
 
 /**
- * Internal data of a MapTabWidget.
+ * Internal data of a MapView.
  */
-class MapTabWidget::MapTabWidget_data {
+class MapView::MapView_data {
 
 public:
 
-    MapTabWidget_data() = default;
+    MapView_data() = default;
 
-    std::map<mapid_t, MapView *> m_cMapViews;           /**< all current map views */
+    MapPointer m_cMap;                  /**< map to be viewed */
 };
 
 
@@ -66,33 +64,23 @@ public:
  * Ctor
  *
  * @param   cParent     parent widget
+ * @param   cMap        the map to be drawn
  */
-MapTabWidget::MapTabWidget(QWidget * cParent) : QTabWidget{cParent} {
-    d = std::make_shared<MapTabWidget::MapTabWidget_data>();
+MapView::MapView(QWidget * cParent, MapPointer & cMap) : QWidget{cParent} {
+    d = std::make_shared<MapView::MapView_data>();
+    d->m_cMap = cMap;
 }
 
 
 /**
- * Select a map.
+ * Draw the map.
  *
- * @param   nMapId      ID of the map
+ * @param   cEvent      paint event
  */
-void MapTabWidget::selectMap(mapid_t nMapId) {
+void MapView::paintEvent(UNUSED QPaintEvent * cEvent) {
 
-    auto iter = d->m_cMapViews.find(nMapId);
-    if (iter == d->m_cMapViews.end()) {
+    std::cout << "MapView::paintEvent() - 1: this=" << this << std::endl;
+    std::cout << "MapView::paintEvent() - 2: d->m_cMap.name()=" << d->m_cMap->name().toStdString() << std::endl;
 
-        auto cMap = Controller::instance().atlas()->maps()[nMapId];
-        assert(cMap.data());
-
-        auto cMapView = new MapView{this, cMap};
-        d->m_cMapViews.emplace(nMapId, cMapView);
-
-        QPixmap cPixmap;
-        QPixmapCache::find("map", &cPixmap);
-        addTab(cMapView, cPixmap, cMap->name());
-    }
-    else {
-        setCurrentWidget((*iter).second);
-    }
 }
+

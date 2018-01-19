@@ -1,5 +1,5 @@
 /*
- * mainwindow.hpp
+ * mapview.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,23 +18,22 @@
  */
 
 
-#ifndef VIEW_MAINWINDOW_HPP
-#define VIEW_MAINWINDOW_HPP
+#ifndef VIEW_MAPVIEW_HPP
+#define VIEW_MAPVIEW_HPP
 
 
 // ------------------------------------------------------------
 // incs
 
 #include <memory>
+#include <QWidget>
 
-#include <QMainWindow>
+// rpgmapper
+#include <rpgmapper/types.hpp>
 
 
 // ------------------------------------------------------------
 // decl
-
-// fwd
-class Ui_mainwindow;
 
 
 namespace rpgmapper {
@@ -42,9 +41,9 @@ namespace view {
 
 
 /**
- * the rpgmapper main window
+ * A MapView is the widget which draws a map.
  */
-class MainWindow : public QMainWindow {
+class MapView : public QWidget {
 
 
     Q_OBJECT
@@ -54,46 +53,28 @@ public:
 
 
     /**
-     * ctor
+     * Ctor
+     *
+     * @param   cParent     parent widget
+     * @param   cMap        the map to be drawn
      */
-    MainWindow();
+    explicit MapView(QWidget * cParent, rpgmapper::model::MapPointer & cMap);
 
 
 protected:
 
 
     /**
-     * handle close event
+     * Draw the map.
      *
-     * @param   cEvent      the event passed
+     * @param   cEvent      paint event
      */
-    void closeEvent(QCloseEvent * cEvent) override;
+    void paintEvent(QPaintEvent * cEvent) override;
 
 
-private:
-
-
-    /**
-     * centers the window on the desktop with default width and height
-     */
-    void centerWindow();
-
-
-    /**
-     * Connects all action signals for this MainWindow.
-     */
-    void connectActions();
-
-
-    /**
-     * load the settings
-     */
-    void loadSettings();
-
-
-    std::shared_ptr<Ui_mainwindow> ui;      /**< user interface */
+    class MapView_data;                              /**< Internal data type. */
+    std::shared_ptr<MapView::MapView_data> d;        /**< Internal data instance. */
 };
-
 
 }
 }

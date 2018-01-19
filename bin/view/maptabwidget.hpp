@@ -27,7 +27,6 @@
 
 #include <memory>
 
-// Qt
 #include <QTabWidget>
 
 // rpgmapper

@@ -35,28 +35,43 @@ using namespace rpgmapper::model;
 
 
 /**
- * Load a file.
+ * Load a file, reset data.
  *
  * @param   sFileName       name of the file to load
+ * @param   cLog            log of operations done
  * @return  true, for success
  */
-bool File::load(QString sFileName) {
+bool File::load(QString sFileName, QStringList & cLog) {
+
+    cLog.clear();
+    if (sFileName.isEmpty()) {
+        cLog.append("Given file name is empty, reusing most recent one.");
+        sFileName = filename();
+    }
+    if (sFileName.isEmpty()) {
+        cLog.append("File name is empty. Don't know what to load.");
+        return false;
+    }
 
     QuaZip cQuaZip;
     cQuaZip.setZipName(sFileName);
     if (!cQuaZip.open(QuaZip::mdUnzip)) {
+        cLog.append("Failed to open file '" + sFileName + "' to uncompress.");
         return false;
     }
+    cLog.append("Opened file '" + sFileName + "' to uncompress.");
 
     for (auto bFilePresent = cQuaZip.goToFirstFile(); bFilePresent; bFilePresent = cQuaZip.goToNextFile()) {
 
         QuaZipFileInfo zfi;
         if (!cQuaZip.getCurrentFileInfo(&zfi)) {
+            cLog.append("Failed to get current sub file info.");
             return false;
         }
 
         QuaZipFile zf(&cQuaZip);
         if (!zf.open(QIODevice::ReadOnly)) {
+            cLog.append("Failed to open current sub file.");
             return false;
         }
 
@@ -68,26 +83,39 @@ bool File::load(QString sFileName) {
     }
 
     cQuaZip.close();
+    cLog.append("File '" + sFileName + "' loaded.");
 
     return true;
 }
 
 
 /**
- * Save a file.
+ * Save all internal files into a single file.
  *
  * @param   sFileName       name of the file to save
+ * @param   cLog            log of operations done
  * @return  true, for success
  */
-bool File::save(QString sFileName) const {
+bool File:: save(QString sFileName, QStringList & cLog) const {
+
+    cLog.clear();
+    if (sFileName.isEmpty()) {
+        cLog.append("Given file name is empty, reusing most recent one.");
+        sFileName = filename();
+    }
+    if (sFileName.isEmpty()) {
+        cLog.append("File name is empty. Don't know how to save.");
+        return false;
+    }
 
     QuaZip cQuaZip;
-
     cQuaZip.setZipName(sFileName);
     cQuaZip.setFileNameCodec("UTF-8");
     if (!cQuaZip.open(QuaZip::mdCreate, nullptr)) {
+        cLog.append("Failed to create file '" + sFileName + "' for compression.");
         return false;
     }
+    cLog.append("Created file '" + sFileName + "' for compression.");
 
     for (auto const & cEntry: m_cFiles) {
 
@@ -95,12 +123,14 @@ bool File::save(QString sFileName) const {
         QuaZipNewInfo zfi(cEntry.first);
 
         if (!zf.open(QIODevice::WriteOnly, zfi)) {
+            cLog.append("Filed to write sub file '" + zf.getActualFileName() + "'.");
             return false;
         }
         zf.write(cEntry.second.data(), cEntry.second.size());
     }
 
     cQuaZip.close();
+    cLog.append("File '" + sFileName + "' saved.");
 
     return true;
 }

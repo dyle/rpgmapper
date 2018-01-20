@@ -29,6 +29,7 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
 
 
 // ------------------------------------------------------------
@@ -57,6 +58,14 @@ public:
 
 
     /**
+     * Get the most recent filename used.
+     *
+     * @return  the most recent filename
+     */
+    QString const & filename() const { return  m_sFileName; }
+
+
+    /**
      * All the internal files as arrays managed by this instance.
      *
      * @return  all byte arrays of this object instance.
@@ -68,27 +77,27 @@ public:
      * Load a file, reset data.
      *
      * @param   sFileName       name of the file to load
+     * @param   cLog            log of operations done
      * @return  true, for success
      */
-    bool load(QString sFileName);
+    bool load(QString sFileName, QStringList & cLog);
 
 
     /**
      * Save all internal files into a single file.
      *
      * @param   sFileName       name of the file to save
+     * @param   cLog            log of operations done
      * @return  true, for success
      */
-    bool save(QString sFileName) const;
+    bool save(QString sFileName, QStringList & cLog) const;
 
 
 private:
 
 
-    /**
-     * Data hold by this file.
-     */
-    std::map<QString, QByteArray> m_cFiles;
+    std::map<QString, QByteArray> m_cFiles;         /**< Data hold by this file. */
+    QString m_sFileName;                            /**< Most recent filename used (either load or save). */
 };
 
 

@@ -55,10 +55,20 @@ int test() {
     std::string sText = DUMMY_TEXT;
     QByteArray cData1(sText.c_str(), static_cast<int>(sText.size()));
     cFileToWrite.files().insert(std::make_pair("afolder/afile/dummy.txt", cData1));
-    cFileToWrite.save("test_file.zip");
+
+    QStringList cSaveLog;
+    cFileToWrite.save("test_file.zip", cSaveLog);
+    for (auto const & sLogLine: cSaveLog) {
+        std::cout << sLogLine.toStdString() << std::endl;
+    }
 
     File cFileToLoad;
-    cFileToLoad.load("test_file.zip");
+    QStringList cLoadLog;
+    cFileToLoad.load("test_file.zip", cLoadLog);
+    for (auto const & sLogLine: cLoadLog) {
+        std::cout << sLogLine.toStdString() << std::endl;
+    }
+
     assert(cFileToLoad.files().size() == 1);
     auto iter = cFileToLoad.files().find("afolder/afile/dummy.txt");
     assert(iter != cFileToLoad.files().end());

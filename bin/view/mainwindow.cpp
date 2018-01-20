@@ -169,6 +169,10 @@ void MainWindow::loadSettings() {
  */
 void MainWindow::save() {
 
+    if (Controller::instance().file().filename().isEmpty()) {
+        saveAs();
+        return;
+    }
 }
 
 

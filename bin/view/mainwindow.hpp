@@ -56,6 +56,17 @@ public:
     MainWindow();
 
 
+public slots:
+
+
+    /**
+     * Switch enabled state of actions.
+     *
+     * This method checks the action is enabled or disabled for a series of available actions.
+     */
+    void enableActions();
+
+
 protected:
 
 
@@ -72,9 +83,21 @@ private slots:
 
 
     /**
+     * Clear list of recent files.
+     */
+    void clearListOfRecentFiles();
+
+
+    /**
      * Load an atlas.
      */
     void load();
+
+
+    /**
+     * Load a recent file.
+     */
+    void loadRecentFile();
 
 
     /**
@@ -102,6 +125,12 @@ private:
      * Connects all action signals for this MainWindow.
      */
     void connectActions();
+
+
+    /**
+     * Create list of recent file menu actions.
+     */
+    void createRecentFileActions();
 
 
     /**

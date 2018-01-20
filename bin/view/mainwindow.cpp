@@ -21,6 +21,8 @@
 // ------------------------------------------------------------
 // incs
 
+#include <iostream>
+
 // Qt
 #include <QApplication>
 #include <QCloseEvent>
@@ -29,6 +31,7 @@
 #include <QSettings>
 
 // rpgmapper
+#include <rpgmapper/common_macros.h>
 #include <rpgmapper/controller.hpp>
 #include "mainwindow.hpp"
 #include "structuraltreewidget.hpp"
@@ -55,10 +58,14 @@ public:
 
     MainWindow_data() = default;
 
-    std::shared_ptr<Ui_mainwindow> ui;          /**< User interface. */
+    std::shared_ptr<Ui_mainwindow> ui;                  /**< User interface. */
 
-    QFileDialog * m_cDlgLoad;                   /**< Load file dialog. */
-    QFileDialog * m_cDlgSaveAs;                 /**< SaveAs file dialog. */
+    QStringList m_cRecentAtlasFiles;                    /**< Recently loaded atlas files. */
+    unsigned int m_nMaximumRecentAtlasFiles = 10;       /**< Number of recent files should be remembered. */
+    std::list<QAction *> m_cRecentFileActions;          /**< List of recent file actions. */
+
+    QFileDialog * m_cDlgLoad = nullptr;                 /**< Load file dialog. */
+    QFileDialog * m_cDlgSaveAs = nullptr;               /**< SaveAs file dialog. */
 };
 
 
@@ -89,6 +96,8 @@ MainWindow::MainWindow() : QMainWindow{} {
     d->ui->tabMap->clear();
     d->ui->twAtlas->resetStructure();
     d->ui->twAtlas->selectFirstMap();
+
+    enableActions();
 }
 
 
@@ -110,16 +119,17 @@ void MainWindow::centerWindow() {
 
 
 /**
- * Connects all action signals for this MainWindow.
+ * Clear list of recent files.
  */
-void MainWindow::connectActions() {
+void MainWindow::clearListOfRecentFiles() {
 
-    connect(d->ui->acOpen, &QAction::triggered, this, &MainWindow::load);
-    connect(d->ui->acSave, &QAction::triggered, this, &MainWindow::save);
-    connect(d->ui->acSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
-    connect(d->ui->acQuit, &QAction::triggered, this, &MainWindow::close);
+    for (auto & cAction: d->m_cRecentFileActions) {
+        delete cAction;
+    }
+    d->m_cRecentFileActions.clear();
+    d->m_cRecentAtlasFiles.clear();
 
-    connect(d->ui->twAtlas, &StructuralTreeWidget::selectedMap, d->ui->tabMap, &MapTabWidget::selectMap);
+    enableActions();
 }
 
 
@@ -135,7 +145,70 @@ void MainWindow::closeEvent(QCloseEvent* cEvent) {
     cSettings.setValue("geometry", saveGeometry());
     cSettings.setValue("windowState", saveState());
 
+    cSettings.remove("recent");
+    cSettings.setValue("recent/maximum", d->m_nMaximumRecentAtlasFiles);
+    unsigned int nFileIndex = 0;
+    for (auto const & sFilename : d->m_cRecentAtlasFiles){
+        if (sFilename.isEmpty()) {
+            break;
+        }
+        cSettings.setValue("recent/file-" + QString::number(++nFileIndex), sFilename);
+        if (nFileIndex >= d->m_nMaximumRecentAtlasFiles) {
+            break;
+        }
+    }
+
     QMainWindow::closeEvent(cEvent);
+}
+
+
+/**
+ * Connects all action signals for this MainWindow.
+ */
+void MainWindow::connectActions() {
+
+    connect(d->ui->acOpen, &QAction::triggered, this, &MainWindow::load);
+    connect(d->ui->acQuit, &QAction::triggered, this, &MainWindow::close);
+    connect(d->ui->acRecentListClear, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
+    connect(d->ui->acSave, &QAction::triggered, this, &MainWindow::save);
+    connect(d->ui->acSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
+
+    connect(d->ui->twAtlas, &StructuralTreeWidget::selectedMap, d->ui->tabMap, &MapTabWidget::selectMap);
+}
+
+
+/**
+ * Create list of recent file menu actions.
+ */
+void MainWindow::createRecentFileActions() {
+
+    for (auto & cAction: d->m_cRecentFileActions) {
+        delete cAction;
+    }
+    d->m_cRecentFileActions.clear();
+
+    for (auto const & sFileName: d->m_cRecentAtlasFiles) {
+
+        auto cRecentFileAction = new QAction(this);
+        cRecentFileAction->setObjectName(sFileName);
+        cRecentFileAction->setText(sFileName);
+        connect(cRecentFileAction, &QAction::triggered, this, &MainWindow::loadRecentFile);
+
+        d->m_cRecentFileActions.push_back(cRecentFileAction);
+        d->ui->mnOpenRecent->addAction(cRecentFileAction);
+    }
+    enableActions();
+}
+
+
+/**
+ * Switch enabled state of actions.
+ *
+ * This method checks the action is enabled or disabled for a series of available actions.
+ */
+void MainWindow::enableActions() {
+
+    d->ui->acRecentListClear->setEnabled(!d->m_cRecentAtlasFiles.empty());
 }
 
 
@@ -144,6 +217,23 @@ void MainWindow::closeEvent(QCloseEvent* cEvent) {
  */
 void MainWindow::load() {
     d->m_cDlgLoad->exec();
+}
+
+
+/**
+ * Load a recent file.
+ */
+void MainWindow::loadRecentFile() {
+
+    auto cAction = dynamic_cast<QAction *>(sender());
+    if (!cAction) {
+        return;
+    }
+
+    // we could use cAction->text(). However, Qt automagically adds
+    // the shortcut literal '&' to the text, disturbing the file name.
+    UNUSED QString sFileToLoad = cAction->objectName();
+    // TODO: load file
 }
 
 
@@ -161,6 +251,16 @@ void MainWindow::loadSettings() {
         centerWindow();
     }
     restoreState(cSettings.value("windowState").toByteArray());
+
+    d->m_nMaximumRecentAtlasFiles = cSettings.value("recent/maximum", 10).toUInt();
+    d->m_cRecentAtlasFiles.clear();
+    for (unsigned int i = 0; i < d->m_nMaximumRecentAtlasFiles; ++i) {
+        QString sFilename = cSettings.value("recent/file-" + QString::number(i), "").toString();
+        if (!sFilename.isEmpty()) {
+            d->m_cRecentAtlasFiles.append(sFilename);
+        }
+    }
+    createRecentFileActions();
 }
 
 
@@ -190,8 +290,8 @@ void MainWindow::saveAs() {
 void MainWindow::setupDialogs() {
 
     QStringList cFileNameFilters;
-    cFileNameFilters << tr("Atlas files (*.atlas)")
-                     << tr("Any files (*)");
+    cFileNameFilters << tr("Atlas files [*.atlas] (*.atlas)")
+                     << tr("Any files [*.*] (*)");
 
     d->m_cDlgLoad = new QFileDialog(this);
     d->m_cDlgLoad->setFileMode(QFileDialog::ExistingFile);

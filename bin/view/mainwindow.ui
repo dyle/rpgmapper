@@ -65,15 +65,23 @@
      <x>0</x>
      <y>0</y>
      <width>876</width>
-     <height>27</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnFile">
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <widget class="QMenu" name="mnOpenRecent">
+     <property name="title">
+      <string>Open &amp;recent ...</string>
+     </property>
+     <addaction name="acRecentListClear"/>
+     <addaction name="separator"/>
+    </widget>
     <addaction name="acNew"/>
     <addaction name="acOpen"/>
+    <addaction name="mnOpenRecent"/>
     <addaction name="acSave"/>
     <addaction name="acSaveAs"/>
     <addaction name="acAtlasProperties"/>
@@ -139,7 +147,7 @@
           <x>0</x>
           <y>0</y>
           <width>252</width>
-          <height>124</height>
+          <height>96</height>
          </rect>
         </property>
        </widget>
@@ -167,8 +175,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>96</width>
-          <height>26</height>
+          <width>256</width>
+          <height>101</height>
          </rect>
         </property>
         <attribute name="label">
@@ -181,7 +189,7 @@
           <x>0</x>
           <y>0</y>
           <width>256</width>
-          <height>142</height>
+          <height>101</height>
          </rect>
         </property>
         <attribute name="label">
@@ -380,6 +388,11 @@
   <action name="acCloseMap">
    <property name="text">
     <string>&amp;Close Map</string>
+   </property>
+  </action>
+  <action name="acRecentListClear">
+   <property name="text">
+    <string>&amp;Clear list</string>
    </property>
   </action>
  </widget>

@@ -52,6 +52,7 @@ bool File::load(QString sFileName, QStringList & cLog) {
         cLog.append("File name is empty. Don't know what to load.");
         return false;
     }
+    m_sFileName = sFileName;
 
     QuaZip cQuaZip;
     cQuaZip.setZipName(sFileName);
@@ -107,6 +108,7 @@ bool File:: save(QString sFileName, QStringList & cLog) const {
         cLog.append("File name is empty. Don't know how to save.");
         return false;
     }
+    m_sFileName = sFileName;
 
     QuaZip cQuaZip;
     cQuaZip.setZipName(sFileName);

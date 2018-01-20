@@ -97,7 +97,7 @@ private:
 
 
     std::map<QString, QByteArray> m_cFiles;         /**< Data hold by this file. */
-    QString m_sFileName;                            /**< Most recent filename used (either load or save). */
+    mutable QString m_sFileName;                    /**< Most recent filename used (either load or save). */
 };
 
 

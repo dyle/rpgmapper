@@ -107,7 +107,11 @@ void MapWidget::paintEvent(QPaintEvent * cEvent) {
 
     QPainter cPainter(this);
     cPainter.setRenderHint(QPainter::Antialiasing);
-    cPainter.fillRect(rect(), QColor{0, 0, 128, 255});
+
+    // TODO: setWindow to make logical to world coordinates
+    // TODO: add space for map text
+
+    cPainter.fillRect(rect(), QColor{0, 0, 96, 255});
 }
 
 

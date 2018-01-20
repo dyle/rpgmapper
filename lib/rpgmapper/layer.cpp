@@ -73,7 +73,7 @@ Layer::Layer(Map * cMap, layerid_t nId, layer_t eLayer) : Nameable{cMap}, m_nId{
 
     d = std::make_shared<Layer::Layer_data>();
     if (eLayer == layer_t::background) {
-        addTile(Tile{QPoint{0, 0}, {{"color", QString{"#00007f"}}}});
+        addTile(Tile{QPoint{0, 0}, {{"color", QString{"#000060"}}}});
     }
 }
 

@@ -57,15 +57,15 @@ public:
 
 
     /**
-     * All the internal byte arrays managed by this instance.
+     * All the internal files as arrays managed by this instance.
      *
      * @return  all byte arrays of this object instance.
      */
-    std::map<QString, QByteArray> & list() { return m_cData; }
+    std::map<QString, QByteArray> & files() { return m_cFiles; }
 
 
     /**
-     * Load a file.
+     * Load a file, reset data.
      *
      * @param   sFileName       name of the file to load
      * @return  true, for success
@@ -74,7 +74,7 @@ public:
 
 
     /**
-     * Save a file.
+     * Save all internal files into a single file.
      *
      * @param   sFileName       name of the file to save
      * @return  true, for success
@@ -88,7 +88,7 @@ private:
     /**
      * Data hold by this file.
      */
-    std::map<QString, QByteArray> m_cData;
+    std::map<QString, QByteArray> m_cFiles;
 };
 
 

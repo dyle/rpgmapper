@@ -64,7 +64,7 @@ bool File::load(QString sFileName) {
         cData.resize(zfi.uncompressedSize);
         zf.read(cData.data(), zfi.uncompressedSize);
 
-        m_cData.insert(std::make_pair(zf.getActualFileName(), cData));
+        m_cFiles.insert(std::make_pair(zf.getActualFileName(), cData));
     }
 
     cQuaZip.close();
@@ -89,7 +89,7 @@ bool File::save(QString sFileName) const {
         return false;
     }
 
-    for (auto const & cEntry: m_cData) {
+    for (auto const & cEntry: m_cFiles) {
 
         QuaZipFile zf(&cQuaZip);
         QuaZipNewInfo zfi(cEntry.first);

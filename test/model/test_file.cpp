@@ -54,14 +54,14 @@ int test() {
 
     std::string sText = DUMMY_TEXT;
     QByteArray cData1(sText.c_str(), static_cast<int>(sText.size()));
-    cFileToWrite.list().insert(std::make_pair("afolder/afile/dummy.txt", cData1));
+    cFileToWrite.files().insert(std::make_pair("afolder/afile/dummy.txt", cData1));
     cFileToWrite.save("test_file.zip");
 
     File cFileToLoad;
     cFileToLoad.load("test_file.zip");
-    assert(cFileToLoad.list().size() == 1);
-    auto iter = cFileToLoad.list().find("afolder/afile/dummy.txt");
-    assert(iter != cFileToLoad.list().end());
+    assert(cFileToLoad.files().size() == 1);
+    auto iter = cFileToLoad.files().find("afolder/afile/dummy.txt");
+    assert(iter != cFileToLoad.files().end());
     assert((*iter).second.data() == std::string(DUMMY_TEXT));
 
     return 0;

@@ -30,6 +30,7 @@
 
 // rpgmapper
 #include <rpgmapper/types.hpp>
+#include <rpgmapper/file.hpp>
 
 
 // ------------------------------------------------------------
@@ -55,6 +56,14 @@ public:
      * @return  the current atlas instance
      */
     AtlasPointer & atlas();
+
+
+    /**
+     * The file we load/save the atlas from/to.
+     *
+     * @return  the file instance for load/save operations
+     */
+    File & file();
 
 
     /**

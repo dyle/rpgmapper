@@ -43,7 +43,8 @@ public:
 
     Controller_data() = default;
 
-    AtlasPointer m_cAtlas;              /**< the atlas managed by this controller */
+    AtlasPointer m_cAtlas;              /**< The atlas managed by this controller. */
+    File m_cFile;                       /**< The file management instance. */
 };
 
 }
@@ -69,6 +70,16 @@ Controller::Controller() {
  */
 AtlasPointer & Controller::atlas() {
     return d->m_cAtlas;
+}
+
+
+/**
+ * The file we load/save the atlas from/to.
+ *
+ * @return  the file instance for load/save operations
+ */
+File & Controller::file() {
+    return d->m_cFile;
 }
 
 

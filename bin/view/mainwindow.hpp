@@ -33,9 +33,6 @@
 // ------------------------------------------------------------
 // decl
 
-// fwd
-class Ui_mainwindow;
-
 
 namespace rpgmapper {
 namespace view {
@@ -70,11 +67,33 @@ protected:
     void closeEvent(QCloseEvent * cEvent) override;
 
 
+
+private slots:
+
+
+    /**
+     * Load an atlas.
+     */
+    void load();
+
+
+    /**
+     * Save the atlas.
+     */
+    void save();
+
+
+    /**
+     * Save the atlas with a new filename.
+     */
+    void saveAs();
+
+
 private:
 
 
     /**
-     * centers the window on the desktop with default width and height
+     * Centers the window on the desktop with default width and height.
      */
     void centerWindow();
 
@@ -86,12 +105,19 @@ private:
 
 
     /**
-     * load the settings
+     * Load the settings.
      */
     void loadSettings();
 
 
-    std::shared_ptr<Ui_mainwindow> ui;      /**< user interface */
+    /**
+     * Setup the internal dialogs.
+     */
+    void setupDialogs();
+
+
+    class MainWindow_data;                              /**< Internal data type. */
+    std::shared_ptr<MainWindow::MainWindow_data> d;     /**< Internal data instance. */
 };
 
 

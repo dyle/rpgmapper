@@ -59,24 +59,6 @@ public:
 
 
     /**
-     * Convert a point coordinate into a tile index value.
-     *
-     * @param   cPoint      the point with x and y coordinate
-     * @return  a value indicating the proper index into a MapItems field
-     */
-    static int convertPointToIndex(QPoint const & cPoint) { return cPoint.y() * maximumWidth() + cPoint.x(); }
-
-
-    /**
-     * Convert an index value to a point coordinate.
-     *
-     * @param   nIndex      the index into a MapItems collection
-     * @return  the corresponding point value
-     */
-    static QPoint convertIndexToPoint(int nIndex) { return QPoint{nIndex % maximumWidth(), nIndex / maximumWidth()}; }
-
-
-    /**
      * Create a new map (factory method).
      *
      * @param   cAtlas      parent object
@@ -108,38 +90,6 @@ public:
      * @param   cJSON       the json instance to load from
      */
     void load(QJsonObject const & cJSON) override;
-
-
-    /**
-     * Returns the maximum height of a map.
-     *
-     * @return  the maximum height of a map.
-     */
-    static int maximumHeight();
-
-
-    /**
-     * Returns the maximum width of a map.
-     *
-     * @return  the maximum width of a map.
-     */
-    static int maximumWidth();
-
-
-    /**
-     * Returns the minimum height of a map.
-     *
-     * @return  the minimum height of a map.
-     */
-    static int minimumHeight();
-
-
-    /**
-     * Returns the minimum width of a map.
-     *
-     * @return  the minimum width of a map.
-     */
-    static int minimumWidth();
 
 
     /**

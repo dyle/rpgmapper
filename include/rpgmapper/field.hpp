@@ -1,5 +1,5 @@
 /*
- * tile.hpp
+ * field.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,8 +18,8 @@
  */
 
 
-#ifndef MODEL_TILE_HPP
-#define MODEL_TILE_HPP
+#ifndef MODEL_FIELD_HPP
+#define MODEL_FIELD_HPP
 
 
 // ------------------------------------------------------------
@@ -41,19 +41,19 @@ namespace model {
 
 
 /**
- * Load a tile from json.
+ * Load a field from json.
  *
  * @param   cJSON       the json instance to load from
  */
-Tile loadFromJson(QJsonObject const & cJSON);
+Field loadFromJson(QJsonObject const & cJSON);
 
 
 /**
- * Save a tile to json.
+ * Save a field to json.
  *
- * @param   cTile       the tile to save
+ * @param   cField      the field to save
  */
-QJsonObject saveToJson(Tile const & cTile);
+QJsonObject saveToJson(Field const & cField);
 
 
 }

@@ -48,6 +48,8 @@ class Layer  : public Nameable {
 
     Q_OBJECT
 
+    friend class Map;
+
 
 public:
 
@@ -68,7 +70,7 @@ public:
      *
      * @param   cTile       the tile to add to the layer
      */
-    void addTile(Tile cTile);
+    void addTile(Field cTile);
 
 
     /**

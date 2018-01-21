@@ -25,9 +25,10 @@
 #include <QJsonObject>
 
 // rpgmapper
+#include <rpgmapper/common_macros.h>
 #include <rpgmapper/layer.hpp>
 #include <rpgmapper/map.hpp>
-#include <rpgmapper/tile.hpp>
+#include <rpgmapper/field.hpp>
 
 using namespace rpgmapper::model;
 
@@ -72,12 +73,14 @@ Layer::Layer(Map * cMap, layerid_t nId, layer_t eLayer) : Nameable{cMap}, m_nId{
     Q_ASSERT(cMap);
 
     d = std::make_shared<Layer::Layer_data>();
-    if (eLayer == layer_t::background) {
-        addTile(Tile{QPoint{0, 0}, {{"color", "#000060"}}});
-    }
-    if (eLayer == layer_t::grid) {
-        addTile(Tile{QPoint{0, 0}, {{"color", "#f0f0ff"}}});
-    }
+
+// TODO
+//    if (eLayer == layer_t::background) {
+//        addTile(Field{QPoint{0, 0}, {{"color", "#000060"}}});
+//    }
+//    if (eLayer == layer_t::grid) {
+//        addTile(Field{QPoint{0, 0}, {{"color", "#f0f0ff"}}});
+//    }
 }
 
 
@@ -86,9 +89,9 @@ Layer::Layer(Map * cMap, layerid_t nId, layer_t eLayer) : Nameable{cMap}, m_nId{
  *
  * @param   cTile       the tile to add to the layer
  */
-void Layer::addTile(Tile cTile) {
+void Layer::addTile(UNUSED Field cTile) {
     // TODO: check for stackable
-    d->m_cFields[Map::convertPointToIndex(cTile.cPosition)].push_back(cTile);
+    //d->m_cFields[Map::convertPointToIndex(cTile.cPosition)].push_back(cTile);
     modified(true);
 }
 
@@ -158,13 +161,14 @@ void Layer::save(QJsonObject & cJSON) const {
     cJSON["id"] = id();
     cJSON["type"] = static_cast<int>(type());
 
-    QJsonArray cJSONTiles;
-    for (auto const & cPair : fields()) {
-        for (auto const & cField : cPair.second) {
-            cJSONTiles.append(saveToJson(cField));
-        }
-    }
-    cJSON["tiles"] = cJSONTiles;
+    // TODO
+//    QJsonArray cJSONTiles;
+//    for (auto const & cPair : fields()) {
+//        for (auto const & cField : cPair.second) {
+//            cJSONTiles.append(saveToJson(cField));
+//        }
+//    }
+//    cJSON["tiles"] = cJSONTiles;
 }
 
 

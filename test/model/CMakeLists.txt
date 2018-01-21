@@ -40,11 +40,11 @@ add_executable(test_file                        ${TEST_FILE_SRC})
 target_link_libraries(test_file                 rpgm ${CMAKE_REQUIRED_LIBRARIES})
 add_test(model/file                             test_file)
 
-# test: Map_point
-set(TEST_MAP_POINT_SRC                          test_map_point.cpp)
-add_executable(test_map_point                   ${TEST_MAP_POINT_SRC})
-target_link_libraries(test_map_point            rpgm ${CMAKE_REQUIRED_LIBRARIES})
-add_test(model/map_point                        test_map_point)
+# test: Field coordinate conversions
+set(TEST_FIELD_COORDINATE_SRC                   test_field_coordinate.cpp)
+add_executable(test_field_coordinate            ${TEST_FIELD_COORDINATE_SRC})
+target_link_libraries(test_field_coordinate     rpgm ${CMAKE_REQUIRED_LIBRARIES})
+add_test(model/field_coordinate                 test_field_coordinate)
 
 # test: Map_size
 set(TEST_MAP_SIZE_SRC                           test_map_size.cpp)

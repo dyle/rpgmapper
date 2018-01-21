@@ -39,12 +39,12 @@ set(RPGMAPPER_LIB_SRC
     atlas.cpp               ${CMAKE_SOURCE_DIR}/include/rpgmapper/atlas.hpp
     changeable.cpp          ${CMAKE_SOURCE_DIR}/include/rpgmapper/changeable.hpp
     controller.cpp          ${CMAKE_SOURCE_DIR}/include/rpgmapper/controller.hpp
+    field.cpp               ${CMAKE_SOURCE_DIR}/include/rpgmapper/field.hpp
     file.cpp                ${CMAKE_SOURCE_DIR}/include/rpgmapper/file.hpp
     layer.cpp               ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer.hpp
     map.cpp                 ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
     nameable.cpp            ${CMAKE_SOURCE_DIR}/include/rpgmapper/nameable.hpp
     region.cpp              ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
-    tile.cpp                ${CMAKE_SOURCE_DIR}/include/rpgmapper/tile.hpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

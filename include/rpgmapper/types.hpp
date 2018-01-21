@@ -38,6 +38,12 @@ namespace rpgmapper {
 namespace model {
 
 
+int const MAXIMUM_MAP_HEIGHT = 1000;                        /**< Maximum fields in y-axis on a map. */
+int const MAXIMUM_MAP_WIDTH = 1000;                         /**< Maximum fields in x-axis on a map. */
+int const MINIMUM_MAP_HEIGHT = 1;                           /**< Minimum fields in y-axis on a map. */
+int const MINIMUM_MAP_WIDTH = 1;                            /**< Minimum fields in x-axis on a map. */
+
+
 class Atlas;                                                /**< An atlas. */
 typedef QSharedPointer<Atlas> AtlasPointer;                 /**< Atlas smart pointer. */
 
@@ -59,15 +65,54 @@ typedef QSharedPointer<Region> RegionPointer;               /**< Map smart point
 typedef int regionid_t;                                     /**< Id of a region */
 typedef std::map<regionid_t, RegionPointer> Regions;        /**< Multiple regions. */
 
+typedef std::map<QString, QString> Tile;                    /**< A title is a set of key-value pairs (mainly "uri"). */
+typedef std::vector<Tile> Tiles;                            /**< Multiple tiles in a list/vector. */
+
+typedef int coordinate_t;                                   /**< A coordinate value used for indexing fields. */
+
+
 /**
- * A single element on a map.
+ * A field on a map.
  */
-struct Tile {
-    QPoint cPosition;                                       /**< Position of this element on the map. */
-    std::map<QString, QString> cAttributes;                 /**< Attributes of the item (mainly "uri"). */
+struct Field {
+
+    QPoint cPosition;                                       /**< Position of this field. */
+    Tiles cTiles;                                           /**< All the tiles on this field. */
+
+    /**
+     * Get the coordinate value of this field.
+     *
+     * @return  the coordinate value of this field
+     */
+    coordinate_t coordinate() const {
+        return coordinate(cPosition);
+    }
+
+
+    /**
+     * Get the coordinate value of a position.
+     *
+     * @param   cPosition       the position to convert
+     * @return  the coordinate value of this position
+     */
+    static coordinate_t coordinate(QPoint const & cPosition) {
+        return (cPosition.y() * MAXIMUM_MAP_WIDTH) + cPosition.x();
+    }
+
+
+    /**
+     * Get the position of a coordinate value.
+     *
+     * @param   nCoordinate     the coordinate value
+     * @return  the converted position
+     */
+    static QPoint position(coordinate_t nCoordinate) {
+        return QPoint{nCoordinate % MAXIMUM_MAP_WIDTH, nCoordinate / MAXIMUM_MAP_WIDTH};
+    }
+
 };
-typedef std::vector<Tile> Field;                            /**< A field can contain multiple tiles. */
-typedef std::map<int, Field> Fields;                        /**< Multiple fields.. */
+
+typedef std::map<coordinate_t, Field> Fields;               /**< Multiple fields, indexed by a coordinate value. */
 
 
 }

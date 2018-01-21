@@ -40,9 +40,9 @@ using namespace rpgmapper::model;
 
 int test() {
 
-    assert(Map::convertPointToIndex(QPoint{12, 34}) == 34012);
-    assert(Map::convertIndexToPoint(34) == QPoint(34, 0));
-    assert(Map::convertIndexToPoint(178230) == QPoint(230, 178));
+    assert(Field::coordinate(QPoint{12, 34}) == 34012);
+    assert(Field::position(34) == QPoint(34, 0));
+    assert(Field::position(178230) == QPoint(230, 178));
 
     return 0;
 }

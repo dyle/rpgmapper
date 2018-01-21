@@ -51,13 +51,13 @@ int test() {
     assert(cMap->size().height() == 100);
 
     try {
-        cMap->size(QSize(Map::minimumWidth() - 1, Map::minimumHeight() - 1));
+        cMap->size(QSize(MINIMUM_MAP_WIDTH - 1, MINIMUM_MAP_HEIGHT - 1));
         assert(false);
     }
     catch (...) {}
 
     try {
-        cMap->size(QSize(Map::maximumWidth(), Map::maximumHeight()));
+        cMap->size(QSize(MAXIMUM_MAP_WIDTH + 1, MAXIMUM_MAP_HEIGHT + 1));
         assert(false);
     }
     catch (...) {}

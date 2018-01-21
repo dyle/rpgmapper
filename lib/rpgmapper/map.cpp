@@ -22,12 +22,7 @@
 // defs
 
 #define MAP_HEIGHT_DEFAULT          10
-#define MAP_HEIGHT_MAXIMUM          1000
-#define MAP_HEIGHT_MINIMUM          0
-
 #define MAP_WIDTH_DEFAULT           10
-#define MAP_WIDTH_MAXIMUM           1000
-#define MAP_WIDTH_MINIMUM           0
 
 
 // ------------------------------------------------------------
@@ -211,46 +206,6 @@ void Map::load(QJsonObject const & cJSON) {
 
 
 /**
- * Returns the maximum height of a map.
- *
- * @return  the maximum height of a map.
- */
-int Map::maximumHeight() {
-    return MAP_HEIGHT_MAXIMUM;
-}
-
-
-/**
- * Returns the maximum width of a map.
- *
- * @return  the maximum width of a map.
- */
-int Map::maximumWidth() {
-    return MAP_WIDTH_MAXIMUM;
-}
-
-
-/**
- * Returns the minimum height of a map.
- *
- * @return  the minimum height of a map.
- */
-int Map::minimumHeight() {
-    return MAP_HEIGHT_MINIMUM;
-}
-
-
-/**
- * Returns the minimum width of a map.
- *
- * @return  the minimum width of a map.
- */
-int Map::minimumWidth() {
-    return MAP_WIDTH_MINIMUM;
-}
-
-
-/**
  * Means to order this map among other maps.
  *
  * @return  a value indicating the position of this map among others
@@ -353,17 +308,17 @@ void Map::size(QSize cSize) {
         return;
     }
 
-    if (cSize.width() < Map::minimumWidth()) {
-        throw std::out_of_range("Map width may not be below " + std::to_string(Map::minimumWidth()) + ".");
+    if (cSize.width() < MINIMUM_MAP_WIDTH) {
+        throw std::out_of_range("Map width may not be below " + std::to_string(MINIMUM_MAP_WIDTH) + ".");
     }
-    if (cSize.height() < Map::minimumHeight()) {
-        throw std::out_of_range("Map height may not be below " + std::to_string(Map::minimumHeight()) + ".");
+    if (cSize.height() < MINIMUM_MAP_HEIGHT) {
+        throw std::out_of_range("Map height may not be below " + std::to_string(MINIMUM_MAP_HEIGHT) + ".");
     }
-    if (cSize.width() >= Map::maximumWidth()) {
-        throw std::out_of_range("Map width may not be above " + std::to_string(Map::maximumWidth()) + ".");
+    if (cSize.width() > MAXIMUM_MAP_WIDTH) {
+        throw std::out_of_range("Map width may not be above " + std::to_string(MAXIMUM_MAP_WIDTH) + ".");
     }
-    if (cSize.height() >= Map::maximumHeight()) {
-        throw std::out_of_range("Map height may not be above " + std::to_string(Map::maximumHeight()) + ".");
+    if (cSize.height() > MAXIMUM_MAP_HEIGHT) {
+        throw std::out_of_range("Map height may not be above " + std::to_string(MAXIMUM_MAP_HEIGHT) + ".");
     }
 
     d->m_cSize = cSize;

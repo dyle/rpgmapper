@@ -24,7 +24,6 @@
 #include <QJsonArray>
 
 // rpgmapper
-#include <rpgmapper/common_macros.h>
 #include <rpgmapper/field.hpp>
 
 using namespace rpgmapper::model;
@@ -39,7 +38,7 @@ using namespace rpgmapper::model;
  *
  * @param   cJSON       the json instance to load from
  */
-Field rpgmapper::model::loadFromJson(UNUSED QJsonObject const & cJSON) {
+Field rpgmapper::model::loadFromJson(QJsonObject const & cJSON) {
 
     Field cField{{0, 0}, {}};
 
@@ -85,7 +84,7 @@ Field rpgmapper::model::loadFromJson(UNUSED QJsonObject const & cJSON) {
  *
  * @param   cField       the tile to save
  */
-QJsonObject rpgmapper::model::saveToJson(UNUSED Field const & cField) {
+QJsonObject rpgmapper::model::saveToJson(Field const & cField) {
 
     QJsonObject cJSON;
 

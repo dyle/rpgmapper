@@ -103,6 +103,14 @@ struct Field {
 
 
     /**
+     * Check if this field does hold some information.
+     *
+     * @return  true, if there is something placed on this field
+     */
+    bool isEmpty() const { return cTiles.empty(); }
+
+
+    /**
      * Get the position of a coordinate value.
      *
      * @param   nCoordinate     the coordinate value

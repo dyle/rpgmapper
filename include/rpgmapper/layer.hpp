@@ -66,11 +66,37 @@ public:
 
 
     /**
-     * Adds a tile to the layer.
+     * Adds a tile to a field on the layer.
      *
-     * @param   cTile       the tile to add to the layer
+     * @param   nCoordinate     the coordinate of the field
+     * @param   cTile           the tile to add to the field
      */
-    void addTile(Field cTile);
+    void addTile(coordinate_t nCoordinate, Tile const & cTile);
+
+
+    /**
+     * Adds a tile to a field on the layer.
+     *
+     * @param   cPosition       the coordinate of the field
+     * @param   cTile           the tile to add to the field
+     */
+    void addTile(QPoint const & cPosition, Tile const & cTile) { addTile(Field::coordinate(cPosition), cTile); }
+
+
+    /**
+     * Clears and empties a field.
+     *
+     * @param   nCoordinate     the coordinate of the field
+     */
+    void clearField(coordinate_t nCoordinate);
+
+
+    /**
+     * Clears and empties a field.
+     *
+     * @param   cPosition       the position of the field
+     */
+    void clearField(QPoint const & cPosition) { clearField(Field::coordinate(cPosition)); }
 
 
     /**
@@ -82,6 +108,24 @@ public:
      * @return  a new layer
      */
     static LayerPointer create(Map * cMap, layerid_t nId, layer_t eLayer);
+
+
+    /**
+     * Get one field on this layer.
+     *
+     * @param   nCoordinate         the field's coordinate value
+     * @return  the field requested
+     */
+    Field const & getField(coordinate_t nCoordinate) const;
+
+
+    /**
+     * Get one field on this layer.
+     *
+     * @param   cPosition           the position of the field
+     * @return  the field requested
+     */
+    Field const & getField(QPoint const & cPosition) const  { return getField(Field::coordinate(cPosition)); }
 
 
     /**

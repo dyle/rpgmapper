@@ -49,7 +49,7 @@ public:
 
     Layer_data() = default;
 
-    Fields m_cFields;                       /**< All the fields on this on this layer. */
+    mutable Fields m_cFields;               /**< All the fields on this on this layer. */
     bool m_bVisible = true;                 /**< Visibility flag. */
 };
 
@@ -75,24 +75,31 @@ Layer::Layer(Map * cMap, layerid_t nId, layer_t eLayer) : Nameable{cMap}, m_nId{
 
     d = std::make_shared<Layer::Layer_data>();
 
-// TODO
-//    if (eLayer == layer_t::background) {
-//        addTile(Field{QPoint{0, 0}, {{"color", "#000060"}}});
-//    }
-//    if (eLayer == layer_t::grid) {
-//        addTile(Field{QPoint{0, 0}, {{"color", "#f0f0ff"}}});
-//    }
+    static Tile const cDefaultBackground{{"color", "#000060"}};
+    static Tile const cDefaultGrid{{"color", "#f0f0ff"}};
+
+    if (eLayer == layer_t::background) {
+        addTile(0,  cDefaultBackground);
+    }
+    if (eLayer == layer_t::grid) {
+        addTile(0, cDefaultGrid);
+    }
 }
 
 
 /**
- * Adds a tile to the layer.
+ * Adds a tile to a field on the layer.
  *
- * @param   cTile       the tile to add to the layer
+ * @param   nCoordinate     the coordinate of the field
+ * @param   cTile           the tile to add to the field
  */
-void Layer::addTile(UNUSED Field cTile) {
-    // TODO: check for stackable
-    //d->m_cFields[Map::convertPointToIndex(cTile.cPosition)].push_back(cTile);
+void Layer::addTile(coordinate_t nCoordinate, Tile const & cTile) {
+
+    if (!stackable()) {
+        clearField(nCoordinate);
+    }
+    d->m_cFields[nCoordinate].cPosition = Field::position(nCoordinate);
+    d->m_cFields[nCoordinate].cTiles.push_back(cTile);
     modified(true);
 }
 
@@ -106,6 +113,17 @@ void Layer::clear() {
 
 
 /**
+ * Clears and empties a field.
+ *
+ * @param   nCoordinate     the coordinate of the field
+ */
+void Layer::clearField(coordinate_t nCoordinate) {
+    d->m_cFields[nCoordinate].cTiles.clear();
+    modified(true);
+}
+
+
+/**
  * Create a new layer (factory method) for a map.
  *
  * @param   cMap        parent object
@@ -115,6 +133,17 @@ void Layer::clear() {
  */
 LayerPointer Layer::create(Map * cMap, layerid_t nId, layer_t eLayer) {
     return LayerPointer{new Layer{cMap, nId, eLayer}, &Layer::deleteLater};
+}
+
+
+/**
+ * Get one field on this layer.
+ *
+ * @param   nCoordinate         the field's coordinate value
+ * @return  the field requested
+ */
+Field const & Layer::getField(coordinate_t nCoordinate) const {
+    return d->m_cFields[nCoordinate];
 }
 
 

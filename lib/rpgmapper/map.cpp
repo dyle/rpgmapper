@@ -127,12 +127,12 @@ void Map::createDefaultLayers() {
     };
 
     std::vector<LayerDefinition> cDefaultLayers {
-        { 0, Layer::layer_t::background, "Background"},
-        { 1, Layer::layer_t::tile, "Base"},
-        { 2, Layer::layer_t::tile, "Walls"},
-        { 3, Layer::layer_t::grid, "Grid"},
-        { 4, Layer::layer_t::tile, "Specials"},
-        { 5, Layer::layer_t::text, "Text"},
+        { static_cast<layerid_t>(map_layer::background), Layer::layer_t::background, "Background"},
+        { static_cast<layerid_t>(map_layer::base), Layer::layer_t::tile, "Base"},
+        { static_cast<layerid_t>(map_layer::walls), Layer::layer_t::tile, "Walls"},
+        { static_cast<layerid_t>(map_layer::grid), Layer::layer_t::grid, "Grid"},
+        { static_cast<layerid_t>(map_layer::specials), Layer::layer_t::tile, "Specials"},
+        { static_cast<layerid_t>(map_layer::text), Layer::layer_t::text, "Text"},
     };
 
     for (auto const & cLayerDefinition : cDefaultLayers) {
@@ -141,6 +141,17 @@ void Map::createDefaultLayers() {
                                                            cLayerDefinition.eLayer);
         d->m_cLayers[cLayerDefinition.nId]->name(cLayerDefinition.sName);
     }
+}
+
+
+/**
+ * Get a certain layer of this map.
+ *
+ * @param   eLayer      the layer requested
+ * @return  the layers of this map
+ */
+LayerPointer const & Map::layer(map_layer eLayer) const {
+    return d->m_cLayers[static_cast<layerid_t>(eLayer)];
 }
 
 

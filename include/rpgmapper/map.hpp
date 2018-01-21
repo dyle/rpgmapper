@@ -59,6 +59,19 @@ public:
 
 
     /**
+     * These are the layer on a map.
+     */
+    enum class map_layer {
+        background = 0,             /**< Background layer. */
+        base = 1,                   /**< A layer for all base tiles (e.g. floor, rock, ...). */
+        walls = 2,                  /**< A layer for all walls. */
+        grid = 3,                   /**< The layer responsible for the map grid. */
+        specials = 4,               /**< A layer rendering some special stuff. */
+        text = 5                    /**< A layer for positioning text. */
+    };
+
+
+    /**
      * Create a new map (factory method).
      *
      * @param   cAtlas      parent object
@@ -74,6 +87,15 @@ public:
      * @return  the id of the map
      */
     mapid_t id() const { return m_nId; }
+
+
+    /**
+     * Get a certain layer of this map.
+     *
+     * @param   eLayer      the layer requested
+     * @return  the layers of this map
+     */
+    LayerPointer const & layer(map_layer eLayer) const;
 
 
     /**

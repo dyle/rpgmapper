@@ -83,6 +83,14 @@ public:
 
 
     /**
+     * Get all the map items of this layer.
+     *
+     * @return  all tiles on this layer
+     */
+    Fields const & fields() const;
+
+
+    /**
      * Return the id of the layer.
      *
      * @return  the id of the layer
@@ -107,11 +115,15 @@ public:
 
 
     /**
-     * Get all the map items of this layer.
+     * Checks if the tiles on this layer are stackable.
      *
-     * @return  all tiles on this layer
+     * Stackable tiles can be piled up on the very same field.
+     * If the tiles are not stackable, then there can be only
+     * one tile per field.
+     *
+     * @return  true, if there can be multiple tiles per field
      */
-    Tiles const & tiles() const;
+    bool stackable() const;
 
 
     /**
@@ -131,7 +143,7 @@ public slots:
     void clear();
 
 
-protected:
+private:
 
 
     /**
@@ -142,9 +154,6 @@ protected:
      * @param   eLayer      the layer type
      */
     explicit Layer(Map * cMap, layerid_t nId, layer_t eLayer);
-
-
-private:
 
 
     layerid_t m_nId;                            /**< Layer id. */

@@ -48,7 +48,7 @@ public:
 
     Layer_data() = default;
 
-    Tiles m_cTiles;                     /**< All map items on this layer. */
+    Fields m_cFields;                       /**< All the fields on this on this layer. */
 };
 
 
@@ -84,7 +84,7 @@ Layer::Layer(Map * cMap, layerid_t nId, layer_t eLayer) : Nameable{cMap}, m_nId{
  * @param   cTile       the tile to add to the layer
  */
 void Layer::addTile(Tile cTile) {
-    d->m_cTiles[Map::convertPointToIndex(cTile.cPosition)] = cTile;
+    d->m_cFields[Map::convertPointToIndex(cTile.cPosition)].push_back(cTile);
     modified(true);
 }
 
@@ -107,6 +107,16 @@ void Layer::clear() {
  */
 LayerPointer Layer::create(Map * cMap, layerid_t nId, layer_t eLayer) {
     return LayerPointer{new Layer{cMap, nId, eLayer}, &Layer::deleteLater};
+}
+
+
+/**
+ * Get all the map items of this layer.
+ *
+ * @return  all tiles on this layer
+ */
+Fields const & Layer::fields() const {
+    return d->m_cFields;
 }
 
 
@@ -145,18 +155,38 @@ void Layer::save(QJsonObject & cJSON) const {
     cJSON["type"] = static_cast<int>(type());
 
     QJsonArray cJSONTiles;
-    for (auto const & cPair: tiles()) {
-        cJSONTiles.append(saveToJson(cPair.second));
+    for (auto const & cPair : fields()) {
+        for (auto const & cField : cPair.second) {
+            cJSONTiles.append(saveToJson(cField));
+        }
     }
     cJSON["tiles"] = cJSONTiles;
 }
 
 
 /**
- * Get all the map items of this layer.
+ * Checks if the tiles on this layer are stackable.
  *
- * @return  all tiles on this layer
+ * Stackable tiles can be piled up on the very same field.
+ * If the tiles are not stackable, then there can be only
+ * one tile per field.
+ *
+ * @return  true, if there can be multiple tiles per field
  */
-Tiles const & Layer::tiles() const {
-    return d->m_cTiles;
+bool Layer::stackable() const {
+
+    bool res;
+    switch (type()) {
+
+        case layer_t::background:
+        case layer_t::grid:
+            res = false;
+            break;
+
+        default:
+            res = true;
+            break;
+    }
+
+    return res;
 }

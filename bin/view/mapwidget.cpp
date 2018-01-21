@@ -23,7 +23,7 @@
 
 #define MINIMUM_ZOOM            0.25
 #define MAXIMUM_ZOOM            8.0
-#define STANDARD_TILE_SIZE      64
+#define STANDARD_TILE_SIZE      48
 
 
 // ------------------------------------------------------------

@@ -66,7 +66,8 @@ struct Tile {
     QPoint cPosition;                                       /**< Position of this element on the map. */
     std::map<QString, QString> cAttributes;                 /**< Attributes of the item (mainly "uri"). */
 };
-typedef std::map<int, Tile> Tiles;                          /**< Multiple map items. */
+typedef std::vector<Tile> Field;                            /**< A field can contain multiple tiles. */
+typedef std::map<int, Field> Fields;                        /**< Multiple fields.. */
 
 
 }

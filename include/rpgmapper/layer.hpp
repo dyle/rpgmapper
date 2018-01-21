@@ -136,6 +136,22 @@ public:
     layer_t type() const { return m_eLayer; }
 
 
+    /**
+     * Checks if this layer is visible.
+     *
+     * @return  visibility flag
+     */
+    bool visible() const;
+
+
+    /**
+     * Switches visibility of this layer.
+     *
+     * @param   bVisible        new visibility flag
+     */
+    void visible(bool bVisible);
+
+
 public slots:
 
 

@@ -50,6 +50,7 @@ public:
     Layer_data() = default;
 
     Fields m_cFields;                       /**< All the fields on this on this layer. */
+    bool m_bVisible = true;                 /**< Visibility flag. */
 };
 
 
@@ -144,6 +145,9 @@ void Layer::load(QJsonObject const & cJSON) {
     if (cJSON.contains("type") && cJSON["type"].isDouble()) {
         m_eLayer = static_cast<Layer::layer_t>(cJSON["type"].toInt());
     }
+    if (cJSON.contains("visible") && cJSON["visible"].isBool()) {
+        d->m_bVisible = cJSON["visible"].toBool();
+    }
 
     // TODO: load tiles
 }
@@ -160,6 +164,7 @@ void Layer::save(QJsonObject & cJSON) const {
 
     cJSON["id"] = id();
     cJSON["type"] = static_cast<int>(type());
+    cJSON["visible"] = visible();
 
     // TODO
 //    QJsonArray cJSONTiles;
@@ -197,4 +202,28 @@ bool Layer::stackable() const {
     }
 
     return res;
+}
+
+
+/**
+ * Checks if this layer is visible.
+ *
+ * @return  visibility flag
+ */
+bool Layer::visible() const {
+    return d->m_bVisible;
+}
+
+
+/**
+ * Switches visibility of this layer.
+ *
+ * @param   bVisible        new visibility flag
+ */
+void Layer::visible(bool bVisible) {
+    if (d->m_bVisible == bVisible) {
+        return;
+    }
+    d->m_bVisible = bVisible;
+    modified(true);
 }

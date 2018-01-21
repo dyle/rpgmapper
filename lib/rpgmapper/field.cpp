@@ -41,37 +41,42 @@ using namespace rpgmapper::model;
  */
 Field rpgmapper::model::loadFromJson(UNUSED QJsonObject const & cJSON) {
 
-    Field cTile{{0, 0}, {}};
+    Field cField{{0, 0}, {}};
 
-    // TODO
-//    if (cJSON.contains("position") && cJSON["position"].isObject()) {
-//        auto cJSONPosition = cJSON["position"].toObject();
-//        if (cJSONPosition.contains("x") && cJSONPosition["x"].isDouble()) {
-//            cTile.cPosition.setX(cJSONPosition["x"].toInt());
-//        }
-//        if (cJSONPosition.contains("y") && cJSONPosition["y"].isDouble()) {
-//            cTile.cPosition.setY(cJSONPosition["y"].toInt());
-//        }
-//    }
-//
-//    if (cJSON.contains("attributes") && cJSON["attributes"].isArray()) {
-//        auto cJSONAttributes = cJSON["attributes"].toArray();
-//        for (auto && iter : cJSONAttributes) {
-//
-//            QString sName;
-//            QString sValue;
-//            auto cJSONAttribute = iter.toObject();
-//            if (cJSONAttribute.contains("name") && cJSONAttribute["name"].isString()) {
-//                sName = cJSONAttribute["name"].toString();
-//            }
-//            if (cJSONAttribute.contains("value") && cJSONAttribute["value"].isString()) {
-//                sValue = cJSONAttribute["value"].toString();
-//            }
-//            cTile.cAttributes[sName] = sValue;
-//        }
-//    }
+    if (cJSON.contains("position") && cJSON["position"].isObject()) {
+        auto cJSONPosition = cJSON["position"].toObject();
+        if (cJSONPosition.contains("x") && cJSONPosition["x"].isDouble()) {
+            cField.cPosition.setX(cJSONPosition["x"].toInt());
+        }
+        if (cJSONPosition.contains("y") && cJSONPosition["y"].isDouble()) {
+            cField.cPosition.setY(cJSONPosition["y"].toInt());
+        }
+    }
 
-    return cTile;
+    if (cJSON.contains("tiles") && cJSON["tiles"].isArray()) {
+
+        auto cJSONTiles = cJSON["tiles"].toArray();
+        for (auto && cJSONTile : cJSONTiles) {
+
+            Tile cTile;
+            for (auto && iter : cJSONTile.toArray()) {
+
+                QString sName;
+                QString sValue;
+                auto cJSONAttribute = iter.toObject();
+                if (cJSONAttribute.contains("name") && cJSONAttribute["name"].isString()) {
+                    sName = cJSONAttribute["name"].toString();
+                }
+                if (cJSONAttribute.contains("value") && cJSONAttribute["value"].isString()) {
+                    sValue = cJSONAttribute["value"].toString();
+                }
+                cTile[sName] = sValue;
+            }
+            cField.cTiles.push_back(cTile);
+        }
+    }
+
+    return cField;
 }
 
 
@@ -84,20 +89,24 @@ QJsonObject rpgmapper::model::saveToJson(UNUSED Field const & cField) {
 
     QJsonObject cJSON;
 
-    // TODO
-//    QJsonObject cJSONPosition;
-//    cJSONPosition["x"] = cField.cPosition.x();
-//    cJSONPosition["y"] = cField.cPosition.y();
-//    cJSON["position"] = cJSONPosition;
-//
-//    QJsonArray cJSONAttributes;
-//    for (auto const & cPair : cField.cAttributes) {
-//        QJsonObject cJSONAttribute;
-//        cJSONAttribute["name"] = cPair.first;
-//        cJSONAttribute["value"] = cPair.second;
-//        cJSONAttributes.append(cJSONAttribute);
-//    }
-//    cJSON["attributes"] = cJSONAttributes;
+    QJsonObject cJSONPosition;
+    cJSONPosition["x"] = cField.cPosition.x();
+    cJSONPosition["y"] = cField.cPosition.y();
+    cJSON["position"] = cJSONPosition;
+
+    QJsonArray cJSONTiles;
+    for (auto const & cTile : cField.cTiles) {
+
+        QJsonArray cJSONAttributes;
+        for (auto const & cPair : cTile) {
+            QJsonObject cJSONAttribute;
+            cJSONAttribute["name"] = cPair.first;
+            cJSONAttribute["value"] = cPair.second;
+            cJSONAttributes.append(cJSONAttribute);
+        }
+        cJSONTiles.append(cJSONAttributes);
+    }
+    cJSON["tiles"] = cJSONTiles;
 
     return cJSON;
 }

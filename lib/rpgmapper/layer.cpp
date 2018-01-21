@@ -178,7 +178,15 @@ void Layer::load(QJsonObject const & cJSON) {
         d->m_bVisible = cJSON["visible"].toBool();
     }
 
-    // TODO: load tiles
+    if (cJSON.contains("fields")&& cJSON["fields"].isArray()) {
+        auto cJSONFields = cJSON["fields"].toArray();
+        for (auto && cJSONField : cJSONFields) {
+            auto cField = loadFromJson(cJSONField.toObject());
+            for (auto const & cTile : cField.cTiles) {
+                addTile(cField.cPosition, cTile);
+            }
+        }
+    }
 }
 
 
@@ -195,14 +203,14 @@ void Layer::save(QJsonObject & cJSON) const {
     cJSON["type"] = static_cast<int>(type());
     cJSON["visible"] = visible();
 
-    // TODO
-//    QJsonArray cJSONTiles;
-//    for (auto const & cPair : fields()) {
-//        for (auto const & cField : cPair.second) {
-//            cJSONTiles.append(saveToJson(cField));
-//        }
-//    }
-//    cJSON["tiles"] = cJSONTiles;
+    QJsonArray cJSONFields;
+    for (auto const & cPair : fields()) {
+
+        if (!cPair.second.isEmpty()) {
+            cJSONFields.append(saveToJson(cPair.second));
+        }
+    }
+    cJSON["fields"] = cJSONFields;
 }
 
 

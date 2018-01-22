@@ -41,7 +41,7 @@ using namespace rpgmapper::model;
 int test() {
 
     Atlas cAtlas;
-    assert(cAtlas.modified());
+    assert(!cAtlas.modified());
     cAtlas.modified(false);
     assert(!cAtlas.modified());
 

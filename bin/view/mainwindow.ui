@@ -175,8 +175,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>256</width>
-          <height>101</height>
+          <width>96</width>
+          <height>26</height>
          </rect>
         </property>
         <attribute name="label">
@@ -309,6 +309,9 @@
    <property name="toolTip">
     <string>Quit RPGMapper</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="acAtlasProperties">
    <property name="text">
@@ -363,21 +366,6 @@
    </property>
    <property name="toolTip">
     <string>Properties of the current map</string>
-   </property>
-  </action>
-  <action name="acNewMapSet">
-   <property name="text">
-    <string>&amp;New Map Set</string>
-   </property>
-  </action>
-  <action name="acDeleteMapSet">
-   <property name="text">
-    <string>&amp;Delete Map Set</string>
-   </property>
-  </action>
-  <action name="acMapSetProperties">
-   <property name="text">
-    <string>Map &amp;Set Properties</string>
    </property>
   </action>
   <action name="acOpenMap">

@@ -60,8 +60,6 @@ bool Changeable::modified() const {
  * @param   bModified       the new object instance data changed flag
  */
 void Changeable::modified(bool bModified) {
-    if (bModified && (m_bModified != bModified)) {
-        emit changed();
-    }
     m_bModified = bModified;
+    emit changed();
 }

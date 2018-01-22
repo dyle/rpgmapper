@@ -65,7 +65,7 @@
      <x>0</x>
      <y>0</y>
      <width>876</width>
-     <height>26</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnFile">
@@ -82,9 +82,9 @@
     <addaction name="acNew"/>
     <addaction name="acOpen"/>
     <addaction name="mnOpenRecent"/>
+    <addaction name="acAtlasProperties"/>
     <addaction name="acSave"/>
     <addaction name="acSaveAs"/>
-    <addaction name="acAtlasProperties"/>
     <addaction name="separator"/>
     <addaction name="acQuit"/>
    </widget>
@@ -176,7 +176,7 @@
           <x>0</x>
           <y>0</y>
           <width>256</width>
-          <height>101</height>
+          <height>103</height>
          </rect>
         </property>
         <attribute name="label">
@@ -189,7 +189,7 @@
           <x>0</x>
           <y>0</y>
           <width>256</width>
-          <height>101</height>
+          <height>103</height>
          </rect>
         </property>
         <attribute name="label">

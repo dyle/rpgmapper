@@ -26,6 +26,7 @@
 
 // rpgmapper
 #include <rpgmapper/atlas.hpp>
+#include <rpgmapper/common_macros.h>
 #include <rpgmapper/controller.hpp>
 #include "structuraltreewidget.hpp"
 
@@ -35,6 +36,26 @@ using namespace rpgmapper::view;
 
 // ------------------------------------------------------------
 // decl
+
+
+/**
+ * Different types of item supported by this structural tree view.
+ */
+enum itemType {
+    atlas,                  /**< The item is the atlas. */
+    map,                    /**< the item is a map. */
+    region                  /**< the item is a region. */
+};
+
+
+/**
+ * The info on a item of the tree view.
+ */
+struct itemInfo {
+    itemType eItemType = atlas;         /**< The type of the item. */
+    mapid_t nMapId = 0;                 /**< The map id if the item is a map. */
+    regionid_t nRegionId = 0;           /**< The region id if the item is a region. */
+};
 
 
 /**
@@ -65,6 +86,16 @@ static QTreeWidgetItem * appendStructureMap(QTreeWidgetItem * cTWRegion, MapPoin
 static QTreeWidgetItem * appendStructureRegion(QTreeWidgetItem * cTWAtlas, RegionPointer const & cRegion);
 
 
+/**
+ * Extracts the info of an tree widget item into a info struct.
+ *
+ * @param   cItem           the tree widget item
+ * @param   cItemInfo       the extracted info of the atlas/map/region in the tree widget item
+ * @return  true, if the info has been extracted
+ */
+static bool getItemInfo(QTreeWidgetItem * cItem, itemInfo & cItemInfo);
+
+
 // ------------------------------------------------------------
 // code
 
@@ -75,7 +106,19 @@ static QTreeWidgetItem * appendStructureRegion(QTreeWidgetItem * cTWAtlas, Regio
  * @param   cParent     parent widget
  */
 StructuralTreeWidget::StructuralTreeWidget(QWidget * cParent) : QTreeWidget{cParent} {
+
     connect(this, &QTreeWidget::currentItemChanged, this, &StructuralTreeWidget::changedCurrentItem);
+    connect(this, &QTreeWidget::itemDoubleClicked, this, &StructuralTreeWidget::doubleClickedItem);
+    connect(Controller::instance().atlas().data(), &Atlas::changed, this, &StructuralTreeWidget::changedAtlas);
+}
+
+
+/**
+ * The atlas has changed.
+ */
+void StructuralTreeWidget::changedAtlas() {
+    auto cAtlasItem = topLevelItem(0);
+    cAtlasItem->setText(0, Controller::instance().atlas()->name());
 }
 
 
@@ -86,22 +129,54 @@ StructuralTreeWidget::StructuralTreeWidget(QWidget * cParent) : QTreeWidget{cPar
  */
 void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * cCurrent) {
 
-    if (!cCurrent || (cCurrent->columnCount() < 2)){
+    itemInfo cItemInfo;
+    if (!getItemInfo(cCurrent, cItemInfo)) {
         return;
     }
 
-    if (cCurrent->text(1) == "atlas") {
-        emit selectedAtlas();
+    switch (cItemInfo.eItemType) {
+
+        case atlas:
+            emit selectedAtlas();
+            break;
+
+        case map:
+            emit selectedMap(cItemInfo.nMapId);
+            break;
+
+        case region:
+            emit selectedRegion(cItemInfo.nRegionId);
+            break;
+    }
+}
+
+
+/**
+ * The user double clicked an item.
+ *
+ * @param   cItem       the item double clicked
+ * @param   nColumn     the column where she clicked
+ */
+void StructuralTreeWidget::doubleClickedItem(QTreeWidgetItem * cItem, UNUSED int nColumn) {
+
+    itemInfo cItemInfo;
+    if (!getItemInfo(cItem, cItemInfo)) {
+        return;
     }
 
-    if (cCurrent->columnCount() >= 3) {
+    switch (cItemInfo.eItemType) {
 
-        if (cCurrent->text(1) == "region") {
-            emit selectedRegion(cCurrent->text(2).toInt());
-        }
-        if (cCurrent->text(1) == "map") {
-            emit selectedMap(cCurrent->text(2).toInt());
-        }
+        case atlas:
+            emit doubleClickedAtlas();
+            break;
+
+        case map:
+            emit doubleClickedMap(cItemInfo.nMapId);
+            break;
+
+        case region:
+            emit doubleClickedRegion(cItemInfo.nRegionId);
+            break;
     }
 }
 
@@ -217,4 +292,40 @@ QTreeWidgetItem * appendStructureRegion(QTreeWidgetItem * cTWAtlas, RegionPointe
         cTWMap->setExpanded(true);
     }
     return cTWRegionItem;
+}
+
+
+/**
+ * Extracts the info of an tree widget item into a info struct.
+ *
+ * @param   cItem           the tree widget item
+ * @param   cItemInfo       the extracted info of the atlas/map/region in the tree widget item
+ * @return  true, if the info has been extracted
+ */
+bool getItemInfo(QTreeWidgetItem * cItem, itemInfo & cItemInfo) {
+
+    if (!cItem || (cItem->columnCount() < 2)){
+        return false;
+    }
+
+    if (cItem->text(1) == "atlas") {
+        cItemInfo.eItemType = atlas;
+        return true;
+    }
+
+    if (cItem->columnCount() >= 3) {
+
+        if (cItem->text(1) == "region") {
+            cItemInfo.eItemType = region;
+            cItemInfo.nRegionId = cItem->text(2).toInt();
+            return true;
+        }
+        if (cItem->text(1) == "map") {
+            cItemInfo.eItemType = map;
+            cItemInfo.nMapId = cItem->text(2).toInt();
+            return true;
+        }
+    }
+
+    return false;
 }

@@ -125,6 +125,7 @@ public:
 
     /**
      * Set the atlas and all descendants to a new modification state.
+     * Only applies "true" to the current item and not to all maps and regions.
      *
      * @param   bModified       the new modification state
      */

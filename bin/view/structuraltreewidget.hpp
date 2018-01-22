@@ -78,6 +78,12 @@ private slots:
 
 
     /**
+     * The atlas has changed.
+     */
+    void changedAtlas();
+
+
+    /**
      * The changed the selected item.
      *
      * @param   cCurrent        new selected item
@@ -85,7 +91,38 @@ private slots:
     void changedCurrentItem(QTreeWidgetItem * cCurrent);
 
 
+    /**
+     * The user double clicked an item.
+     *
+     * @param   cItem       the item double clicked
+     * @param   nColumn     the column where she clicked
+     */
+    void doubleClickedItem(QTreeWidgetItem * cItem, int nColumn);
+
+
 signals:
+
+
+    /**
+     * The atlas has been double-clicked.
+     */
+    void doubleClickedAtlas();
+
+
+    /**
+     * A map has been double clicked.
+     *
+     * @param   nMapId          id of the map double clicked
+     */
+    void doubleClickedMap(rpgmapper::model::mapid_t nMapId);
+
+
+    /**
+     * A region has been double clicked.
+     *
+     * @param   nRegionId       id of the region double clicked
+     */
+    void doubleClickedRegion(rpgmapper::model::regionid_t nMapId);
 
 
     /**

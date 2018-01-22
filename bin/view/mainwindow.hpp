@@ -60,6 +60,12 @@ public slots:
 
 
     /**
+     * Let the user edit the properties of the current atlas.
+     */
+    void editAtlasProperties();
+
+
+    /**
      * Switch enabled state of actions.
      *
      * This method checks the action is enabled or disabled for a series of available actions.

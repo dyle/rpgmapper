@@ -28,6 +28,7 @@
 #include <QCloseEvent>
 #include <QDesktopWidget>
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QSettings>
 
 // rpgmapper
@@ -187,12 +188,14 @@ void MainWindow::closeEvent(QCloseEvent* cEvent) {
 void MainWindow::connectActions() {
 
     connect(d->ui->acAbout, &QAction::triggered, this, &MainWindow::showAboutDialog);
+    connect(d->ui->acAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
     connect(d->ui->acOpen, &QAction::triggered, this, &MainWindow::load);
     connect(d->ui->acQuit, &QAction::triggered, this, &MainWindow::close);
     connect(d->ui->acRecentListClear, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
     connect(d->ui->acSave, &QAction::triggered, this, &MainWindow::save);
     connect(d->ui->acSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
 
+    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedAtlas, this, &MainWindow::editAtlasProperties);
     connect(d->ui->twAtlas, &StructuralTreeWidget::selectedMap, d->ui->tabMap, &MapTabWidget::selectMap);
 }
 
@@ -218,6 +221,26 @@ void MainWindow::createRecentFileActions() {
         d->ui->mnOpenRecent->addAction(cRecentFileAction);
     }
     enableActions();
+}
+
+
+/**
+ * Let the user edit the properties of the current atlas.
+ */
+void MainWindow::editAtlasProperties() {
+
+    bool bChange = false;
+    auto sAtlasName = QInputDialog::getText(this,
+                                            tr("Atlas Properties"),
+                                            tr("New name of atlas:"),
+                                            QLineEdit::Normal,
+                                            Controller::instance().atlas()->name(),
+                                            &bChange);
+
+    if (!bChange || sAtlasName.isEmpty()) {
+        return;
+    }
+    Controller::instance().atlas()->name(sAtlasName);
 }
 
 

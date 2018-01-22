@@ -66,9 +66,12 @@ public:
  * @param   cParent     parent object
  */
 Atlas::Atlas(QObject * cParent) : Nameable{cParent} {
+
     d = std::make_shared<Atlas::Atlas_data>();
+
     name("New Atlas");
     createRegion()->addMap(createMap());
+
     modified(false);
 }
 
@@ -222,6 +225,7 @@ bool Atlas::modified() const {
 
 /**
  * Set the atlas and all descendants to a new modification state.
+ * Only applies "true" to the current item and not to all maps and regions.
  *
  * @param   bModified       the new modification state
  */
@@ -229,13 +233,16 @@ void Atlas::modified(bool bModified) {
 
     Nameable::modified(bModified);
 
-    std::for_each(maps().begin(),
-                  maps().end(),
-                  [&] (Maps::value_type & cPair) { cPair.second->modified(bModified); });
+    if (!bModified) {
 
-    std::for_each(regions().begin(),
-                  regions().end(),
-                  [&] (Regions::value_type & cPair) { cPair.second->modified(bModified); });
+        std::for_each(maps().begin(),
+                      maps().end(),
+                      [&] (Maps::value_type & cPair) { cPair.second->modified(bModified); });
+
+        std::for_each(regions().begin(),
+                      regions().end(),
+                      [&] (Regions::value_type & cPair) { cPair.second->modified(bModified); });
+    }
 }
 
 

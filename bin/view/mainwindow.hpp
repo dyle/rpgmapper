@@ -83,6 +83,12 @@ private slots:
 
 
     /**
+     * The atlas changed.
+     */
+    void changedAtlas();
+
+
+    /**
      * Clear list of recent files.
      */
     void clearListOfRecentFiles();

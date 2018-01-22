@@ -31,6 +31,7 @@
 #include <QSettings>
 
 // rpgmapper
+#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/common_macros.h>
 #include <rpgmapper/controller.hpp>
 #include "aboutdialog.hpp"
@@ -99,7 +100,10 @@ MainWindow::MainWindow() : QMainWindow{} {
     d->ui->twAtlas->resetStructure();
     d->ui->twAtlas->selectFirstMap();
 
+    connect(Controller::instance().atlas().data(), &Atlas::changed, this, &MainWindow::changedAtlas);
+
     enableActions();
+    changedAtlas();
 }
 
 
@@ -117,6 +121,19 @@ void MainWindow::centerWindow() {
 
     resize(QSize(nDefaultWidth, nDefaultHeight));
     move(QPoint(nX, nY));
+}
+
+
+/**
+ * The atlas changed.
+ */
+void MainWindow::changedAtlas() {
+
+    auto cAtlas = Controller::instance().atlas();
+    QString sModifiedMarker = cAtlas->modified() ? "*" : "";
+
+    QString sTitle = cAtlas->name() + sModifiedMarker + " - RPGMapper V" + VERSION;
+    setWindowTitle(sTitle);
 }
 
 

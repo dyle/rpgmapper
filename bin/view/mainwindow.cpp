@@ -33,6 +33,7 @@
 // rpgmapper
 #include <rpgmapper/common_macros.h>
 #include <rpgmapper/controller.hpp>
+#include "aboutdialog.hpp"
 #include "mainwindow.hpp"
 #include "structuraltreewidget.hpp"
 
@@ -64,6 +65,7 @@ public:
     unsigned int m_nMaximumRecentAtlasFiles = 10;       /**< Number of recent files should be remembered. */
     std::list<QAction *> m_cRecentFileActions;          /**< List of recent file actions. */
 
+    AboutDialog * m_cDlgAbout = nullptr;                /**< About RPGMapper dialog. */
     QFileDialog * m_cDlgLoad = nullptr;                 /**< Load file dialog. */
     QFileDialog * m_cDlgSaveAs = nullptr;               /**< SaveAs file dialog. */
 };
@@ -78,7 +80,7 @@ public:
 
 
 /**
- * ctor
+ * Ctor.
  */
 MainWindow::MainWindow() : QMainWindow{} {
 
@@ -167,6 +169,7 @@ void MainWindow::closeEvent(QCloseEvent* cEvent) {
  */
 void MainWindow::connectActions() {
 
+    connect(d->ui->acAbout, &QAction::triggered, this, &MainWindow::showAboutDialog);
     connect(d->ui->acOpen, &QAction::triggered, this, &MainWindow::load);
     connect(d->ui->acQuit, &QAction::triggered, this, &MainWindow::close);
     connect(d->ui->acRecentListClear, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
@@ -293,6 +296,8 @@ void MainWindow::setupDialogs() {
     cFileNameFilters << tr("Atlas files [*.atlas] (*.atlas)")
                      << tr("Any files [*.*] (*)");
 
+    d->m_cDlgAbout = new AboutDialog(this);
+
     d->m_cDlgLoad = new QFileDialog(this);
     d->m_cDlgLoad->setFileMode(QFileDialog::ExistingFile);
     d->m_cDlgLoad->setNameFilters(cFileNameFilters);
@@ -304,4 +309,12 @@ void MainWindow::setupDialogs() {
     d->m_cDlgSaveAs->setNameFilters(cFileNameFilters);
     d->m_cDlgSaveAs->setAcceptMode(QFileDialog::AcceptSave);
     d->m_cDlgSaveAs->setWindowTitle(tr("Save Atlas file"));
+}
+
+
+/**
+ * Show about dialog.
+ */
+void MainWindow::showAboutDialog() {
+    d->m_cDlgAbout->exec();
 }

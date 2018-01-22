@@ -51,7 +51,7 @@ public:
 
 
     /**
-     * ctor
+     * Ctor.
      */
     MainWindow();
 
@@ -143,6 +143,12 @@ private:
      * Setup the internal dialogs.
      */
     void setupDialogs();
+
+
+    /**
+     * Show about dialog.
+     */
+    void showAboutDialog();
 
 
     class MainWindow_data;                              /**< Internal data type. */

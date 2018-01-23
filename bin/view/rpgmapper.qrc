@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icons">
+    <file>gfx/help-about.png</file>
+    <file>gfx/help-content.png</file>
     <file>gfx/atlas-save.png</file>
     <file>gfx/atlas-save-as.png</file>
     <file>gfx/atlas.png</file>

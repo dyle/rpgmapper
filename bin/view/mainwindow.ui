@@ -92,6 +92,7 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
+    <addaction name="acHelp"/>
     <addaction name="acAbout"/>
    </widget>
    <widget class="QMenu" name="mnEdit">
@@ -295,6 +296,10 @@
    </property>
   </action>
   <action name="acAbout">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/help-about.png</normaloff>:/icons/gfx/help-about.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;About</string>
    </property>
@@ -381,6 +386,15 @@
   <action name="acRecentListClear">
    <property name="text">
     <string>&amp;Clear list</string>
+   </property>
+  </action>
+  <action name="acHelp">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/help-content.png</normaloff>:/icons/gfx/help-content.png</iconset>
+   </property>
+   <property name="text">
+    <string>Help</string>
    </property>
   </action>
  </widget>

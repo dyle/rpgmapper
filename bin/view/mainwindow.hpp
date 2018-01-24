@@ -167,6 +167,14 @@ private:
 
 
     /**
+     * Save the atlas to a file.
+     *
+     * @param   sFileName       the file to save the atlas to
+     */
+    void saveAtlas(QString const & sFileName);
+
+
+    /**
      * Save the rpgmapper settings.
      */
     void saveSettings();

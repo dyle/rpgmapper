@@ -347,6 +347,7 @@ void MainWindow::save() {
         saveAs();
         return;
     }
+    saveAtlas(Controller::instance().file().filename());
 }
 
 
@@ -358,9 +359,19 @@ void MainWindow::saveAs() {
     if ((d->m_cDlgSaveAs->exec() != QDialog::Accepted) || d->m_cDlgSaveAs->selectedFiles().empty()) {
         return;
     }
+    saveAtlas(d->m_cDlgSaveAs->selectedFiles().first());
+}
+
+
+/**
+ * Save the atlas to a file.
+ *
+ * @param   sFileName       the file to save the atlas to
+ */
+void MainWindow::saveAtlas(QString const & sFileName) {
 
     QStringList cSaveLog;
-    if (!Controller::instance().file().save(d->m_cDlgSaveAs->selectedFiles().first(), cSaveLog)) {
+    if (!Controller::instance().file().save(sFileName, cSaveLog)) {
         for (auto const & cLogLine : cSaveLog) {
             std::cout << cLogLine.toStdString() << std::endl;
         }

@@ -35,6 +35,7 @@
 #include <rpgmapper/common_macros.h>
 #include <rpgmapper/controller.hpp>
 #include "aboutdialog.hpp"
+#include "logdialog.hpp"
 #include "mainwindow.hpp"
 #include "structuraltreewidget.hpp"
 
@@ -69,6 +70,7 @@ public:
 
     AboutDialog * m_cDlgAbout = nullptr;                /**< About RPGMapper dialog. */
     QFileDialog * m_cDlgLoad = nullptr;                 /**< Load file dialog. */
+    LogDialog * m_cDlgLog = nullptr;                    /**< Dialog for some log messages. */
     QFileDialog * m_cDlgSaveAs = nullptr;               /**< SaveAs file dialog. */
 };
 
@@ -372,9 +374,11 @@ void MainWindow::saveAtlas(QString const & sFileName) {
 
     QStringList cSaveLog;
     if (!Controller::instance().file().save(sFileName, cSaveLog)) {
-        for (auto const & cLogLine : cSaveLog) {
-            std::cout << cLogLine.toStdString() << std::endl;
-        }
+        d->m_cDlgLog->setWindowTitle(tr("Save atlas failure"));
+        d->m_cDlgLog->clear();
+        d->m_cDlgLog->setMessage(tr("Failed to save atlas file."));
+        d->m_cDlgLog->setLog(cSaveLog);
+        d->m_cDlgLog->exec();
     }
     else {
         addRecentFileName(Controller::instance().file().filename());
@@ -441,6 +445,8 @@ void MainWindow::setupDialogs() {
     d->m_cDlgLoad->setAcceptMode(QFileDialog::AcceptOpen);
     d->m_cDlgLoad->setWindowTitle(tr("Load Atlas file"));
     d->m_cDlgLoad->setDirectory(d->m_sRecentAtlasFolder);
+
+    d->m_cDlgLog = new LogDialog(this);
 
     d->m_cDlgSaveAs = new QFileDialog(this);
     d->m_cDlgSaveAs->setFileMode(QFileDialog::AnyFile);

@@ -7,3 +7,6 @@
 # build folder
 build/
 
+# temporary files and folders
+tmp/
+

@@ -28,6 +28,7 @@
 #include <memory>
 
 #include <QMainWindow>
+#include <QSettings>
 
 
 // ------------------------------------------------------------
@@ -128,6 +129,14 @@ private:
 
 
     /**
+     * Adds a filename to the list of recent filenames.
+     *
+     * @param   sFileName       the filename to add
+     */
+    void addRecentFileName(QString const & sFileName);
+
+
+    /**
      * Centers the window on the desktop with default width and height.
      */
     void centerWindow();
@@ -149,6 +158,28 @@ private:
      * Load the settings.
      */
     void loadSettings();
+
+
+    /**
+     * Save the rpgmapper settings.
+     */
+    void saveSettings();
+
+
+    /**
+     * Save the window geometry and states.
+     *
+     * @param   cSettings       settings instance to save to
+     */
+    void saveSettingsRecentFiles(QSettings & cSettings);
+
+
+    /**
+     * Save the list of recent atlas files.
+     *
+     * @param   cSettings       settings instance to save to
+     */
+    void saveSettingsWindow(QSettings & cSettings);
 
 
     /**

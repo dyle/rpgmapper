@@ -28,8 +28,8 @@
 #include <QCloseEvent>
 #include <QDesktopWidget>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QInputDialog>
-#include <QSettings>
 
 // rpgmapper
 #include <rpgmapper/atlas.hpp>
@@ -64,7 +64,8 @@ public:
     std::shared_ptr<Ui_mainwindow> ui;                  /**< User interface. */
 
     QStringList m_cRecentAtlasFiles;                    /**< Recently loaded atlas files. */
-    unsigned int m_nMaximumRecentAtlasFiles = 10;       /**< Number of recent files should be remembered. */
+    QString m_sRecentAtlasFolder;                       /**< Folder location of last recent atlas files. */
+    int m_nMaximumRecentAtlasFiles = 10;                /**< Number of recent files should be remembered. */
     std::list<QAction *> m_cRecentFileActions;          /**< List of recent file actions. */
 
     AboutDialog * m_cDlgAbout = nullptr;                /**< About RPGMapper dialog. */
@@ -109,7 +110,34 @@ MainWindow::MainWindow() : QMainWindow{} {
 
 
 /**
- * Cnters the window on the desktop with default width and height.
+ * Adds a filename to the list of recent filenames.
+ *
+ * @param   sFileName       the filename to add
+ */
+void MainWindow::addRecentFileName(QString const & sFileName) {
+
+    if (sFileName.isEmpty()) {
+        return;
+    }
+
+    if (!d->m_cRecentAtlasFiles.contains(sFileName)) {
+        d->m_cRecentAtlasFiles.push_front(sFileName);
+        while (d->m_cRecentAtlasFiles.size() > d->m_nMaximumRecentAtlasFiles) {
+            d->m_cRecentAtlasFiles.removeLast();
+        }
+    }
+
+    QFileInfo cFileInfo(sFileName);
+    if (cFileInfo.isFile()) {
+        d->m_sRecentAtlasFolder = cFileInfo.absoluteDir().absolutePath();
+    }
+
+    createRecentFileActions();
+}
+
+
+/**
+ * Centers the window on the desktop with default width and height.
  */
 void MainWindow::centerWindow() {
 
@@ -159,25 +187,7 @@ void MainWindow::clearListOfRecentFiles() {
  * @param   cEvent      the event passed
  */
 void MainWindow::closeEvent(QCloseEvent* cEvent) {
-
-    QSettings cSettings{"rpgmapper", "rpgmapper"};
-
-    cSettings.setValue("geometry", saveGeometry());
-    cSettings.setValue("windowState", saveState());
-
-    cSettings.remove("recent");
-    cSettings.setValue("recent/maximum", d->m_nMaximumRecentAtlasFiles);
-    unsigned int nFileIndex = 0;
-    for (auto const & sFilename : d->m_cRecentAtlasFiles){
-        if (sFilename.isEmpty()) {
-            break;
-        }
-        cSettings.setValue("recent/file-" + QString::number(++nFileIndex), sFilename);
-        if (nFileIndex >= d->m_nMaximumRecentAtlasFiles) {
-            break;
-        }
-    }
-
+    saveSettings();
     QMainWindow::closeEvent(cEvent);
 }
 
@@ -250,7 +260,6 @@ void MainWindow::editAtlasProperties() {
  * This method checks the action is enabled or disabled for a series of available actions.
  */
 void MainWindow::enableActions() {
-
     d->ui->acRecentListClear->setEnabled(!d->m_cRecentAtlasFiles.empty());
 }
 
@@ -295,15 +304,21 @@ void MainWindow::loadSettings() {
     }
     restoreState(cSettings.value("windowState").toByteArray());
 
-    d->m_nMaximumRecentAtlasFiles = cSettings.value("recent/maximum", 10).toUInt();
+    d->m_nMaximumRecentAtlasFiles = cSettings.value("recent/maximum", 10).toInt();
+    d->m_sRecentAtlasFolder = cSettings.value("recent/folder").toString();
     d->m_cRecentAtlasFiles.clear();
-    for (unsigned int i = 0; i < d->m_nMaximumRecentAtlasFiles; ++i) {
+    for (int i = 0; i < d->m_nMaximumRecentAtlasFiles; ++i) {
         QString sFilename = cSettings.value("recent/file-" + QString::number(i), "").toString();
         if (!sFilename.isEmpty()) {
             d->m_cRecentAtlasFiles.append(sFilename);
         }
     }
     createRecentFileActions();
+
+    if (!d->m_sRecentAtlasFolder.isEmpty()) {
+        d->m_cDlgLoad->setDirectory(d->m_sRecentAtlasFolder);
+        d->m_cDlgSaveAs->setDirectory(d->m_sRecentAtlasFolder);
+    }
 }
 
 
@@ -323,7 +338,62 @@ void MainWindow::save() {
  * Save the atlas with a new filename.
  */
 void MainWindow::saveAs() {
-    d->m_cDlgSaveAs->exec();
+
+    if ((d->m_cDlgSaveAs->exec() != QDialog::Accepted) || d->m_cDlgSaveAs->selectedFiles().empty()) {
+        return;
+    }
+
+    QStringList cSaveLog;
+    if (!Controller::instance().file().save(d->m_cDlgSaveAs->selectedFiles().first(), cSaveLog)) {
+        for (auto const & cLogLine : cSaveLog) {
+            std::cout << cLogLine.toStdString() << std::endl;
+        }
+    }
+    else {
+        addRecentFileName(Controller::instance().file().filename());
+    }
+}
+
+
+/**
+ * Save the rpgmapper settings.
+ */
+void MainWindow::saveSettings() {
+    QSettings cSettings{"rpgmapper", "rpgmapper"};
+    saveSettingsWindow(cSettings);
+    saveSettingsRecentFiles(cSettings);
+}
+
+
+/**
+ * Save the window geometry and states.
+ *
+ * @param   cSettings       settings instance to save to
+ */
+void MainWindow::saveSettingsRecentFiles(QSettings & cSettings) {
+
+    cSettings.remove("recent");
+    cSettings.setValue("recent/maximum", d->m_nMaximumRecentAtlasFiles);
+    cSettings.setValue("recent/folder", d->m_sRecentAtlasFolder);
+
+    int nFileIndex = 0;
+    for (auto const & sFilename : d->m_cRecentAtlasFiles){
+        cSettings.setValue("recent/file-" + QString::number(++nFileIndex), sFilename);
+        if (nFileIndex >= d->m_nMaximumRecentAtlasFiles) {
+            break;
+        }
+    }
+}
+
+
+/**
+ * Save the list of recent atlas files.
+ *
+ * @param   cSettings       settings instance to save to
+ */
+void MainWindow::saveSettingsWindow(QSettings & cSettings) {
+    cSettings.setValue("geometry", saveGeometry());
+    cSettings.setValue("windowState", saveState());
 }
 
 
@@ -343,12 +413,14 @@ void MainWindow::setupDialogs() {
     d->m_cDlgLoad->setNameFilters(cFileNameFilters);
     d->m_cDlgLoad->setAcceptMode(QFileDialog::AcceptOpen);
     d->m_cDlgLoad->setWindowTitle(tr("Load Atlas file"));
+    d->m_cDlgLoad->setDirectory(d->m_sRecentAtlasFolder);
 
     d->m_cDlgSaveAs = new QFileDialog(this);
     d->m_cDlgSaveAs->setFileMode(QFileDialog::AnyFile);
     d->m_cDlgSaveAs->setNameFilters(cFileNameFilters);
     d->m_cDlgSaveAs->setAcceptMode(QFileDialog::AcceptSave);
     d->m_cDlgSaveAs->setWindowTitle(tr("Save Atlas file"));
+    d->m_cDlgSaveAs->setDirectory(d->m_sRecentAtlasFolder);
 }
 
 

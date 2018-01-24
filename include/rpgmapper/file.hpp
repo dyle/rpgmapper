@@ -90,10 +90,34 @@ public:
      * @param   cLog            log of operations done
      * @return  true, for success
      */
-    bool save(QString sFileName, QStringList & cLog) const;
+    bool save(QString sFileName, QStringList & cLog);
 
 
 private:
+
+
+    /**
+     * Get the file name to save.
+     * If the given filename is set, the we remember this one in
+     * future calls. If the given filename is empty, this method
+     * places the once remembered filename in the given parameter.
+     *
+     * @param   sFileName   will be the new filename to save
+     * @return  true, if we have a valid filename
+     */
+    bool acquireFileName(QString & sFileName);
+
+
+    /**
+     * Gather the internal atlas file.
+     */
+    void collectAtlasFile();
+
+
+    /**
+     * Collect all necessary internal files.
+     */
+    void collectInternalFiles();
 
 
     std::map<QString, QByteArray> m_cFiles;         /**< Data hold by this file. */

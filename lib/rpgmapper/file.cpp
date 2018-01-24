@@ -21,17 +21,64 @@
 // ------------------------------------------------------------
 // incs
 
+#include <QJsonDocument>
+
 #include <quazip/quazip.h>
 #include <quazip/quazipfile.h>
 
 // rpgmapper
-#include <rpgmapper/file.hpp>
+#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/controller.hpp>
+#include <rpgmapper/types.hpp>
+
 
 using namespace rpgmapper::model;
 
 
 // ------------------------------------------------------------
 // code
+
+
+/**
+ * Get the file name to save.
+ * If the given filename is set, the we remember this one in
+ * future calls. If the given filename is empty, this method
+ * places the once remembered filename in the given parameter.
+ *
+ * @param   sFileName   will be the new filename to save
+ * @return  true, if we have a valid filename
+ */
+bool File::acquireFileName(QString & sFileName) {
+
+    if (!sFileName.isEmpty()) {
+        m_sFileName = sFileName;
+    }
+    else {
+        sFileName = m_sFileName;
+    }
+
+    return !sFileName.isEmpty();
+}
+
+
+/**
+ * Gather the internal atlas file.
+ */
+void File::collectAtlasFile() {
+    QJsonObject cJSONAtlas;
+    Controller::instance().atlas()->save(cJSONAtlas);
+    QJsonDocument cJSONDoc(cJSONAtlas);
+    m_cFiles["atlas.json"] = cJSONDoc.toJson(QJsonDocument::Compact);
+}
+
+
+/**
+ * Collect all necessary internal files.
+ */
+void File::collectInternalFiles() {
+    m_cFiles.clear();
+    collectAtlasFile();
+}
 
 
 /**
@@ -44,15 +91,10 @@ using namespace rpgmapper::model;
 bool File::load(QString sFileName, QStringList & cLog) {
 
     cLog.clear();
-    if (sFileName.isEmpty()) {
-        cLog.append("Given file name is empty, reusing most recent one.");
-        sFileName = filename();
-    }
-    if (sFileName.isEmpty()) {
+    if (!acquireFileName(sFileName)) {
         cLog.append("File name is empty. Don't know what to load.");
         return false;
     }
-    m_sFileName = sFileName;
 
     QuaZip cQuaZip;
     cQuaZip.setZipName(sFileName);
@@ -97,18 +139,15 @@ bool File::load(QString sFileName, QStringList & cLog) {
  * @param   cLog            log of operations done
  * @return  true, for success
  */
-bool File:: save(QString sFileName, QStringList & cLog) const {
+bool File:: save(QString sFileName, QStringList & cLog) {
 
     cLog.clear();
-    if (sFileName.isEmpty()) {
-        cLog.append("Given file name is empty, reusing most recent one.");
-        sFileName = filename();
-    }
-    if (sFileName.isEmpty()) {
-        cLog.append("File name is empty. Don't know how to save.");
+    if (!acquireFileName(sFileName)) {
+        cLog.append("File name is empty. Don't know what to load.");
         return false;
     }
-    m_sFileName = sFileName;
+
+    collectInternalFiles();
 
     QuaZip cQuaZip;
     cQuaZip.setZipName(sFileName);
@@ -128,6 +167,7 @@ bool File:: save(QString sFileName, QStringList & cLog) const {
             cLog.append("Filed to write sub file '" + zf.getActualFileName() + "'.");
             return false;
         }
+
         zf.write(cEntry.second.data(), cEntry.second.size());
     }
 

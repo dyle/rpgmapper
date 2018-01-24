@@ -62,7 +62,7 @@ public:
      *
      * @return  the most recent filename
      */
-    QString const & filename() const { return  m_sFileName; }
+    QString const & filename() const { return m_sFileName; }
 
 
     /**
@@ -98,11 +98,11 @@ private:
 
     /**
      * Get the file name to save.
-     * If the given filename is set, the we remember this one in
+     * If the given filename is set, then we remember this one in
      * future calls. If the given filename is empty, this method
-     * places the once remembered filename in the given parameter.
+     * places the once remembered filename in the passed parameter.
      *
-     * @param   sFileName   will be the new filename to save
+     * @param   sFileName   will be the new filename to save/load
      * @return  true, if we have a valid filename
      */
     bool acquireFileName(QString & sFileName);

@@ -128,6 +128,8 @@ bool File::load(QString sFileName, QStringList & cLog) {
     cQuaZip.close();
     cLog.append("File '" + sFileName + "' loaded.");
 
+    Controller::instance().atlas()->modified(false);
+
     return true;
 }
 
@@ -173,6 +175,8 @@ bool File:: save(QString sFileName, QStringList & cLog) {
 
     cQuaZip.close();
     cLog.append("File '" + sFileName + "' saved.");
+
+    Controller::instance().atlas()->modified(false);
 
     return true;
 }

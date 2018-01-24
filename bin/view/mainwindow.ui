@@ -77,7 +77,6 @@
       <string>Open &amp;recent ...</string>
      </property>
      <addaction name="acRecentListClear"/>
-     <addaction name="separator"/>
     </widget>
     <addaction name="acNew"/>
     <addaction name="acOpen"/>
@@ -394,7 +393,7 @@
      <normaloff>:/icons/gfx/help-content.png</normaloff>:/icons/gfx/help-content.png</iconset>
    </property>
    <property name="text">
-    <string>Help</string>
+    <string>&amp;Help</string>
    </property>
   </action>
  </widget>

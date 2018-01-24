@@ -143,6 +143,12 @@ private:
 
 
     /**
+     * Empties the sub menu of recent files, but the "Clear List" action.
+     */
+    void clearRecentFileActions();
+
+
+    /**
      * Connects all action signals for this MainWindow.
      */
     void connectActions();

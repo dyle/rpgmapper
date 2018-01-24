@@ -28,7 +28,6 @@
 #include <QCloseEvent>
 #include <QDesktopWidget>
 #include <QFileDialog>
-#include <QFileInfo>
 #include <QInputDialog>
 
 // rpgmapper
@@ -66,7 +65,7 @@ public:
     QStringList m_cRecentAtlasFiles;                    /**< Recently loaded atlas files. */
     QString m_sRecentAtlasFolder;                       /**< Folder location of last recent atlas files. */
     int m_nMaximumRecentAtlasFiles = 10;                /**< Number of recent files should be remembered. */
-    std::list<QAction *> m_cRecentFileActions;          /**< List of recent file actions. */
+    QList<QAction *> m_cRecentFileActions;              /**< List of recent file actions. */
 
     AboutDialog * m_cDlgAbout = nullptr;                /**< About RPGMapper dialog. */
     QFileDialog * m_cDlgLoad = nullptr;                 /**< Load file dialog. */
@@ -167,6 +166,23 @@ void MainWindow::changedAtlas() {
 
 
 /**
+ * Empties the sub menu of recent files, but the "Clear List" action.
+ */
+void MainWindow::clearRecentFileActions() {
+
+    for (auto & cAction : d->ui->mnOpenRecent->actions()) {
+        if (cAction != d->ui->acRecentListClear) {
+            d->ui->mnOpenRecent->removeAction(cAction);
+        }
+    }
+    for (auto & cAction : d->m_cRecentFileActions) {
+        cAction->deleteLater();
+    }
+    d->m_cRecentFileActions.clear();
+}
+
+
+/**
  * Clear list of recent files.
  */
 void MainWindow::clearListOfRecentFiles() {
@@ -215,10 +231,7 @@ void MainWindow::connectActions() {
  */
 void MainWindow::createRecentFileActions() {
 
-    for (auto & cAction: d->m_cRecentFileActions) {
-        delete cAction;
-    }
-    d->m_cRecentFileActions.clear();
+    clearRecentFileActions();
 
     for (auto const & sFileName: d->m_cRecentAtlasFiles) {
 
@@ -228,8 +241,11 @@ void MainWindow::createRecentFileActions() {
         connect(cRecentFileAction, &QAction::triggered, this, &MainWindow::loadRecentFile);
 
         d->m_cRecentFileActions.push_back(cRecentFileAction);
-        d->ui->mnOpenRecent->addAction(cRecentFileAction);
     }
+
+    d->ui->mnOpenRecent->insertActions(d->ui->acRecentListClear, d->m_cRecentFileActions);
+    d->ui->mnOpenRecent->insertSeparator(d->ui->acRecentListClear);
+
     enableActions();
 }
 

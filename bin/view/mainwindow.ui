@@ -98,12 +98,15 @@
     <property name="title">
      <string>&amp;Edit</string>
     </property>
+    <addaction name="acNewRegion"/>
+    <addaction name="acRegionProperties"/>
+    <addaction name="acDeleteRegion"/>
     <addaction name="separator"/>
     <addaction name="acNewMap"/>
+    <addaction name="acMapProperties"/>
     <addaction name="acOpenMap"/>
     <addaction name="acCloseMap"/>
     <addaction name="acDeleteMap"/>
-    <addaction name="acMapProperties"/>
    </widget>
    <addaction name="mnFile"/>
    <addaction name="mnEdit"/>
@@ -398,6 +401,35 @@
    </property>
    <property name="text">
     <string>&amp;Help</string>
+   </property>
+  </action>
+  <action name="acNewRegion">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/region-new.png</normaloff>:/icons/gfx/region-new.png</iconset>
+   </property>
+   <property name="text">
+    <string>New Region</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new region on the atlas</string>
+   </property>
+  </action>
+  <action name="acRegionProperties">
+   <property name="text">
+    <string>Region Properties</string>
+   </property>
+  </action>
+  <action name="acDeleteRegion">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/region-delete.png</normaloff>:/icons/gfx/region-delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete Region</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete the current region from the atlas</string>
    </property>
   </action>
  </widget>

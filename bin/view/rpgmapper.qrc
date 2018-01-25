@@ -1,5 +1,12 @@
 <RCC>
   <qresource prefix="icons">
+    <file>gfx/shift-right.png</file>
+    <file>gfx/shift-left.png</file>
+    <file>gfx/region.png</file>
+    <file>gfx/region-new.png</file>
+    <file>gfx/region-delete.png</file>
+    <file>gfx/shift-down.png</file>
+    <file>gfx/shift-down.png</file>
     <file>gfx/clear.png</file>
     <file>gfx/help-about.png</file>
     <file>gfx/help-content.png</file>

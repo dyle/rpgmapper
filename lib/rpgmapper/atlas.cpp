@@ -22,7 +22,6 @@
 // incs
 
 #include <cassert>
-#include <iostream>
 
 #include <QDebug>
 #include <QJsonArray>
@@ -132,8 +131,12 @@ void Atlas::clear() {
  * @return  a reference to the new map
  */
 MapPointer Atlas::createMap() {
+
     auto cMap = Map::create(this);
+    connect(cMap.data(), &Map::changed, this, &Atlas::changed);
     connect(cMap.data(), &Map::changedId, this, &Atlas::changedMapId);
+    connect(cMap.data(), &Map::changed, this, &Atlas::mapChanged);
+
     d->m_cMaps.insert(std::make_pair(cMap->id(), cMap));
     return cMap;
 }
@@ -145,8 +148,12 @@ MapPointer Atlas::createMap() {
  * @return  a reference to the new region
  */
 RegionPointer Atlas::createRegion() {
+
     auto cRegion = Region::create(this);
+    connect(cRegion.data(), &Map::changed, this, &Atlas::changed);
     connect(cRegion.data(), &Region::changedId, this, &Atlas::changedRegionId);
+    connect(cRegion.data(), &Region::changed, this, &Atlas::regionChanged);
+
     d->m_cRegions.insert(std::make_pair(cRegion->id(), cRegion));
     return cRegion;
 }
@@ -196,6 +203,17 @@ void Atlas::load(QJsonObject const & cJSON) {
     }
 
     modified(false);
+}
+
+
+/**
+ * A map has changed.
+ */
+void Atlas::mapChanged() {
+    auto cMap = dynamic_cast<Map *>(sender());
+    if (cMap != nullptr) {
+        emit changedMap(cMap->id());
+    }
 }
 
 
@@ -261,6 +279,17 @@ void Atlas::modified(bool bModified) {
         std::for_each(regions().begin(),
                       regions().end(),
                       [&] (Regions::value_type & cPair) { cPair.second->modified(bModified); });
+    }
+}
+
+
+/**
+ * A region has changed.
+ */
+void Atlas::regionChanged() {
+    auto cRegion = dynamic_cast<Region *>(sender());
+    if (cRegion != nullptr) {
+        emit changedRegion(cRegion->id());
     }
 }
 

@@ -164,7 +164,7 @@ private slots:
      *
      * @param   nOldId      the old id
      */
-    void changedMapId(mapid_t nOldId);
+    void changedMapId(rpgmapper::model::mapid_t nOldId);
 
 
     /**
@@ -172,7 +172,38 @@ private slots:
      *
      * @param   nOldId      the old id
      */
-    void changedRegionId(regionid_t nOldId);
+    void changedRegionId(rpgmapper::model::regionid_t nOldId);
+
+
+    /**
+     * A map has changed.
+     */
+    void mapChanged();
+
+
+    /**
+     * A region has changed.
+     */
+    void regionChanged();
+
+
+signals:
+
+
+    /**
+     * A map has changed some info.
+     *
+     * @param   nMapId          the id of the map changed
+     */
+    void changedMap(rpgmapper::model::mapid_t nMapId);
+
+
+    /**
+     * A region has changed some info.
+     *
+     * @param   nRegionId       the id of the region changed
+     */
+    void changedRegion(rpgmapper::model::regionid_t nRegionId);
 
 
 private:

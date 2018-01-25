@@ -33,18 +33,15 @@ qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
 
 set(RPGMAPPER_LIB_SRC
 
-    ${CMAKE_SOURCE_DIR}/include/rpgmapper/common_macros.h
-    ${CMAKE_SOURCE_DIR}/include/rpgmapper/types.hpp
-
-    atlas.cpp               ${CMAKE_SOURCE_DIR}/include/rpgmapper/atlas.hpp
-    changeable.cpp          ${CMAKE_SOURCE_DIR}/include/rpgmapper/changeable.hpp
-    controller.cpp          ${CMAKE_SOURCE_DIR}/include/rpgmapper/controller.hpp
-    field.cpp               ${CMAKE_SOURCE_DIR}/include/rpgmapper/field.hpp
-    file.cpp                ${CMAKE_SOURCE_DIR}/include/rpgmapper/file.hpp
-    layer.cpp               ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer.hpp
-    map.cpp                 ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
-    nameable.cpp            ${CMAKE_SOURCE_DIR}/include/rpgmapper/nameable.hpp
-    region.cpp              ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
+    atlas.cpp
+    changeable.cpp
+    controller.cpp
+    field.cpp
+    file.cpp
+    layer.cpp
+    map.cpp
+    nameable.cpp
+    region.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

@@ -52,13 +52,13 @@ set(RPGMAPPER_SRC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/common_macros.h
 
     main.cpp
-    view/aboutdialog.cpp                view/aboutdialog.hpp
-    view/logdialog.cpp                  view/logdialog.hpp
-    view/mainwindow.cpp                 view/mainwindow.hpp
-    view/mapscrollarea.cpp              view/mapscrollarea.hpp
-    view/maptabwidget.cpp               view/maptabwidget.hpp
-    view/mapwidget.cpp                  view/mapwidget.hpp
-    view/structuraltreewidget.cpp       view/structuraltreewidget.hpp
+    view/aboutdialog.cpp
+    view/logdialog.cpp
+    view/mainwindow.cpp
+    view/mapscrollarea.cpp
+    view/maptabwidget.cpp
+    view/mapwidget.cpp
+    view/structuraltreewidget.cpp
 )
 
 # bin definition

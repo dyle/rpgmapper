@@ -30,6 +30,9 @@
 #include <QMainWindow>
 #include <QSettings>
 
+// rpgmapper
+#include <rpgmapper/types.hpp>
+
 
 // ------------------------------------------------------------
 // decl
@@ -64,6 +67,14 @@ public slots:
      * Let the user edit the properties of the current atlas.
      */
     void editAtlasProperties();
+
+
+    /**
+     * Let the user edit the properties of a region.
+     *
+     * @param   nRegionId       id of the region double clicked
+     */
+    void editRegionProperties(rpgmapper::model::regionid_t nRegionId);
 
 
     /**

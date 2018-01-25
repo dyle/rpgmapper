@@ -21,8 +21,6 @@
 // ------------------------------------------------------------
 // incs
 
-#include <iostream>
-
 // Qt
 #include <QApplication>
 #include <QCloseEvent>
@@ -223,6 +221,7 @@ void MainWindow::connectActions() {
     connect(d->ui->acSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
 
     connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedAtlas, this, &MainWindow::editAtlasProperties);
+    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedRegion, this, &MainWindow::editRegionProperties);
     connect(d->ui->twAtlas, &StructuralTreeWidget::selectedMap, d->ui->tabMap, &MapTabWidget::selectMap);
 }
 
@@ -268,6 +267,30 @@ void MainWindow::editAtlasProperties() {
         return;
     }
     Controller::instance().atlas()->name(sAtlasName);
+}
+
+
+/**
+ * Let the user edit the properties of a region.
+ *
+ * @param   nRegionId       id of the region double clicked
+ */
+void MainWindow::editRegionProperties(rpgmapper::model::regionid_t nRegionId) {
+
+    bool bChange = false;
+    auto cRegion = Controller::instance().atlas()->regions()[nRegionId];
+
+    auto sRegionName = QInputDialog::getText(this,
+                                             tr("Region Properties"),
+                                             tr("New name of region:"),
+                                             QLineEdit::Normal,
+                                             cRegion->name(),
+                                             &bChange);
+
+    if (!bChange || sRegionName.isEmpty()) {
+        return;
+    }
+    cRegion->name(sRegionName);
 }
 
 

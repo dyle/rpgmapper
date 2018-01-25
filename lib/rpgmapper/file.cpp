@@ -21,8 +21,6 @@
 // ------------------------------------------------------------
 // incs
 
-#include <iostream>
-
 #include <QJsonDocument>
 
 #include <quazip/quazip.h>
@@ -80,7 +78,6 @@ void File::collectAtlasFile() {
 void File::extractAtlasFile() {
     auto cJSONDoc = QJsonDocument::fromJson(m_cFiles["atlas.json"]);
     Controller::instance().atlas()->load(cJSONDoc.object());
-    std::cout << "Name: " << Controller::instance().atlas()->name().toStdString() << std::endl;
 }
 
 

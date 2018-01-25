@@ -63,6 +63,28 @@ public slots:
 
 
     /**
+     * The atlas has changed.
+     */
+    void changedAtlas();
+
+
+    /**
+     * A map changed.
+     *
+     * @param   nMapId          id of the map changed
+     */
+    void changedMap(rpgmapper::model::mapid_t nMapId);
+
+
+    /**
+     * A region changed.
+     *
+     * @param   nRegionId       id of the region changed
+     */
+    void changedRegion(rpgmapper::model::regionid_t nRegionId);
+
+
+    /**
      * Selects the first available Map in the structure.
      */
     void selectFirstMap();
@@ -75,12 +97,6 @@ public slots:
 
 
 private slots:
-
-
-    /**
-     * The atlas has changed.
-     */
-    void changedAtlas();
 
 
     /**
@@ -122,7 +138,7 @@ signals:
      *
      * @param   nRegionId       id of the region double clicked
      */
-    void doubleClickedRegion(rpgmapper::model::regionid_t nMapId);
+    void doubleClickedRegion(rpgmapper::model::regionid_t nRegionId);
 
 
     /**
@@ -145,6 +161,8 @@ signals:
      * @param   nRegionId   id of the newly selected region
      */
     void selectedRegion(rpgmapper::model::regionid_t cRegionId);
+
+
 };
 
 

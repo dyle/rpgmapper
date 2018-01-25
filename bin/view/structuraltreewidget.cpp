@@ -21,7 +21,6 @@
 // ------------------------------------------------------------
 // incs
 
-#include <iostream>
 #include <QPixmapCache>
 
 // rpgmapper
@@ -87,6 +86,17 @@ static QTreeWidgetItem * appendStructureRegion(QTreeWidgetItem * cTWAtlas, Regio
 
 
 /**
+ * Find a specific item with values in column 1 and column 2
+ *
+ * @param   cItem           the item to start with
+ * @param   sColumn1        value of column 1
+ * @param   sColumn2        value of column 2
+ * @return  the item or nullptr if not found
+ */
+static QTreeWidgetItem * findItem(QTreeWidgetItem * cItem, QString const & sColumn1, QString const & sColumn2);
+
+
+/**
  * Extracts the info of an tree widget item into a info struct.
  *
  * @param   cItem           the tree widget item
@@ -109,7 +119,13 @@ StructuralTreeWidget::StructuralTreeWidget(QWidget * cParent) : QTreeWidget{cPar
 
     connect(this, &QTreeWidget::currentItemChanged, this, &StructuralTreeWidget::changedCurrentItem);
     connect(this, &QTreeWidget::itemDoubleClicked, this, &StructuralTreeWidget::doubleClickedItem);
-    connect(Controller::instance().atlas().data(), &Atlas::changed, this, &StructuralTreeWidget::changedAtlas);
+
+    connect(Controller::instance().atlas().data(), &Atlas::changed,
+            this, &StructuralTreeWidget::changedAtlas);
+    connect(Controller::instance().atlas().data(), &Atlas::changedMap,
+            this, &StructuralTreeWidget::changedMap);
+    connect(Controller::instance().atlas().data(), &Atlas::changedRegion,
+            this, &StructuralTreeWidget::changedRegion);
 }
 
 
@@ -147,6 +163,40 @@ void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * cCurrent) {
         case region:
             emit selectedRegion(cItemInfo.nRegionId);
             break;
+    }
+}
+
+
+/**
+ * A map changed.
+ *
+ * @param   nMapId          id of the map changed
+ */
+void StructuralTreeWidget::changedMap(rpgmapper::model::mapid_t nMapId) {
+
+    auto cMap = Controller::instance().atlas()->maps()[nMapId];
+    if (cMap != nullptr) {
+        auto cMapItem = findItem(topLevelItem(0), "region", QString::number(nMapId));
+        if (cMapItem != nullptr) {
+            cMapItem->setText(0, cMap->name());
+        }
+    }
+}
+
+
+/**
+ * A region changed.
+ *
+ * @param   nRegionId       id of the region changed
+ */
+void StructuralTreeWidget::changedRegion(rpgmapper::model::regionid_t nRegionId) {
+
+    auto cRegion = Controller::instance().atlas()->regions()[nRegionId];
+    if (cRegion != nullptr) {
+        auto cRegionItem = findItem(topLevelItem(0), "region", QString::number(nRegionId));
+        if (cRegionItem != nullptr) {
+            cRegionItem->setText(0, cRegion->name());
+        }
     }
 }
 
@@ -292,6 +342,33 @@ QTreeWidgetItem * appendStructureRegion(QTreeWidgetItem * cTWAtlas, RegionPointe
         cTWMap->setExpanded(true);
     }
     return cTWRegionItem;
+}
+
+
+/**
+ * Find a specific item with values in column 1 and column 2
+ *
+ * @param   cItem           the item to start with
+ * @param   sColumn1        value of column 1
+ * @param   sColumn2        value of column 2
+ * @return  the item or nullptr if not found
+ */
+QTreeWidgetItem * findItem(QTreeWidgetItem * cItem, QString const & sColumn1, QString const & sColumn2) {
+
+    if (cItem == nullptr) {
+        return nullptr;
+    }
+
+    if ((cItem->text(1) == sColumn1) && (cItem->text(2) == sColumn2)) {
+        return cItem;
+    }
+
+    QTreeWidgetItem * res = nullptr;
+    for (int i = 0; (i < cItem->childCount()) && (res == nullptr); ++i) {
+        res = findItem(cItem->child(i), sColumn1, sColumn2);
+    }
+
+    return res;
 }
 
 

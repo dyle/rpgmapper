@@ -29,8 +29,6 @@
 // ------------------------------------------------------------
 // incs
 
-#include <iostream>
-
 #include <QPainter>
 
 // rpgmapper
@@ -79,11 +77,8 @@ public:
 MapWidget::MapWidget(QWidget * cParent, MapPointer & cMap) : QWidget{cParent} {
 
     d = std::make_shared<MapWidget::MapView_data>();
-
     d->m_cMap = cMap;
-
     connect(d->m_cMap.data(), &Map::changedSize, this, &MapWidget::changedMap);
-
     changedMap();
 }
 

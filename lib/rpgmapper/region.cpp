@@ -22,6 +22,7 @@
 // incs
 
 #include <set>
+
 #include <QDebug>
 #include <QJsonArray>
 
@@ -193,6 +194,16 @@ void Region::load(QJsonObject const & cJSON) {
         orderValue(cJSON["orderValue"].toInt());
     }
 
+    if (cJSON.contains("maps") && cJSON["maps"].isArray()) {
+
+        QJsonArray cJSONMaps = cJSON["maps"].toArray();
+        for (auto && cJSONMapId : cJSONMaps) {
+            if (cJSONMapId.isDouble()) {
+                d->m_cMaps.insert(cJSONMapId.toInt());
+            }
+        }
+    }
+
     if (nId != id()) {
         emit changedId(nId);
     }
@@ -251,6 +262,12 @@ void Region::save(QJsonObject & cJSON) const {
 
     cJSON["id"] = id();
     cJSON["orderValue"] = orderValue();
+
+    QJsonArray cJSONMaps;
+    for (auto nMapId: d->m_cMaps) {
+        cJSONMaps.append(nMapId);
+    }
+    cJSON["maps"] = cJSONMaps;
 }
 
 

@@ -92,3 +92,40 @@ Controller & Controller::instance() {
     static Controller cController;
     return cController;
 }
+
+
+/**
+ * Load an atlas file, reset data.
+ *
+ * @param   sFileName       name of the file to load
+ * @param   cLog            log of operations done
+ * @return  true, for success
+ */
+bool Controller::load(QString sFileName, QStringList & cLog) {
+
+    File cFile;
+    bool bLoaded = cFile.load(sFileName, cLog);
+    if (bLoaded) {
+        file() = cFile;
+        file().extractAtlasFile();
+        atlas()->modified(false);
+    }
+
+    return bLoaded;
+}
+
+
+/**
+ * Save an atlas file.
+ *
+ * @param   sFileName       name of the file to save
+ * @param   cLog            log of operations done
+ * @return  true, for success
+ */
+bool Controller::save(QString sFileName, QStringList & cLog) {
+    bool bSaved = file().save(sFileName, cLog);
+    if (bSaved) {
+        atlas()->modified(false);
+    }
+    return bSaved;
+}

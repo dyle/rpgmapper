@@ -161,7 +161,6 @@ void MainWindow::changedAtlas() {
 
     auto cAtlas = Controller::instance().atlas();
     QString sModifiedMarker = cAtlas->modified() ? "*" : "";
-
     QString sTitle = cAtlas->name() + sModifiedMarker + " - RPGMapper V" + VERSION;
     setWindowTitle(sTitle);
 }
@@ -286,7 +285,34 @@ void MainWindow::enableActions() {
  * Load an atlas.
  */
 void MainWindow::load() {
-    d->m_cDlgLoad->exec();
+
+    auto nAnswer = d->m_cDlgLoad->exec();
+    if ((nAnswer == 0) || d->m_cDlgSaveAs->selectedFiles().empty()) {
+        return;
+    }
+    loadAtlas(d->m_cDlgLoad->selectedFiles().first());
+}
+
+
+/**
+ * Load an atlas from a file.
+ *
+ * @param   sFileName       the file to load
+ */
+void MainWindow::loadAtlas(QString const & sFileName) {
+
+    QStringList cLoadLog;
+    if (!Controller::instance().load(sFileName, cLoadLog)) {
+        d->m_cDlgLog->setWindowTitle(tr("Load atlas failure"));
+        d->m_cDlgLog->clear();
+        d->m_cDlgLog->setMessage(tr("Failed to load atlas file."));
+        d->m_cDlgLog->setLog(cLoadLog);
+        d->m_cDlgLog->exec();
+    }
+    else {
+        addRecentFileName(Controller::instance().file().filename());
+        resetAtlas();
+    }
 }
 
 
@@ -302,8 +328,7 @@ void MainWindow::loadRecentFile() {
 
     // we could use cAction->text(). However, Qt automagically adds
     // the shortcut literal '&' to the text, disturbing the file name.
-    UNUSED QString sFileToLoad = cAction->objectName();
-    // TODO: load file
+    loadAtlas(cAction->objectName());
 }
 
 
@@ -341,6 +366,15 @@ void MainWindow::loadSettings() {
 
 
 /**
+ * Reapply the atlas to teh whole view.
+ */
+void MainWindow::resetAtlas() {
+    changedAtlas();
+    d->ui->twAtlas->resetStructure();
+}
+
+
+/**
  * Save the atlas.
  */
 void MainWindow::save() {
@@ -358,7 +392,8 @@ void MainWindow::save() {
  */
 void MainWindow::saveAs() {
 
-    if ((d->m_cDlgSaveAs->exec() != QDialog::Accepted) || d->m_cDlgSaveAs->selectedFiles().empty()) {
+    auto nAnswer = d->m_cDlgSaveAs->exec();
+    if ((nAnswer == 0) || d->m_cDlgSaveAs->selectedFiles().empty()) {
         return;
     }
     saveAtlas(d->m_cDlgSaveAs->selectedFiles().first());
@@ -373,7 +408,7 @@ void MainWindow::saveAs() {
 void MainWindow::saveAtlas(QString const & sFileName) {
 
     QStringList cSaveLog;
-    if (!Controller::instance().file().save(sFileName, cSaveLog)) {
+    if (!Controller::instance().save(sFileName, cSaveLog)) {
         d->m_cDlgLog->setWindowTitle(tr("Save atlas failure"));
         d->m_cDlgLog->clear();
         d->m_cDlgLog->setMessage(tr("Failed to save atlas file."));

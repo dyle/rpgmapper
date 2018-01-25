@@ -74,6 +74,12 @@ public slots:
     void enableActions();
 
 
+    /**
+     * Reapply the atlas to teh whole view.
+     */
+    void resetAtlas();
+
+
 protected:
 
 
@@ -158,6 +164,14 @@ private:
      * Create list of recent file menu actions.
      */
     void createRecentFileActions();
+
+
+    /**
+     * Load an atlas from a file.
+     *
+     * @param   sFileName       the file to load
+     */
+    void loadAtlas(QString const & sFileName);
 
 
     /**

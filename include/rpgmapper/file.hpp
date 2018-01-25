@@ -40,12 +40,18 @@ namespace rpgmapper {
 namespace model {
 
 
+class Controller;
+
+
 /**
  * This is the class managing rpgmapper files.
  *
  * Actually it is a mere wrapper around working on gzipped tarballs.
  */
 class File {
+
+
+    friend class rpgmapper::model::Controller;
 
 
 public:
@@ -73,26 +79,6 @@ public:
     std::map<QString, QByteArray> & files() { return m_cFiles; }
 
 
-    /**
-     * Load a file, reset data.
-     *
-     * @param   sFileName       name of the file to load
-     * @param   cLog            log of operations done
-     * @return  true, for success
-     */
-    bool load(QString sFileName, QStringList & cLog);
-
-
-    /**
-     * Save all internal files into a single file.
-     *
-     * @param   sFileName       name of the file to save
-     * @param   cLog            log of operations done
-     * @return  true, for success
-     */
-    bool save(QString sFileName, QStringList & cLog);
-
-
 private:
 
 
@@ -115,13 +101,33 @@ private:
 
 
     /**
-     * Collect all necessary internal files.
+     * Extract the atlas file and apply it to the controller atlas instance.
      */
-    void collectInternalFiles();
+    void extractAtlasFile();
+
+
+    /**
+     * Load a file, reset data.
+     *
+     * @param   sFileName       name of the file to load
+     * @param   cLog            log of operations done
+     * @return  true, for success
+     */
+    bool load(QString & sFileName, QStringList & cLog);
+
+
+    /**
+     * Save all internal files into a single file.
+     *
+     * @param   sFileName       name of the file to save
+     * @param   cLog            log of operations done
+     * @return  true, for success
+     */
+    bool save(QString & sFileName, QStringList & cLog);
 
 
     std::map<QString, QByteArray> m_cFiles;         /**< Data hold by this file. */
-    mutable QString m_sFileName;                    /**< Most recent filename used (either load or save). */
+    QString m_sFileName;                            /**< Most recent filename used (either load or save). */
 };
 
 

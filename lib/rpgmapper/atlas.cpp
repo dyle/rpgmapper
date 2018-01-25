@@ -21,6 +21,9 @@
 // ------------------------------------------------------------
 // incs
 
+#include <cassert>
+#include <iostream>
+
 #include <QDebug>
 #include <QJsonArray>
 #include <QTextCodec>
@@ -82,7 +85,15 @@ Atlas::Atlas(QObject * cParent) : Nameable{cParent} {
  * @param   nOldId      the old id
  */
 void Atlas::changedMapId(mapid_t nOldId) {
-    qDebug() << "TODO: Changed Map Id from " << nOldId;
+
+    auto cMap = dynamic_cast<Map *>(sender());
+    assert(cMap != nullptr);
+    assert(d->m_cMaps.find(cMap->id()) == d->m_cMaps.end());
+    auto iter = d->m_cMaps.find(nOldId);
+    assert(iter != d->m_cMaps.end());
+
+    d->m_cMaps[cMap->id()] = (*iter).second;
+    d->m_cMaps.erase(nOldId);
 }
 
 
@@ -92,7 +103,15 @@ void Atlas::changedMapId(mapid_t nOldId) {
  * @param   nOldId      the old id
  */
 void Atlas::changedRegionId(regionid_t nOldId) {
-    qDebug() << "TODO: Changed Region Id from " << nOldId;
+    
+    auto cRegion = dynamic_cast<Region *>(sender());
+    assert(cRegion != nullptr);
+    assert(d->m_cRegions.find(cRegion->id()) == d->m_cRegions.end());
+    auto iter = d->m_cRegions.find(nOldId);
+    assert(iter != d->m_cRegions.end());
+
+    d->m_cRegions[cRegion->id()] = (*iter).second;
+    d->m_cRegions.erase(nOldId);
 }
 
 
@@ -158,21 +177,21 @@ void Atlas::load(QJsonObject const & cJSON) {
 
     Nameable::load(cJSON);
 
-    if (cJSON.contains("regions") && cJSON["regions"].isArray()) {
-
-        QJsonArray cJSONRegions = cJSON["regions"].toArray();
-        for (auto &&cJSONRegion : cJSONRegions) {
-            auto cRegion = createRegion();
-            cRegion->load(cJSONRegion.toObject());
-        }
-    }
-
     if (cJSON.contains("maps") && cJSON["maps"].isArray()) {
 
         QJsonArray cJSONMaps = cJSON["maps"].toArray();
         for (auto && cJSONMap : cJSONMaps) {
             auto cMap = createMap();
             cMap->load(cJSONMap.toObject());
+        }
+    }
+
+    if (cJSON.contains("regions") && cJSON["regions"].isArray()) {
+
+        QJsonArray cJSONRegions = cJSON["regions"].toArray();
+        for (auto &&cJSONRegion : cJSONRegions) {
+            auto cRegion = createRegion();
+            cRegion->load(cJSONRegion.toObject());
         }
     }
 

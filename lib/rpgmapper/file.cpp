@@ -21,6 +21,8 @@
 // ------------------------------------------------------------
 // incs
 
+#include <iostream>
+
 #include <QJsonDocument>
 
 #include <quazip/quazip.h>
@@ -73,11 +75,12 @@ void File::collectAtlasFile() {
 
 
 /**
- * Collect all necessary internal files.
+ * Extract the atlas file and apply it to the controller atlas instance.
  */
-void File::collectInternalFiles() {
-    m_cFiles.clear();
-    collectAtlasFile();
+void File::extractAtlasFile() {
+    auto cJSONDoc = QJsonDocument::fromJson(m_cFiles["atlas.json"]);
+    Controller::instance().atlas()->load(cJSONDoc.object());
+    std::cout << "Name: " << Controller::instance().atlas()->name().toStdString() << std::endl;
 }
 
 
@@ -88,7 +91,7 @@ void File::collectInternalFiles() {
  * @param   cLog            log of operations done
  * @return  true, for success
  */
-bool File::load(QString sFileName, QStringList & cLog) {
+bool File::load(QString & sFileName, QStringList & cLog) {
 
     cLog.clear();
     if (!acquireFileName(sFileName)) {
@@ -128,7 +131,20 @@ bool File::load(QString sFileName, QStringList & cLog) {
     cQuaZip.close();
     cLog.append("File '" + sFileName + "' loaded.");
 
-    Controller::instance().atlas()->modified(false);
+    if (m_cFiles.find("atlas.json") == m_cFiles.end()) {
+        cLog.append("Atlas not found in file. Is this a regular atlas file for RPGMapper?");
+        return false;
+    }
+
+    auto cJSONDoc = QJsonDocument::fromJson(m_cFiles["atlas.json"]);
+    if (cJSONDoc.isNull()) {
+        cLog.append("Contained atlas not a JSON. Corrupted? Unable to load.");
+        return false;
+    }
+    if (!cJSONDoc.isObject()) {
+        cLog.append("Contained atlas not an JSON object. Corrupted? Unable to load.");
+        return false;
+    }
 
     return true;
 }
@@ -141,7 +157,7 @@ bool File::load(QString sFileName, QStringList & cLog) {
  * @param   cLog            log of operations done
  * @return  true, for success
  */
-bool File:: save(QString sFileName, QStringList & cLog) {
+bool File:: save(QString & sFileName, QStringList & cLog) {
 
     cLog.clear();
     if (!acquireFileName(sFileName)) {
@@ -149,7 +165,7 @@ bool File:: save(QString sFileName, QStringList & cLog) {
         return false;
     }
 
-    collectInternalFiles();
+    collectAtlasFile();
 
     QuaZip cQuaZip;
     cQuaZip.setZipName(sFileName);
@@ -175,8 +191,6 @@ bool File:: save(QString sFileName, QStringList & cLog) {
 
     cQuaZip.close();
     cLog.append("File '" + sFileName + "' saved.");
-
-    Controller::instance().atlas()->modified(false);
 
     return true;
 }

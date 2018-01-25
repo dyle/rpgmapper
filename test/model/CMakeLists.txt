@@ -34,12 +34,6 @@ add_executable(test_atlas_json                  ${TEST_ATLAS_JSON_SRC})
 target_link_libraries(test_atlas_json           rpgm  ${CMAKE_REQUIRED_LIBRARIES})
 add_test(model/atlas_json                       test_atlas_json)
 
-# test: File
-set(TEST_FILE_SRC                               test_file.cpp)
-add_executable(test_file                        ${TEST_FILE_SRC})
-target_link_libraries(test_file                 rpgm ${CMAKE_REQUIRED_LIBRARIES})
-add_test(model/file                             test_file)
-
 # test: Field coordinate conversions
 set(TEST_FIELD_COORDINATE_SRC                   test_field_coordinate.cpp)
 add_executable(test_field_coordinate            ${TEST_FIELD_COORDINATE_SRC})

@@ -74,6 +74,26 @@ public:
     static Controller & instance();
 
 
+    /**
+     * Load an atlas file, reset data.
+     *
+     * @param   sFileName       name of the file to load
+     * @param   cLog            log of operations done
+     * @return  true, for success
+     */
+    bool load(QString sFileName, QStringList & cLog);
+
+
+    /**
+     * Save an atlas file.
+     *
+     * @param   sFileName       name of the file to save
+     * @param   cLog            log of operations done
+     * @return  true, for success
+     */
+    bool save(QString sFileName, QStringList & cLog);
+
+
 private:
 
 

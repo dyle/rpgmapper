@@ -94,6 +94,7 @@ void Atlas::changedMapId(mapid_t nOldId) {
     d->m_cMaps[cMap->id()] = (*iter).second;
     d->m_cMaps.erase(nOldId);
 
+    emit newMapId(nOldId, cMap->id());
     emit changedAtlas();
 }
 
@@ -114,6 +115,7 @@ void Atlas::changedRegionId(regionid_t nOldId) {
     d->m_cRegions[cRegion->id()] = (*iter).second;
     d->m_cRegions.erase(nOldId);
 
+    emit newRegionId(nOldId, cRegion->id());
     emit changedAtlas();
 }
 

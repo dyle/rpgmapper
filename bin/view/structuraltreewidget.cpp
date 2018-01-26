@@ -126,6 +126,10 @@ StructuralTreeWidget::StructuralTreeWidget(QWidget * cParent) : QTreeWidget{cPar
             this, &StructuralTreeWidget::changedMapName);
     connect(Controller::instance().atlas().data(), &Atlas::changedRegionName,
             this, &StructuralTreeWidget::changedRegionName);
+    connect(Controller::instance().atlas().data(), &Atlas::newMapId,
+            this, &StructuralTreeWidget::newMapId);
+    connect(Controller::instance().atlas().data(), &Atlas::newRegionId,
+            this, &StructuralTreeWidget::newRegionId);
 }
 
 
@@ -176,7 +180,7 @@ void StructuralTreeWidget::changedMapName(rpgmapper::model::mapid_t nMapId) {
 
     auto cMap = Controller::instance().atlas()->maps()[nMapId];
     if (cMap != nullptr) {
-        auto cMapItem = findItem(topLevelItem(0), "region", QString::number(nMapId));
+        auto cMapItem = findItem(topLevelItem(0), "map", QString::number(nMapId));
         if (cMapItem != nullptr) {
             cMapItem->setText(0, cMap->name());
         }
@@ -227,6 +231,37 @@ void StructuralTreeWidget::doubleClickedItem(QTreeWidgetItem * cItem, UNUSED int
         case region:
             emit doubleClickedRegion(cItemInfo.nRegionId);
             break;
+    }
+}
+
+
+/**
+ * A map has a new id..
+ *
+ * @param   nOldMapId           the old id of the map
+ * @param   nNewMapId           the new id of the map
+ */
+void StructuralTreeWidget::newMapId(rpgmapper::model::mapid_t nOldMapId, rpgmapper::model::mapid_t nNewMapId) {
+
+    auto cMapItem = findItem(topLevelItem(0), "map", QString::number(nOldMapId));
+    if (cMapItem != nullptr) {
+        cMapItem->setText(2, QString::number(nNewMapId));
+    }
+}
+
+
+/**
+ * A region has a new id..
+ *
+ * @param   nOldRegionId        the old id of the map
+ * @param   nNewRegionId        the new id of the map
+ */
+void StructuralTreeWidget::newRegionId(rpgmapper::model::regionid_t nOldRegionId,
+                                       rpgmapper::model::regionid_t nNewRegionId) {
+
+    auto cRegionItem = findItem(topLevelItem(0), "region", QString::number(nOldRegionId));
+    if (cRegionItem != nullptr) {
+        cRegionItem->setText(2, QString::number(nNewRegionId));
     }
 }
 

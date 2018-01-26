@@ -85,6 +85,24 @@ public slots:
 
 
     /**
+     * A map has a new id..
+     *
+     * @param   nOldMapId           the old id of the map
+     * @param   nNewMapId           the new id of the map
+     */
+    void newMapId(rpgmapper::model::mapid_t nOldMapId, rpgmapper::model::mapid_t nNewMapId);
+
+
+    /**
+     * A region has a new id..
+     *
+     * @param   nOldRegionId        the old id of the map
+     * @param   nNewRegionId        the new id of the map
+     */
+    void newRegionId(rpgmapper::model::regionid_t nOldRegionId, rpgmapper::model::regionid_t nNewRegionId);
+
+
+    /**
      * Selects the first available Map in the structure.
      */
     void selectFirstMap();

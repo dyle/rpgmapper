@@ -51,6 +51,9 @@ public:
 
     Maps m_cMaps;                               /**< All the maps managed by this atlas. */
     Regions m_cRegions;                         /**< All the regions managed by this atlas. */
+
+    MapPointer m_cSelectedMap;                  /**< Current map of interest. */
+    RegionPointer m_cSelectedRegion;            /**< Currentr region of interest. */
 };
 
 
@@ -347,3 +350,60 @@ void Atlas::save(QJsonObject & cJSON) const {
     }
     cJSON["maps"] = cJSONMaps;
 }
+
+/**
+ * Returnes the currenty selected Map.
+ *
+ * @return  the map which is currently selected
+ */
+MapPointer Atlas::selectedMap() {
+    return d->m_cSelectedMap;
+}
+
+
+/**
+ * Returns the currently selected Region.
+ *
+ * @return  the region which is currently selected
+ */
+RegionPointer Atlas::selectedRegion() {
+    return d->m_cSelectedRegion;
+}
+
+
+/**
+ * Set a new map as selected.
+ * An invalid id (e.g. -1) will select no map.
+ *
+ * @param   nMapId      the map selected
+ */
+void Atlas::selectMap(rpgmapper::model::mapid_t nMapId) {
+    
+    auto iter = d->m_cMaps.find(nMapId);
+    if (iter != d->m_cMaps.end()) {
+        d->m_cSelectedMap = (*iter).second;
+    }
+    else {
+        d->m_cSelectedMap = nullptr;
+    }
+}
+
+
+/**
+ * Select a new region.
+ * An invalid id (e.g. -1) will select no region.
+ *
+ * @param   nRegionId   the region selected
+ */
+void Atlas::selectRegion(rpgmapper::model::regionid_t nRegionId) {
+
+    auto iter = d->m_cRegions.find(nRegionId);
+    if (iter != d->m_cRegions.end()) {
+        d->m_cSelectedRegion = (*iter).second;
+    }
+    else {
+        d->m_cSelectedRegion = nullptr;
+    }
+}
+
+

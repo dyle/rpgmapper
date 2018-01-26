@@ -156,6 +156,43 @@ public:
     void save(QJsonObject & cJSON) const override;
 
 
+    /**
+     * Returnes the currenty selected Map.
+     *
+     * @return  the map which is currently selected
+     */
+    MapPointer selectedMap();
+
+
+    /**
+     * Returns the currently selected Region.
+     *
+     * @return  the region which is currently selected
+     */
+    RegionPointer selectedRegion();
+
+
+public slots:
+
+
+    /**
+     * Set a new map as selected.
+     * An invalid id (e.g. -1) will select no map.
+     *
+     * @param   nMapId      the map selected
+     */
+    void selectMap(rpgmapper::model::mapid_t nMapId);
+
+
+    /**
+     * Select a new region.
+     * An invalid id (e.g. -1) will select no region.
+     *
+     * @param   nRegionId   the region selected
+     */
+    void selectRegion(rpgmapper::model::regionid_t nRegionId);
+
+
 private slots:
 
 

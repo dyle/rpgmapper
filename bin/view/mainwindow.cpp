@@ -101,7 +101,7 @@ MainWindow::MainWindow() : QMainWindow{} {
     d->ui->twAtlas->resetStructure();
     d->ui->twAtlas->selectFirstMap();
 
-    connect(Controller::instance().atlas().data(), &Atlas::changed, this, &MainWindow::changedAtlas);
+    connect(Controller::instance().atlas().data(), &Atlas::changedAtlas, this, &MainWindow::changedAtlas);
 
     enableActions();
     changedAtlas();

@@ -61,5 +61,4 @@ bool Changeable::modified() const {
  */
 void Changeable::modified(bool bModified) {
     m_bModified = bModified;
-    emit changed();
 }

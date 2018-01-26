@@ -176,34 +176,40 @@ private slots:
 
 
     /**
-     * A map has changed.
+     * A map has changed its name.
      */
-    void mapChanged();
+    void mapChangedName();
 
 
     /**
-     * A region has changed.
+     * A region has changed its name.
      */
-    void regionChanged();
+    void regionChangedName();
 
 
 signals:
 
 
     /**
-     * A map has changed some info.
-     *
-     * @param   nMapId          the id of the map changed
+     * The atlas has been modified.
      */
-    void changedMap(rpgmapper::model::mapid_t nMapId);
+    void changedAtlas();
 
 
     /**
-     * A region has changed some info.
+     * A map has changed its name.
+     *
+     * @param   nMapId          the id of the map changed
+     */
+    void changedMapName(rpgmapper::model::mapid_t nMapId);
+
+
+    /**
+     * A region has changed its name.
      *
      * @param   nRegionId       the id of the region changed
      */
-    void changedRegion(rpgmapper::model::regionid_t nRegionId);
+    void changedRegionName(rpgmapper::model::regionid_t nRegionId);
 
 
 private:

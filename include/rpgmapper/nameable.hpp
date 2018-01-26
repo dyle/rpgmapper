@@ -94,6 +94,15 @@ public:
     virtual void save(QJsonObject & cJSON) const;
 
 
+signals:
+
+
+    /**
+     * The name has changed.
+     */
+    void changedName();
+
+
 private:
 
 

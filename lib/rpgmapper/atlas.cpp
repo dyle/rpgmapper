@@ -93,6 +93,8 @@ void Atlas::changedMapId(mapid_t nOldId) {
 
     d->m_cMaps[cMap->id()] = (*iter).second;
     d->m_cMaps.erase(nOldId);
+
+    emit changedAtlas();
 }
 
 
@@ -111,6 +113,8 @@ void Atlas::changedRegionId(regionid_t nOldId) {
 
     d->m_cRegions[cRegion->id()] = (*iter).second;
     d->m_cRegions.erase(nOldId);
+
+    emit changedAtlas();
 }
 
 
@@ -133,9 +137,8 @@ void Atlas::clear() {
 MapPointer Atlas::createMap() {
 
     auto cMap = Map::create(this);
-    connect(cMap.data(), &Map::changed, this, &Atlas::changed);
     connect(cMap.data(), &Map::changedId, this, &Atlas::changedMapId);
-    connect(cMap.data(), &Map::changed, this, &Atlas::mapChanged);
+    connect(cMap.data(), &Map::changedName, this, &Atlas::mapChangedName);
 
     d->m_cMaps.insert(std::make_pair(cMap->id(), cMap));
     return cMap;
@@ -150,9 +153,8 @@ MapPointer Atlas::createMap() {
 RegionPointer Atlas::createRegion() {
 
     auto cRegion = Region::create(this);
-    connect(cRegion.data(), &Map::changed, this, &Atlas::changed);
     connect(cRegion.data(), &Region::changedId, this, &Atlas::changedRegionId);
-    connect(cRegion.data(), &Region::changed, this, &Atlas::regionChanged);
+    connect(cRegion.data(), &Region::changedName, this, &Atlas::regionChangedName);
 
     d->m_cRegions.insert(std::make_pair(cRegion->id(), cRegion));
     return cRegion;
@@ -207,12 +209,13 @@ void Atlas::load(QJsonObject const & cJSON) {
 
 
 /**
- * A map has changed.
+ * A map has changed its name.
  */
-void Atlas::mapChanged() {
+void Atlas::mapChangedName() {
     auto cMap = dynamic_cast<Map *>(sender());
     if (cMap != nullptr) {
-        emit changedMap(cMap->id());
+        emit changedMapName(cMap->id());
+        emit changedAtlas();
     }
 }
 
@@ -280,16 +283,19 @@ void Atlas::modified(bool bModified) {
                       regions().end(),
                       [&] (Regions::value_type & cPair) { cPair.second->modified(bModified); });
     }
+
+    emit changedAtlas();
 }
 
 
 /**
- * A region has changed.
+ * A region has changed its name.
  */
-void Atlas::regionChanged() {
+void Atlas::regionChangedName() {
     auto cRegion = dynamic_cast<Region *>(sender());
     if (cRegion != nullptr) {
-        emit changedRegion(cRegion->id());
+        emit changedRegionName(cRegion->id());
+        emit changedAtlas();
     }
 }
 

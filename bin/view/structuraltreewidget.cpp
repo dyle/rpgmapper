@@ -120,19 +120,19 @@ StructuralTreeWidget::StructuralTreeWidget(QWidget * cParent) : QTreeWidget{cPar
     connect(this, &QTreeWidget::currentItemChanged, this, &StructuralTreeWidget::changedCurrentItem);
     connect(this, &QTreeWidget::itemDoubleClicked, this, &StructuralTreeWidget::doubleClickedItem);
 
-    connect(Controller::instance().atlas().data(), &Atlas::changed,
-            this, &StructuralTreeWidget::changedAtlas);
-    connect(Controller::instance().atlas().data(), &Atlas::changedMap,
-            this, &StructuralTreeWidget::changedMap);
-    connect(Controller::instance().atlas().data(), &Atlas::changedRegion,
-            this, &StructuralTreeWidget::changedRegion);
+    connect(Controller::instance().atlas().data(), &Atlas::changedName,
+            this, &StructuralTreeWidget::changedAtlasName);
+    connect(Controller::instance().atlas().data(), &Atlas::changedMapName,
+            this, &StructuralTreeWidget::changedMapName);
+    connect(Controller::instance().atlas().data(), &Atlas::changedRegionName,
+            this, &StructuralTreeWidget::changedRegionName);
 }
 
 
 /**
  * The atlas has changed.
  */
-void StructuralTreeWidget::changedAtlas() {
+void StructuralTreeWidget::changedAtlasName() {
     auto cAtlasItem = topLevelItem(0);
     cAtlasItem->setText(0, Controller::instance().atlas()->name());
 }
@@ -168,11 +168,11 @@ void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * cCurrent) {
 
 
 /**
- * A map changed.
+ * A map changed its name.
  *
  * @param   nMapId          id of the map changed
  */
-void StructuralTreeWidget::changedMap(rpgmapper::model::mapid_t nMapId) {
+void StructuralTreeWidget::changedMapName(rpgmapper::model::mapid_t nMapId) {
 
     auto cMap = Controller::instance().atlas()->maps()[nMapId];
     if (cMap != nullptr) {
@@ -185,11 +185,11 @@ void StructuralTreeWidget::changedMap(rpgmapper::model::mapid_t nMapId) {
 
 
 /**
- * A region changed.
+ * A region changed its name.
  *
  * @param   nRegionId       id of the region changed
  */
-void StructuralTreeWidget::changedRegion(rpgmapper::model::regionid_t nRegionId) {
+void StructuralTreeWidget::changedRegionName(rpgmapper::model::regionid_t nRegionId) {
 
     auto cRegion = Controller::instance().atlas()->regions()[nRegionId];
     if (cRegion != nullptr) {

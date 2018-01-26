@@ -65,23 +65,23 @@ public slots:
     /**
      * The atlas has changed.
      */
-    void changedAtlas();
+    void changedAtlasName();
 
 
     /**
-     * A map changed.
+     * A map changed its name.
      *
      * @param   nMapId          id of the map changed
      */
-    void changedMap(rpgmapper::model::mapid_t nMapId);
+    void changedMapName(rpgmapper::model::mapid_t nMapId);
 
 
     /**
-     * A region changed.
+     * A region changed its name.
      *
      * @param   nRegionId       id of the region changed
      */
-    void changedRegion(rpgmapper::model::regionid_t nRegionId);
+    void changedRegionName(rpgmapper::model::regionid_t nRegionId);
 
 
     /**

@@ -80,15 +80,6 @@ public:
     virtual void modified(bool bModified);
 
 
-signals:
-
-
-    /**
-     * The object has changed.
-     */
-    void changed();
-
-
 private:
 
 

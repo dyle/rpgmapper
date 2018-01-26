@@ -71,6 +71,7 @@ void Nameable::name(QString sName) {
     if (m_sName != sName) {
         m_sName = sName;
         modified(true);
+        emit changedName();
     }
 }
 

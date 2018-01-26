@@ -70,11 +70,9 @@ public slots:
 
 
     /**
-     * Let the user edit the properties of a region.
-     *
-     * @param   nRegionId       id of the region double clicked
+     * Let the user edit the properties of the current selected region.
      */
-    void editRegionProperties(rpgmapper::model::regionid_t nRegionId);
+    void editRegionProperties();
 
 
     /**

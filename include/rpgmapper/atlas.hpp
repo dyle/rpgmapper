@@ -267,6 +267,22 @@ signals:
     void newRegionId(rpgmapper::model::regionid_t nOldRegionId, rpgmapper::model::regionid_t nNewRegionId);
 
 
+    /**
+     * Selected a map.
+     *
+     * @param   nMapId      id of the newly selected map
+     */
+    void selectedMap(rpgmapper::model::mapid_t nMapId);
+
+
+    /**
+     * Selected a region.
+     *
+     * @param   nRegionId   id of the newly selected region
+     */
+    void selectedRegion(rpgmapper::model::regionid_t cRegionId);
+
+
 private:
 
 

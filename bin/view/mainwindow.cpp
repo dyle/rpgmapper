@@ -221,12 +221,15 @@ void MainWindow::connectActions() {
     connect(d->ui->acOpen, &QAction::triggered, this, &MainWindow::load);
     connect(d->ui->acQuit, &QAction::triggered, this, &MainWindow::close);
     connect(d->ui->acRecentListClear, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
+    connect(d->ui->acRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
     connect(d->ui->acSave, &QAction::triggered, this, &MainWindow::save);
     connect(d->ui->acSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
 
-    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedAtlas, this, &MainWindow::editAtlasProperties);
-    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedRegion, this, &MainWindow::editRegionProperties);
-    connect(d->ui->twAtlas, &StructuralTreeWidget::selectedMap, d->ui->tabMap, &MapTabWidget::selectMap);
+    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedAtlas, d->ui->acAtlasProperties, &QAction::trigger);
+    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedRegion, d->ui->acRegionProperties, &QAction::trigger);
+
+    // TODO: move this into tabMap on a &Atlas::selectedMap() signal
+    // connect(d->ui->twAtlas, &StructuralTreeWidget::selectedMap, d->ui->tabMap, &MapTabWidget::selectMap);
 }
 
 
@@ -283,14 +286,12 @@ void MainWindow::editAtlasProperties() {
 
 
 /**
- * Let the user edit the properties of a region.
- *
- * @param   nRegionId       id of the region double clicked
+ * Let the user edit the properties of the current selected region.
  */
-void MainWindow::editRegionProperties(rpgmapper::model::regionid_t nRegionId) {
+void MainWindow::editRegionProperties() {
 
     bool bChange = false;
-    auto cRegion = Controller::instance().atlas()->regions()[nRegionId];
+    auto cRegion = Controller::instance().atlas()->selectedRegion();
 
     auto sRegionName = QInputDialog::getText(this,
                                              tr("Region Properties"),

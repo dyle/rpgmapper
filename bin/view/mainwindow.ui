@@ -150,7 +150,7 @@
           <x>0</x>
           <y>0</y>
           <width>252</width>
-          <height>96</height>
+          <height>87</height>
          </rect>
         </property>
        </widget>
@@ -179,7 +179,7 @@
           <x>0</x>
           <y>0</y>
           <width>256</width>
-          <height>103</height>
+          <height>89</height>
          </rect>
         </property>
         <attribute name="label">
@@ -192,7 +192,7 @@
           <x>0</x>
           <y>0</y>
           <width>256</width>
-          <height>103</height>
+          <height>89</height>
          </rect>
         </property>
         <attribute name="label">
@@ -261,6 +261,9 @@
      <item>
       <widget class="QWidget" name="wdAtlasTreeButtons" native="true">
        <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>2</number>
+        </property>
         <property name="leftMargin">
          <number>0</number>
         </property>
@@ -275,6 +278,12 @@
         </property>
         <item>
          <widget class="QToolButton" name="tbAtlasTreeNewRegion">
+          <property name="maximumSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
           <property name="text">
            <string>...</string>
           </property>
@@ -286,6 +295,12 @@
         </item>
         <item>
          <widget class="QToolButton" name="tbAtlasTreeDeleteRegion">
+          <property name="maximumSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
           <property name="text">
            <string>...</string>
           </property>

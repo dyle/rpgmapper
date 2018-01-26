@@ -383,10 +383,13 @@ void Atlas::selectMap(rpgmapper::model::mapid_t nMapId) {
     auto iter = d->m_cMaps.find(nMapId);
     if (iter != d->m_cMaps.end()) {
         d->m_cSelectedMap = (*iter).second;
+        selectRegion(d->m_cSelectedMap->region()->id());
     }
     else {
         d->m_cSelectedMap = nullptr;
     }
+
+    emit selectedMap(nMapId);
 }
 
 
@@ -405,4 +408,6 @@ void Atlas::selectRegion(rpgmapper::model::regionid_t nRegionId) {
     else {
         d->m_cSelectedRegion = nullptr;
     }
+
+    emit selectedRegion(nRegionId);
 }

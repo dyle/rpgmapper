@@ -161,10 +161,12 @@ void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * cCurrent) {
             break;
 
         case map:
+            Controller::instance().atlas()->selectMap(cItemInfo.nMapId);
             emit selectedMap(cItemInfo.nMapId);
             break;
 
         case region:
+            Controller::instance().atlas()->selectRegion(cItemInfo.nRegionId);
             emit selectedRegion(cItemInfo.nRegionId);
             break;
     }
@@ -225,10 +227,12 @@ void StructuralTreeWidget::doubleClickedItem(QTreeWidgetItem * cItem, UNUSED int
             break;
 
         case map:
+            Controller::instance().atlas()->selectMap(cItemInfo.nMapId);
             emit doubleClickedMap(cItemInfo.nMapId);
             break;
 
         case region:
+            Controller::instance().atlas()->selectRegion(cItemInfo.nRegionId);
             emit doubleClickedRegion(cItemInfo.nRegionId);
             break;
     }

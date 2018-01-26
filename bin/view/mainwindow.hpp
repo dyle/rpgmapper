@@ -86,6 +86,18 @@ public slots:
 
 
     /**
+     * A region should be deleted.
+     */
+    void deleteRegion();
+
+
+    /**
+     * A new region shall be created.
+     */
+    void newRegion();
+
+
+    /**
      * Reapply the atlas to teh whole view.
      */
     void resetAtlas();

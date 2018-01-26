@@ -100,6 +100,8 @@ MainWindow::MainWindow() : QMainWindow{} {
     d->ui->tabMap->clear();
     d->ui->twAtlas->resetStructure();
     d->ui->twAtlas->selectFirstMap();
+    d->ui->tbAtlasTreeNewRegion->setDefaultAction(d->ui->acNewRegion);
+    d->ui->tbAtlasTreeDeleteRegion->setDefaultAction(d->ui->acDeleteRegion);
 
     connect(Controller::instance().atlas().data(), &Atlas::changedAtlas, this, &MainWindow::changedAtlas);
 
@@ -214,6 +216,8 @@ void MainWindow::connectActions() {
 
     connect(d->ui->acAbout, &QAction::triggered, this, &MainWindow::showAboutDialog);
     connect(d->ui->acAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
+    connect(d->ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
+    connect(d->ui->acNewRegion, &QAction::triggered, this, &MainWindow::newRegion);
     connect(d->ui->acOpen, &QAction::triggered, this, &MainWindow::load);
     connect(d->ui->acQuit, &QAction::triggered, this, &MainWindow::close);
     connect(d->ui->acRecentListClear, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
@@ -247,6 +251,14 @@ void MainWindow::createRecentFileActions() {
     d->ui->mnOpenRecent->insertSeparator(d->ui->acRecentListClear);
 
     enableActions();
+}
+
+
+/**
+ * A region should be deleted.
+ */
+void MainWindow::deleteRegion() {
+
 }
 
 
@@ -385,6 +397,14 @@ void MainWindow::loadSettings() {
         d->m_cDlgLoad->setDirectory(d->m_sRecentAtlasFolder);
         d->m_cDlgSaveAs->setDirectory(d->m_sRecentAtlasFolder);
     }
+}
+
+
+/**
+ * A new region shall be created.
+ */
+void MainWindow::newRegion() {
+
 }
 
 

@@ -144,7 +144,7 @@
        <property name="widgetResizable">
         <bool>true</bool>
        </property>
-       <widget class="QWidget" name="saMiniMapContent">
+       <widget class="QWidget" name="wdMiniMapContent">
         <property name="geometry">
          <rect>
           <x>0</x>
@@ -213,6 +213,12 @@
    </attribute>
    <widget class="QWidget" name="dwAtlasTreeContent">
     <layout class="QVBoxLayout" name="lyAtlasContent">
+     <property name="spacing">
+      <number>6</number>
+     </property>
+     <property name="leftMargin">
+      <number>6</number>
+     </property>
      <item>
       <widget class="rpgmapper::view::StructuralTreeWidget" name="twAtlas">
        <property name="contextMenuPolicy">
@@ -250,6 +256,59 @@
          <string notr="true">1</string>
         </property>
        </column>
+      </widget>
+     </item>
+     <item>
+      <widget class="QWidget" name="wdAtlasTreeButtons" native="true">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QToolButton" name="tbAtlasTreeNewRegion">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="rpgmapper.qrc">
+            <normaloff>:/icons/gfx/region-new.png</normaloff>:/icons/gfx/region-new.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="tbAtlasTreeDeleteRegion">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="rpgmapper.qrc">
+            <normaloff>:/icons/gfx/region-delete.png</normaloff>:/icons/gfx/region-delete.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spAtlasTreeButtonsStretch">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>
@@ -409,7 +468,7 @@
      <normaloff>:/icons/gfx/region-new.png</normaloff>:/icons/gfx/region-new.png</iconset>
    </property>
    <property name="text">
-    <string>New Region</string>
+    <string>&amp;New Region</string>
    </property>
    <property name="toolTip">
     <string>Create a new region on the atlas</string>
@@ -417,7 +476,7 @@
   </action>
   <action name="acRegionProperties">
    <property name="text">
-    <string>Region Properties</string>
+    <string>&amp;Region Properties</string>
    </property>
   </action>
   <action name="acDeleteRegion">
@@ -426,7 +485,7 @@
      <normaloff>:/icons/gfx/region-delete.png</normaloff>:/icons/gfx/region-delete.png</iconset>
    </property>
    <property name="text">
-    <string>Delete Region</string>
+    <string>&amp;Delete Region</string>
    </property>
    <property name="toolTip">
     <string>Delete the current region from the atlas</string>

@@ -173,6 +173,7 @@ RegionPointer Atlas::createRegion() {
  * @return  a string holding the atlas in json format
  */
 QString Atlas::json(QJsonDocument::JsonFormat eJsonFormat) const {
+
     QJsonObject cJSON;
     save(cJSON);
     QJsonDocument cJSONDoc{cJSON};
@@ -405,5 +406,3 @@ void Atlas::selectRegion(rpgmapper::model::regionid_t nRegionId) {
         d->m_cSelectedRegion = nullptr;
     }
 }
-
-

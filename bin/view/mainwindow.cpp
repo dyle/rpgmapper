@@ -32,6 +32,7 @@
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/common_macros.h>
 #include <rpgmapper/controller.hpp>
+#include <iostream>
 #include "aboutdialog.hpp"
 #include "logdialog.hpp"
 #include "mainwindow.hpp"
@@ -224,6 +225,9 @@ void MainWindow::connectActions() {
     connect(d->ui->acRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
     connect(d->ui->acSave, &QAction::triggered, this, &MainWindow::save);
     connect(d->ui->acSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
+    connect(d->ui->acViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
+    connect(d->ui->acViewStructure, &QAction::triggered, this, &MainWindow::visibleStructure);
+    connect(d->ui->acViewTiles, &QAction::triggered, this, &MainWindow::visibleTiles);
 
     connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedAtlas, d->ui->acAtlasProperties, &QAction::trigger);
     connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedRegion, d->ui->acRegionProperties, &QAction::trigger);
@@ -541,4 +545,58 @@ void MainWindow::setupDialogs() {
  */
 void MainWindow::showAboutDialog() {
     d->m_cDlgAbout->exec();
+}
+
+
+/**
+ * Handle the show event.
+ *
+ * @param   cEvent      show event info
+ */
+void MainWindow::showEvent(QShowEvent * cEvent) {
+
+    QMainWindow::showEvent(cEvent);
+
+    static bool bFirstTime = true;
+    if (bFirstTime) {
+
+        // ugly hack, since I did not get how Qt saves the visibilty state
+        // in the saveState() and restoreState() methods of the QDockWindow childs
+        // --> anyone?
+        d->ui->acViewMinimap->setChecked(d->ui->dwMiniMap->isVisible());
+        d->ui->acViewStructure->setChecked(d->ui->dwAtlasTree->isVisible());
+        d->ui->acViewTiles->setChecked(d->ui->dwTiles->isVisible());
+
+        bFirstTime = false;
+    }
+}
+
+
+/**
+ * Toggle the minimap window visibility.
+ *
+ * @param   bView       visibility of window
+ */
+void MainWindow::visibleMinimap(bool bView) {
+    d->ui->dwMiniMap->setVisible(bView);
+}
+
+
+/**
+ * Toggle the structure window visibility.
+ *
+ * @param   bView       visibility of window
+ */
+void MainWindow::visibleStructure(bool bView) {
+    d->ui->dwAtlasTree->setVisible(bView);
+}
+
+
+/**
+ * Toggle the tiles window visibility.
+ *
+ * @param   bView       visibility of window
+ */
+void MainWindow::visibleTiles(bool bView) {
+    d->ui->dwTiles->setVisible(bView);
 }

@@ -101,16 +101,47 @@ public slots:
     void resetAtlas();
 
 
+    /**
+     * Toggle the minimap window visibility.
+     *
+     * @param   bView       visibility of window
+     */
+    void visibleMinimap(bool bView);
+
+
+    /**
+     * Toggle the structure window visibility.
+     *
+     * @param   bView       visibility of window
+     */
+    void visibleStructure(bool bView);
+
+
+    /**
+     * Toggle the tiles window visibility.
+     *
+     * @param   bView       visibility of window
+     */
+    void visibleTiles(bool bView);
+
+
 protected:
 
 
     /**
-     * handle close event
+     * Handle close event
      *
      * @param   cEvent      the event passed
      */
     void closeEvent(QCloseEvent * cEvent) override;
 
+
+    /**
+     * Handle the show event.
+     *
+     * @param   cEvent      show event info
+     */
+    void showEvent(QShowEvent * cEvent) override;
 
 
 private slots:

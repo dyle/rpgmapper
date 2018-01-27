@@ -65,7 +65,7 @@
      <x>0</x>
      <y>0</y>
      <width>876</width>
-     <height>27</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnFile">
@@ -104,12 +104,19 @@
     <addaction name="separator"/>
     <addaction name="acNewMap"/>
     <addaction name="acMapProperties"/>
-    <addaction name="acOpenMap"/>
-    <addaction name="acCloseMap"/>
     <addaction name="acDeleteMap"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="acViewMinimap"/>
+    <addaction name="acViewTiles"/>
+    <addaction name="acViewStructure"/>
    </widget>
    <addaction name="mnFile"/>
    <addaction name="mnEdit"/>
+   <addaction name="menuView"/>
    <addaction name="mnHelp"/>
   </widget>
   <widget class="QStatusBar" name="stbMain"/>
@@ -150,7 +157,7 @@
           <x>0</x>
           <y>0</y>
           <width>252</width>
-          <height>87</height>
+          <height>89</height>
          </rect>
         </property>
        </widget>
@@ -179,7 +186,7 @@
           <x>0</x>
           <y>0</y>
           <width>256</width>
-          <height>89</height>
+          <height>91</height>
          </rect>
         </property>
         <attribute name="label">
@@ -192,7 +199,7 @@
           <x>0</x>
           <y>0</y>
           <width>256</width>
-          <height>89</height>
+          <height>91</height>
          </rect>
         </property>
         <attribute name="label">
@@ -449,16 +456,6 @@
     <string>Properties of the current map</string>
    </property>
   </action>
-  <action name="acOpenMap">
-   <property name="text">
-    <string>&amp;Open Map</string>
-   </property>
-  </action>
-  <action name="acCloseMap">
-   <property name="text">
-    <string>&amp;Close Map</string>
-   </property>
-  </action>
   <action name="acRecentListClear">
    <property name="icon">
     <iconset resource="rpgmapper.qrc">
@@ -504,6 +501,39 @@
    </property>
    <property name="toolTip">
     <string>Delete the current region from the atlas</string>
+   </property>
+  </action>
+  <action name="acViewMinimap">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Minimap</string>
+   </property>
+  </action>
+  <action name="acViewTiles">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Tile</string>
+   </property>
+  </action>
+  <action name="acViewStructure">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Structure</string>
    </property>
   </action>
  </widget>

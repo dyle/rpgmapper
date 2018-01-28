@@ -78,7 +78,9 @@ static regionid_t g_nRegionIdCounter = 0;
  */
 Region::Region(Atlas * cAtlas, regionid_t nId) : Nameable{cAtlas}, m_nId{nId} {
 
-    assert(cAtlas != nullptr);
+    if (cAtlas == nullptr) {
+        throw std::invalid_argument("Atlas argument shall not be nullptr.");
+    }
 
     d = std::make_shared<Region::Region_data>();
     d->m_cAtlas = cAtlas;
@@ -94,6 +96,10 @@ Region::Region(Atlas * cAtlas, regionid_t nId) : Nameable{cAtlas}, m_nId{nId} {
  * @param   cMap    the map to add.
  */
 void Region::addMap(MapPointer cMap) {
+
+    if (cMap.data() == nullptr) {
+        throw std::invalid_argument("Map argument shall not be nullptr.");
+    }
 
     if (d->m_cMaps.find(cMap->id()) == d->m_cMaps.end()) {
 
@@ -167,6 +173,9 @@ void Region::clear() {
  * @return  a new region
  */
 RegionPointer Region::create(Atlas * cAtlas) {
+    if (cAtlas == nullptr) {
+        throw std::invalid_argument("Atlas argument shall not be nullptr.");
+    }
     return RegionPointer{new Region{cAtlas, ++g_nRegionIdCounter}, &Region::deleteLater};
 }
 

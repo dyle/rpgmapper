@@ -95,7 +95,9 @@ bool loadSize(QJsonObject const  & cJSON, QSize & cSize);
  */
 Map::Map(Atlas * cAtlas, mapid_t nId) : Nameable{cAtlas}, m_nId{nId} {
 
-    assert(cAtlas != nullptr);
+    if (cAtlas == nullptr) {
+        throw std::invalid_argument("Atlas argument shall not be nullptr.");
+    }
 
     d = std::make_shared<Map::Map_data>();
     d->m_cAtlas = cAtlas;
@@ -122,6 +124,9 @@ void Map::clear() {
  * @return  a new map
  */
 MapPointer Map::create(Atlas * cAtlas) {
+    if (cAtlas == nullptr) {
+        throw std::invalid_argument("Atlas argument shall not be nullptr.");
+    }
     return MapPointer{new Map{cAtlas, ++g_nMapIdCounter}, &Map::deleteLater};
 }
 

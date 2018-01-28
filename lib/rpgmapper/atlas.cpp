@@ -21,9 +21,6 @@
 // ------------------------------------------------------------
 // incs
 
-#include <cassert>
-
-#include <QDebug>
 #include <QJsonArray>
 #include <QTextCodec>
 
@@ -101,6 +98,7 @@ MapPointer Atlas::createMap() {
     cMap->setRegion(currentRegion());
 
     emit newMap(cMap->id());
+    emit changedAtlas();
 
     return cMap;
 }
@@ -118,6 +116,7 @@ RegionPointer Atlas::createRegion() {
 
     d->m_cRegions.insert(std::make_pair(cRegion->id(), cRegion));
     emit newRegion(cRegion->id());
+    emit changedAtlas();
 
     return cRegion;
 }
@@ -172,14 +171,18 @@ void Atlas::load(QJsonObject const & cJSON) {
     if (cJSON.contains("maps") && cJSON["maps"].isArray()) {
         QJsonArray cJSONMaps = cJSON["maps"].toArray();
         for (auto && cJSONMap : cJSONMaps) {
-            Map::load(cJSONMap.toObject(), this);
+            auto cMap = Map::load(cJSONMap.toObject(), this);
+            d->m_cMaps[cMap->id()] = cMap;
+            connect(cMap.data(), &Map::changedName, this, &Atlas::mapChangedName);
         }
     }
 
     if (cJSON.contains("regions") && cJSON["regions"].isArray()) {
         QJsonArray cJSONRegions = cJSON["regions"].toArray();
         for (auto &&cJSONRegion : cJSONRegions) {
-            Region::load(cJSONRegion.toObject(), this);
+            auto cRegion = Region::load(cJSONRegion.toObject(), this);
+            d->m_cRegions[cRegion->id()] = cRegion;
+            connect(cRegion.data(), &Region::changedName, this, &Atlas::regionChangedName);
         }
     }
 
@@ -231,6 +234,7 @@ void Atlas::mapChangedName() {
     auto cMap = dynamic_cast<Map *>(sender());
     if (cMap != nullptr) {
         emit changedMapName(cMap->id());
+        emit changedAtlas();
     }
 }
 
@@ -293,6 +297,7 @@ void Atlas::regionChangedName() {
     auto cRegion = dynamic_cast<Region *>(sender());
     if (cRegion != nullptr) {
         emit changedRegionName(cRegion->id());
+        emit changedAtlas();
     }
 }
 

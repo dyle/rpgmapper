@@ -287,7 +287,7 @@ void MainWindow::editAtlasProperties() {
     bool bChange = false;
     auto sAtlasName = QInputDialog::getText(this,
                                             tr("Atlas Properties"),
-                                            tr("New setName of atlas:"),
+                                            tr("New name of atlas:"),
                                             QLineEdit::Normal,
                                             Controller::instance().atlas()->name(),
                                             &bChange);
@@ -309,7 +309,7 @@ void MainWindow::editRegionProperties() {
 
     auto sRegionName = QInputDialog::getText(this,
                                              tr("Region Properties"),
-                                             tr("New setName of setRegion:"),
+                                             tr("New name of region:"),
                                              QLineEdit::Normal,
                                              cRegion->name(),
                                              &bChange);
@@ -377,7 +377,7 @@ void MainWindow::loadRecentFile() {
     }
 
     // we could use cAction->text(). However, Qt automagically adds
-    // the shortcut literal '&' to the text, disturbing the file setName.
+    // the shortcut literal '&' to the text, disturbing the file name.
     loadAtlas(cAction->objectName());
 }
 

@@ -27,6 +27,7 @@
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/common_macros.h>
 #include <rpgmapper/controller.hpp>
+#include <iostream>
 #include "structuraltreewidget.hpp"
 
 using namespace rpgmapper::model;
@@ -199,7 +200,7 @@ void StructuralTreeWidget::changedRegionName(rpgmapper::model::regionid_t nRegio
 
     auto cRegion = Controller::instance().atlas()->regionById(nRegionId);
     if (cRegion != nullptr) {
-        auto cRegionItem = findItem(topLevelItem(0), "setRegion", QString::number(nRegionId));
+        auto cRegionItem = findItem(topLevelItem(0), "region", QString::number(nRegionId));
         if (cRegionItem != nullptr) {
             cRegionItem->setText(0, cRegion->name());
         }
@@ -265,7 +266,7 @@ void StructuralTreeWidget::newRegion(rpgmapper::model::regionid_t nRegionId) {
 
     resetStructure();
 
-    auto cRegionItem = findItem(topLevelItem(0), "setRegion", QString::number(nRegionId));
+    auto cRegionItem = findItem(topLevelItem(0), "region", QString::number(nRegionId));
     if (cRegionItem) {
         scrollToItem(cRegionItem, QAbstractItemView::EnsureVisible);
         setCurrentItem(cRegionItem);
@@ -388,7 +389,7 @@ QTreeWidgetItem * appendStructureRegion(QTreeWidgetItem * cTWAtlas, RegionPointe
 
     QStringList cStringList;
     cStringList << cRegion->name()
-                << "setRegion"
+                << "region"
                 << QString::number(cRegion->id())
                 << QString::number(cRegion->orderValue());
 
@@ -449,7 +450,7 @@ bool getItemInfo(QTreeWidgetItem * cItem, itemInfo & cItemInfo) {
 
     if (cItem->columnCount() >= 3) {
 
-        if (cItem->text(1) == "setRegion") {
+        if (cItem->text(1) == "region") {
             cItemInfo.eItemType = region;
             cItemInfo.nRegionId = cItem->text(2).toInt();
             return true;

@@ -234,8 +234,8 @@ void MainWindow::connectActions() {
     connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedAtlas, d->ui->acAtlasProperties, &QAction::trigger);
     connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedRegion, d->ui->acRegionProperties, &QAction::trigger);
 
-    // TODO: move this into tabMap on a &Atlas::selectedMap() signal
-    // connect(d->ui->twAtlas, &StructuralTreeWidget::selectedMap, d->ui->tabMap, &MapTabWidget::selectMap);
+    // TODO: move this into tabMap on a &Atlas::currentMap() signal
+    // connect(d->ui->twAtlas, &StructuralTreeWidget::currentMap, d->ui->tabMap, &MapTabWidget::setCurrentMap);
 }
 
 
@@ -305,7 +305,7 @@ void MainWindow::editAtlasProperties() {
 void MainWindow::editRegionProperties() {
 
     bool bChange = false;
-    auto cRegion = Controller::instance().atlas()->selectedRegion();
+    auto cRegion = Controller::instance().atlas()->currentRegion();
 
     auto sRegionName = QInputDialog::getText(this,
                                              tr("Region Properties"),

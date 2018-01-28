@@ -52,8 +52,8 @@ public:
     Maps m_cMaps;                               /**< All the maps managed by this atlas. */
     Regions m_cRegions;                         /**< All the regions managed by this atlas. */
 
-    MapPointer m_cSelectedMap;                  /**< Current map of interest. */
-    RegionPointer m_cSelectedRegion;            /**< Currentr region of interest. */
+    MapPointer m_cCurrentMap;                   /**< Current map of interest. */
+    RegionPointer m_cCurrentRegion;             /**< Currentr region of interest. */
 };
 
 
@@ -71,59 +71,8 @@ public:
  * @param   cParent     parent object
  */
 Atlas::Atlas(QObject * cParent) : Nameable{cParent} {
-
     d = std::make_shared<Atlas::Atlas_data>();
-
-    setName("New Atlas");
-    auto cRegion = createRegion();
-    selectRegion(cRegion->id());
-    auto cMap = createMap();
-    cRegion->addMap(cMap);
-    selectMap(cMap->id());
-
-    setModified(false);
-}
-
-
-/**
- * The id of a map changed.
- *
- * @param   nOldId      the old id
- */
-void Atlas::changedMapId(mapid_t nOldId) {
-
-    auto cMap = dynamic_cast<Map *>(sender());
-    assert(cMap != nullptr);
-    assert(d->m_cMaps.find(cMap->id()) == d->m_cMaps.end());
-    auto iter = d->m_cMaps.find(nOldId);
-    assert(iter != d->m_cMaps.end());
-
-    d->m_cMaps[cMap->id()] = (*iter).second;
-    d->m_cMaps.erase(nOldId);
-
-    emit newMapId(nOldId, cMap->id());
-    emit changedAtlas();
-}
-
-
-/**
- * The id of a region changed.
- *
- * @param   nOldId      the old id
- */
-void Atlas::changedRegionId(regionid_t nOldId) {
-    
-    auto cRegion = dynamic_cast<Region *>(sender());
-    assert(cRegion != nullptr);
-    assert(d->m_cRegions.find(cRegion->id()) == d->m_cRegions.end());
-    auto iter = d->m_cRegions.find(nOldId);
-    assert(iter != d->m_cRegions.end());
-
-    d->m_cRegions[cRegion->id()] = (*iter).second;
-    d->m_cRegions.erase(nOldId);
-
-    emit newRegionId(nOldId, cRegion->id());
-    emit changedAtlas();
+    init();
 }
 
 
@@ -146,11 +95,10 @@ void Atlas::clear() {
 MapPointer Atlas::createMap() {
 
     auto cMap = Map::create(this);
-    connect(cMap.data(), &Map::changedId, this, &Atlas::changedMapId);
     connect(cMap.data(), &Map::changedName, this, &Atlas::mapChangedName);
 
     d->m_cMaps.insert(std::make_pair(cMap->id(), cMap));
-    cMap->setRegion(selectedRegion());
+    cMap->setRegion(currentRegion());
 
     emit newMap(cMap->id());
 
@@ -166,13 +114,32 @@ MapPointer Atlas::createMap() {
 RegionPointer Atlas::createRegion() {
 
     auto cRegion = Region::create(this);
-    connect(cRegion.data(), &Region::changedId, this, &Atlas::changedRegionId);
     connect(cRegion.data(), &Region::changedName, this, &Atlas::regionChangedName);
 
     d->m_cRegions.insert(std::make_pair(cRegion->id(), cRegion));
     emit newRegion(cRegion->id());
 
     return cRegion;
+}
+
+
+/**
+ * Returnes the currenty selected Map.
+ *
+ * @return  the map which is currently selected
+ */
+MapPointer Atlas::currentMap() {
+    return d->m_cCurrentMap;
+}
+
+
+/**
+ * Returns the currently selected Region.
+ *
+ * @return  the region which is currently selected
+ */
+RegionPointer Atlas::currentRegion() {
+    return d->m_cCurrentRegion;
 }
 
 
@@ -186,6 +153,7 @@ QString Atlas::json(QJsonDocument::JsonFormat eJsonFormat) const {
 
     QJsonObject cJSON;
     save(cJSON);
+
     QJsonDocument cJSONDoc{cJSON};
     return QTextCodec::codecForName("UTF-8")->toUnicode(cJSONDoc.toJson(eJsonFormat).data());
 }
@@ -199,28 +167,60 @@ QString Atlas::json(QJsonDocument::JsonFormat eJsonFormat) const {
 void Atlas::load(QJsonObject const & cJSON) {
 
     clear();
-
     Nameable::load(cJSON);
 
     if (cJSON.contains("maps") && cJSON["maps"].isArray()) {
-
         QJsonArray cJSONMaps = cJSON["maps"].toArray();
         for (auto && cJSONMap : cJSONMaps) {
-            auto cMap = createMap();
-            cMap->load(cJSONMap.toObject());
+            Map::load(cJSONMap.toObject(), this);
         }
     }
 
     if (cJSON.contains("regions") && cJSON["regions"].isArray()) {
-
         QJsonArray cJSONRegions = cJSON["regions"].toArray();
         for (auto &&cJSONRegion : cJSONRegions) {
-            auto cRegion = createRegion();
-            cRegion->load(cJSONRegion.toObject());
+            Region::load(cJSONRegion.toObject(), this);
         }
     }
 
     setModified(false);
+}
+
+
+/**
+ * Provide some nice initial state.
+ */
+void Atlas::init() {
+
+    clear();
+
+    setName("New Atlas");
+    auto cRegion = createRegion();
+    setCurrentRegion(cRegion->id());
+
+    auto cMap = createMap();
+    cRegion->addMap(cMap);
+    setCurrentMap(cMap->id());
+
+    setModified(false);
+}
+
+
+/**
+ * Get a map based on an Id.
+ *
+ * Hence, if the map has not been found, a MapPointer
+ * with data() == nullptr is returned,
+ *
+ * @param   nMapId          id of the map
+ * @return  a smart map pointer
+ */
+MapPointer const Atlas::mapById(rpgmapper::model::mapid_t nMapId) const {
+    auto iter = d->m_cMaps.find(nMapId);
+    if (iter == d->m_cMaps.end()) {
+        return MapPointer(nullptr);
+    }
+    return (*iter).second;
 }
 
 
@@ -231,18 +231,7 @@ void Atlas::mapChangedName() {
     auto cMap = dynamic_cast<Map *>(sender());
     if (cMap != nullptr) {
         emit changedMapName(cMap->id());
-        emit changedAtlas();
     }
-}
-
-
-/**
- * Return all the maps managed by this atlas.
- *
- * @return  all maps of this atlas
- */
-Maps & Atlas::maps() {
-    return d->m_cMaps;
 }
 
 
@@ -280,24 +269,31 @@ bool Atlas::isModified() const {
 
 
 /**
+ * Get a region based on an Id.
+ *
+ * Hence, if the region has not been found, a RegionPointer
+ * with data() == nullptr is returned,
+ *
+ * @param   nRegionId       id of the region
+ * @return  a smart region pointer
+ */
+RegionPointer const Atlas::regionById(rpgmapper::model::regionid_t nRegionId) const {
+    auto iter = d->m_cRegions.find(nRegionId);
+    if (iter == d->m_cRegions.end()) {
+        return RegionPointer(nullptr);
+    }
+    return (*iter).second;
+}
+
+
+/**
  * A region has changed its name.
  */
 void Atlas::regionChangedName() {
     auto cRegion = dynamic_cast<Region *>(sender());
     if (cRegion != nullptr) {
         emit changedRegionName(cRegion->id());
-        emit changedAtlas();
     }
-}
-
-
-/**
- * Return all the regions managed by this atlas.
- *
- * @return  all regions of this atlas
- */
-Regions & Atlas::regions() {
-    return d->m_cRegions;
 }
 
 
@@ -338,40 +334,20 @@ void Atlas::save(QJsonObject & cJSON) const {
 }
 
 /**
- * Returnes the currenty selected Map.
- *
- * @return  the map which is currently selected
- */
-MapPointer Atlas::selectedMap() {
-    return d->m_cSelectedMap;
-}
-
-
-/**
- * Returns the currently selected Region.
- *
- * @return  the region which is currently selected
- */
-RegionPointer Atlas::selectedRegion() {
-    return d->m_cSelectedRegion;
-}
-
-
-/**
  * Set a new map as selected.
  * An invalid id (e.g. -1) will select no map.
  *
  * @param   nMapId      the map selected
  */
-void Atlas::selectMap(rpgmapper::model::mapid_t nMapId) {
+void Atlas::setCurrentMap(rpgmapper::model::mapid_t nMapId) {
     
     auto iter = d->m_cMaps.find(nMapId);
     if (iter != d->m_cMaps.end()) {
-        d->m_cSelectedMap = (*iter).second;
-        selectRegion(d->m_cSelectedMap->region()->id());
+        d->m_cCurrentMap = (*iter).second;
+        setCurrentRegion(d->m_cCurrentMap->region()->id());
     }
     else {
-        d->m_cSelectedMap = nullptr;
+        d->m_cCurrentMap = nullptr;
     }
 
     emit selectedMap(nMapId);
@@ -384,14 +360,14 @@ void Atlas::selectMap(rpgmapper::model::mapid_t nMapId) {
  *
  * @param   nRegionId   the region selected
  */
-void Atlas::selectRegion(rpgmapper::model::regionid_t nRegionId) {
+void Atlas::setCurrentRegion(rpgmapper::model::regionid_t nRegionId) {
 
     auto iter = d->m_cRegions.find(nRegionId);
     if (iter != d->m_cRegions.end()) {
-        d->m_cSelectedRegion = (*iter).second;
+        d->m_cCurrentRegion = (*iter).second;
     }
     else {
-        d->m_cSelectedRegion = nullptr;
+        d->m_cCurrentRegion = nullptr;
     }
 
     emit selectedRegion(nRegionId);
@@ -410,12 +386,12 @@ void Atlas::setModified(bool bModified) {
 
     if (!bModified) {
 
-        std::for_each(maps().begin(),
-                      maps().end(),
+        std::for_each(d->m_cMaps.begin(),
+                      d->m_cMaps.end(),
                       [&] (Maps::value_type & cPair) { cPair.second->setModified(bModified); });
 
-        std::for_each(regions().begin(),
-                      regions().end(),
+        std::for_each(d->m_cRegions.begin(),
+                      d->m_cRegions.end(),
                       [&] (Regions::value_type & cPair) { cPair.second->setModified(bModified); });
     }
 

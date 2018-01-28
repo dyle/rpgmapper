@@ -83,6 +83,22 @@ public:
 
 
     /**
+     * Returnes the currenty selected Map.
+     *
+     * @return  the map which is currently selected
+     */
+    MapPointer currentMap();
+
+
+    /**
+     * Returns the currently selected Region.
+     *
+     * @return  the region which is currently selected
+     */
+    RegionPointer currentRegion();
+
+
+    /**
      * Create a json string form this atlas.
      *
      * @param   eJsonFormat     the format for representation
@@ -104,17 +120,7 @@ public:
      *
      * @return  all maps of this atlas
      */
-    // TODO
-    //Maps & maps();
-
-
-    /**
-     * Return all the maps managed by this atlas.
-     *
-     * @return  all maps of this atlas
-     */
-    // TODO
-    //Maps const & maps() const;
+    Maps const & maps() const;
 
 
     /**
@@ -138,7 +144,7 @@ public:
 
 
     /**
-     * Get a rehion based on an Id.
+     * Get a region based on an Id.
      *
      * Hence, if the region has not been found, a RegionPointer
      * with data() == nullptr is returned,
@@ -154,15 +160,7 @@ public:
      *
      * @return  all regions of this atlas
      */
-    //Regions & regions();
-
-
-    /**
-     * Return all the regions managed by this atlas.
-     *
-     * @return  all regions of this atlas
-     */
-    //Regions const & regions() const;
+    Regions const & regions() const;
 
 
     /**
@@ -171,22 +169,6 @@ public:
      * @param   cJSON       the json instance to save to
      */
     void save(QJsonObject & cJSON) const override;
-
-
-    /**
-     * Returnes the currenty selected Map.
-     *
-     * @return  the map which is currently selected
-     */
-    MapPointer selectedMap();
-
-
-    /**
-     * Returns the currently selected Region.
-     *
-     * @return  the region which is currently selected
-     */
-    RegionPointer selectedRegion();
 
 
     /**
@@ -207,35 +189,19 @@ public slots:
      *
      * @param   nMapId      the map selected
      */
-    void selectMap(rpgmapper::model::mapid_t nMapId);
+    void setCurrentMap(rpgmapper::model::mapid_t nMapId);
 
 
     /**
-     * Select a new region.
+     * Select a new region as current.
      * An invalid id (e.g. -1) will select no region.
      *
      * @param   nRegionId   the region selected
      */
-    void selectRegion(rpgmapper::model::regionid_t nRegionId);
+    void setCurrentRegion(rpgmapper::model::regionid_t nRegionId);
 
 
 private slots:
-
-
-    /**
-     * The id of a map changed.
-     *
-     * @param   nOldId      the old id
-     */
-    void changedMapId(rpgmapper::model::mapid_t nOldId);
-
-
-    /**
-     * The id of a region changed.
-     *
-     * @param   nOldId      the old id
-     */
-    void changedRegionId(rpgmapper::model::regionid_t nOldId);
 
 
     /**
@@ -284,29 +250,11 @@ signals:
 
 
     /**
-     * A map has a new id..
-     *
-     * @param   nOldMapId           the old id of the map
-     * @param   nNewMapId           the new id of the map
-     */
-    void newMapId(rpgmapper::model::mapid_t nOldMapId, rpgmapper::model::mapid_t nNewMapId);
-
-
-    /**
      * We have a new region.
      *
      * @param nRegionId     id of the new region
      */
     void newRegion(rpgmapper::model::regionid_t nRegionId);
-
-
-    /**
-     * A region has a new id..
-     *
-     * @param   nOldRegionId        the old id of the map
-     * @param   nNewRegionId        the new id of the map
-     */
-    void newRegionId(rpgmapper::model::regionid_t nOldRegionId, rpgmapper::model::regionid_t nNewRegionId);
 
 
     /**
@@ -332,6 +280,12 @@ private:
      * Reset the atlas to an empty state.
      */
     void clear();
+
+
+    /**
+     * Provide some nice initial state.
+     */
+    void init();
 
 
     class Atlas_data;                               /**< internal data type */

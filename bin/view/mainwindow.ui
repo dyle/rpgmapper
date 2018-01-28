@@ -296,7 +296,7 @@
           </property>
           <property name="icon">
            <iconset resource="rpgmapper.qrc">
-            <normaloff>:/icons/gfx/setRegion-new.png</normaloff>:/icons/gfx/setRegion-new.png</iconset>
+            <normaloff>:/icons/gfx/region-new.png</normaloff>:/icons/gfx/region-new.png</iconset>
           </property>
          </widget>
         </item>
@@ -313,7 +313,7 @@
           </property>
           <property name="icon">
            <iconset resource="rpgmapper.qrc">
-            <normaloff>:/icons/gfx/setRegion-delete.png</normaloff>:/icons/gfx/setRegion-delete.png</iconset>
+            <normaloff>:/icons/gfx/region-delete.png</normaloff>:/icons/gfx/region-delete.png</iconset>
           </property>
          </widget>
         </item>
@@ -477,13 +477,13 @@
   <action name="acNewRegion">
    <property name="icon">
     <iconset resource="rpgmapper.qrc">
-     <normaloff>:/icons/gfx/setRegion-new.png</normaloff>:/icons/gfx/setRegion-new.png</iconset>
+     <normaloff>:/icons/gfx/region-new.png</normaloff>:/icons/gfx/region-new.png</iconset>
    </property>
    <property name="text">
     <string>&amp;New Region</string>
    </property>
    <property name="toolTip">
-    <string>Create a new setRegion on the atlas</string>
+    <string>Create a new region on the atlas</string>
    </property>
   </action>
   <action name="acRegionProperties">
@@ -494,13 +494,13 @@
   <action name="acDeleteRegion">
    <property name="icon">
     <iconset resource="rpgmapper.qrc">
-     <normaloff>:/icons/gfx/setRegion-delete.png</normaloff>:/icons/gfx/setRegion-delete.png</iconset>
+     <normaloff>:/icons/gfx/region-delete.png</normaloff>:/icons/gfx/region-delete.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Delete Region</string>
    </property>
    <property name="toolTip">
-    <string>Delete the current setRegion from the atlas</string>
+    <string>Delete the current region from the atlas</string>
    </property>
   </action>
   <action name="acViewMinimap">

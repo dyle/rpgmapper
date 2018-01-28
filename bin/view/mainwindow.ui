@@ -65,7 +65,7 @@
      <x>0</x>
      <y>0</y>
      <width>876</width>
-     <height>26</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnFile">
@@ -186,7 +186,7 @@
           <x>0</x>
           <y>0</y>
           <width>256</width>
-          <height>91</height>
+          <height>92</height>
          </rect>
         </property>
         <attribute name="label">
@@ -199,7 +199,7 @@
           <x>0</x>
           <y>0</y>
           <width>256</width>
-          <height>91</height>
+          <height>92</height>
          </rect>
         </property>
         <attribute name="label">
@@ -418,7 +418,7 @@
     <string>Sa&amp;ve as ...</string>
    </property>
    <property name="toolTip">
-    <string>Save current atlas under a new setName</string>
+    <string>Save current atlas under a new name</string>
    </property>
   </action>
   <action name="acNewMap">
@@ -511,7 +511,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Minimap</string>
+    <string>&amp;Minimap</string>
    </property>
   </action>
   <action name="acViewTiles">
@@ -522,7 +522,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Tile</string>
+    <string>&amp;Tile</string>
    </property>
   </action>
   <action name="acViewStructure">
@@ -533,7 +533,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Structure</string>
+    <string>&amp;Structure</string>
    </property>
   </action>
  </widget>

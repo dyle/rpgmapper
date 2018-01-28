@@ -250,11 +250,7 @@ int Map::orderValue() const {
  * @return  the region of this map
  */
 RegionPointer const Map::region() const {
-    auto iter = d->m_cAtlas->regions().find(d->m_nRegionId);
-    if (iter == d->m_cAtlas->regions().end()) {
-        return RegionPointer{nullptr};
-    }
-    return (*iter).second;
+    return d->m_cAtlas->regionById(d->m_nRegionId);
 }
 
 
@@ -336,7 +332,7 @@ void Map::save(QJsonObject & cJSON) const {
 
     cJSON["id"] = id();
     cJSON["region"] = d->m_nRegionId;
-    cJSON["orderValue"] = orderValue();
+    cJSON["setOrderValue"] = orderValue();
 
     QJsonObject cJSONSize;
     cJSONSize["width"] = size().width();

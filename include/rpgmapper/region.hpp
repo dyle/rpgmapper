@@ -59,10 +59,9 @@ public:
      * Create a new region (factory method).
      *
      * @param   cAtlas      parent object
-     * @param   nId         the id of the new region (id < 0 a new will be assigned)
      * @return  a new region
      */
-    static RegionPointer create(Atlas * cAtlas, regionid_t nId = -1);
+    static RegionPointer create(Atlas * cAtlas);
 
 
     /**
@@ -85,8 +84,10 @@ public:
      * Load the region from json.
      *
      * @param   cJSON       the json instance to load from
+     * @param   cAtlas      parent object
+     * @return  the loaded region instance
      */
-    void load(QJsonObject const & cJSON) override;
+    static RegionPointer load(QJsonObject const & cJSON, Atlas * cAtlas);
 
 
     /**
@@ -106,19 +107,19 @@ public:
 
 
     /**
-     * Set the means to order this region among other regions.
-     *
-     * @param   nOrderValue     a value indicating the position of this region among others
-     */
-    void orderValue(int nOrderValue);
-
-
-    /**
      * Save the region to json.
      *
      * @param   cJSON       the json instance to save to
      */
     void save(QJsonObject & cJSON) const override;
+
+
+    /**
+     * Set the means to order this region among other regions.
+     *
+     * @param   nOrderValue     a value indicating the position of this region among others
+     */
+    void setOrderValue(int nOrderValue);
 
 
 public slots:
@@ -130,23 +131,24 @@ public slots:
     void clear();
 
 
+protected:
+
+
+    /**
+     * Load the region from json.
+     *
+     * @param   cJSON       the json instance to load from
+     */
+    void load(QJsonObject const & cJSON) override;
+
+
 private slots:
 
 
     /**
-     * A map changed its Id.
-     *
-     * @param   nOldId              old id of the map
-     */
-    void changedMapId(mapid_t nOldId);
-
-
-    /**
      * A map changed its region.
-     *
-     * @param   nOldRegionId        id of the old region
      */
-    void changedMapRegion(regionid_t nOldRegionId);
+    void changedMapRegion();
 
 
 signals:
@@ -155,25 +157,17 @@ signals:
     /**
      * A map has been added to this region.
      *
-     * @param   cMap        the map added
+     * @param   nMapId      id of the map added
      */
-    void addedMap(MapPointer cMap);
-
-
-    /**
-     * The id of the region changed.
-     *
-     * @param   nOldId      the old id
-     */
-    void changedId(regionid_t nOldId);
+    void addedMap(rpgmapper::model::mapid_t nMapId);
 
 
     /**
      * A map has been removed from this region.
      *
-     * @param   cMap        the map removed
+     * @param   nMapId      id of the map removed
      */
-    void removedMap(MapPointer cMap);
+    void removedMap(rpgmapper::model::mapid_t nMapId);
 
 
 private:
@@ -189,14 +183,13 @@ private:
 
 
     /**
-     * Get our own smart pointer as hold by the governing atlas.
-     *
-     * @return  a smart pointer to our own instance derived from the atlas.
+     * Provide some nice initial state.
      */
-    RegionPointer self();
+    void init();
 
 
     regionid_t m_nId;                               /**< Region id. */
+
     class Region_data;                              /**< Internal data type. */
     std::shared_ptr<Region::Region_data> d;         /**< Internal data instance. */
 

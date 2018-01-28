@@ -104,7 +104,8 @@ public:
      *
      * @return  all maps of this atlas
      */
-    Maps & maps();
+    // TODO
+    //Maps & maps();
 
 
     /**
@@ -112,7 +113,8 @@ public:
      *
      * @return  all maps of this atlas
      */
-    Maps const & maps() const;
+    // TODO
+    //Maps const & maps() const;
 
 
     /**
@@ -124,11 +126,27 @@ public:
 
 
     /**
-     * Return all the regions managed by this atlas.
+     * Get a map based on an Id.
      *
-     * @return  all regions of this atlas
+     * Hence, if the map has not been found, a MapPointer
+     * with data() == nullptr is returned,
+     *
+     * @param   nMapId          id of the map
+     * @return  a smart map pointer
      */
-    Regions & regions();
+    MapPointer const mapById(rpgmapper::model::mapid_t nMapId) const;
+
+
+    /**
+     * Get a rehion based on an Id.
+     *
+     * Hence, if the region has not been found, a RegionPointer
+     * with data() == nullptr is returned,
+     *
+     * @param   nRegionId       id of the region
+     * @return  a smart region pointer
+     */
+    RegionPointer const regionById(rpgmapper::model::regionid_t nRegionId) const;
 
 
     /**
@@ -136,7 +154,15 @@ public:
      *
      * @return  all regions of this atlas
      */
-    Regions const & regions() const;
+    //Regions & regions();
+
+
+    /**
+     * Return all the regions managed by this atlas.
+     *
+     * @return  all regions of this atlas
+     */
+    //Regions const & regions() const;
 
 
     /**

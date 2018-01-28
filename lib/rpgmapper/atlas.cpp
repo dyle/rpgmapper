@@ -74,7 +74,7 @@ Atlas::Atlas(QObject * cParent) : Nameable{cParent} {
 
     d = std::make_shared<Atlas::Atlas_data>();
 
-    name("New Atlas");
+    setName("New Atlas");
     auto cRegion = createRegion();
     selectRegion(cRegion->id());
     auto cMap = createMap();
@@ -131,7 +131,7 @@ void Atlas::changedRegionId(regionid_t nOldId) {
  * Reset the atlas to an empty state.
  */
 void Atlas::clear() {
-    name("");
+    setName("");
     d->m_cMaps.clear();
     d->m_cRegions.clear();
     setModified(true);

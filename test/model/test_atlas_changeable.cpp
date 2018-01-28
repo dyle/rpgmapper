@@ -45,7 +45,7 @@ int test() {
     cAtlas.setModified(false);
     assert(!cAtlas.isModified());
 
-    cAtlas.name("bar");
+    cAtlas.setName("bar");
     assert(cAtlas.isModified());
     cAtlas.setModified(false);
     assert(!cAtlas.isModified());
@@ -55,7 +55,7 @@ int test() {
     cAtlas.setModified(false);
     assert(!cAtlas.isModified());
 
-    cRegion->name("foobar");
+    cRegion->setName("foobar");
     assert(cAtlas.isModified());
 
     return 0;

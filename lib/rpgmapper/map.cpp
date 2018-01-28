@@ -93,7 +93,7 @@ Map::Map(Atlas * cAtlas, mapid_t nId) : Nameable{cAtlas}, m_nId{nId} {
 
     createDefaultLayers();
 
-    name("New map " + QString::number(id()));
+    setName("New map " + QString::number(id()));
 }
 
 
@@ -101,7 +101,7 @@ Map::Map(Atlas * cAtlas, mapid_t nId) : Nameable{cAtlas}, m_nId{nId} {
  * Reset the map to an empty state.
  */
 void Map::clear() {
-    name("");
+    setName("");
 }
 
 
@@ -142,7 +142,7 @@ void Map::createDefaultLayers() {
         d->m_cLayers[cLayerDefinition.nId] = Layer::create(this,
                                                            cLayerDefinition.nId,
                                                            cLayerDefinition.eLayer);
-        d->m_cLayers[cLayerDefinition.nId]->name(cLayerDefinition.sName);
+        d->m_cLayers[cLayerDefinition.nId]->setName(cLayerDefinition.sName);
     }
 }
 

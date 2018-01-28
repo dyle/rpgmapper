@@ -63,8 +63,8 @@ Field rpgmapper::model::loadFromJson(QJsonObject const & cJSON) {
                 QString sName;
                 QString sValue;
                 auto cJSONAttribute = iter.toObject();
-                if (cJSONAttribute.contains("name") && cJSONAttribute["name"].isString()) {
-                    sName = cJSONAttribute["name"].toString();
+                if (cJSONAttribute.contains("setName") && cJSONAttribute["setName"].isString()) {
+                    sName = cJSONAttribute["setName"].toString();
                 }
                 if (cJSONAttribute.contains("value") && cJSONAttribute["value"].isString()) {
                     sValue = cJSONAttribute["value"].toString();
@@ -99,7 +99,7 @@ QJsonObject rpgmapper::model::saveToJson(Field const & cField) {
         QJsonArray cJSONAttributes;
         for (auto const & cPair : cTile) {
             QJsonObject cJSONAttribute;
-            cJSONAttribute["name"] = cPair.first;
+            cJSONAttribute["setName"] = cPair.first;
             cJSONAttribute["value"] = cPair.second;
             cJSONAttributes.append(cJSONAttribute);
         }

@@ -83,7 +83,7 @@ Region::Region(Atlas * cAtlas, regionid_t nId) : Nameable{cAtlas}, m_nId{nId} {
     d->m_cAtlas = cAtlas;
     d->m_nOrderValue = nId;
 
-    name("New Region " + QString::number(id()));
+    setName("New Region " + QString::number(id()));
 }
 
 
@@ -163,7 +163,7 @@ void Region::changedMapRegion(regionid_t nOldRegionId) {
  * Reset the region to an empty state.
  */
 void Region::clear() {
-    name("");
+    setName("");
 }
 
 

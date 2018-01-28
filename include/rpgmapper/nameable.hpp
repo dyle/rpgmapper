@@ -79,19 +79,19 @@ public:
 
 
     /**
-     * Set the name.
-     *
-     * @param   sName       the new name
-     */
-    void name(QString sName);
-
-
-    /**
      * Save the name to json.
      *
      * @param   cJSON       the json instance to save to
      */
     virtual void save(QJsonObject & cJSON) const;
+
+
+    /**
+     * Set the name.
+     *
+     * @param   sName       the new name
+     */
+    void setName(QString sName);
 
 
 signals:

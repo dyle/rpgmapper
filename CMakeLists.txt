@@ -143,7 +143,7 @@ add_subdirectory(test)
 # string(TOLOWER "${CPACK_PACKAGE_NAME}" CPACK_PACKAGE_NAME_LOWERCASE)
 # find_program(DPKG_PROGRAM dpkg DOC "dpkg program of Debian-based systems")
 # if (DPKG_PROGRAM)
-#     # use dpkg to fix the package file name
+#     # use dpkg to fix the package file setName
 #     execute_process(
 #         COMMAND ${DPKG_PROGRAM} --print-architecture
 #         OUTPUT_VARIABLE CPACK_DEBIAN_PACKAGE_ARCHITECTURE

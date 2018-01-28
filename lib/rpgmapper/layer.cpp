@@ -108,7 +108,7 @@ void Layer::addTile(coordinate_t nCoordinate, Tile const & cTile) {
  * Reset the layer to an empty state.
  */
 void Layer::clear() {
-    name("");
+    setName("");
 }
 
 

@@ -44,7 +44,7 @@ int test() {
     assert(!cNameable.isModified());
     assert(cNameable.name().isNull());
 
-    cNameable.name("foo");
+    cNameable.setName("foo");
     assert(cNameable.isModified());
     assert(cNameable.name() == "foo");
 

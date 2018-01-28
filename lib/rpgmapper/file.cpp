@@ -92,7 +92,7 @@ bool File::load(QString & sFileName, QStringList & cLog) {
 
     cLog.clear();
     if (!acquireFileName(sFileName)) {
-        cLog.append("File name is empty. Don't know what to load.");
+        cLog.append("File setName is empty. Don't know what to load.");
         return false;
     }
 
@@ -158,7 +158,7 @@ bool File:: save(QString & sFileName, QStringList & cLog) {
 
     cLog.clear();
     if (!acquireFileName(sFileName)) {
-        cLog.append("File name is empty. Don't know what to load.");
+        cLog.append("File setName is empty. Don't know what to load.");
         return false;
     }
 

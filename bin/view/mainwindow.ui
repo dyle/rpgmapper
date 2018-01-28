@@ -418,7 +418,7 @@
     <string>Sa&amp;ve as ...</string>
    </property>
    <property name="toolTip">
-    <string>Save current atlas under a new name</string>
+    <string>Save current atlas under a new setName</string>
    </property>
   </action>
   <action name="acNewMap">

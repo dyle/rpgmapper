@@ -28,6 +28,8 @@
 // ------------------------------------------------------------
 // incs
 
+#include <cassert>
+
 #include <QJsonArray>
 
 // rpgmapper
@@ -87,6 +89,7 @@ Map::Map(Atlas * cAtlas, mapid_t nId) : Nameable{cAtlas}, m_nId{nId} {
 
     d = std::make_shared<Map::Map_data>();
     d->m_cAtlas = cAtlas;
+    d->m_nOrderValue = nId;
 
     createDefaultLayers();
 
@@ -259,6 +262,11 @@ RegionPointer const Map::region() const {
  * @param   cRegion     the new region of this map
  */
 void Map::region(RegionPointer cRegion) {
+
+    if (cRegion.data() == nullptr) {
+        return;
+    }
+    cRegion->addMap(d->m_cAtlas->maps()[id()]);
 
     auto nRegionId = cRegion->id();
     if (d->m_nRegionId == nRegionId) {

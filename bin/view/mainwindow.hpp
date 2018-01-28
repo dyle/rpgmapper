@@ -84,9 +84,21 @@ public slots:
 
 
     /**
-     * A region should be deleted.
+     * The current map should be deleted.
+     */
+    void deleteMap();
+
+
+    /**
+     * The current region should be deleted.
      */
     void deleteRegion();
+
+
+    /**
+     * A new map shall be created.
+     */
+    void newMap();
 
 
     /**

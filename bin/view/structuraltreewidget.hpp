@@ -85,12 +85,28 @@ public slots:
 
 
     /**
+     * We have a new map.
+     *
+     * @param   nMapId      id of the new map
+     */
+    void newMap(rpgmapper::model::mapid_t nMapId);
+
+
+    /**
      * A map has a new id..
      *
      * @param   nOldMapId           the old id of the map
      * @param   nNewMapId           the new id of the map
      */
     void newMapId(rpgmapper::model::mapid_t nOldMapId, rpgmapper::model::mapid_t nNewMapId);
+
+
+    /**
+     * We have a new region.
+     *
+     * @param nRegionId     id of the new region
+     */
+    void newRegion(rpgmapper::model::regionid_t nRegionId);
 
 
     /**

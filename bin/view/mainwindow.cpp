@@ -217,7 +217,9 @@ void MainWindow::connectActions() {
 
     connect(d->ui->acAbout, &QAction::triggered, this, &MainWindow::showAboutDialog);
     connect(d->ui->acAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
+    connect(d->ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
     connect(d->ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
+    connect(d->ui->acNewMap, &QAction::triggered, this, &MainWindow::newMap);
     connect(d->ui->acNewRegion, &QAction::triggered, this, &MainWindow::newRegion);
     connect(d->ui->acOpen, &QAction::triggered, this, &MainWindow::load);
     connect(d->ui->acQuit, &QAction::triggered, this, &MainWindow::close);
@@ -262,7 +264,15 @@ void MainWindow::createRecentFileActions() {
 
 
 /**
- * A region should be deleted.
+ * The current map should be deleted.
+ */
+void MainWindow::deleteMap() {
+
+}
+
+
+/**
+ * The current region should be deleted.
  */
 void MainWindow::deleteRegion() {
 
@@ -406,10 +416,18 @@ void MainWindow::loadSettings() {
 
 
 /**
+ * A new map shall be created.
+ */
+void MainWindow::newMap() {
+    Controller::instance().instance().atlas()->createMap();
+}
+
+
+/**
  * A new region shall be created.
  */
 void MainWindow::newRegion() {
-
+    Controller::instance().instance().atlas()->createRegion();
 }
 
 

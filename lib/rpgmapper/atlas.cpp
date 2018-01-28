@@ -75,7 +75,11 @@ Atlas::Atlas(QObject * cParent) : Nameable{cParent} {
     d = std::make_shared<Atlas::Atlas_data>();
 
     name("New Atlas");
-    createRegion()->addMap(createMap());
+    auto cRegion = createRegion();
+    selectRegion(cRegion->id());
+    auto cMap = createMap();
+    cRegion->addMap(cMap);
+    selectMap(cMap->id());
 
     modified(false);
 }
@@ -146,6 +150,10 @@ MapPointer Atlas::createMap() {
     connect(cMap.data(), &Map::changedName, this, &Atlas::mapChangedName);
 
     d->m_cMaps.insert(std::make_pair(cMap->id(), cMap));
+    cMap->region(selectedRegion());
+
+    emit newMap(cMap->id());
+
     return cMap;
 }
 
@@ -162,6 +170,8 @@ RegionPointer Atlas::createRegion() {
     connect(cRegion.data(), &Region::changedName, this, &Atlas::regionChangedName);
 
     d->m_cRegions.insert(std::make_pair(cRegion->id(), cRegion));
+    emit newRegion(cRegion->id());
+
     return cRegion;
 }
 

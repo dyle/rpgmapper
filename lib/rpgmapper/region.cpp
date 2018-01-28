@@ -81,6 +81,8 @@ Region::Region(Atlas * cAtlas, regionid_t nId) : Nameable{cAtlas}, m_nId{nId} {
 
     d = std::make_shared<Region::Region_data>();
     d->m_cAtlas = cAtlas;
+    d->m_nOrderValue = nId;
+
     name("New Region " + QString::number(id()));
 }
 
@@ -132,10 +134,14 @@ void Region::changedMapRegion(regionid_t nOldRegionId) {
     if (!cMap) {
         return;
     }
-
     auto nMapId = cMap->id();
-    auto nRegionId = cMap->region()->id();
 
+    if (nOldRegionId == id()) {
+        addMap(d->m_cAtlas->maps()[nMapId]);
+        return;
+    }
+
+    auto nRegionId = cMap->region()->id();
     if ((nOldRegionId == id()) && (d->m_cMaps.find(nMapId) != d->m_cMaps.end())) {
 
         d->m_cMaps.erase(nMapId);

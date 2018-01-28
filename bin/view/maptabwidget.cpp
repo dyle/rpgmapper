@@ -83,7 +83,7 @@ void MapTabWidget::selectMap(mapid_t nMapId) {
     auto iter = d->m_cMapViews.find(nMapId);
     if (iter == d->m_cMapViews.end()) {
 
-        auto cMap = Controller::instance().atlas()->maps()[nMapId];
+        auto cMap = Controller::instance().atlas()->mapById(nMapId);
         assert(cMap.data());
 
         auto cMapView = new MapScrollArea{this, new MapWidget{this, cMap}};

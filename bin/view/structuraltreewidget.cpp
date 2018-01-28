@@ -128,12 +128,8 @@ StructuralTreeWidget::StructuralTreeWidget(QWidget * cParent) : QTreeWidget{cPar
             this, &StructuralTreeWidget::changedRegionName);
     connect(Controller::instance().atlas().data(), &Atlas::newMap,
             this, &StructuralTreeWidget::newMap);
-    connect(Controller::instance().atlas().data(), &Atlas::newMapId,
-            this, &StructuralTreeWidget::newMapId);
     connect(Controller::instance().atlas().data(), &Atlas::newRegion,
             this, &StructuralTreeWidget::newRegion);
-    connect(Controller::instance().atlas().data(), &Atlas::newRegionId,
-            this, &StructuralTreeWidget::resetStructure);
 }
 
 
@@ -184,7 +180,7 @@ void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * cCurrent) {
  */
 void StructuralTreeWidget::changedMapName(rpgmapper::model::mapid_t nMapId) {
 
-    auto cMap = Controller::instance().atlas()->maps()[nMapId];
+    auto cMap = Controller::instance().atlas()->mapById(nMapId);
     if (cMap != nullptr) {
         auto cMapItem = findItem(topLevelItem(0), "map", QString::number(nMapId));
         if (cMapItem != nullptr) {
@@ -201,7 +197,7 @@ void StructuralTreeWidget::changedMapName(rpgmapper::model::mapid_t nMapId) {
  */
 void StructuralTreeWidget::changedRegionName(rpgmapper::model::regionid_t nRegionId) {
 
-    auto cRegion = Controller::instance().atlas()->regions()[nRegionId];
+    auto cRegion = Controller::instance().atlas()->regionById(nRegionId);
     if (cRegion != nullptr) {
         auto cRegionItem = findItem(topLevelItem(0), "setRegion", QString::number(nRegionId));
         if (cRegionItem != nullptr) {
@@ -261,21 +257,6 @@ void StructuralTreeWidget::newMap(rpgmapper::model::mapid_t nMapId) {
 
 
 /**
- * A map has a new id..
- *
- * @param   nOldMapId           the old id of the map
- * @param   nNewMapId           the new id of the map
- */
-void StructuralTreeWidget::newMapId(rpgmapper::model::mapid_t nOldMapId, rpgmapper::model::mapid_t nNewMapId) {
-
-    auto cMapItem = findItem(topLevelItem(0), "map", QString::number(nOldMapId));
-    if (cMapItem != nullptr) {
-        cMapItem->setText(2, QString::number(nNewMapId));
-    }
-}
-
-
-/**
  * We have a new region.
  *
  * @param nRegionId     id of the new region
@@ -288,22 +269,6 @@ void StructuralTreeWidget::newRegion(rpgmapper::model::regionid_t nRegionId) {
     if (cRegionItem) {
         scrollToItem(cRegionItem, QAbstractItemView::EnsureVisible);
         setCurrentItem(cRegionItem);
-    }
-}
-
-
-/**
- * A region has a new id..
- *
- * @param   nOldRegionId        the old id of the map
- * @param   nNewRegionId        the new id of the map
- */
-void StructuralTreeWidget::newRegionId(rpgmapper::model::regionid_t nOldRegionId,
-                                       rpgmapper::model::regionid_t nNewRegionId) {
-
-    auto cRegionItem = findItem(topLevelItem(0), "setRegion", QString::number(nOldRegionId));
-    if (cRegionItem != nullptr) {
-        cRegionItem->setText(2, QString::number(nNewRegionId));
     }
 }
 

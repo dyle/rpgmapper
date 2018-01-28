@@ -81,7 +81,7 @@ Atlas::Atlas(QObject * cParent) : Nameable{cParent} {
     cRegion->addMap(cMap);
     selectMap(cMap->id());
 
-    modified(false);
+    setModified(false);
 }
 
 
@@ -134,7 +134,7 @@ void Atlas::clear() {
     name("");
     d->m_cMaps.clear();
     d->m_cRegions.clear();
-    modified(true);
+    setModified(true);
 }
 
 
@@ -220,7 +220,7 @@ void Atlas::load(QJsonObject const & cJSON) {
         }
     }
 
-    modified(false);
+    setModified(false);
 }
 
 
@@ -261,46 +261,21 @@ Maps const & Atlas::maps() const {
  *
  * @return  true, if the atlas (or any descendants) has changed.
  */
-bool Atlas::modified() const {
+bool Atlas::isModified() const {
 
-    if (Nameable::modified()) {
+    if (Nameable::isModified()) {
         return true;
     }
 
     if (std::any_of(maps().begin(),
                     maps().end(),
-                    [](Maps::value_type const & cPair) { return cPair.second->modified(); })) {
+                    [](Maps::value_type const & cPair) { return cPair.second->isModified(); })) {
         return true;
     }
 
     return std::any_of(regions().begin(),
                        regions().end(),
-                       [](Regions::value_type const & cPair) { return cPair.second->modified(); });
-}
-
-
-/**
- * Set the atlas and all descendants to a new modification state.
- * Only applies "true" to the current item and not to all maps and regions.
- *
- * @param   bModified       the new modification state
- */
-void Atlas::modified(bool bModified) {
-
-    Nameable::modified(bModified);
-
-    if (!bModified) {
-
-        std::for_each(maps().begin(),
-                      maps().end(),
-                      [&] (Maps::value_type & cPair) { cPair.second->modified(bModified); });
-
-        std::for_each(regions().begin(),
-                      regions().end(),
-                      [&] (Regions::value_type & cPair) { cPair.second->modified(bModified); });
-    }
-
-    emit changedAtlas();
+                       [](Regions::value_type const & cPair) { return cPair.second->isModified(); });
 }
 
 
@@ -420,4 +395,29 @@ void Atlas::selectRegion(rpgmapper::model::regionid_t nRegionId) {
     }
 
     emit selectedRegion(nRegionId);
+}
+
+
+/**
+ * Set the atlas and all descendants to a new modification state.
+ * Only applies "true" to the current item and not to all maps and regions.
+ *
+ * @param   bModified       the new modification state
+ */
+void Atlas::setModified(bool bModified) {
+
+    Nameable::setModified(bModified);
+
+    if (!bModified) {
+
+        std::for_each(maps().begin(),
+                      maps().end(),
+                      [&] (Maps::value_type & cPair) { cPair.second->setModified(bModified); });
+
+        std::for_each(regions().begin(),
+                      regions().end(),
+                      [&] (Regions::value_type & cPair) { cPair.second->setModified(bModified); });
+    }
+
+    emit changedAtlas();
 }

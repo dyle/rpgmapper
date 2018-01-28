@@ -161,7 +161,7 @@ void MainWindow::centerWindow() {
 void MainWindow::changedAtlas() {
 
     auto cAtlas = Controller::instance().atlas();
-    QString sModifiedMarker = cAtlas->modified() ? "*" : "";
+    QString sModifiedMarker = cAtlas->isModified() ? "*" : "";
     QString sTitle = cAtlas->name() + sModifiedMarker + " - RPGMapper V" + VERSION;
     setWindowTitle(sTitle);
 }

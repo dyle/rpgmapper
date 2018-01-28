@@ -70,7 +70,7 @@ QString const & Nameable::name() const {
 void Nameable::name(QString sName) {
     if (m_sName != sName) {
         m_sName = sName;
-        modified(true);
+        setModified(true);
         emit changedName();
     }
 }

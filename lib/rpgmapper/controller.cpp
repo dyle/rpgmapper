@@ -108,7 +108,7 @@ bool Controller::load(QString sFileName, QStringList & cLog) {
     if (bLoaded) {
         file() = cFile;
         file().extractAtlasFile();
-        atlas()->modified(false);
+        atlas()->setModified(false);
     }
 
     return bLoaded;
@@ -125,7 +125,7 @@ bool Controller::load(QString sFileName, QStringList & cLog) {
 bool Controller::save(QString sFileName, QStringList & cLog) {
     bool bSaved = file().save(sFileName, cLog);
     if (bSaved) {
-        atlas()->modified(false);
+        atlas()->setModified(false);
     }
     return bSaved;
 }

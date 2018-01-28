@@ -120,16 +120,7 @@ public:
      *
      * @return  true, if the atlas (or any descendants) has changed.
      */
-    bool modified() const override;
-
-
-    /**
-     * Set the atlas and all descendants to a new modification state.
-     * Only applies "true" to the current item and not to all maps and regions.
-     *
-     * @param   bModified       the new modification state
-     */
-    void modified(bool bModified) override;
+    bool isModified() const override;
 
 
     /**
@@ -170,6 +161,15 @@ public:
      * @return  the region which is currently selected
      */
     RegionPointer selectedRegion();
+
+
+    /**
+     * Set the atlas and all descendants to a new modification state.
+     * Only applies "true" to the current item and not to all maps and regions.
+     *
+     * @param   bModified       the new modification state
+     */
+    void setModified(bool bModified) override;
 
 
 public slots:

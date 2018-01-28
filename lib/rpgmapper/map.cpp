@@ -239,7 +239,7 @@ void Map::orderValue(int nOrderValue) {
         return;
     }
     d->m_nOrderValue = nOrderValue;
-    modified(true);
+    setModified(true);
 }
 
 

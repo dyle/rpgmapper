@@ -67,7 +67,7 @@ public:
      *
      * @return  true if the object instance data and any of its children has changed
      */
-    virtual bool modified() const;
+    virtual bool isModified() const;
 
 
     /**
@@ -77,7 +77,7 @@ public:
      *
      * @param   bModified       the new object instance data changed flag
      */
-    virtual void modified(bool bModified);
+    virtual void setModified(bool bModified);
 
 
 private:

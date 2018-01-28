@@ -77,8 +77,8 @@ typedef int coordinate_t;                                   /**< A coordinate va
 struct Field {
 
 
-    QPoint cPosition;                                       /**< Position of this field. */
-    Tiles cTiles;                                           /**< All the tiles on this field. */
+    QPoint cPosition;           /**< Position of this field. */
+    Tiles cTiles;               /**< All the tiles on this field. */
 
 
     /**

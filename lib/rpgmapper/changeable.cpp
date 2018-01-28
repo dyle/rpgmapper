@@ -47,7 +47,7 @@ Changeable::Changeable(QObject * cParent) : QObject{cParent}, m_bModified{false}
  *
  * @return  true if the object instance data and any of its children has changed
  */
-bool Changeable::modified() const {
+bool Changeable::isModified() const {
     return m_bModified;
 }
 
@@ -59,6 +59,6 @@ bool Changeable::modified() const {
  *
  * @param   bModified       the new object instance data changed flag
  */
-void Changeable::modified(bool bModified) {
+void Changeable::setModified(bool bModified) {
     m_bModified = bModified;
 }

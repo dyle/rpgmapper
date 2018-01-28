@@ -100,7 +100,7 @@ void Layer::addTile(coordinate_t nCoordinate, Tile const & cTile) {
     }
     d->m_cFields[nCoordinate].cPosition = Field::position(nCoordinate);
     d->m_cFields[nCoordinate].cTiles.push_back(cTile);
-    modified(true);
+    setModified(true);
 }
 
 
@@ -119,7 +119,7 @@ void Layer::clear() {
  */
 void Layer::clearField(coordinate_t nCoordinate) {
     d->m_cFields[nCoordinate].cTiles.clear();
-    modified(true);
+    setModified(true);
 }
 
 
@@ -262,5 +262,5 @@ void Layer::visible(bool bVisible) {
         return;
     }
     d->m_bVisible = bVisible;
-    modified(true);
+    setModified(true);
 }

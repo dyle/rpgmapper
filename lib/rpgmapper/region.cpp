@@ -253,7 +253,7 @@ void Region::orderValue(int nOrderValue) {
     }
 
     d->m_nOrderValue = nOrderValue;
-    modified(true);
+    setModified(true);
 }
 
 

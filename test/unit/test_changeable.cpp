@@ -49,12 +49,12 @@ public:
     A() : Changeable{} {}
 
 
-    bool modified() const override {
-        if (Changeable::modified()) {
+    bool isModified() const override {
+        if (Changeable::isModified()) {
             return true;
         }
         for (auto const & c: v) {
-            if (c->modified()) {
+            if (c->isModified()) {
                 return true;
             }
         }
@@ -62,10 +62,10 @@ public:
     }
 
 
-    void modified(bool bModified) override {
-        Changeable::modified(bModified);
+    void setModified(bool bModified) override {
+        Changeable::setModified(bModified);
         for (auto & c: v) {
-            c->modified(bModified);
+            c->setModified(bModified);
         }
     }
 
@@ -85,22 +85,22 @@ public:
 int test() {
 
     ChangeablePointer cChangeable{new Changeable};
-    assert(!cChangeable->modified());
+    assert(!cChangeable->isModified());
 
-    cChangeable->modified(true);
-    assert(cChangeable->modified());
+    cChangeable->setModified(true);
+    assert(cChangeable->isModified());
 
     A a;
-    assert(!a.modified());
+    assert(!a.isModified());
     for (auto & c: a.v) {
-        assert(!c->modified());
+        assert(!c->isModified());
     }
 
-    a.v[1]->modified(true);
-    assert(a.modified());
+    a.v[1]->setModified(true);
+    assert(a.isModified());
 
-    a.modified(false);
-    assert(!a.modified());
+    a.setModified(false);
+    assert(!a.isModified());
 
     return 0;
 }

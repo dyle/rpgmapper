@@ -2,7 +2,7 @@
  * config.h.in
  *
  * Template for config.h
- * This file gets modified and expanded by cmake.
+ * This file gets isModified and expanded by cmake.
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  * 

@@ -60,6 +60,9 @@ typedef QSharedPointer<Map> MapPointer;                     /**< Map smart point
 typedef int mapid_t;                                        /**< Id of a map. */
 typedef std::map<mapid_t, MapPointer> Maps;                 /**< Multiple maps. */
 
+class Nameable;                                             /**< An object capable of recording a name. */
+typedef QSharedPointer<Nameable> NameablePointer;           /**< Nameable smart pointer. */
+
 class Region;                                               /**< A region. */
 typedef QSharedPointer<Region> RegionPointer;               /**< Map smart pointer. */
 typedef int regionid_t;                                     /**< Id of a region */

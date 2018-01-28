@@ -32,6 +32,7 @@
 
 // rpgmapper
 #include <rpgmapper/changeable.hpp>
+#include <rpgmapper/types.hpp>
 
 
 // ------------------------------------------------------------
@@ -43,7 +44,7 @@ namespace model {
 
 
 /**
- * A nameable object knows its name
+ * A nameable object knows its name.
  */
 class Nameable : public Changeable {
 
@@ -66,8 +67,10 @@ public:
      * Load the name from json.
      *
      * @param   cJSON       the json instance to load from
+     * @param   cParent     parent object
+     * @return  the loaded nameable instance
      */
-    virtual void load(QJsonObject const & cJSON);
+    static NameablePointer load(QJsonObject const & cJSON, QObject * cParent);
 
 
     /**
@@ -92,6 +95,17 @@ public:
      * @param   sName       the new name
      */
     void setName(QString sName);
+
+
+protected:
+
+
+    /**
+     * Internal load method of the instance
+     *
+     * @param   cJSON       the JSON to load from
+     */
+    virtual void load(QJsonObject const & cJSON);
 
 
 signals:

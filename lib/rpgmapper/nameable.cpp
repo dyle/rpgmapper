@@ -41,14 +41,28 @@ Nameable::Nameable(QObject * cParent) : Changeable{cParent} {
 
 
 /**
+ * Internal load method of the instance
+ *
+ * @param   cJSON       the JSON to load from
+ */
+void Nameable::load(QJsonObject const & cJSON) {
+    if (cJSON.contains("name") && cJSON["name"].isString()) {
+        setName(cJSON["name"].toString());
+    }
+}
+
+
+/**
  * Load the name from json.
  *
  * @param   cJSON       the json instance to load from
+ * @param   cParent     parent object
+ * @return  the loaded nameable instance
  */
-void Nameable::load(QJsonObject const & cJSON) {
-    if (cJSON.contains("setName") && cJSON["setName"].isString()) {
-        setName(cJSON["setName"].toString());
-    }
+NameablePointer Nameable::load(QJsonObject const & cJSON, QObject * cParent) {
+    auto cNameable = NameablePointer{new Nameable{cParent}, &Nameable::deleteLater};
+    cNameable->load(cJSON);
+    return cNameable;
 }
 
 
@@ -68,7 +82,7 @@ QString const & Nameable::name() const {
  * @param   cJSON       the json instance to save to
  */
 void Nameable::save(QJsonObject & cJSON) const {
-    cJSON["setName"] = name();
+    cJSON["name"] = name();
 }
 
 

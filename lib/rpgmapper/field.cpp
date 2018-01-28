@@ -42,6 +42,8 @@ Field rpgmapper::model::loadFromJson(QJsonObject const & cJSON) {
 
     Field cField{{0, 0}, {}};
 
+    // TODO: split in smaller logical parts, make decouling
+
     if (cJSON.contains("position") && cJSON["position"].isObject()) {
         auto cJSONPosition = cJSON["position"].toObject();
         if (cJSONPosition.contains("x") && cJSONPosition["x"].isDouble()) {
@@ -87,6 +89,8 @@ Field rpgmapper::model::loadFromJson(QJsonObject const & cJSON) {
 QJsonObject rpgmapper::model::saveToJson(Field const & cField) {
 
     QJsonObject cJSON;
+
+    // TODO: split in smaller logical parts make a decoupling
 
     QJsonObject cJSONPosition;
     cJSONPosition["x"] = cField.cPosition.x();

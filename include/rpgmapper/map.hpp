@@ -59,7 +59,7 @@ public:
 
 
     /**
-     * These are the layer on a map.
+     * These are the layers on a map.
      */
     enum class map_layer {
         background = 0,             /**< Background layer. */
@@ -75,10 +75,9 @@ public:
      * Create a new map (factory method).
      *
      * @param   cAtlas      parent object
-     * @param   nId         the id of the new map (id < 0 a new will be assigned)
      * @return  a new map
      */
-    static MapPointer create(Atlas * cAtlas, mapid_t nId = -1);
+    static MapPointer create(Atlas * cAtlas);
 
 
     /**
@@ -90,7 +89,7 @@ public:
 
 
     /**
-     * Get a certain layer of this map.
+     * Get a layer of this map.
      *
      * @param   eLayer      the layer requested
      * @return  the layers of this map
@@ -115,7 +114,7 @@ public:
 
 
     /**
-     * Means to order this map among other maps.
+     * Means sto order this map among other maps.
      *
      * @return  a value indicating the position of this map among others
      */

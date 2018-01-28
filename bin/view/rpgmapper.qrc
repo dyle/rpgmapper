@@ -2,9 +2,9 @@
   <qresource prefix="icons">
     <file>gfx/shift-right.png</file>
     <file>gfx/shift-left.png</file>
-    <file>gfx/region.png</file>
-    <file>gfx/region-new.png</file>
-    <file>gfx/region-delete.png</file>
+    <file>gfx/setRegion.png</file>
+    <file>gfx/setRegion-new.png</file>
+    <file>gfx/setRegion-delete.png</file>
     <file>gfx/shift-down.png</file>
     <file>gfx/shift-down.png</file>
     <file>gfx/clear.png</file>
@@ -15,7 +15,7 @@
     <file>gfx/atlas.png</file>
     <file>gfx/map.png</file>
     <file>gfx/rpgmapper_32.png</file>
-    <file>gfx/region.png</file>
+    <file>gfx/setRegion.png</file>
     <file>gfx/atlas-new.png</file>
     <file>gfx/map-new.png</file>
     <file>gfx/atlas-open.png</file>

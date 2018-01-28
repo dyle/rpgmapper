@@ -309,7 +309,7 @@ void MainWindow::editRegionProperties() {
 
     auto sRegionName = QInputDialog::getText(this,
                                              tr("Region Properties"),
-                                             tr("New setName of region:"),
+                                             tr("New setName of setRegion:"),
                                              QLineEdit::Normal,
                                              cRegion->name(),
                                              &bChange);

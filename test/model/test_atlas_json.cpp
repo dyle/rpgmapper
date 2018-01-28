@@ -45,7 +45,7 @@ int test() {
     Atlas cAtlas1;
     std::cout << cAtlas1.json(QJsonDocument::Compact).toStdString() << std::endl;
 
-    cAtlas1.maps()[1]->region(cAtlas1.regions()[1]);
+    cAtlas1.maps()[1]->setRegion(cAtlas1.regions()[1]);
     std::cout << cAtlas1.json(QJsonDocument::Compact).toStdString() << std::endl;
 
     auto cRegion2 = cAtlas1.createRegion();

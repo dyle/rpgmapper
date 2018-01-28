@@ -1,5 +1,5 @@
 /*
- * region.cpp
+ * setRegion.cpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -97,7 +97,7 @@ void Region::addMap(MapPointer cMap) {
     if (d->m_cMaps.find(cMap->id()) == d->m_cMaps.end()) {
 
         d->m_cMaps.insert(cMap->id());
-        cMap->region(self());
+        cMap->setRegion(self());
 
         connect(cMap.data(), &Map::changedId, this, &Region::changedMapId);
         connect(cMap.data(), &Map::changedRegion, this, &Region::changedMapRegion);
@@ -196,8 +196,8 @@ void Region::load(QJsonObject const & cJSON) {
         m_nId = cJSON["id"].toInt();
         g_nRegionIdCounter = std::max(g_nRegionIdCounter, m_nId);
     }
-    if (cJSON.contains("orderValue") && cJSON["orderValue"].isDouble()) {
-        orderValue(cJSON["orderValue"].toInt());
+    if (cJSON.contains("setOrderValue") && cJSON["setOrderValue"].isDouble()) {
+        orderValue(cJSON["setOrderValue"].toInt());
     }
 
     if (cJSON.contains("maps") && cJSON["maps"].isArray()) {
@@ -267,7 +267,7 @@ void Region::save(QJsonObject & cJSON) const {
     Nameable::save(cJSON);
 
     cJSON["id"] = id();
-    cJSON["orderValue"] = orderValue();
+    cJSON["setOrderValue"] = orderValue();
 
     QJsonArray cJSONMaps;
     for (auto nMapId: d->m_cMaps) {

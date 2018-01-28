@@ -150,7 +150,7 @@ MapPointer Atlas::createMap() {
     connect(cMap.data(), &Map::changedName, this, &Atlas::mapChangedName);
 
     d->m_cMaps.insert(std::make_pair(cMap->id(), cMap));
-    cMap->region(selectedRegion());
+    cMap->setRegion(selectedRegion());
 
     emit newMap(cMap->id());
 

@@ -91,7 +91,7 @@ int main(int argc, char ** argv) {
     cApplication.setApplicationVersion(VERSION);
 
     QPixmapCache::insert("atlas", QPixmap(":/icons/gfx/atlas.png"));
-    QPixmapCache::insert("region", QPixmap(":/icons/gfx/region.png"));
+    QPixmapCache::insert("setRegion", QPixmap(":/icons/gfx/setRegion.png"));
     QPixmapCache::insert("map", QPixmap(":/icons/gfx/map.png"));
 
     rpgmapper::view::MainWindow cMainWindow;

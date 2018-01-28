@@ -203,7 +203,7 @@ void StructuralTreeWidget::changedRegionName(rpgmapper::model::regionid_t nRegio
 
     auto cRegion = Controller::instance().atlas()->regions()[nRegionId];
     if (cRegion != nullptr) {
-        auto cRegionItem = findItem(topLevelItem(0), "region", QString::number(nRegionId));
+        auto cRegionItem = findItem(topLevelItem(0), "setRegion", QString::number(nRegionId));
         if (cRegionItem != nullptr) {
             cRegionItem->setText(0, cRegion->name());
         }
@@ -284,7 +284,7 @@ void StructuralTreeWidget::newRegion(rpgmapper::model::regionid_t nRegionId) {
 
     resetStructure();
 
-    auto cRegionItem = findItem(topLevelItem(0), "region", QString::number(nRegionId));
+    auto cRegionItem = findItem(topLevelItem(0), "setRegion", QString::number(nRegionId));
     if (cRegionItem) {
         scrollToItem(cRegionItem, QAbstractItemView::EnsureVisible);
         setCurrentItem(cRegionItem);
@@ -301,7 +301,7 @@ void StructuralTreeWidget::newRegion(rpgmapper::model::regionid_t nRegionId) {
 void StructuralTreeWidget::newRegionId(rpgmapper::model::regionid_t nOldRegionId,
                                        rpgmapper::model::regionid_t nNewRegionId) {
 
-    auto cRegionItem = findItem(topLevelItem(0), "region", QString::number(nOldRegionId));
+    auto cRegionItem = findItem(topLevelItem(0), "setRegion", QString::number(nOldRegionId));
     if (cRegionItem != nullptr) {
         cRegionItem->setText(2, QString::number(nNewRegionId));
     }
@@ -416,12 +416,12 @@ QTreeWidgetItem * appendStructureRegion(QTreeWidgetItem * cTWAtlas, RegionPointe
     QStringList cStringList;
 
     cStringList << cRegion->name()
-                << "region"
+                << "setRegion"
                 << QString::number(cRegion->id())
                 << QString::number(cRegion->orderValue());
 
     auto cTWRegionItem = new QTreeWidgetItem{cTWAtlas, cStringList};
-    QPixmapCache::find("region", &cPixmap);
+    QPixmapCache::find("setRegion", &cPixmap);
     cTWRegionItem->setIcon(0, cPixmap);
 
     for (auto const & cMap: cRegion->maps()) {
@@ -478,7 +478,7 @@ bool getItemInfo(QTreeWidgetItem * cItem, itemInfo & cItemInfo) {
 
     if (cItem->columnCount() >= 3) {
 
-        if (cItem->text(1) == "region") {
+        if (cItem->text(1) == "setRegion") {
             cItemInfo.eItemType = region;
             cItemInfo.nRegionId = cItem->text(2).toInt();
             return true;

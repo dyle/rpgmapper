@@ -73,6 +73,16 @@ static mapid_t g_nMapIdCounter = 0;
 }
 
 
+/**
+ * Load a size from a JSON object.
+ *
+ * @param   cJSON       the JSON object
+ * @param   cSize       the size extracted
+ * @return  true, if a size node has been found
+ */
+bool loadSize(QJsonObject const  & cJSON, QSize & cSize);
+
+
 // ------------------------------------------------------------
 // code
 
@@ -85,15 +95,13 @@ static mapid_t g_nMapIdCounter = 0;
  */
 Map::Map(Atlas * cAtlas, mapid_t nId) : Nameable{cAtlas}, m_nId{nId} {
 
-    Q_ASSERT(cAtlas);
+    assert(cAtlas != nullptr);
 
     d = std::make_shared<Map::Map_data>();
     d->m_cAtlas = cAtlas;
     d->m_nOrderValue = nId;
 
-    createDefaultLayers();
-
-    setName("New map " + QString::number(id()));
+    init();
 }
 
 
@@ -101,6 +109,8 @@ Map::Map(Atlas * cAtlas, mapid_t nId) : Nameable{cAtlas}, m_nId{nId} {
  * Reset the map to an empty state.
  */
 void Map::clear() {
+    d->m_cLayers.clear();
+    createDefaultLayers();
     setName("");
 }
 
@@ -109,12 +119,10 @@ void Map::clear() {
  * Create a new map (factory method).
  *
  * @param   cAtlas      parent object
- * @param   nId         the id of the new map (id < 0 a new will be assigned)
  * @return  a new map
  */
-MapPointer Map::create(Atlas * cAtlas, mapid_t nId) {
-    nId = nId < 0 ? ++g_nMapIdCounter : nId;
-    return MapPointer{new Map{cAtlas, nId}, &Map::deleteLater};
+MapPointer Map::create(Atlas * cAtlas) {
+    return MapPointer{new Map{cAtlas, ++g_nMapIdCounter}, &Map::deleteLater};
 }
 
 
@@ -148,6 +156,15 @@ void Map::createDefaultLayers() {
 
 
 /**
+ * Creates a nice initial state.
+ */
+void Map::init() {
+    clear();
+    setName("New map " + QString::number(id()));
+}
+
+
+/**
  * Get a certain layer of this map.
  *
  * @param   eLayer      the layer requested
@@ -176,34 +193,22 @@ Layers const & Map::layers() const {
 void Map::load(QJsonObject const & cJSON) {
 
     clear();
-
     Nameable::load(cJSON);
 
-    auto nId = id();
     if (cJSON.contains("id") && cJSON["id"].isDouble()) {
         m_nId = cJSON["id"].toInt();
         g_nMapIdCounter = std::max(g_nMapIdCounter, m_nId);
     }
-    
-    if (cJSON.contains("orderValue") && cJSON["orderValue"].isDouble()) {
-        orderValue(cJSON["orderValue"].toInt());
-    }
-    
-    if (cJSON.contains("size") && cJSON["size"].isObject()) {
-        
-        auto cJSONSize = cJSON["size"].toObject();
-        QSize cSize{0, 0};
-        
-        if (cJSONSize.contains("width") && cJSONSize["width"].isDouble()) {
-            cSize.setWidth(cJSONSize["width"].toInt());
-        }
-        if (cJSONSize.contains("height") && cJSONSize["height"].isDouble()) {
-            cSize.setHeight(cJSONSize["height"].toInt());
-        }
 
-        size(cSize);
+    if (cJSON.contains("setOrderValue") && cJSON["setOrderValue"].isDouble()) {
+        setOrderValue(cJSON["setOrderValue"].toInt());
     }
 
+    QSize cSize{0, 0};
+    if (loadSize(cJSON, cSize)) {
+        setSize(cSize);
+    }
+    
 //      TODO
 //    QJsonArray cJSONLayers;
 //    for (auto const & cLayer: d->m_cLayers) {
@@ -212,10 +217,20 @@ void Map::load(QJsonObject const & cJSON) {
 //        cJSONLayers.append(cJSONLayer);
 //    }
 //    cJSON["layers"] = cJSONLayers;
+}
 
-    if (nId != id()) {
-        emit changedId(nId);
-    }
+
+/**
+ * Load the map from json.
+ *
+ * @param   cJSON       the json instance to load from
+ * @param   cAtlas      parent object
+ * @return  the loaded map instance
+ */
+MapPointer Map::load(QJsonObject const & cJSON, Atlas * cAtlas) {
+    auto cMap = MapPointer{new Map{cAtlas, -1}, &Map::deleteLater};
+    cMap->load(cJSON);
+    return cMap;
 }
 
 
@@ -230,29 +245,33 @@ int Map::orderValue() const {
 
 
 /**
- * Set the means to order this map among other maps.
- *
- * @param   nOrderValue     a value indicating the position of this maps among others
- */
-void Map::orderValue(int nOrderValue) {
-    if (d->m_nOrderValue == nOrderValue) {
-        return;
-    }
-    d->m_nOrderValue = nOrderValue;
-    setModified(true);
-}
-
-
-/**
  * Return the region to which this map belongs to.
  *
  * @return  the region of this map
  */
 RegionPointer const Map::region() const {
-    if (d->m_nRegionId < 0) {
+    auto iter = d->m_cAtlas->regions().find(d->m_nRegionId);
+    if (iter == d->m_cAtlas->regions().end()) {
         return RegionPointer{nullptr};
     }
-    return d->m_cAtlas->regions()[d->m_nRegionId];
+    return (*iter).second;
+}
+
+
+/**
+ * Set the means to order this map among other maps.
+ *
+ * @param   nOrderValue     a value indicating the position of this maps among others
+ */
+void Map::setOrderValue(int nOrderValue) {
+
+    if (d->m_nOrderValue == nOrderValue) {
+        return;
+    }
+
+    d->m_nOrderValue = nOrderValue;
+    setModified(true);
+    emit changedOrderValue();
 }
 
 
@@ -261,12 +280,11 @@ RegionPointer const Map::region() const {
  *
  * @param   cRegion     the new region of this map
  */
-void Map::region(RegionPointer cRegion) {
+void Map::setRegion(RegionPointer cRegion) {
 
     if (cRegion.data() == nullptr) {
         return;
     }
-    cRegion->addMap(d->m_cAtlas->maps()[id()]);
 
     auto nRegionId = cRegion->id();
     if (d->m_nRegionId == nRegionId) {
@@ -274,7 +292,36 @@ void Map::region(RegionPointer cRegion) {
     }
 
     d->m_nRegionId = cRegion->id();
-    emit changedRegion(nRegionId);
+    emit changedRegion();
+}
+
+
+/**
+ * Sets a new size of the map.
+ *
+ * @param   cSize       the new size of the map
+ */
+void Map::setSize(QSize cSize) {
+
+    if (d->m_cSize == cSize) {
+        return;
+    }
+
+    if (cSize.width() < MINIMUM_MAP_WIDTH) {
+        throw std::out_of_range("Map width may not be below " + std::to_string(MINIMUM_MAP_WIDTH) + ".");
+    }
+    if (cSize.height() < MINIMUM_MAP_HEIGHT) {
+        throw std::out_of_range("Map height may not be below " + std::to_string(MINIMUM_MAP_HEIGHT) + ".");
+    }
+    if (cSize.width() > MAXIMUM_MAP_WIDTH) {
+        throw std::out_of_range("Map width may not be above " + std::to_string(MAXIMUM_MAP_WIDTH) + ".");
+    }
+    if (cSize.height() > MAXIMUM_MAP_HEIGHT) {
+        throw std::out_of_range("Map height may not be above " + std::to_string(MAXIMUM_MAP_HEIGHT) + ".");
+    }
+
+    d->m_cSize = cSize;
+    emit changedSize();
 }
 
 
@@ -317,29 +364,27 @@ QSize Map::size() const {
 
 
 /**
- * Sets a new size of the map.
+ * Load a size from a JSON object.
  *
- * @param   cSize       the new size of the map
+ * @param   cJSON       the JSON object
+ * @param   cSize       the size extracted
+ * @return  true, if a size node has been found
  */
-void Map::size(QSize cSize) {
+bool loadSize(QJsonObject const  & cJSON, QSize & cSize) {
 
-    if (d->m_cSize == cSize) {
-        return;
-    }
+    if (cJSON.contains("size") && cJSON["size"].isObject()) {
 
-    if (cSize.width() < MINIMUM_MAP_WIDTH) {
-        throw std::out_of_range("Map width may not be below " + std::to_string(MINIMUM_MAP_WIDTH) + ".");
-    }
-    if (cSize.height() < MINIMUM_MAP_HEIGHT) {
-        throw std::out_of_range("Map height may not be below " + std::to_string(MINIMUM_MAP_HEIGHT) + ".");
-    }
-    if (cSize.width() > MAXIMUM_MAP_WIDTH) {
-        throw std::out_of_range("Map width may not be above " + std::to_string(MAXIMUM_MAP_WIDTH) + ".");
-    }
-    if (cSize.height() > MAXIMUM_MAP_HEIGHT) {
-        throw std::out_of_range("Map height may not be above " + std::to_string(MAXIMUM_MAP_HEIGHT) + ".");
+        auto cJSONSize = cJSON["size"].toObject();
+
+        if (cJSONSize.contains("width") && cJSONSize["width"].isDouble()) {
+            cSize.setWidth(cJSONSize["width"].toInt());
+        }
+        if (cJSONSize.contains("height") && cJSONSize["height"].isDouble()) {
+            cSize.setHeight(cJSONSize["height"].toInt());
+        }
+
+        return true;
     }
 
-    d->m_cSize = cSize;
-    emit changedSize();
+    return false;
 }

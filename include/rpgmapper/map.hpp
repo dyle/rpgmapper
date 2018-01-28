@@ -109,8 +109,10 @@ public:
      * Load the map from json.
      *
      * @param   cJSON       the json instance to load from
+     * @param   cAtlas      parent object
+     * @return  the loaded map instance
      */
-    void load(QJsonObject const & cJSON) override;
+    static MapPointer load(QJsonObject const & cJSON, Atlas * cAtlas);
 
 
     /**
@@ -122,27 +124,11 @@ public:
 
 
     /**
-     * Set the means to order this map among other maps.
-     *
-     * @param   nOrderValue     a value indicating the position of this maps among others
-     */
-    void orderValue(int nOrderValue);
-
-
-    /**
      * Return the region to which this map belongs to.
      *
      * @return  the region of this map
      */
     RegionPointer const region() const;
-
-
-    /**
-     * Set the region this map belongs.
-     *
-     * @param   cRegion     the new region of this map
-     */
-    void region(RegionPointer cRegion);
 
 
     /**
@@ -154,11 +140,19 @@ public:
 
 
     /**
-     * Returns the size of the map.
+     * Set the means to order this map among other maps.
      *
-     * @return  the size of the map
+     * @param   nOrderValue     a value indicating the position of this maps among others
      */
-    QSize size() const;
+    void setOrderValue(int nOrderValue);
+
+
+    /**
+     * Set the region this map belongs.
+     *
+     * @param   cRegion     the new region of this map
+     */
+    void setRegion(RegionPointer cRegion);
 
 
     /**
@@ -166,7 +160,15 @@ public:
      *
      * @param   cSize       the new size of the map
      */
-    void size(QSize cSize);
+    void setSize(QSize cSize);
+
+
+    /**
+     * Returns the size of the map.
+     *
+     * @return  the size of the map
+     */
+    QSize size() const;
 
 
 public slots:
@@ -178,23 +180,30 @@ public slots:
     void clear();
 
 
+protected:
+
+
+    /**
+     * Load the map from json.
+     *
+     * @param   cJSON       the json instance to load from
+     */
+    void load(QJsonObject const & cJSON) override;
+
+
 signals:
 
 
     /**
-     * The id of the map changed.
-     *
-     * @param   nOldId              the old id
+     * The map changed its region.
      */
-    void changedId(mapid_t nOldId);
+    void changedRegion();
 
 
     /**
-     * The map changed its region.
-     *
-     * @param   nOldRegionId        id of the old region
+     * The map changed its order value.
      */
-    void changedRegion(regionid_t nOldId);
+    void changedOrderValue();
 
 
     /**
@@ -221,7 +230,14 @@ private:
     void createDefaultLayers();
 
 
+    /**
+     * Creates a nice initial state.
+     */
+    void init();
+
+
     mapid_t m_nId;                              /**< Map id. */
+
     class Map_data;                             /**< Internal data type. */
     std::shared_ptr<Map::Map_data> d;           /**< Internal data instance. */
 };

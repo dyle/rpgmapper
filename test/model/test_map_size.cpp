@@ -45,19 +45,19 @@ int test() {
     auto cMap = cAtlas.createMap();
     std::cout << "Map: width=" << cMap->size().width() << ", height=" << cMap->size().height() << std::endl;
 
-    cMap->size(QSize(100, 100));
+    cMap->setSize(QSize(100, 100));
     std::cout << "Map: width=" << cMap->size().width() << ", height=" << cMap->size().height() << std::endl;
     assert(cMap->size().width() == 100);
     assert(cMap->size().height() == 100);
 
     try {
-        cMap->size(QSize(MINIMUM_MAP_WIDTH - 1, MINIMUM_MAP_HEIGHT - 1));
+        cMap->setSize(QSize(MINIMUM_MAP_WIDTH - 1, MINIMUM_MAP_HEIGHT - 1));
         assert(false);
     }
     catch (...) {}
 
     try {
-        cMap->size(QSize(MAXIMUM_MAP_WIDTH + 1, MAXIMUM_MAP_HEIGHT + 1));
+        cMap->setSize(QSize(MAXIMUM_MAP_WIDTH + 1, MAXIMUM_MAP_HEIGHT + 1));
         assert(false);
     }
     catch (...) {}

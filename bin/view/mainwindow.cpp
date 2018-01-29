@@ -273,7 +273,7 @@ void MainWindow::deleteMap() {
     }
 
     QString sQuestion = tr(
-            "Do you really wanto to delete the map '%1'?\n"
+            "Do you really want to delete the map '%1'?\n\n"
             "This action is not reversible!").arg(cMap->name());
 
     if (QMessageBox::question(this, tr("Delete the current map."), sQuestion) == QMessageBox::Yes) {
@@ -293,11 +293,11 @@ void MainWindow::deleteRegion() {
     }
 
     QString sQuestion = tr(
-            "Do you really wanto to delete the region '%1' and all related maps?\n"
+            "Do you really want to delete the region '%1' and all related maps?\n\n"
             "This action is not reversible!").arg(cRegion->name());
 
     if (QMessageBox::question(this, tr("Delete the current map."), sQuestion) == QMessageBox::Yes) {
-        Controller::instance().atlas()->deleteMap(cRegion->id());
+        Controller::instance().atlas()->deleteRegion(cRegion->id());
     }
 }
 

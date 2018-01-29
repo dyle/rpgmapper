@@ -71,7 +71,29 @@ public:
 MapTabWidget::MapTabWidget(QWidget * cParent) : QTabWidget{cParent} {
 
     d = std::make_shared<MapTabWidget::MapTabWidget_data>();
+
+    connect(Controller::instance().atlas().data(), &Atlas::deletedMap, this, &MapTabWidget::deletedMap);
     connect(Controller::instance().atlas().data(), &Atlas::selectedMap, this, &MapTabWidget::selectMap);
+}
+
+
+/**
+ * A map has been deleted.
+ *
+ * @param   nMapId      id of the map deleted
+ */
+void MapTabWidget::deletedMap(rpgmapper::model::mapid_t nMapId) {
+
+    auto iter = d->m_cMapViews.find(nMapId);
+    if (iter != d->m_cMapViews.end()) {
+
+        int nTabIndex = indexOf((*iter).second);
+        d->m_cMapViews.erase(iter);
+
+        if (nTabIndex != -1) {
+            removeTab(nTabIndex);
+        }
+    }
 }
 
 

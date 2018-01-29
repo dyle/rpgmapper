@@ -65,6 +65,14 @@ public slots:
 
 
     /**
+     * A map has been deleted.
+     *
+     * @param   nMapId      id of the map deleted
+     */
+    void deletedMap(rpgmapper::model::mapid_t nMapId);
+
+
+    /**
      * Select a map.
      *
      * @param   nMapId      ID of the map

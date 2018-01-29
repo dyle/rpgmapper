@@ -152,7 +152,7 @@ public:
      *
      * @param   cRegion     the new region of this map
      */
-    void setRegion(RegionPointer cRegion);
+    void setRegion(RegionPointer & cRegion);
 
 
     /**

@@ -95,7 +95,7 @@ Region::Region(Atlas * cAtlas, regionid_t nId) : Nameable{cAtlas}, m_nId{nId} {
  *
  * @param   cMap    the map to add.
  */
-void Region::addMap(MapPointer cMap) {
+void Region::addMap(MapPointer & cMap) {
 
     if (cMap.data() == nullptr) {
         throw std::invalid_argument("Map argument shall not be nullptr.");
@@ -129,7 +129,7 @@ void Region::changedMapRegion() {
     }
     else {
         if (d->m_cMaps.find(nMapId) != d->m_cMaps.end()) {
-            removedMap(nMapId);
+            removeMap(nMapId);
         }
     }
 
@@ -255,6 +255,27 @@ Maps Region::maps() const {
  */
 int Region::orderValue() const {
     return d->m_nOrderValue;
+}
+
+
+
+/**
+ * Remove a map from this region.
+ *
+ * @param   nMapId      id of the map removed
+ */
+void Region::removeMap(rpgmapper::model::mapid_t nMapId) {
+
+    if (d->m_cMaps.find(nMapId) != d->m_cMaps.end()) {
+
+        auto cMap = d->m_cAtlas->mapById(nMapId);
+        if (cMap.data() != nullptr) {
+            disconnect(cMap.data(), &Map::changedRegion, this, &Region::changedMapRegion);
+        }
+
+        d->m_cMaps.erase(nMapId);
+        emit removedMap(nMapId);
+    }
 }
 
 

@@ -85,6 +85,22 @@ public slots:
 
 
     /**
+     * A map has been deleted.
+     *
+     * @param   nMapId      id of the map deleted
+     */
+    void deletedMap(rpgmapper::model::mapid_t nMapId);
+
+
+    /**
+     * A region has been deleted.
+     *
+     * @param nRegionId     id of the region deleted
+     */
+    void deletedRegion(rpgmapper::model::regionid_t nRegionId);
+
+
+    /**
      * We have a new map.
      *
      * @param   nMapId      id of the new map

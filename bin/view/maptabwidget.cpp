@@ -82,6 +82,10 @@ MapTabWidget::MapTabWidget(QWidget * cParent) : QTabWidget{cParent} {
  */
 void MapTabWidget::selectMap(mapid_t nMapId) {
 
+    if (nMapId < 0) {
+        return;
+    }
+
     auto iter = d->m_cMapViews.find(nMapId);
     if (iter == d->m_cMapViews.end()) {
 

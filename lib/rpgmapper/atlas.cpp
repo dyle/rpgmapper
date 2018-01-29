@@ -21,6 +21,8 @@
 // ------------------------------------------------------------
 // incs
 
+#include <sstream>
+
 #include <QJsonArray>
 #include <QTextCodec>
 
@@ -127,7 +129,7 @@ RegionPointer Atlas::createRegion() {
  *
  * @return  the map which is currently selected
  */
-MapPointer Atlas::currentMap() {
+MapPointer & Atlas::currentMap() {
     return d->m_cCurrentMap;
 }
 
@@ -137,8 +139,94 @@ MapPointer Atlas::currentMap() {
  *
  * @return  the region which is currently selected
  */
-RegionPointer Atlas::currentRegion() {
+RegionPointer & Atlas::currentRegion() {
     return d->m_cCurrentRegion;
+}
+
+
+/**
+ * Deletes a map.
+ *
+ * @param   nMapId          the map to delete
+ */
+void Atlas::deleteMap(rpgmapper::model::mapid_t nMapId) {
+
+    auto nCurrentMapId = d->m_cCurrentMap.data() != nullptr ? d->m_cCurrentMap->id() : -1;
+    auto cMap = mapById(nMapId);
+    if (cMap.data() == nullptr) {
+        return;
+    }
+
+    auto cRegion = cMap->region();
+    if (cRegion.data() != nullptr) {
+        cRegion->removeMap(nMapId);
+    }
+
+    d->m_cMaps.erase(nMapId);
+
+    if (nCurrentMapId == nMapId) {
+        d->m_cCurrentMap = MapPointer(nullptr);
+        emit selectedMap(-1);
+    }
+
+    emit deletedMap(nMapId);
+    emit changedAtlas();
+}
+
+
+/**
+ * Deletes a region.
+ *
+ * @param   nRegionId       the region to delete
+ */
+void Atlas::deleteRegion(rpgmapper::model::regionid_t nRegionId) {
+
+    auto nCurrentRegionId = d->m_cCurrentRegion.data() != nullptr ? d->m_cCurrentRegion->id() : -1;
+    auto cRegion = regionById(nRegionId);
+    if (cRegion.data() == nullptr) {
+        return;
+    }
+
+    for (auto cPair : cRegion->maps()) {
+        cRegion->removedMap(cPair.second->id());
+    }
+
+    d->m_cRegions.erase(nRegionId);
+
+    if (nCurrentRegionId == nRegionId) {
+        d->m_cCurrentRegion = RegionPointer(nullptr);
+        emit selectedRegion(-1);
+    }
+
+    emit deletedRegion(nRegionId);
+    emit changedAtlas();
+}
+
+
+/**
+ * Dumps the current atlas structure to a string.
+ *
+ * @return  a string describing the current structure
+ */
+std::string Atlas::dumpStructure() const {
+
+    std::stringstream ss;
+
+    ss << "Atlas {'" << name().toStdString() << "}\n";
+
+    for (auto const & cRegionPair : d->m_cRegions) {
+
+        ss << "+-- Region {'" << cRegionPair.second->name().toStdString() << "' "
+           << "[" << cRegionPair.second->id() << "]}\n";
+
+        for (auto const & cMapPair : d->m_cMaps) {
+
+            ss << "    +-- Map {'" << cMapPair.second->name().toStdString() << "' "
+               << "[" << cMapPair.second->id() << "]}\n";
+        }
+    }
+
+    return ss.str();
 }
 
 
@@ -210,6 +298,29 @@ void Atlas::init() {
 
 
 /**
+ * State if the atlas (and any descendants) has changed.
+ *
+ * @return  true, if the atlas (or any descendants) has changed.
+ */
+bool Atlas::isModified() const {
+
+    if (Nameable::isModified()) {
+        return true;
+    }
+
+    if (std::any_of(maps().begin(),
+                    maps().end(),
+                    [](Maps::value_type const & cPair) { return cPair.second->isModified(); })) {
+        return true;
+    }
+
+    return std::any_of(regions().begin(),
+                       regions().end(),
+                       [](Regions::value_type const & cPair) { return cPair.second->isModified(); });
+}
+
+
+/**
  * Get a map based on an Id.
  *
  * Hence, if the map has not been found, a MapPointer
@@ -218,10 +329,34 @@ void Atlas::init() {
  * @param   nMapId          id of the map
  * @return  a smart map pointer
  */
-MapPointer const Atlas::mapById(rpgmapper::model::mapid_t nMapId) const {
+MapPointer & Atlas::mapById(rpgmapper::model::mapid_t nMapId) {
+
+    static MapPointer cNullMap{nullptr};
+
     auto iter = d->m_cMaps.find(nMapId);
     if (iter == d->m_cMaps.end()) {
-        return MapPointer(nullptr);
+        return cNullMap;
+    }
+    return (*iter).second;
+}
+
+
+/**
+ * Get a map based on an Id.
+ *
+ * Hence, if the map has not been found, a MapPointer
+ * with data() == nullptr is returned,
+ *
+ * @param   nMapId          id of the map
+ * @return  a smart map pointer
+ */
+MapPointer const & Atlas::mapById(rpgmapper::model::mapid_t nMapId) const {
+
+    static MapPointer cNullMap{nullptr};
+
+    auto iter = d->m_cMaps.find(nMapId);
+    if (iter == d->m_cMaps.end()) {
+        return cNullMap;
     }
     return (*iter).second;
 }
@@ -250,25 +385,23 @@ Maps const & Atlas::maps() const {
 
 
 /**
- * State if the atlas (and any descendants) has changed.
+ * Get a region based on an Id.
  *
- * @return  true, if the atlas (or any descendants) has changed.
+ * Hence, if the region has not been found, a RegionPointer
+ * with data() == nullptr is returned,
+ *
+ * @param   nRegionId       id of the region
+ * @return  a smart region pointer
  */
-bool Atlas::isModified() const {
+RegionPointer & Atlas::regionById(rpgmapper::model::regionid_t nRegionId) {
 
-    if (Nameable::isModified()) {
-        return true;
+    static RegionPointer cNullRegion{nullptr};
+
+    auto iter = d->m_cRegions.find(nRegionId);
+    if (iter == d->m_cRegions.end()) {
+        return cNullRegion;
     }
-
-    if (std::any_of(maps().begin(),
-                    maps().end(),
-                    [](Maps::value_type const & cPair) { return cPair.second->isModified(); })) {
-        return true;
-    }
-
-    return std::any_of(regions().begin(),
-                       regions().end(),
-                       [](Regions::value_type const & cPair) { return cPair.second->isModified(); });
+    return (*iter).second;
 }
 
 
@@ -281,10 +414,13 @@ bool Atlas::isModified() const {
  * @param   nRegionId       id of the region
  * @return  a smart region pointer
  */
-RegionPointer const Atlas::regionById(rpgmapper::model::regionid_t nRegionId) const {
+RegionPointer const & Atlas::regionById(rpgmapper::model::regionid_t nRegionId) const {
+
+    static RegionPointer cNullRegion{nullptr};
+
     auto iter = d->m_cRegions.find(nRegionId);
     if (iter == d->m_cRegions.end()) {
-        return RegionPointer(nullptr);
+        return cNullRegion;
     }
     return (*iter).second;
 }

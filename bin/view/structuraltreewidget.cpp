@@ -127,6 +127,10 @@ StructuralTreeWidget::StructuralTreeWidget(QWidget * cParent) : QTreeWidget{cPar
             this, &StructuralTreeWidget::changedMapName);
     connect(Controller::instance().atlas().data(), &Atlas::changedRegionName,
             this, &StructuralTreeWidget::changedRegionName);
+    connect(Controller::instance().atlas().data(), &Atlas::deletedMap,
+            this, &StructuralTreeWidget::deletedMap);
+    connect(Controller::instance().atlas().data(), &Atlas::deletedRegion,
+            this, &StructuralTreeWidget::deletedRegion);
     connect(Controller::instance().atlas().data(), &Atlas::newMap,
             this, &StructuralTreeWidget::newMap);
     connect(Controller::instance().atlas().data(), &Atlas::newRegion,
@@ -204,6 +208,36 @@ void StructuralTreeWidget::changedRegionName(rpgmapper::model::regionid_t nRegio
         if (cRegionItem != nullptr) {
             cRegionItem->setText(0, cRegion->name());
         }
+    }
+}
+
+
+/**
+ * A map has been deleted.
+ *
+ * @param   nMapId      id of the map deleted
+ */
+void StructuralTreeWidget::deletedMap(rpgmapper::model::mapid_t nMapId) {
+
+    auto cMapItem = findItem(topLevelItem(0), "map", QString::number(nMapId));
+    if (cMapItem != nullptr) {
+        topLevelItem(0)->removeChild(cMapItem);
+        delete cMapItem;
+    }
+}
+
+
+/**
+ * A region has been deleted.
+ *
+ * @param nRegionId     id of the region deleted
+ */
+void StructuralTreeWidget::deletedRegion(rpgmapper::model::regionid_t nRegionId) {
+
+    auto cRegionItem = findItem(topLevelItem(0), "region", QString::number(nRegionId));
+    if (cRegionItem != nullptr) {
+        topLevelItem(0)->removeChild(cRegionItem);
+        delete cRegionItem;
     }
 }
 

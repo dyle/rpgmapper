@@ -27,12 +27,11 @@
 #include <QDesktopWidget>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QMessageBox>
 
 // rpgmapper
 #include <rpgmapper/atlas.hpp>
-#include <rpgmapper/common_macros.h>
 #include <rpgmapper/controller.hpp>
-#include <iostream>
 #include "aboutdialog.hpp"
 #include "logdialog.hpp"
 #include "mainwindow.hpp"
@@ -268,6 +267,18 @@ void MainWindow::createRecentFileActions() {
  */
 void MainWindow::deleteMap() {
 
+    auto cMap = Controller::instance().atlas()->currentMap();
+    if (cMap.data() == nullptr) {
+        return;
+    }
+
+    QString sQuestion = tr(
+            "Do you really wanto to delete the map '%1'?\n"
+            "This action is not reversible!").arg(cMap->name());
+
+    if (QMessageBox::question(this, tr("Delete the current map."), sQuestion) == QMessageBox::Yes) {
+        Controller::instance().atlas()->deleteMap(cMap->id());
+    }
 }
 
 
@@ -276,6 +287,18 @@ void MainWindow::deleteMap() {
  */
 void MainWindow::deleteRegion() {
 
+    auto cRegion = Controller::instance().atlas()->currentRegion();
+    if (cRegion.data() == nullptr) {
+        return;
+    }
+
+    QString sQuestion = tr(
+            "Do you really wanto to delete the region '%1' and all related maps?\n"
+            "This action is not reversible!").arg(cRegion->name());
+
+    if (QMessageBox::question(this, tr("Delete the current map."), sQuestion) == QMessageBox::Yes) {
+        Controller::instance().atlas()->deleteMap(cRegion->id());
+    }
 }
 
 

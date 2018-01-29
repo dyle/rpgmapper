@@ -281,7 +281,7 @@ void Map::setOrderValue(int nOrderValue) {
  *
  * @param   cRegion     the new region of this map
  */
-void Map::setRegion(RegionPointer cRegion) {
+void Map::setRegion(RegionPointer & cRegion) {
 
     if (cRegion.data() == nullptr) {
         return;
@@ -298,12 +298,8 @@ void Map::setRegion(RegionPointer cRegion) {
     }
     
     d->m_nRegionId = cRegion->id();
-    
-    auto cNewRegion = d->m_cAtlas->regionById(d->m_nRegionId);
-    if (cNewRegion.data() != nullptr) {
-        cNewRegion->addMap(d->m_cAtlas->mapById(id()));
-    }
-    
+    cRegion->addMap(d->m_cAtlas->mapById(id()));
+
     emit changedRegion();
 }
 

@@ -25,6 +25,7 @@
 // ------------------------------------------------------------
 // incs
 
+#include <iostream>
 #include <memory>
 
 #include <QJsonDocument>
@@ -87,7 +88,7 @@ public:
      *
      * @return  the map which is currently selected
      */
-    MapPointer currentMap();
+    MapPointer & currentMap();
 
 
     /**
@@ -95,7 +96,15 @@ public:
      *
      * @return  the region which is currently selected
      */
-    RegionPointer currentRegion();
+    RegionPointer & currentRegion();
+
+
+    /**
+     * Dumps the current atlas structure to a string.
+     *
+     * @return  a string describing the current structure
+     */
+    std::string dumpStructure() const;
 
 
     /**
@@ -140,7 +149,19 @@ public:
      * @param   nMapId          id of the map
      * @return  a smart map pointer
      */
-    MapPointer const mapById(rpgmapper::model::mapid_t nMapId) const;
+    MapPointer & mapById(rpgmapper::model::mapid_t nMapId);
+
+
+    /**
+     * Get a map based on an Id.
+     *
+     * Hence, if the map has not been found, a MapPointer
+     * with data() == nullptr is returned,
+     *
+     * @param   nMapId          id of the map
+     * @return  a smart map pointer
+     */
+    MapPointer const & mapById(rpgmapper::model::mapid_t nMapId) const;
 
 
     /**
@@ -152,7 +173,19 @@ public:
      * @param   nRegionId       id of the region
      * @return  a smart region pointer
      */
-    RegionPointer const regionById(rpgmapper::model::regionid_t nRegionId) const;
+    RegionPointer & regionById(rpgmapper::model::regionid_t nRegionId);
+
+
+    /**
+     * Get a region based on an Id.
+     *
+     * Hence, if the region has not been found, a RegionPointer
+     * with data() == nullptr is returned,
+     *
+     * @param   nRegionId       id of the region
+     * @return  a smart region pointer
+     */
+    RegionPointer const & regionById(rpgmapper::model::regionid_t nRegionId) const;
 
 
     /**
@@ -181,6 +214,22 @@ public:
 
 
 public slots:
+
+
+    /**
+     * Deletes a map.
+     *
+     * @param   nMapId          the map to delete
+     */
+    void deleteMap(rpgmapper::model::mapid_t nMapId);
+
+
+    /**
+     * Deletes a region.
+     *
+     * @param   nRegionId       the region to delete
+     */
+    void deleteRegion(rpgmapper::model::regionid_t nRegionId);
 
 
     /**
@@ -239,6 +288,22 @@ signals:
      * @param   nRegionId       the id of the region changed
      */
     void changedRegionName(rpgmapper::model::regionid_t nRegionId);
+
+
+    /**
+     * A map has been deleted.
+     *
+     * @param   nMapId      id of the map deleted
+     */
+    void deletedMap(rpgmapper::model::mapid_t nMapId);
+
+
+    /**
+     * A region has been deleted.
+     *
+     * @param nRegionId     id of the region deleted
+     */
+    void deletedRegion(rpgmapper::model::regionid_t nRegionId);
 
 
     /**

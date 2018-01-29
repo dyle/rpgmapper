@@ -69,7 +69,7 @@ public:
      *
      * @param   cMap    the map to add.
      */
-    void addMap(MapPointer cMap);
+    void addMap(MapPointer & cMap);
 
 
     /**
@@ -104,6 +104,14 @@ public:
      * @return  a value indicating the position of this region among others
      */
     int orderValue() const;
+
+
+    /**
+     * Remove a map from this region.
+     *
+     * @param   nMapId      id of the map removed
+     */
+    void removeMap(rpgmapper::model::mapid_t nMapId);
 
 
     /**

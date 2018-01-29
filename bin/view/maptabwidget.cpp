@@ -69,7 +69,9 @@ public:
  * @param   cParent     parent widget
  */
 MapTabWidget::MapTabWidget(QWidget * cParent) : QTabWidget{cParent} {
+
     d = std::make_shared<MapTabWidget::MapTabWidget_data>();
+    connect(Controller::instance().atlas().data(), &Atlas::selectedMap, this, &MapTabWidget::selectMap);
 }
 
 

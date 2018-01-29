@@ -98,10 +98,13 @@ MainWindow::MainWindow() : QMainWindow{} {
     connectActions();
     loadSettings();
 
+    // some fixes not caught by the Qt Designer
     d->ui->tabMap->clear();
     d->ui->twAtlas->resetStructure();
     d->ui->twAtlas->selectFirstMap();
+    d->ui->tbAtlasTreeNewMap->setDefaultAction(d->ui->acNewMap);
     d->ui->tbAtlasTreeNewRegion->setDefaultAction(d->ui->acNewRegion);
+    d->ui->tbAtlasTreeDeleteMap->setDefaultAction(d->ui->acDeleteMap);
     d->ui->tbAtlasTreeDeleteRegion->setDefaultAction(d->ui->acDeleteRegion);
 
     connect(Controller::instance().atlas().data(), &Atlas::changedAtlas, this, &MainWindow::changedAtlas);

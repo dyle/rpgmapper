@@ -292,7 +292,18 @@ void Map::setRegion(RegionPointer cRegion) {
         return;
     }
 
+    auto cOldRegion = d->m_cAtlas->regionById(d->m_nRegionId);
+    if (cOldRegion.data() != nullptr) {
+        cOldRegion->removedMap(id());
+    }
+    
     d->m_nRegionId = cRegion->id();
+    
+    auto cNewRegion = d->m_cAtlas->regionById(d->m_nRegionId);
+    if (cNewRegion.data() != nullptr) {
+        cNewRegion->addMap(d->m_cAtlas->mapById(id()));
+    }
+    
     emit changedRegion();
 }
 

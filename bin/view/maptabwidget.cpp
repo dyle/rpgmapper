@@ -94,6 +94,7 @@ void MapTabWidget::selectMap(mapid_t nMapId) {
         QPixmap cPixmap;
         QPixmapCache::find("map", &cPixmap);
         addTab(cMapView, cPixmap, cMap->name());
+        setCurrentWidget(cMapView);
     }
     else {
         setCurrentWidget((*iter).second);

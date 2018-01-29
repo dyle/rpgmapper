@@ -65,6 +65,12 @@ public slots:
 
 
     /**
+     * Closes the current map.
+     */
+    void closeCurrentMap();
+
+
+    /**
      * A map has been deleted.
      *
      * @param   nMapId      id of the map deleted
@@ -78,6 +84,17 @@ public slots:
      * @param   nMapId      ID of the map
      */
     void selectMap(rpgmapper::model::mapid_t nMapId);
+
+
+private slots:
+
+
+    /**
+     * The map widget close button has been clicked by the user.
+     *
+     * @param   nIndex          index of tab
+     */
+    void mapCloseRequested(int nIndex);
 
 
 private:

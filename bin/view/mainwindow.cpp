@@ -98,6 +98,8 @@ MainWindow::MainWindow() : QMainWindow{} {
     loadSettings();
 
     // some fixes not caught by the Qt Designer
+    addAction(d->ui->acCloseMap);
+
     d->ui->tabMap->clear();
     d->ui->twAtlas->resetStructure();
     d->ui->twAtlas->selectFirstMap();
@@ -219,6 +221,7 @@ void MainWindow::connectActions() {
 
     connect(d->ui->acAbout, &QAction::triggered, this, &MainWindow::showAboutDialog);
     connect(d->ui->acAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
+    connect(d->ui->acCloseMap, &QAction::triggered, d->ui->tabMap, &MapTabWidget::closeCurrentMap);
     connect(d->ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
     connect(d->ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
     connect(d->ui->acNewMap, &QAction::triggered, this, &MainWindow::newMap);

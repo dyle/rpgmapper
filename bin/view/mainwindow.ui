@@ -570,6 +570,14 @@
     <string>&amp;Structure</string>
    </property>
   </action>
+  <action name="acCloseMap">
+   <property name="text">
+    <string>Close Map</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F4</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

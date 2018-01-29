@@ -28,6 +28,8 @@ set(RPGMAPPER_LIB_MOC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/nameable.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
+
+    layer/background.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
 
@@ -42,7 +44,9 @@ set(RPGMAPPER_LIB_SRC
     map.cpp
     nameable.cpp
     region.cpp
+
+    layer/background.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})
-target_link_libraries(rpgm quazip5 Qt5::Core ${CMAKE_REQUIRED_LIBRARIES})
+target_link_libraries(rpgm quazip5 Qt5::Gui Qt5::Core ${CMAKE_REQUIRED_LIBRARIES})

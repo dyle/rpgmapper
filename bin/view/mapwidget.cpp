@@ -21,8 +21,6 @@
 // ------------------------------------------------------------
 // defs
 
-#define MINIMUM_ZOOM            0.25
-#define MAXIMUM_ZOOM            8.0
 #define STANDARD_TILE_SIZE      48
 
 
@@ -32,6 +30,7 @@
 #include <QPainter>
 
 // rpgmapper
+#include <rpgmapper/layer.hpp>
 #include <rpgmapper/map.hpp>
 #include "mapwidget.hpp"
 
@@ -56,7 +55,6 @@ public:
     MapView_data() = default;
 
     MapPointer m_cMap;                  /**< Map to be viewed. */
-    float m_nScaleFactor = 1.0;         /**< Current scale factor value. */
 };
 
 
@@ -78,7 +76,9 @@ MapWidget::MapWidget(QWidget * cParent, MapPointer & cMap) : QWidget{cParent} {
 
     d = std::make_shared<MapWidget::MapView_data>();
     d->m_cMap = cMap;
+
     connect(d->m_cMap.data(), &Map::changedSize, this, &MapWidget::changedMap);
+
     changedMap();
 }
 
@@ -87,7 +87,10 @@ MapWidget::MapWidget(QWidget * cParent, MapPointer & cMap) : QWidget{cParent} {
  * The map has changed.
  */
 void MapWidget::changedMap() {
-    resize(d->m_cMap->size() * STANDARD_TILE_SIZE * scaleFactor());
+
+    QSize cSize{d->m_cMap->size().width() + 2, d->m_cMap->size().height() + 2};
+    cSize *= STANDARD_TILE_SIZE;
+    resize(cSize);
 }
 
 
@@ -103,36 +106,14 @@ void MapWidget::paintEvent(QPaintEvent * cEvent) {
     QPainter cPainter(this);
     cPainter.setRenderHint(QPainter::Antialiasing);
 
-    // TODO: setWindow to make logical to world coordinates
-    // TODO: add space for map text
+    QSize cSize = d->m_cMap->size() * STANDARD_TILE_SIZE;
+    cPainter.setWindow(-STANDARD_TILE_SIZE,
+                       -STANDARD_TILE_SIZE,
+                       cSize.width() + STANDARD_TILE_SIZE,
+                       cSize.height() + STANDARD_TILE_SIZE);
+    cPainter.setViewTransformEnabled(true);
 
-    cPainter.fillRect(rect(), QColor{0, 0, 96, 255});
-}
-
-
-/**
- * Get the current scale factor value.
- *
- * @return  the current scale factor value
- */
-float MapWidget::scaleFactor() const {
-    return d->m_nScaleFactor;
-}
-
-
-/**
- * Set the current scale factor value.
- *
- * @param   nScaleFactor       the new scale factor value
- */
-void MapWidget::scaleFactor(float nScaleFactor) {
-
-    if (d->m_nScaleFactor == nScaleFactor) {
-        return;
+    for (auto const & cPair : d->m_cMap->layers()) {
+        cPair.second->draw(cPainter, STANDARD_TILE_SIZE);
     }
-    if ((nScaleFactor < MINIMUM_ZOOM) || (nScaleFactor > MAXIMUM_ZOOM)) {
-        return;
-    }
-
-    d->m_nScaleFactor = nScaleFactor;
 }

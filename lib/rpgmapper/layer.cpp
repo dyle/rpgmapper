@@ -21,14 +21,15 @@
 // ------------------------------------------------------------
 // incs
 
+#include <QFont>
 #include <QJsonArray>
 #include <QJsonObject>
 
 // rpgmapper
-#include <rpgmapper/common_macros.h>
 #include <rpgmapper/layer.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/field.hpp>
+#include "layer/background.hpp"
 
 using namespace rpgmapper::model;
 
@@ -49,6 +50,7 @@ public:
 
     Layer_data() = default;
 
+    Map * m_cMap;                           /**< The map this layer belongs to. */
     mutable Fields m_cFields;               /**< All the fields on this on this layer. */
     bool m_bVisible = true;                 /**< Visibility flag. */
 };
@@ -71,12 +73,15 @@ public:
  */
 Layer::Layer(Map * cMap, layerid_t nId, layer_t eLayer) : Nameable{cMap}, m_nId{nId}, m_eLayer{eLayer} {
 
-    Q_ASSERT(cMap);
+    if (cMap == nullptr) {
+        throw std::invalid_argument("Map shall not be nullptr.");
+    }
 
     d = std::make_shared<Layer::Layer_data>();
+    d->m_cMap = cMap;
 
     static Tile const cDefaultBackground{{"color", "#000060"}};
-    static Tile const cDefaultGrid{{"color", "#f0f0ff"}};
+    static Tile const cDefaultGrid{{"color", "#f0f0ff"}, {"font", QFont().toString()}};
 
     if (eLayer == layer_t::background) {
         addTile(0,  cDefaultBackground);
@@ -132,7 +137,19 @@ void Layer::clearField(coordinate_t nCoordinate) {
  * @return  a new layer
  */
 LayerPointer Layer::create(Map * cMap, layerid_t nId, layer_t eLayer) {
-    return LayerPointer{new Layer{cMap, nId, eLayer}, &Layer::deleteLater};
+
+    switch (eLayer) {
+
+        case layer_t::background:
+            return LayerPointer{new BackgroundLayer{cMap, nId}, &BackgroundLayer::deleteLater};
+
+        case layer_t::grid:
+        case layer_t::tile:
+        case layer_t::text:
+            throw std::runtime_error("Layer enumeration not yet implemented.");
+    }
+
+    return LayerPointer{nullptr};
 }
 
 
@@ -154,6 +171,16 @@ Field const & Layer::getField(coordinate_t nCoordinate) const {
  */
 Fields const & Layer::fields() const {
     return d->m_cFields;
+}
+
+
+/**
+ * Checks the visibiity of this layer.
+ *
+ * @return  true, if the layer should be drawn
+ */
+bool Layer::isVisible() const {
+    return d->m_bVisible;
 }
 
 
@@ -191,6 +218,16 @@ void Layer::load(QJsonObject const & cJSON) {
 
 
 /**
+ * The map associated with this layer.
+ *
+ * @return  a pointer to the map
+ */
+Map * const & Layer::map() const {
+    return d->m_cMap;
+}
+
+
+/**
  * Save the layer to json.
  *
  * @param   cJSON       the json instance to save to
@@ -201,7 +238,7 @@ void Layer::save(QJsonObject & cJSON) const {
 
     cJSON["id"] = id();
     cJSON["type"] = static_cast<int>(type());
-    cJSON["visible"] = visible();
+    cJSON["visible"] = isVisible();
 
     QJsonArray cJSONFields;
     for (auto const & cPair : fields()) {
@@ -243,21 +280,11 @@ bool Layer::stackable() const {
 
 
 /**
- * Checks if this layer is visible.
+ * Turns the visibility of this layer.
  *
- * @return  visibility flag
+ * @param   bVisible        the new visible value for this layer
  */
-bool Layer::visible() const {
-    return d->m_bVisible;
-}
-
-
-/**
- * Switches visibility of this layer.
- *
- * @param   bVisible        new visibility flag
- */
-void Layer::visible(bool bVisible) {
+void Layer::setVisible(bool bVisible) {
     if (d->m_bVisible == bVisible) {
         return;
     }

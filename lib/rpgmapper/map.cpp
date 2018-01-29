@@ -144,11 +144,13 @@ void Map::createDefaultLayers() {
 
     std::vector<LayerDefinition> cDefaultLayers {
         { static_cast<layerid_t>(map_layer::background), Layer::layer_t::background, "Background"},
-        { static_cast<layerid_t>(map_layer::base), Layer::layer_t::tile, "Base"},
-        { static_cast<layerid_t>(map_layer::walls), Layer::layer_t::tile, "Walls"},
-        { static_cast<layerid_t>(map_layer::grid), Layer::layer_t::grid, "Grid"},
-        { static_cast<layerid_t>(map_layer::specials), Layer::layer_t::tile, "Specials"},
-        { static_cast<layerid_t>(map_layer::text), Layer::layer_t::text, "Text"},
+
+        // TODO
+        // { static_cast<layerid_t>(map_layer::base), Layer::layer_t::tile, "Base"},
+        // { static_cast<layerid_t>(map_layer::walls), Layer::layer_t::tile, "Walls"},
+        // { static_cast<layerid_t>(map_layer::grid), Layer::layer_t::grid, "Grid"},
+        // { static_cast<layerid_t>(map_layer::specials), Layer::layer_t::tile, "Specials"},
+        // { static_cast<layerid_t>(map_layer::text), Layer::layer_t::text, "Text"},
     };
 
     for (auto const & cLayerDefinition : cDefaultLayers) {

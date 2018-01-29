@@ -27,6 +27,8 @@
 
 #include <memory>
 
+#include <QPainter>
+
 // rpgmapper
 #include <rpgmapper/nameable.hpp>
 #include <rpgmapper/types.hpp>
@@ -111,6 +113,15 @@ public:
 
 
     /**
+     * Draw the current layer given the painter.
+     *
+     * @param   cPainter        painter instance to draw this layer
+     * @param   nTileSize       dimension of a single tile
+     */
+    virtual void draw(QPainter & cPainter, int nTileSize) const = 0;
+
+
+    /**
      * Get one field on this layer.
      *
      * @param   nCoordinate         the field's coordinate value
@@ -145,6 +156,14 @@ public:
 
 
     /**
+     * Checks the visibiity of this layer.
+     *
+     * @return  true, if the layer should be drawn
+     */
+    bool isVisible() const;
+
+
+    /**
      * Load the layer from json.
      *
      * @param   cJSON       the json instance to load from
@@ -158,6 +177,14 @@ public:
      * @param   cJSON       the json instance to save to
      */
     void save(QJsonObject & cJSON) const override;
+
+
+    /**
+     * Turns the visibility of this layer.
+     *
+     * @param   bVisible        the new visible value for this layer
+     */
+    void setVisible(bool bVisible);
 
 
     /**
@@ -180,22 +207,6 @@ public:
     layer_t type() const { return m_eLayer; }
 
 
-    /**
-     * Checks if this layer is visible.
-     *
-     * @return  visibility flag
-     */
-    bool visible() const;
-
-
-    /**
-     * Switches visibility of this layer.
-     *
-     * @param   bVisible        new visibility flag
-     */
-    void visible(bool bVisible);
-
-
 public slots:
 
 
@@ -205,7 +216,7 @@ public slots:
     void clear();
 
 
-private:
+protected:
 
 
     /**
@@ -216,6 +227,17 @@ private:
      * @param   eLayer      the layer type
      */
     explicit Layer(Map * cMap, layerid_t nId, layer_t eLayer);
+
+
+    /**
+     * The map associated with this layer.
+     *
+     * @return  a pointer to the map
+     */
+    Map * const & map() const;
+
+
+private:
 
 
     layerid_t m_nId;                            /**< Layer id. */

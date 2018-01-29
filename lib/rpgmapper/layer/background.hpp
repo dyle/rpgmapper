@@ -1,5 +1,5 @@
 /*
- * mapview.hpp
+ * background.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,17 +18,15 @@
  */
 
 
-#ifndef VIEW_MAPWIDGET_HPP
-#define VIEW_MAPWIDGET_HPP
+#ifndef MODEL_LAYER_BACKGROUND_HPP
+#define MODEL_LAYER_BACKGROUND_HPP
 
 
 // ------------------------------------------------------------
 // incs
 
-#include <memory>
-#include <QWidget>
-
 // rpgmapper
+#include <rpgmapper/layer.hpp>
 #include <rpgmapper/types.hpp>
 
 
@@ -37,13 +35,13 @@
 
 
 namespace rpgmapper {
-namespace view {
+namespace model {
 
 
 /**
- * A MapWidget is the widget which draws a map.
+ * A layer on a map.
  */
-class MapWidget : public QWidget {
+class BackgroundLayer : public Layer {
 
 
     Q_OBJECT
@@ -53,37 +51,36 @@ public:
 
 
     /**
-     * Ctor
+     * Ctor.
      *
-     * @param   cParent     parent widget
-     * @param   cMap        the map to be drawn
+     * @param   cMap        parent object
+     * @param   nId         id of the layer
      */
-    explicit MapWidget(QWidget * cParent, rpgmapper::model::MapPointer & cMap);
-
-
-public slots:
+    explicit BackgroundLayer(Map * cMap, layerid_t nId);
 
 
     /**
-     * The map has changed.
+     * Draw the current layer given the painter.
+     *
+     * @param   cPainter        painter instance to draw this layer
+     * @param   nTileSize       dimension of a single tile
      */
-    void changedMap();
+    void draw(QPainter & cPainter, int nTileSize) const override;
 
 
-protected:
+
+private:
 
 
     /**
-     * Draw the map.
+     * Retrieve the background color.
      *
-     * @param   cEvent      paint event
+     * @return  the color encoded in the tiles of this layer
      */
-    void paintEvent(QPaintEvent * cEvent) override;
+    QColor backgroundColor() const;
 
-
-    class MapView_data;                              /**< Internal data type. */
-    std::shared_ptr<MapWidget::MapView_data> d;        /**< Internal data instance. */
 };
+
 
 }
 }

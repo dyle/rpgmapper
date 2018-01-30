@@ -428,6 +428,9 @@ QSize Map::size() const {
  */
 QString Map::translateX(int x) const {
     // TODO: respect corner
+    if ((x < 0) || (x >= size().width())) {
+        return "";
+    }
     return QString::number(x + originOffset().x());
 }
 
@@ -440,6 +443,9 @@ QString Map::translateX(int x) const {
  */
 QString Map::translateY(int y) const {
     // TODO: respect corner
+    if ((y < 0) || (y >= size().height())) {
+        return "";
+    }
     return QString::number(y + originOffset().y());
 }
 

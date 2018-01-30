@@ -1,5 +1,5 @@
 /*
- * logdialog.cpp
+ * coordinateWidget.cpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -22,8 +22,8 @@
 // incs
 
 // rpgmapper
-#include "logdialog.hpp"
-#include "ui_logdialog.h"
+#include "coordinatewidget.hpp"
+#include "ui_coordinatewidget.h"
 
 using namespace rpgmapper::view;
 
@@ -37,40 +37,35 @@ using namespace rpgmapper::view;
  *
  * @param   cParent         parent widget instance
  */
-LogDialog::LogDialog(QWidget * cParent) : QDialog{cParent} {
-    ui = std::make_shared<Ui_logdialog>();
+CoordinateWidget::CoordinateWidget(QWidget * cParent) : QWidget{cParent} {
+
+    ui = std::make_shared<Ui_coordinatewidget>();
     ui->setupUi(this);
+
+    QFontMetrics cFM(font());
+    auto cRect = cFM.boundingRect("XXXX");
+    ui->lblXValue->setMinimumSize(cRect.size());
+    ui->lblYValue->setMinimumSize(cRect.size());
+
+    clear();
 }
 
 
 /**
- * Clear the items in the dialog.
+ * Clears the coordinate display.
  */
-void LogDialog::clear() {
-    ui->lbMessage->setText("");
-    ui->edPlainLog->clear();
+void CoordinateWidget::clear() {
+    showCoordinates("", "");
 }
 
 
 /**
- * Set the log.
+ * Display some coordinates.
  *
- * @param   cLog            the log to display
+ * @param   sXCoordinate        the X coordinate in user dimensions
+ * @param   sYCoordinate        the Y coordinate in user dimensions
  */
-void LogDialog::setLog(QStringList const & cLog) {
-    ui->edPlainLog->clear();
-    for (auto & sLogLine : cLog) {
-        ui->edPlainLog->insertPlainText(sLogLine);
-        ui->edPlainLog->insertPlainText("\n");
-    }
-}
-
-
-/**
- * Set a log message.
- *
- * @param   sMessage        the message to show.
- */
-void LogDialog::setMessage(QString sMessage) {
-    ui->lbMessage->setText(sMessage);
+void CoordinateWidget::showCoordinates(QString sXCoordinate, QString sYCoordinate) {
+    ui->lblXValue->setText(sXCoordinate);
+    ui->lblYValue->setText(sYCoordinate);
 }

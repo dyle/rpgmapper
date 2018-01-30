@@ -1,5 +1,5 @@
 /*
- * logdialog.hpp
+ * coordinatewidget.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,8 +18,8 @@
  */
 
 
-#ifndef VIEW_LOGDIALOG_HPP
-#define VIEW_LOGDIALOG_HPP
+#ifndef VIEW_COORDINATEWIDGET_HPP
+#define VIEW_COORDINATEWIDGET_HPP
 
 
 // ------------------------------------------------------------
@@ -27,7 +27,7 @@
 
 #include <memory>
 
-#include <QDialog>
+#include <QWidget>
 
 
 // ------------------------------------------------------------
@@ -35,7 +35,7 @@
 
 
 // fwd
-class Ui_logdialog;
+class Ui_coordinatewidget;
 
 
 namespace rpgmapper {
@@ -43,12 +43,12 @@ namespace view {
 
 
 /**
- * A log dialog displays a plain text of logs (some errors) to the user.
+ * The rpgmapper coordinate widget displays the X and Y coordinates in the statusbar.
  */
-class LogDialog : public QDialog {
+class CoordinateWidget : public QWidget {
 
 
-Q_OBJECT
+    Q_OBJECT
 
 
 public:
@@ -59,35 +59,31 @@ public:
      *
      * @param   cParent         parent widget instance
      */
-    LogDialog(QWidget * cParent);
+    CoordinateWidget(QWidget * cParent);
+
+
+public slots:
 
 
     /**
-     * Clear the items in the dialog.
+     * Clears the coordinate display.
      */
     void clear();
 
 
     /**
-     * Set the log.
+     * Display some coordinates.
      *
-     * @param   cLog            the log to display
+     * @param   sXCoordinate        the X coordinate in user dimensions
+     * @param   sYCoordinate        the Y coordinate in user dimensions
      */
-    void setLog(QStringList const & cLog);
-
-
-    /**
-     * Set a log message.
-     *
-     * @param   sMessage        the message to show.
-     */
-    void setMessage(QString sMessage);
+    void showCoordinates(QString sXCoordinate, QString sYCoordinate);
 
 
 private:
 
 
-    std::shared_ptr<Ui_logdialog> ui;       /**< User interface. */
+    std::shared_ptr<Ui_coordinatewidget> ui;       /**< User interface. */
 
 };
 

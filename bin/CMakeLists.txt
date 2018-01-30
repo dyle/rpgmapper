@@ -29,6 +29,7 @@ qt5_add_resources(RPGMAPPER_RES ${RPGMAPPER_RCC})
 # Qt UIC
 set(RPGMAPPER_UI
     view/aboutdialog.ui
+    view/coordinatewidget.ui
     view/logdialog.ui
     view/mainwindow.ui
 )
@@ -37,6 +38,7 @@ qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
 # Qt MOC
 set(RPGMAPPER_MOC
     view/aboutdialog.hpp
+    view/coordinatewidget.hpp
     view/logdialog.hpp
     view/mainwindow.hpp
     view/mapscrollarea.hpp
@@ -53,6 +55,7 @@ set(RPGMAPPER_SRC
 
     main.cpp
     view/aboutdialog.cpp
+    view/coordinatewidget.cpp
     view/logdialog.cpp
     view/mainwindow.cpp
     view/mapscrollarea.cpp

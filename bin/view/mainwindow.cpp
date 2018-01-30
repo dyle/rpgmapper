@@ -34,6 +34,7 @@
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/controller.hpp>
 #include "aboutdialog.hpp"
+#include "coordinatewidget.hpp"
 #include "logdialog.hpp"
 #include "mainwindow.hpp"
 #include "structuraltreewidget.hpp"
@@ -72,7 +73,7 @@ public:
     LogDialog * m_cDlgLog = nullptr;                    /**< Dialog for some log messages. */
     QFileDialog * m_cDlgSaveAs = nullptr;               /**< SaveAs file dialog. */
 
-    QLabel * m_cLblCoordinates = nullptr;               /**< X,Y coordinates in the statusbar. */
+    CoordinateWidget * m_cWdCoordinates = nullptr;      /**< X,Y coordinates in the statusbar. */
 };
 
 
@@ -93,12 +94,10 @@ MainWindow::MainWindow() : QMainWindow{} {
 
     d->ui = std::make_shared<Ui_mainwindow>();
     d->ui->setupUi(this);
-    d->m_cLblCoordinates = new QLabel;
-    statusBar()->addPermanentWidget(d->m_cLblCoordinates);
-    statusBar()->setSizeGripEnabled(true);
+    d->m_cWdCoordinates = new CoordinateWidget{this};
+    d->ui->stbMain->addPermanentWidget(d->m_cWdCoordinates);
 
     setupDialogs();
-
     connectActions();
     loadSettings();
 
@@ -610,11 +609,11 @@ void MainWindow::showCoordinates(int x, int y) {
     QString sCoordinates;
     auto cMap = Controller::instance().atlas()->currentMap();
     if (cMap.data() != nullptr) {
-        sCoordinates = QString{"X/Y: %1/%2"}.arg(cMap->translateX(x)).arg(cMap->translateY(y));
-
+        d->m_cWdCoordinates->showCoordinates(cMap->translateX(x), cMap->translateY(y));
     }
-
-    d->m_cLblCoordinates->setText(sCoordinates);
+    else {
+        d->m_cWdCoordinates->clear();
+    }
 }
 
 

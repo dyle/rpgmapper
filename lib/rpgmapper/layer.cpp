@@ -29,7 +29,8 @@
 #include <rpgmapper/layer.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/field.hpp>
-#include "layer/background.hpp"
+#include "layer/backgroundlayer.hpp"
+#include "layer/gridlayer.hpp"
 
 using namespace rpgmapper::model;
 
@@ -79,11 +80,6 @@ Layer::Layer(Map * cMap, layerid_t nId, layer_t eLayer) : Nameable{cMap}, m_nId{
 
     d = std::make_shared<Layer::Layer_data>();
     d->m_cMap = cMap;
-
-    static Tile const cDefaultGrid{{"color", "#f0f0ff"}, {"font", QFont().toString()}};
-    if (eLayer == layer_t::grid) {
-        addTile(0, cDefaultGrid);
-    }
 }
 
 
@@ -139,6 +135,8 @@ LayerPointer Layer::create(Map * cMap, layerid_t nId, layer_t eLayer) {
             return LayerPointer{new BackgroundLayer{cMap, nId}, &BackgroundLayer::deleteLater};
 
         case layer_t::grid:
+            return LayerPointer{new GridLayer{cMap, nId}, &GridLayer::deleteLater};
+
         case layer_t::tile:
         case layer_t::text:
             throw std::runtime_error("Layer enumeration not yet implemented.");

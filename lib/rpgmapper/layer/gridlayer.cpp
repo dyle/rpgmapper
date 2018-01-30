@@ -1,5 +1,5 @@
 /*
- * background.cpp
+ * grid.cpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -22,8 +22,8 @@
 // defs
 
 
-#define DEFAULT_BACKGROUND_COLOR        "#000060"
-#define WARNING_BACKGROUND_COLOR        "#ff0088"
+#define DEFAULT_GRID_COLOR        "#f0f0ff"
+#define WARNING_GRID_COLOR        "#ff0088"
 
 
 // ------------------------------------------------------------
@@ -33,7 +33,7 @@
 
 // rpgmapper
 #include <rpgmapper/map.hpp>
-#include "background.hpp"
+#include "gridlayer.hpp"
 
 using namespace rpgmapper::model;
 
@@ -49,17 +49,18 @@ using namespace rpgmapper::model;
  * @param   nId         id of the layer
  * @param   eLayer      the layer type
  */
-BackgroundLayer::BackgroundLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, Layer::layer_t::background) {
-    addTile(0,  Tile{{"color", DEFAULT_BACKGROUND_COLOR}});
+GridLayer::GridLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, Layer::layer_t::grid) {
+
+    addTile(0,  Tile{{"color", DEFAULT_GRID_COLOR}, {"font", QFont().toString()}});
 }
 
 
 /**
- * Retrieve the background color.
+ * Retrieve the grid color.
  *
  * @return  the color encoded in the tiles of this layer
  */
-QColor BackgroundLayer::backgroundColor() const {
+QColor GridLayer::gridColor() const {
 
     if (!fields().empty()) {
         auto const & cTile = fields().at(0).cTiles[0];
@@ -69,7 +70,7 @@ QColor BackgroundLayer::backgroundColor() const {
         }
     }
 
-    return QColor{WARNING_BACKGROUND_COLOR};
+    return QColor{WARNING_GRID_COLOR};
 }
 
 
@@ -79,9 +80,11 @@ QColor BackgroundLayer::backgroundColor() const {
  * @param   cPainter        painter instance to draw this layer
  * @param   nTileSize       dimension of a single tile
  */
-void BackgroundLayer::draw(QPainter & cPainter, int nTileSize) const {
+void GridLayer::draw(QPainter & cPainter, int nTileSize) const {
 
     QSize cSize = map()->size() * nTileSize;
-    QColor cBackgroundColor = backgroundColor();
-    cPainter.fillRect(QRect{QPoint{0, 0}, cSize}, cBackgroundColor);
+    QColor cGridColor = gridColor();
+
+    cPainter.setPen(cGridColor);
+    cPainter.drawRect(QRect{-nTileSize, -nTileSize, cSize.width() + nTileSize, cSize.height() + nTileSize});
 }

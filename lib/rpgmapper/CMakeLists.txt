@@ -29,7 +29,8 @@ set(RPGMAPPER_LIB_MOC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/nameable.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
 
-    layer/background.hpp
+    layer/backgroundlayer.hpp
+    layer/gridlayer.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
 
@@ -45,7 +46,8 @@ set(RPGMAPPER_LIB_SRC
     nameable.cpp
     region.cpp
 
-    layer/background.cpp
+    layer/backgroundlayer.cpp
+    layer/gridlayer.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

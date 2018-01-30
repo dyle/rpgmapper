@@ -27,6 +27,9 @@
 // ------------------------------------------------------------
 // incs
 
+#include <iostream>
+
+#include <QMouseEvent>
 #include <QPainter>
 
 // rpgmapper
@@ -77,6 +80,8 @@ MapWidget::MapWidget(QWidget * cParent, MapPointer & cMap) : QWidget{cParent} {
     d = std::make_shared<MapWidget::MapView_data>();
     d->m_cMap = cMap;
 
+    setMouseTracking(true);
+
     connect(d->m_cMap.data(), &Map::changedSize, this, &MapWidget::changedMap);
 
     changedMap();
@@ -91,6 +96,20 @@ void MapWidget::changedMap() {
     QSize cSize{d->m_cMap->size().width() + 2, d->m_cMap->size().height() + 2};
     cSize *= STANDARD_TILE_SIZE;
     resize(cSize);
+}
+
+
+/**
+ * The mouse has been moved over the widget.
+ *
+ * @param   cEvent      mouse move event
+ */
+void MapWidget::mouseMoveEvent(QMouseEvent * cEvent) {
+
+    QWidget::mouseMoveEvent(cEvent);
+    int x = cEvent->pos().x() / STANDARD_TILE_SIZE - 1;
+    int y = cEvent->pos().y() / STANDARD_TILE_SIZE - 1;
+    emit hoverCoordinates(x, y);
 }
 
 

@@ -97,6 +97,18 @@ private slots:
     void mapCloseRequested(int nIndex);
 
 
+signals:
+
+
+    /**
+     * The mouse of the user hovers some current map coordinates.
+     *
+     * @param   x       X map coordinate (with origin top/left)
+     * @param   y       Y map coordinate (with origin top/left)
+     */
+    void hoverCoordinates(int x, int y);
+
+
 private:
 
 

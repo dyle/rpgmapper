@@ -27,6 +27,7 @@
 #include <QDesktopWidget>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QLabel>
 #include <QMessageBox>
 
 // rpgmapper
@@ -70,6 +71,8 @@ public:
     QFileDialog * m_cDlgLoad = nullptr;                 /**< Load file dialog. */
     LogDialog * m_cDlgLog = nullptr;                    /**< Dialog for some log messages. */
     QFileDialog * m_cDlgSaveAs = nullptr;               /**< SaveAs file dialog. */
+
+    QLabel * m_cLblCoordinates = nullptr;               /**< X,Y coordinates in the statusbar. */
 };
 
 
@@ -90,6 +93,8 @@ MainWindow::MainWindow() : QMainWindow{} {
 
     d->ui = std::make_shared<Ui_mainwindow>();
     d->ui->setupUi(this);
+    d->m_cLblCoordinates = new QLabel;
+    statusBar()->addPermanentWidget(d->m_cLblCoordinates);
     statusBar()->setSizeGripEnabled(true);
 
     setupDialogs();
@@ -238,6 +243,8 @@ void MainWindow::connectActions() {
 
     connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedAtlas, d->ui->acAtlasProperties, &QAction::trigger);
     connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedRegion, d->ui->acRegionProperties, &QAction::trigger);
+
+    connect(d->ui->tabMap, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
 }
 
 
@@ -589,6 +596,25 @@ void MainWindow::setupDialogs() {
  */
 void MainWindow::showAboutDialog() {
     d->m_cDlgAbout->exec();
+}
+
+
+/**
+ * Shows the coordinates in user world transformation at the statusbar.
+ *
+ * @param   x   X-coordinate on the map (with origin top/left)
+ * @param   y   Y-coordinate on the map (with origin top/left)
+ */
+void MainWindow::showCoordinates(int x, int y) {
+
+    QString sCoordinates;
+    auto cMap = Controller::instance().atlas()->currentMap();
+    if (cMap.data() != nullptr) {
+        sCoordinates = QString{"X/Y: %1/%2"}.arg(cMap->translateX(x)).arg(cMap->translateY(y));
+
+    }
+
+    d->m_cLblCoordinates->setText(sCoordinates);
 }
 
 

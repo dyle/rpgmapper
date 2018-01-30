@@ -114,6 +114,15 @@ public slots:
 
 
     /**
+     * Shows the coordinates in user world transformation at the statusbar.
+     *
+     * @param   x   X-coordinate on the map (with origin top/left)
+     * @param   y   Y-coordinate on the map (with origin top/left)
+     */
+    void showCoordinates(int x, int y);
+
+
+    /**
      * Toggle the minimap window visibility.
      *
      * @param   bView       visibility of window

@@ -137,9 +137,13 @@ void MapTabWidget::selectMap(mapid_t nMapId) {
     auto iter = d->m_cMapViews.find(nMapId);
     if (iter == d->m_cMapViews.end()) {
 
-        auto cMapView = new MapScrollArea{this, new MapWidget{this, cMap}};
+        auto cMapWidget = new MapWidget{this, cMap};
+        connect(cMapWidget, &MapWidget::hoverCoordinates, this, &MapTabWidget::hoverCoordinates);
+
+        auto cMapView = new MapScrollArea{this, cMapWidget};
         d->m_cMapViews.emplace(nMapId, cMapView);
         addTab(cMapView, cPixmap, cMap->name());
+
         setCurrentWidget(cMapView);
     }
     else {

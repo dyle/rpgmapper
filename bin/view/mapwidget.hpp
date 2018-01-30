@@ -70,7 +70,27 @@ public slots:
     void changedMap();
 
 
+signals:
+
+
+    /**
+     * The mouse of the user hovers some map coordinates.
+     *
+     * @param   x       X map coordinate (with origin top/left)
+     * @param   y       Y map coordinate (with origin top/left)
+     */
+    void hoverCoordinates(int x, int y);
+
+
 protected:
+
+
+    /**
+     * The mouse has been moved over the widget.
+     *
+     * @param   cEvent      mouse move event
+     */
+    void mouseMoveEvent(QMouseEvent * cEvent) override;
 
 
     /**

@@ -62,6 +62,7 @@ BackgroundLayer::BackgroundLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, L
 QColor BackgroundLayer::backgroundColor() const {
 
     if (!fields().empty()) {
+
         auto const & cTile = fields().at(0).cTiles[0];
         auto iter = cTile.find("color");
         if (iter != cTile.end()) {
@@ -79,7 +80,7 @@ QColor BackgroundLayer::backgroundColor() const {
  * @param   cPainter        painter instance to draw this layer
  * @param   nTileSize       dimension of a single tile
  */
-void BackgroundLayer::draw(QPainter & cPainter, int nTileSize) const {
+void BackgroundLayer::drawLayer(QPainter & cPainter, int nTileSize) const {
 
     QSize cSize = map()->size() * nTileSize;
     QColor cBackgroundColor = backgroundColor();

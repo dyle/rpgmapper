@@ -59,17 +59,43 @@ public:
     explicit GridLayer(Map * cMap, layerid_t nId);
 
 
+private:
+
+
+    /**
+     * Draw the border around the map.
+     *
+     * @param   cPainter        painter instance to draw this layer
+     * @param   nTileSize       dimension of a single tile
+     */
+    void drawBorder(QPainter & cPainter, int nTileSize) const;
+
+
     /**
      * Draw the current layer given the painter.
      *
      * @param   cPainter        painter instance to draw this layer
      * @param   nTileSize       dimension of a single tile
      */
-    void draw(QPainter & cPainter, int nTileSize) const override;
+    void drawLayer(QPainter & cPainter, int nTileSize) const override;
 
 
+    /**
+     * Draw X-axis ticks
+     *
+     * @param   cPainter        painter instance to draw this layer
+     * @param   nTileSize       dimension of a single tile
+     */
+    void drawXAxis(QPainter & cPainter, int nTileSize) const;
 
-private:
+
+    /**
+     * Draw Y-axis ticks
+     *
+     * @param   cPainter        painter instance to draw this layer
+     * @param   nTileSize       dimension of a single tile
+     */
+    void drawYAxis(QPainter & cPainter, int nTileSize) const;
 
 
     /**

@@ -118,7 +118,7 @@ public:
      * @param   cPainter        painter instance to draw this layer
      * @param   nTileSize       dimension of a single tile
      */
-    virtual void draw(QPainter & cPainter, int nTileSize) const = 0;
+    void draw(QPainter & cPainter, int nTileSize) const;
 
 
     /**
@@ -238,6 +238,15 @@ protected:
 
 
 private:
+
+
+    /**
+     * Draw the current layer given the painter.
+     *
+     * @param   cPainter        painter instance to draw this layer
+     * @param   nTileSize       dimension of a single tile
+     */
+    virtual void drawLayer(QPainter & cPainter, int nTileSize) const = 0;
 
 
     layerid_t m_nId;                            /**< Layer id. */

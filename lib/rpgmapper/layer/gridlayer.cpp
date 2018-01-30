@@ -50,8 +50,77 @@ using namespace rpgmapper::model;
  * @param   eLayer      the layer type
  */
 GridLayer::GridLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, Layer::layer_t::grid) {
-
     addTile(0,  Tile{{"color", DEFAULT_GRID_COLOR}, {"font", QFont().toString()}});
+}
+
+
+/**
+ * Draw the border around the map.
+ *
+ * @param   cPainter        painter instance to draw this layer
+ * @param   nTileSize       dimension of a single tile
+ */
+void GridLayer::drawBorder(QPainter & cPainter, int nTileSize) const {
+
+    QSize cSize = map()->size() * nTileSize;
+
+    cPainter.setPen(QPen(gridColor(), 1, Qt::SolidLine, Qt::FlatCap));
+    cPainter.drawRect(0, 0, cSize.width(), cSize.height());
+
+    auto nOuterTickLength = nTileSize / 4;
+    for (int x = 0; x <= cSize.width(); x += nTileSize) {
+        cPainter.drawLine(x, -nOuterTickLength, x, 0);
+        cPainter.drawLine(x, cSize.height(), x, cSize.height() + nOuterTickLength);
+    }
+    for (int y = 0; y <= cSize.height(); y += nTileSize) {
+        cPainter.drawLine(-nOuterTickLength, y, 0, y);
+        cPainter.drawLine(cSize.width(), y, cSize.width() + nOuterTickLength, y);
+    }
+}
+
+
+/**
+ * Draw the current layer given the painter.
+ *
+ * @param   cPainter        painter instance to draw this layer
+ * @param   nTileSize       dimension of a single tile
+ */
+void GridLayer::drawLayer(QPainter & cPainter, int nTileSize) const {
+    drawXAxis(cPainter, nTileSize);
+    drawYAxis(cPainter, nTileSize);
+    drawBorder(cPainter, nTileSize);
+}
+
+
+/**
+ * Draw X-axis ticks
+ *
+ * @param   cPainter        painter instance to draw this layer
+ * @param   nTileSize       dimension of a single tile
+ */
+void GridLayer::drawXAxis(QPainter & cPainter, int nTileSize) const {
+
+    QSize cSize = map()->size() * nTileSize;
+    cPainter.setPen(QPen(gridColor(), 1, Qt::DotLine, Qt::FlatCap));
+    for (int x = nTileSize; x <= cSize.width() - nTileSize; x += nTileSize) {
+        cPainter.drawLine(x, 0, x, cSize.height());
+    }
+}
+
+
+/**
+ * Draw Y-axis ticks
+ *
+ * @param   cPainter        painter instance to draw this layer
+ * @param   nTileSize       dimension of a single tile
+ */
+void GridLayer::drawYAxis(QPainter & cPainter, int nTileSize) const {
+
+    QSize cSize = map()->size() * nTileSize;
+    cPainter.setPen(QPen(gridColor(), 1, Qt::DotLine, Qt::FlatCap));
+    for (int y = nTileSize; y <= cSize.height() - nTileSize; y += nTileSize) {
+        cPainter.drawLine(0, y, cSize.height(), y);
+    }
 }
 
 
@@ -71,20 +140,4 @@ QColor GridLayer::gridColor() const {
     }
 
     return QColor{WARNING_GRID_COLOR};
-}
-
-
-/**
- * Draw the current layer given the painter.
- *
- * @param   cPainter        painter instance to draw this layer
- * @param   nTileSize       dimension of a single tile
- */
-void GridLayer::draw(QPainter & cPainter, int nTileSize) const {
-
-    QSize cSize = map()->size() * nTileSize;
-    QColor cGridColor = gridColor();
-
-    cPainter.setPen(cGridColor);
-    cPainter.drawRect(QRect{-nTileSize, -nTileSize, cSize.width() + nTileSize, cSize.height() + nTileSize});
 }

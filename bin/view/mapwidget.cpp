@@ -105,12 +105,7 @@ void MapWidget::paintEvent(QPaintEvent * cEvent) {
 
     QPainter cPainter(this);
     cPainter.setRenderHint(QPainter::Antialiasing);
-
-    QSize cSize = d->m_cMap->size() * STANDARD_TILE_SIZE;
-    cPainter.setWindow(-STANDARD_TILE_SIZE,
-                       -STANDARD_TILE_SIZE,
-                       cSize.width() + STANDARD_TILE_SIZE,
-                       cSize.height() + STANDARD_TILE_SIZE);
+    cPainter.setTransform(QTransform::fromTranslate(STANDARD_TILE_SIZE, STANDARD_TILE_SIZE));
     cPainter.setViewTransformEnabled(true);
 
     for (auto const & cPair : d->m_cMap->layers()) {

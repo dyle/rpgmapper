@@ -59,16 +59,6 @@ public:
     explicit BackgroundLayer(Map * cMap, layerid_t nId);
 
 
-    /**
-     * Draw the current layer given the painter.
-     *
-     * @param   cPainter        painter instance to draw this layer
-     * @param   nTileSize       dimension of a single tile
-     */
-    void draw(QPainter & cPainter, int nTileSize) const override;
-
-
-
 private:
 
 
@@ -78,6 +68,15 @@ private:
      * @return  the color encoded in the tiles of this layer
      */
     QColor backgroundColor() const;
+
+
+    /**
+     * Draw the current layer given the painter.
+     *
+     * @param   cPainter        painter instance to draw this layer
+     * @param   nTileSize       dimension of a single tile
+     */
+    void drawLayer(QPainter & cPainter, int nTileSize) const override;
 
 };
 

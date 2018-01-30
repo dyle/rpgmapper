@@ -147,6 +147,21 @@ LayerPointer Layer::create(Map * cMap, layerid_t nId, layer_t eLayer) {
 
 
 /**
+ * Draw the current layer given the painter.
+ *
+ * @param   cPainter        painter instance to draw this layer
+ * @param   nTileSize       dimension of a single tile
+ */
+void Layer::draw(QPainter & cPainter, int nTileSize) const {
+
+    if (!isVisible()) {
+        return;
+    }
+    drawLayer(cPainter, nTileSize);
+}
+
+
+/**
  * Get one field on this layer.
  *
  * @param   nCoordinate         the field's coordinate value

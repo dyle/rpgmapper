@@ -156,14 +156,6 @@ public:
 
 
     /**
-     * Checks the visibiity of this layer.
-     *
-     * @return  true, if the layer should be drawn
-     */
-    bool isVisible() const;
-
-
-    /**
      * Load the layer from json.
      *
      * @param   cJSON       the json instance to load from
@@ -177,14 +169,6 @@ public:
      * @param   cJSON       the json instance to save to
      */
     void save(QJsonObject & cJSON) const override;
-
-
-    /**
-     * Turns the visibility of this layer.
-     *
-     * @param   bVisible        the new visible value for this layer
-     */
-    void setVisible(bool bVisible);
 
 
     /**

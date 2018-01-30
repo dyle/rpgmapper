@@ -53,7 +53,6 @@ public:
 
     Map * m_cMap = nullptr;                 /**< The map this layer belongs to. */
     mutable Fields m_cFields;               /**< All the fields on this on this layer. */
-    bool m_bVisible = true;                 /**< Visibility flag. */
 };
 
 
@@ -153,10 +152,6 @@ LayerPointer Layer::create(Map * cMap, layerid_t nId, layer_t eLayer) {
  * @param   nTileSize       dimension of a single tile
  */
 void Layer::draw(QPainter & cPainter, int nTileSize) const {
-
-    if (!isVisible()) {
-        return;
-    }
     drawLayer(cPainter, nTileSize);
 }
 
@@ -183,16 +178,6 @@ Fields const & Layer::fields() const {
 
 
 /**
- * Checks the visibiity of this layer.
- *
- * @return  true, if the layer should be drawn
- */
-bool Layer::isVisible() const {
-    return d->m_bVisible;
-}
-
-
-/**
  * Load the layer from json.
  *
  * @param   cJSON       the json instance to load from
@@ -208,9 +193,6 @@ void Layer::load(QJsonObject const & cJSON) {
     }
     if (cJSON.contains("type") && cJSON["type"].isDouble()) {
         m_eLayer = static_cast<Layer::layer_t>(cJSON["type"].toInt());
-    }
-    if (cJSON.contains("visible") && cJSON["visible"].isBool()) {
-        d->m_bVisible = cJSON["visible"].toBool();
     }
 
     if (cJSON.contains("fields")&& cJSON["fields"].isArray()) {
@@ -246,7 +228,6 @@ void Layer::save(QJsonObject & cJSON) const {
 
     cJSON["id"] = id();
     cJSON["type"] = static_cast<int>(type());
-    cJSON["visible"] = isVisible();
 
     QJsonArray cJSONFields;
     for (auto const & cPair : fields()) {
@@ -284,18 +265,4 @@ bool Layer::stackable() const {
     }
 
     return res;
-}
-
-
-/**
- * Turns the visibility of this layer.
- *
- * @param   bVisible        the new visible value for this layer
- */
-void Layer::setVisible(bool bVisible) {
-    if (d->m_bVisible == bVisible) {
-        return;
-    }
-    d->m_bVisible = bVisible;
-    setModified(true);
 }

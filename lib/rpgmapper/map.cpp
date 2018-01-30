@@ -58,6 +58,7 @@ public:
     Atlas * m_cAtlas = nullptr;                                     /**< Parent atlas back pointer. */
     Layers m_cLayers;                                               /**< The layers of this map. */
     int m_nOrderValue = 0;                                          /**< Means to order a map among others. */
+    QPoint m_cOriginOffset;                                         /**< Origin coordinate offset. */
     regionid_t m_nRegionId = -1;                                    /**< Id of the region of this map. */
     QSize m_cSize{MAP_WIDTH_DEFAULT, MAP_HEIGHT_DEFAULT};           /**< Size of the map. */
 };
@@ -71,6 +72,16 @@ static mapid_t g_nMapIdCounter = 0;
 
 }
 }
+
+
+/**
+ * Load an orgin offset from a JSON object.
+ *
+ * @param   cJSON       the JSON object
+ * @param   cOffset     the origin offset extracted
+ * @return  true, if an offset node has been found
+ */
+bool loadOriginOffset(QJsonObject const  & cJSON, QPoint & cOffset);
 
 
 /**
@@ -211,6 +222,11 @@ void Map::load(QJsonObject const & cJSON) {
         setOrderValue(cJSON["setOrderValue"].toInt());
     }
 
+    QPoint cOriginOffset{0, 0};
+    if (loadOriginOffset(cJSON, cOriginOffset)) {
+        setOriginOffset(cOriginOffset);
+    }
+
     QSize cSize{0, 0};
     if (loadSize(cJSON, cSize)) {
         setSize(cSize);
@@ -252,6 +268,18 @@ int Map::orderValue() const {
 
 
 /**
+ * The offest of the origin coordinate.
+ *
+ * Map coordinates are relative to this offset value.
+ *
+ * @return  the offset of the origin coordinate on this map
+ */
+QPoint const & Map::originOffset() const {
+    return d->m_cOriginOffset;
+}
+
+
+/**
  * Return the region to which this map belongs to.
  *
  * @return  the region of this map
@@ -275,6 +303,20 @@ void Map::setOrderValue(int nOrderValue) {
     d->m_nOrderValue = nOrderValue;
     setModified(true);
     emit changedOrderValue();
+}
+
+
+/**
+ * Adjust the offest of the origin coordinate.
+ *
+ * @param   cOffset         offset of the origin
+ */
+void Map::setOriginOffset(QPoint cOffset) {
+    if (d->m_cOriginOffset == cOffset) {
+        return;
+    }
+    d->m_cOriginOffset = cOffset;
+    emit changedOriginOffset();
 }
 
 
@@ -348,6 +390,11 @@ void Map::save(QJsonObject & cJSON) const {
     cJSON["region"] = d->m_nRegionId;
     cJSON["setOrderValue"] = orderValue();
 
+    QJsonObject cJSONOffset;
+    cJSONOffset["x"] = originOffset().x();
+    cJSONOffset["y"] = originOffset().y();
+    cJSON["originOffset"] = cJSONOffset;
+
     QJsonObject cJSONSize;
     cJSONSize["width"] = size().width();
     cJSONSize["height"] = size().height();
@@ -370,6 +417,57 @@ void Map::save(QJsonObject & cJSON) const {
  */
 QSize Map::size() const {
     return d->m_cSize;
+}
+
+
+/**
+ * Translate the X coordinate to the user value.
+ *
+ * @param   x       x on the map
+ * @return  value shown to the user
+ */
+QString Map::translateX(int x) const {
+    // TODO: respect corner
+    return QString::number(x + originOffset().x());
+}
+
+
+/**
+ * Translate the Y coordinate to the user value.
+ *
+ * @param   y       y on the map
+ * @return  value shown to the user
+ */
+QString Map::translateY(int y) const {
+    // TODO: respect corner
+    return QString::number(y + originOffset().y());
+}
+
+
+/**
+ * Load an orgin offset from a JSON object.
+ *
+ * @param   cJSON       the JSON object
+ * @param   cOffset     the origin offset extracted
+ * @return  true, if an offset node has been found
+ */
+bool loadOriginOffset(QJsonObject const  & cJSON, QPoint & cOffset) {
+
+    if (cJSON.contains("originOffset") && cJSON["originOffset"].isObject()) {
+
+        auto cJSONOffset = cJSON["originOffset"].toObject();
+
+        if (cJSONOffset.contains("x") && cJSONOffset["x"].isDouble()) {
+            cOffset.setX(cJSONOffset["x"].toInt());
+        }
+        if (cJSONOffset.contains("y") && cJSONOffset["y"].isDouble()) {
+            cOffset.setY(cJSONOffset["y"].toInt());
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 

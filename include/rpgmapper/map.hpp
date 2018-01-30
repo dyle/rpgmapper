@@ -124,6 +124,16 @@ public:
 
 
     /**
+     * The offest of the origin coordinate.
+     *
+     * Map coordinates are relative to this offset value.
+     *
+     * @return  the offset of the origin coordinate on this map
+     */
+    QPoint const & originOffset() const;
+
+
+    /**
      * Return the region to which this map belongs to.
      *
      * @return  the region of this map
@@ -142,9 +152,19 @@ public:
     /**
      * Set the means to order this map among other maps.
      *
+     * Map coordinates are relative to this offset value.
+     *
      * @param   nOrderValue     a value indicating the position of this maps among others
      */
     void setOrderValue(int nOrderValue);
+
+
+    /**
+     * Adjust the offest of the origin coordinate.
+     *
+     * @param   cOffset         offset of the origin
+     */
+    void setOriginOffset(QPoint cOffset);
 
 
     /**
@@ -169,6 +189,24 @@ public:
      * @return  the size of the map
      */
     QSize size() const;
+
+
+    /**
+     * Translate the X coordinate to the user value.
+     *
+     * @param   x       x on the map
+     * @return  value shown to the user
+     */
+    QString translateX(int x) const;
+
+
+    /**
+     * Translate the Y coordinate to the user value.
+     *
+     * @param   y       y on the map
+     * @return  value shown to the user
+     */
+    QString translateY(int y) const;
 
 
 public slots:
@@ -204,6 +242,12 @@ signals:
      * The map changed its order value.
      */
     void changedOrderValue();
+
+
+    /**
+     * The map origin offset has changed.
+     */
+    void changedOriginOffset();
 
 
     /**

@@ -81,12 +81,30 @@ private:
 
 
     /**
+     * Draw X-axis annotation
+     *
+     * @param   cPainter        painter instance to draw this layer
+     * @param   nTileSize       dimension of a single tile
+     */
+    void drawXAnnotation(QPainter & cPainter, int nTileSize) const;
+
+
+    /**
      * Draw X-axis ticks
      *
      * @param   cPainter        painter instance to draw this layer
      * @param   nTileSize       dimension of a single tile
      */
     void drawXAxis(QPainter & cPainter, int nTileSize) const;
+
+
+    /**
+     * Draw Y-axis annotation
+     *
+     * @param   cPainter        painter instance to draw this layer
+     * @param   nTileSize       dimension of a single tile
+     */
+    void drawYAnnotation(QPainter & cPainter, int nTileSize) const;
 
 
     /**
@@ -105,6 +123,13 @@ private:
      */
     QColor gridColor() const;
 
+
+    /**
+     * Retrieve the grid font.
+     *
+     * @return  the font used for the grid
+     */
+    QFont gridFont() const;
 };
 
 

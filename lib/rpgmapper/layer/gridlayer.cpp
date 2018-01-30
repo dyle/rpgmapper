@@ -89,6 +89,34 @@ void GridLayer::drawLayer(QPainter & cPainter, int nTileSize) const {
     drawXAxis(cPainter, nTileSize);
     drawYAxis(cPainter, nTileSize);
     drawBorder(cPainter, nTileSize);
+    drawXAnnotation(cPainter, nTileSize);
+    drawYAnnotation(cPainter, nTileSize);
+}
+
+
+/**
+ * Draw X-axis annotation
+ *
+ * @param   cPainter        painter instance to draw this layer
+ * @param   nTileSize       dimension of a single tile
+ */
+void GridLayer::drawXAnnotation(QPainter & cPainter, int nTileSize) const {
+
+    cPainter.setPen(gridColor());
+    cPainter.setFont(gridFont());
+
+    QSize cSize = map()->size();
+    int nBottom = cSize.height() * nTileSize;
+
+    for (int x = 0; x < cSize.width(); ++x) {
+
+        QString sX = map()->translateX(x);
+
+        QRect cUpperRect{x * nTileSize, -nTileSize, nTileSize, nTileSize};
+        cPainter.drawText(cUpperRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
+        QRect cLowerRect{x * nTileSize, nBottom, nTileSize, nTileSize};
+        cPainter.drawText(cLowerRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
+    }
 }
 
 
@@ -104,6 +132,32 @@ void GridLayer::drawXAxis(QPainter & cPainter, int nTileSize) const {
     cPainter.setPen(QPen(gridColor(), 1, Qt::DotLine, Qt::FlatCap));
     for (int x = nTileSize; x <= cSize.width() - nTileSize; x += nTileSize) {
         cPainter.drawLine(x, 0, x, cSize.height());
+    }
+}
+
+
+/**
+ * Draw Y-axis annotation
+ *
+ * @param   cPainter        painter instance to draw this layer
+ * @param   nTileSize       dimension of a single tile
+ */
+void GridLayer::drawYAnnotation(QPainter & cPainter, int nTileSize) const {
+
+    cPainter.setPen(gridColor());
+    cPainter.setFont(gridFont());
+
+    QSize cSize = map()->size();
+    int nRight = cSize.width() * nTileSize;
+
+    for (int y = 0; y < cSize.height(); ++y) {
+
+        QString sY = map()->translateY(y);
+
+        QRect cLeftRect{-nTileSize, y * nTileSize, nTileSize, nTileSize};
+        cPainter.drawText(cLeftRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
+        QRect cRightRect{nRight, y * nTileSize, nTileSize, nTileSize};
+        cPainter.drawText(cRightRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
     }
 }
 
@@ -140,4 +194,25 @@ QColor GridLayer::gridColor() const {
     }
 
     return QColor{WARNING_GRID_COLOR};
+}
+
+
+/**
+ * Retrieve the grid font.
+ *
+ * @return  the font used for the grid
+ */
+QFont GridLayer::gridFont() const {
+
+    QFont res{"Monospace", 10};
+
+    if (!fields().empty()) {
+        auto const & cTile = fields().at(0).cTiles[0];
+        auto iter = cTile.find("font");
+        if (iter != cTile.end()) {
+            res.fromString((*iter).second);
+        }
+    }
+
+    return res;
 }

@@ -50,7 +50,7 @@ public:
 
     Layer_data() = default;
 
-    Map * m_cMap;                           /**< The map this layer belongs to. */
+    Map * m_cMap = nullptr;                 /**< The map this layer belongs to. */
     mutable Fields m_cFields;               /**< All the fields on this on this layer. */
     bool m_bVisible = true;                 /**< Visibility flag. */
 };
@@ -80,12 +80,7 @@ Layer::Layer(Map * cMap, layerid_t nId, layer_t eLayer) : Nameable{cMap}, m_nId{
     d = std::make_shared<Layer::Layer_data>();
     d->m_cMap = cMap;
 
-    static Tile const cDefaultBackground{{"color", "#000060"}};
     static Tile const cDefaultGrid{{"color", "#f0f0ff"}, {"font", QFont().toString()}};
-
-    if (eLayer == layer_t::background) {
-        addTile(0,  cDefaultBackground);
-    }
     if (eLayer == layer_t::grid) {
         addTile(0, cDefaultGrid);
     }

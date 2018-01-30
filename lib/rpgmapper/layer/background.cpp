@@ -19,6 +19,14 @@
 
 
 // ------------------------------------------------------------
+// defs
+
+
+#define DEFAULT_BACKGROUND_COLOR        "#000060"
+#define WARNING_BACKGROUND_COLOR        "#ff0088"
+
+
+// ------------------------------------------------------------
 // incs
 
 #include <QPainter>
@@ -34,7 +42,6 @@ using namespace rpgmapper::model;
 // code
 
 
-
 /**
  * Ctor.
  *
@@ -43,6 +50,7 @@ using namespace rpgmapper::model;
  * @param   eLayer      the layer type
  */
 BackgroundLayer::BackgroundLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, Layer::layer_t::background) {
+    addTile(0,  Tile{{"color", DEFAULT_BACKGROUND_COLOR}});
 }
 
 
@@ -61,7 +69,7 @@ QColor BackgroundLayer::backgroundColor() const {
         }
     }
 
-    return QColor{"#ff00ff"};
+    return QColor{WARNING_BACKGROUND_COLOR};
 }
 
 

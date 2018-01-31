@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1878"
+   inkscape:export-ydpi="78.545456"
+   inkscape:export-filename="/home/dyle/src/dyle/rpgmapper/bin/view/gfx/red-arrow-right.png"
+   viewBox="0 0 48.000001 21.999999"
+   sodipodi:version="0.32"
+   inkscape:export-xdpi="78.545456"
+   version="1.0"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   sodipodi:docname="red-arrows-right.svg"
+   width="48"
+   height="22">
+  <defs
+     id="defs3">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4940">
+      <stop
+         style="stop-color:#800000;stop-opacity:0.02283105"
+         offset="0"
+         id="stop4936" />
+      <stop
+         style="stop-color:#800000;stop-opacity:1"
+         offset="1"
+         id="stop4938" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4594"
+       osb:paint="gradient">
+      <stop
+         style="stop-color:#800000;stop-opacity:0.02283105"
+         offset="0"
+         id="stop4604" />
+      <stop
+         style="stop-color:#ff2a26;stop-opacity:1;"
+         offset="1"
+         id="stop4602" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4594"
+       id="linearGradient4600"
+       x1="228.3735"
+       y1="47.742001"
+       x2="248.70645"
+       y2="47.542"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4940"
+       id="linearGradient4942"
+       x1="228.3735"
+       y1="47.741997"
+       x2="264.70645"
+       y2="47.741997"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     bordercolor="#666666"
+     inkscape:window-x="186"
+     inkscape:window-y="149"
+     pagecolor="#ffffff"
+     width="283.23425px"
+     inkscape:zoom="5"
+     inkscape:pageshadow="2"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="-14.7"
+     inkscape:cy="14.453438"
+     inkscape:window-width="1150"
+     height="200px"
+     inkscape:pageopacity="0.0"
+     inkscape:window-height="770"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:snap-grids="false"
+     inkscape:snap-to-guides="false"
+     fit-margin-top="1"
+     fit-margin-left="1"
+     fit-margin-right="1"
+     fit-margin-bottom="1"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3779"
+       originx="-48.333502"
+       originy="-48.333566" />
+    <sodipodi:guide
+       position="-12.6,0"
+       orientation="0,1"
+       id="guide4944"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="0,43.599998"
+       orientation="1,0"
+       id="guide4946"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(-227.3735,-34.908432)"
+     style="display:inline">
+    <path
+       id="path10091"
+       sodipodi:nodetypes="cccccccc"
+       style="color:#000000;fill:url(#linearGradient4600);fill-opacity:1;stroke:url(#linearGradient4942);stroke-width:1.33299994;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 259.3735,36.908432 v 5 h -31 v 8 h 31 v 6 l 14,-10 z"
+       inkscape:connector-curvature="0" />
+  </g>
+  <metadata
+     id="metadata3776">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title />
+        <dc:date>2008-01-29T12:55:08</dc:date>
+        <dc:description>Kuba's set of red arrows, broken into separate files.</dc:description>
+        <dc:source>https://openclipart.org/detail/12131/red-arrows-set-by-pitr-12131</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>pitr</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>arrow</rdf:li>
+            <rdf:li>collection</rdf:li>
+            <rdf:li>glossy</rdf:li>
+            <rdf:li>icon</rdf:li>
+            <rdf:li>red</rdf:li>
+            <rdf:li>remix</rdf:li>
+            <rdf:li>set</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

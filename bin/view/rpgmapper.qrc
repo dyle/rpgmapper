@@ -20,4 +20,11 @@
     <file>gfx/atlas-open.png</file>
     <file>gfx/map-delete.png</file>
   </qresource>
+  <qresource prefix="images">
+    <file>gfx/red-arrow-down.png</file>
+    <file>gfx/red-arrow-left.png</file>
+    <file>gfx/red-arrow-right.png</file>
+    <file>gfx/red-arrow-up.png</file>
+    <file>gfx/paper-quads.png</file>
+  </qresource>
 </RCC>

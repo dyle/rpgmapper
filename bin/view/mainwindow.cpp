@@ -37,6 +37,7 @@
 #include "coordinatewidget.hpp"
 #include "logdialog.hpp"
 #include "mainwindow.hpp"
+#include "mappropertiesdialog.hpp"
 #include "structuraltreewidget.hpp"
 
 #include "ui_mainwindow.h"
@@ -61,19 +62,20 @@ public:
 
     MainWindow_data() = default;
 
-    std::shared_ptr<Ui_mainwindow> ui;                  /**< User interface. */
+    std::shared_ptr<Ui_mainwindow> ui;                      /**< User interface. */
 
-    QStringList m_cRecentAtlasFiles;                    /**< Recently loaded atlas files. */
-    QString m_sRecentAtlasFolder;                       /**< Folder location of last recent atlas files. */
-    int m_nMaximumRecentAtlasFiles = 10;                /**< Number of recent files should be remembered. */
-    QList<QAction *> m_cRecentFileActions;              /**< List of recent file actions. */
+    QStringList m_cRecentAtlasFiles;                        /**< Recently loaded atlas files. */
+    QString m_sRecentAtlasFolder;                           /**< Folder location of last recent atlas files. */
+    int m_nMaximumRecentAtlasFiles = 10;                    /**< Number of recent files should be remembered. */
+    QList<QAction *> m_cRecentFileActions;                  /**< List of recent file actions. */
 
-    AboutDialog * m_cDlgAbout = nullptr;                /**< About RPGMapper dialog. */
-    QFileDialog * m_cDlgLoad = nullptr;                 /**< Load file dialog. */
-    LogDialog * m_cDlgLog = nullptr;                    /**< Dialog for some log messages. */
-    QFileDialog * m_cDlgSaveAs = nullptr;               /**< SaveAs file dialog. */
+    AboutDialog * m_cDlgAbout = nullptr;                    /**< About RPGMapper dialog. */
+    QFileDialog * m_cDlgLoad = nullptr;                     /**< Load file dialog. */
+    LogDialog * m_cDlgLog = nullptr;                        /**< Dialog for some log messages. */
+    MapPropertiesDialog * m_cDlgMapProperties = nullptr;    /**< Dialog letting the user adjust the map properties. */
+    QFileDialog * m_cDlgSaveAs = nullptr;                   /**< SaveAs file dialog. */
 
-    CoordinateWidget * m_cWdCoordinates = nullptr;      /**< X,Y coordinates in the statusbar. */
+    CoordinateWidget * m_cWdCoordinates = nullptr;          /**< X,Y coordinates in the statusbar. */
 };
 
 
@@ -230,6 +232,7 @@ void MainWindow::connectActions() {
     connect(d->ui->acCloseMap, &QAction::triggered, d->ui->tabMap, &MapTabWidget::closeCurrentMap);
     connect(d->ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
     connect(d->ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
+    connect(d->ui->acMapProperties, &QAction::triggered, this, &MainWindow::editMapProperties);
     connect(d->ui->acNewMap, &QAction::triggered, this, &MainWindow::newMap);
     connect(d->ui->acNewRegion, &QAction::triggered, this, &MainWindow::newRegion);
     connect(d->ui->acOpen, &QAction::triggered, this, &MainWindow::load);
@@ -243,6 +246,7 @@ void MainWindow::connectActions() {
     connect(d->ui->acViewTiles, &QAction::triggered, this, &MainWindow::visibleTiles);
 
     connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedAtlas, d->ui->acAtlasProperties, &QAction::trigger);
+    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedMap, d->ui->acMapProperties, &QAction::trigger);
     connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedRegion, d->ui->acRegionProperties, &QAction::trigger);
 
     connect(d->ui->tabMap, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
@@ -330,6 +334,14 @@ void MainWindow::editAtlasProperties() {
         return;
     }
     Controller::instance().atlas()->setName(sAtlasName);
+}
+
+
+/**
+ * Let the user edit the properties of the current selected map.
+ */
+void MainWindow::editMapProperties() {
+    d->m_cDlgMapProperties->exec();
 }
 
 
@@ -582,6 +594,8 @@ void MainWindow::setupDialogs() {
     d->m_cDlgLoad->setDirectory(d->m_sRecentAtlasFolder);
 
     d->m_cDlgLog = new LogDialog(this);
+
+    d->m_cDlgMapProperties = new MapPropertiesDialog(this);
 
     d->m_cDlgSaveAs = new QFileDialog(this);
     d->m_cDlgSaveAs->setFileMode(QFileDialog::AnyFile);

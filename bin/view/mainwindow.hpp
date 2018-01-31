@@ -70,6 +70,12 @@ public slots:
 
 
     /**
+     * Let the user edit the properties of the current selected map.
+     */
+    void editMapProperties();
+
+
+    /**
      * Let the user edit the properties of the current selected region.
      */
     void editRegionProperties();

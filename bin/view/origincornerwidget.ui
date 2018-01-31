@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>origincornerwidget</class>
+ <widget class="QWidget" name="origincornerwidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>158</width>
+    <height>158</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLabel" name="lblMap">
+   <property name="geometry">
+    <rect>
+     <x>16</x>
+     <y>16</y>
+     <width>128</width>
+     <height>128</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="rpgmapper.qrc">:/images/gfx/paper-quads.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkTopLeft">
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>6</y>
+     <width>22</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkTopRight">
+   <property name="geometry">
+    <rect>
+     <x>132</x>
+     <y>6</y>
+     <width>22</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkBottomRight">
+   <property name="geometry">
+    <rect>
+     <x>132</x>
+     <y>132</y>
+     <width>22</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkBottomLeft">
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>132</y>
+     <width>22</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblArrowLeft1">
+   <property name="geometry">
+    <rect>
+     <x>26</x>
+     <y>8</y>
+     <width>40</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-right.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblArrowLeft2">
+   <property name="geometry">
+    <rect>
+     <x>26</x>
+     <y>136</y>
+     <width>40</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-right.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblArrowRight1">
+   <property name="geometry">
+    <rect>
+     <x>94</x>
+     <y>8</y>
+     <width>40</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-left.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblArrowRight2">
+   <property name="geometry">
+    <rect>
+     <x>94</x>
+     <y>136</y>
+     <width>40</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-left.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblArrowDown1">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>26</y>
+     <width>18</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-down.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblArrowDown1_2">
+   <property name="geometry">
+    <rect>
+     <x>134</x>
+     <y>26</y>
+     <width>18</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-down.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblArrowUp1">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>94</y>
+     <width>18</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-up.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblArrowUp2">
+   <property name="geometry">
+    <rect>
+     <x>134</x>
+     <y>94</y>
+     <width>18</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-up.png</pixmap>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="rpgmapper.qrc"/>
+ </resources>
+ <connections/>
+</ui>

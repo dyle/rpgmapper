@@ -421,6 +421,25 @@ QSize Map::size() const {
 
 
 /**
+ * Turn map coordinates into user coordinates.
+ *
+ * @param   cPoint          the map coordinate
+ * @return  the user coordinates
+ */
+Map::UserCoordinates Map::translate(QPoint const & cPoint) const {
+
+    Map::UserCoordinates cUserCoordinates;
+
+    if (QRect{QPoint{0, 0}, size()}.contains(cPoint, false)) {
+        cUserCoordinates.m_sX = translateX(cPoint.x());
+        cUserCoordinates.m_sY = translateY(cPoint.y());
+    }
+
+    return cUserCoordinates;
+}
+
+
+/**
  * Translate the X coordinate to the user value.
  *
  * @param   x       x on the map

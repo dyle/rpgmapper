@@ -27,8 +27,8 @@
 #include <QDesktopWidget>
 #include <QFileDialog>
 #include <QInputDialog>
-#include <QLabel>
 #include <QMessageBox>
+#include <QStatusBar>
 
 // rpgmapper
 #include <rpgmapper/atlas.hpp>
@@ -95,7 +95,9 @@ MainWindow::MainWindow() : QMainWindow{} {
     d->ui = std::make_shared<Ui_mainwindow>();
     d->ui->setupUi(this);
     d->m_cWdCoordinates = new CoordinateWidget{this};
-    d->ui->stbMain->addPermanentWidget(d->m_cWdCoordinates);
+    statusBar()->addPermanentWidget(d->m_cWdCoordinates);
+    statusBar()->setSizeGripEnabled(false);
+    statusBar()->setVisible(true);
 
     setupDialogs();
     connectActions();
@@ -609,7 +611,8 @@ void MainWindow::showCoordinates(int x, int y) {
     QString sCoordinates;
     auto cMap = Controller::instance().atlas()->currentMap();
     if (cMap.data() != nullptr) {
-        d->m_cWdCoordinates->showCoordinates(cMap->translateX(x), cMap->translateY(y));
+        auto cUserCoordinates = cMap->translate(x, y);
+        d->m_cWdCoordinates->showCoordinates(cUserCoordinates.m_sX, cUserCoordinates.m_sY);
     }
     else {
         d->m_cWdCoordinates->clear();

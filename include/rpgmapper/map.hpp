@@ -72,6 +72,15 @@ public:
 
 
     /**
+     * User dimension coordinate.
+     */
+    struct UserCoordinates {
+        QString m_sX;               /**< X coordinate in user space. */
+        QString m_sY;               /**< Y coordinate in user space. */
+    };
+
+
+    /**
      * Create a new map (factory method).
      *
      * @param   cAtlas      parent object
@@ -189,6 +198,25 @@ public:
      * @return  the size of the map
      */
     QSize size() const;
+
+
+    /**
+     * Turn map coordinates into user coordinates.
+     *
+     * @param   x           x-axis value on the map (origin in top/left corner)
+     * @param   y           y-axis value on the map (origin in top/left corner)
+     * @return  the user coordinates
+     */
+    UserCoordinates translate(int x, int y) const { return translate(QPoint{x, y}); }
+
+
+    /**
+     * Turn map coordinates into user coordinates.
+     *
+     * @param   cPoint          the map coordinate
+     * @return  the user coordinates
+     */
+    UserCoordinates translate(QPoint const & cPoint) const;
 
 
     /**

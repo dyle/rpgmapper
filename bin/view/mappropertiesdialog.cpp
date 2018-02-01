@@ -66,8 +66,6 @@ void MapPropertiesDialog::evaluate() {
 
     ui->sbWidth->setValue(m_cMap->size().width());
     ui->sbHeight->setValue(m_cMap->size().height());
-    ui->sbResizeOffsetX->setValue(m_cMap->originOffset().x());
-    ui->sbResizeOffsetY->setValue(m_cMap->originOffset().x());
 
     ui->wdOriginCornerWidget->setCorner(m_cMap->originCorner());
 
@@ -102,8 +100,6 @@ void MapPropertiesDialog::reset() {
 
     ui->sbWidth->setValue(1);
     ui->sbHeight->setValue(1);
-    ui->sbResizeOffsetX->setValue(0);
-    ui->sbResizeOffsetY->setValue(0);
 
     ui->wdOriginCornerWidget->setCorner(Map::map_corner::bottomLeft);
 

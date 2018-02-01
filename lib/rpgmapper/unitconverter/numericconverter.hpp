@@ -1,5 +1,5 @@
 /*
- * mapresizewidget.cpp
+ * numericconverter.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,26 +18,53 @@
  */
 
 
+#ifndef MODEL_NUMERICCONVERTER_HPP
+#define MODEL_NUMERICCONVERTER_HPP
+
+
 // ------------------------------------------------------------
 // incs
 
-// rpgmapper
-#include "mapresizewidget.hpp"
-#include "ui_mapresizewidget.h"
-
-using namespace rpgmapper::view;
+#include <rpgmapper/unitconverter.hpp>
 
 
 // ------------------------------------------------------------
-// code
+// decl
+
+
+namespace rpgmapper {
+namespace model {
 
 
 /**
- * Ctor.
- *
- * @param   cParent         parent widget instance
+ * A collection of maps based on a name.
  */
-MapResizeWidget::MapResizeWidget(QWidget * cParent) : QWidget{cParent} {
-    ui = std::make_shared<Ui_mapresizewidget>();
-    ui->setupUi(this);
+class NumericConverter : public UnitConverter {
+
+
+public:
+
+
+    /**
+     * Ctor.
+     */
+    NumericConverter() = default;
+
+
+    /**
+     * Convert the given value into the user units.
+     *
+     * @param   nValue      value to convert
+     * @return  A string holding the user value
+     */
+    QString convert(int nValue) const override;
+
+
+};
+
+
 }
+}
+
+
+#endif

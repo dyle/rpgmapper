@@ -45,9 +45,15 @@ set(RPGMAPPER_LIB_SRC
     map.cpp
     nameable.cpp
     region.cpp
+    unitconverter.cpp
 
     layer/backgroundlayer.cpp
     layer/gridlayer.cpp
+
+    unitconverter/alphabeticbigcapsconverter.cpp
+    unitconverter/alphabeticsmallcapsconverter.cpp
+    unitconverter/numericconverter.cpp
+    unitconverter/romanconverter.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

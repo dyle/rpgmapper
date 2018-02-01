@@ -1,5 +1,5 @@
 /*
- * mapresizewidget.hpp
+ * alphabeticbigcapsconverter.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,54 +18,47 @@
  */
 
 
-#ifndef VIEW_MAPRESIZEWIDGET_HPP
-#define VIEW_MAPRESIZEWIDGET_HPP
+#ifndef MODEL_ALPHABETICBIGCAPSCONVERTER_HPP
+#define MODEL_ALPHABETICBIGCAPSCONVERTER_HPP
 
 
 // ------------------------------------------------------------
 // incs
 
-#include <memory>
-
-#include <QDialog>
+#include <rpgmapper/unitconverter.hpp>
 
 
 // ------------------------------------------------------------
 // decl
 
 
-// fwd
-class Ui_mapresizewidget;
-
-
 namespace rpgmapper {
-namespace view {
+namespace model {
 
 
 /**
- * This widget lets the user move a resized map to fix resizing placement offsets.
+ * A collection of maps based on a name.
  */
-class MapResizeWidget : public QWidget {
-
-
-Q_OBJECT
+class AlphabeticBigCapsConverter : public UnitConverter {
 
 
 public:
 
 
     /**
-     * Ctor
-     *
-     * @param   cParent         parent widget instance
+     * Ctor.
      */
-    MapResizeWidget(QWidget * cParent);
+    AlphabeticBigCapsConverter() = default;
 
 
-private:
+    /**
+     * Convert the given value into the user units.
+     *
+     * @param   nValue      value to convert
+     * @return  A string holding the user value
+     */
+    QString convert(int nValue) const override;
 
-
-    std::shared_ptr<Ui_mapresizewidget> ui;       /**< User interface. */
 
 };
 

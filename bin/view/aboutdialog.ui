@@ -792,6 +792,12 @@ Public License instead of this License.  But first, please read
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tabAbout</tabstop>
+  <tabstop>edAbout</tabstop>
+  <tabstop>btnClose</tabstop>
+  <tabstop>edLicense</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

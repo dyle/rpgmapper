@@ -591,6 +591,15 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabMap</tabstop>
+  <tabstop>saMiniMap</tabstop>
+  <tabstop>twAtlas</tabstop>
+  <tabstop>tbAtlasTreeNewRegion</tabstop>
+  <tabstop>tbAtlasTreeDeleteRegion</tabstop>
+  <tabstop>tbAtlasTreeNewMap</tabstop>
+  <tabstop>tbAtlasTreeDeleteMap</tabstop>
+ </tabstops>
  <resources>
   <include location="rpgmapper.qrc"/>
  </resources>

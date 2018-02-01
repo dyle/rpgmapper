@@ -1,5 +1,5 @@
 /*
- * origincornerwidget.hpp
+ * mapresizewidget.hpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,8 +18,8 @@
  */
 
 
-#ifndef VIEW_ORIGINCORNERWIDGET_HPP
-#define VIEW_ORIGINCORNERWIDGET_HPP
+#ifndef VIEW_MAPRESIZEWIDGET_HPP
+#define VIEW_MAPRESIZEWIDGET_HPP
 
 
 // ------------------------------------------------------------
@@ -35,7 +35,7 @@
 
 
 // fwd
-class Ui_origincornerwidget;
+class Ui_mapresizewidget;
 
 
 namespace rpgmapper {
@@ -43,9 +43,9 @@ namespace view {
 
 
 /**
- * A widget to let the user select the map's point of origin: top/left, top/right, bottom/left or bottom/right.
+ * This widget lets the user move a resized map to fix resizing placement offsets.
  */
-class OriginCornerWidget : public QWidget {
+class MapResizeWidget : public QWidget {
 
 
 Q_OBJECT
@@ -59,13 +59,13 @@ public:
      *
      * @param   cParent         parent widget instance
      */
-    OriginCornerWidget(QWidget * cParent);
+    MapResizeWidget(QWidget * cParent);
 
 
 private:
 
 
-    std::shared_ptr<Ui_origincornerwidget> ui;       /**< User interface. */
+    std::shared_ptr<Ui_mapresizewidget> ui;       /**< User interface. */
 
 };
 

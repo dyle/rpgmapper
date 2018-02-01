@@ -1,5 +1,5 @@
 /*
- * origincornerwidget.hpp
+ * mapresizewidget.cpp
  *
  * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
  *
@@ -18,60 +18,26 @@
  */
 
 
-#ifndef VIEW_ORIGINCORNERWIDGET_HPP
-#define VIEW_ORIGINCORNERWIDGET_HPP
-
-
 // ------------------------------------------------------------
 // incs
 
-#include <memory>
+// rpgmapper
+#include "mapresizewidget.hpp"
+#include "ui_mapresizewidget.h"
 
-#include <QDialog>
+using namespace rpgmapper::view;
 
 
 // ------------------------------------------------------------
-// decl
-
-
-// fwd
-class Ui_origincornerwidget;
-
-
-namespace rpgmapper {
-namespace view {
+// code
 
 
 /**
- * A widget to let the user select the map's point of origin: top/left, top/right, bottom/left or bottom/right.
+ * Ctor.
+ *
+ * @param   cParent         parent widget instance
  */
-class OriginCornerWidget : public QWidget {
-
-
-Q_OBJECT
-
-
-public:
-
-
-    /**
-     * Ctor
-     *
-     * @param   cParent         parent widget instance
-     */
-    OriginCornerWidget(QWidget * cParent);
-
-
-private:
-
-
-    std::shared_ptr<Ui_origincornerwidget> ui;       /**< User interface. */
-
-};
-
-
+MapResizeWidget::MapResizeWidget(QWidget * cParent) : QWidget{cParent} {
+    ui = std::make_shared<Ui_mapresizewidget>();
+    ui->setupUi(this);
 }
-}
-
-
-#endif

@@ -41,8 +41,14 @@ using namespace rpgmapper::view;
  * @param   cParent         parent widget instance
  */
 MapPropertiesDialog::MapPropertiesDialog(QWidget * cParent) : QDialog{cParent} {
+
     ui = std::make_shared<Ui_mappropertiesdialog>();
     ui->setupUi(this);
+
+    connect(ui->sbWidth, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &MapPropertiesDialog::widthChanged);
+    connect(ui->sbHeight, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &MapPropertiesDialog::heightChanged);
 }
 
 
@@ -72,6 +78,18 @@ void MapPropertiesDialog::evaluate() {
     // TODO
     ui->rbNumericalY->setChecked(true);
     ui->sbStartYValue->setValue(0);
+}
+
+
+/**
+ * The height value changed.
+ *
+ * @param   nValue      the new value
+ */
+void MapPropertiesDialog::heightChanged(int nValue) {
+    if (ui->tbLinkSize->isChecked() && (ui->sbWidth->value() != nValue)) {
+        ui->sbWidth->setValue(nValue);
+    }
 }
 
 
@@ -107,4 +125,16 @@ void MapPropertiesDialog::reset() {
 void MapPropertiesDialog::setMap(rpgmapper::model::MapPointer & cMap) {
     m_cMap = cMap;
     evaluate();
+}
+
+
+/**
+ * The width value changed.
+ *
+ * @param   nValue      the new value
+ */
+void MapPropertiesDialog::widthChanged(int nValue) {
+    if (ui->tbLinkSize->isChecked() && (ui->sbHeight->value() != nValue)) {
+        ui->sbHeight->setValue(nValue);
+    }
 }

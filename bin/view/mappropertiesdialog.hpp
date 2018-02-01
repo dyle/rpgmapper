@@ -87,6 +87,25 @@ public slots:
     void reset();
 
 
+private slots:
+
+
+    /**
+     * The height value changed.
+     *
+     * @param   nValue      the new value
+     */
+    void heightChanged(int nValue);
+
+
+    /**
+     * The width value changed.
+     *
+     * @param   nValue      the new value
+     */
+    void widthChanged(int nValue);
+
+
 private:
 
 

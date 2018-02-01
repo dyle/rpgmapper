@@ -341,6 +341,7 @@ void MainWindow::editAtlasProperties() {
  * Let the user edit the properties of the current selected map.
  */
 void MainWindow::editMapProperties() {
+    d->m_cDlgMapProperties->setMap(Controller::instance().atlas()->currentMap());
     d->m_cDlgMapProperties->exec();
 }
 

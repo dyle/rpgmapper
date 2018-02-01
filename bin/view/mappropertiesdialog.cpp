@@ -22,9 +22,12 @@
 // incs
 
 // rpgmapper
+#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/controller.hpp>
 #include "mappropertiesdialog.hpp"
 #include "ui_mappropertiesdialog.h"
 
+using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 
 
@@ -40,4 +43,68 @@ using namespace rpgmapper::view;
 MapPropertiesDialog::MapPropertiesDialog(QWidget * cParent) : QDialog{cParent} {
     ui = std::make_shared<Ui_mappropertiesdialog>();
     ui->setupUi(this);
+}
+
+
+/**
+ * Evaluate all widgets anew.
+ */
+void MapPropertiesDialog::evaluate() {
+
+    reset();
+    if (m_cMap.data() == nullptr) {
+        return;
+    }
+
+    ui->edtName->setText(m_cMap->name());
+
+    ui->sbWidth->setValue(m_cMap->size().width());
+    ui->sbHeight->setValue(m_cMap->size().height());
+    ui->sbResizeOffsetX->setValue(m_cMap->originOffset().x());
+    ui->sbResizeOffsetY->setValue(m_cMap->originOffset().x());
+
+    ui->wdOriginCornerWidget->setCorner(m_cMap->originCorner());
+
+    // TODO
+    ui->rbNumericalX->setChecked(true);
+    ui->sbStartXValue->setValue(0);
+
+    // TODO
+    ui->rbNumericalY->setChecked(true);
+    ui->sbStartYValue->setValue(0);
+}
+
+
+/**
+ * Reset all widgets to an initial state.
+ */
+void MapPropertiesDialog::reset() {
+
+    ui->edtName->clear();
+
+    ui->sbWidth->setValue(1);
+    ui->sbHeight->setValue(1);
+    ui->sbResizeOffsetX->setValue(0);
+    ui->sbResizeOffsetY->setValue(0);
+
+    ui->wdOriginCornerWidget->setCorner(Map::map_corner::bottomLeft);
+
+    ui->rbNumericalX->setChecked(true);
+    ui->sbStartXValue->setValue(0);
+    ui->edtAxisXSample->clear();
+
+    ui->rbNumericalY->setChecked(true);
+    ui->sbStartYValue->setValue(0);
+    ui->edtAxisYSample->clear();
+}
+
+
+/**
+ * Set the map to be configured.
+ *
+ * @param   cMap        the map to be configured
+ */
+void MapPropertiesDialog::setMap(rpgmapper::model::MapPointer & cMap) {
+    m_cMap = cMap;
+    evaluate();
 }

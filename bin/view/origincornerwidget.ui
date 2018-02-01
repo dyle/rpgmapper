@@ -41,7 +41,7 @@
     <pixmap resource="rpgmapper.qrc">:/images/gfx/paper-quads.png</pixmap>
    </property>
   </widget>
-  <widget class="QCheckBox" name="chkTopLeft">
+  <widget class="QRadioButton" name="rbTopLeft">
    <property name="geometry">
     <rect>
      <x>6</x>
@@ -54,7 +54,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QCheckBox" name="chkTopRight">
+  <widget class="QRadioButton" name="rbTopRight">
    <property name="geometry">
     <rect>
      <x>132</x>
@@ -67,7 +67,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QCheckBox" name="chkBottomRight">
+  <widget class="QRadioButton" name="rbBottomRight">
    <property name="geometry">
     <rect>
      <x>132</x>
@@ -83,7 +83,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QCheckBox" name="chkBottomLeft">
+  <widget class="QRadioButton" name="rbBottomLeft">
    <property name="geometry">
     <rect>
      <x>6</x>

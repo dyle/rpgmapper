@@ -58,6 +58,7 @@ public:
     Atlas * m_cAtlas = nullptr;                                     /**< Parent atlas back pointer. */
     Layers m_cLayers;                                               /**< The layers of this map. */
     int m_nOrderValue = 0;                                          /**< Means to order a map among others. */
+    map_corner m_eCorner = map_corner::bottomLeft;                  /**< Orgin corner of the map. */
     QPoint m_cOriginOffset;                                         /**< Origin coordinate offset. */
     regionid_t m_nRegionId = -1;                                    /**< Id of the region of this map. */
     QSize m_cSize{MAP_WIDTH_DEFAULT, MAP_HEIGHT_DEFAULT};           /**< Size of the map. */
@@ -222,6 +223,22 @@ void Map::load(QJsonObject const & cJSON) {
         setOrderValue(cJSON["setOrderValue"].toInt());
     }
 
+    if (cJSON.contains("corner") && cJSON["corner"].isString()) {
+        auto sCorner = cJSON["corner"].toString();
+        if (sCorner == "bottomLeft") {
+            setOriginCorner(Map::map_corner::bottomLeft);
+        }
+        else if (sCorner == "bottomRight") {
+            setOriginCorner(Map::map_corner::bottomRight);
+        }
+        else if (sCorner == "topLeft") {
+            setOriginCorner(Map::map_corner::topLeft);
+        }
+        else if (sCorner == "topRight") {
+            setOriginCorner(Map::map_corner::topRight);
+        }
+    }
+
     QPoint cOriginOffset{0, 0};
     if (loadOriginOffset(cJSON, cOriginOffset)) {
         setOriginOffset(cOriginOffset);
@@ -268,6 +285,16 @@ int Map::orderValue() const {
 
 
 /**
+ * Get the corner of the map's origin.
+ *
+ * @return  the corner for (0, 0)
+ */
+Map::map_corner Map::originCorner() const {
+    return d->m_eCorner;
+}
+
+
+/**
  * The offest of the origin coordinate.
  *
  * Map coordinates are relative to this offset value.
@@ -290,6 +317,54 @@ RegionPointer const Map::region() const {
 
 
 /**
+ * Save the map to json.
+ *
+ * @param   cJSON       the json instance to save to
+ */
+void Map::save(QJsonObject & cJSON) const {
+
+    Nameable::save(cJSON);
+
+    cJSON["id"] = id();
+    cJSON["region"] = d->m_nRegionId;
+    cJSON["setOrderValue"] = orderValue();
+
+    QJsonObject cJSONOffset;
+    cJSONOffset["x"] = originOffset().x();
+    cJSONOffset["y"] = originOffset().y();
+    cJSON["originOffset"] = cJSONOffset;
+
+    QJsonObject cJSONSize;
+    cJSONSize["width"] = size().width();
+    cJSONSize["height"] = size().height();
+    cJSON["size"] = cJSONSize;
+
+    switch (originCorner()) {
+        case Map::map_corner::bottomLeft:
+            cJSON["corner"] = "bottomLeft";
+            break;
+        case Map::map_corner::bottomRight:
+            cJSON["corner"] = "bottomRight";
+            break;
+        case Map::map_corner::topLeft:
+            cJSON["corner"] = "topLeft";
+            break;
+        case Map::map_corner::topRight:
+            cJSON["corner"] = "topRight";
+            break;
+    }
+
+    QJsonArray cJSONLayers;
+    for (auto const & cLayer: layers()) {
+        QJsonObject cJSONLayer;
+        cLayer.second->save(cJSONLayer);
+        cJSONLayers.append(cJSONLayer);
+    }
+    cJSON["layers"] = cJSONLayers;
+}
+
+
+/**
  * Set the means to order this map among other maps.
  *
  * @param   nOrderValue     a value indicating the position of this maps among others
@@ -303,6 +378,20 @@ void Map::setOrderValue(int nOrderValue) {
     d->m_nOrderValue = nOrderValue;
     setModified(true);
     emit changedOrderValue();
+}
+
+
+/**
+ * Set the corner of the map's origin.
+ *
+ * @param   eCorner         the new map's corner of origin
+ */
+void Map::setOriginCorner(Map::map_corner eCorner) {
+    if (d->m_eCorner == eCorner) {
+        return;
+    }
+    d->m_eCorner = eCorner;
+    emit changedOriginCorner();
 }
 
 
@@ -374,39 +463,6 @@ void Map::setSize(QSize cSize) {
 
     d->m_cSize = cSize;
     emit changedSize();
-}
-
-
-/**
- * Save the map to json.
- *
- * @param   cJSON       the json instance to save to
- */
-void Map::save(QJsonObject & cJSON) const {
-
-    Nameable::save(cJSON);
-
-    cJSON["id"] = id();
-    cJSON["region"] = d->m_nRegionId;
-    cJSON["setOrderValue"] = orderValue();
-
-    QJsonObject cJSONOffset;
-    cJSONOffset["x"] = originOffset().x();
-    cJSONOffset["y"] = originOffset().y();
-    cJSON["originOffset"] = cJSONOffset;
-
-    QJsonObject cJSONSize;
-    cJSONSize["width"] = size().width();
-    cJSONSize["height"] = size().height();
-    cJSON["size"] = cJSONSize;
-
-    QJsonArray cJSONLayers;
-    for (auto const & cLayer: layers()) {
-        QJsonObject cJSONLayer;
-        cLayer.second->save(cJSONLayer);
-        cJSONLayers.append(cJSONLayer);
-    }
-    cJSON["layers"] = cJSONLayers;
 }
 
 

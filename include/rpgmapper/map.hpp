@@ -59,6 +59,17 @@ public:
 
 
     /**
+     * These are the corners of origin we support.
+     */
+    enum class map_corner {
+        topLeft = 0,                /**< Origin is top/left. */
+        topRight = 1,               /**< Origin is top/right. */
+        bottomLeft = 2,             /**< Origin is bottom/left. */
+        bottomRight = 3             /**< Origin is bottom/right. */
+    };
+
+
+    /**
      * These are the layers on a map.
      */
     enum class map_layer {
@@ -133,6 +144,14 @@ public:
 
 
     /**
+     * Get the corner of the map's origin.
+     *
+     * @return  the corner for (0, 0)
+     */
+    Map::map_corner originCorner() const;
+
+
+    /**
      * The offest of the origin coordinate.
      *
      * Map coordinates are relative to this offset value.
@@ -166,6 +185,14 @@ public:
      * @param   nOrderValue     a value indicating the position of this maps among others
      */
     void setOrderValue(int nOrderValue);
+
+
+    /**
+     * Set the corner of the map's origin.
+     *
+     * @param   eCorner         the new map's corner of origin
+     */
+    void setOriginCorner(Map::map_corner eCorner);
 
 
     /**
@@ -270,6 +297,12 @@ signals:
      * The map changed its order value.
      */
     void changedOrderValue();
+
+
+    /**
+     * The map origin corner has changed.
+     */
+    void changedOriginCorner();
 
 
     /**

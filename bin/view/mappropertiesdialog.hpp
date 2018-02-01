@@ -29,6 +29,8 @@
 
 #include <QDialog>
 
+#include <rpgmapper/types.hpp>
+
 
 // ------------------------------------------------------------
 // decl
@@ -59,13 +61,38 @@ public:
      *
      * @param   cParent         parent widget instance
      */
-    MapPropertiesDialog(QWidget * cParent);
+    explicit MapPropertiesDialog(QWidget * cParent);
+
+
+public slots:
+
+
+    /**
+     * Evaluate all widgets anew.
+     */
+    void evaluate();
+
+
+    /**
+     * Set the map to be configured.
+     *
+     * @param   cMap        the map to be configured
+     */
+    void setMap(rpgmapper::model::MapPointer & cMap);
+
+
+    /**
+     * Reset all widgets to an initial state.
+     */
+    void reset();
 
 
 private:
 
 
-    std::shared_ptr<Ui_mappropertiesdialog> ui;       /**< User interface. */
+    std::shared_ptr<Ui_mappropertiesdialog> ui;     /**< User interface. */
+
+    rpgmapper::model::MapPointer m_cMap;            /**< The map to configure. */
 
 };
 

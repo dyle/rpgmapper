@@ -29,6 +29,8 @@
 
 #include <QDialog>
 
+#include <rpgmapper/map.hpp>
+
 
 // ------------------------------------------------------------
 // decl
@@ -59,7 +61,26 @@ public:
      *
      * @param   cParent         parent widget instance
      */
-    OriginCornerWidget(QWidget * cParent);
+    explicit OriginCornerWidget(QWidget * cParent);
+
+
+    /**
+     * Get the current selected corner.
+     *
+     * @return  the current selected corner
+     */
+    rpgmapper::model::Map::map_corner corner() const;
+
+
+public slots:
+
+
+    /**
+     * Set the active corner.
+     *
+     * @param   eCorner     the current active corner
+     */
+    void setCorner(rpgmapper::model::Map::map_corner eCorner);
 
 
 private:

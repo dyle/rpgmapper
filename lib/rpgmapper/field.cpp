@@ -103,7 +103,7 @@ QJsonObject rpgmapper::model::saveToJson(Field const & cField) {
         QJsonArray cJSONAttributes;
         for (auto const & cPair : cTile) {
             QJsonObject cJSONAttribute;
-            cJSONAttribute["setName"] = cPair.first;
+            cJSONAttribute["name"] = cPair.first;
             cJSONAttribute["value"] = cPair.second;
             cJSONAttributes.append(cJSONAttribute);
         }

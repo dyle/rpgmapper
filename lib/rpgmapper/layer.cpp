@@ -51,8 +51,9 @@ public:
 
     Layer_data() = default;
 
-    Map * m_cMap = nullptr;                 /**< The map this layer belongs to. */
-    mutable Fields m_cFields;               /**< All the fields on this on this layer. */
+    Map * m_cMap = nullptr;                     /**< The map this layer belongs to. */
+    mutable Fields m_cFields;                   /**< All the fields on this on this layer. */
+    std::map<QString, QString> m_cAttributes;   /**< Attributes of this layer. */
 };
 
 
@@ -96,6 +97,16 @@ void Layer::addTile(coordinate_t nCoordinate, Tile const & cTile) {
     d->m_cFields[nCoordinate].cPosition = Field::position(nCoordinate);
     d->m_cFields[nCoordinate].cTiles.push_back(cTile);
     setModified(true);
+}
+
+
+/**
+ * Get the attributes of this layer.
+ *
+ * @return  the attributes of this layer.
+ */
+std::map<QString, QString> const & Layer::attributes() const {
+    return d->m_cAttributes;
 }
 
 
@@ -195,7 +206,7 @@ void Layer::load(QJsonObject const & cJSON) {
         m_eLayer = static_cast<Layer::layer_t>(cJSON["type"].toInt());
     }
 
-    if (cJSON.contains("fields")&& cJSON["fields"].isArray()) {
+    if (cJSON.contains("fields") && cJSON["fields"].isArray()) {
         auto cJSONFields = cJSON["fields"].toArray();
         for (auto && cJSONField : cJSONFields) {
             auto cField = loadFromJson(cJSONField.toObject());
@@ -204,6 +215,20 @@ void Layer::load(QJsonObject const & cJSON) {
             }
         }
     }
+
+    if (cJSON.contains("attributes") && cJSON["attributes"].isObject()) {
+        auto cJSONAttributes = cJSON["attributes"].toObject();
+        for (auto iter = cJSONAttributes.begin(); iter != cJSONAttributes.end(); ++iter) {
+            d->m_cAttributes[iter.key()] = iter.value().toString();
+        }
+    }
+
+    QJsonObject cJSONAttributes;
+    for (auto const & cPair : attributes()) {
+        cJSONAttributes[cPair.first] = cPair.second;
+    }
+    cJSON["attributes"] = cJSONAttributes;
+
 }
 
 
@@ -237,6 +262,12 @@ void Layer::save(QJsonObject & cJSON) const {
         }
     }
     cJSON["fields"] = cJSONFields;
+    
+    QJsonObject cJSONAttributes;
+    for (auto const & cPair : attributes()) {
+        cJSONAttributes[cPair.first] = cPair.second;
+    }
+    cJSON["attributes"] = cJSONAttributes;
 }
 
 

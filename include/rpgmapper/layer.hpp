@@ -86,6 +86,14 @@ public:
 
 
     /**
+     * Get the attributes of this layer.
+     *
+     * @return  the attributes of this layer.
+     */
+    std::map<QString, QString> const & attributes() const;
+
+
+    /**
      * Clears and empties a field.
      *
      * @param   nCoordinate     the coordinate of the field

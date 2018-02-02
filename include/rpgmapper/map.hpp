@@ -92,6 +92,22 @@ public:
 
 
     /**
+     * Quick access to the background layer.
+     *
+     * @return  the background layer
+     */
+    LayerPointer & backgroundLayer() { return layer(map_layer::background); }
+
+
+    /**
+     * Quick access to the background layer.
+     *
+     * @return  the background layer
+     */
+    LayerPointer const & backgroundLayer() const { return layer(map_layer::background); }
+
+
+    /**
      * Create a new map (factory method).
      *
      * @param   cAtlas      parent object

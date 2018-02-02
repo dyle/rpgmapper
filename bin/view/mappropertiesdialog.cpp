@@ -22,7 +22,9 @@
 // incs
 
 #include <QColorDialog>
+#include <QFileDialog>
 #include <QFontDialog>
+#include <QMessageBox>
 
 // rpgmapper
 #include <rpgmapper/atlas.hpp>
@@ -108,6 +110,9 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * cParent) : QDialog{cParent} {
 
     connect(ui->tbFontAxis, &QToolButton::clicked, this, &MapPropertiesDialog::selectAxisFont);
     connect(ui->tbAxisColor, &QToolButton::clicked, this, &MapPropertiesDialog::selectAxisColor);
+
+    connect(ui->tbBackgroundColorPick, &QToolButton::clicked, this, &MapPropertiesDialog::selectBackgroundColor);
+    connect(ui->tbImageFile, &QToolButton::clicked, this, &MapPropertiesDialog::selectBackgroundImage);
 }
 
 
@@ -139,12 +144,21 @@ void MapPropertiesDialog::evaluate() {
     ui->edtFontAxis->setText(m_cAxisFont.family() + ", " + QString::number(m_cAxisFont.pointSize()) + "pt");
     ui->edtFontAxis->setCursorPosition(0);
 
-    auto cPalette = ui->frAxisColor->palette();
-    cPalette.setColor(QPalette::Window, m_cAxisColor);
-    ui->frAxisColor->setPalette(cPalette);
+    auto cAxisPalette = ui->frAxisColor->palette();
+    cAxisPalette.setColor(QPalette::Window, m_cAxisColor);
+    ui->frAxisColor->setPalette(cAxisPalette);
 
     showSampleXAxis();
     showSampleYAxis();
+
+    auto cBackgroundPalette = ui->frBackgroundColor->palette();
+    cBackgroundPalette.setColor(QPalette::Window, m_cBackgroundColor);
+    ui->frBackgroundColor->setPalette(cBackgroundPalette);
+
+    ui->edtImageFile->setText(m_cImageFile.fileName());
+
+    // TODO: set image
+    //ui->saImage->content
 }
 
 
@@ -179,6 +193,9 @@ void MapPropertiesDialog::reset() {
     ui->rbNumericalY->setChecked(true);
     ui->sbStartYValue->setValue(0);
     ui->edtAxisYSample->clear();
+
+    ui->rbBackgroundColor->setChecked(true);
+    ui->rbBackgroundImagePlain->setChecked(true);
 }
 
 
@@ -210,6 +227,37 @@ void MapPropertiesDialog::selectAxisFont() {
 
 
 /**
+ * Select a color for the background.
+ */
+void MapPropertiesDialog::selectBackgroundColor() {
+
+    QColor cColor = QColorDialog::getColor(m_cBackgroundColor, this);
+    if (cColor.isValid()) {
+        m_cBackgroundColor = cColor;
+        evaluate();
+    }
+}
+
+
+/**
+ * Select a image for the background.
+ */
+void MapPropertiesDialog::selectBackgroundImage() {
+
+    auto sFileName = QFileDialog::getOpenFileName(this, tr("Pick an image as map background"));
+    QImage cBackgroundImage{sFileName};
+    if (cBackgroundImage.isNull()) {
+        QString sMessage = QString{tr("Failed to load image '%1'\n\nIs this an image?")}.arg(sFileName);
+        QMessageBox::critical(this, tr("Failed to load image."), sMessage);
+        return;
+    }
+
+    m_cBackgroundImage = cBackgroundImage;
+    evaluate();
+}
+
+
+/**
  * Set the map to be configured.
  *
  * @param   cMap        the map to be configured
@@ -219,6 +267,7 @@ void MapPropertiesDialog::setMap(rpgmapper::model::MapPointer & cMap) {
     m_cMap = cMap;
     m_cAxisFont.fromString(m_cMap->gridLayer()->attributes()["font"]);
     m_cAxisColor = QColor(m_cMap->gridLayer()->attributes()["color"]);
+    m_cBackgroundColor = QColor(m_cMap->backgroundLayer()->attributes()["color"]);
 
     evaluate();
 }

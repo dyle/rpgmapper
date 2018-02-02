@@ -28,6 +28,7 @@
 #include <memory>
 
 #include <QDialog>
+#include <QFile>
 
 #include <rpgmapper/types.hpp>
 #include <rpgmapper/unitconverter.hpp>
@@ -100,15 +101,27 @@ private slots:
 
 
     /**
-     * Select a color for the Axis.
+     * Select a color for the axis.
      */
     void selectAxisColor();
 
 
     /**
-     * Select a font for the Axis.
+     * Select a font for the axis.
      */
     void selectAxisFont();
+
+
+    /**
+     * Select a color for the background.
+     */
+    void selectBackgroundColor();
+
+
+    /**
+     * Select a image for the background.
+     */
+    void selectBackgroundImage();
 
 
     /**
@@ -140,6 +153,9 @@ private:
 
     QFont m_cAxisFont;                              /**< Font used for the axis. */
     QColor m_cAxisColor;                            /**< Color for the axis. */
+    QColor m_cBackgroundColor;                      /**< Color for the background. */
+    QImage m_cBackgroundImage;                      /**< Background image for map. */
+    QFile m_cImageFile;                             /**< Path to background image file. */
 };
 
 

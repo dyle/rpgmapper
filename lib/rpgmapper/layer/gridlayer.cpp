@@ -55,6 +55,8 @@ GridLayer::GridLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, Layer::layer_
 
     QFont cDefaultFont{"Monospace", 10};
     attributes()["font"] = cDefaultFont.toString();
+
+    attributes()["image"] = "";
 }
 
 

@@ -94,6 +94,9 @@ QString convertRoman(int nValue) {
         return QString("O");
     }
 
+    // derived by
+    // https://stackoverflow.com/questions/12967896/converting-integers-to-roman-numerals-java
+
     QString res = "";
 
     while (nValue >= 1000) {
@@ -148,5 +151,6 @@ QString convertRoman(int nValue) {
         res += "I";
         nValue -= 1;
     }
+
     return res;
 }

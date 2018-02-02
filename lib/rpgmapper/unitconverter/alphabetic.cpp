@@ -39,6 +39,9 @@ using namespace rpgmapper::model;
  */
 QString rpgmapper::model::convertAlpha(int nValue, bool bBig) {
 
+    // derived from
+    // https://stackoverflow.com/a/30259745/8754067
+
     if (nValue < 0) {
         return QString("-") + convertAlpha(-nValue, bBig);
     }

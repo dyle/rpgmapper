@@ -52,7 +52,7 @@ QString AlphabeticSmallCapsConverter::convert(int nValue) const {
 
     if (g_cLookupValues.empty()) {
         for (int n = 0; n <= 100; ++n) {
-            g_cLookupValues[n] = convertAlpha(n, true);
+            g_cLookupValues[n] = convertAlpha(n, false);
         }
     }
 

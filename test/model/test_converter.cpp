@@ -140,22 +140,22 @@ int test() {
     assert(cRomanConverter->convert(-4) == "-IV");
     assert(cRomanConverter->convert(5) == "V");
     assert(cRomanConverter->convert(-5) == "-V");
-//    assert(cRomanConverter->convert(10) == "10");
-//    assert(cRomanConverter->convert(-10) == "-10");
-//    assert(cRomanConverter->convert(15) == "15");
-//    assert(cRomanConverter->convert(-15) == "-15");
-//    assert(cRomanConverter->convert(28) == "28");
-//    assert(cRomanConverter->convert(-28) == "-28");
-//    assert(cRomanConverter->convert(53) == "53");
-//    assert(cRomanConverter->convert(-53) == "-53");
-//    assert(cRomanConverter->convert(77) == "77");
-//    assert(cRomanConverter->convert(-77) == "-77");
-//    assert(cRomanConverter->convert(189) == "189");
-//    assert(cRomanConverter->convert(-189) == "-189");
-//    assert(cRomanConverter->convert(409) == "409");
-//    assert(cRomanConverter->convert(-409) == "-409");
-//    assert(cRomanConverter->convert(769) == "769");
-//    assert(cRomanConverter->convert(-769) == "-769");
+    assert(cRomanConverter->convert(10) == "X");
+    assert(cRomanConverter->convert(-10) == "-X");
+    assert(cRomanConverter->convert(15) == "XV");
+    assert(cRomanConverter->convert(-15) == "-XV");
+    assert(cRomanConverter->convert(28) == "XXVIII");
+    assert(cRomanConverter->convert(-28) == "-XXVIII");
+    assert(cRomanConverter->convert(53) == "LIII");
+    assert(cRomanConverter->convert(-53) == "-LIII");
+    assert(cRomanConverter->convert(77) == "LXXVII");
+    assert(cRomanConverter->convert(-77) == "-LXXVII");
+    assert(cRomanConverter->convert(189) == "CLXXXIX");
+    assert(cRomanConverter->convert(-189) == "-CLXXXIX");
+    assert(cRomanConverter->convert(409) == "CDIX");
+    assert(cRomanConverter->convert(-409) == "-CDIX");
+    assert(cRomanConverter->convert(769) == "DCCLXIX");
+    assert(cRomanConverter->convert(-769) == "-DCCLXIX");
 
     return 0;
 }

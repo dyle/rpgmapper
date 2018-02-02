@@ -19,15 +19,6 @@
 
 
 // ------------------------------------------------------------
-// def
-
-/**
- * Maximum size of a string value.
- */
-#define MAX_VALUE_SIZE      1000
-
-
-// ------------------------------------------------------------
 // incs
 
 #include "alphabetic.hpp"
@@ -48,31 +39,17 @@ using namespace rpgmapper::model;
  */
 QString rpgmapper::model::convertAlpha(int nValue, bool bBig) {
 
-    int nOffset = bBig ? 'A' : 'a';
-    if (nValue == 0) {
-        return QString(QChar(nOffset));
-    }
-
-    static int const nRange = 26;
-    int nAbsValue = abs(nValue);
-
-    char sValue[MAX_VALUE_SIZE + 1];
-    int nPos = 0;
-
     if (nValue < 0) {
-        sValue[nPos++] = '-';
-    }
-    while ((nAbsValue >= nRange) && (nPos < MAX_VALUE_SIZE)) {
-        int nMultiplier = nAbsValue / nRange;
-        sValue[nPos++] = static_cast<char>(nMultiplier - 1 + nOffset);
-        nAbsValue -= nMultiplier * nRange;
-    }
-    if (nPos < MAX_VALUE_SIZE) {
-        sValue[nPos++] = static_cast<char>((nAbsValue % nRange) + nOffset);
-    }
-    if (nPos < MAX_VALUE_SIZE) {
-        sValue[nPos] = 0;
+        return QString("-") + convertAlpha(-nValue, bBig);
     }
 
-    return QString(sValue);
+    int nQuotient = nValue / 26;
+    int nRemainder = nValue % 26;
+
+    auto sChar = QString(static_cast<char>(nRemainder + (bBig ? 'A' : 'a')));
+    if (nQuotient == 0) {
+        return sChar;
+    }
+
+    return convertAlpha(nQuotient - 1, bBig) + sChar;
 }

@@ -51,12 +51,8 @@ static std::map<int, QString> g_cLookupValues;            /**< Known cached valu
 QString AlphabeticSmallCapsConverter::convert(int nValue) const {
 
     if (g_cLookupValues.empty()) {
-        for (int n = 0; n <= 1000; ++n) {
-            if (n == 702) {
-                std::cout << "702!" << std::endl;
-            }
-            g_cLookupValues[n] = convertAlpha(n, false);
-            std::cout << "n=" << n << " - " << g_cLookupValues[n].toStdString() << std::endl;
+        for (int n = 0; n <= 100; ++n) {
+            g_cLookupValues[n] = convertAlpha(n, true);
         }
     }
 

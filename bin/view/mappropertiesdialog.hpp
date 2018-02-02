@@ -100,15 +100,15 @@ private slots:
 
 
     /**
-     * Select a font for the X Axis.
+     * Select a color for the Axis.
      */
-    void selectXAxisFont();
+    void selectAxisColor();
 
 
     /**
-     * Select a font for the Y Axis.
+     * Select a font for the Axis.
      */
-    void selectYAxisFont();
+    void selectAxisFont();
 
 
     /**
@@ -138,8 +138,8 @@ private:
 
     rpgmapper::model::MapPointer m_cMap;            /**< The map to configure. */
 
-    QFont m_cFontXAxis;                             /**< Font used for the X Axis. */
-    QFont m_cFontYAxis;                             /**< Font used for the Y Axis. */
+    QFont m_cAxisFont;                              /**< Font used for the axis. */
+    QColor m_cAxisColor;                            /**< Color for the axis. */
 };
 
 

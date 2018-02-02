@@ -129,15 +129,7 @@ private:
      *
      * @return  the font used for the grid
      */
-    QFont gridFontX() const;
-
-
-    /**
-     * Retrieve the grid font for Y Axis.
-     *
-     * @return  the font used for the grid
-     */
-    QFont gridFontY() const;
+    QFont gridFont() const;
 
 };
 

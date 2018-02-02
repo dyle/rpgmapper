@@ -21,6 +21,7 @@
 // ------------------------------------------------------------
 // incs
 
+#include <QColorDialog>
 #include <QFontDialog>
 
 // rpgmapper
@@ -97,7 +98,6 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * cParent) : QDialog{cParent} {
     connect(ui->rbRomanX, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleXAxis);
     connect(ui->sbStartXValue, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &MapPropertiesDialog::showSampleXAxis);
-    connect(ui->tbFontXAxis, &QToolButton::clicked, this, &MapPropertiesDialog::selectXAxisFont);
 
     connect(ui->rbAlphaBigY, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleYAxis);
     connect(ui->rbAlphaSmallY, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleYAxis);
@@ -105,7 +105,9 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * cParent) : QDialog{cParent} {
     connect(ui->rbRomanY, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleYAxis);
     connect(ui->sbStartYValue, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &MapPropertiesDialog::showSampleYAxis);
-    connect(ui->tbFontYAxis, &QToolButton::clicked, this, &MapPropertiesDialog::selectYAxisFont);
+
+    connect(ui->tbFontAxis, &QToolButton::clicked, this, &MapPropertiesDialog::selectAxisFont);
+    connect(ui->tbAxisColor, &QToolButton::clicked, this, &MapPropertiesDialog::selectAxisColor);
 }
 
 
@@ -128,15 +130,18 @@ void MapPropertiesDialog::evaluate() {
 
     ui->rbNumericalX->setChecked(true);
     ui->sbStartXValue->setValue(0);
-    ui->edtFontXAxis->setText(m_cFontXAxis.family() + ", " + QString::number(m_cFontXAxis.pointSize()) + "pt");
-    ui->edtFontXAxis->setCursorPosition(0);
-    ui->edtAxisXSample->setFont(m_cFontXAxis);
+    ui->edtAxisXSample->setFont(m_cAxisFont);
 
     ui->rbNumericalY->setChecked(true);
     ui->sbStartYValue->setValue(0);
-    ui->edtFontYAxis->setText(m_cFontYAxis.family() + ", " + QString::number(m_cFontYAxis.pointSize()) + "pt");
-    ui->edtFontYAxis->setCursorPosition(0);
-    ui->edtAxisYSample->setFont(m_cFontYAxis);
+    ui->edtAxisYSample->setFont(m_cAxisFont);
+
+    ui->edtFontAxis->setText(m_cAxisFont.family() + ", " + QString::number(m_cAxisFont.pointSize()) + "pt");
+    ui->edtFontAxis->setCursorPosition(0);
+
+    auto cPalette = ui->frAxisColor->palette();
+    cPalette.setColor(QPalette::Window, m_cAxisColor);
+    ui->frAxisColor->setPalette(cPalette);
 
     showSampleXAxis();
     showSampleYAxis();
@@ -178,28 +183,27 @@ void MapPropertiesDialog::reset() {
 
 
 /**
- * Select a font for the X Axis.
+ * Select a color for the axis.
  */
-void MapPropertiesDialog::selectXAxisFont() {
+void MapPropertiesDialog::selectAxisColor() {
 
-    bool bOk = false;
-    QFont cFont = QFontDialog::getFont(&bOk, m_cFontXAxis, this);
-    if (bOk) {
-        m_cFontXAxis = cFont.toString();
+    QColor cColor = QColorDialog::getColor(m_cAxisColor, this);
+    if (cColor.isValid()) {
+        m_cAxisColor = cColor;
         evaluate();
     }
 }
 
 
 /**
- * Select a font for the Y Axis.
+ * Select a font for the axis.
  */
-void MapPropertiesDialog::selectYAxisFont() {
+void MapPropertiesDialog::selectAxisFont() {
 
     bool bOk = false;
-    QFont cFont = QFontDialog::getFont(&bOk, m_cFontYAxis, this);
+    QFont cFont = QFontDialog::getFont(&bOk, m_cAxisFont, this);
     if (bOk) {
-        m_cFontYAxis = cFont.toString();
+        m_cAxisFont = cFont.toString();
         evaluate();
     }
 }
@@ -213,8 +217,8 @@ void MapPropertiesDialog::selectYAxisFont() {
 void MapPropertiesDialog::setMap(rpgmapper::model::MapPointer & cMap) {
 
     m_cMap = cMap;
-    m_cFontXAxis.fromString(m_cMap->gridLayer()->attributes()["fontX"]);
-    m_cFontYAxis.fromString(m_cMap->gridLayer()->attributes()["fontY"]);
+    m_cAxisFont.fromString(m_cMap->gridLayer()->attributes()["font"]);
+    m_cAxisColor = QColor(m_cMap->gridLayer()->attributes()["color"]);
 
     evaluate();
 }

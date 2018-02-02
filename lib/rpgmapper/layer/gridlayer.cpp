@@ -54,8 +54,7 @@ GridLayer::GridLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, Layer::layer_
     attributes()["color"] = DEFAULT_GRID_COLOR;
 
     QFont cDefaultFont{"Monospace", 10};
-    attributes()["fontX"] = cDefaultFont.toString();
-    attributes()["fontY"] = cDefaultFont.toString();
+    attributes()["font"] = cDefaultFont.toString();
 }
 
 
@@ -108,7 +107,7 @@ void GridLayer::drawLayer(QPainter & cPainter, int nTileSize) const {
 void GridLayer::drawXAnnotation(QPainter & cPainter, int nTileSize) const {
 
     cPainter.setPen(gridColor());
-    cPainter.setFont(gridFontX());
+    cPainter.setFont(gridFont());
 
     QSize cSize = map()->size();
     int nBottom = cSize.height() * nTileSize;
@@ -150,7 +149,7 @@ void GridLayer::drawXAxis(QPainter & cPainter, int nTileSize) const {
 void GridLayer::drawYAnnotation(QPainter & cPainter, int nTileSize) const {
 
     cPainter.setPen(gridColor());
-    cPainter.setFont(gridFontY());
+    cPainter.setFont(gridFont());
 
     QSize cSize = map()->size();
     int nRight = cSize.width() * nTileSize;
@@ -204,29 +203,11 @@ QColor GridLayer::gridColor() const {
  *
  * @return  the font used for the grid
  */
-QFont GridLayer::gridFontX() const {
+QFont GridLayer::gridFont() const {
 
     QFont res{"Monospace", 10};
 
-    auto iter = attributes().find("fontX");
-    if (iter != attributes().end()) {
-        res.fromString((*iter).second);
-    }
-
-    return res;
-}
-
-
-/**
- * Retrieve the grid font for Y Axis.
- *
- * @return  the font used for the grid
- */
-QFont GridLayer::gridFontY() const {
-
-    QFont res{"Monospace", 10};
-
-    auto iter = attributes().find("fontY");
+    auto iter = attributes().find("font");
     if (iter != attributes().end()) {
         res.fromString((*iter).second);
     }

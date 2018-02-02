@@ -90,6 +90,14 @@ public:
      *
      * @return  the attributes of this layer.
      */
+    std::map<QString, QString> & attributes();
+
+
+    /**
+     * Get the attributes of this layer.
+     *
+     * @return  the attributes of this layer.
+     */
     std::map<QString, QString> const & attributes() const;
 
 

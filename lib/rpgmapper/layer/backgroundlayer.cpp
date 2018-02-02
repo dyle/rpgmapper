@@ -50,7 +50,7 @@ using namespace rpgmapper::model;
  * @param   eLayer      the layer type
  */
 BackgroundLayer::BackgroundLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, Layer::layer_t::background) {
-    addTile(0,  Tile{{"color", DEFAULT_BACKGROUND_COLOR}});
+    attributes()["color"] = DEFAULT_BACKGROUND_COLOR;
 }
 
 
@@ -61,13 +61,9 @@ BackgroundLayer::BackgroundLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, L
  */
 QColor BackgroundLayer::backgroundColor() const {
 
-    if (!fields().empty()) {
-
-        auto const & cTile = fields().at(0).cTiles[0];
-        auto iter = cTile.find("color");
-        if (iter != cTile.end()) {
-            return QColor{(*iter).second};
-        }
+    auto iter = attributes().find("color");
+    if (iter != attributes().end()) {
+        return QColor{(*iter).second};
     }
 
     return QColor{WARNING_BACKGROUND_COLOR};

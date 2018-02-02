@@ -50,7 +50,8 @@ using namespace rpgmapper::model;
  * @param   eLayer      the layer type
  */
 GridLayer::GridLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, Layer::layer_t::grid) {
-    addTile(0,  Tile{{"color", DEFAULT_GRID_COLOR}, {"font", QFont().toString()}});
+    attributes()["color"] = DEFAULT_GRID_COLOR;
+    attributes()["font"] = QFont().toString();
 }
 
 
@@ -185,12 +186,9 @@ void GridLayer::drawYAxis(QPainter & cPainter, int nTileSize) const {
  */
 QColor GridLayer::gridColor() const {
 
-    if (!fields().empty()) {
-        auto const & cTile = fields().at(0).cTiles[0];
-        auto iter = cTile.find("color");
-        if (iter != cTile.end()) {
-            return QColor{(*iter).second};
-        }
+    auto iter = attributes().find("color");
+    if (iter != attributes().end()) {
+        return QColor{(*iter).second};
     }
 
     return QColor{WARNING_GRID_COLOR};
@@ -206,12 +204,9 @@ QFont GridLayer::gridFont() const {
 
     QFont res{"Monospace", 10};
 
-    if (!fields().empty()) {
-        auto const & cTile = fields().at(0).cTiles[0];
-        auto iter = cTile.find("font");
-        if (iter != cTile.end()) {
-            res.fromString((*iter).second);
-        }
+    auto iter = attributes().find("font");
+    if (iter != attributes().end()) {
+        res.fromString((*iter).second);
     }
 
     return res;

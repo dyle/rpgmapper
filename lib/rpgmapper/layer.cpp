@@ -105,6 +105,16 @@ void Layer::addTile(coordinate_t nCoordinate, Tile const & cTile) {
  *
  * @return  the attributes of this layer.
  */
+std::map<QString, QString> & Layer::attributes() {
+    return d->m_cAttributes;
+}
+
+
+/**
+ * Get the attributes of this layer.
+ *
+ * @return  the attributes of this layer.
+ */
 std::map<QString, QString> const & Layer::attributes() const {
     return d->m_cAttributes;
 }

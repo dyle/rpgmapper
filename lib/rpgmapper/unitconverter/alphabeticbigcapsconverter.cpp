@@ -19,8 +19,19 @@
 
 
 // ------------------------------------------------------------
+// defs
+
+
+/**
+ * Maximum size of a string value.
+ */
+#define MAX_VALUE_SIZE      1024
+
+
+// ------------------------------------------------------------
 // incs
 
+#include <iostream>
 #include "alphabeticbigcapsconverter.hpp"
 
 using namespace rpgmapper::model;
@@ -28,16 +39,6 @@ using namespace rpgmapper::model;
 
 // ------------------------------------------------------------
 // decl
-
-/**
- * Lookup table.
- */
-static struct {
-
-    std::map<int, QString> m_cValues;           /**< known values */
-    bool m_bInit = false;                       /**< initial init state. */
-
-} g_cLookup;
 
 
 /**
@@ -56,6 +57,16 @@ static void initLookup();
 
 
 // ------------------------------------------------------------
+// vars
+
+
+/**
+ * Lookup table.
+ */
+static std::map<int, QString> g_cLookupValues;            /**< Known cached values. */
+
+
+// ------------------------------------------------------------
 // code
 
 
@@ -67,17 +78,17 @@ static void initLookup();
  */
 QString AlphabeticBigCapsConverter::convert(int nValue) const {
 
-    if (!g_cLookup.m_bInit) {
+    if (g_cLookupValues.empty()) {
         initLookup();
     }
 
-    auto iterLookup = g_cLookup.m_cValues.find(nValue);
-    if (iterLookup != g_cLookup.m_cValues.end()) {
+    auto iterLookup = g_cLookupValues.find(nValue);
+    if (iterLookup != g_cLookupValues.end()) {
         return (*iterLookup).second;
     }
 
     auto res = convertInternal(nValue);
-    g_cLookup.m_cValues[nValue] = res;
+    g_cLookupValues[nValue] = res;
 
     return res;
 }
@@ -97,25 +108,27 @@ QString convertInternal(int nValue) {
 
     int nRange = 'Z' - 'A' + 1;
     int nOffset = 'A';
-    int n = abs(nValue);
+    int nAbsValue = abs(nValue);
 
-    QList<QChar> cChars;
-    while (n > nRange) {
-        cChars << QChar((n / nRange) + nOffset);
-        n -= nRange;
-    }
-    cChars << QChar((n % nRange) + nOffset);
+    char sValue[MAX_VALUE_SIZE];
+    int nPos = 0;
 
     if (nValue < 0) {
-        cChars << QChar('-');
+        sValue[nPos++] = '-';
     }
 
-    QStringList sl;
-    for (auto iter = cChars.rbegin(); iter != cChars.rend(); ++iter) {
-        sl << (*iter);
+    while ((nAbsValue >= nRange) && (nPos < MAX_VALUE_SIZE - 1)) {
+        sValue[nPos++] = (nAbsValue / nRange) - 1 + nOffset;
+        nAbsValue -= nRange;
+    }
+    if (nPos < MAX_VALUE_SIZE - 1) {
+        sValue[nPos++] = (nAbsValue % nRange) + nOffset;
+    }
+    if (nPos < MAX_VALUE_SIZE - 1) {
+        sValue[nPos++] = 0;
     }
 
-    return sl.join("");
+    return QString(sValue);
 }
 
 
@@ -123,9 +136,8 @@ QString convertInternal(int nValue) {
  * Initialize the lookup table.
  */
 void initLookup() {
-
-    for (int n = -100; n <= 100; ++n) {
-        g_cLookup.m_cValues[n] = convertInternal(n);
+    for (int n = 0; n <= 100; ++n) {
+        g_cLookupValues[n] = convertInternal(n);
+        std::cout << "n: " << n << " - " << g_cLookupValues[n].toStdString() << std::endl;
     }
-    g_cLookup.m_bInit = true;
 }

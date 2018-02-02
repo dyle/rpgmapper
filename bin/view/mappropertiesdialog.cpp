@@ -32,6 +32,44 @@ using namespace rpgmapper::view;
 
 
 // ------------------------------------------------------------
+// decl
+
+
+/**
+ * Unit converters for the example axis units.
+ */
+static struct {
+
+    /**
+     * Alphabetical big caps unit converter.
+     */
+    QSharedPointer<rpgmapper::model::UnitConverter> m_cAlphabeticalBigCaps;
+
+    /**
+     * Alphabetical small caps unit converter.
+     */
+    QSharedPointer<rpgmapper::model::UnitConverter> m_cAlphabeticalSmallCaps;
+
+    /**
+     * Alphabetical big caps unit converter.
+     */
+    QSharedPointer<rpgmapper::model::UnitConverter> m_cNumerical;
+
+    /**
+     * Alphabetical big caps unit converter.
+     */
+    QSharedPointer<rpgmapper::model::UnitConverter> m_cRoman;
+
+} g_cUnitConverters;
+
+
+/**
+ * Init the unit converters.
+ */
+static void initConverters();
+
+
+// ------------------------------------------------------------
 // code
 
 
@@ -49,6 +87,20 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * cParent) : QDialog{cParent} {
             this, &MapPropertiesDialog::widthChanged);
     connect(ui->sbHeight, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &MapPropertiesDialog::heightChanged);
+
+    connect(ui->rbAlphaBigX, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleXAxis);
+    connect(ui->rbAlphaSmallX, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleXAxis);
+    connect(ui->rbNumericalX, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleXAxis);
+    connect(ui->rbRomanX, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleXAxis);
+    connect(ui->sbStartXValue, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &MapPropertiesDialog::showSampleXAxis);
+
+    connect(ui->rbAlphaBigY, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleYAxis);
+    connect(ui->rbAlphaSmallY, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleYAxis);
+    connect(ui->rbNumericalY, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleYAxis);
+    connect(ui->rbRomanY, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleYAxis);
+    connect(ui->sbStartYValue, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &MapPropertiesDialog::showSampleYAxis);
 }
 
 
@@ -76,6 +128,9 @@ void MapPropertiesDialog::evaluate() {
     // TODO
     ui->rbNumericalY->setChecked(true);
     ui->sbStartYValue->setValue(0);
+
+    showSampleXAxis();
+    showSampleYAxis();
 }
 
 
@@ -125,6 +180,74 @@ void MapPropertiesDialog::setMap(rpgmapper::model::MapPointer & cMap) {
 
 
 /**
+ * Show examples for units on the X Axis.
+ */
+void MapPropertiesDialog::showSampleXAxis() {
+
+    initConverters();
+
+    QSharedPointer<rpgmapper::model::UnitConverter> cConverter;
+    if (ui->rbAlphaBigX->isChecked()) {
+        cConverter = g_cUnitConverters.m_cAlphabeticalBigCaps;
+    }
+    if (ui->rbAlphaSmallX->isChecked()) {
+        cConverter = g_cUnitConverters.m_cAlphabeticalSmallCaps;
+    }
+    if (ui->rbNumericalX->isChecked()) {
+        cConverter = g_cUnitConverters.m_cNumerical;
+    }
+    if (ui->rbRomanX->isChecked()) {
+        cConverter = g_cUnitConverters.m_cRoman;
+    }
+
+    if (cConverter.data() == nullptr) {
+        throw std::runtime_error("Cannot deduce unit converter for current option on X axis.");
+    }
+
+    QStringList cExamples;
+    for (int i = 0; i < 7; ++i) {
+        cExamples << cConverter->convert(i + ui->sbStartXValue->value());
+    }
+    ui->edtAxisXSample->setText(cExamples.join(",") + ", ...");
+    ui->edtAxisXSample->setCursorPosition(0);
+}
+
+
+/**
+ * Show examples for units on the Y Axis.
+ */
+void MapPropertiesDialog::showSampleYAxis() {
+
+    initConverters();
+
+    QSharedPointer<rpgmapper::model::UnitConverter> cConverter;
+    if (ui->rbAlphaBigY->isChecked()) {
+        cConverter = g_cUnitConverters.m_cAlphabeticalBigCaps;
+    }
+    if (ui->rbAlphaSmallY->isChecked()) {
+        cConverter = g_cUnitConverters.m_cAlphabeticalSmallCaps;
+    }
+    if (ui->rbNumericalY->isChecked()) {
+        cConverter = g_cUnitConverters.m_cNumerical;
+    }
+    if (ui->rbRomanY->isChecked()) {
+        cConverter = g_cUnitConverters.m_cRoman;
+    }
+
+    if (cConverter.data() == nullptr) {
+        throw std::runtime_error("Cannot deduce unit converter for current option on Y axis.");
+    }
+
+    QStringList cExamples;
+    for (int i = 0; i < 7; ++i) {
+        cExamples << cConverter->convert(i + ui->sbStartYValue->value());
+    }
+    ui->edtAxisYSample->setText(cExamples.join(",") + ", ...");
+    ui->edtAxisYSample->setCursorPosition(0);
+}
+
+
+/**
  * The width value changed.
  *
  * @param   nValue      the new value
@@ -132,5 +255,28 @@ void MapPropertiesDialog::setMap(rpgmapper::model::MapPointer & cMap) {
 void MapPropertiesDialog::widthChanged(int nValue) {
     if (ui->tbLinkSize->isChecked() && (ui->sbHeight->value() != nValue)) {
         ui->sbHeight->setValue(nValue);
+    }
+}
+
+
+/**
+ * Init the unit converters.
+ */
+void initConverters() {
+
+    if (g_cUnitConverters.m_cAlphabeticalBigCaps.data() == nullptr) {
+        g_cUnitConverters.m_cAlphabeticalBigCaps = UnitConverter::create(UnitConverter::alphabeticalBigCaps);
+    }
+
+    if (g_cUnitConverters.m_cAlphabeticalSmallCaps.data() == nullptr) {
+        g_cUnitConverters.m_cAlphabeticalSmallCaps = UnitConverter::create(UnitConverter::alphabeticalSmallCaps);
+    }
+
+    if (g_cUnitConverters.m_cNumerical.data() == nullptr) {
+        g_cUnitConverters.m_cNumerical = UnitConverter::create(UnitConverter::numeric);
+    }
+
+    if (g_cUnitConverters.m_cRoman.data() == nullptr) {
+        g_cUnitConverters.m_cRoman = UnitConverter::create(UnitConverter::roman);
     }
 }

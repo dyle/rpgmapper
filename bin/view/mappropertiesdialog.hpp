@@ -30,6 +30,7 @@
 #include <QDialog>
 
 #include <rpgmapper/types.hpp>
+#include <rpgmapper/unitconverter.hpp>
 
 
 // ------------------------------------------------------------
@@ -99,6 +100,18 @@ private slots:
 
 
     /**
+     * Show examples for units on the X Axis.
+     */
+    void showSampleXAxis();
+
+
+    /**
+     * Show examples for units on the Y Axis.
+     */
+    void showSampleYAxis();
+
+
+    /**
      * The width value changed.
      *
      * @param   nValue      the new value
@@ -112,7 +125,6 @@ private:
     std::shared_ptr<Ui_mappropertiesdialog> ui;     /**< User interface. */
 
     rpgmapper::model::MapPointer m_cMap;            /**< The map to configure. */
-
 };
 
 

@@ -50,9 +50,12 @@ using namespace rpgmapper::model;
  * @param   eLayer      the layer type
  */
 GridLayer::GridLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, Layer::layer_t::grid) {
+
     attributes()["color"] = DEFAULT_GRID_COLOR;
-    attributes()["fontX"] = QFont().toString();
-    attributes()["fontY"] = QFont().toString();
+
+    QFont cDefaultFont{"Monospace", 10};
+    attributes()["fontX"] = cDefaultFont.toString();
+    attributes()["fontY"] = cDefaultFont.toString();
 }
 
 

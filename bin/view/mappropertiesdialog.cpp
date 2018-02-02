@@ -21,9 +21,12 @@
 // ------------------------------------------------------------
 // incs
 
+#include <QFontDialog>
+
 // rpgmapper
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/controller.hpp>
+#include <rpgmapper/layer.hpp>
 #include "mappropertiesdialog.hpp"
 #include "ui_mappropertiesdialog.h"
 
@@ -94,6 +97,7 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * cParent) : QDialog{cParent} {
     connect(ui->rbRomanX, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleXAxis);
     connect(ui->sbStartXValue, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &MapPropertiesDialog::showSampleXAxis);
+    connect(ui->tbFontXAxis, &QToolButton::clicked, this, &MapPropertiesDialog::selectXAxisFont);
 
     connect(ui->rbAlphaBigY, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleYAxis);
     connect(ui->rbAlphaSmallY, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleYAxis);
@@ -101,6 +105,7 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * cParent) : QDialog{cParent} {
     connect(ui->rbRomanY, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleYAxis);
     connect(ui->sbStartYValue, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &MapPropertiesDialog::showSampleYAxis);
+    connect(ui->tbFontYAxis, &QToolButton::clicked, this, &MapPropertiesDialog::selectYAxisFont);
 }
 
 
@@ -121,13 +126,17 @@ void MapPropertiesDialog::evaluate() {
 
     ui->wdOriginCornerWidget->setCorner(m_cMap->originCorner());
 
-    // TODO
     ui->rbNumericalX->setChecked(true);
     ui->sbStartXValue->setValue(0);
+    ui->edtFontXAxis->setText(m_cFontXAxis.family() + ", " + QString::number(m_cFontXAxis.pointSize()) + "pt");
+    ui->edtFontXAxis->setCursorPosition(0);
+    ui->edtAxisXSample->setFont(m_cFontXAxis);
 
-    // TODO
     ui->rbNumericalY->setChecked(true);
     ui->sbStartYValue->setValue(0);
+    ui->edtFontYAxis->setText(m_cFontYAxis.family() + ", " + QString::number(m_cFontYAxis.pointSize()) + "pt");
+    ui->edtFontYAxis->setCursorPosition(0);
+    ui->edtAxisYSample->setFont(m_cFontYAxis);
 
     showSampleXAxis();
     showSampleYAxis();
@@ -169,12 +178,44 @@ void MapPropertiesDialog::reset() {
 
 
 /**
+ * Select a font for the X Axis.
+ */
+void MapPropertiesDialog::selectXAxisFont() {
+
+    bool bOk = false;
+    QFont cFont = QFontDialog::getFont(&bOk, m_cFontXAxis, this);
+    if (bOk) {
+        m_cFontXAxis = cFont.toString();
+        evaluate();
+    }
+}
+
+
+/**
+ * Select a font for the Y Axis.
+ */
+void MapPropertiesDialog::selectYAxisFont() {
+
+    bool bOk = false;
+    QFont cFont = QFontDialog::getFont(&bOk, m_cFontYAxis, this);
+    if (bOk) {
+        m_cFontYAxis = cFont.toString();
+        evaluate();
+    }
+}
+
+
+/**
  * Set the map to be configured.
  *
  * @param   cMap        the map to be configured
  */
 void MapPropertiesDialog::setMap(rpgmapper::model::MapPointer & cMap) {
+
     m_cMap = cMap;
+    m_cFontXAxis.fromString(m_cMap->gridLayer()->attributes()["fontX"]);
+    m_cFontYAxis.fromString(m_cMap->gridLayer()->attributes()["fontY"]);
+
     evaluate();
 }
 

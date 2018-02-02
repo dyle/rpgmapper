@@ -101,11 +101,36 @@ public:
 
 
     /**
+     * Quick access to the grid layer.
+     *
+     * @return  the grid layer
+     */
+    LayerPointer & gridLayer() { return layer(map_layer::grid); }
+
+
+    /**
+     * Quick access to the grid layer.
+     *
+     * @return  the grid layer
+     */
+    LayerPointer const & gridLayer() const { return layer(map_layer::grid); }
+
+
+    /**
      * Return the id of the map.
      *
      * @return  the id of the map
      */
     mapid_t id() const { return m_nId; }
+
+
+    /**
+     * Get a layer of this map.
+     *
+     * @param   eLayer      the layer requested
+     * @return  the layers of this map
+     */
+    LayerPointer & layer(map_layer eLayer);
 
 
     /**

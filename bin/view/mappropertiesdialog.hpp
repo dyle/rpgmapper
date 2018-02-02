@@ -100,6 +100,18 @@ private slots:
 
 
     /**
+     * Select a font for the X Axis.
+     */
+    void selectXAxisFont();
+
+
+    /**
+     * Select a font for the Y Axis.
+     */
+    void selectYAxisFont();
+
+
+    /**
      * Show examples for units on the X Axis.
      */
     void showSampleXAxis();
@@ -125,6 +137,9 @@ private:
     std::shared_ptr<Ui_mappropertiesdialog> ui;     /**< User interface. */
 
     rpgmapper::model::MapPointer m_cMap;            /**< The map to configure. */
+
+    QFont m_cFontXAxis;                             /**< Font used for the X Axis. */
+    QFont m_cFontYAxis;                             /**< Font used for the Y Axis. */
 };
 
 

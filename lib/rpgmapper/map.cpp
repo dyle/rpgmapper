@@ -189,6 +189,17 @@ void Map::init() {
  * @param   eLayer      the layer requested
  * @return  the layers of this map
  */
+LayerPointer & Map::layer(map_layer eLayer) {
+    return d->m_cLayers[static_cast<layerid_t>(eLayer)];
+}
+
+
+/**
+ * Get a certain layer of this map.
+ *
+ * @param   eLayer      the layer requested
+ * @return  the layers of this map
+ */
 LayerPointer const & Map::layer(map_layer eLayer) const {
     return d->m_cLayers[static_cast<layerid_t>(eLayer)];
 }

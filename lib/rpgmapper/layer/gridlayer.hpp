@@ -125,11 +125,20 @@ private:
 
 
     /**
-     * Retrieve the grid font.
+     * Retrieve the grid font for X Axis.
      *
      * @return  the font used for the grid
      */
-    QFont gridFont() const;
+    QFont gridFontX() const;
+
+
+    /**
+     * Retrieve the grid font for Y Axis.
+     *
+     * @return  the font used for the grid
+     */
+    QFont gridFontY() const;
+
 };
 
 

@@ -50,6 +50,7 @@ set(RPGMAPPER_LIB_SRC
     layer/backgroundlayer.cpp
     layer/gridlayer.cpp
 
+    unitconverter/alphabetic.cpp
     unitconverter/alphabeticbigcapsconverter.cpp
     unitconverter/alphabeticsmallcapsconverter.cpp
     unitconverter/numericconverter.cpp

@@ -19,41 +19,13 @@
 
 
 // ------------------------------------------------------------
-// defs
-
-
-/**
- * Maximum size of a string value.
- */
-#define MAX_VALUE_SIZE      1024
-
-
-// ------------------------------------------------------------
 // incs
 
 #include <iostream>
+#include "alphabetic.hpp"
 #include "alphabeticbigcapsconverter.hpp"
 
 using namespace rpgmapper::model;
-
-
-// ------------------------------------------------------------
-// decl
-
-
-/**
- * Internal real conversion implementation.
- *
- * @param   nValue      the value to convert
- * @return  the string holding the value in user dimensions
- */
-static QString convertInternal(int nValue);
-
-
-/**
- * Initialize the lookup table.
- */
-static void initLookup();
 
 
 // ------------------------------------------------------------
@@ -79,7 +51,13 @@ static std::map<int, QString> g_cLookupValues;            /**< Known cached valu
 QString AlphabeticBigCapsConverter::convert(int nValue) const {
 
     if (g_cLookupValues.empty()) {
-        initLookup();
+        for (int n = 0; n <= 1000; ++n) {
+            if (n == 702) {
+                std::cout << "702!" << std::endl;
+            }
+            g_cLookupValues[n] = convertAlpha(n, true);
+            std::cout << "n=" << n << " - " << g_cLookupValues[n].toStdString() << std::endl;
+        }
     }
 
     auto iterLookup = g_cLookupValues.find(nValue);
@@ -87,57 +65,8 @@ QString AlphabeticBigCapsConverter::convert(int nValue) const {
         return (*iterLookup).second;
     }
 
-    auto res = convertInternal(nValue);
+    auto res = convertAlpha(nValue, true);
     g_cLookupValues[nValue] = res;
 
     return res;
-}
-
-
-/**
- * Internal real conversion implementation.
- *
- * @param   nValue      the value to convert
- * @return  the string holding the value in user dimensions
- */
-QString convertInternal(int nValue) {
-
-    if (nValue == 0) {
-        return "A";
-    }
-
-    int nRange = 'Z' - 'A' + 1;
-    int nOffset = 'A';
-    int nAbsValue = abs(nValue);
-
-    char sValue[MAX_VALUE_SIZE];
-    int nPos = 0;
-
-    if (nValue < 0) {
-        sValue[nPos++] = '-';
-    }
-
-    while ((nAbsValue >= nRange) && (nPos < MAX_VALUE_SIZE - 1)) {
-        sValue[nPos++] = (nAbsValue / nRange) - 1 + nOffset;
-        nAbsValue -= nRange;
-    }
-    if (nPos < MAX_VALUE_SIZE - 1) {
-        sValue[nPos++] = (nAbsValue % nRange) + nOffset;
-    }
-    if (nPos < MAX_VALUE_SIZE - 1) {
-        sValue[nPos++] = 0;
-    }
-
-    return QString(sValue);
-}
-
-
-/**
- * Initialize the lookup table.
- */
-void initLookup() {
-    for (int n = 0; n <= 100; ++n) {
-        g_cLookupValues[n] = convertInternal(n);
-        std::cout << "n: " << n << " - " << g_cLookupValues[n].toStdString() << std::endl;
-    }
 }

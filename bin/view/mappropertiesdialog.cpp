@@ -89,6 +89,11 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * cParent) : QDialog{cParent} {
     ui = std::make_shared<Ui_mappropertiesdialog>();
     ui->setupUi(this);
 
+    m_cBackgroundPreview = new QLabel{this};
+    m_cBackgroundPreview->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    m_cBackgroundPreview->setScaledContents(false);
+    ui->saImage->setWidget(m_cBackgroundPreview);
+
     connect(ui->sbWidth, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &MapPropertiesDialog::widthChanged);
     connect(ui->sbHeight, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
@@ -155,10 +160,8 @@ void MapPropertiesDialog::evaluate() {
     cBackgroundPalette.setColor(QPalette::Window, m_cBackgroundColor);
     ui->frBackgroundColor->setPalette(cBackgroundPalette);
 
-    ui->edtImageFile->setText(m_cImageFile.fileName());
-
-    // TODO: set image
-    //ui->saImage->content
+    ui->edtImageFile->setText(m_sImageFile);
+    ui->edtImageFile->setCursorPosition(0);
 }
 
 
@@ -247,12 +250,24 @@ void MapPropertiesDialog::selectBackgroundImage() {
     auto sFileName = QFileDialog::getOpenFileName(this, tr("Pick an image as map background"));
     QImage cBackgroundImage{sFileName};
     if (cBackgroundImage.isNull()) {
-        QString sMessage = QString{tr("Failed to load image '%1'\n\nIs this an image?")}.arg(sFileName);
+        QString sMessage = QString{tr("Failed to load image '%1'\nIs this an image?")}.arg(sFileName);
         QMessageBox::critical(this, tr("Failed to load image."), sMessage);
         return;
     }
 
+    m_sImageFile = sFileName;
     m_cBackgroundImage = cBackgroundImage;
+
+    QPixmap cBackgroundPixmap;
+    if (cBackgroundPixmap.convertFromImage(m_cBackgroundImage)) {
+        m_cBackgroundPreview->setPixmap(cBackgroundPixmap);
+        m_cBackgroundPreview->resize(m_cBackgroundPreview->pixmap()->size());
+    }
+    else {
+        QString sMessage = QString{tr("Failed to apply image '%1'.\n")}.arg(sFileName);
+        QMessageBox::critical(this, tr("Failed to set image."), sMessage);
+    }
+
     evaluate();
 }
 

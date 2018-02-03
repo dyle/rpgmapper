@@ -29,6 +29,7 @@
 
 #include <QDialog>
 #include <QFile>
+#include <QLabel>
 
 #include <rpgmapper/types.hpp>
 #include <rpgmapper/unitconverter.hpp>
@@ -155,7 +156,8 @@ private:
     QColor m_cAxisColor;                            /**< Color for the axis. */
     QColor m_cBackgroundColor;                      /**< Color for the background. */
     QImage m_cBackgroundImage;                      /**< Background image for map. */
-    QFile m_cImageFile;                             /**< Path to background image file. */
+    QString m_sImageFile;                           /**< Path to background image file. */
+    QLabel * m_cBackgroundPreview;                  /**< Preview of background image. */
 };
 
 

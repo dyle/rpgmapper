@@ -84,12 +84,6 @@ public slots:
     void setMap(rpgmapper::model::MapPointer & cMap);
 
 
-    /**
-     * Reset all widgets to an initial state.
-     */
-    void reset();
-
-
 private slots:
 
 

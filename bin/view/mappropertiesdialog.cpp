@@ -132,7 +132,6 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * cParent) : QDialog{cParent} {
  */
 void MapPropertiesDialog::evaluate() {
 
-    reset();
     if (m_cMap.data() == nullptr) {
         return;
     }
@@ -198,31 +197,6 @@ void MapPropertiesDialog::heightChanged(int nValue) {
     if (ui->tbLinkSize->isChecked() && (ui->sbWidth->value() != nValue)) {
         ui->sbWidth->setValue(nValue);
     }
-}
-
-
-/**
- * Reset all widgets to an initial state.
- */
-void MapPropertiesDialog::reset() {
-
-    ui->edtName->clear();
-
-    ui->sbWidth->setValue(1);
-    ui->sbHeight->setValue(1);
-
-    ui->wdOriginCornerWidget->setCorner(Map::map_corner::bottomLeft);
-
-    ui->rbNumericalX->setChecked(true);
-    ui->sbStartXValue->setValue(0);
-    ui->edtAxisXSample->clear();
-
-    ui->rbNumericalY->setChecked(true);
-    ui->sbStartYValue->setValue(0);
-    ui->edtAxisYSample->clear();
-
-    ui->rbBackgroundColor->setChecked(true);
-    ui->rbBackgroundImagePlain->setChecked(true);
 }
 
 

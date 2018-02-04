@@ -118,6 +118,12 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * cParent) : QDialog{cParent} {
 
     connect(ui->tbBackgroundColorPick, &QToolButton::clicked, this, &MapPropertiesDialog::selectBackgroundColor);
     connect(ui->tbImageFile, &QToolButton::clicked, this, &MapPropertiesDialog::selectBackgroundImage);
+    connect(ui->rbBackgroundImagePlain, &QRadioButton::clicked,
+            this, &MapPropertiesDialog::setBackgroundImageRenderMode);
+    connect(ui->rbBackgroundImageScaled, &QRadioButton::clicked,
+            this, &MapPropertiesDialog::setBackgroundImageRenderMode);
+    connect(ui->rbBackgroundImageTiled, &QRadioButton::clicked,
+            this, &MapPropertiesDialog::setBackgroundImageRenderMode);
 }
 
 
@@ -133,35 +139,53 @@ void MapPropertiesDialog::evaluate() {
 
     ui->edtName->setText(m_cMap->name());
 
+    // Dimension tab
     ui->sbWidth->setValue(m_cMap->size().width());
     ui->sbHeight->setValue(m_cMap->size().height());
-
     ui->wdOriginCornerWidget->setCorner(m_cMap->originCorner());
 
+    // Axis tab
     ui->rbNumericalX->setChecked(true);
     ui->sbStartXValue->setValue(0);
     ui->edtAxisXSample->setFont(m_cAxisFont);
-
     ui->rbNumericalY->setChecked(true);
     ui->sbStartYValue->setValue(0);
     ui->edtAxisYSample->setFont(m_cAxisFont);
-
     ui->edtFontAxis->setText(m_cAxisFont.family() + ", " + QString::number(m_cAxisFont.pointSize()) + "pt");
     ui->edtFontAxis->setCursorPosition(0);
-
     auto cAxisPalette = ui->frAxisColor->palette();
     cAxisPalette.setColor(QPalette::Window, m_cAxisColor);
     ui->frAxisColor->setPalette(cAxisPalette);
-
     showSampleXAxis();
     showSampleYAxis();
 
+    // Background tab
     auto cBackgroundPalette = ui->frBackgroundColor->palette();
     cBackgroundPalette.setColor(QPalette::Window, m_cBackgroundColor);
     ui->frBackgroundColor->setPalette(cBackgroundPalette);
-
     ui->edtImageFile->setText(m_sImageFile);
     ui->edtImageFile->setCursorPosition(0);
+    Map::map_background_image_render_mode eRenderMode = Map::map_background_image_render_mode::plain;
+    if (ui->rbBackgroundImageScaled->isChecked()) {
+        eRenderMode = Map::map_background_image_render_mode::scaled;
+    }
+    if (ui->rbBackgroundImageTiled->isChecked()) {
+        eRenderMode = Map::map_background_image_render_mode::tiled;
+    }
+    switch (eRenderMode) {
+
+        case Map::map_background_image_render_mode::plain:
+            m_cBackgroundPreview->setScaledContents(false);
+            break;
+
+        case Map::map_background_image_render_mode::scaled:
+            m_cBackgroundPreview->setScaledContents(true);
+            break;
+
+        case Map::map_background_image_render_mode::tiled:
+            // TODO
+            break;
+    }
 }
 
 
@@ -268,6 +292,14 @@ void MapPropertiesDialog::selectBackgroundImage() {
         QMessageBox::critical(this, tr("Failed to set image."), sMessage);
     }
 
+    evaluate();
+}
+
+
+/**
+ * The background image render mode changed.
+ */
+void MapPropertiesDialog::setBackgroundImageRenderMode() {
     evaluate();
 }
 

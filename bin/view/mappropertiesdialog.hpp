@@ -126,6 +126,12 @@ private slots:
 
 
     /**
+     * The background image render mode changed.
+     */
+    void setBackgroundImageRenderMode();
+
+
+    /**
      * Show examples for units on the X Axis.
      */
     void showSampleXAxis();

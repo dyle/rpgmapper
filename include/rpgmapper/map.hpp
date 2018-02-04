@@ -59,6 +59,16 @@ public:
 
 
     /**
+     * These are background image render modes.
+     */
+    enum class map_background_image_render_mode {
+        plain = 0,                /**< The background image is rendered plain as-is. */
+        scaled = 1,               /**< The background image is rendered to fit the map. */
+        tiled = 2                 /**< The background image is tiled across the map. */
+    };
+
+
+    /**
      * These are the corners of origin we support.
      */
     enum class map_corner {

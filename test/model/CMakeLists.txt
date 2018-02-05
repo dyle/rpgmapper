@@ -1,52 +1,32 @@
-# ------------------------------------------------------------
-# CMakeLists.txt
 #
-# Author: Oliver Maurhart, <oliver.maurhart@ait.ac.at>
+# This file is part of rpgmapper.
+# See the LICENSE file for the software license.
+# (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
 #
-# Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-# ------------------------------------------------------------
 
-# additional includes
+
 include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR})
 
-# test: Atlas Changing
 set(TEST_ATLAS_CHANGEABLE_SRC                   test_atlas_changeable.cpp)
 add_executable(test_atlas_changeable            ${TEST_ATLAS_CHANGEABLE_SRC})
 target_link_libraries(test_atlas_changeable     rpgm  ${CMAKE_REQUIRED_LIBRARIES})
 add_test(model/atlas_changeable                 test_atlas_changeable)
 
-# test: Atlas JSON
 set(TEST_ATLAS_JSON_SRC                         test_atlas_json.cpp)
 add_executable(test_atlas_json                  ${TEST_ATLAS_JSON_SRC})
 target_link_libraries(test_atlas_json           rpgm  ${CMAKE_REQUIRED_LIBRARIES})
 add_test(model/atlas_json                       test_atlas_json)
 
-# test: Converter
 set(TEST_CONVERTER_SRC                          test_converter.cpp)
 add_executable(test_converter                   ${TEST_CONVERTER_SRC})
 target_link_libraries(test_converter            rpgm  ${CMAKE_REQUIRED_LIBRARIES})
 add_test(model/converter                        test_converter)
 
-# test: Field coordinate conversions
 set(TEST_FIELD_COORDINATE_SRC                   test_field_coordinate.cpp)
 add_executable(test_field_coordinate            ${TEST_FIELD_COORDINATE_SRC})
 target_link_libraries(test_field_coordinate     rpgm ${CMAKE_REQUIRED_LIBRARIES})
 add_test(model/field_coordinate                 test_field_coordinate)
 
-# test: Map_size
 set(TEST_MAP_SIZE_SRC                           test_map_size.cpp)
 add_executable(test_map_size                    ${TEST_MAP_SIZE_SRC})
 target_link_libraries(test_map_size             rpgm ${CMAKE_REQUIRED_LIBRARIES})

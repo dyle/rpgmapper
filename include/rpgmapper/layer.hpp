@@ -1,88 +1,41 @@
 /*
- * layer.hpp
- *
- * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This file is part of rpgmapper.
+ * See the LICENSE file for the software license.
+ * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
 
-#ifndef MODEL_LAYER_HPP
-#define MODEL_LAYER_HPP
-
-
-// ------------------------------------------------------------
-// incs
+#ifndef RPGMAPPER_MODEL_LAYER_HPP
+#define RPGMAPPER_MODEL_LAYER_HPP
 
 #include <memory>
 
 #include <QPainter>
 
-// rpgmapper
 #include <rpgmapper/nameable.hpp>
 #include <rpgmapper/types.hpp>
-
-
-// ------------------------------------------------------------
-// decl
 
 
 namespace rpgmapper {
 namespace model {
 
 
-/**
- * A layer on a map.
- */
-class Layer  : public Nameable {
-
+class Layer : public Nameable {
 
     Q_OBJECT
 
-    friend class Map;
-
+    class Impl;
+    std::unique_ptr<Layer::Impl> d;
 
 public:
 
 
     /**
-     * These are the layer types supported.
-     */
-    enum class layer_t {
-        background,                 /**< A layer rendering a full background image. */
-        grid,                       /**< A layer rendering a grid. */
-        tile,                       /**< A layer taking bases, walls, specials, ... */
-        text                        /**< A layer positioning text. */
-    };
-
-
-    /**
-     * Adds a tile to a field on the layer.
+     * Get the attributes of this layer.
      *
-     * @param   nCoordinate     the coordinate of the field
-     * @param   cTile           the tile to add to the field
+     * @return  the attributes of this layer.
      */
-    void addTile(coordinate_t nCoordinate, Tile const & cTile);
-
-
-    /**
-     * Adds a tile to a field on the layer.
-     *
-     * @param   cPosition       the coordinate of the field
-     * @param   cTile           the tile to add to the field
-     */
-    void addTile(QPoint const & cPosition, Tile const & cTile) { addTile(Field::coordinate(cPosition), cTile); }
+    //std::map<QString, QString> & attributes();
 
 
     /**
@@ -90,15 +43,7 @@ public:
      *
      * @return  the attributes of this layer.
      */
-    std::map<QString, QString> & attributes();
-
-
-    /**
-     * Get the attributes of this layer.
-     *
-     * @return  the attributes of this layer.
-     */
-    std::map<QString, QString> const & attributes() const;
+    //std::map<QString, QString> const & attributes() const;
 
 
     /**
@@ -106,7 +51,7 @@ public:
      *
      * @param   nCoordinate     the coordinate of the field
      */
-    void clearField(coordinate_t nCoordinate);
+    //void clearField(coordinate_t nCoordinate);
 
 
     /**
@@ -114,18 +59,10 @@ public:
      *
      * @param   cPosition       the position of the field
      */
-    void clearField(QPoint const & cPosition) { clearField(Field::coordinate(cPosition)); }
+    //void clearField(QPoint const & cPosition) { clearField(Field::coordinate(cPosition)); }
 
 
-    /**
-     * Create a new layer (factory method) for a map.
-     *
-     * @param   cMap        parent object
-     * @param   nId         the id of the new map layer
-     * @param   eLayer      the layer type
-     * @return  a new layer
-     */
-    static LayerPointer create(Map * cMap, layerid_t nId, layer_t eLayer);
+    static LayerPointer create(MapPointer map, layer_type eLayer);
 
 
     /**
@@ -134,7 +71,7 @@ public:
      * @param   cPainter        painter instance to draw this layer
      * @param   nTileSize       dimension of a single tile
      */
-    void draw(QPainter & cPainter, int nTileSize) const;
+    //void draw(QPainter & cPainter, int nTileSize) const;
 
 
     /**
@@ -143,7 +80,7 @@ public:
      * @param   nCoordinate         the field's coordinate value
      * @return  the field requested
      */
-    Field const & getField(coordinate_t nCoordinate) const;
+    //Field const & getField(coordinate_t nCoordinate) const;
 
 
     /**
@@ -152,7 +89,7 @@ public:
      * @param   cPosition           the position of the field
      * @return  the field requested
      */
-    Field const & getField(QPoint const & cPosition) const  { return getField(Field::coordinate(cPosition)); }
+    //Field const & getField(QPoint const & cPosition) const  { return getField(Field::coordinate(cPosition)); }
 
 
     /**
@@ -160,7 +97,7 @@ public:
      *
      * @return  all tiles on this layer
      */
-    Fields const & fields() const;
+    //Fields const & fields() const;
 
 
     /**
@@ -168,7 +105,7 @@ public:
      *
      * @return  the id of the layer
      */
-    layerid_t id() const { return m_nId; }
+    //layerid_t id() const { return m_nId; }
 
 
     /**
@@ -176,7 +113,7 @@ public:
      *
      * @param   cJSON       the json instance to load from
      */
-    void load(QJsonObject const & cJSON) override;
+    //void load(QJsonObject const & cJSON) override;
 
 
     /**
@@ -184,7 +121,7 @@ public:
      *
      * @param   cJSON       the json instance to save to
      */
-    void save(QJsonObject & cJSON) const override;
+    //void save(QJsonObject & cJSON) const override;
 
 
     /**
@@ -196,7 +133,7 @@ public:
      *
      * @return  true, if there can be multiple tiles per field
      */
-    bool stackable() const;
+    //bool stackable() const;
 
 
     /**
@@ -204,7 +141,7 @@ public:
      *
      * @return  the layer type enum value.
      */
-    layer_t type() const { return m_eLayer; }
+    //layer_t type() const { return m_eLayer; }
 
 
 public slots:
@@ -213,7 +150,7 @@ public slots:
     /**
      * Reset the map to an empty state.
      */
-    void clear();
+    //void clear();
 
 
 protected:
@@ -226,7 +163,7 @@ protected:
      * @param   nId         id of the layer
      * @param   eLayer      the layer type
      */
-    explicit Layer(Map * cMap, layerid_t nId, layer_t eLayer);
+    //explicit Layer(Map * cMap, layerid_t nId, layer_t eLayer);
 
 
     /**
@@ -234,7 +171,7 @@ protected:
      *
      * @return  a pointer to the map
      */
-    Map * const & map() const;
+    //Map * const & map() const;
 
 
 private:
@@ -246,13 +183,9 @@ private:
      * @param   cPainter        painter instance to draw this layer
      * @param   nTileSize       dimension of a single tile
      */
-    virtual void drawLayer(QPainter & cPainter, int nTileSize) const = 0;
+    //virtual void drawLayer(QPainter & cPainter, int nTileSize) const = 0;
 
 
-    layerid_t m_nId;                            /**< Layer id. */
-    layer_t m_eLayer;                           /**< Layer type enum value. */
-    class Layer_data;                           /**< Internal data type. */
-    std::shared_ptr<Layer::Layer_data> d;       /**< Internal data instance. */
 };
 
 

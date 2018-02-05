@@ -1,127 +1,47 @@
 /*
- * nameable.hpp
- *
- * Copyright (C) 2015-2018 Oliver Maurhart, <dyle71@gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This file is part of rpgmapper.
+ * See the LICENSE file for the software license.
+ * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
 
-#ifndef MODEL_NAMEABLE_HPP
-#define MODEL_NAMEABLE_HPP
-
-
-// ------------------------------------------------------------
-// incs
+#ifndef RPGMAPPER_MODEL_NAMEABLE_HPP
+#define RPGMAPPER_MODEL_NAMEABLE_HPP
 
 
 #include <QJsonObject>
 #include <QObject>
 #include <QString>
 
-// rpgmapper
 #include <rpgmapper/changeable.hpp>
 #include <rpgmapper/types.hpp>
-
-
-// ------------------------------------------------------------
-// decl
 
 
 namespace rpgmapper {
 namespace model {
 
 
-/**
- * A nameable object knows its name.
- */
-class Nameable : public Changeable {
-
+class NameableInstance : public Changeable {
 
     Q_OBJECT
 
+    QString name;
 
 public:
 
+    explicit NameableInstance(QObject * parent = nullptr);
 
-    /**
-     * Ctor.
-     *
-     * @param   cParent     parent object
-     */
-    explicit Nameable(QObject * cParent = nullptr);
+    QString const & getName() const { return name;}
 
+    static Nameable load(QJsonObject const & json);
 
-    /**
-     * Load the name from json.
-     *
-     * @param   cJSON       the json instance to load from
-     * @param   cParent     parent object
-     * @return  the loaded nameable instance
-     */
-    static NameablePointer load(QJsonObject const & cJSON, QObject * cParent);
+    virtual void save(QJsonObject & json) const;
 
-
-    /**
-     * Get the name.
-     *
-     * @return  the name
-     */
-    QString const & name() const;
-
-
-    /**
-     * Save the name to json.
-     *
-     * @param   cJSON       the json instance to save to
-     */
-    virtual void save(QJsonObject & cJSON) const;
-
-
-    /**
-     * Set the name.
-     *
-     * @param   sName       the new name
-     */
-    void setName(QString sName);
-
-
-protected:
-
-
-    /**
-     * Internal load method of the instance
-     *
-     * @param   cJSON       the JSON to load from
-     */
-    virtual void load(QJsonObject const & cJSON);
-
+    void setName(QString name);
 
 signals:
 
-
-    /**
-     * The name has changed.
-     */
     void changedName();
-
-
-private:
-
-
-    QString m_sName;        /**< The name itself. */
-
 };
 
 

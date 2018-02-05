@@ -21,18 +21,8 @@ add_definitions(-DVERSION=\"${VERSION}\")
 add_definitions(-D_DEFAULT_SOURCE)
 
 if (CMAKE_COMPILER_IS_GNUCC)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}
-        -Werror -Wall -Wextra
-        -pedantic -pedantic-errors
-        -g -ggdb3
-        -rdynamic
-        -fPIC")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}
-        -Werror -Wall -Wextra
-        -pedantic -pedantic-errors
-        -g -ggdb3
-        -rdynamic
-        -fPIC")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -Wall -Wextra -pedantic -pedantic-errors -g -ggdb3 -rdynamic -fPIC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -Wextra -pedantic -pedantic-errors -g -ggdb3 -rdynamic -fPIC")
 endif (CMAKE_COMPILER_IS_GNUCC)
 
 

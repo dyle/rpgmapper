@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef __COMMON_MACROS_H
-#define __COMMON_MACROS_H
+#ifndef RPGMAPPER_COMMON_MACROS_H
+#define RPGMAPPER_COMMON_MACROS_H
 
 
 #if defined(__GNUC__) || defined(__GNUCPP__)

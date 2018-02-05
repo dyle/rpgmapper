@@ -10,10 +10,18 @@
 using namespace rpgmapper::model;
 
 
-Changeable::Changeable(QObject * cParent) : QObject{cParent} {
+Changeable::Changeable(QObject * parent) : QObject{parent} {
 }
 
 
 void Changeable::setModified(bool modified) {
+
+    if (modified && this->modified) {
+        return;
+    }
+
     this->modified = modified;
+    if (this->modified) {
+        emit changed();
+    }
 }

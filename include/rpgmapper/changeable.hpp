@@ -9,9 +9,6 @@
 
 
 #include <QObject>
-#include <QSharedPointer>
-
-#include <rpgmapper/types.hpp>
 
 
 namespace rpgmapper {
@@ -26,11 +23,15 @@ class Changeable : public QObject {
 
 public:
 
-    explicit Changeable(QObject * cParent = nullptr);
+    explicit Changeable(QObject * parent = nullptr);
 
     virtual bool isModified() const { return modified; }
 
     virtual void setModified(bool modified);
+
+signals:
+
+    void changed();
 
 };
 

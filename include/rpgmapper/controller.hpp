@@ -5,17 +5,12 @@
  */
 
 
-#ifndef CTRL_CONTROLLER_HPP
-#define CTRL_CONTROLLER_HPP
+#ifndef RPGMAPPER_MODEL_CONTROLLER_HPP
+#define RPGMAPPER_MODEL_CONTROLLER_HPP
 
-
-// ------------------------------------------------------------
-// incs
 
 #include <memory>
 
-
-// rpgmapper
 #include <rpgmapper/types.hpp>
 #include <rpgmapper/file.hpp>
 

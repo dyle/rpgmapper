@@ -23,19 +23,25 @@ class Atlas::Impl final {
 
     bool changed = false;
     QString name;
+    Regions regions;
 
 public:
 
     Impl() = default;
 
-    Impl(Impl const & ) = delete;
+    Impl(Impl const &) = delete;
+
+    RegionPointer createRegion(QString const & name);
 
     QString const & getName() const { return name; }
 
+    Regions const & getRegions() const { return regions; }
+
     bool hasChanged() const { return changed; }
 
-    void setName(QString const & name) { this->name = name; }
+    bool removeRegion(QString const & name);
 
+    void setName(QString const & name);
 
 /*
     Maps m_cMaps;
@@ -51,8 +57,44 @@ public:
 }
 
 
+RegionPointer Atlas::Impl::createRegion(QString const & name) {
+    if (regions.find(name) != regions.end()) {
+        return RegionPointer{new InvalidRegion};
+    }
+    return regions.emplace(std::make_pair(name, RegionPointer{new Region{name}, &Region::deleteLater})).first->second;
+}
+
+
+bool Atlas::Impl::removeRegion(QString const & name) {
+    auto iter = regions.find(name);
+    if (iter == regions.end()) {
+        return false;
+    }
+    regions.erase(iter);
+    return true;
+}
+
+
+void Atlas::Impl::setName(QString const & name) {
+    if (this->name == name) {
+        return;
+    }
+    this->name = name;
+    changed = true;
+}
+
+
 Atlas::Atlas(QObject * parent) : QObject{parent} {
     impl = std::make_shared<Atlas::Impl>();
+}
+
+
+RegionPointer Atlas::createRegion(QString const & name) {
+    auto region = impl->createRegion(name);
+    if (region->isValid()) {
+        emit regionAdded(name);
+    }
+    return region;
 }
 
 
@@ -61,10 +103,23 @@ QString const & Atlas::getName() const {
 }
 
 
+Regions const & Atlas::getRegions() const {
+    return impl->getRegions();
+}
+
+
+void Atlas::removeRegion(QString const & name) {
+    auto hasRemovedRegion = impl->removeRegion(name);
+    if (hasRemovedRegion) {
+        emit regionRemoved(name);
+    }
+}
+
+
 void Atlas::setName(QString const & name) {
-    bool hasChanged = impl->hasChanged();
+    bool hasAlreadyChanged = impl->hasChanged();
     impl->setName(name);
-    if (!hasChanged) {
+    if (!hasAlreadyChanged && impl->hasChanged()) {
         emit changed();
     }
 }

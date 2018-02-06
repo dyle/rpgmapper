@@ -5,42 +5,46 @@
  */
 
 
-#ifndef MODEL_REGION_HPP
-#define MODEL_REGION_HPP
+#ifndef RPGMAPPER_MODEL_REGION_HPP
+#define RPGMAPPER_MODEL_REGION_HPP
 
-
-// ------------------------------------------------------------
-// incs
 
 #include <map>
 #include <memory>
 
-#include <QJsonObject>
-
-// rpgmapper
-#include <rpgmapper/nameable.hpp>
-#include <rpgmapper/types.hpp>
-
-
-// ------------------------------------------------------------
-// decl
+#include <QObject>
+#include <QSharedPointer>
 
 
 namespace rpgmapper {
 namespace model {
 
 
-/**
- * A collection of maps based on a name.
- */
-class Region : public Nameable {
-
+class Region : public QObject {
 
     Q_OBJECT
 
+    class Impl;
+    std::shared_ptr<Impl> impl;
 
 public:
 
+    Region() = delete;
+
+    explicit Region(QString const & name, QObject * parent = nullptr);
+
+    QString const & getName() const;
+
+    virtual bool isValid() const { return true; }
+
+    void setName(QString const & name);
+
+signals:
+
+    void changedName();
+
+
+#if 0
 
     /**
      * Create a new region (factory method).
@@ -188,7 +192,21 @@ private:
     class Region_data;                              /**< Internal data type. */
     std::shared_ptr<Region::Region_data> d;         /**< Internal data instance. */
 
+#endif
+
 };
+
+
+class InvalidRegion final : public Region {
+public:
+    InvalidRegion() : Region{QString::Null{}, nullptr} {}
+    bool isValid() const override { return false; }
+};
+
+
+using RegionPointer = QSharedPointer<Region>;
+
+using Regions = std::map<QString, RegionPointer>;
 
 
 }

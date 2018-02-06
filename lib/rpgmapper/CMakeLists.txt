@@ -11,7 +11,7 @@ set(RPGMAPPER_LIB_MOC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/atlas.hpp
     #${CMAKE_SOURCE_DIR}/include/rpgmapper/layer.hpp
     #${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
-    #${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
 
     #layer/backgroundlayer.hpp
     #layer/gridlayer.hpp
@@ -25,7 +25,7 @@ set(RPGMAPPER_LIB_SRC
     #file.cpp
     #layer.cpp
     #map.cpp
-    #region.cpp
+    region.cpp
     #unitconverter.cpp
 
     #layer/backgroundlayer.cpp

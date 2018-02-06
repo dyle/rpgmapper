@@ -5,39 +5,66 @@
  */
 
 
-#include <cassert>
-#include <set>
-
-#include <QDebug>
-#include <QJsonArray>
-
-// rpgmapper
-#include <rpgmapper/common_macros.h>
-#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/region.hpp>
 
 using namespace rpgmapper::model;
 
-
-// ------------------------------------------------------------
-// decl
 
 namespace rpgmapper {
 namespace model {
 
 
-/**
- * Internal data of a Region object.
- */
-class Region::Region_data {
+class Region::Impl final {
+
+    QString name;
 
 public:
 
-    Region_data() = default;
+    Impl() = default;
 
-    Atlas * m_cAtlas = nullptr;         /**< Parent atlas back pointer. */
-    std::set<mapid_t> m_cMaps;          /**< All the associated maps of this region. */
-    int m_nOrderValue = 0;              /**< Means to order a region among others */
+    Impl(Impl const & ) = delete;
+
+    QString const & getName() const { return name; }
+
+    void setName(QString const & name) { this->name = name; }
 };
+
+
+}
+}
+
+
+Region::Region(QString const & name, QObject * parent) : QObject{parent} {
+    impl = std::make_shared<Region::Impl>();
+    impl->setName(name);
+}
+
+
+QString const & Region::getName() const {
+    return impl->getName();
+}
+
+
+void Region::setName(QString const & name) {
+    if (name == impl->getName()) {
+        return;
+    }
+    impl->setName(name);
+    emit changedName();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#if 0
 
 
 /**
@@ -57,17 +84,17 @@ static regionid_t g_nRegionIdCounter = 0;
 /**
  * Ctor.
  *
- * @param   cAtlas      parent object
+ * @param   cRegion      parent object
  * @param   nId     id of the region
  */
-Region::Region(Atlas * cAtlas, regionid_t nId) : Nameable{cAtlas}, m_nId{nId} {
+Region::Region(Region * cRegion, regionid_t nId) : Nameable{cRegion}, m_nId{nId} {
 
-    if (cAtlas == nullptr) {
-        throw std::invalid_argument("Atlas argument shall not be nullptr.");
+    if (cRegion == nullptr) {
+        throw std::invalid_argument("Region argument shall not be nullptr.");
     }
 
     d = std::make_shared<Region::Region_data>();
-    d->m_cAtlas = cAtlas;
+    d->m_cRegion = cRegion;
     d->m_nOrderValue = nId;
 
     init();
@@ -88,7 +115,7 @@ void Region::addMap(MapPointer & cMap) {
     if (d->m_cMaps.find(cMap->id()) == d->m_cMaps.end()) {
 
         d->m_cMaps.insert(cMap->id());
-        cMap->setRegion(d->m_cAtlas->regionById(id()));
+        cMap->setRegion(d->m_cRegion->regionById(id()));
         connect(cMap.data(), &Map::changedRegion, this, &Region::changedMapRegion);
 
         emit addedMap(cMap->id());
@@ -109,7 +136,7 @@ void Region::changedMapRegion() {
     auto nRegionId = cMap->region()->id();
 
     if (nRegionId == id()) {
-        addMap(d->m_cAtlas->mapById(nMapId));
+        addMap(d->m_cRegion->mapById(nMapId));
     }
     else {
         if (d->m_cMaps.find(nMapId) != d->m_cMaps.end()) {
@@ -120,7 +147,7 @@ void Region::changedMapRegion() {
 
     // TODO
 //    if (nOldRegionId == id()) {
-//        addMap(d->m_cAtlas->maps()[nMapId]);
+//        addMap(d->m_cRegion->maps()[nMapId]);
 //        return;
 //    }
 //
@@ -132,11 +159,11 @@ void Region::changedMapRegion() {
             // TODO
 //        disconnect(cMap, &Map::changedRegion, this, &Region::changedMapRegion);
 //
-//        emit removedMap(d->m_cAtlas->maps()[nMapId]);
+//        emit removedMap(d->m_cRegion->maps()[nMapId]);
 //    }
 //
 //    if ((nRegionId == id()) && (d->m_cMaps.find(nMapId) == d->m_cMaps.end())) {
-//        addMap(d->m_cAtlas->maps()[nMapId]);
+//        addMap(d->m_cRegion->maps()[nMapId]);
 //    }
 
 }
@@ -153,14 +180,14 @@ void Region::clear() {
 /**
  * Create a new region (factory method).
  *
- * @param   cAtlas      parent object
+ * @param   cRegion      parent object
  * @return  a new region
  */
-RegionPointer Region::create(Atlas * cAtlas) {
-    if (cAtlas == nullptr) {
-        throw std::invalid_argument("Atlas argument shall not be nullptr.");
+RegionPointer Region::create(Region * cRegion) {
+    if (cRegion == nullptr) {
+        throw std::invalid_argument("Region argument shall not be nullptr.");
     }
-    return RegionPointer{new Region{cAtlas, ++g_nRegionIdCounter}, &Region::deleteLater};
+    return RegionPointer{new Region{cRegion, ++g_nRegionIdCounter}, &Region::deleteLater};
 }
 
 
@@ -196,7 +223,7 @@ void Region::load(QJsonObject const & cJSON) {
         QJsonArray cJSONMaps = cJSON["maps"].toArray();
         for (auto && cJSONMapId : cJSONMaps) {
             if (cJSONMapId.isDouble()) {
-                addMap(d->m_cAtlas->mapById(cJSONMapId.toInt()));
+                addMap(d->m_cRegion->mapById(cJSONMapId.toInt()));
             }
         }
     }
@@ -207,11 +234,11 @@ void Region::load(QJsonObject const & cJSON) {
  * Load the region from json.
  *
  * @param   cJSON       the json instance to load from
- * @param   cAtlas      parent object
+ * @param   cRegion      parent object
  * @return  the loaded region instance
  */
-RegionPointer Region::load(QJsonObject const & cJSON, Atlas * cAtlas) {
-    auto cRegion = RegionPointer{new Region{cAtlas, -1}, &Map::deleteLater};
+RegionPointer Region::load(QJsonObject const & cJSON, Region * cRegion) {
+    auto cRegion = RegionPointer{new Region{cRegion, -1}, &Map::deleteLater};
     cRegion->load(cJSON);
     return cRegion;
 }
@@ -227,7 +254,7 @@ Maps Region::maps() const {
     Maps cMaps;
     std::for_each(d->m_cMaps.begin(),
                   d->m_cMaps.end(),
-                  [&] (mapid_t nId) { cMaps.insert(std::make_pair(nId, d->m_cAtlas->mapById(nId))); });
+                  [&] (mapid_t nId) { cMaps.insert(std::make_pair(nId, d->m_cRegion->mapById(nId))); });
     return cMaps;
 }
 
@@ -252,7 +279,7 @@ void Region::removeMap(rpgmapper::model::mapid_t nMapId) {
 
     if (d->m_cMaps.find(nMapId) != d->m_cMaps.end()) {
 
-        auto cMap = d->m_cAtlas->mapById(nMapId);
+        auto cMap = d->m_cRegion->mapById(nMapId);
         if (cMap.data() != nullptr) {
             disconnect(cMap.data(), &Map::changedRegion, this, &Region::changedMapRegion);
         }
@@ -296,3 +323,4 @@ void Region::setOrderValue(int nOrderValue) {
     d->m_nOrderValue = nOrderValue;
     setModified(true);
 }
+#endif

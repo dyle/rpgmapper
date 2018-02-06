@@ -18,7 +18,7 @@
 
 //#include <rpgmapper/nameable.hpp>
 //#include <rpgmapper/map.hpp>
-//#include <rpgmapper/region.hpp>
+#include <rpgmapper/region.hpp>
 
 
 namespace rpgmapper {
@@ -30,17 +30,31 @@ class Atlas : public QObject {
     Q_OBJECT
 
     class Impl;
-    std::shared_ptr<Atlas::Impl> impl;
+    std::shared_ptr<Impl> impl;
 
 public:
 
     explicit Atlas(QObject * parent = nullptr);
 
+    RegionPointer createRegion(QString const & name);
+
     QString const & getName() const;
+
+    Regions const & getRegions() const;
+
+    virtual bool isValid() const { return true; }
+
+    void removeRegion(QString const & name);
 
     void setName(QString const & name);
 
+signals:
 
+    void changed();
+
+    void regionAdded(QString name);
+
+    void regionRemoved(QString name);
 
 /*
     Map createMap();
@@ -87,9 +101,6 @@ private slots:
 
     void changedRegionName();
 */
-signals:
-
-    void changed();
 /*
     void createdMap(rpgmapper::model::mapid_t mapId);
 
@@ -109,6 +120,13 @@ private:
 
     void init();
 */
+};
+
+
+class InvalidAtlas final : public Atlas {
+public:
+    InvalidAtlas() : Atlas{nullptr} {}
+    bool isValid() const override { return false; }
 };
 
 

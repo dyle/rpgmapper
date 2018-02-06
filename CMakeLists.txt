@@ -5,7 +5,7 @@
 #
 
 project(rpgmapper C CXX)
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 3.1.0)
 
 enable_testing()
 
@@ -15,16 +15,16 @@ include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(FindPkgConfig)
 
-
 set(VERSION "0.1")
 add_definitions(-DVERSION=\"${VERSION}\")
 add_definitions(-D_DEFAULT_SOURCE)
 
+set(CMAKE_CXX_STANDARD 14)
 if (CMAKE_COMPILER_IS_GNUCC)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -Wall -Wextra -pedantic -pedantic-errors -g -ggdb3 -rdynamic -fPIC")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -Wextra -pedantic -pedantic-errors -g -ggdb3 -rdynamic -fPIC")
+    set(GCC_WARNINGS "-Werror -Wall -Wextra -pedantic -pedantic-errors")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GCC_WARNINGS} -g -ggdb3 -rdynamic -fPIC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_WARNINGS} -g -ggdb3 -rdynamic -fPIC")
 endif (CMAKE_COMPILER_IS_GNUCC)
-
 
 check_include_file(stdio.h HAVE_STDIO_H)
 check_include_file(stddef.h HAVE_STDDEF_H)
@@ -43,14 +43,14 @@ check_include_file(assert.h HAVE_ASSERT_H)
 check_include_file(errno.h HAVE_ERRNO_H)
 check_include_file(limits.h HAVE_LIMITS_H)
 
-find_package(Boost 1.62.0 COMPONENTS filesystem program_options system)
-if (Boost_FOUND)
-    set(CMAKE_REQUIRED_LIBRARIES "${Boost_LIBRARIES};${CMAKE_REQUIRED_LIBRARIES}")
-    include_directories(${Boost_INCLUDE_DIRS})
-    set(HAVE_BOOST_LIB 1)
-else (Boost_FOUND)
-    message(FATAL_ERROR "Boost >= 1.62.0 library not found.")
-endif (Boost_FOUND)
+#find_package(Boost 1.62.0 COMPONENTS filesystem program_options system)
+#if (Boost_FOUND)
+#    set(CMAKE_REQUIRED_LIBRARIES "${Boost_LIBRARIES};${CMAKE_REQUIRED_LIBRARIES}")
+#    include_directories(${Boost_INCLUDE_DIRS})
+#    set(HAVE_BOOST_LIB 1)
+#else (Boost_FOUND)
+#    message(FATAL_ERROR "Boost >= 1.62.0 library not found.")
+#endif (Boost_FOUND)
 
 message (STATUS "Looking for Qt5")
 find_package(Qt5Core REQUIRED)
@@ -78,8 +78,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DI
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QUAZIP_INCLUDE})
 
 add_subdirectory(lib)
-add_subdirectory(bin)
-add_subdirectory(test)
+#add_subdirectory(bin)
+#add_subdirectory(test)
 
 
 # set(CPACK_PACKAGE_NAME "rpgmapper")

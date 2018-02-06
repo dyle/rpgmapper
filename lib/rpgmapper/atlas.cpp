@@ -5,38 +5,45 @@
  */
 
 
-#include <sstream>
+//#include <sstream>
 
-#include <QJsonArray>
-#include <QTextCodec>
+//#include <QJsonArray>
+//#include <QTextCodec>
 
-// rpgmapper
 #include <rpgmapper/atlas.hpp>
 
 using namespace rpgmapper::model;
 
 
-// ------------------------------------------------------------
-// decl
-
 namespace rpgmapper {
 namespace model {
 
 
-/**
- * Internal data of an Atlas object.
- */
-class Atlas::Atlas_data {
+class Atlas::Impl final {
+
+    bool changed = false;
+    QString name;
 
 public:
 
-    Atlas_data() = default;
+    Impl() = default;
 
-    Maps m_cMaps;                               /**< All the maps managed by this atlas. */
-    Regions m_cRegions;                         /**< All the regions managed by this atlas. */
+    Impl(Impl const & ) = delete;
 
-    MapPointer m_cCurrentMap;                   /**< Current map of interest. */
-    RegionPointer m_cCurrentRegion;             /**< Currentr region of interest. */
+    QString const & getName() const { return name; }
+
+    bool hasChanged() const { return changed; }
+
+    void setName(QString const & name) { this->name = name; }
+
+
+/*
+    Maps m_cMaps;
+    Regions m_cRegions;
+
+    MapPointer m_cCurrentMap;
+    RegionPointer m_cCurrentRegion;
+*/
 };
 
 
@@ -44,20 +51,33 @@ public:
 }
 
 
-// ------------------------------------------------------------
-// code
-
-
-/**
- * Ctor.
- *
- * @param   cParent     parent object
- */
-Atlas::Atlas(QObject * cParent) : Nameable{cParent} {
-    d = std::make_shared<Atlas::Atlas_data>();
-    init();
+Atlas::Atlas(QObject * parent) : QObject{parent} {
+    impl = std::make_shared<Atlas::Impl>();
 }
 
+
+QString const & Atlas::getName() const {
+    return impl->getName();
+}
+
+
+void Atlas::setName(QString const & name) {
+    bool hasChanged = impl->hasChanged();
+    impl->setName(name);
+    if (!hasChanged) {
+        emit changed();
+    }
+}
+
+
+
+
+
+
+
+
+
+#if 0
 
 /**
  * Reset the atlas to an empty state.
@@ -522,3 +542,4 @@ void Atlas::setModified(bool bModified) {
 
     emit changedAtlas();
 }
+#endif

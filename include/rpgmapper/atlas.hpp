@@ -14,27 +14,35 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QString>
+#include <QSharedPointer>
 
-#include <rpgmapper/nameable.hpp>
-#include <rpgmapper/map.hpp>
-#include <rpgmapper/region.hpp>
+//#include <rpgmapper/nameable.hpp>
+//#include <rpgmapper/map.hpp>
+//#include <rpgmapper/region.hpp>
 
 
 namespace rpgmapper {
 namespace model {
 
 
-class Atlas : public Nameable {
+class Atlas : public QObject {
 
     Q_OBJECT
 
     class Impl;
-    std::unique_ptr<Atlas::Impl> impl;
+    std::shared_ptr<Atlas::Impl> impl;
 
 public:
 
     explicit Atlas(QObject * parent = nullptr);
 
+    QString const & getName() const;
+
+    void setName(QString const & name);
+
+
+
+/*
     Map createMap();
 
     Region createRegion();
@@ -60,9 +68,10 @@ public:
     void save(QJsonObject & json) const override;
 
     void setModified(bool modified) override;
-
+*/
 public slots:
 
+/*
     void deleteMap(rpgmapper::model::mapid_t mapId);
 
     void deleteRegion(rpgmapper::model::regionid_t regionId);
@@ -70,17 +79,18 @@ public slots:
     void setCurrentMap(rpgmapper::model::mapid_t mapId);
 
     void setCurrentRegion(rpgmapper::model::regionid_t regionId);
-
+*/
 private slots:
 
+/*
     void changedMapName();
 
     void changedRegionName();
-
+*/
 signals:
 
-    void changedAtlas();
-
+    void changed();
+/*
     void createdMap(rpgmapper::model::mapid_t mapId);
 
     void createdRegion(rpgmapper::model::regionid_t regionId);
@@ -92,14 +102,17 @@ signals:
     void selectedMap(rpgmapper::model::mapid_t mapId);
 
     void selectedRegion(rpgmapper::model::regionid_t regionId);
-
+*/
 private:
-
+/*
     void clear();
 
     void init();
-
+*/
 };
+
+
+using AltasPointer = QSharedPointer<Atlas>;
 
 
 }

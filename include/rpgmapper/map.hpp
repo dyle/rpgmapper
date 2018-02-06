@@ -5,41 +5,78 @@
  */
 
 
-#ifndef MODEL_MAP_HPP
-#define MODEL_MAP_HPP
+#ifndef RPGMAPPER_MODEL_MAP_HPP
+#define RPGMAPPER_MODEL_MAP_HPP
 
 
-// ------------------------------------------------------------
-// incs
-
-
-#include <map>
 #include <memory>
 
-#include <QPoint>
+#include <QObject>
 #include <QSharedPointer>
-#include <QSize>
-
-// rpgmapper
-#include <rpgmapper/nameable.hpp>
-#include <rpgmapper/types.hpp>
-
-
-// ------------------------------------------------------------
-// decl
+#include <QString>
 
 
 namespace rpgmapper {
 namespace model {
 
 
-/**
- * A single RPG Map.
- */
-class Map : public Nameable {
-
+class Map : public QObject {
 
     Q_OBJECT
+
+    class Impl;
+    std::shared_ptr<Impl> impl;
+
+public:
+
+    Map() = delete;
+
+    explicit Map(QString const & name, QObject * parent = nullptr);
+
+    QString const & getName() const;
+
+    virtual bool isValid() const { return true; }
+
+    void setName(QString const & name);
+
+signals:
+
+    void changedName();
+
+};
+
+
+class InvalidMap final : public Map {
+public:
+    InvalidMap() : Map{QString::Null{}, nullptr} {}
+    bool isValid() const override { return false; }
+};
+
+
+using MapPointer = QSharedPointer<Map>;
+
+using Maps = std::map<QString, MapPointer>;
+
+
+}
+}
+
+
+#endif
+
+
+
+
+
+
+
+
+
+
+
+#if 0
+
+
 
 
 public:

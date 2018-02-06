@@ -10,6 +10,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR})
 
 set(TEST_UNITS_SRC
     test_atlas.cpp
+    test_map.cpp
     test_region.cpp
 )
 add_executable(test-units               ${TEST_UNITS_SRC})

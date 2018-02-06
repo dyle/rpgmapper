@@ -5,6 +5,72 @@
  */
 
 
+#include <rpgmapper/map.hpp>
+
+using namespace rpgmapper::model;
+
+
+namespace rpgmapper {
+namespace model {
+
+
+class Map::Impl final {
+
+    QString name;
+
+public:
+
+    Impl() = default;
+
+    Impl(Impl const & ) = delete;
+
+    QString const & getName() const { return name; }
+
+    void setName(QString const & name) { this->name = name; }
+};
+
+
+}
+}
+
+
+Map::Map(QString const & name, QObject * parent) : QObject{parent} {
+    impl = std::make_shared<Map::Impl>();
+    impl->setName(name);
+}
+
+
+QString const & Map::getName() const {
+    return impl->getName();
+}
+
+
+void Map::setName(QString const & name) {
+    if (name == impl->getName()) {
+        return;
+    }
+    impl->setName(name);
+    emit changedName();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#if 0
+
 
 #define MAP_HEIGHT_DEFAULT          10
 #define MAP_WIDTH_DEFAULT           10
@@ -573,3 +639,6 @@ bool loadSize(QJsonObject const  & cJSON, QSize & cSize) {
 
     return false;
 }
+
+
+#endif

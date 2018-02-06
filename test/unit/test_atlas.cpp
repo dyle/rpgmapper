@@ -44,12 +44,19 @@ TEST(AtlasTest, InitialAtlasNameIsNewAtlas) {
 }
 
 
-TEST(AtlasTest, InitialAtlasRegion) {
+TEST(AtlasTest, InitialAtlasRegionAndMap) {
+
     Atlas atlas;
+
     ASSERT_EQ(atlas.getRegions().size(), 1);
-    auto iter = std::begin(atlas.getRegions());
-    ASSERT_NE((*iter).second.data(), nullptr);
-    EXPECT_EQ((*iter).second->getName().toStdString(), "New Region 1");
+    auto region = (*std::begin(atlas.getRegions())).second;
+    ASSERT_NE(region.data(), nullptr);
+    EXPECT_EQ(region->getName().toStdString(), "New Region 1");
+
+    ASSERT_EQ(region->getMaps().size(), 1);
+    auto map = (*std::begin(region->getMaps())).second;
+    ASSERT_NE(map.data(), nullptr);
+    EXPECT_EQ(map->getName().toStdString(), "New Map 1");
 }
 
 
@@ -79,15 +86,15 @@ TEST(AtlasTest, InitialAtlasRemoveRegionResultsInEmptyRegions) {
 
 TEST(AtlasTest, CreateAndRemoveRegions) {
 
-    Atlas atlas;
-    auto regionName = atlas.getRegions().begin()->second->getName();
-    atlas.removeRegion(regionName);
-
     std::vector<QString> regions{"Region 1",
                                  "Region 2",
                                  "Region 3",
                                  "Region 4",
                                  "Region 5"};
+
+    Atlas atlas;
+    auto regionName = atlas.getRegions().begin()->second->getName();
+    atlas.removeRegion(regionName);
 
     int numberOfRegiopns = 0;
     std::for_each(std::begin(regions),
@@ -110,15 +117,15 @@ TEST(AtlasTest, CreateAndRemoveRegions) {
 
 TEST(AtlasTest, CreateAndRemoveIdenticalRegions) {
 
-    Atlas atlas;
-    auto regionName = atlas.getRegions().begin()->second->getName();
-    atlas.removeRegion(regionName);
-
     std::vector<QString> regions{"Region 1",
                                  "Region 1",
                                  "Region 1",
                                  "Region 1",
                                  "Region 1"};
+
+    Atlas atlas;
+    auto regionName = atlas.getRegions().begin()->second->getName();
+    atlas.removeRegion(regionName);
 
     std::for_each(std::begin(regions),
                   std::end(regions),

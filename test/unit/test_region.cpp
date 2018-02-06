@@ -45,3 +45,54 @@ TEST(RegionTest, RegionGetAndSetName) {
 }
 
 
+TEST(RegionTest, CreateAndRemoveMaps) {
+
+    std::vector<QString> maps{"Map 1",
+                              "Map 2",
+                              "Map 3",
+                              "Map 4",
+                              "Map 5"};
+
+    Region region{"foo"};
+
+    int numberOfMaps = 0;
+    std::for_each(std::begin(maps),
+                  std::end(maps),
+                  [&](auto & name) {
+                      region.createMap(name);
+                      EXPECT_EQ(region.getMaps().size(), ++numberOfMaps);
+                  });
+
+    std::for_each(std::begin(maps),
+                  std::end(maps),
+                  [&](auto & name) {
+                      region.removeMap(name);
+                      EXPECT_EQ(region.getMaps().size(), --numberOfMaps);
+                  });
+}
+
+
+TEST(RegionTest, CreateAndRemoveIdenticalMaps) {
+
+    std::vector<QString> maps{"Map 1",
+                              "Map 1",
+                              "Map 1",
+                              "Map 1",
+                              "Map 1"};
+
+    Region region{"foo"};
+
+    std::for_each(std::begin(maps),
+                  std::end(maps),
+                  [&](auto & name) {
+                      region.createMap(name);
+                      EXPECT_EQ(region.getMaps().size(), 1);
+                  });
+
+    std::for_each(std::begin(maps),
+                  std::end(maps),
+                  [&](auto & name) {
+                      region.removeMap(name);
+                      EXPECT_TRUE(region.getMaps().empty());
+                  });
+}

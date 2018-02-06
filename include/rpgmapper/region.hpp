@@ -15,6 +15,8 @@
 #include <QObject>
 #include <QSharedPointer>
 
+#include <rpgmapper/map.hpp>
+
 
 namespace rpgmapper {
 namespace model {
@@ -33,15 +35,27 @@ public:
 
     explicit Region(QString const & name, QObject * parent = nullptr);
 
+    MapPointer createMap(QString const & name);
+
+    Maps const & getMaps() const;
+
     QString const & getName() const;
 
     virtual bool isValid() const { return true; }
+
+    void removeMap(QString const & name);
 
     void setName(QString const & name);
 
 signals:
 
     void changedName();
+
+    void mapAdded(QString name);
+
+    void mapRemoved(QString name);
+
+
 
 
 #if 0

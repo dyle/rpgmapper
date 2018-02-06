@@ -43,13 +43,6 @@ public:
 
     void setName(QString const & name);
 
-/*
-    Maps m_cMaps;
-    Regions m_cRegions;
-
-    MapPointer m_cCurrentMap;
-    RegionPointer m_cCurrentRegion;
-*/
 };
 
 
@@ -58,7 +51,8 @@ public:
 
 
 Atlas::Impl::Impl() : name{QObject::tr("New Atlas")} {
-    createRegion(QObject::tr("New Region 1"));
+    auto region = createRegion(QObject::tr("New Region 1"));
+    region->createMap(QObject::tr("New Map 1"));
 }
 
 

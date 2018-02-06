@@ -16,6 +16,7 @@ namespace model {
 
 class Region::Impl final {
 
+    Maps maps;
     QString name;
 
 public:
@@ -24,7 +25,13 @@ public:
 
     Impl(Impl const & ) = delete;
 
+    MapPointer createMap(QString const & name);
+    
+    Maps const & getMaps() const { return maps; }
+
     QString const & getName() const { return name; }
+
+    bool removeMap(QString const & name);
 
     void setName(QString const & name) { this->name = name; }
 };
@@ -40,8 +47,47 @@ Region::Region(QString const & name, QObject * parent) : QObject{parent} {
 }
 
 
+MapPointer Region::Impl::createMap(QString const & name) {
+    if (maps.find(name) != maps.end()) {
+        return MapPointer{new InvalidMap};
+    }
+    return maps.emplace(std::make_pair(name, MapPointer{new Map{name}, &Map::deleteLater})).first->second;
+}
+
+
+bool Region::Impl::removeMap(QString const & name) {
+    auto iter = maps.find(name);
+    if (iter == maps.end()) {
+        return false;
+    }
+    maps.erase(iter);
+    return true;
+}
+
+
+MapPointer Region::createMap(QString const & name) {
+    auto map = impl->createMap(name);
+    if (map->isValid()) {
+        emit mapAdded(name);
+    }
+    return map;
+}
+
+
+Maps const & Region::getMaps() const {
+    return impl->getMaps();
+}
+
+
 QString const & Region::getName() const {
     return impl->getName();
+}
+
+
+void Region::removeMap(QString const & name) {
+    if (impl->removeMap(name)) {
+        emit mapRemoved(name);
+    }
 }
 
 

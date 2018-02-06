@@ -5,7 +5,7 @@
 #
 
 project(rpgmapper C CXX)
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.9.1)
 
 enable_testing()
 
@@ -73,13 +73,14 @@ else (DEFINED QUAZIP_INCLUDE)
     message(FATAL_ERROR "Looking for QuaZip - Header file not found")
 endif (DEFINED QUAZIP_INCLUDE)
 
+find_package(GTest REQUIRED)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QUAZIP_INCLUDE})
 
 add_subdirectory(lib)
 #add_subdirectory(bin)
-#add_subdirectory(test)
+add_subdirectory(test)
 
 
 # set(CPACK_PACKAGE_NAME "rpgmapper")

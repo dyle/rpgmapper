@@ -27,7 +27,7 @@ class Atlas::Impl final {
 
 public:
 
-    Impl() = default;
+    Impl();
 
     Impl(Impl const &) = delete;
 
@@ -57,6 +57,11 @@ public:
 }
 
 
+Atlas::Impl::Impl() : name{QObject::tr("New Atlas")} {
+    createRegion(QObject::tr("New Region 1"));
+}
+
+
 RegionPointer Atlas::Impl::createRegion(QString const & name) {
     if (regions.find(name) != regions.end()) {
         return RegionPointer{new InvalidRegion};
@@ -71,6 +76,7 @@ bool Atlas::Impl::removeRegion(QString const & name) {
         return false;
     }
     regions.erase(iter);
+    changed = true;
     return true;
 }
 
@@ -108,10 +114,19 @@ Regions const & Atlas::getRegions() const {
 }
 
 
+bool Atlas::hasChanged() const {
+    return impl->hasChanged();
+}
+
+
 void Atlas::removeRegion(QString const & name) {
-    auto hasRemovedRegion = impl->removeRegion(name);
-    if (hasRemovedRegion) {
+
+    bool hasAlreadyChanged = impl->hasChanged();
+    if (impl->removeRegion(name)) {
         emit regionRemoved(name);
+        if (!hasAlreadyChanged) {
+            emit changed();
+        }
     }
 }
 
@@ -119,7 +134,7 @@ void Atlas::removeRegion(QString const & name) {
 void Atlas::setName(QString const & name) {
     bool hasAlreadyChanged = impl->hasChanged();
     impl->setName(name);
-    if (!hasAlreadyChanged && impl->hasChanged()) {
+    if (impl->hasChanged() && !hasAlreadyChanged) {
         emit changed();
     }
 }

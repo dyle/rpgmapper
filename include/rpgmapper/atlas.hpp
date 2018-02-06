@@ -42,6 +42,8 @@ public:
 
     Regions const & getRegions() const;
 
+    bool hasChanged() const;
+
     virtual bool isValid() const { return true; }
 
     void removeRegion(QString const & name);
@@ -130,7 +132,7 @@ public:
 };
 
 
-using AltasPointer = QSharedPointer<Atlas>;
+using AtlasPointer = QSharedPointer<Atlas>;
 
 
 }

@@ -45,6 +45,16 @@ TEST(RegionTest, RegionGetAndSetName) {
 }
 
 
+TEST(RegionTest, CreateMap) {
+
+    Region region{"foo"};
+    auto map = region.createMap("bar");
+    EXPECT_TRUE(map->isValid());
+    EXPECT_EQ(map->getRegion(), &region);
+    EXPECT_EQ(map->getName(), "bar");
+}
+
+
 TEST(RegionTest, CreateAndRemoveMaps) {
 
     std::vector<QString> maps{"Map 1",

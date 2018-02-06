@@ -16,14 +16,11 @@
 #include <QString>
 #include <QSharedPointer>
 
-//#include <rpgmapper/nameable.hpp>
-//#include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
 
 
 namespace rpgmapper {
 namespace model {
-
 
 class Atlas : public QObject {
 
@@ -57,6 +54,38 @@ signals:
     void regionAdded(QString name);
 
     void regionRemoved(QString name);
+
+};
+
+class InvalidAtlas final : public Atlas {
+public:
+    InvalidAtlas() : Atlas{nullptr} {}
+    bool isValid() const override { return false; }
+};
+
+using AtlasPointer = QSharedPointer<Atlas>;
+
+}
+}
+
+
+#endif
+
+
+
+
+
+
+
+#if 0
+
+
+
+
+
+
+
+
 
 /*
     Map createMap();
@@ -124,19 +153,5 @@ private:
 */
 };
 
-
-class InvalidAtlas final : public Atlas {
-public:
-    InvalidAtlas() : Atlas{nullptr} {}
-    bool isValid() const override { return false; }
-};
-
-
-using AtlasPointer = QSharedPointer<Atlas>;
-
-
-}
-}
-
-
 #endif
+

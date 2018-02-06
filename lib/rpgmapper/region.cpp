@@ -5,7 +5,7 @@
  */
 
 
-#include <rpgmapper/region.hpp>
+#include <rpgmapper/atlas.hpp>
 
 using namespace rpgmapper::model;
 
@@ -16,16 +16,24 @@ namespace model {
 
 class Region::Impl final {
 
+    Atlas * atlas = nullptr;
     Maps maps;
     QString name;
+    Region * region = nullptr;
 
 public:
 
-    Impl() = default;
+    Impl(Atlas * atlas, Region * region) : atlas{atlas}, region{region} {
+        if (region == nullptr) {
+            throw std::invalid_argument("rpgmapper::model::Region::Impl::Impl() - region must not be nullptr.");
+        }
+    }
 
-    Impl(Impl const & ) = delete;
+    Impl(Impl const &) = delete;
 
     MapPointer createMap(QString const & name);
+
+    Atlas * getAtlas() { return atlas; }
     
     Maps const & getMaps() const { return maps; }
 
@@ -41,8 +49,8 @@ public:
 }
 
 
-Region::Region(QString const & name, QObject * parent) : QObject{parent} {
-    impl = std::make_shared<Region::Impl>();
+Region::Region(QString const & name, Atlas * atlas) : QObject{atlas} {
+    impl = std::make_shared<Region::Impl>(atlas, this);
     impl->setName(name);
 }
 
@@ -51,7 +59,7 @@ MapPointer Region::Impl::createMap(QString const & name) {
     if (maps.find(name) != maps.end()) {
         return MapPointer{new InvalidMap};
     }
-    return maps.emplace(std::make_pair(name, MapPointer{new Map{name}, &Map::deleteLater})).first->second;
+    return maps.emplace(std::make_pair(name, MapPointer{new Map{name, region}, &Map::deleteLater})).first->second;
 }
 
 
@@ -62,6 +70,11 @@ bool Region::Impl::removeMap(QString const & name) {
     }
     maps.erase(iter);
     return true;
+}
+
+
+Atlas * Region::getAtlas() {
+    return impl->getAtlas();
 }
 
 

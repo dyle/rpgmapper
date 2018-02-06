@@ -84,6 +84,17 @@ TEST(AtlasTest, InitialAtlasRemoveRegionResultsInEmptyRegions) {
 }
 
 
+TEST(AtlasTest, CreateRegion) {
+
+    Atlas atlas;
+    auto region = atlas.createRegion("foo");
+    EXPECT_TRUE(region->isValid());
+    EXPECT_EQ(region->getAtlas(), &atlas);
+    EXPECT_EQ(region->getName(), "foo");
+    EXPECT_TRUE(atlas.hasChanged());
+}
+
+
 TEST(AtlasTest, CreateAndRemoveRegions) {
 
     std::vector<QString> regions{"Region 1",
@@ -143,3 +154,5 @@ TEST(AtlasTest, CreateAndRemoveIdenticalRegions) {
                       EXPECT_TRUE(atlas.hasChanged());
                   });
 }
+
+

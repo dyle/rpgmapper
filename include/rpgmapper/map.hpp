@@ -19,6 +19,7 @@
 namespace rpgmapper {
 namespace model {
 
+class Region;
 
 class Map : public QObject {
 
@@ -31,11 +32,13 @@ public:
 
     Map() = delete;
 
-    explicit Map(QString const & name, QObject * parent = nullptr);
+    explicit Map(QString const & name, Region * region = nullptr);
 
     QString const & getName() const;
 
     virtual bool isValid() const { return true; }
+
+    Region * getRegion();
 
     void setName(QString const & name);
 

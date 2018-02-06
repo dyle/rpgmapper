@@ -21,6 +21,7 @@
 namespace rpgmapper {
 namespace model {
 
+class Atlas;
 
 class Region : public QObject {
 
@@ -33,9 +34,11 @@ public:
 
     Region() = delete;
 
-    explicit Region(QString const & name, QObject * parent = nullptr);
+    explicit Region(QString const & name, Atlas * atlas = nullptr);
 
     MapPointer createMap(QString const & name);
+
+    Atlas * getAtlas();
 
     Maps const & getMaps() const;
 
@@ -54,6 +57,32 @@ signals:
     void mapAdded(QString name);
 
     void mapRemoved(QString name);
+
+};
+
+class InvalidRegion final : public Region {
+public:
+    InvalidRegion() : Region{QString::Null{}, nullptr} {}
+    bool isValid() const override { return false; }
+};
+
+using RegionPointer = QSharedPointer<Region>;
+
+using Regions = std::map<QString, RegionPointer>;
+
+
+}
+}
+
+
+#endif
+
+
+
+
+
+
+
 
 
 
@@ -208,23 +237,3 @@ private:
 
 #endif
 
-};
-
-
-class InvalidRegion final : public Region {
-public:
-    InvalidRegion() : Region{QString::Null{}, nullptr} {}
-    bool isValid() const override { return false; }
-};
-
-
-using RegionPointer = QSharedPointer<Region>;
-
-using Regions = std::map<QString, RegionPointer>;
-
-
-}
-}
-
-
-#endif

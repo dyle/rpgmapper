@@ -6,6 +6,7 @@
 
 
 #include <rpgmapper/map.hpp>
+#include <rpgmapper/region.hpp>
 
 using namespace rpgmapper::model;
 
@@ -17,14 +18,17 @@ namespace model {
 class Map::Impl final {
 
     QString name;
+    Region * region = nullptr;
 
 public:
 
-    Impl() = default;
+    Impl(Region * region) : region{region} {}
 
     Impl(Impl const & ) = delete;
 
     QString const & getName() const { return name; }
+
+    Region * getRegion() { return region; }
 
     void setName(QString const & name) { this->name = name; }
 };
@@ -34,14 +38,19 @@ public:
 }
 
 
-Map::Map(QString const & name, QObject * parent) : QObject{parent} {
-    impl = std::make_shared<Map::Impl>();
+Map::Map(QString const & name, Region * region) : QObject{region} {
+    impl = std::make_shared<Map::Impl>(region);
     impl->setName(name);
 }
 
 
 QString const & Map::getName() const {
     return impl->getName();
+}
+
+
+Region* Map::getRegion() {
+    return impl->getRegion();
 }
 
 

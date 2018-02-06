@@ -21,13 +21,14 @@ namespace model {
 
 class Atlas::Impl final {
 
+    Atlas * atlas = nullptr;
     bool changed = false;
     QString name;
     Regions regions;
 
 public:
 
-    Impl();
+    Impl(Atlas * atlas);
 
     Impl(Impl const &) = delete;
 
@@ -50,9 +51,13 @@ public:
 }
 
 
-Atlas::Impl::Impl() : name{QObject::tr("New Atlas")} {
+Atlas::Impl::Impl(Atlas * atlas) : atlas(atlas), name{QObject::tr("New Atlas")} {
+    if (atlas == nullptr) {
+        throw std::invalid_argument("rpgmapper::model::Atlas::Impl::Impl() - atlas must not be nullptr.");
+    }
     auto region = createRegion(QObject::tr("New Region 1"));
     region->createMap(QObject::tr("New Map 1"));
+    changed = false;
 }
 
 
@@ -60,7 +65,9 @@ RegionPointer Atlas::Impl::createRegion(QString const & name) {
     if (regions.find(name) != regions.end()) {
         return RegionPointer{new InvalidRegion};
     }
-    return regions.emplace(std::make_pair(name, RegionPointer{new Region{name}, &Region::deleteLater})).first->second;
+    auto pair = regions.emplace(std::make_pair(name, RegionPointer{new Region{name, this->atlas}, &Region::deleteLater}));
+    changed = true;
+    return pair.first->second;
 }
 
 
@@ -85,14 +92,18 @@ void Atlas::Impl::setName(QString const & name) {
 
 
 Atlas::Atlas(QObject * parent) : QObject{parent} {
-    impl = std::make_shared<Atlas::Impl>();
+    impl = std::make_shared<Atlas::Impl>(this);
 }
 
 
 RegionPointer Atlas::createRegion(QString const & name) {
+    bool hasAlreadyChanged = impl->hasChanged();
     auto region = impl->createRegion(name);
     if (region->isValid()) {
         emit regionAdded(name);
+        if (!hasAlreadyChanged) {
+            emit changed();
+        }
     }
     return region;
 }

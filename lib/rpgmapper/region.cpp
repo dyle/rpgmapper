@@ -28,6 +28,9 @@ MapPointer Region::createMap(QString const & name) {
     return map;
 }
 
+QJsonObject Region::getJsonObject() const {
+    return impl->getJsonObject();
+}
 
 Maps const & Region::getMaps() const {
     return impl->getMaps();

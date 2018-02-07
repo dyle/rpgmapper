@@ -34,6 +34,8 @@ public:
 
     Atlas * getAtlas() { return atlas; }
 
+    QJsonObject getJsonObject() const;
+
     std::set<QString> getMapNames() const;
 
     Maps const & getMaps() const { return maps; }

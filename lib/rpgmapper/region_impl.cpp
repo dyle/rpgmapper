@@ -4,6 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <QJsonArray>
+
 #include <rpgmapper/atlas.hpp>
 #include "region_impl.hpp"
 
@@ -14,6 +16,21 @@ Region::Impl::Impl(Atlas * atlas, Region * region) : atlas{atlas}, region{region
     if (region == nullptr) {
         throw std::invalid_argument("rpgmapper::model::Region::Impl::Impl() - region must not be nullptr.");
     }
+}
+
+
+QJsonObject Region::Impl::getJsonObject() const {
+
+    QJsonObject jsonObject;
+    jsonObject["name"] = name;
+
+    QJsonArray jsonMaps;
+    std::for_each(std::begin(maps),
+                  std::end(maps),
+                  [&] (auto const & pair) { jsonMaps.append(pair.second->getJsonObject()); });
+    jsonObject["maps"] = jsonMaps;
+
+    return jsonObject;
 }
 
 

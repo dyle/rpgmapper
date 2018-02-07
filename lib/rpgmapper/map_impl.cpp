@@ -11,5 +11,11 @@ using namespace rpgmapper::model;
 
 
 Map::Impl::Impl(Region * region) : region{region} {
+}
 
+
+QJsonObject Map::Impl::getJsonObject() const {
+    QJsonObject jsonObject;
+    jsonObject["name"] = name;
+    return jsonObject;
 }

@@ -29,6 +29,8 @@ public:
 
     Impl(Impl const & ) = delete;
 
+    QJsonObject getJsonObject() const;
+
     QString const & getName() const { return name; }
 
     Region * getRegion() { return region; }

@@ -11,6 +11,7 @@
 
 #include <memory>
 
+#include <QJsonObject>
 #include <QObject>
 #include <QSharedPointer>
 #include <QString>
@@ -32,15 +33,15 @@ public:
 
     Map() = delete;
 
-    virtual ~Map() = default;
-
     explicit Map(QString const & name, Region * region = nullptr);
+
+    QJsonObject getJsonObject() const;
 
     QString const & getName() const;
 
-    virtual bool isValid() const { return true; }
-
     Region * getRegion();
+
+    virtual bool isValid() const { return true; }
 
     void setName(QString const & name);
 

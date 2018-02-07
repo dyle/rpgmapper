@@ -18,6 +18,7 @@
 
 #include <rpgmapper/map.hpp>
 
+
 namespace rpgmapper {
 namespace model {
 
@@ -39,6 +40,8 @@ public:
     MapPointer createMap(QString const & name);
 
     Atlas * getAtlas();
+
+    QJsonObject getJsonObject() const;
 
     Maps const & getMaps() const;
 

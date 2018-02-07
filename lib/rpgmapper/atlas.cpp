@@ -41,6 +41,11 @@ std::set<QString> Atlas::getAllRegionNames() const {
 }
 
 
+QJsonObject Atlas::getJsonObject() const  {
+    return impl->getJsonObject();
+}
+
+
 QString const & Atlas::getName() const {
     return impl->getName();
 }

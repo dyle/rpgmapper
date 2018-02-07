@@ -40,6 +40,8 @@ public:
 
     std::set<QString> getAllRegionNames() const;
 
+    QJsonObject getJsonObject() const;
+
     QString const & getName() const;
 
     RegionPointer const & getRegion(QString const & name) const;

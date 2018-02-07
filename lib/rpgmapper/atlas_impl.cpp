@@ -5,6 +5,7 @@
  */
 
 
+#include <QJsonArray>
 #include "atlas_impl.hpp"
 
 using namespace rpgmapper::model;
@@ -48,6 +49,19 @@ std::set<QString> Atlas::Impl::getAllRegionNames() const {
     return regionNames;
 }
 
+QJsonObject Atlas::Impl::getJsonObject() const {
+
+    QJsonObject jsonObject;
+    jsonObject["name"] = getName();
+
+    QJsonArray jsonRegions;
+    std::for_each(std::begin(regions),
+                  std::end(regions),
+                  [&] (auto const & pair) { jsonRegions.append(pair.second->getJsonObject()); });
+    jsonObject["regions"] = jsonRegions;
+
+    return jsonObject;
+}
 
 RegionPointer const & Atlas::Impl::getRegion(QString const & name) const {
     auto iter = regions.find(name);

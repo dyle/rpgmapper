@@ -10,6 +10,7 @@
 
 
 #include <memory>
+#include <set>
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -35,7 +36,13 @@ public:
 
     RegionPointer createRegion(QString const & name);
 
+    std::set<QString> getAllMapNames() const;
+
+    std::set<QString> getAllRegionNames() const;
+
     QString const & getName() const;
+
+    RegionPointer const & getRegion(QString const & name) const;
 
     Regions const & getRegions() const;
 
@@ -51,7 +58,7 @@ signals:
 
     void changed();
 
-    void regionAdded(QString name);
+    void regionCreated(QString name);
 
     void regionRemoved(QString name);
 

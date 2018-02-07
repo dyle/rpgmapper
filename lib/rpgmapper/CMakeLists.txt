@@ -21,11 +21,14 @@ qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
 set(RPGMAPPER_LIB_SRC
 
     atlas.cpp
+    atlas_impl.cpp
     #field.cpp
     #file.cpp
     #layer.cpp
     map.cpp
+    map_impl.cpp
     region.cpp
+    region_impl.cpp
     #unitconverter.cpp
 
     #layer/backgroundlayer.cpp

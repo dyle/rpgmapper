@@ -5,102 +5,24 @@
  */
 
 
-//#include <sstream>
-
-//#include <QJsonArray>
-//#include <QTextCodec>
-
 #include <rpgmapper/atlas.hpp>
+#include "atlas_impl.hpp"
 
 using namespace rpgmapper::model;
 
 
-namespace rpgmapper {
-namespace model {
-
-
-class Atlas::Impl final {
-
-    Atlas * atlas = nullptr;
-    bool changed = false;
-    QString name;
-    Regions regions;
-
-public:
-
-    Impl(Atlas * atlas);
-
-    Impl(Impl const &) = delete;
-
-    RegionPointer createRegion(QString const & name);
-
-    QString const & getName() const { return name; }
-
-    Regions const & getRegions() const { return regions; }
-
-    bool hasChanged() const { return changed; }
-
-    bool removeRegion(QString const & name);
-
-    void setName(QString const & name);
-
-};
-
-
-}
-}
-
-
-Atlas::Impl::Impl(Atlas * atlas) : atlas(atlas), name{QObject::tr("New Atlas")} {
-    if (atlas == nullptr) {
-        throw std::invalid_argument("rpgmapper::model::Atlas::Impl::Impl() - atlas must not be nullptr.");
-    }
-    auto region = createRegion(QObject::tr("New Region 1"));
-    region->createMap(QObject::tr("New Map 1"));
-    changed = false;
-}
-
-
-RegionPointer Atlas::Impl::createRegion(QString const & name) {
-    if (regions.find(name) != regions.end()) {
-        return RegionPointer{new InvalidRegion};
-    }
-    auto pair = regions.emplace(std::make_pair(name, RegionPointer{new Region{name, this->atlas}, &Region::deleteLater}));
-    changed = true;
-    return pair.first->second;
-}
-
-
-bool Atlas::Impl::removeRegion(QString const & name) {
-    auto iter = regions.find(name);
-    if (iter == regions.end()) {
-        return false;
-    }
-    regions.erase(iter);
-    changed = true;
-    return true;
-}
-
-
-void Atlas::Impl::setName(QString const & name) {
-    if (this->name == name) {
-        return;
-    }
-    this->name = name;
-    changed = true;
-}
-
-
 Atlas::Atlas(QObject * parent) : QObject{parent} {
     impl = std::make_shared<Atlas::Impl>(this);
+    impl->init();
 }
 
 
 RegionPointer Atlas::createRegion(QString const & name) {
+
     bool hasAlreadyChanged = impl->hasChanged();
     auto region = impl->createRegion(name);
     if (region->isValid()) {
-        emit regionAdded(name);
+        emit regionCreated(name);
         if (!hasAlreadyChanged) {
             emit changed();
         }
@@ -109,8 +31,23 @@ RegionPointer Atlas::createRegion(QString const & name) {
 }
 
 
+std::set<QString> Atlas::getAllMapNames() const {
+    return impl->getAllMapNames();
+}
+
+
+std::set<QString> Atlas::getAllRegionNames() const {
+    return impl->getAllRegionNames();
+}
+
+
 QString const & Atlas::getName() const {
     return impl->getName();
+}
+
+
+RegionPointer const& Atlas::getRegion(QString const & name) const {
+    return impl->getRegion(name);
 }
 
 
@@ -137,6 +74,7 @@ void Atlas::removeRegion(QString const & name) {
 
 
 void Atlas::setName(QString const & name) {
+
     bool hasAlreadyChanged = impl->hasChanged();
     impl->setName(name);
     if (impl->hasChanged() && !hasAlreadyChanged) {
@@ -153,6 +91,17 @@ void Atlas::setName(QString const & name) {
 
 
 #if 0
+
+
+//#include <sstream>
+
+//#include <QJsonArray>
+//#include <QTextCodec>
+
+
+
+
+
 
 /**
  * Reset the atlas to an empty state.

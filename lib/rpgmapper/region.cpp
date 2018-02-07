@@ -6,70 +6,12 @@
 
 
 #include <rpgmapper/atlas.hpp>
-
-using namespace rpgmapper::model;
-
-
-namespace rpgmapper {
-namespace model {
-
-
-class Region::Impl final {
-
-    Atlas * atlas = nullptr;
-    Maps maps;
-    QString name;
-    Region * region = nullptr;
-
-public:
-
-    Impl(Atlas * atlas, Region * region) : atlas{atlas}, region{region} {
-        if (region == nullptr) {
-            throw std::invalid_argument("rpgmapper::model::Region::Impl::Impl() - region must not be nullptr.");
-        }
-    }
-
-    Impl(Impl const &) = delete;
-
-    MapPointer createMap(QString const & name);
-
-    Atlas * getAtlas() { return atlas; }
-    
-    Maps const & getMaps() const { return maps; }
-
-    QString const & getName() const { return name; }
-
-    bool removeMap(QString const & name);
-
-    void setName(QString const & name) { this->name = name; }
-};
-
-
-}
-}
+#include "region_impl.hpp"
 
 
 Region::Region(QString const & name, Atlas * atlas) : QObject{atlas} {
     impl = std::make_shared<Region::Impl>(atlas, this);
     impl->setName(name);
-}
-
-
-MapPointer Region::Impl::createMap(QString const & name) {
-    if (maps.find(name) != maps.end()) {
-        return MapPointer{new InvalidMap};
-    }
-    return maps.emplace(std::make_pair(name, MapPointer{new Map{name, region}, &Map::deleteLater})).first->second;
-}
-
-
-bool Region::Impl::removeMap(QString const & name) {
-    auto iter = maps.find(name);
-    if (iter == maps.end()) {
-        return false;
-    }
-    maps.erase(iter);
-    return true;
 }
 
 
@@ -81,7 +23,7 @@ Atlas * Region::getAtlas() {
 MapPointer Region::createMap(QString const & name) {
     auto map = impl->createMap(name);
     if (map->isValid()) {
-        emit mapAdded(name);
+        emit mapCreated(name);
     }
     return map;
 }
@@ -89,6 +31,11 @@ MapPointer Region::createMap(QString const & name) {
 
 Maps const & Region::getMaps() const {
     return impl->getMaps();
+}
+
+
+std::set<QString> Region::getMapNames() const {
+    return impl->getMapNames();
 }
 
 

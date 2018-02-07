@@ -11,12 +11,12 @@
 
 #include <map>
 #include <memory>
+#include <set>
 
 #include <QObject>
 #include <QSharedPointer>
 
 #include <rpgmapper/map.hpp>
-
 
 namespace rpgmapper {
 namespace model {
@@ -42,6 +42,8 @@ public:
 
     Maps const & getMaps() const;
 
+    std::set<QString> getMapNames() const;
+
     QString const & getName() const;
 
     virtual bool isValid() const { return true; }
@@ -54,7 +56,7 @@ signals:
 
     void changedName();
 
-    void mapAdded(QString name);
+    void mapCreated(QString name);
 
     void mapRemoved(QString name);
 
@@ -70,12 +72,13 @@ using RegionPointer = QSharedPointer<Region>;
 
 using Regions = std::map<QString, RegionPointer>;
 
-
 }
 }
 
 
 #endif
+
+
 
 
 

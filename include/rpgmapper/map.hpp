@@ -32,6 +32,8 @@ public:
 
     Map() = delete;
 
+    virtual ~Map() = default;
+
     explicit Map(QString const & name, Region * region = nullptr);
 
     QString const & getName() const;
@@ -59,7 +61,6 @@ public:
 using MapPointer = QSharedPointer<Map>;
 
 using Maps = std::map<QString, MapPointer>;
-
 
 }
 }

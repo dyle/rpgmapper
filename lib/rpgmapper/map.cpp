@@ -7,35 +7,9 @@
 
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
+#include "map_impl.hpp"
 
 using namespace rpgmapper::model;
-
-
-namespace rpgmapper {
-namespace model {
-
-
-class Map::Impl final {
-
-    QString name;
-    Region * region = nullptr;
-
-public:
-
-    Impl(Region * region) : region{region} {}
-
-    Impl(Impl const & ) = delete;
-
-    QString const & getName() const { return name; }
-
-    Region * getRegion() { return region; }
-
-    void setName(QString const & name) { this->name = name; }
-};
-
-
-}
-}
 
 
 Map::Map(QString const & name, Region * region) : QObject{region} {
@@ -319,7 +293,7 @@ void Map::load(QJsonObject const & cJSON) {
     if (loadSize(cJSON, cSize)) {
         setSize(cSize);
     }
-    
+
 //      TODO
 //    QJsonArray cJSONLayers;
 //    for (auto const & cLayer: d->m_cLayers) {
@@ -500,7 +474,7 @@ void Map::setRegion(RegionPointer & cRegion) {
     if (cOldRegion.data() != nullptr) {
         cOldRegion->removedMap(id());
     }
-    
+
     d->m_nRegionId = cRegion->id();
     cRegion->addMap(d->m_cAtlas->mapById(id()));
 

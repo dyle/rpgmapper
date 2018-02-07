@@ -95,6 +95,58 @@ TEST(AtlasTest, CreateRegion) {
 }
 
 
+TEST(AtlasTest, AllRegionNames) {
+
+    Atlas atlas;
+    atlas.removeRegion("New Region 1");
+    atlas.createRegion("foo");
+    atlas.createRegion("bar");
+    atlas.createRegion("baz");
+
+    std::set<QString> allRegionNamesExpected{"foo", "bar", "baz"};
+    EXPECT_TRUE(allRegionNamesExpected == atlas.getAllRegionNames());
+}
+
+
+TEST(AtlasTest, AllMapNamesOfAllRegions) {
+
+    Atlas atlas;
+    atlas.removeRegion("New Region 1");
+    auto regionFoo = atlas.createRegion("foo");
+    auto regionBar = atlas.createRegion("bar");
+
+    MapPointer map;
+    map = regionFoo->createMap("map 1");
+    EXPECT_TRUE(map->isValid());
+    map = regionFoo->createMap("map 2");
+    EXPECT_TRUE(map->isValid());
+    map = regionFoo->createMap("map 3");
+    EXPECT_TRUE(map->isValid());
+    map = regionFoo->createMap("map 3");
+    EXPECT_FALSE(map->isValid());
+    map = regionBar->createMap("map 3");
+    EXPECT_FALSE(map->isValid());
+    map = regionBar->createMap("map 4");
+    EXPECT_TRUE(map->isValid());
+    map = regionBar->createMap("map 5");
+    EXPECT_TRUE(map->isValid());
+    map = regionBar->createMap("map 5");
+    EXPECT_FALSE(map->isValid());
+    map = regionBar->createMap("map 1");
+    EXPECT_FALSE(map->isValid());
+    map = regionFoo->createMap("map 3");
+    EXPECT_FALSE(map->isValid());
+
+    std::set<QString> mapNamesExpected{"map 1", "map 2", "map 3", "map 4", "map 5"};
+    std::set<QString> mapNamesExpectedForRegionFoo{"map 1", "map 2", "map 3"};
+    std::set<QString> mapNamesExpectedForRegionBar{"map 4", "map 5"};
+
+    EXPECT_TRUE(atlas.getRegion("foo")->getMapNames() == mapNamesExpectedForRegionFoo);
+    EXPECT_TRUE(atlas.getRegion("bar")->getMapNames() == mapNamesExpectedForRegionBar);
+    EXPECT_TRUE(atlas.getAllMapNames() == mapNamesExpected);
+}
+
+
 TEST(AtlasTest, CreateAndRemoveRegions) {
 
     std::vector<QString> regions{"Region 1",

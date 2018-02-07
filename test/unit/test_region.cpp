@@ -45,6 +45,21 @@ TEST(RegionTest, RegionGetAndSetName) {
 }
 
 
+TEST(RegionTest, GetAllMapNames) {
+
+    Region region("foo");
+    region.createMap("map 1");
+    region.createMap("map 2");
+    region.createMap("map 3");
+    region.createMap("map 4");
+    region.createMap("map 4");
+    region.createMap("map 3");
+    region.createMap("map 3");
+
+    std::set<QString> mapNamesExpected{"map 1", "map 2", "map 3", "map 4" };
+    EXPECT_TRUE(mapNamesExpected == region.getMapNames());
+}
+
 TEST(RegionTest, CreateMap) {
 
     Region region{"foo"};

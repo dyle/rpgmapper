@@ -168,8 +168,10 @@ ReaderResult createAtlas(Content const & content) {
 
     AtlasPointer atlas{new Atlas};
     atlas->applyJsonObject(jsonDocument.object());
-    if (!atlas->isValid()) {
+    if (atlas->isValid()) {
+        atlas->resetChanged();
         result.setAtlas(atlas);
+        result << true;
         result << "Loaded atlas.";
     }
 

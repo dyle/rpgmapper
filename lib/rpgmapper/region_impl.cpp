@@ -19,6 +19,59 @@ Region::Impl::Impl(Atlas * atlas, Region * region) : atlas{atlas}, region{region
 }
 
 
+bool Region::Impl::applyJsonObject(QJsonObject const & json) {
+
+    clear();
+
+    if (!json.contains("name")) {
+        return false;
+    }
+    if (!json["name"].isString()) {
+        return false;
+    }
+    name = json["name"].toString();
+
+    if (json.contains("maps")) {
+        if (!json["maps"].isArray()) {
+            return false;
+        }
+        if (!applyJsonMapsArray(json["maps"].toArray())) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+bool Region::Impl::applyJsonMapsArray(QJsonArray const & jsonMaps) {
+    for (auto && jsonMap : jsonMaps) {
+        if (jsonMap.toObject().contains("name") && jsonMap.toObject()["name"].isString()) {
+            auto map = createMap(jsonMap.toObject()["name"].toString());
+            if (!map->applyJsonObject(jsonMap.toObject())) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
+void Region::Impl::clear() {
+    name.clear();
+    maps.clear();
+}
+
+
+MapPointer Region::Impl::createMap(QString const & name) {
+    auto allMaps = getAtlas() ? getAtlas()->getAllMapNames() : getMapNames();
+    if (allMaps.find(name) != allMaps.end()) {
+        return MapPointer{new InvalidMap};
+    }
+    return maps.emplace(std::make_pair(name, MapPointer{new Map{name, region}, &Map::deleteLater})).first->second;
+}
+
+
 QJsonObject Region::Impl::getJsonObject() const {
 
     QJsonObject jsonObject;
@@ -41,15 +94,6 @@ std::set<QString> Region::Impl::getMapNames() const {
                   std::end(getMaps()),
                   [&] (auto const & pair) { mapNames.insert(pair.second->getName()); });
     return mapNames;
-}
-
-
-MapPointer Region::Impl::createMap(QString const & name) {
-    auto allMaps = getAtlas() ? getAtlas()->getAllMapNames() : getMapNames();
-    if (allMaps.find(name) != allMaps.end()) {
-        return MapPointer{new InvalidMap};
-    }
-    return maps.emplace(std::make_pair(name, MapPointer{new Map{name, region}, &Map::deleteLater})).first->second;
 }
 
 

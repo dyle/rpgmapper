@@ -29,6 +29,8 @@ public:
 
     Impl(Impl const & ) = delete;
 
+    bool applyJsonObject(QJsonObject const & json);
+
     QJsonObject getJsonObject() const;
 
     QString const & getName() const { return name; }
@@ -36,6 +38,10 @@ public:
     Region * getRegion() { return region; }
 
     void setName(QString const & name) { this->name = name; }
+
+private:
+
+    void clear();
 };
 
 }

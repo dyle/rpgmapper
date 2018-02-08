@@ -18,6 +18,11 @@ Map::Map(QString const & name, Region * region) : QObject{region} {
 }
 
 
+bool Map::applyJsonObject(QJsonObject const & json) {
+    return impl->applyJsonObject(json);
+}
+
+
 QJsonObject Map::getJsonObject() const {
     return impl->getJsonObject();
 }

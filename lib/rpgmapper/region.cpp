@@ -15,6 +15,11 @@ Region::Region(QString const & name, Atlas * atlas) : QObject{atlas} {
 }
 
 
+bool Region::applyJsonObject(QJsonObject const & json) {
+    return impl->applyJsonObject(json);
+}
+
+
 Atlas * Region::getAtlas() {
     return impl->getAtlas();
 }

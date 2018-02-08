@@ -31,8 +31,6 @@ public:
 
     bool applyJsonObject(QJsonObject const & json);
 
-    void clear();
-
     RegionPointer createRegion(QString const & name);
 
     std::set<QString> getAllMapNames() const;
@@ -58,6 +56,8 @@ public:
     void setName(QString const & name);
 
 private:
+
+    void clear();
 
     bool applyJsonRegionsArray(QJsonArray const & jsonRegions);
 

@@ -25,7 +25,7 @@ ReaderResult AtlasIO::read(QFile & file) const {
     }
 
     result << readAtlas(zip);
-    result << closeZip(zip);
+    closeZip(zip);
 
     return result;
 }
@@ -48,8 +48,7 @@ IOResult AtlasIO::write(AtlasPointer & atlas, QFile & file) const {
     }
 
     result << writeAtlas(zip, atlas);
-
-    result << closeZip(zip);
+    closeZip(zip);
 
     return result;
 }

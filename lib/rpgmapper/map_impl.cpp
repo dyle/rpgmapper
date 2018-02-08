@@ -14,6 +14,27 @@ Map::Impl::Impl(Region * region) : region{region} {
 }
 
 
+void Map::Impl::clear() {
+    name.clear();
+}
+
+
+bool Map::Impl::applyJsonObject(QJsonObject const & json) {
+
+    clear();
+
+    if (!json.contains("name")) {
+        return false;
+    }
+    if (!json["name"].isString()) {
+        return false;
+    }
+    name = json["name"].toString();
+
+    return true;
+}
+
+
 QJsonObject Map::Impl::getJsonObject() const {
     QJsonObject jsonObject;
     jsonObject["name"] = name;

@@ -30,6 +30,8 @@ public:
 
     Impl(Impl const &) = delete;
 
+    bool applyJsonObject(QJsonObject const & json);
+
     MapPointer createMap(QString const & name);
 
     Atlas * getAtlas() { return atlas; }
@@ -45,6 +47,12 @@ public:
     bool removeMap(QString const & name);
 
     void setName(QString const & name) { this->name = name; }
+
+private:
+
+    void clear();
+
+    bool applyJsonMapsArray(QJsonArray const & jsonMaps);
 };
 
 

@@ -37,6 +37,8 @@ public:
 
     explicit Region(QString const & name, Atlas * atlas = nullptr);
 
+    bool applyJsonObject(QJsonObject const & json);
+
     MapPointer createMap(QString const & name);
 
     Atlas * getAtlas();

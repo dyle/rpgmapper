@@ -35,6 +35,8 @@ public:
 
     explicit Map(QString const & name, Region * region = nullptr);
 
+    bool applyJsonObject(QJsonObject const & json);
+
     QJsonObject getJsonObject() const;
 
     QString const & getName() const;

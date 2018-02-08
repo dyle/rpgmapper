@@ -46,7 +46,7 @@ bool Atlas::Impl::applyJsonRegionsArray(QJsonArray const & jsonRegions) {
     for (auto && jsonRegion : jsonRegions) {
         if (jsonRegion.toObject().contains("name") && jsonRegion.toObject()["name"].isString()) {
             auto region = createRegion(jsonRegion.toObject()["name"].toString());
-            if (!region->applyJsonObject(jsonRegion)) {
+            if (!region->applyJsonObject(jsonRegion.toObject())) {
                 return false;
             }
         }

@@ -2,7 +2,7 @@
 
 RPG Role Playing Mapper for playing old-school RPGs and map dungeons and areas on a grid. 
 The goal of this project is to have a tiny, nice tool at hand, which lets the user create
-any dungeon-lile map. The user should be capabel of sharing these maps freely.
+any dungeon-like map. The user should be capable of sharing these maps freely.
 
 
 ## Preamble

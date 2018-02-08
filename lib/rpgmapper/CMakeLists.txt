@@ -24,10 +24,10 @@ set(RPGMAPPER_LIB_SRC
     atlas_impl.cpp
     atlas_io.cpp
     #field.cpp
-    #file.cpp
     #layer.cpp
     map.cpp
     map_impl.cpp
+    nameable.cpp
     region.cpp
     region_impl.cpp
     #unitconverter.cpp

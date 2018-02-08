@@ -10,6 +10,7 @@
 
 
 #include <rpgmapper/map.hpp>
+#include "nameable.hpp"
 
 using namespace rpgmapper::model;
 
@@ -18,7 +19,7 @@ namespace rpgmapper {
 namespace model {
 
 
-class Map::Impl final {
+class Map::Impl final : public Nameable {
 
     QString name;
     Region * region = nullptr;
@@ -29,19 +30,11 @@ public:
 
     Impl(Impl const & ) = delete;
 
-    bool applyJsonObject(QJsonObject const & json);
+    bool applyJsonObject(QJsonObject const & json) override;
 
-    QJsonObject getJsonObject() const;
-
-    QString const & getName() const { return name; }
+    QJsonObject getJsonObject() const override ;
 
     Region * getRegion() { return region; }
-
-    void setName(QString const & name) { this->name = name; }
-
-private:
-
-    void clear();
 };
 
 }

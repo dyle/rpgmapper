@@ -21,15 +21,9 @@ Region::Impl::Impl(Atlas * atlas, Region * region) : atlas{atlas}, region{region
 
 bool Region::Impl::applyJsonObject(QJsonObject const & json) {
 
-    clear();
-
-    if (!json.contains("name")) {
+    if (!Nameable::applyJsonObject(json)) {
         return false;
     }
-    if (!json["name"].isString()) {
-        return false;
-    }
-    name = json["name"].toString();
 
     if (json.contains("maps")) {
         if (!json["maps"].isArray()) {
@@ -58,7 +52,7 @@ bool Region::Impl::applyJsonMapsArray(QJsonArray const & jsonMaps) {
 
 
 void Region::Impl::clear() {
-    name.clear();
+    Nameable::clear();
     maps.clear();
 }
 
@@ -74,16 +68,15 @@ MapPointer Region::Impl::createMap(QString const & name) {
 
 QJsonObject Region::Impl::getJsonObject() const {
 
-    QJsonObject jsonObject;
-    jsonObject["name"] = name;
+    auto json = Nameable::getJsonObject();
 
     QJsonArray jsonMaps;
     std::for_each(std::begin(maps),
                   std::end(maps),
                   [&] (auto const & pair) { jsonMaps.append(pair.second->getJsonObject()); });
-    jsonObject["maps"] = jsonMaps;
+    json["maps"] = jsonMaps;
 
-    return jsonObject;
+    return json;
 }
 
 

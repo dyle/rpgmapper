@@ -11,24 +11,17 @@
 using namespace rpgmapper::model;
 
 
-Atlas::Impl::Impl(Atlas * atlas) : atlas(atlas), name{QObject::tr("New Atlas")} {
+Atlas::Impl::Impl(Atlas * atlas) : atlas(atlas) {
     if (atlas == nullptr) {
         throw std::invalid_argument("rpgmapper::model::Atlas::Impl::Impl() - atlas must not be nullptr.");
     }
+    setName(QObject::tr("New Atlas"));
 }
 
 bool Atlas::Impl::applyJsonObject(QJsonObject const & json) {
-
-    clear();
-
-    if (!json.contains("name")) {
+    if (!Nameable::applyJsonObject(json)) {
         return false;
     }
-    if (!json["name"].isString()) {
-        return false;
-    }
-    name = json["name"].toString();
-
     if (json.contains("regions")) {
         if (!json["regions"].isArray()) {
             return false;
@@ -37,7 +30,6 @@ bool Atlas::Impl::applyJsonObject(QJsonObject const & json) {
             return false;
         }
     }
-
     return true;
 }
 
@@ -56,7 +48,7 @@ bool Atlas::Impl::applyJsonRegionsArray(QJsonArray const & jsonRegions) {
 
 
 void Atlas::Impl::clear() {
-    name.clear();
+    Nameable::clear();
     regions.clear();
 }
 
@@ -96,16 +88,14 @@ std::set<QString> Atlas::Impl::getAllRegionNames() const {
 
 QJsonObject Atlas::Impl::getJsonObject() const {
 
-    QJsonObject jsonObject;
-    jsonObject["name"] = getName();
-
+    auto json = Nameable::getJsonObject();
     QJsonArray jsonRegions;
     std::for_each(std::begin(regions),
                   std::end(regions),
                   [&] (auto const & pair) { jsonRegions.append(pair.second->getJsonObject()); });
-    jsonObject["regions"] = jsonRegions;
+    json["regions"] = jsonRegions;
 
-    return jsonObject;
+    return json;
 }
 
 RegionPointer const & Atlas::Impl::getRegion(QString const & name) const {
@@ -140,9 +130,9 @@ void Atlas::Impl::resetChanged() {
 
 
 void Atlas::Impl::setName(QString const & name) {
-    if (this->name == name) {
+    if (getName() == name) {
         return;
     }
-    this->name = name;
+    Nameable::setName(name);
     changed = true;
 }

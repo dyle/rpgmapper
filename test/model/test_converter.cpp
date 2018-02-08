@@ -18,7 +18,7 @@
 #include <iostream>
 
 // rpgmapper
-#include <rpgmapper/unitconverter.hpp>
+#include <rpgmapper/numerals.hpp>
 
 using namespace rpgmapper::model;
 

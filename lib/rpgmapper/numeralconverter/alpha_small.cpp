@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include "alphabetic.hpp"
-#include "alphabeticbigcapsconverter.hpp"
+#include "alpha_small.hpp"
 
 using namespace rpgmapper::model;
 
@@ -32,11 +32,11 @@ static std::map<int, QString> g_cLookupValues;            /**< Known cached valu
  * @param   nValue      value to convert
  * @return  A string holding the user value
  */
-QString AlphabeticBigCapsConverter::convert(int nValue) const {
+QString AlphabeticSmallCapsConverter::convert(int nValue) const {
 
     if (g_cLookupValues.empty()) {
         for (int n = 0; n <= 100; ++n) {
-            g_cLookupValues[n] = convertAlpha(n, true);
+            g_cLookupValues[n] = convertAlpha(n, false);
         }
     }
 
@@ -45,7 +45,7 @@ QString AlphabeticBigCapsConverter::convert(int nValue) const {
         return (*iterLookup).second;
     }
 
-    auto res = convertAlpha(nValue, true);
+    auto res = convertAlpha(nValue, false);
     g_cLookupValues[nValue] = res;
 
     return res;

@@ -19,7 +19,7 @@
 #include <QLabel>
 
 #include <rpgmapper/types.hpp>
-#include <rpgmapper/unitconverter.hpp>
+#include <rpgmapper/numerals.hpp>
 
 
 // ------------------------------------------------------------

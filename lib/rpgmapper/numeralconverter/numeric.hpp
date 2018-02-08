@@ -1,0 +1,34 @@
+/*
+ * This file is part of rpgmapper.
+ * See the LICENSE file for the software license.
+ * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
+ */
+
+
+#ifndef RPGMAPPER_MODEL_NUMERALCONVERTER_NUMERIC_HPP
+#define RPGMAPPER_MODEL_NUMERALCONVERTER_NUMERIC_HPP
+
+
+#include <rpgmapper/numerals.hpp>
+
+
+namespace rpgmapper {
+namespace model {
+
+
+class NumericConverter : public NumeralConverter {
+
+public:
+
+    NumericConverter() = default;
+
+    QString convert(int nValue) const override;
+
+};
+
+
+}
+}
+
+
+#endif

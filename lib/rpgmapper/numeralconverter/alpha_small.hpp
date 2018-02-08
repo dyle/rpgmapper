@@ -5,14 +5,14 @@
  */
 
 
-#ifndef MODEL_ALPHABETICBIGCAPSCONVERTER_HPP
-#define MODEL_ALPHABETICBIGCAPSCONVERTER_HPP
+#ifndef RPGMAPPER_MODEL_NUMERALCONVERTER_ALPHA_SMALL_HPP
+#define RPGMAPPER_MODEL_NUMERALCONVERTER_ALPHA_SMALL_HPP
 
 
 // ------------------------------------------------------------
 // incs
 
-#include <rpgmapper/unitconverter.hpp>
+#include <rpgmapper/numerals.hpp>
 
 
 // ------------------------------------------------------------
@@ -26,7 +26,7 @@ namespace model {
 /**
  * A collection of maps based on a name.
  */
-class AlphabeticBigCapsConverter : public UnitConverter {
+class AlphabeticSmallCapsConverter : public UnitConverter {
 
 
 public:
@@ -35,7 +35,7 @@ public:
     /**
      * Ctor.
      */
-    AlphabeticBigCapsConverter() = default;
+    AlphabeticSmallCapsConverter() = default;
 
 
     /**

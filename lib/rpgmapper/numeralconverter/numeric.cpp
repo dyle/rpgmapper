@@ -8,7 +8,7 @@
 // ------------------------------------------------------------
 // incs
 
-#include "numericconverter.hpp"
+#include "numeric.hpp"
 
 using namespace rpgmapper::model;
 

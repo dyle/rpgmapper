@@ -28,18 +28,18 @@ set(RPGMAPPER_LIB_SRC
     map.cpp
     map_impl.cpp
     nameable.cpp
+    numerals.cpp
     region.cpp
     region_impl.cpp
-    #unitconverter.cpp
 
     #layer/backgroundlayer.cpp
     #layer/gridlayer.cpp
 
-    #unitconverter/alphabetic.cpp
-    #unitconverter/alphabeticbigcapsconverter.cpp
-    #unitconverter/alphabeticsmallcapsconverter.cpp
-    #unitconverter/numericconverter.cpp
-    #unitconverter/romanconverter.cpp
+    numeralconverter/alphabetic.cpp
+    numeralconverter/alpha_big.cpp
+    numeralconverter/alpha_small.cpp
+    numeralconverter/numeric.cpp
+    numeralconverter/roman.cpp
 
     zip/zip.cpp
 )

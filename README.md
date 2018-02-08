@@ -22,7 +22,7 @@ techniques.
 
 Some more notes:
 * The software is licensed under [GPL-3](http://gplv3.fsf.org).
-* RPGMNapper uses [Qt5](https://www.qt.io).
+* RPGMapper uses [Qt5](https://www.qt.io).
 * [CMake](https://cmake.org)
 * and [GoogleTest](https://github.com/google/googletest)
 

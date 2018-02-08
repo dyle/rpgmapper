@@ -10,12 +10,12 @@
 #include <QFile>
 
 #include <rpgmapper/atlas.hpp>
-#include <rpgmapper/atlas_writer.hpp>
+#include <rpgmapper/atlas_io.hpp>
 
 using namespace rpgmapper::model;
 
 
-TEST(AtlasWriter, GetJsonOfAtlas) {
+TEST(AtlasIO, GetJsonOfAtlas) {
 
     std::string const  expectedJson{
         "{\"name\":\"New Atlas\",\"regions\":[{\"maps\":[{\"name\":\"New Map 1\"}],\"name\":\"New Region 1\"}]}"
@@ -27,13 +27,26 @@ TEST(AtlasWriter, GetJsonOfAtlas) {
 }
 
 
-TEST(AtlasWriter, WriteAtlasJsonToFile) {
+TEST(AtlasIO, WriteAtlasToFile) {
 
     Atlas atlas;
-    QFile file{"test-write.atlas"};
+    QFile file{"test.atlas"};
 
-    AtlasWriter atlasWriter;
-    auto result = atlasWriter.write(atlas, file);
-    EXPECT_TRUE(result.success);
+    AtlasIO atlasIO;
+    auto result = atlasIO.write(atlas, file);
+    EXPECT_TRUE(result.hasSuccess());
     EXPECT_FALSE(atlas.hasChanged());
+}
+
+
+TEST(AtlasIO, ReadAtlasFromFile) {
+
+    Atlas atlas;
+    QFile file{"test/data/test.atlas"};
+
+    AtlasIO atlasIO;
+    auto result = atlasIO.read(file);
+    EXPECT_TRUE(result.hasSuccess());
+    EXPECT_TRUE(result.getAtlas()->isValid());
+    EXPECT_FALSE(result.getAtlas()->hasChanged());
 }

@@ -37,6 +37,10 @@ public:
 
     void setSuccess(bool success) { this->success = success; }
 
+    friend IOResult & operator<<(IOResult & lvalue, bool rvalue);
+
+    friend IOResult & operator<<(IOResult & lvalue, QString const & rvalue);
+
     friend IOResult & operator<<(IOResult & lvalue, IOResult const & rvalue);
 };
 
@@ -47,10 +51,24 @@ class ReaderResult : public IOResult {
 
 public:
 
-    AtlasPointer & getAtlas() { return atlas; }
+    AtlasPointer const & getAtlas() const { return atlas; }
+
+    void setAtlas(AtlasPointer & atlas) { this->atlas = atlas; }
 
     friend ReaderResult & operator<<(ReaderResult & lvalue, ReaderResult const & rvalue);
 };
+
+
+inline IOResult & operator<<(IOResult & lvalue, bool rvalue) {
+    lvalue.success = rvalue;
+    return lvalue;
+}
+
+
+inline IOResult & operator<<(IOResult & lvalue, QString const & rvalue) {
+    lvalue.log << rvalue;
+    return lvalue;
+}
 
 
 inline IOResult & operator<<(IOResult & lvalue, IOResult const & rvalue) {
@@ -58,6 +76,7 @@ inline IOResult & operator<<(IOResult & lvalue, IOResult const & rvalue) {
     lvalue.log << rvalue.log;
     return lvalue;
 }
+
 
 inline ReaderResult & operator<<(ReaderResult & lvalue, ReaderResult const & rvalue) {
     static_cast<IOResult &>(lvalue) << static_cast<IOResult const &>(rvalue);

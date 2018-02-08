@@ -34,6 +34,8 @@ public:
 
     explicit Atlas(QObject * parent = nullptr);
 
+    bool applyJsonObject(QJsonObject json);
+
     RegionPointer createRegion(QString const & name);
 
     std::set<QString> getAllMapNames() const;
@@ -53,6 +55,8 @@ public:
     virtual bool isValid() const { return true; }
 
     void removeRegion(QString const & name);
+
+    void resetChanged();
 
     void setName(QString const & name);
 

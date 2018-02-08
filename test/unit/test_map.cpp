@@ -13,13 +13,17 @@ using namespace rpgmapper::model;
 
 
 TEST(MapTest, CreateMapIsValid) {
+
     Map map{"foo"};
+
     ASSERT_TRUE(map.isValid());
 }
 
 
 TEST(MapTest, CreateMapPointerIsValid) {
+
     MapPointer map{new Map{"foo"}};
+
     EXPECT_NE(map.data(), nullptr);
     EXPECT_TRUE(map->isValid());
 }
@@ -31,15 +35,19 @@ TEST(MapTest, CreateInvalidMapIsNotValid) {
 
 
 TEST(MapTest, CreateInvalidMapPointerIsNotValid) {
+
     MapPointer map{new InvalidMap{}};
+
     EXPECT_NE(map.data(), nullptr);
     EXPECT_FALSE(map->isValid());
 }
 
 
 TEST(MapTest, MapGetAndSetName) {
+
     Map map{"foo"};
     EXPECT_EQ(map.getName().toStdString(), "foo");
+
     map.setName("bar");
     EXPECT_EQ(map.getName().toStdString(), "bar");
 }

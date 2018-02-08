@@ -18,35 +18,55 @@ using namespace rpgmapper::model;
 TEST(AtlasIO, GetJsonOfAtlas) {
 
     std::string const  expectedJson{
-        "{\"name\":\"New Atlas\",\"regions\":[{\"maps\":[{\"name\":\"New Map 1\"}],\"name\":\"New Region 1\"}]}"
+        R"raw({"name":"New Atlas","regions":[{"maps":[{"name":"New Map 1"}],"name":"New Region 1"}]})raw"
     };
+    AtlasPointer atlas{new Atlas};
+    auto json = QJsonDocument{atlas->getJsonObject()}.toJson(QJsonDocument::Compact).toStdString();
 
-    Atlas atlas;
-    auto json = QJsonDocument{atlas.getJsonObject()}.toJson(QJsonDocument::Compact).toStdString();
     EXPECT_EQ(json, expectedJson);
 }
 
 
 TEST(AtlasIO, WriteAtlasToFile) {
 
-    Atlas atlas;
+    AtlasPointer atlas{new Atlas};
     QFile file{"test.atlas"};
-
     AtlasIO atlasIO;
     auto result = atlasIO.write(atlas, file);
+
     EXPECT_TRUE(result.hasSuccess());
-    EXPECT_FALSE(atlas.hasChanged());
+    EXPECT_FALSE(atlas->hasChanged());
+}
+
+
+TEST(AtlasIO, WriteAtlasToInvalidFile) {
+
+    AtlasPointer atlas{new Atlas};
+    QFile file{"/dev/false"};
+    AtlasIO atlasIO;
+    auto result = atlasIO.write(atlas, file);
+
+    EXPECT_FALSE(result.hasSuccess());
 }
 
 
 TEST(AtlasIO, ReadAtlasFromFile) {
 
-    Atlas atlas;
-    QFile file{"test/data/test.atlas"};
-
+    QFile file{"test/unit/data/test.atlas"};
     AtlasIO atlasIO;
     auto result = atlasIO.read(file);
+
     EXPECT_TRUE(result.hasSuccess());
     EXPECT_TRUE(result.getAtlas()->isValid());
     EXPECT_FALSE(result.getAtlas()->hasChanged());
+}
+
+
+TEST(AtlasIO, ReadAtlasFromInvalidFile) {
+
+    QFile file{"/dev/false"};
+    AtlasIO atlasIO;
+    auto result = atlasIO.read(file);
+
+    EXPECT_FALSE(result.hasSuccess());
 }

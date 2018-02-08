@@ -17,6 +17,11 @@ Atlas::Atlas(QObject * parent) : QObject{parent} {
 }
 
 
+bool Atlas::applyJsonObject(QJsonObject json) {
+    return impl->applyJsonObject(json);
+}
+
+
 RegionPointer Atlas::createRegion(QString const & name) {
 
     bool hasAlreadyChanged = impl->hasChanged();
@@ -75,6 +80,11 @@ void Atlas::removeRegion(QString const & name) {
             emit changed();
         }
     }
+}
+
+
+void Atlas::resetChanged() {
+    impl->resetChanged();
 }
 
 

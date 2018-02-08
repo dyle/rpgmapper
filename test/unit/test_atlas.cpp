@@ -14,13 +14,17 @@ using namespace rpgmapper::model;
 
 
 TEST(AtlasTest, CreateAtlasIsValid) {
+
     Atlas atlas;
+
     ASSERT_TRUE(atlas.isValid());
 }
 
 
 TEST(AtlasTest, CreateAtlasPointerIsValid) {
+
     AtlasPointer atlas{new Atlas{}};
+
     EXPECT_NE(atlas.data(), nullptr);
     EXPECT_TRUE(atlas->isValid());
 }
@@ -32,14 +36,18 @@ TEST(AtlasTest, CreateInvalidAtlasIsNotValid) {
 
 
 TEST(AtlasTest, CreateInvalidAtlasPointerIsNotValid) {
+
     AtlasPointer atlas{new InvalidAtlas{}};
+
     EXPECT_NE(atlas.data(), nullptr);
     EXPECT_FALSE(atlas->isValid());
 }
 
 
 TEST(AtlasTest, InitialAtlasNameIsNewAtlas) {
+
     Atlas atlas;
+
     EXPECT_EQ(atlas.getName().toStdString(), "New Atlas");
 }
 
@@ -61,15 +69,19 @@ TEST(AtlasTest, InitialAtlasRegionAndMap) {
 
 
 TEST(AtlasTest, AtlasNameSet) {
+
     Atlas atlas;
     atlas.setName("foo");
+
     EXPECT_EQ(atlas.getName().toStdString(), "foo");
     EXPECT_TRUE(atlas.hasChanged());
 }
 
 
 TEST(AtlasTest, InitialAtlasIsNotModified) {
+
     Atlas atlas;
+
     EXPECT_FALSE(atlas.hasChanged());
 }
 
@@ -79,6 +91,7 @@ TEST(AtlasTest, InitialAtlasRemoveRegionResultsInEmptyRegions) {
     Atlas atlas;
     auto regionName = atlas.getRegions().begin()->second->getName();
     atlas.removeRegion(regionName);
+
     EXPECT_TRUE(atlas.getRegions().empty());
     EXPECT_TRUE(atlas.hasChanged());
 }
@@ -88,6 +101,7 @@ TEST(AtlasTest, CreateRegion) {
 
     Atlas atlas;
     auto region = atlas.createRegion("foo");
+
     EXPECT_TRUE(region->isValid());
     EXPECT_EQ(region->getAtlas(), &atlas);
     EXPECT_EQ(region->getName(), "foo");
@@ -102,8 +116,8 @@ TEST(AtlasTest, AllRegionNames) {
     atlas.createRegion("foo");
     atlas.createRegion("bar");
     atlas.createRegion("baz");
-
     std::set<QString> allRegionNamesExpected{"foo", "bar", "baz"};
+
     EXPECT_TRUE(allRegionNamesExpected == atlas.getAllRegionNames());
 }
 

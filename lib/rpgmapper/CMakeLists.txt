@@ -40,6 +40,8 @@ set(RPGMAPPER_LIB_SRC
     #unitconverter/alphabeticsmallcapsconverter.cpp
     #unitconverter/numericconverter.cpp
     #unitconverter/romanconverter.cpp
+
+    zip/zip.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

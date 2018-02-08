@@ -29,6 +29,10 @@ public:
 
     Impl(Impl const &) = delete;
 
+    bool applyJsonObject(QJsonObject const & json);
+
+    void clear();
+
     RegionPointer createRegion(QString const & name);
 
     std::set<QString> getAllMapNames() const;
@@ -49,7 +53,13 @@ public:
 
     bool removeRegion(QString const & name);
 
+    void resetChanged();
+
     void setName(QString const & name);
+
+private:
+
+    bool applyJsonRegionsArray(QJsonArray const & jsonRegions);
 
 };
 

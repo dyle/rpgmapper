@@ -17,12 +17,57 @@ Atlas::Impl::Impl(Atlas * atlas) : atlas(atlas), name{QObject::tr("New Atlas")} 
     }
 }
 
+bool Atlas::Impl::applyJsonObject(QJsonObject const & json) {
+
+    clear();
+
+    if (!json.contains("name")) {
+        return false;
+    }
+    if (!json["name"].isString()) {
+        return false;
+    }
+    name = json["name"].toString();
+
+    if (json.contains("regions")) {
+        if (!json["regions"].isArray()) {
+            return false;
+        }
+        if (!applyJsonRegionsArray(json["regions"].toArray())) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+bool Atlas::Impl::applyJsonRegionsArray(QJsonArray const & jsonRegions) {
+    for (auto && jsonRegion : jsonRegions) {
+        if (jsonRegion.toObject().contains("name") && jsonRegion.toObject()["name"].isString()) {
+            auto region = createRegion(jsonRegion.toObject()["name"].toString());
+            if (!region->applyJsonObject(jsonRegion)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
+void Atlas::Impl::clear() {
+    name.clear();
+    regions.clear();
+}
+
 
 RegionPointer Atlas::Impl::createRegion(QString const & name) {
     if (regions.find(name) != regions.end()) {
         return RegionPointer{new InvalidRegion};
     }
-    auto pair = regions.emplace(std::make_pair(name, RegionPointer{new Region{name, this->atlas}, &Region::deleteLater}));
+    auto pair = regions.emplace(std::make_pair(name,
+                                               RegionPointer{new Region{name, this->atlas},
+                                                             &Region::deleteLater}));
     changed = true;
     return pair.first->second;
 }
@@ -86,6 +131,11 @@ bool Atlas::Impl::removeRegion(QString const & name) {
     regions.erase(iter);
     changed = true;
     return true;
+}
+
+
+void Atlas::Impl::resetChanged() {
+    changed = false;
 }
 
 

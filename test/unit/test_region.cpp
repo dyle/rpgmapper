@@ -13,13 +13,17 @@ using namespace rpgmapper::model;
 
 
 TEST(RegionTest, CreateRegionIsValid) {
+
     Region region{"foo"};
+
     ASSERT_TRUE(region.isValid());
 }
 
 
 TEST(RegionTest, CreateRegionPointerIsValid) {
+
     RegionPointer region{new Region{"foo"}};
+
     EXPECT_NE(region.data(), nullptr);
     EXPECT_TRUE(region->isValid());
 }
@@ -31,15 +35,19 @@ TEST(RegionTest, CreateInvalidRegionIsNotValid) {
 
 
 TEST(RegionTest, CreateInvalidRegionPointerIsNotValid) {
+
     RegionPointer region{new InvalidRegion{}};
+
     EXPECT_NE(region.data(), nullptr);
     EXPECT_FALSE(region->isValid());
 }
 
 
 TEST(RegionTest, RegionGetAndSetName) {
+
     Region region{"foo"};
     EXPECT_EQ(region.getName().toStdString(), "foo");
+
     region.setName("bar");
     EXPECT_EQ(region.getName().toStdString(), "bar");
 }
@@ -55,8 +63,8 @@ TEST(RegionTest, GetAllMapNames) {
     region.createMap("map 4");
     region.createMap("map 3");
     region.createMap("map 3");
-
     std::set<QString> mapNamesExpected{"map 1", "map 2", "map 3", "map 4" };
+
     EXPECT_TRUE(mapNamesExpected == region.getMapNames());
 }
 
@@ -64,6 +72,7 @@ TEST(RegionTest, CreateMap) {
 
     Region region{"foo"};
     auto map = region.createMap("bar");
+
     EXPECT_TRUE(map->isValid());
     EXPECT_EQ(map->getRegion(), &region);
     EXPECT_EQ(map->getName(), "bar");

@@ -4,12 +4,17 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include "layer/background_layer.hpp"
 #include "map_impl.hpp"
 
 using namespace rpgmapper::model;
 
 
-Map::Impl::Impl(Region * region) : region{region}, backgroundLayer{new InvalidLayer} {
+Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region} {
+    if (map == nullptr) {
+        throw std::invalid_argument{"Map must not be nullptr."};
+    }
+    backgroundLayer = LayerPointer{new BackgroundLayer{map}};
 }
 
 

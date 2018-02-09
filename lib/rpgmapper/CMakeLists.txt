@@ -8,12 +8,13 @@
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 set(RPGMAPPER_LIB_MOC
+
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/atlas.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
 
-    #layer/backgroundlayer.hpp
+    layer/background_layer.hpp
     #layer/gridlayer.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
@@ -33,7 +34,7 @@ set(RPGMAPPER_LIB_SRC
     region.cpp
     region_impl.cpp
 
-    #layer/backgroundlayer.cpp
+    layer/background_layer.cpp
     #layer/gridlayer.cpp
 
     numeralconverter/alphabetic.cpp

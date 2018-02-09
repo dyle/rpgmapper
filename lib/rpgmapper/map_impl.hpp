@@ -22,12 +22,13 @@ namespace model {
 class Map::Impl final : public Nameable {
 
     QString name;
+    Map * map = nullptr;
     Region * region = nullptr;
     LayerPointer backgroundLayer;
 
 public:
 
-    explicit Impl(Region * region);
+    explicit Impl(Map * map, Region * region);
 
     Impl(Impl const & ) = delete;
 

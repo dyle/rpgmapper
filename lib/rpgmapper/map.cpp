@@ -13,7 +13,7 @@ using namespace rpgmapper::model;
 
 
 Map::Map(QString const & name, Region * region) : QObject{region} {
-    impl = std::make_shared<Map::Impl>(region);
+    impl = std::make_shared<Map::Impl>(this, region);
     impl->setName(name);
 }
 

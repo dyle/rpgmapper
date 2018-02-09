@@ -5,6 +5,20 @@
  */
 
 
+#include "background_layer.hpp"
+
+
+BackgroundLayer::BackgroundLayer(Map * map, QObject * parent) : Layer{map, parent} {
+}
+
+
+
+
+
+
+
+#if 0
+
 #define DEFAULT_BACKGROUND_COLOR        "#000060"
 #define WARNING_BACKGROUND_COLOR        "#ff0088"
 
@@ -65,3 +79,6 @@ void BackgroundLayer::drawLayer(QPainter & cPainter, int nTileSize) const {
     QColor cBackgroundColor = backgroundColor();
     cPainter.fillRect(QRect{QPoint{0, 0}, cSize}, cBackgroundColor);
 }
+
+
+#endif

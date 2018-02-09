@@ -53,3 +53,11 @@ TEST(MapTest, MapGetAndSetName) {
 }
 
 
+TEST(MapTest, GetBackgroundLayer) {
+
+    Map map{"foo"};
+    LayerPointer layer = map.getBackgroundLayer();
+
+    EXPECT_TRUE(layer->isValid());
+}
+

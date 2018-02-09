@@ -8,6 +8,73 @@
 #ifndef RPGMAPPER_MODEL_LAYER_HPP
 #define RPGMAPPER_MODEL_LAYER_HPP
 
+
+#include <memory>
+
+#include <QObject>
+#include <QSharedPointer>
+
+
+namespace rpgmapper {
+namespace model {
+
+
+class Map;
+
+
+class Layer : public QObject {
+
+    Q_OBJECT
+
+    class Impl;
+    std::shared_ptr<Impl> impl;
+
+public:
+
+    explicit Layer(Map * map, QObject * parent = nullptr);
+
+    virtual bool isValid() const { return true; }
+
+};
+
+
+class InvalidLayer final : public Layer {
+
+public:
+
+    InvalidLayer() : Layer{nullptr, nullptr} {}
+
+    bool isValid() const override { return false; }
+
+};
+
+
+using LayerPointer = QSharedPointer<Layer>;
+
+
+}
+}
+
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#if 0
+
+
 #include <memory>
 
 #include <QPainter>

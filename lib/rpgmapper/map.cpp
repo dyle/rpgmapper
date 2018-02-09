@@ -23,6 +23,11 @@ bool Map::applyJsonObject(QJsonObject const & json) {
 }
 
 
+LayerPointer const & Map::getBackgroundLayer() const {
+    return impl->getBackgroundLayer();
+}
+
+
 QJsonObject Map::getJsonObject() const {
     return impl->getJsonObject();
 }

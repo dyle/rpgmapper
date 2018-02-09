@@ -16,6 +16,8 @@
 #include <QSharedPointer>
 #include <QString>
 
+#include <rpgmapper/layer.hpp>
+
 
 namespace rpgmapper {
 namespace model {
@@ -36,6 +38,8 @@ public:
     explicit Map(QString const & name, Region * region = nullptr);
 
     bool applyJsonObject(QJsonObject const & json);
+
+    LayerPointer const & getBackgroundLayer() const;
 
     QJsonObject getJsonObject() const;
 
@@ -64,6 +68,7 @@ public:
 using MapPointer = QSharedPointer<Map>;
 
 using Maps = std::map<QString, MapPointer>;
+
 
 }
 }

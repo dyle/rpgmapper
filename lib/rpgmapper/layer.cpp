@@ -5,6 +5,23 @@
  */
 
 
+#include <rpgmapper/layer.hpp>
+#include "layer_impl.hpp"
+
+
+Layer::Layer(Map * map, QObject * parent) : QObject{parent} {
+    impl = std::make_shared<Layer::Impl>(map);
+}
+
+
+
+
+
+
+
+
+#if 0
+
 
 #include <QFont>
 #include <QJsonArray>
@@ -292,3 +309,6 @@ bool Layer::stackable() const {
 
     return res;
 }
+
+
+#endif

@@ -78,6 +78,7 @@ public:
 
 using AtlasPointer = QSharedPointer<Atlas>;
 
+
 }
 }
 

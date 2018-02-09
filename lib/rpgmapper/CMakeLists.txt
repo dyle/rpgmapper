@@ -9,7 +9,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 set(RPGMAPPER_LIB_MOC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/atlas.hpp
-    #${CMAKE_SOURCE_DIR}/include/rpgmapper/layer.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
 
@@ -24,7 +24,8 @@ set(RPGMAPPER_LIB_SRC
     atlas_impl.cpp
     atlas_io.cpp
     #field.cpp
-    #layer.cpp
+    layer.cpp
+    layer_impl.cpp
     map.cpp
     map_impl.cpp
     nameable.cpp

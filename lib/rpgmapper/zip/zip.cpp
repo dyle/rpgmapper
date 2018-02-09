@@ -12,26 +12,26 @@ using namespace rpgmapper::model;
 
 using Content = std::map<QString, QByteArray>;
 
-IOResult appendContent(Content const & content, QuaZip & zip);
+WriterResult appendContent(Content const & content, QuaZip & zip);
 
-IOResult appendFile(QString const & name, QByteArray const & blob, QuaZip & zip);
+WriterResult appendFile(QString const & name, QByteArray const & blob, QuaZip & zip);
 
 Content collectContent(AtlasPointer const & atlas);
 
 ReaderResult createAtlas(Content const & content);
 
-IOResult extractContent(QuaZip & zip, Content & content);
+WriterResult extractContent(QuaZip & zip, Content & content);
 
 
-IOResult rpgmapper::model::closeZip(QuaZip & zip) {
+WriterResult rpgmapper::model::closeZip(QuaZip & zip) {
     zip.close();
-    return IOResult{true, {"Closed."}};
+    return WriterResult{true, {"Closed."}};
 }
 
 
-IOResult rpgmapper::model::openZipForReading(QuaZip & zip, QFile & file) {
+WriterResult rpgmapper::model::openZipForReading(QuaZip & zip, QFile & file) {
 
-    IOResult result;
+    WriterResult result;
 
     zip.setZipName(file.fileName());
     zip.setFileNameCodec("UTF-8");
@@ -47,9 +47,9 @@ IOResult rpgmapper::model::openZipForReading(QuaZip & zip, QFile & file) {
 }
 
 
-IOResult rpgmapper::model::openZipForWriting(QuaZip & zip, QFile & file) {
+WriterResult rpgmapper::model::openZipForWriting(QuaZip & zip, QFile & file) {
 
-    IOResult result;
+    WriterResult result;
 
     zip.setZipName(file.fileName());
     zip.setFileNameCodec("UTF-8");
@@ -80,9 +80,9 @@ ReaderResult rpgmapper::model::readAtlas(QuaZip &zip) {
 }
 
 
-IOResult rpgmapper::model::writeAtlas(QuaZip &zip, AtlasPointer & atlas) {
+WriterResult rpgmapper::model::writeAtlas(QuaZip &zip, AtlasPointer & atlas) {
 
-    IOResult result;
+    WriterResult result;
 
     auto content = collectContent(atlas);
     result << appendContent(content, zip);
@@ -96,9 +96,9 @@ IOResult rpgmapper::model::writeAtlas(QuaZip &zip, AtlasPointer & atlas) {
 }
 
 
-IOResult appendContent(Content const & content, QuaZip & zip) {
+WriterResult appendContent(Content const & content, QuaZip & zip) {
 
-    IOResult result;
+    WriterResult result;
 
     for (auto const & pair : content) {
         result << appendFile(pair.first, pair.second, zip);
@@ -112,9 +112,9 @@ IOResult appendContent(Content const & content, QuaZip & zip) {
 }
 
 
-IOResult appendFile(QString const & name, QByteArray const & blob, QuaZip & zip) {
+WriterResult appendFile(QString const & name, QByteArray const & blob, QuaZip & zip) {
 
-    IOResult result;
+    WriterResult result;
     QuaZipFile zf(&zip);
     QuaZipNewInfo zfi(name);
     constexpr QFile::Permissions permissions = QFile::ReadOwner |
@@ -179,9 +179,9 @@ ReaderResult createAtlas(Content const & content) {
 }
 
 
-IOResult extractContent(QuaZip & zip, Content & content) {
+WriterResult extractContent(QuaZip & zip, Content & content) {
 
-    IOResult result;
+    WriterResult result;
 
     QuaZipFileInfo zfi;
     if (!zip.getCurrentFileInfo(&zfi)) {

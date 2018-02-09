@@ -6,7 +6,6 @@
 
 
 #include <quazip/quazip.h>
-#include <quazip/quazipfile.h>
 
 #include <rpgmapper/atlas_io.hpp>
 #include "zip/zip.hpp"
@@ -31,9 +30,9 @@ ReaderResult AtlasIO::read(QFile & file) const {
 }
 
 
-IOResult AtlasIO::write(AtlasPointer & atlas, QFile & file) const {
+WriterResult AtlasIO::write(AtlasPointer & atlas, QFile & file) const {
 
-    IOResult result;
+    WriterResult result;
 
     if (!atlas->isValid()) {
         result << false;

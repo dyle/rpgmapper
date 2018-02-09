@@ -12,7 +12,7 @@
 #include <QStringList>
 
 #include <rpgmapper/atlas.hpp>
-#include <rpgmapper/io_result.hpp>
+#include <rpgmapper/reader_result.hpp>
 
 
 namespace rpgmapper {
@@ -26,7 +26,7 @@ public:
     AtlasIO() = default;
 
     ReaderResult read(QFile & file) const;
-    IOResult write(AtlasPointer & atlas, QFile & file) const;
+    WriterResult write(AtlasPointer & atlas, QFile & file) const;
 };
 
 

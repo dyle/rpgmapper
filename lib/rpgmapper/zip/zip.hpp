@@ -20,15 +20,15 @@ namespace rpgmapper {
 namespace model {
 
 
-IOResult closeZip(QuaZip & zip);
+WriterResult closeZip(QuaZip & zip);
 
-IOResult openZipForReading(QuaZip & zip, QFile & file);
+WriterResult openZipForReading(QuaZip & zip, QFile & file);
 
-IOResult openZipForWriting(QuaZip & zip, QFile & file);
+WriterResult openZipForWriting(QuaZip & zip, QFile & file);
 
 ReaderResult readAtlas(QuaZip & zip);
 
-IOResult writeAtlas(QuaZip & zip, AtlasPointer & atlas);
+WriterResult writeAtlas(QuaZip & zip, AtlasPointer & atlas);
 
 
 }

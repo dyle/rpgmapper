@@ -21,7 +21,7 @@ public:
 
     RomanConverter() = default;
 
-    QString convert(int nValue) const override;
+    QString convert(int value) const override;
 
 };
 

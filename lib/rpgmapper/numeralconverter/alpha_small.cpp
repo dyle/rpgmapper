@@ -12,41 +12,30 @@
 using namespace rpgmapper::model;
 
 
-// ------------------------------------------------------------
-// vars
+static void initCachedValues(std::map<int, QString> & cache);
 
 
-/**
- * Lookup table.
- */
-static std::map<int, QString> g_cLookupValues;            /**< Known cached values. */
+QString AlphaSmallCapsConverter::convert(int value) const {
 
-
-// ------------------------------------------------------------
-// code
-
-
-/**
- * Convert the given value into the user units.
- *
- * @param   nValue      value to convert
- * @return  A string holding the user value
- */
-QString AlphabeticSmallCapsConverter::convert(int nValue) const {
-
-    if (g_cLookupValues.empty()) {
-        for (int n = 0; n <= 100; ++n) {
-            g_cLookupValues[n] = convertAlpha(n, false);
-        }
+    static std::map<int, QString> cachedValues;
+    if (cachedValues.empty()) {
+        initCachedValues(cachedValues);
     }
 
-    auto iterLookup = g_cLookupValues.find(nValue);
-    if (iterLookup != g_cLookupValues.end()) {
-        return (*iterLookup).second;
+    auto iter = cachedValues.find(value);
+    if (iter != cachedValues.end()) {
+        return (*iter).second;
     }
 
-    auto res = convertAlpha(nValue, false);
-    g_cLookupValues[nValue] = res;
+    auto res = convertToAlphabetic(value, false);
+    cachedValues[value] = res;
 
     return res;
+}
+
+
+void initCachedValues(std::map<int, QString> & cache) {
+    for (int n = 0; n <= 100; ++n) {
+        cache[n] = convertToAlphabetic(n, false);
+    }
 }

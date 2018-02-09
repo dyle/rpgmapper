@@ -5,79 +5,41 @@
  */
 
 
-// ------------------------------------------------------------
-// incs
-
 #include "roman.hpp"
 
 using namespace rpgmapper::model;
 
 
-// ------------------------------------------------------------
-// decl
+static QString convertToRoman(int value);
+
+static void initCachedValues(std::map<int, QString> & cache);
 
 
-/**
- * Convert an integer to roman.
- *
- * @param   nValue      the value to convert
- * @return  the string holding the roman value
- */
-static QString convertRoman(int nValue);
+QString RomanConverter::convert(int value) const {
 
-
-// ------------------------------------------------------------
-// vars
-
-
-/**
- * Lookup table.
- */
-static std::map<int, QString> g_cLookupValues;            /**< Known cached values. */
-
-
-// ------------------------------------------------------------
-// code
-
-
-/**
- * Convert the given value into the user units.
- *
- * @param   nValue      value to convert
- * @return  A string holding the user value
- */
-QString RomanConverter::convert(int nValue) const {
-
-    if (g_cLookupValues.empty()) {
-        for (int n = 0; n <= 100; ++n) {
-            g_cLookupValues[n] = convertRoman(n);
-        }
+    static std::map<int, QString> cachedValues;
+    if (cachedValues.empty()) {
+        initCachedValues(cachedValues);
     }
 
-    auto iterLookup = g_cLookupValues.find(nValue);
-    if (iterLookup != g_cLookupValues.end()) {
-        return (*iterLookup).second;
+    auto iter = cachedValues.find(value);
+    if (iter != cachedValues.end()) {
+        return (*iter).second;
     }
 
-    auto res = convertRoman(nValue);
-    g_cLookupValues[nValue] = res;
+    auto res = convertToRoman(value);
+    cachedValues[value] = res;
 
     return res;
 }
 
 
-/**
- * Convert an integer to roman.
- *
- * @param   nValue      the value to convert
- * @return  the string holding the roman value
- */
-QString convertRoman(int nValue) {
+QString convertToRoman(int value) {
 
-    if (nValue < 0) {
-        return QString("-") + convertRoman(-nValue);
+    if (value < 0) {
+        return QString("-") + convertToRoman(-value);
     }
-    if (nValue == 0) {
+    if (value == 0) {
         return QString("O");
     }
 
@@ -86,58 +48,65 @@ QString convertRoman(int nValue) {
 
     QString res = "";
 
-    while (nValue >= 1000) {
+    while (value >= 1000) {
         res += "M";
-        nValue -= 1000;
+        value -= 1000;
     }
-    while (nValue >= 900) {
+    while (value >= 900) {
         res += "CM";
-        nValue -= 900;
+        value -= 900;
     }
-    while (nValue >= 500) {
+    while (value >= 500) {
         res += "D";
-        nValue -= 500;
+        value -= 500;
     }
-    while (nValue >= 400) {
+    while (value >= 400) {
         res += "CD";
-        nValue -= 400;
+        value -= 400;
     }
-    while (nValue >= 100) {
+    while (value >= 100) {
         res += "C";
-        nValue -= 100;
+        value -= 100;
     }
-    while (nValue >= 90) {
+    while (value >= 90) {
         res += "XC";
-        nValue -= 90;
+        value -= 90;
     }
-    while (nValue >= 50) {
+    while (value >= 50) {
         res += "L";
-        nValue -= 50;
+        value -= 50;
     }
-    while (nValue >= 40) {
+    while (value >= 40) {
         res += "XL";
-        nValue -= 40;
+        value -= 40;
     }
-    while (nValue >= 10) {
+    while (value >= 10) {
         res += "X";
-        nValue -= 10;
+        value -= 10;
     }
-    while (nValue >= 9) {
+    while (value >= 9) {
         res += "IX";
-        nValue -= 9;
+        value -= 9;
     }
-    while (nValue >= 5) {
+    while (value >= 5) {
         res += "V";
-        nValue -= 5;
+        value -= 5;
     }
-    while (nValue >= 4) {
+    while (value >= 4) {
         res += "IV";
-        nValue -= 4;
+        value -= 4;
     }
-    while (nValue >= 1) {
+    while (value >= 1) {
         res += "I";
-        nValue -= 1;
+        value -= 1;
     }
 
     return res;
+}
+
+
+void initCachedValues(std::map<int, QString> & cache) {
+    for (int n = 0; n <= 100; ++n) {
+        cache[n] = convertToRoman(n);
+    }
 }

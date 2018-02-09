@@ -22,7 +22,7 @@ public:
 
     NumericConverter() = default;
 
-    QString convert(int nValue) const override;
+    QString convert(int value) const override;
 
 };
 

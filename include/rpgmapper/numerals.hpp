@@ -17,23 +17,15 @@ namespace rpgmapper {
 namespace model {
 
 
-enum class Numerals {
-    Numeric,
-    AlphaBig,
-    AlphaSmall,
-    Roman
-};
-
-
 class NumeralConverter {
 
 public:
 
+    static QSharedPointer<NumeralConverter> const & create(QString const & method);
 
-    static QSharedPointer<NumeralConverter> create(Numerals numeral);
+    virtual QString convert(int value) const = 0;
 
-
-    virtual QString convert(int nValue) const = 0;
+    virtual bool isValid() const { return true; }
 
 protected:
 
@@ -41,6 +33,15 @@ protected:
 
 };
 
+
+class InvalidNumeralConverter final : public NumeralConverter {
+
+public:
+
+    QString convert(int) const override { return QString::null; }
+
+    bool isValid() const override { return false; }
+};
 
 }
 }

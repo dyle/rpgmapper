@@ -9,43 +9,20 @@
 #define RPGMAPPER_MODEL_NUMERALCONVERTER_ALPHA_BIG_HPP
 
 
-// ------------------------------------------------------------
-// incs
-
 #include <rpgmapper/numerals.hpp>
-
-
-// ------------------------------------------------------------
-// decl
 
 
 namespace rpgmapper {
 namespace model {
 
 
-/**
- * A collection of maps based on a name.
- */
-class AlphabeticBigCapsConverter : public UnitConverter {
-
+class AlphaBigCapsConverter : public NumeralConverter {
 
 public:
 
+    AlphaBigCapsConverter() = default;
 
-    /**
-     * Ctor.
-     */
-    AlphabeticBigCapsConverter() = default;
-
-
-    /**
-     * Convert the given value into the user units.
-     *
-     * @param   nValue      value to convert
-     * @return  A string holding the user value
-     */
-    QString convert(int nValue) const override;
-
+    QString convert(int value) const override;
 
 };
 

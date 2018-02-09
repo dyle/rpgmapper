@@ -10,10 +10,11 @@ include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data  DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 set(TEST_UNITS_SRC
-    test_atlas.cpp
-    test_atlas_io.cpp
+    test_numerals.cpp
     test_map.cpp
     test_region.cpp
+    test_atlas.cpp
+    test_atlas_io.cpp
 )
 
 add_executable(test-units               ${TEST_UNITS_SRC})

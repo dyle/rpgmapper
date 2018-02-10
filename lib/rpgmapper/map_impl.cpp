@@ -13,8 +13,10 @@
 
 using namespace rpgmapper::model;
 
+static QSize const MAP_SIZE_DEFAULT{10, 10};
 
-Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region} {
+
+Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region}, size{MAP_SIZE_DEFAULT} {
     if (map == nullptr) {
         throw std::invalid_argument{"Map must not be nullptr."};
     }
@@ -32,29 +34,18 @@ bool Map::Impl::applyJsonObject(QJsonObject const & json) {
 }
 
 
-LayerPointer const & Map::Impl::getBackgroundLayer() const {
-    return backgroundLayer;
-}
-
-Layers const & Map::Impl::getBaseLayers() const {
-    return baseLayers;
-}
-
-LayerPointer const & Map::Impl::getGridLayer() const {
-    return gridLayer;
-}
-
-
 QJsonObject Map::Impl::getJsonObject() const {
     auto json = Nameable::getJsonObject();
     return json;
 }
 
 
-Layers const & Map::Impl::getTileLayers() const {
-    return tileLayers;
-}
-
-LayerPointer const & Map::Impl::getTextLayer() const {
-    return textLayer;
+void Map::Impl::resize(QSize const & size) {
+    if ((size.width() < Map::getSizeMinimum().width()) || (size.height() < Map::getSizeMinimum().height())) {
+        return;
+    }
+    if ((size.width() > Map::getSizeMaximum().width()) || (size.height() > Map::getSizeMaximum().height())) {
+        return;
+    }
+    this->size = size;
 }

@@ -51,6 +51,11 @@ Region * Map::getRegion() {
 }
 
 
+QSize Map::getSize() const {
+    return impl->getSize();
+}
+
+
 LayerPointer const & Map::getTextLayer() const {
     return impl->getTextLayer();
 }
@@ -58,6 +63,15 @@ LayerPointer const & Map::getTextLayer() const {
 
 Layers const & Map::getTileLayers() const {
     return impl->getTileLayers();
+}
+
+
+void Map::resize(QSize const & size) {
+    auto oldSize = getSize();
+    impl->resize(size);
+    if (oldSize != getSize()) {
+        emit resized();
+    }
 }
 
 

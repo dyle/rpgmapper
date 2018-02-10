@@ -13,6 +13,7 @@
 
 #include <QJsonObject>
 #include <QObject>
+#include <QSize>
 #include <QSharedPointer>
 #include <QString>
 
@@ -51,17 +52,27 @@ public:
 
     Region * getRegion();
 
+    QSize getSize() const;
+
+    static constexpr QSize getSizeMaximum() { return QSize{1000, 1000}; }
+
+    static constexpr QSize getSizeMinimum() { return QSize{1, 1}; }
+
     Layers const & getTileLayers() const;
 
     LayerPointer const & getTextLayer() const;
 
     virtual bool isValid() const { return true; }
 
+    void resize(QSize const & size);
+
     void setName(QString const & name);
 
 signals:
 
     void changedName();
+
+    void resized();
 
 };
 

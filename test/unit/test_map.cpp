@@ -53,6 +53,66 @@ TEST(MapTest, MapGetAndSetName) {
 }
 
 
+TEST(MapTest, MapDefaultSize) {
+
+    Map map{"foo"};
+    auto size = map.getSize();
+
+    EXPECT_EQ(size.width(), 10);
+    EXPECT_EQ(size.height(), 10);
+}
+
+
+TEST(MapTest, MapSizeToMinium) {
+
+    Map map{"foo"};
+    map.resize(Map::getSizeMinimum());
+    auto size = map.getSize();
+
+    EXPECT_EQ(size.width(), Map::getSizeMinimum().width());
+    EXPECT_EQ(size.height(), Map::getSizeMinimum().height());
+}
+
+
+TEST(MapTest, MapSizeToMaximum) {
+
+    Map map{"foo"};
+    map.resize(Map::getSizeMaximum());
+    auto size = map.getSize();
+
+    EXPECT_EQ(size.width(), Map::getSizeMaximum().width());
+    EXPECT_EQ(size.height(), Map::getSizeMaximum().height());
+}
+
+
+TEST(MapTest, MapSizeBelowMinium) {
+
+    Map map{"foo"};
+    auto oldSize = map.getSize();
+    map.resize(QSize{0, 0});
+    auto size = map.getSize();
+
+    EXPECT_GE(size.width(), Map::getSizeMinimum().width());
+    EXPECT_GE(size.height(), Map::getSizeMinimum().height());
+    EXPECT_EQ(size.width(), oldSize.width());
+    EXPECT_EQ(size.height(), oldSize.height());
+}
+
+
+TEST(MapTest, MapSizeAboveMaximum) {
+
+    Map map{"foo"};
+    auto oldSize = map.getSize();
+    map.resize(QSize{1000000, 1000000});
+    auto size = map.getSize();
+
+    EXPECT_LE(size.width(), Map::getSizeMaximum().width());
+    EXPECT_LE(size.height(), Map::getSizeMaximum().height());
+    EXPECT_EQ(size.width(), oldSize.width());
+    EXPECT_EQ(size.height(), oldSize.height());
+}
+
+
 TEST(MapTest, GetBackgroundLayer) {
 
     Map map{"foo"};

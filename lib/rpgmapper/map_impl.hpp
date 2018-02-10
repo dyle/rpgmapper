@@ -9,6 +9,8 @@
 #define RPGMAPPER_MODEL_MAP_IMPL_HPP
 
 
+#include <QSize>
+
 #include <rpgmapper/map.hpp>
 #include "nameable.hpp"
 
@@ -31,6 +33,8 @@ class Map::Impl final : public Nameable {
     LayerPointer textLayer;
     Layers tileLayers;
 
+    QSize size;
+
 public:
 
     explicit Impl(Map * map, Region * region);
@@ -39,19 +43,23 @@ public:
 
     bool applyJsonObject(QJsonObject const & json) override;
 
-    LayerPointer const & getBackgroundLayer() const;
+    LayerPointer const & getBackgroundLayer() const { return backgroundLayer; }
 
-    Layers const & getBaseLayers() const;
+    Layers const & getBaseLayers() const { return baseLayers; }
 
-    LayerPointer const & getGridLayer() const;
+    LayerPointer const & getGridLayer() const { return gridLayer; }
 
     QJsonObject getJsonObject() const override ;
 
     Region * getRegion() { return region; }
 
-    Layers const & getTileLayers() const;
+    QSize getSize() const  { return size; }
 
-    LayerPointer const & getTextLayer() const;
+    Layers const & getTileLayers() const { return tileLayers; }
+
+    LayerPointer const & getTextLayer() const { return textLayer; }
+
+    void resize(QSize const & size);
 
 };
 

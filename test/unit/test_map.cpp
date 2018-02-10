@@ -62,6 +62,18 @@ TEST(MapTest, GetBackgroundLayer) {
 }
 
 
+TEST(MapTest, GetBaseLayers) {
+
+    Map map{"foo"};
+    Layers layers = map.getBaseLayers();
+
+    EXPECT_GT(layers.size(), 0);
+    for (auto const & layer : layers) {
+        EXPECT_TRUE(layer->isValid());
+    }
+}
+
+
 TEST(MapTest, GetGridLayer) {
 
     Map map{"foo"};
@@ -70,3 +82,23 @@ TEST(MapTest, GetGridLayer) {
     EXPECT_TRUE(layer->isValid());
 }
 
+
+TEST(MapTest, GetTileLayers) {
+
+    Map map{"foo"};
+    Layers layers = map.getTileLayers();
+
+    EXPECT_GT(layers.size(), 0);
+    for (auto const & layer : layers) {
+        EXPECT_TRUE(layer->isValid());
+    }
+}
+
+
+TEST(MapTest, GetTextLayer) {
+
+    Map map{"foo"};
+    LayerPointer layer = map.getTextLayer();
+
+    EXPECT_TRUE(layer->isValid());
+}

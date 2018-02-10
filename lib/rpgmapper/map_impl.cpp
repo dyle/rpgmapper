@@ -5,7 +5,10 @@
  */
 
 #include "layer/background_layer.hpp"
+#include "layer/base_layer.hpp"
 #include "layer/grid_layer.hpp"
+#include "layer/text_layer.hpp"
+#include "layer/tile_layer.hpp"
 #include "map_impl.hpp"
 
 using namespace rpgmapper::model;
@@ -16,7 +19,10 @@ Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region} {
         throw std::invalid_argument{"Map must not be nullptr."};
     }
     backgroundLayer = LayerPointer{new BackgroundLayer{map}};
+    baseLayers = Layers{LayerPointer{new BaseLayer{map}}};
     gridLayer = LayerPointer{new GridLayer{map}};
+    textLayer = LayerPointer{new TextLayer{map}};
+    tileLayers = Layers{LayerPointer{new TileLayer{map}}};
 }
 
 
@@ -30,6 +36,9 @@ LayerPointer const & Map::Impl::getBackgroundLayer() const {
     return backgroundLayer;
 }
 
+Layers const & Map::Impl::getBaseLayers() const {
+    return baseLayers;
+}
 
 LayerPointer const & Map::Impl::getGridLayer() const {
     return gridLayer;
@@ -39,4 +48,13 @@ LayerPointer const & Map::Impl::getGridLayer() const {
 QJsonObject Map::Impl::getJsonObject() const {
     auto json = Nameable::getJsonObject();
     return json;
+}
+
+
+Layers const & Map::Impl::getTileLayers() const {
+    return tileLayers;
+}
+
+LayerPointer const & Map::Impl::getTextLayer() const {
+    return textLayer;
 }

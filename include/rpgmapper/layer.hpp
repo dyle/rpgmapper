@@ -51,6 +51,8 @@ public:
 
 using LayerPointer = QSharedPointer<Layer>;
 
+using Layers = std::list<LayerPointer>;
+
 
 }
 }

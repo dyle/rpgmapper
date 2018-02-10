@@ -27,6 +27,9 @@ LayerPointer const & Map::getBackgroundLayer() const {
     return impl->getBackgroundLayer();
 }
 
+Layers const & Map::getBaseLayers() const {
+    return impl->getBaseLayers();
+}
 
 LayerPointer const & Map::getGridLayer() const {
     return impl->getGridLayer();
@@ -43,8 +46,18 @@ QString const & Map::getName() const {
 }
 
 
-Region* Map::getRegion() {
+Region * Map::getRegion() {
     return impl->getRegion();
+}
+
+
+LayerPointer const & Map::getTextLayer() const {
+    return impl->getTextLayer();
+}
+
+
+Layers const & Map::getTileLayers() const {
+    return impl->getTileLayers();
 }
 
 

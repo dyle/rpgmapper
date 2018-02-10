@@ -41,6 +41,8 @@ public:
 
     LayerPointer const & getBackgroundLayer() const;
 
+    Layers const & getBaseLayers() const;
+
     LayerPointer const & getGridLayer() const;
 
     QJsonObject getJsonObject() const;
@@ -48,6 +50,10 @@ public:
     QString const & getName() const;
 
     Region * getRegion();
+
+    Layers const & getTileLayers() const;
+
+    LayerPointer const & getTextLayer() const;
 
     virtual bool isValid() const { return true; }
 

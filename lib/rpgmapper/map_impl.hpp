@@ -24,8 +24,12 @@ class Map::Impl final : public Nameable {
     QString name;
     Map * map = nullptr;
     Region * region = nullptr;
+
     LayerPointer backgroundLayer;
+    Layers baseLayers;
     LayerPointer gridLayer;
+    LayerPointer textLayer;
+    Layers tileLayers;
 
 public:
 
@@ -37,11 +41,18 @@ public:
 
     LayerPointer const & getBackgroundLayer() const;
 
+    Layers const & getBaseLayers() const;
+
     LayerPointer const & getGridLayer() const;
 
     QJsonObject getJsonObject() const override ;
 
     Region * getRegion() { return region; }
+
+    Layers const & getTileLayers() const;
+
+    LayerPointer const & getTextLayer() const;
+
 };
 
 }

@@ -14,6 +14,9 @@ Region::Region(QString const & name, Atlas * atlas) : QObject{atlas} {
     impl->setName(name);
 }
 
+bool Region::addMap(MapPointer & map) {
+    return impl->addMap(map);
+}
 
 bool Region::applyJsonObject(QJsonObject const & json) {
     return impl->applyJsonObject(json);
@@ -28,10 +31,16 @@ Atlas * Region::getAtlas() {
 MapPointer Region::createMap(QString const & name) {
     auto map = impl->createMap(name);
     if (map->isValid()) {
-        emit mapCreated(name);
+        emit createdMap(name);
     }
     return map;
 }
+
+
+MapPointer Region::findMap(QString const & name) {
+    return impl->findMap(name);
+}
+
 
 QJsonObject Region::getJsonObject() const {
     return impl->getJsonObject();
@@ -54,7 +63,7 @@ QString const & Region::getName() const {
 
 void Region::removeMap(QString const & name) {
     if (impl->removeMap(name)) {
-        emit mapRemoved(name);
+        emit removedMap(name);
     }
 }
 

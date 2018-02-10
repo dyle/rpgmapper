@@ -56,6 +56,8 @@ public:
 
     Region * getRegion();
 
+    QString getRegionName() const;
+
     QSize getSize() const;
 
     static constexpr QSize getSizeMaximum() { return QSize{1000, 1000}; }

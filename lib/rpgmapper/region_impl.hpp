@@ -30,11 +30,15 @@ public:
 
     Impl(Impl const &) = delete;
 
+    bool addMap(MapPointer & map);
+
     bool applyJsonObject(QJsonObject const & json) override;
 
     void clear() override;
 
     MapPointer createMap(QString const & name);
+
+    MapPointer findMap(QString const & name);
 
     Atlas * getAtlas() { return atlas; }
 

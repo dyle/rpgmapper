@@ -53,6 +53,26 @@ TEST(RegionTest, RegionGetAndSetName) {
 }
 
 
+TEST(RegionTest, FindMap) {
+
+    Region region{"foo"};
+    region.createMap("bar");
+    auto map = region.findMap("bar");
+
+    EXPECT_TRUE(map->isValid());
+}
+
+
+TEST(RegionTest, FindInvalidMap) {
+
+    Region region{"foo"};
+    region.createMap("bar");
+    auto map = region.findMap("baz");
+
+    EXPECT_FALSE(map->isValid());
+}
+
+
 TEST(RegionTest, GetAllMapNames) {
 
     Region region("foo");

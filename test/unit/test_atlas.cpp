@@ -231,8 +231,9 @@ TEST(AtlasTest, MoveMapBetweenRegions) {
     auto map = regionFoo->createMap("baz");
 
     EXPECT_NE(regionFoo->getMapNames().find("baz"),  regionFoo->getMapNames().end());
+    EXPECT_TRUE(regionBar->getMapNames().find("baz") == regionBar->getMapNames().end());
 
-    atlas.moveMap(map->getName(), regionFoo->getName(), regionBar->getName());
+    atlas.moveMap(map->getName(), regionBar->getName());
 
     EXPECT_EQ(regionFoo->getMapNames().find("baz"),  regionFoo->getMapNames().end());
     EXPECT_NE(regionBar->getMapNames().find("baz"),  regionBar->getMapNames().end());

@@ -36,6 +36,26 @@ RegionPointer Atlas::createRegion(QString const & name) {
 }
 
 
+MapPointer Atlas::findMap(QString const & name) {
+    return impl->findMap(name);
+}
+
+
+MapPointer const Atlas::findMap(QString const & name) const {
+    return impl->findMap(name);
+}
+
+
+RegionPointer Atlas::findRegion(QString const & name) {
+    return impl->findRegion(name);
+}
+
+
+RegionPointer const Atlas::findRegion(QString const & name) const {
+    return impl->findRegion(name);
+}
+
+
 std::set<QString> Atlas::getAllMapNames() const {
     return impl->getAllMapNames();
 }
@@ -56,11 +76,6 @@ QString const & Atlas::getName() const {
 }
 
 
-RegionPointer const Atlas::findRegion(QString const &name) const {
-    return impl->findRegion(name);
-}
-
-
 Regions const & Atlas::getRegions() const {
     return impl->getRegions();
 }
@@ -71,11 +86,11 @@ bool Atlas::hasChanged() const {
 }
 
 
-bool Atlas::moveMap(QString const & map, QString const & regionFrom, QString const & regionTo) {
+bool Atlas::moveMap(MapPointer map, RegionPointer regionTo) {
 
     bool hasAlreadyChanged = impl->hasChanged();
-    if (impl->moveMap(map, regionFrom, regionTo)) {
-        emit movedMap(map, regionFrom, regionTo);
+    auto regionFrom = findRegion(map->getRegionName());
+    if (impl->moveMap(map, regionTo)) {
         if (!hasAlreadyChanged) {
             emit changed();
         }

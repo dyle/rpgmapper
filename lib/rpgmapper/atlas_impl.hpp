@@ -37,6 +37,10 @@ public:
 
     RegionPointer createRegion(QString const & name);
 
+    MapPointer findMap(QString const & name);
+
+    MapPointer const findMap(QString const & name) const;
+
     RegionPointer findRegion(QString const & name);
 
     RegionPointer const findRegion(QString const & name) const;
@@ -53,7 +57,7 @@ public:
 
     void init();
 
-    bool moveMap(QString const & map, QString const & regionFrom, QString const & regionTo);
+    bool moveMap(MapPointer map, RegionPointer regionTo);
 
     bool removeRegion(QString const & name);
 
@@ -65,9 +69,6 @@ private:
 
     bool applyJsonRegionsArray(QJsonArray const & jsonRegions);
 
-    MapPointer findMap(QString const & name);
-
-    bool moveMap(MapPointer map, RegionPointer regionFrom, RegionPointer regionTo);
 };
 
 

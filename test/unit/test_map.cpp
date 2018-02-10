@@ -8,6 +8,7 @@
 #include <gtest/gtest.h>
 
 #include <rpgmapper/map.hpp>
+#include <rpgmapper/region.hpp>
 
 using namespace rpgmapper::model;
 
@@ -50,6 +51,28 @@ TEST(MapTest, MapGetAndSetName) {
 
     map.setName("bar");
     EXPECT_EQ(map.getName().toStdString(), "bar");
+}
+
+
+TEST(MapTest, GetRegionNameOfMap) {
+
+    Region region{"foo"};
+    region.createMap("bar");
+    auto map = region.findMap("bar");
+
+    ASSERT_TRUE(map->isValid());
+
+    auto regionName = map->getRegionName();
+    EXPECT_EQ(regionName.toStdString(), "foo");
+}
+
+
+TEST(MapTest, GetNameOfMapWithInavlidRegion) {
+
+    Map map{"foo"};
+    auto regionName = map.getRegionName();
+
+    EXPECT_EQ(regionName, QString::null);
 }
 
 

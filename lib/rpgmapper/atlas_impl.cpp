@@ -65,9 +65,18 @@ RegionPointer Atlas::Impl::createRegion(QString const & name) {
 }
 
 
-MapPointer Atlas::Impl::findMap(QString const & ) {
+MapPointer Atlas::Impl::findMap(QString const & name) {
 
-    return MapPointer{new InvalidMap};
+    MapPointer map = MapPointer{new InvalidMap};
+
+    for (auto & pair : regions) {
+        map = pair.second->findMap(name);
+        if (map->isValid()) {
+            break;
+        }
+    }
+
+    return map;
 }
 
 
@@ -129,27 +138,16 @@ void Atlas::Impl::init() {
 }
 
 
-bool Atlas::Impl::moveMap(QString const & map, QString const & regionFrom, QString const & regionTo) {
-    return moveMap(findMap(map), findRegion(regionFrom), findRegion(regionTo));
-}
-
-
-bool Atlas::Impl::moveMap(MapPointer map, RegionPointer regionFrom, RegionPointer regionTo) {
+bool Atlas::Impl::moveMap(MapPointer map, RegionPointer regionTo) {
 
     if (!map->isValid()) {
-        return false;
-    }
-    if (!regionFrom->isValid()) {
         return false;
     }
     if (!regionTo->isValid()) {
         return false;
     }
-    if (regionFrom->getName() == regionTo->getName()) {
-        return false;
-    }
 
-    return true;
+    return regionTo->addMap(map);
 }
 
 

@@ -27,12 +27,19 @@ BackgroundLayerPointer const Map::getBackgroundLayer() const {
     return impl->getBackgroundLayer();
 }
 
+
 TileLayers const & Map::getBaseLayers() const {
     return impl->getBaseLayers();
 }
 
+
 GridLayerPointer const Map::getGridLayer() const {
     return impl->getGridLayer();
+}
+
+
+QString Map::getRegionName() const {
+    return impl->getRegionName();
 }
 
 

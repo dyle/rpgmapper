@@ -38,9 +38,13 @@ public:
 
     explicit Region(QString const & name, Atlas * atlas = nullptr);
 
+    bool addMap(MapPointer & map);
+
     bool applyJsonObject(QJsonObject const & json);
 
     MapPointer createMap(QString const & name);
+
+    MapPointer findMap(QString const & name);
 
     Atlas * getAtlas();
 
@@ -60,11 +64,13 @@ public:
 
 signals:
 
+    void addedMap(QString name);
+
     void changedName();
 
-    void mapCreated(QString name);
+    void createdMap(QString name);
 
-    void mapRemoved(QString name);
+    void removedMap(QString name);
 
 };
 

@@ -19,6 +19,23 @@ Region::Impl::Impl(Atlas * atlas, Region * region) : atlas{atlas}, region{region
 }
 
 
+bool Region::Impl::addMap(MapPointer & map) {
+
+    if (!map->isValid()) {
+        return false;
+    }
+    auto regionFrom = map->getRegion();
+    if (regionFrom == region) {
+        return false;
+    }
+    if (regionFrom != nullptr) {
+        regionFrom->removeMap(map->getName());
+    }
+    maps[map->getName()] = map;
+    return true;
+}
+
+
 bool Region::Impl::applyJsonObject(QJsonObject const & json) {
 
     if (!Nameable::applyJsonObject(json)) {
@@ -63,6 +80,16 @@ MapPointer Region::Impl::createMap(QString const & name) {
         return MapPointer{new InvalidMap};
     }
     return maps.emplace(std::make_pair(name, MapPointer{new Map{name, region}, &Map::deleteLater})).first->second;
+}
+
+
+MapPointer Region::Impl::findMap(QString const & name) {
+    MapPointer map{new InvalidMap};
+    auto iter = maps.find(name);
+    if (iter != maps.end()) {
+        map = (*iter).second;
+    }
+    return map;
 }
 
 

@@ -12,6 +12,7 @@
 #include <QSize>
 
 #include <rpgmapper/map.hpp>
+#include <rpgmapper/region.hpp>
 #include "nameable.hpp"
 
 using namespace rpgmapper::model;
@@ -52,6 +53,8 @@ public:
     QJsonObject getJsonObject() const override ;
 
     Region * getRegion() { return region; }
+
+    QString getRegionName() const { return region != nullptr ? region->getName() : QString::null; }
 
     QSize getSize() const  { return size; }
 

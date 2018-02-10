@@ -16,10 +16,9 @@ using namespace rpgmapper::model;
 TEST(LayerTest, BackgroundLayerHasColor) {
 
     Map map{"foo"};
-    auto layer = map.getBackgroundLayer();
+    auto const & layer = map.getBackgroundLayer();
 
-    auto iter = layer->attributes.find("color");
+    auto pair = layer->getAttributes().find("color");
+    EXPECT_NE(pair, layer->getAttributes().end());
 
-
-    ASSERT_TRUE(map.isValid());
 }

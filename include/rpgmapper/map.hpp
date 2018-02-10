@@ -19,7 +19,6 @@
 
 #include <rpgmapper/layer.hpp>
 #include <rpgmapper/layer/background_layer.hpp>
-#include <rpgmapper/layer/base_layer.hpp>
 #include <rpgmapper/layer/grid_layer.hpp>
 #include <rpgmapper/layer/tile_layer.hpp>
 #include <rpgmapper/layer/text_layer.hpp>
@@ -47,7 +46,7 @@ public:
 
     BackgroundLayerPointer const & getBackgroundLayer() const;
 
-    BaseLayers const & getBaseLayers() const;
+    TileLayers const & getBaseLayers() const;
 
     GridLayerPointer const & getGridLayer() const;
 

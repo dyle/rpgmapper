@@ -14,6 +14,15 @@ Layer::Layer(Map * map, QObject * parent) : QObject{parent} {
 }
 
 
+Layer::Attributes & Layer::getAttributes() {
+    return impl->getAttributes();
+}
+
+
+Layer::Attributes const & Layer::getAttributes() const {
+    return impl->getAttributes();
+}
+
 
 
 

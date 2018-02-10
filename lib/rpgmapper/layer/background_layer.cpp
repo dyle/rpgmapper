@@ -5,13 +5,26 @@
  */
 
 
+#include <QColor>
+
 #include <rpgmapper/layer/background_layer.hpp>
 
 
+static char const * BACKGROUND_COLOR_DEFAULT = "#000060";
+
+
 BackgroundLayer::BackgroundLayer(Map * map, QObject * parent) : Layer{map, parent} {
+    getAttributes()["color"] = BACKGROUND_COLOR_DEFAULT;
 }
 
 
+QColor BackgroundLayer::getColor() const {
+    auto pair = getAttributes().find("color");
+    if (pair == getAttributes().end()) {
+        return QColor{QString{BACKGROUND_COLOR_DEFAULT}};
+    }
+    return QColor{pair->second};
+}
 
 
 

@@ -22,12 +22,18 @@ namespace model {
 class Layer::Impl final {
 
     Map * map = nullptr;
+    Attributes attributes;
 
 public:
 
     explicit Impl(Map * map);
 
     Impl(Impl const & ) = delete;
+
+    Attributes & getAttributes() { return attributes; }
+
+    Attributes const & getAttributes() const { return attributes; }
+
 };
 
 }

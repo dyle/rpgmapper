@@ -14,7 +14,6 @@ set(RPGMAPPER_LIB_MOC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/background_layer.hpp
-    ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/base_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/grid_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/text_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/tile_layer.hpp
@@ -37,7 +36,6 @@ set(RPGMAPPER_LIB_SRC
     region_impl.cpp
 
     layer/background_layer.cpp
-    layer/base_layer.cpp
     layer/grid_layer.cpp
     layer/text_layer.cpp
     layer/tile_layer.cpp

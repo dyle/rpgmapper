@@ -27,7 +27,7 @@ BackgroundLayerPointer const & Map::getBackgroundLayer() const {
     return impl->getBackgroundLayer();
 }
 
-BaseLayers const & Map::getBaseLayers() const {
+TileLayers const & Map::getBaseLayers() const {
     return impl->getBaseLayers();
 }
 

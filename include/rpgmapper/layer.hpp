@@ -31,7 +31,13 @@ class Layer : public QObject {
 
 public:
 
+    using Attributes = std::map<QString, QString>;
+
     explicit Layer(Map * map, QObject * parent = nullptr);
+
+    Attributes & getAttributes();
+
+    Attributes const & getAttributes() const;
 
     virtual bool isValid() const { return true; }
 

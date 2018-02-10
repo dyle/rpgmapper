@@ -5,7 +5,6 @@
  */
 
 #include "rpgmapper/layer/background_layer.hpp"
-#include "rpgmapper/layer/base_layer.hpp"
 #include "rpgmapper/layer/grid_layer.hpp"
 #include "rpgmapper/layer/text_layer.hpp"
 #include "rpgmapper/layer/tile_layer.hpp"
@@ -21,7 +20,7 @@ Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region}, size{MAP
         throw std::invalid_argument{"Map must not be nullptr."};
     }
     backgroundLayer = BackgroundLayerPointer{new BackgroundLayer{map}};
-    baseLayers = BaseLayers{BaseLayerPointer{new BaseLayer{map}}};
+    baseLayers = TileLayers{TileLayerPointer{new TileLayer{map}}};
     gridLayer = GridLayerPointer{new GridLayer{map}};
     textLayer = TextLayerPointer{new TextLayer{map}};
     tileLayers = TileLayers{TileLayerPointer{new TileLayer{map}}};

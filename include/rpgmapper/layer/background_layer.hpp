@@ -25,6 +25,8 @@ public:
 
     BackgroundLayer(Map * map, QObject * parent = nullptr);
 
+    QColor getColor() const;
+
 };
 
 

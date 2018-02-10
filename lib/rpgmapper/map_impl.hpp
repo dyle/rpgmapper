@@ -28,7 +28,7 @@ class Map::Impl final : public Nameable {
     Region * region = nullptr;
 
     BackgroundLayerPointer backgroundLayer;
-    BaseLayers baseLayers;
+    TileLayers baseLayers;
     GridLayerPointer gridLayer;
     TextLayerPointer textLayer;
     TileLayers tileLayers;
@@ -45,7 +45,7 @@ public:
 
     BackgroundLayerPointer const & getBackgroundLayer() const { return backgroundLayer; }
 
-    BaseLayers const & getBaseLayers() const { return baseLayers; }
+    TileLayers const & getBaseLayers() const { return baseLayers; }
 
     GridLayerPointer const & getGridLayer() const { return gridLayer; }
 

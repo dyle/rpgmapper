@@ -61,3 +61,12 @@ TEST(MapTest, GetBackgroundLayer) {
     EXPECT_TRUE(layer->isValid());
 }
 
+
+TEST(MapTest, GetGridLayer) {
+
+    Map map{"foo"};
+    LayerPointer layer = map.getGridLayer();
+
+    EXPECT_TRUE(layer->isValid());
+}
+

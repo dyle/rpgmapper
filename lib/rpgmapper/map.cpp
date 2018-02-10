@@ -28,6 +28,11 @@ LayerPointer const & Map::getBackgroundLayer() const {
 }
 
 
+LayerPointer const & Map::getGridLayer() const {
+    return impl->getGridLayer();
+}
+
+
 QJsonObject Map::getJsonObject() const {
     return impl->getJsonObject();
 }

@@ -41,6 +41,8 @@ public:
 
     LayerPointer const & getBackgroundLayer() const;
 
+    LayerPointer const & getGridLayer() const;
+
     QJsonObject getJsonObject() const;
 
     QString const & getName() const;

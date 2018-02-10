@@ -25,6 +25,7 @@ class Map::Impl final : public Nameable {
     Map * map = nullptr;
     Region * region = nullptr;
     LayerPointer backgroundLayer;
+    LayerPointer gridLayer;
 
 public:
 
@@ -35,6 +36,8 @@ public:
     bool applyJsonObject(QJsonObject const & json) override;
 
     LayerPointer const & getBackgroundLayer() const;
+
+    LayerPointer const & getGridLayer() const;
 
     QJsonObject getJsonObject() const override ;
 

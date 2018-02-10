@@ -5,9 +5,20 @@
  */
 
 
-// ------------------------------------------------------------
-// defs
+#include "grid_layer.hpp"
 
+
+GridLayer::GridLayer(Map * map, QObject * parent) : Layer{map, parent} {
+}
+
+
+
+
+
+
+
+
+#if 0
 
 #define DEFAULT_GRID_COLOR        "#f0f0ff"
 #define WARNING_GRID_COLOR        "#ff0088"
@@ -203,3 +214,6 @@ QFont GridLayer::gridFont() const {
 
     return res;
 }
+
+
+#endif

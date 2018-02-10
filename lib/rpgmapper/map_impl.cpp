@@ -5,6 +5,7 @@
  */
 
 #include "layer/background_layer.hpp"
+#include "layer/grid_layer.hpp"
 #include "map_impl.hpp"
 
 using namespace rpgmapper::model;
@@ -15,6 +16,7 @@ Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region} {
         throw std::invalid_argument{"Map must not be nullptr."};
     }
     backgroundLayer = LayerPointer{new BackgroundLayer{map}};
+    gridLayer = LayerPointer{new GridLayer{map}};
 }
 
 
@@ -26,6 +28,11 @@ bool Map::Impl::applyJsonObject(QJsonObject const & json) {
 
 LayerPointer const & Map::Impl::getBackgroundLayer() const {
     return backgroundLayer;
+}
+
+
+LayerPointer const & Map::Impl::getGridLayer() const {
+    return gridLayer;
 }
 
 

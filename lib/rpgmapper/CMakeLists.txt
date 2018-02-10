@@ -15,7 +15,7 @@ set(RPGMAPPER_LIB_MOC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
 
     layer/background_layer.hpp
-    #layer/gridlayer.hpp
+    layer/grid_layer.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
 
@@ -35,7 +35,7 @@ set(RPGMAPPER_LIB_SRC
     region_impl.cpp
 
     layer/background_layer.cpp
-    #layer/gridlayer.cpp
+    layer/grid_layer.cpp
 
     numeralconverter/alphabetic.cpp
     numeralconverter/alpha_big.cpp

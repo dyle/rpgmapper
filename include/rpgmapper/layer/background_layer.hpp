@@ -5,8 +5,8 @@
  */
 
 
-#ifndef RPGMAPPER_MODEL_LAYER_TEXT_LAYER_HPP
-#define RPGMAPPER_MODEL_LAYER_TEXT_LAYER_HPP
+#ifndef RPGMAPPER_MODEL_LAYER_BACKGROUND_LAYER_HPP
+#define RPGMAPPER_MODEL_LAYER_BACKGROUND_LAYER_HPP
 
 
 #include <rpgmapper/layer.hpp>
@@ -17,15 +17,18 @@ using namespace rpgmapper::model;
 namespace rpgmapper {
 namespace model {
 
-class TextLayer : public Layer {
+class BackgroundLayer : public Layer {
 
-Q_OBJECT
+    Q_OBJECT
 
 public:
 
-    TextLayer(Map * map, QObject * parent = nullptr);
+    BackgroundLayer(Map * map, QObject * parent = nullptr);
 
 };
+
+
+using BackgroundLayerPointer = QSharedPointer<BackgroundLayer>;
 
 
 }

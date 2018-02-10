@@ -28,6 +28,11 @@ public:
 };
 
 
+using BaseLayerPointer = QSharedPointer<BaseLayer>;
+
+using BaseLayers = std::list<BaseLayerPointer>;
+
+
 }
 }
 

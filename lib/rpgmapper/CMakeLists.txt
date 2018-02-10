@@ -13,12 +13,11 @@ set(RPGMAPPER_LIB_MOC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
-
-    layer/background_layer.hpp
-    layer/base_layer.hpp
-    layer/grid_layer.hpp
-    layer/text_layer.hpp
-    layer/tile_layer.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/background_layer.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/base_layer.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/grid_layer.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/text_layer.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/tile_layer.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
 

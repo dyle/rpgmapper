@@ -116,7 +116,7 @@ TEST(MapTest, MapSizeAboveMaximum) {
 TEST(MapTest, GetBackgroundLayer) {
 
     Map map{"foo"};
-    LayerPointer layer = map.getBackgroundLayer();
+    auto layer = map.getBackgroundLayer();
 
     EXPECT_TRUE(layer->isValid());
 }
@@ -125,7 +125,7 @@ TEST(MapTest, GetBackgroundLayer) {
 TEST(MapTest, GetBaseLayers) {
 
     Map map{"foo"};
-    Layers layers = map.getBaseLayers();
+    auto layers = map.getBaseLayers();
 
     EXPECT_GT(layers.size(), 0);
     for (auto const & layer : layers) {
@@ -137,7 +137,7 @@ TEST(MapTest, GetBaseLayers) {
 TEST(MapTest, GetGridLayer) {
 
     Map map{"foo"};
-    LayerPointer layer = map.getGridLayer();
+    auto layer = map.getGridLayer();
 
     EXPECT_TRUE(layer->isValid());
 }
@@ -146,7 +146,7 @@ TEST(MapTest, GetGridLayer) {
 TEST(MapTest, GetTileLayers) {
 
     Map map{"foo"};
-    Layers layers = map.getTileLayers();
+    auto layers = map.getTileLayers();
 
     EXPECT_GT(layers.size(), 0);
     for (auto const & layer : layers) {
@@ -158,7 +158,7 @@ TEST(MapTest, GetTileLayers) {
 TEST(MapTest, GetTextLayer) {
 
     Map map{"foo"};
-    LayerPointer layer = map.getTextLayer();
+    auto layer = map.getTextLayer();
 
     EXPECT_TRUE(layer->isValid());
 }

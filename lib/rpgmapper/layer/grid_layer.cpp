@@ -5,7 +5,7 @@
  */
 
 
-#include "grid_layer.hpp"
+#include <rpgmapper/layer/grid_layer.hpp>
 
 
 GridLayer::GridLayer(Map * map, QObject * parent) : Layer{map, parent} {

@@ -4,11 +4,11 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#include "layer/background_layer.hpp"
-#include "layer/base_layer.hpp"
-#include "layer/grid_layer.hpp"
-#include "layer/text_layer.hpp"
-#include "layer/tile_layer.hpp"
+#include "rpgmapper/layer/background_layer.hpp"
+#include "rpgmapper/layer/base_layer.hpp"
+#include "rpgmapper/layer/grid_layer.hpp"
+#include "rpgmapper/layer/text_layer.hpp"
+#include "rpgmapper/layer/tile_layer.hpp"
 #include "map_impl.hpp"
 
 using namespace rpgmapper::model;
@@ -20,11 +20,11 @@ Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region}, size{MAP
     if (map == nullptr) {
         throw std::invalid_argument{"Map must not be nullptr."};
     }
-    backgroundLayer = LayerPointer{new BackgroundLayer{map}};
-    baseLayers = Layers{LayerPointer{new BaseLayer{map}}};
-    gridLayer = LayerPointer{new GridLayer{map}};
-    textLayer = LayerPointer{new TextLayer{map}};
-    tileLayers = Layers{LayerPointer{new TileLayer{map}}};
+    backgroundLayer = BackgroundLayerPointer{new BackgroundLayer{map}};
+    baseLayers = BaseLayers{BaseLayerPointer{new BaseLayer{map}}};
+    gridLayer = GridLayerPointer{new GridLayer{map}};
+    textLayer = TextLayerPointer{new TextLayer{map}};
+    tileLayers = TileLayers{TileLayerPointer{new TileLayer{map}}};
 }
 
 

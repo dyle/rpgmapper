@@ -5,7 +5,7 @@
  */
 
 
-#include "background_layer.hpp"
+#include <rpgmapper/layer/background_layer.hpp>
 
 
 BackgroundLayer::BackgroundLayer(Map * map, QObject * parent) : Layer{map, parent} {

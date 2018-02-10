@@ -5,8 +5,8 @@
  */
 
 
-#ifndef RPGMAPPER_MODEL_LAYER_TILE_LAYER_HPP
-#define RPGMAPPER_MODEL_LAYER_TILE_LAYER_HPP
+#ifndef RPGMAPPER_MODEL_LAYER_GRID_LAYER_HPP
+#define RPGMAPPER_MODEL_LAYER_GRID_LAYER_HPP
 
 
 #include <rpgmapper/layer.hpp>
@@ -17,15 +17,18 @@ using namespace rpgmapper::model;
 namespace rpgmapper {
 namespace model {
 
-class TileLayer : public Layer {
+class GridLayer : public Layer {
 
-Q_OBJECT
+    Q_OBJECT
 
 public:
 
-    TileLayer(Map * map, QObject * parent = nullptr);
+    GridLayer(Map * map, QObject * parent = nullptr);
 
 };
+
+
+using GridLayerPointer = QSharedPointer<GridLayer>;
 
 
 }

@@ -5,7 +5,7 @@
  */
 
 
-#include "base_layer.hpp"
+#include <rpgmapper/layer/base_layer.hpp>
 
 
 BaseLayer::BaseLayer(Map * map, QObject * parent) : Layer{map, parent} {

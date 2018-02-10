@@ -18,6 +18,11 @@
 #include <QString>
 
 #include <rpgmapper/layer.hpp>
+#include <rpgmapper/layer/background_layer.hpp>
+#include <rpgmapper/layer/base_layer.hpp>
+#include <rpgmapper/layer/grid_layer.hpp>
+#include <rpgmapper/layer/tile_layer.hpp>
+#include <rpgmapper/layer/text_layer.hpp>
 
 
 namespace rpgmapper {
@@ -40,11 +45,11 @@ public:
 
     bool applyJsonObject(QJsonObject const & json);
 
-    LayerPointer const & getBackgroundLayer() const;
+    BackgroundLayerPointer const & getBackgroundLayer() const;
 
-    Layers const & getBaseLayers() const;
+    BaseLayers const & getBaseLayers() const;
 
-    LayerPointer const & getGridLayer() const;
+    GridLayerPointer const & getGridLayer() const;
 
     QJsonObject getJsonObject() const;
 
@@ -58,9 +63,9 @@ public:
 
     static constexpr QSize getSizeMinimum() { return QSize{1, 1}; }
 
-    Layers const & getTileLayers() const;
+    TileLayers const & getTileLayers() const;
 
-    LayerPointer const & getTextLayer() const;
+    TextLayerPointer const & getTextLayer() const;
 
     virtual bool isValid() const { return true; }
 

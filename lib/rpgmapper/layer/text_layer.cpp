@@ -5,7 +5,7 @@
  */
 
 
-#include "text_layer.hpp"
+#include <rpgmapper/layer/text_layer.hpp>
 
 
 TextLayer::TextLayer(Map * map, QObject * parent) : Layer{map, parent} {

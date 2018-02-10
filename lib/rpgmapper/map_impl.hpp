@@ -27,11 +27,11 @@ class Map::Impl final : public Nameable {
     Map * map = nullptr;
     Region * region = nullptr;
 
-    LayerPointer backgroundLayer;
-    Layers baseLayers;
-    LayerPointer gridLayer;
-    LayerPointer textLayer;
-    Layers tileLayers;
+    BackgroundLayerPointer backgroundLayer;
+    BaseLayers baseLayers;
+    GridLayerPointer gridLayer;
+    TextLayerPointer textLayer;
+    TileLayers tileLayers;
 
     QSize size;
 
@@ -43,11 +43,11 @@ public:
 
     bool applyJsonObject(QJsonObject const & json) override;
 
-    LayerPointer const & getBackgroundLayer() const { return backgroundLayer; }
+    BackgroundLayerPointer const & getBackgroundLayer() const { return backgroundLayer; }
 
-    Layers const & getBaseLayers() const { return baseLayers; }
+    BaseLayers const & getBaseLayers() const { return baseLayers; }
 
-    LayerPointer const & getGridLayer() const { return gridLayer; }
+    GridLayerPointer const & getGridLayer() const { return gridLayer; }
 
     QJsonObject getJsonObject() const override ;
 
@@ -55,9 +55,9 @@ public:
 
     QSize getSize() const  { return size; }
 
-    Layers const & getTileLayers() const { return tileLayers; }
+    TileLayers const & getTileLayers() const { return tileLayers; }
 
-    LayerPointer const & getTextLayer() const { return textLayer; }
+    TextLayerPointer const & getTextLayer() const { return textLayer; }
 
     void resize(QSize const & size);
 

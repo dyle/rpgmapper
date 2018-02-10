@@ -22,6 +22,7 @@
 namespace rpgmapper {
 namespace model {
 
+
 class Atlas;
 
 class Region : public QObject {
@@ -76,6 +77,7 @@ public:
 using RegionPointer = QSharedPointer<Region>;
 
 using Regions = std::map<QString, RegionPointer>;
+
 
 }
 }

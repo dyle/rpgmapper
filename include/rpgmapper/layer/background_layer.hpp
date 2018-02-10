@@ -23,12 +23,11 @@ class BackgroundLayer : public Layer {
 
 public:
 
-    BackgroundLayer(Map * map, QObject * parent = nullptr);
+    explicit BackgroundLayer(Map * map, QObject * parent = nullptr);
 
     QColor getColor() const;
 
 };
-
 
 using BackgroundLayerPointer = QSharedPointer<BackgroundLayer>;
 

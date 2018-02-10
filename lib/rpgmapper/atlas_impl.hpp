@@ -14,8 +14,10 @@
 
 using namespace rpgmapper::model;
 
+
 namespace rpgmapper {
 namespace model {
+
 
 class Atlas::Impl final : public Nameable {
 
@@ -35,19 +37,23 @@ public:
 
     RegionPointer createRegion(QString const & name);
 
+    RegionPointer findRegion(QString const & name);
+
+    RegionPointer const findRegion(QString const & name) const;
+
     std::set<QString> getAllMapNames() const;
 
     std::set<QString> getAllRegionNames() const;
 
     QJsonObject getJsonObject() const override;
 
-    RegionPointer const & getRegion(QString const & name) const;
-
     Regions const & getRegions() const { return regions; }
 
     bool hasChanged() const { return changed; }
 
     void init();
+
+    bool moveMap(QString const & map, QString const & regionFrom, QString const & regionTo);
 
     bool removeRegion(QString const & name);
 
@@ -59,7 +65,11 @@ private:
 
     bool applyJsonRegionsArray(QJsonArray const & jsonRegions);
 
+    MapPointer findMap(QString const & name);
+
+    bool moveMap(MapPointer map, RegionPointer regionFrom, RegionPointer regionTo);
 };
+
 
 }
 }

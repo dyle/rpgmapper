@@ -56,8 +56,8 @@ QString const & Atlas::getName() const {
 }
 
 
-RegionPointer const& Atlas::getRegion(QString const & name) const {
-    return impl->getRegion(name);
+RegionPointer const Atlas::findRegion(QString const &name) const {
+    return impl->findRegion(name);
 }
 
 
@@ -68,6 +68,20 @@ Regions const & Atlas::getRegions() const {
 
 bool Atlas::hasChanged() const {
     return impl->hasChanged();
+}
+
+
+bool Atlas::moveMap(QString const & map, QString const & regionFrom, QString const & regionTo) {
+
+    bool hasAlreadyChanged = impl->hasChanged();
+    if (impl->moveMap(map, regionFrom, regionTo)) {
+        emit movedMap(map, regionFrom, regionTo);
+        if (!hasAlreadyChanged) {
+            emit changed();
+        }
+        return true;
+    }
+    return false;
 }
 
 

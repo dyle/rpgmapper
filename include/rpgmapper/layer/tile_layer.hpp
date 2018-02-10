@@ -23,10 +23,9 @@ Q_OBJECT
 
 public:
 
-    TileLayer(Map * map, QObject * parent = nullptr);
+    explicit TileLayer(Map * map, QObject * parent = nullptr);
 
 };
-
 
 using TileLayerPointer = QSharedPointer<TileLayer>;
 

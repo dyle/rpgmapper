@@ -41,18 +41,15 @@ public:
     friend WriterResult & operator<<(WriterResult & lvalue, WriterResult const & rvalue);
 };
 
-
 inline WriterResult & operator<<(WriterResult & lvalue, bool rvalue) {
     lvalue.success = rvalue;
     return lvalue;
 }
 
-
 inline WriterResult & operator<<(WriterResult & lvalue, QString const & rvalue) {
     lvalue.log << rvalue;
     return lvalue;
 }
-
 
 inline WriterResult & operator<<(WriterResult & lvalue, WriterResult const & rvalue) {
     lvalue.success = rvalue.success;

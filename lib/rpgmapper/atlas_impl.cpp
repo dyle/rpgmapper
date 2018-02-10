@@ -65,6 +65,30 @@ RegionPointer Atlas::Impl::createRegion(QString const & name) {
 }
 
 
+MapPointer Atlas::Impl::findMap(QString const & ) {
+
+    return MapPointer{new InvalidMap};
+}
+
+
+RegionPointer Atlas::Impl::findRegion(QString const &name) {
+    auto iter = regions.find(name);
+    if (iter == regions.end()) {
+        return RegionPointer{new InvalidRegion};
+    }
+    return (*iter).second;
+}
+
+
+RegionPointer const Atlas::Impl::findRegion(QString const &name) const {
+    auto iter = regions.find(name);
+    if (iter == regions.end()) {
+        return RegionPointer{new InvalidRegion};
+    }
+    return (*iter).second;
+}
+
+
 std::set<QString> Atlas::Impl::getAllMapNames() const {
 
     std::set<QString> allMapNames;
@@ -98,18 +122,34 @@ QJsonObject Atlas::Impl::getJsonObject() const {
     return json;
 }
 
-RegionPointer const & Atlas::Impl::getRegion(QString const & name) const {
-    auto iter = regions.find(name);
-    if (iter == regions.end()) {
-        return std::move(RegionPointer{new InvalidRegion});
-    }
-    return (*iter).second;
-}
-
 void Atlas::Impl::init() {
     auto region = createRegion(QObject::tr("New Region 1"));
     region->createMap(QObject::tr("New Map 1"));
     changed = false;
+}
+
+
+bool Atlas::Impl::moveMap(QString const & map, QString const & regionFrom, QString const & regionTo) {
+    return moveMap(findMap(map), findRegion(regionFrom), findRegion(regionTo));
+}
+
+
+bool Atlas::Impl::moveMap(MapPointer map, RegionPointer regionFrom, RegionPointer regionTo) {
+
+    if (!map->isValid()) {
+        return false;
+    }
+    if (!regionFrom->isValid()) {
+        return false;
+    }
+    if (!regionTo->isValid()) {
+        return false;
+    }
+    if (regionFrom->getName() == regionTo->getName()) {
+        return false;
+    }
+
+    return true;
 }
 
 

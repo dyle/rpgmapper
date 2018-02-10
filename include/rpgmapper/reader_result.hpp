@@ -30,7 +30,6 @@ public:
     friend ReaderResult & operator<<(ReaderResult & lvalue, ReaderResult const & rvalue);
 };
 
-
 inline ReaderResult & operator<<(ReaderResult & lvalue, ReaderResult const & rvalue) {
     static_cast<WriterResult &>(lvalue) << static_cast<WriterResult const &>(rvalue);
     lvalue.atlas = rvalue.atlas;

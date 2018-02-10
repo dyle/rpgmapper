@@ -4,6 +4,7 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+
 #include <tuple>
 
 #include <gtest/gtest.h>
@@ -155,8 +156,8 @@ TEST(AtlasTest, AllMapNamesOfAllRegions) {
     std::set<QString> mapNamesExpectedForRegionFoo{"map 1", "map 2", "map 3"};
     std::set<QString> mapNamesExpectedForRegionBar{"map 4", "map 5"};
 
-    EXPECT_TRUE(atlas.getRegion("foo")->getMapNames() == mapNamesExpectedForRegionFoo);
-    EXPECT_TRUE(atlas.getRegion("bar")->getMapNames() == mapNamesExpectedForRegionBar);
+    EXPECT_TRUE(atlas.findRegion("foo")->getMapNames() == mapNamesExpectedForRegionFoo);
+    EXPECT_TRUE(atlas.findRegion("bar")->getMapNames() == mapNamesExpectedForRegionBar);
     EXPECT_TRUE(atlas.getAllMapNames() == mapNamesExpected);
 }
 
@@ -221,4 +222,19 @@ TEST(AtlasTest, CreateAndRemoveIdenticalRegions) {
                   });
 }
 
+
+TEST(AtlasTest, MoveMapBetweenRegions) {
+
+    Atlas atlas;
+    auto regionFoo = atlas.createRegion("foo");
+    auto regionBar = atlas.createRegion("bar");
+    auto map = regionFoo->createMap("baz");
+
+    EXPECT_NE(regionFoo->getMapNames().find("baz"),  regionFoo->getMapNames().end());
+
+    atlas.moveMap(map->getName(), regionFoo->getName(), regionBar->getName());
+
+    EXPECT_EQ(regionFoo->getMapNames().find("baz"),  regionFoo->getMapNames().end());
+    EXPECT_NE(regionBar->getMapNames().find("baz"),  regionBar->getMapNames().end());
+}
 

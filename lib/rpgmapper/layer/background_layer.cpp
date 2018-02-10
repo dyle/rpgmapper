@@ -32,54 +32,6 @@ QColor BackgroundLayer::getColor() const {
 
 #if 0
 
-#define DEFAULT_BACKGROUND_COLOR        "#000060"
-#define WARNING_BACKGROUND_COLOR        "#ff0088"
-
-
-// ------------------------------------------------------------
-// incs
-
-#include <QPainter>
-
-// rpgmapper
-#include <rpgmapper/map.hpp>
-#include "backgroundlayer.hpp"
-
-using namespace rpgmapper::model;
-
-
-// ------------------------------------------------------------
-// code
-
-
-/**
- * Ctor.
- *
- * @param   cMap        parent object
- * @param   nId         id of the layer
- * @param   eLayer      the layer type
- */
-BackgroundLayer::BackgroundLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, Layer::layer_t::background) {
-    attributes()["color"] = DEFAULT_BACKGROUND_COLOR;
-}
-
-
-/**
- * Retrieve the background color.
- *
- * @return  the color encoded in the tiles of this layer
- */
-QColor BackgroundLayer::backgroundColor() const {
-
-    auto iter = attributes().find("color");
-    if (iter != attributes().end()) {
-        return QColor{(*iter).second};
-    }
-
-    return QColor{WARNING_BACKGROUND_COLOR};
-}
-
-
 /**
  * Draw the current layer given the painter.
  *

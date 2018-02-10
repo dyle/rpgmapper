@@ -33,7 +33,6 @@ protected:
 
 };
 
-
 class InvalidNumeralConverter final : public NumeralConverter {
 
 public:
@@ -42,6 +41,7 @@ public:
 
     bool isValid() const override { return false; }
 };
+
 
 }
 }

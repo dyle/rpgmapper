@@ -23,10 +23,9 @@ Q_OBJECT
 
 public:
 
-    TextLayer(Map * map, QObject * parent = nullptr);
+    explicit TextLayer(Map * map, QObject * parent = nullptr);
 
 };
-
 
 using TextLayerPointer = QSharedPointer<TextLayer>;
 

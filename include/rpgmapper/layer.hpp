@@ -18,9 +18,7 @@
 namespace rpgmapper {
 namespace model {
 
-
 class Map;
-
 
 class Layer : public QObject {
 

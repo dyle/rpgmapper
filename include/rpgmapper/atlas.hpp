@@ -38,6 +38,8 @@ public:
 
     RegionPointer createRegion(QString const & name);
 
+    RegionPointer const findRegion(QString const &name) const;
+
     std::set<QString> getAllMapNames() const;
 
     std::set<QString> getAllRegionNames() const;
@@ -46,13 +48,13 @@ public:
 
     QString const & getName() const;
 
-    RegionPointer const & getRegion(QString const & name) const;
-
     Regions const & getRegions() const;
 
     bool hasChanged() const;
 
     virtual bool isValid() const { return true; }
+
+    bool moveMap(QString const & map, QString const & regionFrom, QString const & regionTo);
 
     void removeRegion(QString const & name);
 
@@ -63,6 +65,8 @@ public:
 signals:
 
     void changed();
+
+    void movedMap(QString map, QString regionFrom, QString regionTo);
 
     void regionCreated(QString name);
 

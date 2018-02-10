@@ -44,11 +44,11 @@ public:
 
     bool applyJsonObject(QJsonObject const & json);
 
-    BackgroundLayerPointer const & getBackgroundLayer() const;
+    BackgroundLayerPointer const getBackgroundLayer() const;
 
     TileLayers const & getBaseLayers() const;
 
-    GridLayerPointer const & getGridLayer() const;
+    GridLayerPointer const getGridLayer() const;
 
     QJsonObject getJsonObject() const;
 
@@ -64,7 +64,7 @@ public:
 
     TileLayers const & getTileLayers() const;
 
-    TextLayerPointer const & getTextLayer() const;
+    TextLayerPointer const getTextLayer() const;
 
     virtual bool isValid() const { return true; }
 
@@ -80,13 +80,11 @@ signals:
 
 };
 
-
 class InvalidMap final : public Map {
 public:
     InvalidMap() : Map{QString::Null{}, nullptr} {}
     bool isValid() const override { return false; }
 };
-
 
 using MapPointer = QSharedPointer<Map>;
 

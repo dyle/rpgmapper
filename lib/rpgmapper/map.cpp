@@ -23,7 +23,7 @@ bool Map::applyJsonObject(QJsonObject const & json) {
 }
 
 
-BackgroundLayerPointer const & Map::getBackgroundLayer() const {
+BackgroundLayerPointer const Map::getBackgroundLayer() const {
     return impl->getBackgroundLayer();
 }
 
@@ -31,7 +31,7 @@ TileLayers const & Map::getBaseLayers() const {
     return impl->getBaseLayers();
 }
 
-GridLayerPointer const & Map::getGridLayer() const {
+GridLayerPointer const Map::getGridLayer() const {
     return impl->getGridLayer();
 }
 
@@ -56,7 +56,7 @@ QSize Map::getSize() const {
 }
 
 
-TextLayerPointer const & Map::getTextLayer() const {
+TextLayerPointer const Map::getTextLayer() const {
     return impl->getTextLayer();
 }
 

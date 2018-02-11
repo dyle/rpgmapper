@@ -21,7 +21,7 @@ class TileLayer : public Layer {
 
     Q_OBJECT
 
-    std::map<int, Field> fields;
+    std::map<int, FieldPointer> fields;
 
 public:
 
@@ -29,11 +29,11 @@ public:
 
     void addField(Field const & field);
 
-    Field const & getField(int index) const;
+    FieldPointer const getField(int index) const;
 
-    Field const & getField(int x, int y) const { return getField(Field::getIndex(x, y)); }
+    FieldPointer const getField(int x, int y) const { return getField(Field::getIndex(x, y)); }
 
-    Field const & getField(QPoint const & point) const { return getField(point.x(), point.y()); }
+    FieldPointer const getField(QPoint const & point) const { return getField(point.x(), point.y()); }
 
 };
 

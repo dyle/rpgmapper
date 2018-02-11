@@ -30,9 +30,9 @@ TEST(LayerTest, BaseLayerInvalidField) {
     auto & layers = map.getBaseLayers();
     ASSERT_GE(layers.size(), 1);
 
-    auto & field = layers.front()->getField(10, 10);
+    auto field = layers.front()->getField(10, 10);
 
-    EXPECT_FALSE(field.isValid());
+    EXPECT_FALSE(field->isValid());
 }
 
 
@@ -45,22 +45,22 @@ TEST(LayerTest, BaseLayerAddFields) {
     int index = Field::getIndex(10, 10);
     layers.front()->addField(Field{10, 10});
 
-    auto & field1 = layers.front()->getField(index);
-    auto & field2 = layers.front()->getField(10, 10);
-    auto & field3 = layers.front()->getField(QPoint{10, 10});
-    auto & field4 = layers.front()->getField(Field::getIndex(10, 10));
-    auto & field5 = layers.front()->getField(Field::getIndex(QPoint{10, 10}));
+    auto field1 = layers.front()->getField(index);
+    auto field2 = layers.front()->getField(10, 10);
+    auto field3 = layers.front()->getField(QPoint{10, 10});
+    auto field4 = layers.front()->getField(Field::getIndex(10, 10));
+    auto field5 = layers.front()->getField(Field::getIndex(QPoint{10, 10}));
 
-    EXPECT_TRUE(field1.isValid());
-    EXPECT_TRUE(field2.isValid());
-    EXPECT_TRUE(field3.isValid());
-    EXPECT_TRUE(field4.isValid());
-    EXPECT_TRUE(field5.isValid());
-    EXPECT_EQ(field1.getIndex(), index);
-    EXPECT_EQ(field2.getIndex(), index);
-    EXPECT_EQ(field3.getIndex(), index);
-    EXPECT_EQ(field4.getIndex(), index);
-    EXPECT_EQ(field5.getIndex(), index);
+    EXPECT_TRUE(field1->isValid());
+    EXPECT_TRUE(field2->isValid());
+    EXPECT_TRUE(field3->isValid());
+    EXPECT_TRUE(field4->isValid());
+    EXPECT_TRUE(field5->isValid());
+    EXPECT_EQ(field1->getIndex(), index);
+    EXPECT_EQ(field2->getIndex(), index);
+    EXPECT_EQ(field3->getIndex(), index);
+    EXPECT_EQ(field4->getIndex(), index);
+    EXPECT_EQ(field5->getIndex(), index);
 }
 
 
@@ -70,9 +70,9 @@ TEST(LayerTest, TileLayerInvalidField) {
     auto & layers = map.getTileLayers();
     ASSERT_GE(layers.size(), 1);
 
-    auto & field = layers.front()->getField(10, 10);
+    auto field = layers.front()->getField(10, 10);
 
-    EXPECT_FALSE(field.isValid());
+    EXPECT_FALSE(field->isValid());
 }
 
 
@@ -85,20 +85,20 @@ TEST(LayerTest, TileLayerAddFields) {
     int index = Field::getIndex(10, 10);
     layers.front()->addField(Field{10, 10});
 
-    auto & field1 = layers.front()->getField(index);
-    auto & field2 = layers.front()->getField(10, 10);
-    auto & field3 = layers.front()->getField(QPoint{10, 10});
-    auto & field4 = layers.front()->getField(Field::getIndex(10, 10));
-    auto & field5 = layers.front()->getField(Field::getIndex(QPoint{10, 10}));
+    auto field1 = layers.front()->getField(index);
+    auto field2 = layers.front()->getField(10, 10);
+    auto field3 = layers.front()->getField(QPoint{10, 10});
+    auto field4 = layers.front()->getField(Field::getIndex(10, 10));
+    auto field5 = layers.front()->getField(Field::getIndex(QPoint{10, 10}));
 
-    EXPECT_TRUE(field1.isValid());
-    EXPECT_TRUE(field2.isValid());
-    EXPECT_TRUE(field3.isValid());
-    EXPECT_TRUE(field4.isValid());
-    EXPECT_TRUE(field5.isValid());
-    EXPECT_EQ(field1.getIndex(), index);
-    EXPECT_EQ(field2.getIndex(), index);
-    EXPECT_EQ(field3.getIndex(), index);
-    EXPECT_EQ(field4.getIndex(), index);
-    EXPECT_EQ(field5.getIndex(), index);
+    EXPECT_TRUE(field1->isValid());
+    EXPECT_TRUE(field2->isValid());
+    EXPECT_TRUE(field3->isValid());
+    EXPECT_TRUE(field4->isValid());
+    EXPECT_TRUE(field5->isValid());
+    EXPECT_EQ(field1->getIndex(), index);
+    EXPECT_EQ(field2->getIndex(), index);
+    EXPECT_EQ(field3->getIndex(), index);
+    EXPECT_EQ(field4->getIndex(), index);
+    EXPECT_EQ(field5->getIndex(), index);
 }

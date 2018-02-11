@@ -13,6 +13,7 @@
 #include <vector>
 
 #include <QPoint>
+#include <QSharedPointer>
 #include <QString>
 
 
@@ -51,6 +52,9 @@ public:
 
     bool isValid() const override { return false; }
 };
+
+using FieldPointer = QSharedPointer<Field>;
+
 
 }
 }

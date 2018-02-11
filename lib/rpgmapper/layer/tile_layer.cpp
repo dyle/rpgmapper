@@ -13,12 +13,12 @@ TileLayer::TileLayer(Map * map, QObject * parent) : Layer{map, parent} {
 
 
 void TileLayer::addField(Field const & field) {
-    fields[field.getIndex()] = field;
+    fields[field.getIndex()] = FieldPointer{new Field(field)};
 }
 
 
-Field const & TileLayer::getField(int index) const {
-    static InvalidField invalidField;
+FieldPointer const TileLayer::getField(int index) const {
+    static FieldPointer invalidField{new InvalidField};
     auto iter = fields.find(index);
     if (iter == fields.end()) {
         return invalidField;

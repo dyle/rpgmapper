@@ -10,3 +10,18 @@
 
 TileLayer::TileLayer(Map * map, QObject * parent) : Layer{map, parent} {
 }
+
+
+void TileLayer::addField(Field const & field) {
+    fields[field.getIndex()] = field;
+}
+
+
+Field const & TileLayer::getField(int index) const {
+    static InvalidField invalidField;
+    auto iter = fields.find(index);
+    if (iter == fields.end()) {
+        return invalidField;
+    }
+    return (*iter).second;
+}

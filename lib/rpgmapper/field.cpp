@@ -4,6 +4,62 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <rpgmapper/field.hpp>
+#include <rpgmapper/map.hpp>
+
+using namespace rpgmapper::model;
+
+
+Field::Field(int x, int y) : Field{QPoint(x, y)} {
+}
+
+
+Field::Field(QPoint const & position) : position(position) {
+}
+
+
+int Field::getIndex(int x, int y) {
+    return y * Map::getMaximumSize().width() + x;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#if 0
 
 
 #include <QJsonArray>
@@ -98,3 +154,6 @@ QJsonObject rpgmapper::model::saveToJson(Field const & cField) {
 
     return cJSON;
 }
+
+
+#endif

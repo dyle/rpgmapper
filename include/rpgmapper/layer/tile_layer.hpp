@@ -19,11 +19,21 @@ namespace model {
 
 class TileLayer : public Layer {
 
-Q_OBJECT
+    Q_OBJECT
+
+    std::map<int, Field> fields;
 
 public:
 
     explicit TileLayer(Map * map, QObject * parent = nullptr);
+
+    void addField(Field const & field);
+
+    Field const & getField(int index) const;
+
+    Field const & getField(int x, int y) const { return getField(Field::getIndex(x, y)); }
+
+    Field const & getField(QPoint const & point) const { return getField(point.x(), point.y()); }
 
 };
 

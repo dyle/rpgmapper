@@ -25,7 +25,7 @@ set(RPGMAPPER_LIB_SRC
     atlas.cpp
     atlas_impl.cpp
     atlas_io.cpp
-    #field.cpp
+    field.cpp
     layer.cpp
     layer_impl.cpp
     map.cpp

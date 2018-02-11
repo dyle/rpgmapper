@@ -27,8 +27,6 @@ Layer::Attributes const & Layer::getAttributes() const {
 
 
 
-
-
 #if 0
 
 

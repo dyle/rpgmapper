@@ -11,8 +11,9 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data  DESTINATION ${CMAKE_CURRENT_BINARY_D
 
 set(TEST_UNITS_SRC
     test_numerals.cpp
-    test_map.cpp
+    test_field.cpp
     test_layer.cpp
+    test_map.cpp
     test_region.cpp
     test_atlas.cpp
     test_atlas_io.cpp

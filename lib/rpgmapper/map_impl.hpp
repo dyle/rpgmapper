@@ -44,9 +44,15 @@ public:
 
     bool applyJsonObject(QJsonObject const & json) override;
 
+    BackgroundLayerPointer getBackgroundLayer() { return backgroundLayer; }
+
     BackgroundLayerPointer const getBackgroundLayer() const { return backgroundLayer; }
 
+    TileLayers & getBaseLayers() { return baseLayers; }
+
     TileLayers const & getBaseLayers() const { return baseLayers; }
+
+    GridLayerPointer getGridLayer() { return gridLayer; }
 
     GridLayerPointer const getGridLayer() const { return gridLayer; }
 
@@ -58,7 +64,11 @@ public:
 
     QSize getSize() const  { return size; }
 
+    TileLayers & getTileLayers() { return tileLayers; }
+
     TileLayers const & getTileLayers() const { return tileLayers; }
+
+    TextLayerPointer getTextLayer() { return textLayer; }
 
     TextLayerPointer const getTextLayer() const { return textLayer; }
 

@@ -14,6 +14,8 @@
 #include <QObject>
 #include <QSharedPointer>
 
+#include <rpgmapper/field.hpp>
+
 
 namespace rpgmapper {
 namespace model {

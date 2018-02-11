@@ -44,9 +44,15 @@ public:
 
     bool applyJsonObject(QJsonObject const & json);
 
+    BackgroundLayerPointer getBackgroundLayer();
+
     BackgroundLayerPointer const getBackgroundLayer() const;
 
+    TileLayers & getBaseLayers();
+
     TileLayers const & getBaseLayers() const;
+
+    GridLayerPointer getGridLayer();
 
     GridLayerPointer const getGridLayer() const;
 
@@ -64,7 +70,11 @@ public:
 
     QSize getSize() const;
 
+    TileLayers & getTileLayers();
+
     TileLayers const & getTileLayers() const;
+
+    TextLayerPointer getTextLayer();
 
     TextLayerPointer const getTextLayer() const;
 

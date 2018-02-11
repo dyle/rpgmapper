@@ -9,21 +9,48 @@
 #define RPGMAPPER_MODEL_FIELD_HPP
 
 
-#include <QJsonObject>
+#include <map>
+#include <vector>
 
-#include <rpgmapper/types.hpp>
+#include <QPoint>
+#include <QString>
 
 
 namespace rpgmapper {
 namespace model {
 
+using Tile = std::map<QString, QString>;
 
-// TODO: move to field class
-Field loadFromJson(QJsonObject const & cJSON);
+using Tiles = std::vector<Tile>;
 
-// TODO: move to field class
-QJsonObject saveToJson(Field const & cField);
+class Field {
 
+    QPoint position;
+    Tiles tiles;
+
+public:
+
+    Field(int x = 0, int y = 0);
+
+    Field(QPoint const & position);
+
+    int getIndex() const { return getIndex(position); }
+
+    static int getIndex(int x, int y);
+
+    static int getIndex(QPoint const & point) { return getIndex(point.x(), point.y()); }
+
+    virtual bool isValid() const { return true; }
+};
+
+class InvalidField final : public Field {
+
+public:
+
+    InvalidField() : Field(0, 0) {}
+
+    bool isValid() const override { return false; }
+};
 
 }
 }

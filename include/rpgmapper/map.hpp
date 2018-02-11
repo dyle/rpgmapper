@@ -52,6 +52,10 @@ public:
 
     QJsonObject getJsonObject() const;
 
+    static constexpr QSize getMaximumSize() { return QSize{1000, 1000}; }
+
+    static constexpr QSize getMinimumSize() { return QSize{1, 1}; }
+
     QString const & getName() const;
 
     Region * getRegion();
@@ -59,10 +63,6 @@ public:
     QString getRegionName() const;
 
     QSize getSize() const;
-
-    static constexpr QSize getSizeMaximum() { return QSize{1000, 1000}; }
-
-    static constexpr QSize getSizeMinimum() { return QSize{1, 1}; }
 
     TileLayers const & getTileLayers() const;
 

@@ -40,10 +40,10 @@ QJsonObject Map::Impl::getJsonObject() const {
 
 
 void Map::Impl::resize(QSize const & size) {
-    if ((size.width() < Map::getSizeMinimum().width()) || (size.height() < Map::getSizeMinimum().height())) {
+    if ((size.width() < Map::getMinimumSize().width()) || (size.height() < Map::getMinimumSize().height())) {
         return;
     }
-    if ((size.width() > Map::getSizeMaximum().width()) || (size.height() > Map::getSizeMaximum().height())) {
+    if ((size.width() > Map::getMaximumSize().width()) || (size.height() > Map::getMaximumSize().height())) {
         return;
     }
     this->size = size;

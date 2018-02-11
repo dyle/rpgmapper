@@ -30,13 +30,9 @@ public:
 
     Impl(Impl const & ) = delete;
 
-    void addField(Field const & field);
-
     Attributes & getAttributes() { return attributes; }
 
     Attributes const & getAttributes() const { return attributes; }
-
-    Field const & getField(int index) const;
 };
 
 

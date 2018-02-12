@@ -42,6 +42,8 @@ public:
 
     explicit Map(QString const & name, Region * region = nullptr);
 
+    virtual ~Map() = default;
+
     bool applyJsonObject(QJsonObject const & json);
 
     BackgroundLayerPointer getBackgroundLayer();

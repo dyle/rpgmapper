@@ -23,6 +23,8 @@ class ReaderResult : public WriterResult {
 
 public:
 
+    virtual ~ReaderResult() = default;
+
     AtlasPointer const & getAtlas() const { return atlas; }
 
     void setAtlas(AtlasPointer & atlas) { this->atlas = atlas; }

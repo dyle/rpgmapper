@@ -80,6 +80,21 @@ MapPointer Atlas::Impl::findMap(QString const & name) {
 }
 
 
+MapPointer const Atlas::Impl::findMap(QString const & name) const {
+
+    MapPointer map = MapPointer{new InvalidMap};
+
+    for (auto & pair : regions) {
+        map = pair.second->findMap(name);
+        if (map->isValid()) {
+            break;
+        }
+    }
+
+    return map;
+}
+
+
 RegionPointer Atlas::Impl::findRegion(QString const &name) {
     auto iter = regions.find(name);
     if (iter == regions.end()) {
@@ -118,6 +133,17 @@ std::set<QString> Atlas::Impl::getAllRegionNames() const {
                   [&] (auto const & pair) { regionNames.insert(pair.second->getName()); });
     return regionNames;
 }
+
+
+Prozessor & Atlas::Impl::getCommandProzessor() {
+    return prozessor;
+}
+
+
+Prozessor const & Atlas::Impl::getCommandProzessor() const {
+    return prozessor;
+}
+
 
 QJsonObject Atlas::Impl::getJsonObject() const {
 

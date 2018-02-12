@@ -35,6 +35,8 @@ public:
 
     explicit Layer(Map * map, QObject * parent = nullptr);
 
+    virtual ~Layer() = default;
+
     Attributes & getAttributes();
 
     Attributes const & getAttributes() const;

@@ -25,6 +25,8 @@ public:
 
     explicit TextLayer(Map * map, QObject * parent = nullptr);
 
+    virtual ~TextLayer() = default;
+
 };
 
 using TextLayerPointer = QSharedPointer<TextLayer>;

@@ -24,6 +24,8 @@ public:
 
     explicit WriterResult(bool success = false) : success{success} {}
 
+    virtual ~WriterResult() = default;
+
     WriterResult(bool success, QStringList const & log) : success{success}, log{log} {}
 
     QStringList & getLog() { return log; }

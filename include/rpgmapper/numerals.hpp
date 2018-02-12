@@ -21,6 +21,8 @@ class NumeralConverter {
 
 public:
 
+    virtual ~NumeralConverter() = default;
+
     static QSharedPointer<NumeralConverter> const & create(QString const & method);
 
     virtual QString convert(int value) const = 0;

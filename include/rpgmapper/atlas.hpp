@@ -18,10 +18,15 @@
 #include <QSharedPointer>
 
 #include <rpgmapper/region.hpp>
+#include <rpgmapper/command/prozessor.hpp>
+
+using namespace rpgmapper::model;
+using namespace rpgmapper::model::command;
 
 
 namespace rpgmapper {
 namespace model {
+
 
 class Atlas : public QObject {
 
@@ -33,6 +38,8 @@ class Atlas : public QObject {
 public:
 
     explicit Atlas(QObject * parent = nullptr);
+
+    virtual ~Atlas() = default;
 
     bool applyJsonObject(QJsonObject json);
 
@@ -49,6 +56,10 @@ public:
     std::set<QString> getAllMapNames() const;
 
     std::set<QString> getAllRegionNames() const;
+
+    Prozessor & getCommandProzessor();
+
+    Prozessor const & getCommandProzessor() const;
 
     QJsonObject getJsonObject() const;
 

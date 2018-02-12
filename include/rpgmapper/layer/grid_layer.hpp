@@ -25,6 +25,8 @@ public:
 
     explicit GridLayer(Map * map, QObject * parent = nullptr);
 
+    virtual ~GridLayer() = default;
+
 };
 
 using GridLayerPointer = QSharedPointer<GridLayer>;

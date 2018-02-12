@@ -26,6 +26,8 @@ class Nop : public Command {
 
 public:
 
+    virtual ~Nop() = default;
+
     void execute() override {}
 
     QString getDescription() const override { return "No operation."; }

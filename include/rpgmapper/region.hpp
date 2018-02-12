@@ -38,6 +38,8 @@ public:
 
     explicit Region(QString const & name, Atlas * atlas = nullptr);
 
+    virtual ~Region() = default;
+
     bool addMap(MapPointer & map);
 
     bool applyJsonObject(QJsonObject const & json);

@@ -27,6 +27,8 @@ public:
 
     explicit TileLayer(Map * map, QObject * parent = nullptr);
 
+    virtual ~TileLayer() = default;
+
     void addField(Field const & field);
 
     FieldPointer const getField(int index) const;

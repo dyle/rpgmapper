@@ -36,6 +36,16 @@ RegionPointer Atlas::createRegion(QString const & name) {
 }
 
 
+ProzessorPointer & Atlas::getCommandProzessor() {
+    return impl->getCommandProzessor();
+}
+
+
+ProzessorPointer const & Atlas::getCommandProzessor() const {
+    return impl->getCommandProzessor();
+}
+
+
 MapPointer Atlas::findMap(QString const & name) {
     return impl->findMap(name);
 }

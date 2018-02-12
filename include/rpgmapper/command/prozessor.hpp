@@ -41,6 +41,8 @@ public:
 
 };
 
+using ProzessorPointer = QSharedPointer<Prozessor>;
+
 
 }
 }

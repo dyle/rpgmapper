@@ -26,7 +26,7 @@ class Nop : public Command {
 
 public:
 
-    virtual ~Nop() = default;
+    ~Nop() override = default;
 
     void execute() override {}
 

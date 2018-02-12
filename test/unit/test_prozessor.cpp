@@ -7,6 +7,8 @@
 
 #include <gtest/gtest.h>
 
+#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/command/atlas_set_name.hpp>
 #include <rpgmapper/command/nop.hpp>
 #include <rpgmapper/command/prozessor.hpp>
 
@@ -25,4 +27,31 @@ TEST(ProzessorTest, DoNopCommand) {
     EXPECT_TRUE(prozessor.getList().empty());
     prozessor.redo();
     EXPECT_EQ(prozessor.getList().size(), 1);
+}
+
+
+TEST(ProzessorTest, SetAtlasName) {
+
+    AtlasPointer atlas{new Atlas};
+    atlas->setName("foo");
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "bar"}});
+    EXPECT_EQ(atlas->getName().toStdString(), "bar");
+    EXPECT_EQ(atlas->getCommandProzessor()->getList().size(), 1);
+
+    atlas->getCommandProzessor()->undo();
+    EXPECT_EQ(atlas->getName().toStdString(), "foo");
+    EXPECT_EQ(atlas->getCommandProzessor()->getList().size(), 0);
+
+    atlas->getCommandProzessor()->redo();
+    EXPECT_EQ(atlas->getName().toStdString(), "bar");
+    EXPECT_EQ(atlas->getCommandProzessor()->getList().size(), 1);
+
+    atlas->getCommandProzessor()->undo();
+    EXPECT_EQ(atlas->getName().toStdString(), "foo");
+    EXPECT_EQ(atlas->getCommandProzessor()->getList().size(), 0);
+
+    atlas->getCommandProzessor()->redo();
+    EXPECT_EQ(atlas->getName().toStdString(), "bar");
+    EXPECT_EQ(atlas->getCommandProzessor()->getList().size(), 1);
 }

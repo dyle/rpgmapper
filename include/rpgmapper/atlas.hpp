@@ -57,9 +57,9 @@ public:
 
     std::set<QString> getAllRegionNames() const;
 
-    Prozessor & getCommandProzessor();
+    ProzessorPointer & getCommandProzessor();
 
-    Prozessor const & getCommandProzessor() const;
+    ProzessorPointer const & getCommandProzessor() const;
 
     QJsonObject getJsonObject() const;
 

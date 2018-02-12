@@ -16,6 +16,7 @@ Atlas::Impl::Impl(Atlas * atlas) : atlas(atlas) {
         throw std::invalid_argument("rpgmapper::model::Atlas::Impl::Impl() - atlas must not be nullptr.");
     }
     setName(QObject::tr("New Atlas"));
+    prozessor = ProzessorPointer{new Prozessor};
 }
 
 bool Atlas::Impl::applyJsonObject(QJsonObject const & json) {
@@ -135,12 +136,12 @@ std::set<QString> Atlas::Impl::getAllRegionNames() const {
 }
 
 
-Prozessor & Atlas::Impl::getCommandProzessor() {
+ProzessorPointer & Atlas::Impl::getCommandProzessor() {
     return prozessor;
 }
 
 
-Prozessor const & Atlas::Impl::getCommandProzessor() const {
+ProzessorPointer const & Atlas::Impl::getCommandProzessor() const {
     return prozessor;
 }
 

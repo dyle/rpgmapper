@@ -24,7 +24,7 @@ class Atlas::Impl final : public Nameable {
     Atlas * atlas = nullptr;
     bool changed = false;
     Regions regions;
-    Prozessor prozessor;
+    ProzessorPointer prozessor;
 
 public:
 
@@ -50,9 +50,9 @@ public:
 
     std::set<QString> getAllRegionNames() const;
 
-    Prozessor & getCommandProzessor();
+    ProzessorPointer & getCommandProzessor();
 
-    Prozessor const & getCommandProzessor() const;
+    ProzessorPointer const & getCommandProzessor() const;
 
     QJsonObject getJsonObject() const override;
 

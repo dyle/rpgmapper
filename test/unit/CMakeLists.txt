@@ -17,6 +17,7 @@ set(TEST_UNITS_SRC
     test_region.cpp
     test_atlas.cpp
     test_atlas_io.cpp
+    test_prozessor.cpp
 )
 
 add_executable(test-units               ${TEST_UNITS_SRC})

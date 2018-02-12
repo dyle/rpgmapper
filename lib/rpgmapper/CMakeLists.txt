@@ -32,6 +32,9 @@ set(RPGMAPPER_LIB_SRC
     region.cpp
     region_impl.cpp
 
+    command/prozessor.cpp
+    command/prozessor_impl.cpp
+
     layer/background_layer.cpp
     layer/grid_layer.cpp
     layer/layer.cpp

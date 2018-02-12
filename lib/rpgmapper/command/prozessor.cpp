@@ -21,10 +21,13 @@ void Prozessor::execute(CommandPointer command) {
 }
 
 
-Commands const & Prozessor::getList() const {
-    return impl->getList();
+Commands const & Prozessor::getHistory() const {
+    return impl->getHistory();
 }
 
+Commands const & Prozessor::getUndone() const {
+    return impl->getUndone();
+}
 
 void Prozessor::redo() {
     impl->redo();

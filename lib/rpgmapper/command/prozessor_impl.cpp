@@ -16,8 +16,13 @@ void Prozessor::Impl::execute(CommandPointer command) {
 }
 
 
-Commands const & Prozessor::Impl::getList() const {
+Commands const & Prozessor::Impl::getHistory() const {
     return history;
+}
+
+
+Commands const & Prozessor::Impl::getUndone() const {
+    return redoList;
 }
 
 

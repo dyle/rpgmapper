@@ -28,7 +28,9 @@ public:
 
     void execute(CommandPointer command);
 
-    Commands const & getList() const;
+    Commands const & getHistory() const;
+
+    Commands const & getUndone() const;
 
     void redo();
 

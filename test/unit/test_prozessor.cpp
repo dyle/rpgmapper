@@ -19,14 +19,14 @@ TEST(ProzessorTest, DoNopCommand) {
 
     Prozessor prozessor;
 
-    EXPECT_TRUE(prozessor.getList().empty());
+    EXPECT_TRUE(prozessor.getHistory().empty());
     prozessor.execute(CommandPointer{new Nop});
 
-    EXPECT_EQ(prozessor.getList().size(), 1);
+    EXPECT_EQ(prozessor.getHistory().size(), 1);
     prozessor.undo();
-    EXPECT_TRUE(prozessor.getList().empty());
+    EXPECT_TRUE(prozessor.getHistory().empty());
     prozessor.redo();
-    EXPECT_EQ(prozessor.getList().size(), 1);
+    EXPECT_EQ(prozessor.getHistory().size(), 1);
 }
 
 
@@ -37,21 +37,30 @@ TEST(ProzessorTest, SetAtlasName) {
 
     atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "bar"}});
     EXPECT_EQ(atlas->getName().toStdString(), "bar");
-    EXPECT_EQ(atlas->getCommandProzessor()->getList().size(), 1);
+    EXPECT_EQ(atlas->getCommandProzessor()->getHistory().size(), 1);
+    EXPECT_EQ(atlas->getCommandProzessor()->getHistory().front()->getDescription().toStdString(),
+              "Set atlas name to bar.");
+    EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 0);
 
     atlas->getCommandProzessor()->undo();
     EXPECT_EQ(atlas->getName().toStdString(), "foo");
-    EXPECT_EQ(atlas->getCommandProzessor()->getList().size(), 0);
+    EXPECT_EQ(atlas->getCommandProzessor()->getHistory().size(), 0);
+    EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 1);
+    EXPECT_EQ(atlas->getCommandProzessor()->getUndone().front()->getDescription().toStdString(),
+              "Set atlas name to bar.");
 
     atlas->getCommandProzessor()->redo();
     EXPECT_EQ(atlas->getName().toStdString(), "bar");
-    EXPECT_EQ(atlas->getCommandProzessor()->getList().size(), 1);
+    EXPECT_EQ(atlas->getCommandProzessor()->getHistory().size(), 1);
+    EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 0);
 
     atlas->getCommandProzessor()->undo();
     EXPECT_EQ(atlas->getName().toStdString(), "foo");
-    EXPECT_EQ(atlas->getCommandProzessor()->getList().size(), 0);
+    EXPECT_EQ(atlas->getCommandProzessor()->getHistory().size(), 0);
+    EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 1);
 
     atlas->getCommandProzessor()->redo();
     EXPECT_EQ(atlas->getName().toStdString(), "bar");
-    EXPECT_EQ(atlas->getCommandProzessor()->getList().size(), 1);
+    EXPECT_EQ(atlas->getCommandProzessor()->getHistory().size(), 1);
+    EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 0);
 }

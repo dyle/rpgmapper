@@ -16,7 +16,7 @@
 // rpgmapper
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/controller.hpp>
-#include <rpgmapper/layer.hpp>
+#include <rpgmapper/layer/layer.hpp>
 #include "mappropertiesdialog.hpp"
 #include "ui_mappropertiesdialog.h"
 

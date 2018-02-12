@@ -17,9 +17,9 @@
 #include <QSharedPointer>
 #include <QString>
 
-#include <rpgmapper/layer.hpp>
 #include <rpgmapper/layer/background_layer.hpp>
 #include <rpgmapper/layer/grid_layer.hpp>
+#include <rpgmapper/layer/layer.hpp>
 #include <rpgmapper/layer/tile_layer.hpp>
 #include <rpgmapper/layer/text_layer.hpp>
 

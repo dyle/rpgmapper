@@ -7,7 +7,7 @@
 
 #include <gtest/gtest.h>
 
-#include <rpgmapper/layer.hpp>
+#include <rpgmapper/layer/layer.hpp>
 #include <rpgmapper/map.hpp>
 
 using namespace rpgmapper::model;

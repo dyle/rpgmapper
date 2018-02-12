@@ -5,7 +5,7 @@
  */
 
 
-#include <rpgmapper/layer.hpp>
+#include <rpgmapper/layer/layer.hpp>
 #include "layer_impl.hpp"
 
 

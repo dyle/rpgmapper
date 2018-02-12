@@ -10,11 +10,11 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 set(RPGMAPPER_LIB_MOC
 
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/atlas.hpp
-    ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/background_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/grid_layer.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/text_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/tile_layer.hpp
 )
@@ -26,8 +26,6 @@ set(RPGMAPPER_LIB_SRC
     atlas_impl.cpp
     atlas_io.cpp
     field.cpp
-    layer.cpp
-    layer_impl.cpp
     map.cpp
     map_impl.cpp
     nameable.cpp
@@ -37,6 +35,8 @@ set(RPGMAPPER_LIB_SRC
 
     layer/background_layer.cpp
     layer/grid_layer.cpp
+    layer/layer.cpp
+    layer/layer_impl.cpp
     layer/text_layer.cpp
     layer/tile_layer.cpp
 

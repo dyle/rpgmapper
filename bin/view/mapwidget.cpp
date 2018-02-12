@@ -20,7 +20,7 @@
 #include <QPainter>
 
 // rpgmapper
-#include <rpgmapper/layer.hpp>
+#include <rpgmapper/layer/layer.hpp>
 #include <rpgmapper/map.hpp>
 #include "mapwidget.hpp"
 

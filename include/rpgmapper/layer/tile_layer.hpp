@@ -9,7 +9,7 @@
 #define RPGMAPPER_MODEL_LAYER_TILE_LAYER_HPP
 
 
-#include <rpgmapper/layer.hpp>
+#include <rpgmapper/layer/layer.hpp>
 
 
 using namespace rpgmapper::model;

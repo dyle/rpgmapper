@@ -6,10 +6,10 @@
 
 
 #include <rpgmapper/numerals.hpp>
-#include "numeralconverter/alpha_big.hpp"
-#include "numeralconverter/alpha_small.hpp"
-#include "numeralconverter/numeric.hpp"
-#include "numeralconverter/roman.hpp"
+#include "alpha_big.hpp"
+#include "alpha_small.hpp"
+#include "numeric.hpp"
+#include "roman.hpp"
 
 using namespace rpgmapper::model;
 

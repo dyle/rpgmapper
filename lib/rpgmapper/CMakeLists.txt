@@ -29,7 +29,6 @@ set(RPGMAPPER_LIB_SRC
     map.cpp
     map_impl.cpp
     nameable.cpp
-    numerals.cpp
     region.cpp
     region_impl.cpp
 
@@ -43,6 +42,7 @@ set(RPGMAPPER_LIB_SRC
     numeralconverter/alphabetic.cpp
     numeralconverter/alpha_big.cpp
     numeralconverter/alpha_small.cpp
+    numeralconverter/numerals.cpp
     numeralconverter/numeric.cpp
     numeralconverter/roman.cpp
 

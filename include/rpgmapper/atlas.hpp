@@ -39,7 +39,7 @@ public:
 
     explicit Atlas(QObject * parent = nullptr);
 
-    virtual ~Atlas() = default;
+    ~Atlas() override = default;
 
     bool applyJsonObject(QJsonObject json);
 
@@ -107,88 +107,3 @@ using AtlasPointer = QSharedPointer<Atlas>;
 
 
 #endif
-
-
-
-
-
-
-
-#if 0
-
-
-
-
-
-
-
-
-
-/*
-    Map createMap();
-
-    Region createRegion();
-
-    Map & getCurrentMap();
-
-    Region & getCurrentRegion();
-
-    Map const & getMap(rpgmapper::model::mapid_t mapId) const;
-
-    Maps const & getMaps() const;
-
-    Region const & getRegion(rpgmapper::model::regionid_t regionId) const;
-
-    Regions const & getRegions() const;
-
-    void load(QJsonObject const & json) override;
-
-    bool isModified() const override;
-
-    QString toJson(QJsonDocument::JsonFormat format = QJsonDocument::Indented) const;
-
-    void save(QJsonObject & json) const override;
-
-    void setModified(bool modified) override;
-*/
-public slots:
-
-/*
-    void deleteMap(rpgmapper::model::mapid_t mapId);
-
-    void deleteRegion(rpgmapper::model::regionid_t regionId);
-
-    void setCurrentMap(rpgmapper::model::mapid_t mapId);
-
-    void setCurrentRegion(rpgmapper::model::regionid_t regionId);
-*/
-private slots:
-
-/*
-    void changedMapName();
-
-    void changedRegionName();
-*/
-/*
-    void createdMap(rpgmapper::model::mapid_t mapId);
-
-    void createdRegion(rpgmapper::model::regionid_t regionId);
-
-    void deletedMap(rpgmapper::model::mapid_t mapId);
-
-    void deletedRegion(rpgmapper::model::regionid_t regionId);
-
-    void selectedMap(rpgmapper::model::mapid_t mapId);
-
-    void selectedRegion(rpgmapper::model::regionid_t regionId);
-*/
-private:
-/*
-    void clear();
-
-    void init();
-*/
-};
-
-#endif
-

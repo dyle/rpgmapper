@@ -66,7 +66,9 @@ WriterResult rpgmapper::model::openZipForWriting(QuaZip & zip, QFile & file) {
 
 
 ReaderResult rpgmapper::model::readAtlas(QuaZip &zip) {
+
     ReaderResult result;
+
     Content content;
     for (auto filePresent = zip.goToFirstFile(); filePresent; filePresent = zip.goToNextFile()) {
         result << extractContent(zip, content);

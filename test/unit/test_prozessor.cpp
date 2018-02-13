@@ -64,3 +64,20 @@ TEST(ProzessorTest, SetAtlasName) {
     EXPECT_EQ(atlas->getCommandProzessor()->getHistory().size(), 1);
     EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 0);
 }
+
+
+TEST(ProzessorTest, NewCommandResetsUndoneList) {
+
+    AtlasPointer atlas{new Atlas};
+    atlas->setName("foo");
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "bar"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "baz"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "bam"}});
+    atlas->getCommandProzessor()->undo();
+    atlas->getCommandProzessor()->undo();
+    EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 2);
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "bag"}});
+    EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 0);
+}

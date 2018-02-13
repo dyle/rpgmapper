@@ -36,6 +36,11 @@ public:
 
     void undo();
 
+
+private:
+
+    void runCommand(CommandPointer & command);
+
 };
 
 

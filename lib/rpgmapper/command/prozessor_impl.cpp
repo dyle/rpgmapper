@@ -11,8 +11,8 @@ using namespace rpgmapper::model::command;
 
 
 void Prozessor::Impl::execute(CommandPointer command) {
-    command->execute();
-    history.push_back(command);
+    redoList.clear();
+    runCommand(command);
 }
 
 
@@ -32,7 +32,12 @@ void Prozessor::Impl::redo() {
     }
     auto command = redoList.back();
     redoList.pop_back();
-    execute(command);
+    runCommand(command);
+}
+
+void Prozessor::Impl::runCommand(CommandPointer & command) {
+    history.push_back(command);
+    command->execute();
 }
 
 

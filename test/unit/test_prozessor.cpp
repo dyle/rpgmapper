@@ -9,8 +9,8 @@
 
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/command/atlas_set_name.hpp>
+#include <rpgmapper/command/create_region.hpp>
 #include <rpgmapper/command/nop.hpp>
-#include <rpgmapper/command/prozessor.hpp>
 
 using namespace rpgmapper::model::command;
 
@@ -80,4 +80,24 @@ TEST(ProzessorTest, NewCommandResetsUndoneList) {
 
     atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "bag"}});
     EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 0);
+}
+
+
+TEST(ProzessorTest, CreateRegion) {
+
+    AtlasPointer atlas{new Atlas};
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+
+    auto regionNames = atlas->getAllRegionNames();
+    EXPECT_NE(regionNames.find("foo"), regionNames.end());
+
+    atlas->getCommandProzessor()->undo();
+
+    regionNames = atlas->getAllRegionNames();
+    EXPECT_EQ(regionNames.find("foo"), regionNames.end());
+
+    atlas->getCommandProzessor()->redo();
+    regionNames = atlas->getAllRegionNames();
+    EXPECT_NE(regionNames.find("foo"), regionNames.end());
 }

@@ -32,7 +32,9 @@ set(RPGMAPPER_LIB_SRC
     region.cpp
     region_impl.cpp
 
+    command/atlas_command.cpp
     command/atlas_set_name.cpp
+    command/create_region.cpp
     command/prozessor.cpp
     command/prozessor_impl.cpp
 

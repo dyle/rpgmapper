@@ -16,9 +16,6 @@ AtlasSetName::AtlasSetName(AtlasPointer atlas, QString name): AtlasCommand(atlas
 
 void AtlasSetName::execute() {
     auto atlas = getAtlas();
-    if (atlas.isNull()) {
-        throw std::runtime_error("AtlasSetName - cannot perform on nullptr atlas.");
-    }
     oldName = atlas->getName();
     atlas->setName(newName);
 }
@@ -29,8 +26,5 @@ QString AtlasSetName::getDescription() const {
 
 void AtlasSetName::undo() {
     auto atlas = getAtlas();
-    if (atlas.isNull()) {
-        throw std::runtime_error("AtlasSetName - cannot perform on nullptr atlas.");
-    }
     atlas->setName(oldName);
 }

@@ -28,9 +28,9 @@ public:
 
     explicit AtlasCommand(AtlasPointer & atlas) : atlas{atlas} {}
 
-    AtlasPointer getAtlas() { return atlas.toStrongRef(); }
+    AtlasPointer getAtlas();
 
-    AtlasPointer const getAtlas() const { return atlas.toStrongRef(); }
+    AtlasPointer const getAtlas() const;
 };
 
 

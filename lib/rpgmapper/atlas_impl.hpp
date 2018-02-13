@@ -22,9 +22,9 @@ namespace model {
 class Atlas::Impl final : public Nameable {
 
     Atlas * atlas = nullptr;
-    bool changed = false;
     Regions regions;
     ProzessorPointer prozessor;
+    unsigned int unmodifiedCommandCounter = 0;
 
 public:
 
@@ -58,7 +58,7 @@ public:
 
     Regions const & getRegions() const { return regions; }
 
-    bool hasChanged() const { return changed; }
+    bool hasChanged() const;
 
     void init();
 

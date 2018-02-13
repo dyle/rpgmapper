@@ -61,7 +61,6 @@ RegionPointer Atlas::Impl::createRegion(QString const & name) {
     auto pair = regions.emplace(std::make_pair(name,
                                                RegionPointer{new Region{name, this->atlas},
                                                              &Region::deleteLater}));
-    changed = true;
     return pair.first->second;
 }
 
@@ -158,10 +157,15 @@ QJsonObject Atlas::Impl::getJsonObject() const {
     return json;
 }
 
+
+bool Atlas::Impl::hasChanged() const {
+    return getCommandProzessor()->getHistory().size() != unmodifiedCommandCounter;
+}
+
+
 void Atlas::Impl::init() {
     auto region = createRegion(QObject::tr("New Region 1"));
     region->createMap(QObject::tr("New Map 1"));
-    changed = false;
 }
 
 
@@ -184,13 +188,12 @@ bool Atlas::Impl::removeRegion(QString const & name) {
         return false;
     }
     regions.erase(iter);
-    changed = true;
     return true;
 }
 
 
 void Atlas::Impl::resetChanged() {
-    changed = false;
+    unmodifiedCommandCounter = getCommandProzessor()->getHistory().size();
 }
 
 
@@ -199,5 +202,4 @@ void Atlas::Impl::setName(QString const & name) {
         return;
     }
     Nameable::setName(name);
-    changed = true;
 }

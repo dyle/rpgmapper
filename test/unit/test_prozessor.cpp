@@ -30,6 +30,22 @@ TEST(ProzessorTest, DoNopCommand) {
 }
 
 
+TEST(ProzessorTest, AtlasChanged) {
+
+    AtlasPointer atlas{new Atlas};
+    EXPECT_FALSE(atlas->hasChanged());
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "foo"}});
+    EXPECT_TRUE(atlas->hasChanged());
+
+    atlas->getCommandProzessor()->undo();
+    EXPECT_FALSE(atlas->hasChanged());
+
+    atlas->getCommandProzessor()->redo();
+    EXPECT_TRUE(atlas->hasChanged());
+}
+
+
 TEST(ProzessorTest, SetAtlasName) {
 
     AtlasPointer atlas{new Atlas};

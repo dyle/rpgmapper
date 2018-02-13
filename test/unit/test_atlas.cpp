@@ -75,15 +75,6 @@ TEST(AtlasTest, AtlasNameSet) {
     atlas.setName("foo");
 
     EXPECT_EQ(atlas.getName().toStdString(), "foo");
-    EXPECT_TRUE(atlas.hasChanged());
-}
-
-
-TEST(AtlasTest, InitialAtlasIsNotModified) {
-
-    Atlas atlas;
-
-    EXPECT_FALSE(atlas.hasChanged());
 }
 
 
@@ -94,7 +85,6 @@ TEST(AtlasTest, InitialAtlasRemoveRegionResultsInEmptyRegions) {
     atlas.removeRegion(regionName);
 
     EXPECT_TRUE(atlas.getRegions().empty());
-    EXPECT_TRUE(atlas.hasChanged());
 }
 
 
@@ -106,7 +96,6 @@ TEST(AtlasTest, CreateRegion) {
     EXPECT_TRUE(region->isValid());
     EXPECT_EQ(region->getAtlas(), &atlas);
     EXPECT_EQ(region->getName(), "foo");
-    EXPECT_TRUE(atlas.hasChanged());
 }
 
 
@@ -180,7 +169,6 @@ TEST(AtlasTest, CreateAndRemoveRegions) {
                   [&](auto & name) {
                       atlas.createRegion(name);
                       EXPECT_EQ(atlas.getRegions().size(), ++numberOfRegiopns);
-                      EXPECT_TRUE(atlas.hasChanged());
                   });
 
     std::for_each(std::begin(regions),
@@ -188,7 +176,6 @@ TEST(AtlasTest, CreateAndRemoveRegions) {
                   [&](auto & name) {
                       atlas.removeRegion(name);
                       EXPECT_EQ(atlas.getRegions().size(), --numberOfRegiopns);
-                      EXPECT_TRUE(atlas.hasChanged());
                   });
 }
 
@@ -210,7 +197,6 @@ TEST(AtlasTest, CreateAndRemoveIdenticalRegions) {
                   [&](auto & name) {
                       atlas.createRegion(name);
                       EXPECT_EQ(atlas.getRegions().size(), 1);
-                      EXPECT_TRUE(atlas.hasChanged());
                   });
 
     std::for_each(std::begin(regions),
@@ -218,7 +204,6 @@ TEST(AtlasTest, CreateAndRemoveIdenticalRegions) {
                   [&](auto & name) {
                       atlas.removeRegion(name);
                       EXPECT_TRUE(atlas.getRegions().empty());
-                      EXPECT_TRUE(atlas.hasChanged());
                   });
 }
 

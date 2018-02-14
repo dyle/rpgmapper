@@ -9,6 +9,7 @@
 
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/command/atlas_set_name.hpp>
+#include <rpgmapper/command/create_map.hpp>
 #include <rpgmapper/command/create_region.hpp>
 #include <rpgmapper/command/nop.hpp>
 
@@ -116,4 +117,35 @@ TEST(ProzessorTest, CreateRegion) {
     atlas->getCommandProzessor()->redo();
     regionNames = atlas->getAllRegionNames();
     EXPECT_NE(regionNames.find("foo"), regionNames.end());
+
+    EXPECT_TRUE(atlas->isModified());
+}
+
+
+TEST(ProzessorTest, CreateMap) {
+
+    AtlasPointer atlas{new Atlas};
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+
+    auto regionNames = atlas->getAllRegionNames();
+    EXPECT_NE(regionNames.find("foo"), regionNames.end());
+
+    auto mapNames = atlas->getAllMapNames();
+    EXPECT_NE(mapNames.find("bar"), mapNames.end());
+
+    auto region = atlas->findRegion("foo");
+    EXPECT_TRUE(region->isValid());
+    auto map = region->findMap("bar");
+    EXPECT_TRUE(map->isValid());
+
+    atlas->getCommandProzessor()->undo();
+
+    mapNames = atlas->getAllMapNames();
+    EXPECT_EQ(mapNames.find("bar"), mapNames.end());
+
+    atlas->getCommandProzessor()->redo();
+
+    EXPECT_TRUE(atlas->isModified());
 }

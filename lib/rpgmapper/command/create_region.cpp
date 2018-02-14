@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-CreateRegion::CreateRegion(AtlasPointer atlas, QString name): AtlasCommand(atlas), name(name) {
+CreateRegion::CreateRegion(AtlasPointer atlas, QString name): AtlasCommand{atlas}, name{name} {
 }
 
 void CreateRegion::execute() {

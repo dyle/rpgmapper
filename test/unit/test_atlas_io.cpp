@@ -35,7 +35,7 @@ TEST(AtlasIO, WriteAtlasToFile) {
     auto result = atlasIO.write(atlas, file);
 
     EXPECT_TRUE(result.hasSuccess());
-    EXPECT_FALSE(atlas->hasChanged());
+    EXPECT_FALSE(atlas->isModified());
 }
 
 
@@ -58,7 +58,7 @@ TEST(AtlasIO, ReadAtlasFromFile) {
 
     EXPECT_TRUE(result.hasSuccess());
     EXPECT_TRUE(result.getAtlas()->isValid());
-    EXPECT_FALSE(result.getAtlas()->hasChanged());
+    EXPECT_FALSE(result.getAtlas()->isModified());
 }
 
 

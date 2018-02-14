@@ -24,7 +24,7 @@ bool Atlas::applyJsonObject(QJsonObject json) {
 
 RegionPointer Atlas::createRegion(QString const & name) {
 
-    bool hasAlreadyChanged = impl->hasChanged();
+    bool hasAlreadyChanged = impl->isModified();
     auto region = impl->createRegion(name);
     if (region->isValid()) {
         emit regionCreated(name);
@@ -91,14 +91,14 @@ Regions const & Atlas::getRegions() const {
 }
 
 
-bool Atlas::hasChanged() const {
-    return impl->hasChanged();
+bool Atlas::isModified() const {
+    return impl->isModified();
 }
 
 
 bool Atlas::moveMap(MapPointer map, RegionPointer regionTo) {
 
-    bool hasAlreadyChanged = impl->hasChanged();
+    bool hasAlreadyChanged = impl->isModified();
     auto regionFrom = findRegion(map->getRegionName());
     if (impl->moveMap(map, regionTo)) {
         if (!hasAlreadyChanged) {
@@ -112,7 +112,7 @@ bool Atlas::moveMap(MapPointer map, RegionPointer regionTo) {
 
 void Atlas::removeRegion(QString const & name) {
 
-    bool hasAlreadyChanged = impl->hasChanged();
+    bool hasAlreadyChanged = impl->isModified();
     if (impl->removeRegion(name)) {
         emit regionRemoved(name);
         if (!hasAlreadyChanged) {
@@ -129,9 +129,9 @@ void Atlas::resetChanged() {
 
 void Atlas::setName(QString const & name) {
 
-    bool hasAlreadyChanged = impl->hasChanged();
+    bool hasAlreadyChanged = impl->isModified();
     impl->setName(name);
-    if (impl->hasChanged() && !hasAlreadyChanged) {
+    if (impl->isModified() && !hasAlreadyChanged) {
         emit changed();
     }
 }

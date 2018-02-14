@@ -58,9 +58,9 @@ public:
 
     Regions const & getRegions() const { return regions; }
 
-    bool hasChanged() const;
-
     void init();
+
+    bool isModified() const;
 
     bool moveMap(MapPointer map, RegionPointer regionTo);
 

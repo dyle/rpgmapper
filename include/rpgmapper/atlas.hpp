@@ -67,7 +67,7 @@ public:
 
     Regions const & getRegions() const;
 
-    bool hasChanged() const;
+    bool isModified() const;
 
     virtual bool isValid() const { return true; }
 

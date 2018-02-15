@@ -4,8 +4,9 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+
+#include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/field.hpp>
-#include <rpgmapper/map.hpp>
 
 using namespace rpgmapper::model;
 
@@ -19,7 +20,7 @@ Field::Field(QPoint const & position) : position(position) {
 
 
 int Field::getIndex(int x, int y) {
-    return y * Map::getMaximumSize().width() + x;
+    return y * CoordinateSystem::getMaximumSize().width() + x;
 }
 
 

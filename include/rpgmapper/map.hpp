@@ -60,10 +60,6 @@ public:
 
     QJsonObject getJsonObject() const;
 
-    static constexpr QSize getMaximumSize() { return QSize{1000, 1000}; }
-
-    static constexpr QSize getMinimumSize() { return QSize{1, 1}; }
-
     QString const & getName() const;
 
     Region * getRegion();

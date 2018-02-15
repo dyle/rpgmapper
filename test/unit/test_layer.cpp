@@ -20,7 +20,6 @@ TEST(LayerTest, BackgroundLayerHasColor) {
 
     auto pair = layer->getAttributes().find("color");
     EXPECT_NE(pair, layer->getAttributes().end());
-
 }
 
 

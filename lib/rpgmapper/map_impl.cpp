@@ -4,18 +4,16 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#include "rpgmapper/layer/background_layer.hpp"
-#include "rpgmapper/layer/grid_layer.hpp"
-#include "rpgmapper/layer/text_layer.hpp"
-#include "rpgmapper/layer/tile_layer.hpp"
+#include <rpgmapper/layer/background_layer.hpp>
+#include <rpgmapper/layer/grid_layer.hpp>
+#include <rpgmapper/layer/text_layer.hpp>
+#include <rpgmapper/layer/tile_layer.hpp>
 #include "map_impl.hpp"
 
 using namespace rpgmapper::model;
 
-static QSize const MAP_SIZE_DEFAULT{10, 10};
 
-
-Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region}, size{MAP_SIZE_DEFAULT} {
+Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region} {
     if (map == nullptr) {
         throw std::invalid_argument{"Map must not be nullptr."};
     }
@@ -36,15 +34,4 @@ bool Map::Impl::applyJsonObject(QJsonObject const & json) {
 QJsonObject Map::Impl::getJsonObject() const {
     auto json = Nameable::getJsonObject();
     return json;
-}
-
-
-void Map::Impl::resize(QSize const & size) {
-    if ((size.width() < Map::getMinimumSize().width()) || (size.height() < Map::getMinimumSize().height())) {
-        return;
-    }
-    if ((size.width() > Map::getMaximumSize().width()) || (size.height() > Map::getMaximumSize().height())) {
-        return;
-    }
-    this->size = size;
 }

@@ -11,6 +11,7 @@
 
 #include <QSize>
 
+#include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
 #include "nameable.hpp"
@@ -22,7 +23,7 @@ namespace rpgmapper {
 namespace model {
 
 
-class Map::Impl final : public Nameable {
+class Map::Impl final : public Nameable, public CoordinateSystem {
 
     QString name;
     Map * map = nullptr;
@@ -33,8 +34,6 @@ class Map::Impl final : public Nameable {
     GridLayerPointer gridLayer;
     TextLayerPointer textLayer;
     TileLayers tileLayers;
-
-    QSize size;
 
 public:
 
@@ -62,8 +61,6 @@ public:
 
     QString getRegionName() const { return region != nullptr ? region->getName() : QString::null; }
 
-    QSize getSize() const  { return size; }
-
     TileLayers & getTileLayers() { return tileLayers; }
 
     TileLayers const & getTileLayers() const { return tileLayers; }
@@ -71,8 +68,6 @@ public:
     TextLayerPointer getTextLayer() { return textLayer; }
 
     TextLayerPointer const getTextLayer() const { return textLayer; }
-
-    void resize(QSize const & size);
 
 };
 

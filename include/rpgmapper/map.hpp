@@ -17,6 +17,7 @@
 #include <QSharedPointer>
 #include <QString>
 
+#include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/layer/background_layer.hpp>
 #include <rpgmapper/layer/grid_layer.hpp>
 #include <rpgmapper/layer/layer.hpp>
@@ -42,7 +43,7 @@ public:
 
     explicit Map(QString const & name, Region * region = nullptr);
 
-    virtual ~Map() = default;
+    ~Map() override = default;
 
     bool applyJsonObject(QJsonObject const & json);
 
@@ -53,6 +54,8 @@ public:
     TileLayers & getBaseLayers();
 
     TileLayers const & getBaseLayers() const;
+
+    CoordinateSystem const & getCoordinateSystem() const;
 
     GridLayerPointer getGridLayer();
 

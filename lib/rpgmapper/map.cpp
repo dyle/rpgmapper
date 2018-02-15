@@ -43,6 +43,11 @@ TileLayers const & Map::getBaseLayers() const {
 }
 
 
+CoordinateSystem const & Map::getCoordinateSystem() const {
+    return impl->getCoordinateSystem();
+}
+
+
 GridLayerPointer Map::getGridLayer() {
     return impl->getGridLayer();
 }
@@ -50,11 +55,6 @@ GridLayerPointer Map::getGridLayer() {
 
 GridLayerPointer const Map::getGridLayer() const {
     return impl->getGridLayer();
-}
-
-
-QString Map::getRegionName() const {
-    return impl->getRegionName();
 }
 
 
@@ -70,6 +70,11 @@ QString const & Map::getName() const {
 
 Region * Map::getRegion() {
     return impl->getRegion();
+}
+
+
+QString Map::getRegionName() const {
+    return impl->getRegionName();
 }
 
 

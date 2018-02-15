@@ -38,15 +38,15 @@ public:
 
     void setOrigin(CoordinateOrigin origin) { this->origin = origin; }
 
-    UserCoordinate transpose(ScreenCoordinate const & position) const;
+    Coordinates transpose(QPoint const & position) const;
 
-    UserCoordinate transpose(int x, int y) const { return transpose(ScreenCoordinate{x, y}); }
+    Coordinates transpose(int x, int y) const { return transpose(QPoint{x, y}); }
 
-    UserCoordinateF transpose(ScreenCoordinateF const & position) const;
+    CoordinatesF transpose(QPointF const & position) const;
 
-    UserCoordinateF transpose(float x, float y) const { return transpose(ScreenCoordinateF{x, y}); }
+    CoordinatesF transpose(float x, float y) const { return transpose(QPointF{x, y}); }
 
-    UserCoordinateF transpose(double x, double y) const { return transpose(ScreenCoordinateF{x, y}); }
+    CoordinatesF transpose(double x, double y) const { return transpose(QPointF{x, y}); }
 
     void resize(QSize const & size);
 

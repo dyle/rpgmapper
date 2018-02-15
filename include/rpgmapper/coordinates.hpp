@@ -15,13 +15,9 @@
 namespace rpgmapper {
 namespace model {
 
-using ScreenCoordinate = QPoint;
+using Coordinates = QPoint;
 
-using ScreenCoordinateF = QPointF;
-
-using UserCoordinate = QPoint;
-
-using UserCoordinateF = QPointF;
+using CoordinatesF = QPointF;
 
 
 }

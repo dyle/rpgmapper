@@ -51,6 +51,10 @@ public:
 
     TileLayers const & getBaseLayers() const { return baseLayers; }
 
+    CoordinateSystem & getCoordinateSystem() { return *this; }
+
+    CoordinateSystem const & getCoordinateSystem() const { return *this; }
+
     GridLayerPointer getGridLayer() { return gridLayer; }
 
     GridLayerPointer const getGridLayer() const { return gridLayer; }

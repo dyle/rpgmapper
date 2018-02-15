@@ -9,18 +9,18 @@
 using namespace rpgmapper::model;
 
 
-UserCoordinate CoordinateSystem::transpose(ScreenCoordinate const & position) const {
+Coordinates CoordinateSystem::transpose(QPoint const & position) const {
 
-    UserCoordinate coordinate;
+    Coordinates coordinate;
 
     switch (getOrigin()) {
 
         case CoordinateOrigin::bottomLeft:
-            coordinate = UserCoordinate{position.x(), getSize().height() - position.y() - 1};
+            coordinate = Coordinates{position.x(), getSize().height() - position.y() - 1};
             break;
 
         case CoordinateOrigin::bottomRight:
-            coordinate = UserCoordinate{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
+            coordinate = Coordinates{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
             break;
 
         case CoordinateOrigin::topLeft:
@@ -28,7 +28,7 @@ UserCoordinate CoordinateSystem::transpose(ScreenCoordinate const & position) co
             break;
 
         case CoordinateOrigin::topRight:
-            coordinate = UserCoordinate{getSize().width() - position.x() - 1, position.y()};
+            coordinate = Coordinates{getSize().width() - position.x() - 1, position.y()};
             break;
     }
 
@@ -36,18 +36,18 @@ UserCoordinate CoordinateSystem::transpose(ScreenCoordinate const & position) co
 }
 
 
-UserCoordinateF CoordinateSystem::transpose(ScreenCoordinateF const & position) const{
+CoordinatesF CoordinateSystem::transpose(QPointF const & position) const{
 
-    UserCoordinateF coordinate;
+    CoordinatesF coordinate;
 
     switch (getOrigin()) {
 
         case CoordinateOrigin::bottomLeft:
-            coordinate = UserCoordinateF{position.x(), getSize().height() - position.y() - 1};
+            coordinate = CoordinatesF{position.x(), getSize().height() - position.y() - 1};
             break;
 
         case CoordinateOrigin::bottomRight:
-            coordinate = UserCoordinateF{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
+            coordinate = CoordinatesF{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
             break;
 
         case CoordinateOrigin::topLeft:
@@ -55,7 +55,7 @@ UserCoordinateF CoordinateSystem::transpose(ScreenCoordinateF const & position) 
             break;
 
         case CoordinateOrigin::topRight:
-            coordinate = UserCoordinateF{getSize().width() - position.x() - 1, position.y()};
+            coordinate = CoordinatesF{getSize().width() - position.x() - 1, position.y()};
             break;
     }
 

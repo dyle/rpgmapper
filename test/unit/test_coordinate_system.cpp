@@ -72,12 +72,12 @@ TEST(CoordinateSystemTest, SizeAboveMaximum) {
 }
 
 
-TEST(CoordinateSystemTest, TransposePointToUserCoordinates) {
+TEST(CoordinateSystemTest, TransposeCoordinates) {
 
     CoordinateSystem coordinateSystem;
     coordinateSystem.resize(10, 10);
-    UserCoordinate position;
-    UserCoordinateF positionF;
+    Coordinates position;
+    CoordinatesF positionF;
     QPoint point;
     QPointF pointF;
 

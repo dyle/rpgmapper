@@ -24,6 +24,7 @@ public:
 
     QString convert(int value) const override;
 
+    QString name() const override { return "AlphaBig"; }
 };
 
 

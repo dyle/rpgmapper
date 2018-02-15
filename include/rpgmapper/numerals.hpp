@@ -29,6 +29,8 @@ public:
 
     virtual bool isValid() const { return true; }
 
+    virtual QString name() const = 0;
+
 protected:
 
     NumeralConverter() = default;
@@ -42,6 +44,8 @@ public:
     QString convert(int) const override { return QString::null; }
 
     bool isValid() const override { return false; }
+
+    QString name() const override { return "Invalid"; }
 };
 
 

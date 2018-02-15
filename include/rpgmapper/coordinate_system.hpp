@@ -8,9 +8,12 @@
 #ifndef RPGMAPPER_MODEL_COORDINATE_SYSTEM_HPP
 #define RPGMAPPER_MODEL_COORDINATE_SYSTEM_HPP
 
+#include <tuple>
+
 #include <QSize>
 
 #include <rpgmapper/coordinates.hpp>
+#include <rpgmapper/numerals.hpp>
 
 
 namespace rpgmapper {
@@ -19,14 +22,21 @@ namespace model {
 
 enum class CoordinateOrigin { topLeft, topRight, bottomLeft, bottomRight };
 
+struct NumeralCoordinate {
+    QString x;
+    QString y;
+};
+
 class CoordinateSystem {
 
     CoordinateOrigin origin = CoordinateOrigin::bottomLeft;
     QSize size{10, 10};
+    QSharedPointer<NumeralConverter> numeralXAxis;
+    QSharedPointer<NumeralConverter> numeralYAxis;
 
 public:
 
-    CoordinateSystem() = default;
+    CoordinateSystem();
 
     CoordinateOrigin getOrigin() const { return origin; }
 
@@ -34,7 +44,19 @@ public:
 
     static constexpr QSize getMinimumSize() { return QSize{1, 1}; }
 
+    NumeralCoordinate getNumeralCoordinates(QPoint position) const;
+
+    NumeralCoordinate getNumeralCoordinates(int x, int y) const { return getNumeralCoordinates(QPoint{x, y}); }
+
+    QSharedPointer<NumeralConverter> const & getNumeralXAxis() const { return numeralXAxis; }
+
+    QSharedPointer<NumeralConverter> const & getNumeralYAxis() const { return numeralYAxis; }
+
     QSize getSize() const { return size; }
+
+    void setNumeralXAxis(QString numeral);
+
+    void setNumeralYAxis(QString numeral);
 
     void setOrigin(CoordinateOrigin origin) { this->origin = origin; }
 

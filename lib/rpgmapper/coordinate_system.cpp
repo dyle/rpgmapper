@@ -9,6 +9,39 @@
 using namespace rpgmapper::model;
 
 
+CoordinateSystem::CoordinateSystem() {
+    numeralXAxis = NumeralConverter::create("Numeric");
+    if (!numeralXAxis->isValid()) {
+        throw std::runtime_error("Failed to create default numeral converter for X axis.");
+    }
+    numeralYAxis = NumeralConverter::create("Numeric");
+    if (!numeralYAxis->isValid()) {
+        throw std::runtime_error("Failed to create default numeral converter for Y axis.");
+    }
+}
+
+
+NumeralCoordinate CoordinateSystem::getNumeralCoordinates(QPoint position) const {
+    return NumeralCoordinate{numeralXAxis->convert(position.x()), numeralYAxis->convert(position.y())};
+}
+
+
+void CoordinateSystem::setNumeralXAxis(QString numeral) {
+    auto const & numeralConverter = NumeralConverter::create(numeral);
+    if (numeralConverter->isValid()) {
+        numeralXAxis = numeralConverter;
+    }
+}
+
+
+void CoordinateSystem::setNumeralYAxis(QString numeral) {
+    auto const & numeralConverter = NumeralConverter::create(numeral);
+    if (numeralConverter->isValid()) {
+        numeralYAxis = numeralConverter;
+    }
+}
+
+
 Coordinates CoordinateSystem::transpose(QPoint const & position) const {
 
     Coordinates coordinate;

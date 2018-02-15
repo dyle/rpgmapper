@@ -16,11 +16,11 @@ UserCoordinate CoordinateSystem::transpose(ScreenCoordinate const & position) co
     switch (getOrigin()) {
 
         case CoordinateOrigin::bottomLeft:
-            // TODO
+            coordinate = UserCoordinate{position.x(), getSize().height() - position.y() - 1};
             break;
 
         case CoordinateOrigin::bottomRight:
-            // TODO
+            coordinate = UserCoordinate{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
             break;
 
         case CoordinateOrigin::topLeft:
@@ -28,7 +28,7 @@ UserCoordinate CoordinateSystem::transpose(ScreenCoordinate const & position) co
             break;
 
         case CoordinateOrigin::topRight:
-            // TODO
+            coordinate = UserCoordinate{getSize().width() - position.x() - 1, position.y()};
             break;
     }
 
@@ -43,11 +43,11 @@ UserCoordinateF CoordinateSystem::transpose(ScreenCoordinateF const & position) 
     switch (getOrigin()) {
 
         case CoordinateOrigin::bottomLeft:
-            // TODO
+            coordinate = UserCoordinateF{position.x(), getSize().height() - position.y() - 1};
             break;
 
         case CoordinateOrigin::bottomRight:
-            // TODO
+            coordinate = UserCoordinateF{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
             break;
 
         case CoordinateOrigin::topLeft:
@@ -55,7 +55,7 @@ UserCoordinateF CoordinateSystem::transpose(ScreenCoordinateF const & position) 
             break;
 
         case CoordinateOrigin::topRight:
-            // TODO
+            coordinate = UserCoordinateF{getSize().width() - position.x() - 1, position.y()};
             break;
     }
 

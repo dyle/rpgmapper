@@ -50,6 +50,7 @@ public:
 
     void resize(QSize const & size);
 
+    void resize(int width, int height) { resize(QSize{width, height}); }
 };
 
 

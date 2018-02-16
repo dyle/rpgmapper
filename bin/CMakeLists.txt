@@ -45,7 +45,8 @@ set(RPGMAPPER_SRC
     mainwindow.cpp
     mainwindow_impl.cpp
 #    view/mapscrollarea.cpp
-#    view/maptabwidget.cpp
+    maptabwidget.cpp
+    maptabwidget_impl.cpp
 #    view/mapwidget.cpp
 #    view/mappropertiesdialog.cpp
 #    view/origincornerwidget.cpp

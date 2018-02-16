@@ -5,72 +5,37 @@
  */
 
 
-// ------------------------------------------------------------
-// incs
-
-#include <cassert>
+//#include <cassert>
 #include <QPixmapCache>
 #include <QScrollArea>
 
-// rpgmapper
-#include <rpgmapper/atlas.hpp>
-#include <rpgmapper/controller.hpp>
-#include "mapscrollarea.hpp"
+//#include <rpgmapper/atlas.hpp>
+//#include <rpgmapper/controller.hpp>
+//#include "view/mapscrollarea.hpp"
 #include "maptabwidget.hpp"
 
-using namespace rpgmapper::model;
+//using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 
 
-// ------------------------------------------------------------
-// decl
+MapTabWidget::MapTabWidget(QWidget * parent) : QTabWidget{parent} {
 
-namespace rpgmapper {
-namespace view {
+    impl = std::make_shared<MapTabWidget::Impl>();
 
-
-/**
- * Internal data of a MapTabWidget.
- */
-class MapTabWidget::MapTabWidget_data {
-
-public:
-
-    MapTabWidget_data() = default;
-
-    std::map<mapid_t, MapScrollArea *> m_cMapViews;     /**< all current map views */
-};
-
-
-}
+//    connect(this, &QTabWidget::tabCloseRequested, this, &MapTabWidget::mapCloseRequested);
+//    connect(Controller::instance().atlas().data(), &Atlas::deletedMap, this, &MapTabWidget::deletedMap);
+//    connect(Controller::instance().atlas().data(), &Atlas::selectedMap, this, &MapTabWidget::selectMap);
 }
 
 
-// ------------------------------------------------------------
-// code
 
 
-/**
- * Ctor
- *
- * @param   cParent     parent widget
- */
-MapTabWidget::MapTabWidget(QWidget * cParent) : QTabWidget{cParent} {
 
-    d = std::make_shared<MapTabWidget::MapTabWidget_data>();
+#if 0
 
-    connect(this, &QTabWidget::tabCloseRequested, this, &MapTabWidget::mapCloseRequested);
-    connect(Controller::instance().atlas().data(), &Atlas::deletedMap, this, &MapTabWidget::deletedMap);
-    connect(Controller::instance().atlas().data(), &Atlas::selectedMap, this, &MapTabWidget::selectMap);
-}
-
-
-/**
- * Closes the current map.
- */
-void MapTabWidget::closeCurrentMap() {
-    removeTab(currentIndex());
-}
+//void MapTabWidget::closeCurrentMap() {
+//    removeTab(currentIndex());
+//}
 
 
 /**
@@ -141,3 +106,6 @@ void MapTabWidget::selectMap(mapid_t nMapId) {
         setCurrentWidget((*iter).second);
     }
 }
+
+
+#endif

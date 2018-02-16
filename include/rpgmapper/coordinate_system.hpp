@@ -22,7 +22,7 @@ namespace model {
 
 enum class CoordinateOrigin { topLeft, topRight, bottomLeft, bottomRight };
 
-struct NumeralCoordinate {
+struct NumeralCoordinates {
     QString x;
     QString y;
 };
@@ -44,9 +44,9 @@ public:
 
     static constexpr QSize getMinimumSize() { return QSize{1, 1}; }
 
-    NumeralCoordinate getNumeralCoordinates(QPoint position) const;
+    NumeralCoordinates getNumeralCoordinates(QPoint position) const;
 
-    NumeralCoordinate getNumeralCoordinates(int x, int y) const { return getNumeralCoordinates(QPoint{x, y}); }
+    NumeralCoordinates getNumeralCoordinates(int x, int y) const { return getNumeralCoordinates(QPoint{x, y}); }
 
     QSharedPointer<NumeralConverter> const & getNumeralXAxis() const { return numeralXAxis; }
 

@@ -24,7 +24,7 @@ qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
 
 set(RPGMAPPER_MOC
     aboutdialog.hpp
-#    view/coordinatewidget.hpp
+    coordinateswidget.hpp
 #    view/logdialog.hpp
     mainwindow.hpp
 #    view/mapscrollarea.hpp
@@ -39,8 +39,8 @@ qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
 
 set(RPGMAPPER_SRC
     aboutdialog.cpp
+    coordinateswidget.cpp
     main.cpp
-#    view/coordinatewidget.cpp
 #    view/logdialog.cpp
     mainwindow.cpp
     mainwindow_impl.cpp

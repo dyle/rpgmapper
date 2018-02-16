@@ -21,8 +21,8 @@ CoordinateSystem::CoordinateSystem() {
 }
 
 
-NumeralCoordinate CoordinateSystem::getNumeralCoordinates(QPoint position) const {
-    return NumeralCoordinate{numeralXAxis->convert(position.x()), numeralYAxis->convert(position.y())};
+NumeralCoordinates CoordinateSystem::getNumeralCoordinates(QPoint position) const {
+    return NumeralCoordinates{numeralXAxis->convert(position.x()), numeralYAxis->convert(position.y())};
 }
 
 

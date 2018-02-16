@@ -1,8 +1,6 @@
-#
 # This file is part of rpgmapper.
 # See the LICENSE file for the software license.
 # (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
-#
 
 project(rpgmapper C CXX)
 cmake_minimum_required(VERSION 3.9.1)
@@ -43,14 +41,14 @@ check_include_file(assert.h HAVE_ASSERT_H)
 check_include_file(errno.h HAVE_ERRNO_H)
 check_include_file(limits.h HAVE_LIMITS_H)
 
-#find_package(Boost 1.62.0 COMPONENTS filesystem program_options system)
-#if (Boost_FOUND)
-#    set(CMAKE_REQUIRED_LIBRARIES "${Boost_LIBRARIES};${CMAKE_REQUIRED_LIBRARIES}")
-#    include_directories(${Boost_INCLUDE_DIRS})
-#    set(HAVE_BOOST_LIB 1)
-#else (Boost_FOUND)
-#    message(FATAL_ERROR "Boost >= 1.62.0 library not found.")
-#endif (Boost_FOUND)
+find_package(Boost 1.62.0 COMPONENTS program_options)
+if (Boost_FOUND)
+    set(CMAKE_REQUIRED_LIBRARIES "${Boost_LIBRARIES};${CMAKE_REQUIRED_LIBRARIES}")
+    include_directories(${Boost_INCLUDE_DIRS})
+    set(HAVE_BOOST_LIB 1)
+else (Boost_FOUND)
+    message(FATAL_ERROR "Boost >= 1.62.0 library not found.")
+endif (Boost_FOUND)
 
 message (STATUS "Looking for Qt5")
 find_package(Qt5Core REQUIRED)
@@ -79,7 +77,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DI
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QUAZIP_INCLUDE})
 
 add_subdirectory(lib)
-#add_subdirectory(bin)
+add_subdirectory(bin)
 add_subdirectory(test)
 
 

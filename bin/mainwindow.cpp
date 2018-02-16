@@ -5,6 +5,189 @@
  */
 
 
+#include <QApplication>
+#include <QCloseEvent>
+#include <QDesktopWidget>
+#include <QStatusBar>
+
+#include "mainwindow.hpp"
+#include "mainwindow_impl.hpp"
+
+using namespace rpgmapper::view;
+
+
+MainWindow::MainWindow() : QMainWindow{} {
+
+    impl = std::make_shared<MainWindow::Impl>(this);
+
+    statusBar()->setSizeGripEnabled(false);
+    statusBar()->setVisible(true);
+
+    setupDialogs();
+    connectActions();
+    loadSettings();
+}
+
+
+void MainWindow::centerWindow() {
+
+    const int defaultWidth = 600;
+    const int defaultHeight = 400;
+
+    //QDesktopWidget * desktop = dynamic_cast<QApplication *>(QApplication::instance())->desktop();
+    auto desktop = dynamic_cast<QApplication *>(QApplication::instance())->desktop();
+    int x = (desktop->width() - defaultWidth) / 2;
+    int y = (desktop->height() - defaultHeight) / 2;
+
+    resize(QSize{defaultWidth, defaultHeight});
+    move(QPoint{x, y});
+}
+
+
+void MainWindow::closeEvent(QCloseEvent * event) {
+    saveSettings();
+    QMainWindow::closeEvent(event);
+}
+
+
+void MainWindow::connectActions() {
+
+    // TODO
+//    connect(d->ui->acAbout, &QAction::triggered, this, &MainWindow::showAboutDialog);
+//    connect(d->ui->acAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
+//    connect(d->ui->acCloseMap, &QAction::triggered, d->ui->tabMap, &MapTabWidget::closeCurrentMap);
+//    connect(d->ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
+//    connect(d->ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
+//    connect(d->ui->acMapProperties, &QAction::triggered, this, &MainWindow::editMapProperties);
+//    connect(d->ui->acNewMap, &QAction::triggered, this, &MainWindow::newMap);
+//    connect(d->ui->acNewRegion, &QAction::triggered, this, &MainWindow::newRegion);
+//    connect(d->ui->acOpen, &QAction::triggered, this, &MainWindow::load);
+//    connect(d->ui->acQuit, &QAction::triggered, this, &MainWindow::close);
+//    connect(d->ui->acRecentListClear, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
+//    connect(d->ui->acRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
+//    connect(d->ui->acSave, &QAction::triggered, this, &MainWindow::save);
+//    connect(d->ui->acSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
+//    connect(d->ui->acViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
+//    connect(d->ui->acViewStructure, &QAction::triggered, this, &MainWindow::visibleStructure);
+//    connect(d->ui->acViewTiles, &QAction::triggered, this, &MainWindow::visibleTiles);
+//
+//    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedAtlas, d->ui->acAtlasProperties, &QAction::trigger);
+//    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedMap, d->ui->acMapProperties, &QAction::trigger);
+//    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedRegion, d->ui->acRegionProperties, &QAction::trigger);
+//
+//    connect(d->ui->tabMap, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
+}
+
+
+void MainWindow::loadSettings() {
+
+    QSettings settings{"rpgmapper", "rpgmapper"};
+
+    if (settings.contains("geometry")) {
+        restoreGeometry(settings.value("geometry").toByteArray());
+    }
+    else {
+        centerWindow();
+    }
+    restoreState(settings.value("windowState").toByteArray());
+
+    // TODO
+    //d->m_nMaximumRecentAtlasFiles = settings.value("recent/maximum", 10).toInt();
+    //d->m_sRecentAtlasFolder = settings.value("recent/folder").toString();
+    //d->m_cRecentAtlasFiles.clear();
+    //for (int i = 0; i < d->m_nMaximumRecentAtlasFiles; ++i) {
+    //    QString sFilename = settings.value("recent/file-" + QString::number(i), "").toString();
+    //    if (!sFilename.isEmpty()) {
+    //        d->m_cRecentAtlasFiles.append(sFilename);
+    //    }
+    //}
+    //createRecentFileActions();
+
+    //if (!d->m_sRecentAtlasFolder.isEmpty()) {
+    //    d->m_cDlgLoad->setDirectory(d->m_sRecentAtlasFolder);
+    //    d->m_cDlgSaveAs->setDirectory(d->m_sRecentAtlasFolder);
+    //}
+}
+
+
+void MainWindow::saveSettings() {
+    QSettings settings{"rpgmapper", "rpgmapper"};
+    saveSettingsWindow(settings);
+    //saveSettingsRecentFiles(settings);
+}
+
+
+void MainWindow::saveSettingsWindow(QSettings & settings) {
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("windowState", saveState());
+}
+
+
+void MainWindow::setupDialogs() {
+
+    // TODO
+//    QStringList cFileNameFilters;
+//    cFileNameFilters << tr("Atlas files [*.atlas] (*.atlas)")
+//                     << tr("Any files [*.*] (*)");
+//
+//    d->m_cDlgAbout = new AboutDialog(this);
+//
+//    d->m_cDlgLoad = new QFileDialog(this);
+//    d->m_cDlgLoad->setFileMode(QFileDialog::ExistingFile);
+//    d->m_cDlgLoad->setNameFilters(cFileNameFilters);
+//    d->m_cDlgLoad->setAcceptMode(QFileDialog::AcceptOpen);
+//    d->m_cDlgLoad->setWindowTitle(tr("Load Atlas file"));
+//    d->m_cDlgLoad->setDirectory(d->m_sRecentAtlasFolder);
+//
+//    d->m_cDlgLog = new LogDialog(this);
+//
+//    d->m_cDlgMapProperties = new MapPropertiesDialog(this);
+//
+//    d->m_cDlgSaveAs = new QFileDialog(this);
+//    d->m_cDlgSaveAs->setFileMode(QFileDialog::AnyFile);
+//    d->m_cDlgSaveAs->setNameFilters(cFileNameFilters);
+//    d->m_cDlgSaveAs->setAcceptMode(QFileDialog::AcceptSave);
+//    d->m_cDlgSaveAs->setWindowTitle(tr("Save Atlas file"));
+//    d->m_cDlgSaveAs->setDirectory(d->m_sRecentAtlasFolder);
+}
+
+
+void MainWindow::showEvent(QShowEvent * cEvent) {
+
+    QMainWindow::showEvent(cEvent);
+
+    static bool bFirstTime = true;
+    if (bFirstTime) {
+
+        // ugly hack, since I did not get how Qt saves the visibilty state
+        // in the saveState() and restoreState() methods of the QDockWindow childs
+        // --> anyone?
+// TODO
+//        d->ui->acViewMinimap->setChecked(d->ui->dwMiniMap->isVisible());
+//        d->ui->acViewStructure->setChecked(d->ui->dwAtlasTree->isVisible());
+//        d->ui->acViewTiles->setChecked(d->ui->dwTiles->isVisible());
+
+        bFirstTime = false;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#if 0
+
+
 // ------------------------------------------------------------
 // incs
 
@@ -20,12 +203,12 @@
 // rpgmapper
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/controller.hpp>
-#include "aboutdialog.hpp"
-#include "coordinatewidget.hpp"
-#include "logdialog.hpp"
+#include "view/aboutdialog.hpp"
+#include "view/coordinatewidget.hpp"
+#include "view/logdialog.hpp"
 #include "mainwindow.hpp"
-#include "mappropertiesdialog.hpp"
-#include "structuraltreewidget.hpp"
+#include "view/mappropertiesdialog.hpp"
+#include "view/structuraltreewidget.hpp"
 
 #include "ui_mainwindow.h"
 
@@ -138,23 +321,6 @@ void MainWindow::addRecentFileName(QString const & sFileName) {
 
 
 /**
- * Centers the window on the desktop with default width and height.
- */
-void MainWindow::centerWindow() {
-
-    const int nDefaultWidth = 600;
-    const int nDefaultHeight = 400;
-
-    QDesktopWidget * cDesktop = dynamic_cast<QApplication *>(QApplication::instance())->desktop();
-    int nX = (cDesktop->width() - nDefaultWidth) / 2;
-    int nY = (cDesktop->height() - nDefaultHeight) / 2;
-
-    resize(QSize(nDefaultWidth, nDefaultHeight));
-    move(QPoint(nX, nY));
-}
-
-
-/**
  * The atlas changed.
  */
 void MainWindow::changedAtlas() {
@@ -195,48 +361,6 @@ void MainWindow::clearListOfRecentFiles() {
     d->m_cRecentAtlasFiles.clear();
 
     enableActions();
-}
-
-
-/**
- * Handle close event.
- *
- * @param   cEvent      the event passed
- */
-void MainWindow::closeEvent(QCloseEvent* cEvent) {
-    saveSettings();
-    QMainWindow::closeEvent(cEvent);
-}
-
-
-/**
- * Connects all action signals for this MainWindow.
- */
-void MainWindow::connectActions() {
-
-    connect(d->ui->acAbout, &QAction::triggered, this, &MainWindow::showAboutDialog);
-    connect(d->ui->acAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
-    connect(d->ui->acCloseMap, &QAction::triggered, d->ui->tabMap, &MapTabWidget::closeCurrentMap);
-    connect(d->ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
-    connect(d->ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
-    connect(d->ui->acMapProperties, &QAction::triggered, this, &MainWindow::editMapProperties);
-    connect(d->ui->acNewMap, &QAction::triggered, this, &MainWindow::newMap);
-    connect(d->ui->acNewRegion, &QAction::triggered, this, &MainWindow::newRegion);
-    connect(d->ui->acOpen, &QAction::triggered, this, &MainWindow::load);
-    connect(d->ui->acQuit, &QAction::triggered, this, &MainWindow::close);
-    connect(d->ui->acRecentListClear, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
-    connect(d->ui->acRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
-    connect(d->ui->acSave, &QAction::triggered, this, &MainWindow::save);
-    connect(d->ui->acSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
-    connect(d->ui->acViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
-    connect(d->ui->acViewStructure, &QAction::triggered, this, &MainWindow::visibleStructure);
-    connect(d->ui->acViewTiles, &QAction::triggered, this, &MainWindow::visibleTiles);
-
-    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedAtlas, d->ui->acAtlasProperties, &QAction::trigger);
-    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedMap, d->ui->acMapProperties, &QAction::trigger);
-    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedRegion, d->ui->acRegionProperties, &QAction::trigger);
-
-    connect(d->ui->tabMap, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
 }
 
 
@@ -417,39 +541,6 @@ void MainWindow::loadRecentFile() {
 
 
 /**
- * Load the settings.
- */
-void MainWindow::loadSettings() {
-
-    QSettings cSettings{"rpgmapper", "rpgmapper"};
-
-    if (cSettings.contains("geometry")) {
-        restoreGeometry(cSettings.value("geometry").toByteArray());
-    }
-    else {
-        centerWindow();
-    }
-    restoreState(cSettings.value("windowState").toByteArray());
-
-    d->m_nMaximumRecentAtlasFiles = cSettings.value("recent/maximum", 10).toInt();
-    d->m_sRecentAtlasFolder = cSettings.value("recent/folder").toString();
-    d->m_cRecentAtlasFiles.clear();
-    for (int i = 0; i < d->m_nMaximumRecentAtlasFiles; ++i) {
-        QString sFilename = cSettings.value("recent/file-" + QString::number(i), "").toString();
-        if (!sFilename.isEmpty()) {
-            d->m_cRecentAtlasFiles.append(sFilename);
-        }
-    }
-    createRecentFileActions();
-
-    if (!d->m_sRecentAtlasFolder.isEmpty()) {
-        d->m_cDlgLoad->setDirectory(d->m_sRecentAtlasFolder);
-        d->m_cDlgSaveAs->setDirectory(d->m_sRecentAtlasFolder);
-    }
-}
-
-
-/**
  * A new map shall be created.
  */
 void MainWindow::newMap() {
@@ -522,16 +613,6 @@ void MainWindow::saveAtlas(QString const & sFileName) {
 
 
 /**
- * Save the rpgmapper settings.
- */
-void MainWindow::saveSettings() {
-    QSettings cSettings{"rpgmapper", "rpgmapper"};
-    saveSettingsWindow(cSettings);
-    saveSettingsRecentFiles(cSettings);
-}
-
-
-/**
  * Save the window geometry and states.
  *
  * @param   cSettings       settings instance to save to
@@ -549,48 +630,6 @@ void MainWindow::saveSettingsRecentFiles(QSettings & cSettings) {
             break;
         }
     }
-}
-
-
-/**
- * Save the list of recent atlas files.
- *
- * @param   cSettings       settings instance to save to
- */
-void MainWindow::saveSettingsWindow(QSettings & cSettings) {
-    cSettings.setValue("geometry", saveGeometry());
-    cSettings.setValue("windowState", saveState());
-}
-
-
-/**
- * Setup the internal dialogs.
- */
-void MainWindow::setupDialogs() {
-
-    QStringList cFileNameFilters;
-    cFileNameFilters << tr("Atlas files [*.atlas] (*.atlas)")
-                     << tr("Any files [*.*] (*)");
-
-    d->m_cDlgAbout = new AboutDialog(this);
-
-    d->m_cDlgLoad = new QFileDialog(this);
-    d->m_cDlgLoad->setFileMode(QFileDialog::ExistingFile);
-    d->m_cDlgLoad->setNameFilters(cFileNameFilters);
-    d->m_cDlgLoad->setAcceptMode(QFileDialog::AcceptOpen);
-    d->m_cDlgLoad->setWindowTitle(tr("Load Atlas file"));
-    d->m_cDlgLoad->setDirectory(d->m_sRecentAtlasFolder);
-
-    d->m_cDlgLog = new LogDialog(this);
-
-    d->m_cDlgMapProperties = new MapPropertiesDialog(this);
-
-    d->m_cDlgSaveAs = new QFileDialog(this);
-    d->m_cDlgSaveAs->setFileMode(QFileDialog::AnyFile);
-    d->m_cDlgSaveAs->setNameFilters(cFileNameFilters);
-    d->m_cDlgSaveAs->setAcceptMode(QFileDialog::AcceptSave);
-    d->m_cDlgSaveAs->setWindowTitle(tr("Save Atlas file"));
-    d->m_cDlgSaveAs->setDirectory(d->m_sRecentAtlasFolder);
 }
 
 
@@ -623,30 +662,6 @@ void MainWindow::showCoordinates(int x, int y) {
 
 
 /**
- * Handle the show event.
- *
- * @param   cEvent      show event info
- */
-void MainWindow::showEvent(QShowEvent * cEvent) {
-
-    QMainWindow::showEvent(cEvent);
-
-    static bool bFirstTime = true;
-    if (bFirstTime) {
-
-        // ugly hack, since I did not get how Qt saves the visibilty state
-        // in the saveState() and restoreState() methods of the QDockWindow childs
-        // --> anyone?
-        d->ui->acViewMinimap->setChecked(d->ui->dwMiniMap->isVisible());
-        d->ui->acViewStructure->setChecked(d->ui->dwAtlasTree->isVisible());
-        d->ui->acViewTiles->setChecked(d->ui->dwTiles->isVisible());
-
-        bFirstTime = false;
-    }
-}
-
-
-/**
  * Toggle the minimap window visibility.
  *
  * @param   bView       visibility of window
@@ -674,3 +689,6 @@ void MainWindow::visibleStructure(bool bView) {
 void MainWindow::visibleTiles(bool bView) {
     d->ui->dwTiles->setVisible(bView);
 }
+
+
+#endif

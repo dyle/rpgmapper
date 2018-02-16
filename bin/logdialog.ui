@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>logdialog</class>
- <widget class="QDialog" name="logdialog">
+ <class>logDialog</class>
+ <widget class="QDialog" name="logDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>154</height>
+    <height>158</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Log</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="mainLayout">
    <item>
-    <widget class="QLabel" name="lbMessage">
+    <widget class="QLabel" name="messageLabel">
      <property name="text">
       <string>TextLabel</string>
      </property>
@@ -25,7 +25,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="edPlainLog">
+    <widget class="QPlainTextEdit" name="logEdit">
      <property name="font">
       <font>
        <family>Monospace</family>
@@ -40,8 +40,8 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="wdButtons" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout">
+    <widget class="QWidget" name="buttonsWidget" native="true">
+     <layout class="QHBoxLayout" name="buttonsLayout">
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -55,7 +55,7 @@
        <number>0</number>
       </property>
       <item>
-       <spacer name="spButton">
+       <spacer name="buttonSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -68,7 +68,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="btnClose">
+       <widget class="QPushButton" name="closeButton">
         <property name="text">
          <string>&amp;Close</string>
         </property>
@@ -83,15 +83,15 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>edPlainLog</tabstop>
-  <tabstop>btnClose</tabstop>
+  <tabstop>logEdit</tabstop>
+  <tabstop>closeButton</tabstop>
  </tabstops>
  <resources/>
  <connections>
   <connection>
-   <sender>btnClose</sender>
+   <sender>closeButton</sender>
    <signal>clicked()</signal>
-   <receiver>logdialog</receiver>
+   <receiver>logDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">

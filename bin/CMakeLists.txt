@@ -12,12 +12,12 @@ qt5_add_resources(RPGMAPPER_RES ${RPGMAPPER_RCC})
 
 
 set(RPGMAPPER_UI
-#    view/aboutdialog.ui
-#    view/coordinatewidget.ui
-#    view/logdialog.ui
+    aboutdialog.ui
+    coordinatesoriginwidget.ui
+    coordinateswidget.ui
+    logdialog.ui
     mainwindow.ui
-#    view/mappropertiesdialog.ui
-#    view/origincornerwidget.ui
+    mappropertiesdialog.ui
 )
 qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
 

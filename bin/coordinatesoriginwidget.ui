@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>origincornerwidget</class>
- <widget class="QWidget" name="origincornerwidget">
+ <class>coordinatesOriginWidget</class>
+ <widget class="QWidget" name="coordinatesOriginWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="lblMap">
+  <widget class="QLabel" name="mapLabel">
    <property name="geometry">
     <rect>
      <x>16</x>
@@ -41,7 +41,7 @@
     <pixmap resource="rpgmapper.qrc">:/images/gfx/paper-quads.png</pixmap>
    </property>
   </widget>
-  <widget class="QRadioButton" name="rbTopLeft">
+  <widget class="QRadioButton" name="topLeftRadioButton">
    <property name="geometry">
     <rect>
      <x>6</x>
@@ -54,7 +54,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QRadioButton" name="rbTopRight">
+  <widget class="QRadioButton" name="topRightRadioButton">
    <property name="geometry">
     <rect>
      <x>132</x>
@@ -67,7 +67,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QRadioButton" name="rbBottomRight">
+  <widget class="QRadioButton" name="bottomRightRadioButton">
    <property name="geometry">
     <rect>
      <x>132</x>
@@ -83,7 +83,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QRadioButton" name="rbBottomLeft">
+  <widget class="QRadioButton" name="bottomLeftRadioButton">
    <property name="geometry">
     <rect>
      <x>6</x>
@@ -96,7 +96,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="lblArrowLeft1">
+  <widget class="QLabel" name="topLeftArrowLeftLabel">
    <property name="geometry">
     <rect>
      <x>26</x>
@@ -112,7 +112,7 @@
     <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-right.png</pixmap>
    </property>
   </widget>
-  <widget class="QLabel" name="lblArrowLeft2">
+  <widget class="QLabel" name="bottomLeftArrowRightLabel">
    <property name="geometry">
     <rect>
      <x>26</x>
@@ -128,7 +128,7 @@
     <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-right.png</pixmap>
    </property>
   </widget>
-  <widget class="QLabel" name="lblArrowRight1">
+  <widget class="QLabel" name="topRightArrowRightLabel">
    <property name="geometry">
     <rect>
      <x>94</x>
@@ -144,7 +144,7 @@
     <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-left.png</pixmap>
    </property>
   </widget>
-  <widget class="QLabel" name="lblArrowRight2">
+  <widget class="QLabel" name="bottomRightArrowLeftLabel">
    <property name="geometry">
     <rect>
      <x>94</x>
@@ -160,7 +160,7 @@
     <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-left.png</pixmap>
    </property>
   </widget>
-  <widget class="QLabel" name="lblArrowDown1">
+  <widget class="QLabel" name="topLeftArrowDownLabel">
    <property name="geometry">
     <rect>
      <x>8</x>
@@ -176,7 +176,7 @@
     <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-down.png</pixmap>
    </property>
   </widget>
-  <widget class="QLabel" name="lblArrowDown1_2">
+  <widget class="QLabel" name="topRightArrowDownLabel">
    <property name="geometry">
     <rect>
      <x>134</x>
@@ -192,7 +192,7 @@
     <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-down.png</pixmap>
    </property>
   </widget>
-  <widget class="QLabel" name="lblArrowUp1">
+  <widget class="QLabel" name="bottomLeftArrowUpLabel">
    <property name="geometry">
     <rect>
      <x>8</x>
@@ -208,7 +208,7 @@
     <pixmap resource="rpgmapper.qrc">:/images/gfx/red-arrow-up.png</pixmap>
    </property>
   </widget>
-  <widget class="QLabel" name="lblArrowUp2">
+  <widget class="QLabel" name="bottomRightArrowUpLabel">
    <property name="geometry">
     <rect>
      <x>134</x>

@@ -48,7 +48,6 @@ set(RPGMAPPER_SRC
     mappropertiesdialog.cpp
     mapscrollarea.cpp
     maptabwidget.cpp
-    maptabwidget_impl.cpp
     mapwidget.cpp
     structuraltreewidget.cpp
 )

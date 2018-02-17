@@ -15,8 +15,9 @@
 #include <QMainWindow>
 #include <QSettings>
 
-#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/selection.hpp>
 #include "aboutdialog.hpp"
+#include "coordinateswidget.hpp"
 #include "logdialog.hpp"
 #include "mappropertiesdialog.hpp"
 
@@ -33,7 +34,8 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
     std::shared_ptr<Ui_mainwindow> ui;
-    rpgmapper::model::AtlasPointer atlas;
+
+    rpgmapper::model::Selection * selection;
 
     AboutDialog * aboutDialog = nullptr;
     QFileDialog * loadAtlasDialog = nullptr;
@@ -46,19 +48,21 @@ class MainWindow : public QMainWindow {
     int maximumRecentAtlasFiles = 10;
     QList<QAction *> recentFileLoadActions;
 
+    CoordinatesWidget * coordinatesWidget = nullptr;
+
 public:
 
     MainWindow();
 
-    rpgmapper::model::AtlasPointer getAtlas();
+    rpgmapper::model::AtlasPointer & getAtlas();
 
-    rpgmapper::model::AtlasPointer const getAtlas() const;
-
-    void setAtlas(rpgmapper::model::AtlasPointer atlas);
+    rpgmapper::model::AtlasPointer const & getAtlas() const;
 
 public slots:
 
     void enableActions();
+
+    void showCoordinates(int x, int y);
 
 protected:
 
@@ -151,8 +155,6 @@ public slots:
     void newRegion();
 
     void resetAtlas();
-
-    void showCoordinates(int x, int y);
 
     void visibleMinimap(bool bView);
 

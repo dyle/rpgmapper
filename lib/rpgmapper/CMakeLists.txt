@@ -10,6 +10,7 @@ set(RPGMAPPER_LIB_MOC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/atlas.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/selection.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/background_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/grid_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/layer.hpp
@@ -30,6 +31,7 @@ set(RPGMAPPER_LIB_SRC
     nameable.cpp
     region.cpp
     region_impl.cpp
+    selection.cpp
 
     command/atlas_command.cpp
     command/atlas_set_name.cpp

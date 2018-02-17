@@ -23,9 +23,15 @@ MainWindow::MainWindow() : QMainWindow{} {
     ui = std::make_shared<Ui_mainwindow>();
     ui->setupUi(this);
 
-    atlas = AtlasPointer{new Atlas};
+    coordinatesWidget = new CoordinatesWidget{this};
+    statusBar()->addPermanentWidget(coordinatesWidget);
+    statusBar()->setSizeGripEnabled(false);
+    statusBar()->setVisible(true);
 
-    ui->atlasTreeWidget->setAtlas(atlas);
+    selection = new Selection{this};
+    selection->setAtlas(AtlasPointer{new Atlas});
+
+    ui->atlasTreeWidget->setAtlas(getAtlas());
 
     ui->mapTabWidget->clear();
     ui->atlasTreeWidget->selectFirstMap();
@@ -33,9 +39,6 @@ MainWindow::MainWindow() : QMainWindow{} {
     ui->atlasTreeNewRegionToolButton->setDefaultAction(ui->actionCreateNewRegion);
     ui->atlasTreeDeleteMapToolButton->setDefaultAction(ui->actionDeleteMap);
     ui->atlasTreeDeleteRegionToolButton->setDefaultAction(ui->actionDeleteRegion);
-
-    statusBar()->setSizeGripEnabled(false);
-    statusBar()->setVisible(true);
 
     setupDialogs();
     connectActions();
@@ -139,7 +142,7 @@ void MainWindow::connectActions() {
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedRegion,
             ui->actionShowRegionProperties, &QAction::trigger);
 
-//    connect(ui->mapTabWidget, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
+    connect(ui->mapTabWidget, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
 }
 
 
@@ -169,6 +172,16 @@ void MainWindow::enableActions() {
 }
 
 
+rpgmapper::model::AtlasPointer & MainWindow::getAtlas() {
+    return selection->getAtlas();
+}
+
+
+rpgmapper::model::AtlasPointer const & MainWindow::getAtlas() const {
+    return selection->getAtlas();
+}
+
+
 void MainWindow::load() {
 
     auto nAnswer = loadAtlasDialog->exec();
@@ -194,7 +207,7 @@ void MainWindow::loadAtlas(QString const & fileName) {
     }
     else {
         addRecentFileName(fileName);
-        setAtlas(result.getAtlas());
+        selection->setAtlas(result.getAtlas());
     }
 }
 
@@ -244,11 +257,11 @@ void MainWindow::loadSettings() {
 
 void MainWindow::save() {
 
-    if (atlas->getFileName().isEmpty()) {
+    if (getAtlas()->getFileName().isEmpty()) {
         saveAs();
         return;
     }
-    saveAtlas(atlas->getFileName());
+    saveAtlas(getAtlas()->getFileName());
 }
 
 
@@ -266,7 +279,7 @@ void MainWindow::saveAtlas(QString const & fileName) {
 
     QFile file{fileName};
     AtlasIO atlasIO;
-    auto result = atlasIO.write(atlas, file);
+    auto result = atlasIO.write(getAtlas(), file);
 
     if (!result.hasSuccess()) {
         logDialog->setWindowTitle(tr("Save atlas failure"));
@@ -276,7 +289,7 @@ void MainWindow::saveAtlas(QString const & fileName) {
         logDialog->exec();
     }
     else {
-        addRecentFileName(atlas->getFileName());
+        addRecentFileName(getAtlas()->getFileName());
     }
 }
 
@@ -310,12 +323,6 @@ void MainWindow::saveSettingsWindow(QSettings & settings) {
 }
 
 
-void MainWindow::setAtlas(rpgmapper::model::AtlasPointer atlas) {
-    this->atlas = atlas;
-    ui->atlasTreeWidget->setAtlas(atlas);
-}
-
-
 void MainWindow::setupDialogs() {
 
     QStringList cFileNameFilters;
@@ -346,6 +353,21 @@ void MainWindow::setupDialogs() {
 
 void MainWindow::showAboutDialog() {
     aboutDialog->exec();
+}
+
+
+void MainWindow::showCoordinates(int x, int y) {
+
+    if (selection->getMap()->isValid()) {
+        // TODO
+        // auto cUserCoordinates = selection->getMap()->translate(x, y);
+        // coordinatesWidget->showCoordinates(cUserCoordinates.m_sX, cUserCoordinates.m_sY);
+        NumeralCoordinates coordinates{QString::number(x), QString::number(y)};
+        coordinatesWidget->showCoordinates(coordinates);
+    }
+    else {
+        coordinatesWidget->clear();
+    }
 }
 
 
@@ -622,26 +644,6 @@ void MainWindow::newRegion() {
 void MainWindow::resetAtlas() {
     changedAtlas();
     d->ui->twAtlas->resetStructure();
-}
-
-
-/**
- * Shows the coordinates in user world transformation at the statusbar.
- *
- * @param   x   X-coordinate on the map (with origin top/left)
- * @param   y   Y-coordinate on the map (with origin top/left)
- */
-void MainWindow::showCoordinates(int x, int y) {
-
-    QString sCoordinates;
-    auto cMap = Controller::instance().atlas()->currentMap();
-    if (cMap.data() != nullptr) {
-        auto cUserCoordinates = cMap->translate(x, y);
-        d->m_cWdCoordinates->showCoordinates(cUserCoordinates.m_sX, cUserCoordinates.m_sY);
-    }
-    else {
-        d->m_cWdCoordinates->clear();
-    }
 }
 
 

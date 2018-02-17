@@ -43,13 +43,13 @@ void StructuralTreeWidget::addAtlas() {
     }
 
     QStringList columns;
-    columns << atlas->getName() << "atlas" << "0";
+    columns << selection->getAtlas()->getName() << "atlas" << "0";
 
     auto atlasItem = new QTreeWidgetItem{columns};
     atlasItem->setIcon(0, atlasPixmap);
     insertTopLevelItem(0, atlasItem);
 
-    for (auto const & cRegion: atlas->getRegions()) {
+    for (auto const & cRegion: selection->getAtlas()->getRegions()) {
         auto cTWRegion = addRegion(atlasItem, cRegion.second);
         cTWRegion->setExpanded(true);
     }
@@ -145,6 +145,16 @@ void StructuralTreeWidget::changedRegionName(QString const & nameBefore, QString
 }
 
 
+void StructuralTreeWidget::connectSelectionSignals() {
+
+    if (selection == nullptr) {
+        return;
+    }
+
+    connect(selection, &Selection::newAtlas, this, &StructuralTreeWidget::resetStructure);
+}
+
+
 void StructuralTreeWidget::deletedMap(QString const & name) {
 
     auto item = searchItem(ItemType::map, name);
@@ -216,7 +226,7 @@ StructuralTreeWidget::ItemInfo StructuralTreeWidget::getItemInfo(QTreeWidgetItem
 
 void StructuralTreeWidget::newMap(QString const & name) {
 
-    auto map = atlas->findMap(name);
+    auto map = selection->getAtlas()->findMap(name);
     if (!map->isValid()) {
         return;
     }
@@ -236,7 +246,7 @@ void StructuralTreeWidget::newMap(QString const & name) {
 
 void StructuralTreeWidget::newRegion(QString const & name) {
 
-    auto region = atlas->findRegion(name);
+    auto region = selection->getAtlas()->findRegion(name);
     if (!region->isValid()) {
         return;
     }
@@ -323,7 +333,8 @@ void StructuralTreeWidget::selectFirstMap() {
 }
 
 
-void StructuralTreeWidget::setAtlas(rpgmapper::model::AtlasPointer atlas) {
-    this->atlas = atlas;
+void StructuralTreeWidget::setSelection(rpgmapper::model::Selection * selection) {
+    this->selection = selection;
+    connectSelectionSignals();
     resetStructure();
 }

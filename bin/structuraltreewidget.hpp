@@ -11,9 +11,7 @@
 
 #include <QTreeWidget>
 
-#include <rpgmapper/atlas.hpp>
-#include <rpgmapper/map.hpp>
-#include <rpgmapper/region.hpp>
+#include <rpgmapper/selection.hpp>
 
 
 namespace rpgmapper {
@@ -25,7 +23,7 @@ class StructuralTreeWidget : public QTreeWidget {
 
     Q_OBJECT
 
-    rpgmapper::model::AtlasPointer atlas;
+    rpgmapper::model::Selection * selection = nullptr;
 
     enum class ItemType { atlas, map, region };
 
@@ -57,7 +55,7 @@ public slots:
 
     void selectFirstMap();
 
-    void setAtlas(rpgmapper::model::AtlasPointer atlas);
+    void setSelection(rpgmapper::model::Selection * selection);
 
     void resetStructure();
 
@@ -68,6 +66,8 @@ private:
     QTreeWidgetItem * addMap(QTreeWidgetItem * regionItem, rpgmapper::model::MapPointer const & map);
 
     QTreeWidgetItem * addRegion(QTreeWidgetItem * atlasItem, rpgmapper::model::RegionPointer const & region);
+
+    void connectSelectionSignals();
 
     ItemInfo getItemInfo(QTreeWidgetItem * item) const;
 

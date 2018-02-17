@@ -31,7 +31,7 @@ MainWindow::MainWindow() : QMainWindow{} {
     selection = new Selection{this};
     selection->setAtlas(AtlasPointer{new Atlas});
 
-    ui->atlasTreeWidget->setAtlas(getAtlas());
+    ui->atlasTreeWidget->setSelection(selection);
 
     ui->mapTabWidget->clear();
     ui->atlasTreeWidget->selectFirstMap();
@@ -336,7 +336,7 @@ void MainWindow::setupDialogs() {
     loadAtlasDialog->setNameFilters(cFileNameFilters);
     loadAtlasDialog->setAcceptMode(QFileDialog::AcceptOpen);
     loadAtlasDialog->setWindowTitle(tr("Load Atlas file"));
-//    loadAtlasDialog->setDirectory(recentAtlasFolderName);
+    loadAtlasDialog->setDirectory(recentAtlasFolderName);
 
     logDialog = new LogDialog(this);
 
@@ -347,7 +347,7 @@ void MainWindow::setupDialogs() {
     saveAtlasDialog->setNameFilters(cFileNameFilters);
     saveAtlasDialog->setAcceptMode(QFileDialog::AcceptSave);
     saveAtlasDialog->setWindowTitle(tr("Save Atlas file"));
-//    saveAtlasDialog->setDirectory(recentAtlasFolderName);
+    saveAtlasDialog->setDirectory(recentAtlasFolderName);
 }
 
 
@@ -378,14 +378,12 @@ void MainWindow::showEvent(QShowEvent * cEvent) {
     static bool bFirstTime = true;
     if (bFirstTime) {
 
-        // ugly hack, since I did not get how Qt saves the visibilty state
-        // in the saveState() and restoreState() methods of the QDockWindow childs
+        // ugly hack, since I did not get how Qt saves the visibility state
+        // in the saveState() and restoreState() methods of the QDockWindow children
         // --> anyone?
-// TODO
-//        d->ui->acViewMinimap->setChecked(d->ui->dwMiniMap->isVisible());
-//        d->ui->acViewStructure->setChecked(d->ui->dwAtlasTree->isVisible());
-//        d->ui->acViewTiles->setChecked(d->ui->dwTiles->isVisible());
-
+        ui->actionViewMinimap->setChecked(ui->miniMapDockWidget->isVisible());
+        ui->actionViewStructureTree->setChecked(ui->atlasStructureDockWidget->isVisible());
+        ui->actionViewTilesDock->setChecked(ui->tilesDockWidget->isVisible());
         bFirstTime = false;
     }
 }
@@ -406,7 +404,7 @@ void MainWindow::visibleTiles(bool view) {
 }
 
 
-
+// TODO DOCKWINDOW CLOSE CLICK DOES NOT SWITCH TOOLBUTTONS IN MENU
 
 
 

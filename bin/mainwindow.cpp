@@ -131,9 +131,9 @@ void MainWindow::connectActions() {
 //    connect(ui->acRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
     connect(ui->actionSaveAtlasFile, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionSaveAtlasFileAs, &QAction::triggered, this, &MainWindow::saveAs);
-//    connect(ui->acViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
-//    connect(ui->acViewStructure, &QAction::triggered, this, &MainWindow::visibleStructure);
-//    connect(ui->acViewTiles, &QAction::triggered, this, &MainWindow::visibleTiles);
+    connect(ui->actionViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
+    connect(ui->actionViewStructureTree, &QAction::triggered, this, &MainWindow::visibleStructure);
+    connect(ui->actionViewTilesDock, &QAction::triggered, this, &MainWindow::visibleTiles);
 
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedAtlas,
             ui->actionShowAtlasProperties, &QAction::trigger);
@@ -391,7 +391,19 @@ void MainWindow::showEvent(QShowEvent * cEvent) {
 }
 
 
+void MainWindow::visibleMinimap(bool view) {
+    ui->miniMapDockWidget->setVisible(view);
+}
 
+
+void MainWindow::visibleStructure(bool view) {
+    ui->atlasStructureDockWidget->setVisible(view);
+}
+
+
+void MainWindow::visibleTiles(bool view) {
+    ui->tilesDockWidget->setVisible(view);
+}
 
 
 
@@ -647,34 +659,6 @@ void MainWindow::resetAtlas() {
 }
 
 
-/**
- * Toggle the minimap window visibility.
- *
- * @param   bView       visibility of window
- */
-void MainWindow::visibleMinimap(bool bView) {
-    d->ui->dwMiniMap->setVisible(bView);
-}
-
-
-/**
- * Toggle the structure window visibility.
- *
- * @param   bView       visibility of window
- */
-void MainWindow::visibleStructure(bool bView) {
-    d->ui->dwAtlasTree->setVisible(bView);
-}
-
-
-/**
- * Toggle the tiles window visibility.
- *
- * @param   bView       visibility of window
- */
-void MainWindow::visibleTiles(bool bView) {
-    d->ui->dwTiles->setVisible(bView);
-}
 
 
 #endif

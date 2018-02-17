@@ -64,6 +64,12 @@ public slots:
 
     void showCoordinates(int x, int y);
 
+    void visibleMinimap(bool bView);
+
+    void visibleStructure(bool bView);
+
+    void visibleTiles(bool bView);
+
 protected:
 
     void closeEvent(QCloseEvent * event) override;
@@ -155,12 +161,6 @@ public slots:
     void newRegion();
 
     void resetAtlas();
-
-    void visibleMinimap(bool bView);
-
-    void visibleStructure(bool bView);
-
-    void visibleTiles(bool bView);
 
 protected:
 

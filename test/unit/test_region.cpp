@@ -150,3 +150,14 @@ TEST(RegionTest, CreateAndRemoveIdenticalMaps) {
                       EXPECT_TRUE(region.getMaps().empty());
                   });
 }
+
+
+TEST(RegionTest, DeleteMap) {
+
+    Region region{"foo"};
+    region.createMap("bar");
+
+    EXPECT_TRUE(region.findMap("bar")->isValid());
+    region.removeMap("bar");
+    EXPECT_FALSE(region.findMap("bar")->isValid());
+}

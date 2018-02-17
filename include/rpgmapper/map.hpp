@@ -87,10 +87,9 @@ public:
 
 signals:
 
-    void changedName();
+    void nameChanged();
 
     void resized();
-
 };
 
 class InvalidMap final : public Map {

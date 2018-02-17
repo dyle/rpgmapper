@@ -104,11 +104,11 @@ TileLayers const & Map::getTileLayers() const {
 
 
 void Map::resize(QSize const & size) {
-    auto oldSize = getSize();
-    impl->resize(size);
-    if (oldSize != getSize()) {
-        emit resized();
+    if (size == getSize()) {
+        return;
     }
+    impl->resize(size);
+    emit resized();
 }
 
 
@@ -117,7 +117,7 @@ void Map::setName(QString const & name) {
         return;
     }
     impl->setName(name);
-    emit changedName();
+    emit nameChanged();
 }
 
 

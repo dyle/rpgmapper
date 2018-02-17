@@ -230,3 +230,24 @@ TEST(AtlasTest, MoveMapBetweenRegions) {
     EXPECT_NE(mapNamesOfBar.find("baz"), mapNamesOfBar.end());
 }
 
+
+TEST(AtlasTest, DeleteRegion) {
+
+    Atlas atlas;
+    auto region = atlas.createRegion("foo");
+
+    region->createMap("bar");
+    region->createMap("baz");
+    region->createMap("bam");
+
+    auto mapNames = atlas.getAllMapNames();
+    EXPECT_NE(mapNames.find("bar"), mapNames.end());
+    EXPECT_NE(mapNames.find("baz"), mapNames.end());
+    EXPECT_NE(mapNames.find("bam"), mapNames.end());
+
+    atlas.removeRegion("foo");
+    mapNames = atlas.getAllMapNames();
+    EXPECT_EQ(mapNames.find("bar"), mapNames.end());
+    EXPECT_EQ(mapNames.find("baz"), mapNames.end());
+    EXPECT_EQ(mapNames.find("bam"), mapNames.end());
+}

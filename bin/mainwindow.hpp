@@ -11,10 +11,14 @@
 
 #include <memory>
 
+#include <QFileDialog>
 #include <QMainWindow>
 #include <QSettings>
 
 #include <rpgmapper/atlas.hpp>
+#include "aboutdialog.hpp"
+#include "logdialog.hpp"
+#include "mappropertiesdialog.hpp"
 
 
 class Ui_mainwindow;
@@ -30,6 +34,12 @@ class MainWindow : public QMainWindow {
 
     std::shared_ptr<Ui_mainwindow> ui;
     rpgmapper::model::AtlasPointer atlas;
+
+    AboutDialog * aboutDialog = nullptr;
+    QFileDialog * loadAtlasDialog = nullptr;
+    LogDialog * logDialog = nullptr;
+    MapPropertiesDialog * mapPropertiesDialog = nullptr;
+    QFileDialog * saveAtlasDialog = nullptr;
 
 public:
 

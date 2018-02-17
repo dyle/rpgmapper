@@ -47,7 +47,6 @@ void MainWindow::centerWindow() {
     const int defaultWidth = 600;
     const int defaultHeight = 400;
 
-    //QDesktopWidget * desktop = dynamic_cast<QApplication *>(QApplication::instance())->desktop();
     auto desktop = dynamic_cast<QApplication *>(QApplication::instance())->desktop();
     int x = (desktop->width() - defaultWidth) / 2;
     int y = (desktop->height() - defaultHeight) / 2;
@@ -65,30 +64,32 @@ void MainWindow::closeEvent(QCloseEvent * event) {
 
 void MainWindow::connectActions() {
 
-    // TODO
-//    connect(d->ui->acAbout, &QAction::triggered, this, &MainWindow::showAboutDialog);
-//    connect(d->ui->acAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
-//    connect(d->ui->acCloseMap, &QAction::triggered, d->ui->tabMap, &MapTabWidget::closeCurrentMap);
-//    connect(d->ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
-//    connect(d->ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
-//    connect(d->ui->acMapProperties, &QAction::triggered, this, &MainWindow::editMapProperties);
-//    connect(d->ui->acNewMap, &QAction::triggered, this, &MainWindow::newMap);
-//    connect(d->ui->acNewRegion, &QAction::triggered, this, &MainWindow::newRegion);
-//    connect(d->ui->acOpen, &QAction::triggered, this, &MainWindow::load);
-//    connect(d->ui->acQuit, &QAction::triggered, this, &MainWindow::close);
-//    connect(d->ui->acRecentListClear, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
-//    connect(d->ui->acRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
-//    connect(d->ui->acSave, &QAction::triggered, this, &MainWindow::save);
-//    connect(d->ui->acSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
-//    connect(d->ui->acViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
-//    connect(d->ui->acViewStructure, &QAction::triggered, this, &MainWindow::visibleStructure);
-//    connect(d->ui->acViewTiles, &QAction::triggered, this, &MainWindow::visibleTiles);
-//
-//    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedAtlas, d->ui->acAtlasProperties, &QAction::trigger);
-//    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedMap, d->ui->acMapProperties, &QAction::trigger);
-//    connect(d->ui->twAtlas, &StructuralTreeWidget::doubleClickedRegion, d->ui->acRegionProperties, &QAction::trigger);
-//
-//    connect(d->ui->tabMap, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
+//    connect(ui->acAbout, &QAction::triggered, this, &MainWindow::showAboutDialog);
+//    connect(ui->acAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
+//    connect(ui->acCloseMap, &QAction::triggered, ui->tabMap, &MapTabWidget::closeCurrentMap);
+//    connect(ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
+//    connect(ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
+//    connect(ui->acMapProperties, &QAction::triggered, this, &MainWindow::editMapProperties);
+//    connect(ui->acNewMap, &QAction::triggered, this, &MainWindow::newMap);
+//    connect(ui->acNewRegion, &QAction::triggered, this, &MainWindow::newRegion);
+//    connect(ui->acOpen, &QAction::triggered, this, &MainWindow::load);
+//    connect(ui->acQuit, &QAction::triggered, this, &MainWindow::close);
+//    connect(ui->acRecentListClear, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
+//    connect(ui->acRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
+//    connect(ui->acSave, &QAction::triggered, this, &MainWindow::save);
+//    connect(ui->acSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
+//    connect(ui->acViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
+//    connect(ui->acViewStructure, &QAction::triggered, this, &MainWindow::visibleStructure);
+//    connect(ui->acViewTiles, &QAction::triggered, this, &MainWindow::visibleTiles);
+
+    connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedAtlas,
+            ui->actionShowAtlasProperties, &QAction::trigger);
+    connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedMap,
+            ui->actionShowMapProperties, &QAction::trigger);
+    connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedRegion,
+            ui->actionShowRegionProperties, &QAction::trigger);
+
+//    connect(ui->mapTabWidget, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
 }
 
 
@@ -138,30 +139,29 @@ void MainWindow::saveSettingsWindow(QSettings & settings) {
 
 void MainWindow::setupDialogs() {
 
-    // TODO
-//    QStringList cFileNameFilters;
-//    cFileNameFilters << tr("Atlas files [*.atlas] (*.atlas)")
-//                     << tr("Any files [*.*] (*)");
-//
-//    d->m_cDlgAbout = new AboutDialog(this);
-//
-//    d->m_cDlgLoad = new QFileDialog(this);
-//    d->m_cDlgLoad->setFileMode(QFileDialog::ExistingFile);
-//    d->m_cDlgLoad->setNameFilters(cFileNameFilters);
-//    d->m_cDlgLoad->setAcceptMode(QFileDialog::AcceptOpen);
-//    d->m_cDlgLoad->setWindowTitle(tr("Load Atlas file"));
-//    d->m_cDlgLoad->setDirectory(d->m_sRecentAtlasFolder);
-//
-//    d->m_cDlgLog = new LogDialog(this);
-//
-//    d->m_cDlgMapProperties = new MapPropertiesDialog(this);
-//
-//    d->m_cDlgSaveAs = new QFileDialog(this);
-//    d->m_cDlgSaveAs->setFileMode(QFileDialog::AnyFile);
-//    d->m_cDlgSaveAs->setNameFilters(cFileNameFilters);
-//    d->m_cDlgSaveAs->setAcceptMode(QFileDialog::AcceptSave);
-//    d->m_cDlgSaveAs->setWindowTitle(tr("Save Atlas file"));
-//    d->m_cDlgSaveAs->setDirectory(d->m_sRecentAtlasFolder);
+    QStringList cFileNameFilters;
+    cFileNameFilters << tr("Atlas files [*.atlas] (*.atlas)")
+                     << tr("Any files [*.*] (*)");
+
+    aboutDialog = new AboutDialog(this);
+
+    loadAtlasDialog = new QFileDialog(this);
+    loadAtlasDialog->setFileMode(QFileDialog::ExistingFile);
+    loadAtlasDialog->setNameFilters(cFileNameFilters);
+    loadAtlasDialog->setAcceptMode(QFileDialog::AcceptOpen);
+    loadAtlasDialog->setWindowTitle(tr("Load Atlas file"));
+//    loadAtlasDialog->setDirectory(d->m_sRecentAtlasFolder);
+
+    logDialog = new LogDialog(this);
+
+    mapPropertiesDialog = new MapPropertiesDialog(this);
+
+    saveAtlasDialog = new QFileDialog(this);
+    saveAtlasDialog->setFileMode(QFileDialog::AnyFile);
+    saveAtlasDialog->setNameFilters(cFileNameFilters);
+    saveAtlasDialog->setAcceptMode(QFileDialog::AcceptSave);
+    saveAtlasDialog->setWindowTitle(tr("Save Atlas file"));
+//    saveAtlasDialog->setDirectory(d->m_sRecentAtlasFolder);
 }
 
 

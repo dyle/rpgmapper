@@ -12,6 +12,7 @@
 #include <rpgmapper/command/create_map.hpp>
 #include <rpgmapper/command/create_region.hpp>
 #include <rpgmapper/command/nop.hpp>
+#include <rpgmapper/command/remove_map.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
@@ -149,4 +150,26 @@ TEST(ProzessorTest, CreateMap) {
     atlas->getCommandProzessor()->redo();
 
     EXPECT_TRUE(atlas->isModified());
+}
+
+
+TEST(ProzessorTest, RemoveMap) {
+
+    AtlasPointer atlas{new Atlas};
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+
+    auto mapNames = atlas->getAllMapNames();
+    EXPECT_NE(mapNames.find("bar"), mapNames.end());
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new RemoveMap{atlas, "foo", "bar"}});
+
+    mapNames = atlas->getAllMapNames();
+    EXPECT_EQ(mapNames.find("bar"), mapNames.end());
+
+    atlas->getCommandProzessor()->undo();
+
+    mapNames = atlas->getAllMapNames();
+    EXPECT_NE(mapNames.find("bar"), mapNames.end());
 }

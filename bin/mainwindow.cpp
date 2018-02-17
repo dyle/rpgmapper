@@ -13,6 +13,7 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
+using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 
 
@@ -20,6 +21,8 @@ MainWindow::MainWindow() : QMainWindow{} {
 
     ui = std::make_shared<Ui_mainwindow>();
     ui->setupUi(this);
+
+    atlas = AtlasPointer{new Atlas};
 
     ui->atlasTreeWidget->setAtlas(atlas);
 

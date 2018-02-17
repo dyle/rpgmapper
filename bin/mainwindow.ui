@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>:/icons/rpgmapper_32.png</normaloff>:/icons/rpgmapper_32.png</iconset>
+    <normaloff>:/icons/gfx/rpgmapper_32.png</normaloff>:/icons/gfx/rpgmapper_32.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="mainWindowLayout">
@@ -294,7 +294,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>:/icons/region-new.png</normaloff>:/icons/region-new.png</iconset>
+            <normaloff>:/icons/gfx/region-new.png</normaloff>:/icons/gfx/region-new.png</iconset>
           </property>
          </widget>
         </item>
@@ -311,7 +311,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>:/icons/region-delete.png</normaloff>:/icons/region-delete.png</iconset>
+            <normaloff>:/icons/gfx/region-delete.png</normaloff>:/icons/gfx/region-delete.png</iconset>
           </property>
          </widget>
         </item>
@@ -328,7 +328,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>:/icons/map-new.png</normaloff>:/icons/map-new.png</iconset>
+            <normaloff>:/icons/gfx/map-new.png</normaloff>:/icons/gfx/map-new.png</iconset>
           </property>
          </widget>
         </item>
@@ -345,7 +345,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>:/icons/map-delete.png</normaloff>:/icons/map-delete.png</iconset>
+            <normaloff>:/icons/gfx/map-delete.png</normaloff>:/icons/gfx/map-delete.png</iconset>
           </property>
          </widget>
         </item>
@@ -371,7 +371,7 @@
   <action name="actionCreateNew">
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/atlas-new.png</normaloff>:/icons/atlas-new.png</iconset>
+     <normaloff>:/icons/gfx/atlas-new.png</normaloff>:/icons/gfx/atlas-new.png</iconset>
    </property>
    <property name="text">
     <string>&amp;New</string>
@@ -383,7 +383,7 @@
   <action name="actionOpenAtlasFile">
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/atlas-open.png</normaloff>:/icons/atlas-open.png</iconset>
+     <normaloff>:/icons/gfx/atlas-open.png</normaloff>:/icons/gfx/atlas-open.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Open</string>
@@ -398,7 +398,7 @@
   <action name="actionSaveAtlasFile">
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/atlas-save.png</normaloff>:/icons/atlas-save.png</iconset>
+     <normaloff>:/icons/gfx/atlas-save.png</normaloff>:/icons/gfx/atlas-save.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Save</string>
@@ -413,7 +413,7 @@
   <action name="actionShowAboutDialog">
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/help-about.png</normaloff>:/icons/help-about.png</iconset>
+     <normaloff>:/icons/gfx/help-about.png</normaloff>:/icons/gfx/help-about.png</iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>
@@ -444,7 +444,7 @@
   <action name="actionSaveAtlasFileAs">
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/atlas-save-as.png</normaloff>:/icons/atlas-save-as.png</iconset>
+     <normaloff>:/icons/gfx/atlas-save-as.png</normaloff>:/icons/gfx/atlas-save-as.png</iconset>
    </property>
    <property name="text">
     <string>Sa&amp;ve as ...</string>
@@ -456,7 +456,7 @@
   <action name="actionCreateNewMap">
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/map-new.png</normaloff>:/icons/map-new.png</iconset>
+     <normaloff>:/icons/gfx/map-new.png</normaloff>:/icons/gfx/map-new.png</iconset>
    </property>
    <property name="text">
     <string>New &amp;Map</string>
@@ -471,7 +471,7 @@
   <action name="actionDeleteMap">
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/map-delete.png</normaloff>:/icons/map-delete.png</iconset>
+     <normaloff>:/icons/gfx/map-delete.png</normaloff>:/icons/gfx/map-delete.png</iconset>
    </property>
    <property name="text">
     <string>D&amp;elete Map</string>
@@ -491,7 +491,7 @@
   <action name="actionClearRecentList">
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/clear.png</normaloff>:/icons/clear.png</iconset>
+     <normaloff>:/icons/gfx/clear.png</normaloff>:/icons/gfx/clear.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Clear list</string>
@@ -500,7 +500,7 @@
   <action name="actionHelp">
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/help-content.png</normaloff>:/icons/help-content.png</iconset>
+     <normaloff>:/icons/gfx/help-content.png</normaloff>:/icons/gfx/help-content.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Help</string>
@@ -509,7 +509,7 @@
   <action name="actionCreateNewRegion">
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/region-new.png</normaloff>:/icons/region-new.png</iconset>
+     <normaloff>:/icons/gfx/region-new.png</normaloff>:/icons/gfx/region-new.png</iconset>
    </property>
    <property name="text">
     <string>&amp;New Region</string>
@@ -526,7 +526,7 @@
   <action name="actionDeleteRegion">
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/region-delete.png</normaloff>:/icons/region-delete.png</iconset>
+     <normaloff>:/icons/gfx/region-delete.png</normaloff>:/icons/gfx/region-delete.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Delete Region</string>

@@ -21,17 +21,8 @@ using namespace rpgmapper::view;
 
 
 StructuralTreeWidget::StructuralTreeWidget(QWidget * parent) : QTreeWidget{parent} {
-
     connect(this, &QTreeWidget::currentItemChanged, this, &StructuralTreeWidget::changedCurrentItem);
     connect(this, &QTreeWidget::itemDoubleClicked, this, &StructuralTreeWidget::doubleClickedItem);
-
-//    connect(atlas.data(), &Atlas::changedName, this, &StructuralTreeWidget::changedAtlasName);
-//    connect(atlas.data(), &Atlas::changedMapName, this, &StructuralTreeWidget::changedMapName);
-//    connect(atlas.data(), &Atlas::changedRegionName, this, &StructuralTreeWidget::changedRegionName);
-//    connect(atlas.data(), &Atlas::deletedMap, this, &StructuralTreeWidget::deletedMap);
-//    connect(atlas.data(), &Atlas::deletedRegion, this, &StructuralTreeWidget::deletedRegion);
-//    connect(atlas.data(), &Atlas::newMap, this, &StructuralTreeWidget::newMap);
-//    connect(atlas.data(), &Atlas::newRegion, this, &StructuralTreeWidget::newRegion);
 }
 
 
@@ -152,6 +143,14 @@ void StructuralTreeWidget::connectSelectionSignals() {
     }
 
     connect(selection, &Selection::newAtlas, this, &StructuralTreeWidget::resetStructure);
+
+//    connect(atlas.data(), &Atlas::changedName, this, &StructuralTreeWidget::changedAtlasName);
+//    connect(atlas.data(), &Atlas::changedMapName, this, &StructuralTreeWidget::changedMapName);
+//    connect(atlas.data(), &Atlas::changedRegionName, this, &StructuralTreeWidget::changedRegionName);
+//    connect(atlas.data(), &Atlas::deletedMap, this, &StructuralTreeWidget::deletedMap);
+//    connect(atlas.data(), &Atlas::deletedRegion, this, &StructuralTreeWidget::deletedRegion);
+//    connect(atlas.data(), &Atlas::newMap, this, &StructuralTreeWidget::newMap);
+//    connect(atlas.data(), &Atlas::newRegion, this, &StructuralTreeWidget::newRegion);
 }
 
 

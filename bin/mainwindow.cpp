@@ -8,6 +8,7 @@
 #include <QApplication>
 #include <QCloseEvent>
 #include <QDesktopWidget>
+#include <QInputDialog>
 #include <QStatusBar>
 
 #include <rpgmapper/atlas_io.hpp>
@@ -116,19 +117,20 @@ void MainWindow::closeEvent(QCloseEvent * event) {
 
 void MainWindow::connectActions() {
 
-    connect(ui->actionShowAboutDialog, &QAction::triggered, this, &MainWindow::showAboutDialog);
-    connect(ui->actionOpenAtlasFile, &QAction::triggered, this, &MainWindow::load);
-    connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
 
-//    connect(ui->acAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
 //    connect(ui->acCloseMap, &QAction::triggered, ui->tabMap, &MapTabWidget::closeCurrentMap);
 //    connect(ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
 //    connect(ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
-//    connect(ui->acMapProperties, &QAction::triggered, this, &MainWindow::editMapProperties);
 //    connect(ui->acNewMap, &QAction::triggered, this, &MainWindow::newMap);
 //    connect(ui->acNewRegion, &QAction::triggered, this, &MainWindow::newRegion);
+
     connect(ui->actionClearRecentList, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
-//    connect(ui->acRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
+    connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
+    connect(ui->actionOpenAtlasFile, &QAction::triggered, this, &MainWindow::load);
+    connect(ui->actionShowAboutDialog, &QAction::triggered, this, &MainWindow::showAboutDialog);
+    connect(ui->actionShowAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
+    connect(ui->actionShowMapProperties, &QAction::triggered, this, &MainWindow::editMapProperties);
+    connect(ui->actionShowRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
     connect(ui->actionSaveAtlasFile, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionSaveAtlasFileAs, &QAction::triggered, this, &MainWindow::saveAs);
     connect(ui->actionViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
@@ -164,6 +166,59 @@ void MainWindow::createRecentFileActions() {
     ui->openRecentMenu->insertSeparator(ui->actionClearRecentList);
 
     enableActions();
+}
+
+
+void MainWindow::editAtlasProperties() {
+
+    bool changed = false;
+    auto atlasName = QInputDialog::getText(this,
+                                           tr("Atlas Properties"),
+                                           tr("New name of atlas:"),
+                                           QLineEdit::Normal,
+                                           selection->getAtlas()->getName(),
+                                           &changed);
+
+    if (!changed || atlasName.isEmpty()) {
+        return;
+    }
+
+    // TODO: COMMAND!
+    selection->getAtlas()->setName(atlasName);
+}
+
+
+void MainWindow::editMapProperties() {
+    auto map = selection->getMap();
+    if (!map->isValid()) {
+        return;
+    }
+    mapPropertiesDialog->setMap(map);
+    mapPropertiesDialog->exec();
+}
+
+
+void MainWindow::editRegionProperties() {
+
+    bool changed = false;
+    auto region = selection->getRegion();
+    if (!region->isValid()) {
+        return;
+    }
+
+    auto regionName = QInputDialog::getText(this,
+                                            tr("Region Properties"),
+                                            tr("New name of region:"),
+                                            QLineEdit::Normal,
+                                            region->getName(),
+                                            &changed);
+
+    if (!changed || regionName.isEmpty()) {
+        return;
+    }
+
+    // TODO: COMMAND!
+    region->setName(regionName);
 }
 
 
@@ -325,15 +380,15 @@ void MainWindow::saveSettingsWindow(QSettings & settings) {
 
 void MainWindow::setupDialogs() {
 
-    QStringList cFileNameFilters;
-    cFileNameFilters << tr("Atlas files [*.atlas] (*.atlas)")
-                     << tr("Any files [*.*] (*)");
+    QStringList fileNameFilters;
+    fileNameFilters << tr("Atlas files [*.atlas] (*.atlas)")
+                    << tr("Any files [*.*] (*)");
 
     aboutDialog = new AboutDialog(this);
 
     loadAtlasDialog = new QFileDialog(this);
     loadAtlasDialog->setFileMode(QFileDialog::ExistingFile);
-    loadAtlasDialog->setNameFilters(cFileNameFilters);
+    loadAtlasDialog->setNameFilters(fileNameFilters);
     loadAtlasDialog->setAcceptMode(QFileDialog::AcceptOpen);
     loadAtlasDialog->setWindowTitle(tr("Load Atlas file"));
     loadAtlasDialog->setDirectory(recentAtlasFolderName);
@@ -344,7 +399,7 @@ void MainWindow::setupDialogs() {
 
     saveAtlasDialog = new QFileDialog(this);
     saveAtlasDialog->setFileMode(QFileDialog::AnyFile);
-    saveAtlasDialog->setNameFilters(cFileNameFilters);
+    saveAtlasDialog->setNameFilters(fileNameFilters);
     saveAtlasDialog->setAcceptMode(QFileDialog::AcceptSave);
     saveAtlasDialog->setWindowTitle(tr("Save Atlas file"));
     saveAtlasDialog->setDirectory(recentAtlasFolderName);
@@ -578,57 +633,6 @@ void MainWindow::deleteRegion() {
     if (QMessageBox::question(this, tr("Delete the current map."), sQuestion) == QMessageBox::Yes) {
         Controller::instance().atlas()->deleteRegion(cRegion->id());
     }
-}
-
-
-/**
- * Let the user edit the properties of the current atlas.
- */
-void MainWindow::editAtlasProperties() {
-
-    bool bChange = false;
-    auto sAtlasName = QInputDialog::getText(this,
-                                            tr("Atlas Properties"),
-                                            tr("New name of atlas:"),
-                                            QLineEdit::Normal,
-                                            Controller::instance().atlas()->name(),
-                                            &bChange);
-
-    if (!bChange || sAtlasName.isEmpty()) {
-        return;
-    }
-    Controller::instance().atlas()->setName(sAtlasName);
-}
-
-
-/**
- * Let the user edit the properties of the current selected map.
- */
-void MainWindow::editMapProperties() {
-    d->m_cDlgMapProperties->setMap(Controller::instance().atlas()->currentMap());
-    d->m_cDlgMapProperties->exec();
-}
-
-
-/**
- * Let the user edit the properties of the current selected region.
- */
-void MainWindow::editRegionProperties() {
-
-    bool bChange = false;
-    auto cRegion = Controller::instance().atlas()->currentRegion();
-
-    auto sRegionName = QInputDialog::getText(this,
-                                             tr("Region Properties"),
-                                             tr("New name of region:"),
-                                             QLineEdit::Normal,
-                                             cRegion->name(),
-                                             &bChange);
-
-    if (!bChange || sRegionName.isEmpty()) {
-        return;
-    }
-    cRegion->setName(sRegionName);
 }
 
 

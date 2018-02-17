@@ -60,6 +60,12 @@ public:
 
 public slots:
 
+    void editAtlasProperties();
+
+    void editMapProperties();
+
+    void editRegionProperties();
+
     void enableActions();
 
     void showCoordinates(int x, int y);
@@ -145,12 +151,6 @@ public:
     MainWindow();
 
 public slots:
-
-    void editAtlasProperties();
-
-    void editMapProperties();
-
-    void editRegionProperties();
 
     void deleteMap();
 

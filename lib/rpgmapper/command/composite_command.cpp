@@ -10,20 +10,25 @@
 using namespace rpgmapper::model::command;
 
 
-void CompositeCommand::addCommand(CommandPointer & command) {
+void CompositeCommand::addCommand(CommandPointer command) {
     commands.push_back(command);
 }
 
 
+void CompositeCommand::clearCommands() {
+    commands.clear();
+}
+
+
 void CompositeCommand::execute() {
-    for (auto iter = std::begin(commands); iter =! std::end(commands); ++iter) {
+    for (auto iter = std::begin(commands); iter != std::end(commands); ++iter) {
         (*iter)->undo();
     }
 }
 
 
 void CompositeCommand::undo() {
-    for (auto iter = std::rbegin(commands); iter =! std::rend(commands); ++iter) {
+    for (auto iter = std::rbegin(commands); iter != std::rend(commands); ++iter) {
         (*iter)->undo();
     }
 }

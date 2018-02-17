@@ -39,6 +39,7 @@ set(RPGMAPPER_LIB_SRC
     command/prozessor.cpp
     command/prozessor_impl.cpp
     command/remove_map.cpp
+    command/remove_region.cpp
 
     layer/background_layer.cpp
     layer/grid_layer.cpp

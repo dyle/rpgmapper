@@ -13,6 +13,7 @@
 #include <rpgmapper/command/create_region.hpp>
 #include <rpgmapper/command/nop.hpp>
 #include <rpgmapper/command/remove_map.hpp>
+#include <rpgmapper/command/remove_region.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
@@ -172,4 +173,41 @@ TEST(ProzessorTest, RemoveMap) {
 
     mapNames = atlas->getAllMapNames();
     EXPECT_NE(mapNames.find("bar"), mapNames.end());
+}
+
+TEST(ProzessorTest, RemoveRegion) {
+
+    AtlasPointer atlas{new Atlas};
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+
+    auto regionNames = atlas->getAllRegionNames();
+    EXPECT_NE(regionNames.find("foo"), regionNames.end());
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "baz"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "bam"}});
+
+    auto mapNames = atlas->getAllMapNames();
+    EXPECT_NE(mapNames.find("bar"), mapNames.end());
+    EXPECT_NE(mapNames.find("baz"), mapNames.end());
+    EXPECT_NE(mapNames.find("bam"), mapNames.end());
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new RemoveRegion{atlas, "foo"}});
+
+    regionNames = atlas->getAllRegionNames();
+    EXPECT_EQ(regionNames.find("foo"), regionNames.end());
+    mapNames = atlas->getAllMapNames();
+    EXPECT_EQ(mapNames.find("bar"), mapNames.end());
+    EXPECT_EQ(mapNames.find("baz"), mapNames.end());
+    EXPECT_EQ(mapNames.find("bam"), mapNames.end());
+
+    atlas->getCommandProzessor()->undo();
+
+    regionNames = atlas->getAllRegionNames();
+    EXPECT_NE(regionNames.find("foo"), regionNames.end());
+    mapNames = atlas->getAllMapNames();
+    EXPECT_NE(mapNames.find("bar"), mapNames.end());
+    EXPECT_NE(mapNames.find("baz"), mapNames.end());
+    EXPECT_NE(mapNames.find("bam"), mapNames.end());
 }

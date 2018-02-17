@@ -14,7 +14,7 @@
 #include <QString>
 #include <QSharedPointer>
 
-#include <rpgmapper/command/command.hpp>
+#include <rpgmapper/command/atlas_command.hpp>
 
 
 namespace rpgmapper {
@@ -22,13 +22,13 @@ namespace model {
 namespace command {
 
 
-class CompositeCommand : public Command {
+class CompositeCommand : public AtlasCommand {
 
     Commands commands;
 
 public:
 
-    CompositeCommand() = default;
+    CompositeCommand(rpgmapper::model::AtlasPointer & atlas) : AtlasCommand{atlas} {}
 
     ~CompositeCommand() override = default;
 
@@ -38,7 +38,9 @@ public:
 
 protected:
 
-    void addCommand(CommandPointer & command);
+    void addCommand(CommandPointer command);
+
+    void clearCommands();
 };
 
 

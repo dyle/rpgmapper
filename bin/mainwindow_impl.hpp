@@ -11,6 +11,7 @@
 
 #include <memory>
 
+#include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -18,16 +19,19 @@ namespace rpgmapper {
 namespace view {
 
 
-class MainWindow;
-
 class MainWindow::Impl final {
 
     MainWindow * mainWindow = nullptr;
     std::shared_ptr<Ui_mainwindow> ui;
+    AtlasPointer atlas;
 
 public:
 
-    Impl(MainWindow * mainWindow);
+    explicit Impl(MainWindow * mainWindow);
+
+    AtlasPointer getAtlas() { return atlas; }
+
+    AtlasPointer const getAtlas() const { return atlas; }
 };
 
 

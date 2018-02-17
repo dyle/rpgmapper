@@ -32,7 +32,7 @@ set(RPGMAPPER_MOC
 #    view/mapwidget.hpp
 #    view/mappropertiesdialog.hpp
 #    view/origincornerwidget.hpp
-#    view/structuraltreewidget.hpp
+    structuraltreewidget.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
 
@@ -50,7 +50,7 @@ set(RPGMAPPER_SRC
 #    view/mapwidget.cpp
 #    view/mappropertiesdialog.cpp
 #    view/origincornerwidget.cpp
-#    view/structuraltreewidget.cpp
+    structuraltreewidget.cpp
 )
 
 

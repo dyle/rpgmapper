@@ -19,11 +19,11 @@ MainWindow::Impl::Impl(MainWindow * mainWindow) : mainWindow(mainWindow) {
     ui = std::make_shared<Ui_mainwindow>();
     ui->setupUi(mainWindow);
 
-    ui->tabMap->clear();
-    ui->twAtlas->resetStructure();
-    ui->twAtlas->selectFirstMap();
-    ui->tbAtlasTreeNewMap->setDefaultAction(ui->acNewMap);
-    ui->tbAtlasTreeNewRegion->setDefaultAction(ui->acNewRegion);
-    ui->tbAtlasTreeDeleteMap->setDefaultAction(ui->acDeleteMap);
-    ui->tbAtlasTreeDeleteRegion->setDefaultAction(ui->acDeleteRegion);
+    ui->mapTabWidget->clear();
+    ui->atlasTreeWidget->resetStructure();
+    ui->atlasTreeWidget->selectFirstMap();
+    ui->atlasTreeNewMapToolButton->setDefaultAction(ui->actionCreateNewMap);
+    ui->atlasTreeNewRegionToolButton->setDefaultAction(ui->actionCreateNewRegion);
+    ui->atlasTreeDeleteMapToolButton->setDefaultAction(ui->actionDeleteMap);
+    ui->atlasTreeDeleteRegionToolButton->setDefaultAction(ui->actionDeleteRegion);
 }

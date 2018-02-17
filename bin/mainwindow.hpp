@@ -14,6 +14,8 @@
 #include <QMainWindow>
 #include <QSettings>
 
+#include <rpgmapper/atlas.hpp>
+
 
 namespace rpgmapper {
 namespace view {
@@ -29,6 +31,10 @@ class MainWindow : public QMainWindow {
 public:
 
     MainWindow();
+
+    AtlasPointer getAtlas();
+
+    AtlasPointer const getAtlas() const;
 
 protected:
 

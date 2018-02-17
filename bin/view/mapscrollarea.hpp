@@ -15,7 +15,7 @@
 #include <QScrollArea>
 
 // rpgmapper
-#include "mapwidget.hpp"
+#include "../mapwidget.hpp"
 
 
 // ------------------------------------------------------------

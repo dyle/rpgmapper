@@ -29,8 +29,8 @@ set(RPGMAPPER_MOC
     logdialog.hpp
     mainwindow.hpp
 #    view/mapscrollarea.hpp
-#    view/maptabwidget.hpp
-#    view/mapwidget.hpp
+    maptabwidget.hpp
+    mapwidget.hpp
     mappropertiesdialog.hpp
     structuraltreewidget.hpp
 )
@@ -48,7 +48,7 @@ set(RPGMAPPER_SRC
 #    view/mapscrollarea.cpp
     maptabwidget.cpp
     maptabwidget_impl.cpp
-#    view/mapwidget.cpp
+    mapwidget.cpp
     mappropertiesdialog.cpp
     structuraltreewidget.cpp
 )

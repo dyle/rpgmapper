@@ -24,6 +24,7 @@ qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
 
 set(RPGMAPPER_MOC
     aboutdialog.hpp
+    coordinatesoriginwidget.hpp
     coordinateswidget.hpp
     logdialog.hpp
     mainwindow.hpp
@@ -31,7 +32,6 @@ set(RPGMAPPER_MOC
 #    view/maptabwidget.hpp
 #    view/mapwidget.hpp
 #    view/mappropertiesdialog.hpp
-#    view/origincornerwidget.hpp
     structuraltreewidget.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
@@ -39,6 +39,7 @@ qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
 
 set(RPGMAPPER_SRC
     aboutdialog.cpp
+    coordinatesoriginwidget.cpp
     coordinateswidget.cpp
     logdialog.cpp
     main.cpp
@@ -49,7 +50,6 @@ set(RPGMAPPER_SRC
     maptabwidget_impl.cpp
 #    view/mapwidget.cpp
 #    view/mappropertiesdialog.cpp
-#    view/origincornerwidget.cpp
     structuraltreewidget.cpp
 )
 

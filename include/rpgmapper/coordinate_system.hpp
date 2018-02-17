@@ -20,7 +20,7 @@ namespace rpgmapper {
 namespace model {
 
 
-enum class CoordinateOrigin { topLeft, topRight, bottomLeft, bottomRight };
+enum class CoordinatesOrigin { topLeft, topRight, bottomLeft, bottomRight };
 
 struct NumeralCoordinates {
     QString x;
@@ -29,7 +29,7 @@ struct NumeralCoordinates {
 
 class CoordinateSystem {
 
-    CoordinateOrigin origin = CoordinateOrigin::bottomLeft;
+    CoordinatesOrigin origin = CoordinatesOrigin::bottomLeft;
     QSize size{10, 10};
     QSharedPointer<NumeralConverter> numeralXAxis;
     QSharedPointer<NumeralConverter> numeralYAxis;
@@ -38,7 +38,7 @@ public:
 
     CoordinateSystem();
 
-    CoordinateOrigin getOrigin() const { return origin; }
+    CoordinatesOrigin getOrigin() const { return origin; }
 
     static constexpr QSize getMaximumSize() { return QSize{1000, 1000}; }
 
@@ -58,7 +58,7 @@ public:
 
     void setNumeralYAxis(QString numeral);
 
-    void setOrigin(CoordinateOrigin origin) { this->origin = origin; }
+    void setOrigin(CoordinatesOrigin origin) { this->origin = origin; }
 
     Coordinates transpose(QPoint const & position) const;
 

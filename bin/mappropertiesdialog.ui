@@ -171,7 +171,7 @@
          </property>
          <layout class="QVBoxLayout" name="coordinatesOriginLayout">
           <item>
-           <widget class="rpgmapper::view::OriginCornerWidget" name="coordinatesOriginWidget" native="true">
+           <widget class="rpgmapper::view::CoordinatesOriginWidget" name="coordinatesOriginWidget" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -864,7 +864,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>rpgmapper::view::OriginCornerWidget</class>
+   <class>rpgmapper::view::CoordinatesOriginWidget</class>
    <extends>QWidget</extends>
    <header>coordinatesoriginwidget.hpp</header>
    <container>1</container>

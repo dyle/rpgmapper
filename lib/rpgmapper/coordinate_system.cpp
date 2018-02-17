@@ -48,19 +48,19 @@ Coordinates CoordinateSystem::transpose(QPoint const & position) const {
 
     switch (getOrigin()) {
 
-        case CoordinateOrigin::bottomLeft:
+        case CoordinatesOrigin::bottomLeft:
             coordinate = Coordinates{position.x(), getSize().height() - position.y() - 1};
             break;
 
-        case CoordinateOrigin::bottomRight:
+        case CoordinatesOrigin::bottomRight:
             coordinate = Coordinates{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
             break;
 
-        case CoordinateOrigin::topLeft:
+        case CoordinatesOrigin::topLeft:
             coordinate = position;
             break;
 
-        case CoordinateOrigin::topRight:
+        case CoordinatesOrigin::topRight:
             coordinate = Coordinates{getSize().width() - position.x() - 1, position.y()};
             break;
     }
@@ -75,19 +75,19 @@ CoordinatesF CoordinateSystem::transpose(QPointF const & position) const{
 
     switch (getOrigin()) {
 
-        case CoordinateOrigin::bottomLeft:
+        case CoordinatesOrigin::bottomLeft:
             coordinate = CoordinatesF{position.x(), getSize().height() - position.y() - 1};
             break;
 
-        case CoordinateOrigin::bottomRight:
+        case CoordinatesOrigin::bottomRight:
             coordinate = CoordinatesF{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
             break;
 
-        case CoordinateOrigin::topLeft:
+        case CoordinatesOrigin::topLeft:
             coordinate = position;
             break;
 
-        case CoordinateOrigin::topRight:
+        case CoordinatesOrigin::topRight:
             coordinate = CoordinatesF{getSize().width() - position.x() - 1, position.y()};
             break;
     }

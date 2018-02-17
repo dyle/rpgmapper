@@ -81,7 +81,7 @@ TEST(CoordinateSystemTest, TransposeCoordinates) {
     QPoint point;
     QPointF pointF;
 
-    coordinateSystem.setOrigin(CoordinateOrigin::bottomLeft);
+    coordinateSystem.setOrigin(CoordinatesOrigin::bottomLeft);
     position = coordinateSystem.transpose(2, 7);
     point = QPoint{2, 2};
     EXPECT_EQ(position, point);
@@ -90,7 +90,7 @@ TEST(CoordinateSystemTest, TransposeCoordinates) {
     pointF = QPointF{2.0, 2.0};
     EXPECT_EQ(positionF, pointF);
 
-    coordinateSystem.setOrigin(CoordinateOrigin::bottomRight);
+    coordinateSystem.setOrigin(CoordinatesOrigin::bottomRight);
     position = coordinateSystem.transpose(3, 4);
     point = QPoint{6, 5};
     EXPECT_EQ(position, point);
@@ -99,7 +99,7 @@ TEST(CoordinateSystemTest, TransposeCoordinates) {
     pointF = QPointF{6.0, 5.0};
     EXPECT_EQ(positionF, pointF);
 
-    coordinateSystem.setOrigin(CoordinateOrigin::topLeft);
+    coordinateSystem.setOrigin(CoordinatesOrigin::topLeft);
     position = coordinateSystem.transpose(0, 8);
     point = QPoint{0, 8};
     EXPECT_EQ(position, point);
@@ -108,7 +108,7 @@ TEST(CoordinateSystemTest, TransposeCoordinates) {
     pointF = QPointF{0.0, 8.0};
     EXPECT_EQ(positionF, pointF);
 
-    coordinateSystem.setOrigin(CoordinateOrigin::topRight);
+    coordinateSystem.setOrigin(CoordinatesOrigin::topRight);
     position = coordinateSystem.transpose(9, 2);
     point = QPoint{0, 2};
     EXPECT_EQ(position, point);

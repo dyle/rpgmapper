@@ -17,6 +17,9 @@
 #include <rpgmapper/atlas.hpp>
 
 
+class Ui_mainwindow;
+
+
 namespace rpgmapper {
 namespace view {
 
@@ -25,8 +28,8 @@ class MainWindow : public QMainWindow {
 
     Q_OBJECT
 
-    class Impl;
-    std::shared_ptr<MainWindow::Impl> impl;
+    std::shared_ptr<Ui_mainwindow> ui;
+    rpgmapper::model::AtlasPointer atlas;
 
 public:
 

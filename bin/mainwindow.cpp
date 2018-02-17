@@ -11,14 +11,24 @@
 #include <QStatusBar>
 
 #include "mainwindow.hpp"
-#include "mainwindow_impl.hpp"
+#include "ui_mainwindow.h"
 
 using namespace rpgmapper::view;
 
 
 MainWindow::MainWindow() : QMainWindow{} {
 
-    impl = std::make_shared<MainWindow::Impl>(this);
+    ui = std::make_shared<Ui_mainwindow>();
+    ui->setupUi(this);
+
+    ui->atlasTreeWidget->setAtlas(atlas);
+
+    ui->mapTabWidget->clear();
+    ui->atlasTreeWidget->selectFirstMap();
+    ui->atlasTreeNewMapToolButton->setDefaultAction(ui->actionCreateNewMap);
+    ui->atlasTreeNewRegionToolButton->setDefaultAction(ui->actionCreateNewRegion);
+    ui->atlasTreeDeleteMapToolButton->setDefaultAction(ui->actionDeleteMap);
+    ui->atlasTreeDeleteRegionToolButton->setDefaultAction(ui->actionDeleteRegion);
 
     statusBar()->setSizeGripEnabled(false);
     statusBar()->setVisible(true);

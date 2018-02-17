@@ -44,7 +44,6 @@ set(RPGMAPPER_SRC
     logdialog.cpp
     main.cpp
     mainwindow.cpp
-    mainwindow_impl.cpp
     mappropertiesdialog.cpp
     mapscrollarea.cpp
     maptabwidget.cpp

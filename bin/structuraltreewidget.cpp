@@ -325,4 +325,5 @@ void StructuralTreeWidget::selectFirstMap() {
 
 void StructuralTreeWidget::setAtlas(rpgmapper::model::AtlasPointer atlas) {
     this->atlas = atlas;
+    resetStructure();
 }

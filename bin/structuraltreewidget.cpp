@@ -20,11 +20,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 
 
-StructuralTreeWidget::StructuralTreeWidget(MainWindow * parent) : QTreeWidget{parent}, mainWindow{parent} {
-
-    if (mainWindow == nullptr) {
-        throw std::runtime_error{"mainWindow must not be nullptr."};
-    }
+StructuralTreeWidget::StructuralTreeWidget(QWidget * parent) : QTreeWidget{parent} {
 
     connect(this, &QTreeWidget::currentItemChanged, this, &StructuralTreeWidget::changedCurrentItem);
     connect(this, &QTreeWidget::itemDoubleClicked, this, &StructuralTreeWidget::doubleClickedItem);
@@ -47,13 +43,13 @@ void StructuralTreeWidget::addAtlas() {
     }
 
     QStringList columns;
-    columns << getAtlas()->getName() << "atlas" << "0";
+    columns << atlas->getName() << "atlas" << "0";
 
     auto atlasItem = new QTreeWidgetItem{columns};
     atlasItem->setIcon(0, atlasPixmap);
     insertTopLevelItem(0, atlasItem);
 
-    for (auto const & cRegion: getAtlas()->getRegions()) {
+    for (auto const & cRegion: atlas->getRegions()) {
         auto cTWRegion = addRegion(atlasItem, cRegion.second);
         cTWRegion->setExpanded(true);
     }
@@ -195,11 +191,6 @@ void StructuralTreeWidget::doubleClickedItem(QTreeWidgetItem * item, UNUSED int 
 }
 
 
-AtlasPointer StructuralTreeWidget::getAtlas() {
-    return getMainWindow()->getAtlas();
-}
-
-
 StructuralTreeWidget::ItemInfo StructuralTreeWidget::getItemInfo(QTreeWidgetItem * item) const {
 
     ItemInfo itemInfo{ItemType::atlas, QString::null, false};
@@ -225,7 +216,7 @@ StructuralTreeWidget::ItemInfo StructuralTreeWidget::getItemInfo(QTreeWidgetItem
 
 void StructuralTreeWidget::newMap(QString const & name) {
 
-    auto map = getAtlas()->findMap(name);
+    auto map = atlas->findMap(name);
     if (!map->isValid()) {
         return;
     }
@@ -245,7 +236,7 @@ void StructuralTreeWidget::newMap(QString const & name) {
 
 void StructuralTreeWidget::newRegion(QString const & name) {
 
-    auto region = getAtlas()->findRegion(name);
+    auto region = atlas->findRegion(name);
     if (!region->isValid()) {
         return;
     }
@@ -329,4 +320,9 @@ void StructuralTreeWidget::selectFirstMap() {
             }
         }
     }
+}
+
+
+void StructuralTreeWidget::setAtlas(rpgmapper::model::AtlasPointer atlas) {
+    this->atlas = atlas;
 }

@@ -25,7 +25,7 @@ class StructuralTreeWidget : public QTreeWidget {
 
     Q_OBJECT
 
-    MainWindow * mainWindow = nullptr;
+    rpgmapper::model::AtlasPointer atlas;
 
     enum class ItemType { atlas, map, region };
 
@@ -37,7 +37,7 @@ class StructuralTreeWidget : public QTreeWidget {
 
 public:
 
-    explicit StructuralTreeWidget(MainWindow * parent = nullptr);
+    explicit StructuralTreeWidget(QWidget * parent = nullptr);
 
 public slots:
 
@@ -57,6 +57,8 @@ public slots:
 
     void selectFirstMap();
 
+    void setAtlas(rpgmapper::model::AtlasPointer atlas);
+
     void resetStructure();
 
 private:
@@ -67,11 +69,7 @@ private:
 
     QTreeWidgetItem * addRegion(QTreeWidgetItem * atlasItem, rpgmapper::model::RegionPointer const & region);
 
-    rpgmapper::model::AtlasPointer getAtlas();
-
     ItemInfo getItemInfo(QTreeWidgetItem * item) const;
-
-    MainWindow * getMainWindow() { return mainWindow; }
 
     QTreeWidgetItem * searchItem(ItemType type, QString const & name) const;
 

@@ -28,4 +28,5 @@ MainWindow::Impl::Impl(MainWindow * mainWindow) : mainWindow(mainWindow) {
     ui->atlasTreeNewRegionToolButton->setDefaultAction(ui->actionCreateNewRegion);
     ui->atlasTreeDeleteMapToolButton->setDefaultAction(ui->actionDeleteMap);
     ui->atlasTreeDeleteRegionToolButton->setDefaultAction(ui->actionDeleteRegion);
+    ui->atlasTreeWidget->setAtlas(getAtlas());
 }

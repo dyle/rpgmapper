@@ -28,10 +28,10 @@ set(RPGMAPPER_MOC
     coordinateswidget.hpp
     logdialog.hpp
     mainwindow.hpp
-#    view/mapscrollarea.hpp
+    mappropertiesdialog.hpp
+    mapscrollarea.hpp
     maptabwidget.hpp
     mapwidget.hpp
-    mappropertiesdialog.hpp
     structuraltreewidget.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
@@ -45,11 +45,11 @@ set(RPGMAPPER_SRC
     main.cpp
     mainwindow.cpp
     mainwindow_impl.cpp
-#    view/mapscrollarea.cpp
+    mappropertiesdialog.cpp
+    mapscrollarea.cpp
     maptabwidget.cpp
     maptabwidget_impl.cpp
     mapwidget.cpp
-    mappropertiesdialog.cpp
     structuraltreewidget.cpp
 )
 

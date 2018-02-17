@@ -11,6 +11,10 @@
 
 #include <memory>
 
+#include <QString>
+
+#include "mapscrollarea.hpp"
+
 #include "ui_mainwindow.h"
 
 
@@ -18,11 +22,9 @@ namespace rpgmapper {
 namespace view {
 
 
-class MainWindow;
-
 class MainWindow::Impl final {
 
-    // std::map<mapid_t, MapScrollArea *> m_cMapViews;     /**< all current map views */
+    std::map<QString, MapScrollArea *> mapScrollAreas;
 
 public:
 

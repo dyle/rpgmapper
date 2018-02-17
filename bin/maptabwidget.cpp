@@ -5,51 +5,33 @@
  */
 
 
-//#include <cassert>
 #include <QPixmapCache>
 #include <QScrollArea>
 
-//#include <rpgmapper/atlas.hpp>
-//#include <rpgmapper/controller.hpp>
-//#include "view/mapscrollarea.hpp"
 #include "maptabwidget.hpp"
 
-//using namespace rpgmapper::model;
+using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 
 
 MapTabWidget::MapTabWidget(QWidget * parent) : QTabWidget{parent} {
-
-    impl = std::make_shared<MapTabWidget::Impl>();
-
-//    connect(this, &QTabWidget::tabCloseRequested, this, &MapTabWidget::mapCloseRequested);
+    connect(this, &QTabWidget::tabCloseRequested, this, &MapTabWidget::mapCloseRequested);
 //    connect(Controller::instance().atlas().data(), &Atlas::deletedMap, this, &MapTabWidget::deletedMap);
 //    connect(Controller::instance().atlas().data(), &Atlas::selectedMap, this, &MapTabWidget::selectMap);
 }
 
 
+void MapTabWidget::closeCurrentMap() {
+    removeTab(currentIndex());
+}
 
 
+void MapTabWidget::mapDeleted(QString const & mapName) {
 
-#if 0
-
-//void MapTabWidget::closeCurrentMap() {
-//    removeTab(currentIndex());
-//}
-
-
-/**
- * A map has been deleted.
- *
- * @param   nMapId      id of the map deleted
- */
-void MapTabWidget::deletedMap(rpgmapper::model::mapid_t nMapId) {
-
-    auto iter = d->m_cMapViews.find(nMapId);
-    if (iter != d->m_cMapViews.end()) {
-
+    auto iter = mapScrollAreas.find(mapName);
+    if (iter != mapScrollAreas.end()) {
         int nTabIndex = indexOf((*iter).second);
-        d->m_cMapViews.erase(iter);
+        mapScrollAreas.erase(iter);
         if (nTabIndex != -1) {
             removeTab(nTabIndex);
         }
@@ -57,11 +39,6 @@ void MapTabWidget::deletedMap(rpgmapper::model::mapid_t nMapId) {
 }
 
 
-/**
- * The map widget close button has been clicked by the user.
- *
- * @param   nIndex          index of tab
- */
 void MapTabWidget::mapCloseRequested(int nIndex) {
     if (nIndex != -1) {
         removeTab(nIndex);
@@ -69,43 +46,37 @@ void MapTabWidget::mapCloseRequested(int nIndex) {
 }
 
 
-/**
- * Select a map.
- *
- * @param   nMapId      ID of the map
- */
-void MapTabWidget::selectMap(mapid_t nMapId) {
+void MapTabWidget::mapSelected(QString const & mapName) {
 
-    if (nMapId < 0) {
-        return;
+    static QPixmap pixmap;
+    if (pixmap.isNull()) {
+        QPixmapCache::find("map", &pixmap);
     }
 
-    static QPixmap cPixmap;
-    if (cPixmap.isNull()) {
-        QPixmapCache::find("map", &cPixmap);
-    }
+    auto map = atlas->findMap(mapName);
+    auto iter = mapScrollAreas.find(mapName);
+    if (iter == mapScrollAreas.end()) {
 
-    auto cMap = Controller::instance().atlas()->mapById(nMapId);
-    auto iter = d->m_cMapViews.find(nMapId);
-    if (iter == d->m_cMapViews.end()) {
+        auto mapWidget = new MapWidget{this};
+        mapWidget->setMap(map);
+        connect(mapWidget, &MapWidget::hoverCoordinates, this, &MapTabWidget::hoverCoordinates);
 
-        auto cMapWidget = new MapWidget{this, cMap};
-        connect(cMapWidget, &MapWidget::hoverCoordinates, this, &MapTabWidget::hoverCoordinates);
+        auto mapView = new MapScrollArea{this, mapWidget};
+        mapScrollAreas.emplace(mapName, mapView);
+        addTab(mapView, pixmap, map->getName());
 
-        auto cMapView = new MapScrollArea{this, cMapWidget};
-        d->m_cMapViews.emplace(nMapId, cMapView);
-        addTab(cMapView, cPixmap, cMap->name());
-
-        setCurrentWidget(cMapView);
+        setCurrentWidget(mapView);
     }
     else {
 
         if (indexOf((*iter).second) == -1) {
-            addTab((*iter).second, cPixmap, cMap->name());
+            addTab((*iter).second, pixmap, map->getName());
         }
         setCurrentWidget((*iter).second);
     }
 }
 
 
-#endif
+void MapTabWidget::setAtlas(rpgmapper::model::AtlasPointer atlas) {
+    this->atlas = atlas;
+}

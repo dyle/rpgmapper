@@ -13,6 +13,9 @@
 
 #include <QTabWidget>
 
+#include <rpgmapper/atlas.hpp>
+#include "mapscrollarea.hpp"
+
 
 namespace rpgmapper {
 namespace view {
@@ -23,36 +26,31 @@ class MapTabWidget : public QTabWidget {
 
     Q_OBJECT
 
-    class Impl;
-    std::shared_ptr<MapTabWidget::Impl> impl;
+    rpgmapper::model::AtlasPointer atlas;
+    std::map<QString, MapScrollArea *> mapScrollAreas;
 
 public:
 
-
     explicit MapTabWidget(QWidget * parent = nullptr);
 
+    void setAtlas(rpgmapper::model::AtlasPointer atlas);
 
 public slots:
 
+    void closeCurrentMap();
 
-//    void closeCurrentMap();
-//
-//    void deletedMap(rpgmapper::model::mapid_t nMapId);
-//
-//    void selectMap(rpgmapper::model::mapid_t nMapId);
+    void mapDeleted(QString const & mapName);
+
+    void mapSelected(QString const & mapName);
 
 
 private slots:
 
-
-//    void mapCloseRequested(int nIndex);
-
+    void mapCloseRequested(int nIndex);
 
 signals:
 
-
-//    void hoverCoordinates(int x, int y);
-
+    void hoverCoordinates(int x, int y);
 
 private:
 

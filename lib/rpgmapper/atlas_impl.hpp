@@ -23,6 +23,7 @@ class Atlas::Impl final : public Nameable {
     Regions regions;
     rpgmapper::model::command::ProzessorPointer prozessor;
     unsigned int unmodifiedCommandCounter = 0;
+    QString fileName;
 
 public:
 
@@ -52,6 +53,8 @@ public:
 
     rpgmapper::model::command::ProzessorPointer const & getCommandProzessor() const;
 
+    QString const & getFileName() const { return fileName; }
+
     QJsonObject getJsonObject() const override;
 
     Regions const & getRegions() const { return regions; }
@@ -65,6 +68,8 @@ public:
     bool removeRegion(QString const & name);
 
     void resetChanged();
+
+    void setFileName(QString const & fileName) { this->fileName = fileName; }
 
     void setName(QString const & name) override;
 

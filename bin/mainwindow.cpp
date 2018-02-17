@@ -10,6 +10,7 @@
 #include <QDesktopWidget>
 #include <QStatusBar>
 
+#include <rpgmapper/atlas_io.hpp>
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
@@ -42,6 +43,28 @@ MainWindow::MainWindow() : QMainWindow{} {
 }
 
 
+void MainWindow::addRecentFileName(QString const & fileName) {
+
+    if (fileName.isEmpty()) {
+        return;
+    }
+
+    if (!recentAtlasFileNames.contains(fileName)) {
+        recentAtlasFileNames.push_front(fileName);
+        while (recentAtlasFileNames.size() > maximumRecentAtlasFiles) {
+            recentAtlasFileNames.removeLast();
+        }
+    }
+
+    QFileInfo fileInfo(fileName);
+    if (fileInfo.isFile()) {
+        recentAtlasFolderName = fileInfo.absoluteDir().absolutePath();
+    }
+
+    createRecentFileActions();
+}
+
+
 void MainWindow::centerWindow() {
 
     const int defaultWidth = 600;
@@ -56,6 +79,32 @@ void MainWindow::centerWindow() {
 }
 
 
+void MainWindow::clearListOfRecentFiles() {
+
+    for (auto & cAction: recentFileLoadActions) {
+        delete cAction;
+    }
+    recentFileLoadActions.clear();
+    recentAtlasFileNames.clear();
+
+    enableActions();
+}
+
+
+void MainWindow::clearRecentFileActions() {
+
+    for (auto & actionInMenu : ui->openRecentMenu->actions()) {
+        if (actionInMenu != ui->actionClearRecentList) {
+            ui->openRecentMenu->removeAction(actionInMenu);
+        }
+    }
+    for (auto & action : recentFileLoadActions) {
+        action->deleteLater();
+    }
+    recentFileLoadActions.clear();
+}
+
+
 void MainWindow::closeEvent(QCloseEvent * event) {
     saveSettings();
     QMainWindow::closeEvent(event);
@@ -64,7 +113,10 @@ void MainWindow::closeEvent(QCloseEvent * event) {
 
 void MainWindow::connectActions() {
 
-//    connect(ui->acAbout, &QAction::triggered, this, &MainWindow::showAboutDialog);
+    connect(ui->actionShowAboutDialog, &QAction::triggered, this, &MainWindow::showAboutDialog);
+    connect(ui->actionOpenAtlasFile, &QAction::triggered, this, &MainWindow::load);
+    connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
+
 //    connect(ui->acAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
 //    connect(ui->acCloseMap, &QAction::triggered, ui->tabMap, &MapTabWidget::closeCurrentMap);
 //    connect(ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
@@ -72,12 +124,10 @@ void MainWindow::connectActions() {
 //    connect(ui->acMapProperties, &QAction::triggered, this, &MainWindow::editMapProperties);
 //    connect(ui->acNewMap, &QAction::triggered, this, &MainWindow::newMap);
 //    connect(ui->acNewRegion, &QAction::triggered, this, &MainWindow::newRegion);
-//    connect(ui->acOpen, &QAction::triggered, this, &MainWindow::load);
-//    connect(ui->acQuit, &QAction::triggered, this, &MainWindow::close);
-//    connect(ui->acRecentListClear, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
+    connect(ui->actionClearRecentList, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
 //    connect(ui->acRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
-//    connect(ui->acSave, &QAction::triggered, this, &MainWindow::save);
-//    connect(ui->acSaveAs, &QAction::triggered, this, &MainWindow::saveAs);
+    connect(ui->actionSaveAtlasFile, &QAction::triggered, this, &MainWindow::save);
+    connect(ui->actionSaveAtlasFileAs, &QAction::triggered, this, &MainWindow::saveAs);
 //    connect(ui->acViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
 //    connect(ui->acViewStructure, &QAction::triggered, this, &MainWindow::visibleStructure);
 //    connect(ui->acViewTiles, &QAction::triggered, this, &MainWindow::visibleTiles);
@@ -93,6 +143,75 @@ void MainWindow::connectActions() {
 }
 
 
+void MainWindow::createRecentFileActions() {
+
+    clearRecentFileActions();
+
+    for (auto const & fileName: recentAtlasFileNames) {
+
+        auto loadRecentFileAction = new QAction(this);
+        loadRecentFileAction->setObjectName(fileName);
+        loadRecentFileAction->setText(fileName);
+        connect(loadRecentFileAction, &QAction::triggered, this, &MainWindow::loadRecentFile);
+
+        recentFileLoadActions.push_back(loadRecentFileAction);
+    }
+
+    ui->openRecentMenu->insertActions(ui->actionClearRecentList, recentFileLoadActions);
+    ui->openRecentMenu->insertSeparator(ui->actionClearRecentList);
+
+    enableActions();
+}
+
+
+void MainWindow::enableActions() {
+    ui->actionClearRecentList->setEnabled(!recentAtlasFileNames.empty());
+}
+
+
+void MainWindow::load() {
+
+    auto nAnswer = loadAtlasDialog->exec();
+    if ((nAnswer == 0) || loadAtlasDialog->selectedFiles().empty()) {
+        return;
+    }
+    loadAtlas(loadAtlasDialog->selectedFiles().first());
+}
+
+
+void MainWindow::loadAtlas(QString const & fileName) {
+
+    QFile file{fileName};
+    AtlasIO atlasIO;
+    auto result = atlasIO.read(file);
+
+    if (!result.hasSuccess()) {
+        logDialog->setWindowTitle(tr("Load atlas failure"));
+        logDialog->clear();
+        logDialog->setMessage(tr("Failed to load atlas file."));
+        logDialog->setLog(result.getLog());
+        logDialog->exec();
+    }
+    else {
+        addRecentFileName(fileName);
+        setAtlas(result.getAtlas());
+    }
+}
+
+
+void MainWindow::loadRecentFile() {
+
+    auto action = dynamic_cast<QAction *>(sender());
+    if (!action) {
+        return;
+    }
+
+    // we could use cAction->text(). However, Qt automagically adds
+    // the shortcut literal '&' to the text, disturbing the file name.
+    loadAtlas(action->objectName());
+}
+
+
 void MainWindow::loadSettings() {
 
     QSettings settings{"rpgmapper", "rpgmapper"};
@@ -105,35 +224,95 @@ void MainWindow::loadSettings() {
     }
     restoreState(settings.value("windowState").toByteArray());
 
-    // TODO
-    //d->m_nMaximumRecentAtlasFiles = settings.value("recent/maximum", 10).toInt();
-    //d->m_sRecentAtlasFolder = settings.value("recent/folder").toString();
-    //d->m_cRecentAtlasFiles.clear();
-    //for (int i = 0; i < d->m_nMaximumRecentAtlasFiles; ++i) {
-    //    QString sFilename = settings.value("recent/file-" + QString::number(i), "").toString();
-    //    if (!sFilename.isEmpty()) {
-    //        d->m_cRecentAtlasFiles.append(sFilename);
-    //    }
-    //}
-    //createRecentFileActions();
+    maximumRecentAtlasFiles = settings.value("recent/maximum", 10).toInt();
+    recentAtlasFolderName = settings.value("recent/folder").toString();
+    recentAtlasFileNames.clear();
+    for (int i = 0; i < maximumRecentAtlasFiles; ++i) {
+        QString fileName = settings.value("recent/file-" + QString::number(i), "").toString();
+        if (!fileName.isEmpty()) {
+            recentAtlasFileNames.append(fileName);
+        }
+    }
+    createRecentFileActions();
 
-    //if (!d->m_sRecentAtlasFolder.isEmpty()) {
-    //    d->m_cDlgLoad->setDirectory(d->m_sRecentAtlasFolder);
-    //    d->m_cDlgSaveAs->setDirectory(d->m_sRecentAtlasFolder);
-    //}
+    if (!recentAtlasFolderName.isEmpty()) {
+        loadAtlasDialog->setDirectory(recentAtlasFolderName);
+        saveAtlasDialog->setDirectory(recentAtlasFolderName);
+    }
+}
+
+
+void MainWindow::save() {
+
+    if (atlas->getFileName().isEmpty()) {
+        saveAs();
+        return;
+    }
+    saveAtlas(atlas->getFileName());
+}
+
+
+void MainWindow::saveAs() {
+
+    auto answer = saveAtlasDialog->exec();
+    if ((answer == 0) || saveAtlasDialog->selectedFiles().empty()) {
+        return;
+    }
+    saveAtlas(saveAtlasDialog->selectedFiles().first());
+}
+
+
+void MainWindow::saveAtlas(QString const & fileName) {
+
+    QFile file{fileName};
+    AtlasIO atlasIO;
+    auto result = atlasIO.write(atlas, file);
+
+    if (!result.hasSuccess()) {
+        logDialog->setWindowTitle(tr("Save atlas failure"));
+        logDialog->clear();
+        logDialog->setMessage(tr("Failed to save atlas file."));
+        logDialog->setLog(result.getLog());
+        logDialog->exec();
+    }
+    else {
+        addRecentFileName(atlas->getFileName());
+    }
 }
 
 
 void MainWindow::saveSettings() {
     QSettings settings{"rpgmapper", "rpgmapper"};
     saveSettingsWindow(settings);
-    //saveSettingsRecentFiles(settings);
+    saveSettingsRecentFiles(settings);
+}
+
+
+void MainWindow::saveSettingsRecentFiles(QSettings & settings) {
+
+    settings.remove("recent");
+    settings.setValue("recent/maximum", maximumRecentAtlasFiles);
+    settings.setValue("recent/folder", recentAtlasFolderName);
+
+    int fileIndex = 0;
+    for (auto const & fileName : recentAtlasFileNames){
+        settings.setValue("recent/file-" + QString::number(++fileIndex), fileName);
+        if (fileIndex >= maximumRecentAtlasFiles) {
+            break;
+        }
+    }
 }
 
 
 void MainWindow::saveSettingsWindow(QSettings & settings) {
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
+}
+
+
+void MainWindow::setAtlas(rpgmapper::model::AtlasPointer atlas) {
+    this->atlas = atlas;
+    ui->atlasTreeWidget->setAtlas(atlas);
 }
 
 
@@ -150,7 +329,7 @@ void MainWindow::setupDialogs() {
     loadAtlasDialog->setNameFilters(cFileNameFilters);
     loadAtlasDialog->setAcceptMode(QFileDialog::AcceptOpen);
     loadAtlasDialog->setWindowTitle(tr("Load Atlas file"));
-//    loadAtlasDialog->setDirectory(d->m_sRecentAtlasFolder);
+//    loadAtlasDialog->setDirectory(recentAtlasFolderName);
 
     logDialog = new LogDialog(this);
 
@@ -161,7 +340,12 @@ void MainWindow::setupDialogs() {
     saveAtlasDialog->setNameFilters(cFileNameFilters);
     saveAtlasDialog->setAcceptMode(QFileDialog::AcceptSave);
     saveAtlasDialog->setWindowTitle(tr("Save Atlas file"));
-//    saveAtlasDialog->setDirectory(d->m_sRecentAtlasFolder);
+//    saveAtlasDialog->setDirectory(recentAtlasFolderName);
+}
+
+
+void MainWindow::showAboutDialog() {
+    aboutDialog->exec();
 }
 
 
@@ -183,6 +367,13 @@ void MainWindow::showEvent(QShowEvent * cEvent) {
         bFirstTime = false;
     }
 }
+
+
+
+
+
+
+
 
 
 
@@ -307,33 +498,6 @@ MainWindow::MainWindow() : QMainWindow{} {
 
 
 /**
- * Adds a filename to the list of recent filenames.
- *
- * @param   sFileName       the filename to add
- */
-void MainWindow::addRecentFileName(QString const & sFileName) {
-
-    if (sFileName.isEmpty()) {
-        return;
-    }
-
-    if (!d->m_cRecentAtlasFiles.contains(sFileName)) {
-        d->m_cRecentAtlasFiles.push_front(sFileName);
-        while (d->m_cRecentAtlasFiles.size() > d->m_nMaximumRecentAtlasFiles) {
-            d->m_cRecentAtlasFiles.removeLast();
-        }
-    }
-
-    QFileInfo cFileInfo(sFileName);
-    if (cFileInfo.isFile()) {
-        d->m_sRecentAtlasFolder = cFileInfo.absoluteDir().absolutePath();
-    }
-
-    createRecentFileActions();
-}
-
-
-/**
  * The atlas changed.
  */
 void MainWindow::changedAtlas() {
@@ -342,62 +506,6 @@ void MainWindow::changedAtlas() {
     QString sModifiedMarker = cAtlas->isModified() ? "*" : "";
     QString sTitle = cAtlas->name() + sModifiedMarker + " - RPGMapper V" + VERSION;
     setWindowTitle(sTitle);
-}
-
-
-/**
- * Empties the sub menu of recent files, but the "Clear List" action.
- */
-void MainWindow::clearRecentFileActions() {
-
-    for (auto & cAction : d->ui->mnOpenRecent->actions()) {
-        if (cAction != d->ui->acRecentListClear) {
-            d->ui->mnOpenRecent->removeAction(cAction);
-        }
-    }
-    for (auto & cAction : d->m_cRecentFileActions) {
-        cAction->deleteLater();
-    }
-    d->m_cRecentFileActions.clear();
-}
-
-
-/**
- * Clear list of recent files.
- */
-void MainWindow::clearListOfRecentFiles() {
-
-    for (auto & cAction: d->m_cRecentFileActions) {
-        delete cAction;
-    }
-    d->m_cRecentFileActions.clear();
-    d->m_cRecentAtlasFiles.clear();
-
-    enableActions();
-}
-
-
-/**
- * Create list of recent file menu actions.
- */
-void MainWindow::createRecentFileActions() {
-
-    clearRecentFileActions();
-
-    for (auto const & sFileName: d->m_cRecentAtlasFiles) {
-
-        auto cRecentFileAction = new QAction(this);
-        cRecentFileAction->setObjectName(sFileName);
-        cRecentFileAction->setText(sFileName);
-        connect(cRecentFileAction, &QAction::triggered, this, &MainWindow::loadRecentFile);
-
-        d->m_cRecentFileActions.push_back(cRecentFileAction);
-    }
-
-    d->ui->mnOpenRecent->insertActions(d->ui->acRecentListClear, d->m_cRecentFileActions);
-    d->ui->mnOpenRecent->insertSeparator(d->ui->acRecentListClear);
-
-    enableActions();
 }
 
 
@@ -493,67 +601,6 @@ void MainWindow::editRegionProperties() {
 
 
 /**
- * Switch enabled state of actions.
- *
- * This method checks the action is enabled or disabled for a series of available actions.
- */
-void MainWindow::enableActions() {
-    d->ui->acRecentListClear->setEnabled(!d->m_cRecentAtlasFiles.empty());
-}
-
-
-/**
- * Load an atlas.
- */
-void MainWindow::load() {
-
-    auto nAnswer = d->m_cDlgLoad->exec();
-    if ((nAnswer == 0) || d->m_cDlgSaveAs->selectedFiles().empty()) {
-        return;
-    }
-    loadAtlas(d->m_cDlgLoad->selectedFiles().first());
-}
-
-
-/**
- * Load an atlas from a file.
- *
- * @param   sFileName       the file to load
- */
-void MainWindow::loadAtlas(QString const & sFileName) {
-
-    QStringList cLoadLog;
-    if (!Controller::instance().load(sFileName, cLoadLog)) {
-        d->m_cDlgLog->setWindowTitle(tr("Load atlas failure"));
-        d->m_cDlgLog->clear();
-        d->m_cDlgLog->setMessage(tr("Failed to load atlas file."));
-        d->m_cDlgLog->setLog(cLoadLog);
-        d->m_cDlgLog->exec();
-    }
-    else {
-        addRecentFileName(Controller::instance().file().filename());
-        resetAtlas();
-    }
-}
-
-
-/**
- * Load a recent file.
- */
-void MainWindow::loadRecentFile() {
-
-    auto cAction = dynamic_cast<QAction *>(sender());
-    if (!cAction) {
-        return;
-    }
-
-    // we could use cAction->text(). However, Qt automagically adds
-    // the shortcut literal '&' to the text, disturbing the file name.
-    loadAtlas(cAction->objectName());
-}
-
-
-/**
  * A new map shall be created.
  */
 void MainWindow::newMap() {
@@ -575,82 +622,6 @@ void MainWindow::newRegion() {
 void MainWindow::resetAtlas() {
     changedAtlas();
     d->ui->twAtlas->resetStructure();
-}
-
-
-/**
- * Save the atlas.
- */
-void MainWindow::save() {
-
-    if (Controller::instance().file().filename().isEmpty()) {
-        saveAs();
-        return;
-    }
-    saveAtlas(Controller::instance().file().filename());
-}
-
-
-/**
- * Save the atlas with a new filename.
- */
-void MainWindow::saveAs() {
-
-    auto nAnswer = d->m_cDlgSaveAs->exec();
-    if ((nAnswer == 0) || d->m_cDlgSaveAs->selectedFiles().empty()) {
-        return;
-    }
-    saveAtlas(d->m_cDlgSaveAs->selectedFiles().first());
-}
-
-
-/**
- * Save the atlas to a file.
- *
- * @param   sFileName       the file to save the atlas to
- */
-void MainWindow::saveAtlas(QString const & sFileName) {
-
-    QStringList cSaveLog;
-    if (!Controller::instance().save(sFileName, cSaveLog)) {
-        d->m_cDlgLog->setWindowTitle(tr("Save atlas failure"));
-        d->m_cDlgLog->clear();
-        d->m_cDlgLog->setMessage(tr("Failed to save atlas file."));
-        d->m_cDlgLog->setLog(cSaveLog);
-        d->m_cDlgLog->exec();
-    }
-    else {
-        addRecentFileName(Controller::instance().file().filename());
-    }
-}
-
-
-/**
- * Save the window geometry and states.
- *
- * @param   cSettings       settings instance to save to
- */
-void MainWindow::saveSettingsRecentFiles(QSettings & cSettings) {
-
-    cSettings.remove("recent");
-    cSettings.setValue("recent/maximum", d->m_nMaximumRecentAtlasFiles);
-    cSettings.setValue("recent/folder", d->m_sRecentAtlasFolder);
-
-    int nFileIndex = 0;
-    for (auto const & sFilename : d->m_cRecentAtlasFiles){
-        cSettings.setValue("recent/file-" + QString::number(++nFileIndex), sFilename);
-        if (nFileIndex >= d->m_nMaximumRecentAtlasFiles) {
-            break;
-        }
-    }
-}
-
-
-/**
- * Show about dialog.
- */
-void MainWindow::showAboutDialog() {
-    d->m_cDlgAbout->exec();
 }
 
 

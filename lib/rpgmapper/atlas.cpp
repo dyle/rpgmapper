@@ -82,6 +82,11 @@ QJsonObject Atlas::getJsonObject() const  {
 }
 
 
+QString const& Atlas::getFileName() const {
+    return impl->getFileName();
+}
+
+
 QString const & Atlas::getName() const {
     return impl->getName();
 }
@@ -125,6 +130,11 @@ void Atlas::removeRegion(QString const & name) {
 
 void Atlas::resetChanged() {
     impl->resetChanged();
+}
+
+
+void Atlas::setFileName(QString const & fileName) {
+    impl->setFileName(fileName);
 }
 
 

@@ -36,6 +36,7 @@ TEST(AtlasIO, WriteAtlasToFile) {
 
     EXPECT_TRUE(result.hasSuccess());
     EXPECT_FALSE(atlas->isModified());
+    EXPECT_EQ(atlas->getFileName().toStdString(), "test.atlas");
 }
 
 
@@ -59,6 +60,7 @@ TEST(AtlasIO, ReadAtlasFromFile) {
     EXPECT_TRUE(result.hasSuccess());
     EXPECT_TRUE(result.getAtlas()->isValid());
     EXPECT_FALSE(result.getAtlas()->isModified());
+    EXPECT_EQ(result.getAtlas()->getFileName().toStdString(), "test/unit/data/test.atlas");
 }
 
 

@@ -60,6 +60,8 @@ public:
 
     QJsonObject getJsonObject() const;
 
+    QString const & getFileName() const;
+
     QString const & getName() const;
 
     Regions const & getRegions() const;
@@ -77,6 +79,8 @@ public:
     void removeRegion(QString const & name);
 
     void resetChanged();
+
+    void setFileName(QString const & fileName);
 
     void setName(QString const & name);
 

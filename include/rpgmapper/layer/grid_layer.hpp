@@ -12,8 +12,6 @@
 #include <rpgmapper/layer/layer.hpp>
 
 
-using namespace rpgmapper::model;
-
 namespace rpgmapper {
 namespace model {
 
@@ -23,7 +21,7 @@ class GridLayer : public Layer {
 
 public:
 
-    explicit GridLayer(Map * map, QObject * parent = nullptr);
+    explicit GridLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
     virtual ~GridLayer() = default;
 

@@ -15,8 +15,6 @@
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
 
-using namespace rpgmapper::model;
-
 
 namespace rpgmapper {
 namespace view {
@@ -65,11 +63,11 @@ private:
 
     void addAtlas();
 
-    QTreeWidgetItem * addMap(QTreeWidgetItem * regionItem, MapPointer const & map);
+    QTreeWidgetItem * addMap(QTreeWidgetItem * regionItem, rpgmapper::model::MapPointer const & map);
 
-    QTreeWidgetItem * addRegion(QTreeWidgetItem * atlasItem, RegionPointer const & region);
+    QTreeWidgetItem * addRegion(QTreeWidgetItem * atlasItem, rpgmapper::model::RegionPointer const & region);
 
-    AtlasPointer getAtlas();
+    rpgmapper::model::AtlasPointer getAtlas();
 
     ItemInfo getItemInfo(QTreeWidgetItem * item) const;
 

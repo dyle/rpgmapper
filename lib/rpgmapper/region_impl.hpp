@@ -11,8 +11,6 @@
 #include <rpgmapper/region.hpp>
 #include "nameable.hpp"
 
-using namespace rpgmapper::model;
-
 
 namespace rpgmapper {
 namespace model {

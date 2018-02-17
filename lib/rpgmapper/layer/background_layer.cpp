@@ -9,6 +9,8 @@
 
 #include <rpgmapper/layer/background_layer.hpp>
 
+using namespace rpgmapper::model;
+
 
 static char const * BACKGROUND_COLOR_DEFAULT = "#000060";
 

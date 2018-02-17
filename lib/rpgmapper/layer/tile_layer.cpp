@@ -7,6 +7,8 @@
 
 #include <rpgmapper/layer/tile_layer.hpp>
 
+using namespace rpgmapper::model;
+
 
 TileLayer::TileLayer(Map * map, QObject * parent) : Layer{map, parent} {
 }

@@ -15,8 +15,6 @@
 
 #include <rpgmapper/coordinate_system.hpp>
 
-using namespace rpgmapper::model;
-
 class Ui_coordinatesWidget;
 
 
@@ -38,7 +36,7 @@ public slots:
 
     void clear();
 
-    void showCoordinates(NumeralCoordinates const & coordinates);
+    void showCoordinates(rpgmapper::model::NumeralCoordinates const & coordinates);
 };
 
 

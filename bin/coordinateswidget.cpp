@@ -8,6 +8,7 @@
 #include "coordinateswidget.hpp"
 #include "ui_coordinateswidget.h"
 
+using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 
 

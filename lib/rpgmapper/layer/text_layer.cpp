@@ -7,6 +7,8 @@
 
 #include <rpgmapper/layer/text_layer.hpp>
 
+using namespace rpgmapper::model;
+
 
 TextLayer::TextLayer(Map * map, QObject * parent) : Layer{map, parent} {
 }

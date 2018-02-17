@@ -32,9 +32,9 @@ public:
 
     MainWindow();
 
-    AtlasPointer getAtlas();
+    rpgmapper::model::AtlasPointer getAtlas();
 
-    AtlasPointer const getAtlas() const;
+    rpgmapper::model::AtlasPointer const getAtlas() const;
 
 protected:
 

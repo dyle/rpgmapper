@@ -13,6 +13,7 @@
 #include <rpgmapper/command/create_region.hpp>
 #include <rpgmapper/command/nop.hpp>
 
+using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 

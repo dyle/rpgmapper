@@ -31,6 +31,7 @@ class MapPropertiesDialog : public QDialog {
     Q_OBJECT
 
     std::shared_ptr<Ui_mapPropertiesDialog> ui;
+
     rpgmapper::model::MapPointer map;
     QFont axisFont;
     QColor axisColor;
@@ -40,10 +41,10 @@ class MapPropertiesDialog : public QDialog {
     QLabel * backgroundPreviewLabel;
 
     struct {
-        QSharedPointer<NumeralConverter> alphabeticalBigCaps;
-        QSharedPointer<NumeralConverter> alphabeticalSmallCaps;
-        QSharedPointer<NumeralConverter> numerical;
-        QSharedPointer<NumeralConverter> roman;
+        QSharedPointer<rpgmapper::model::NumeralConverter> alphabeticalBigCaps;
+        QSharedPointer<rpgmapper::model::NumeralConverter> alphabeticalSmallCaps;
+        QSharedPointer<rpgmapper::model::NumeralConverter> numerical;
+        QSharedPointer<rpgmapper::model::NumeralConverter> roman;
     } numeralConverters;
 
 public:
@@ -54,7 +55,7 @@ public slots:
 
     void evaluate();
 
-    void setMap(MapPointer & cMap);
+    void setMap(rpgmapper::model::MapPointer & cMap);
 
 private:
 

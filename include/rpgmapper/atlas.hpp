@@ -20,9 +20,6 @@
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/command/prozessor.hpp>
 
-using namespace rpgmapper::model;
-using namespace rpgmapper::model::command;
-
 
 namespace rpgmapper {
 namespace model {
@@ -57,9 +54,9 @@ public:
 
     std::set<QString> getAllRegionNames() const;
 
-    ProzessorPointer & getCommandProzessor();
+    rpgmapper::model::command::ProzessorPointer & getCommandProzessor();
 
-    ProzessorPointer const & getCommandProzessor() const;
+    rpgmapper::model::command::ProzessorPointer const & getCommandProzessor() const;
 
     QJsonObject getJsonObject() const;
 

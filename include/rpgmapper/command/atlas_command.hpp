@@ -11,9 +11,6 @@
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/command/command.hpp>
 
-using namespace rpgmapper::model;
-using namespace rpgmapper::model::command;
-
 
 namespace rpgmapper {
 namespace model {
@@ -22,15 +19,15 @@ namespace command {
 
 class AtlasCommand : public Command {
 
-    QWeakPointer<Atlas> atlas;
+    QWeakPointer<rpgmapper::model::Atlas> atlas;
 
 public:
 
-    explicit AtlasCommand(AtlasPointer & atlas) : atlas{atlas} {}
+    explicit AtlasCommand(rpgmapper::model::AtlasPointer & atlas) : atlas{atlas} {}
 
-    AtlasPointer getAtlas();
+    rpgmapper::model::AtlasPointer getAtlas();
 
-    AtlasPointer const getAtlas() const;
+    rpgmapper::model::AtlasPointer const getAtlas() const;
 };
 
 

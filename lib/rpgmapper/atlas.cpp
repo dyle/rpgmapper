@@ -9,6 +9,7 @@
 #include "atlas_impl.hpp"
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::command;
 
 
 Atlas::Atlas(QObject * parent) : QObject{parent} {

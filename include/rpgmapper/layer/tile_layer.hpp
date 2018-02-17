@@ -12,8 +12,6 @@
 #include <rpgmapper/layer/layer.hpp>
 
 
-using namespace rpgmapper::model;
-
 namespace rpgmapper {
 namespace model {
 
@@ -25,7 +23,7 @@ class TileLayer : public Layer {
 
 public:
 
-    explicit TileLayer(Map * map, QObject * parent = nullptr);
+    explicit TileLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
     virtual ~TileLayer() = default;
 

@@ -5,7 +5,9 @@
  */
 
 
+#include "mainwindow.hpp"
 #include "mainwindow_impl.hpp"
+#include "ui_mainwindow.h"
 
 using namespace rpgmapper::view;
 

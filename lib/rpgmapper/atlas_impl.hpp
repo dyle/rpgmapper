@@ -12,8 +12,6 @@
 #include <rpgmapper/atlas.hpp>
 #include "nameable.hpp"
 
-using namespace rpgmapper::model;
-
 
 namespace rpgmapper {
 namespace model {
@@ -23,7 +21,7 @@ class Atlas::Impl final : public Nameable {
 
     Atlas * atlas = nullptr;
     Regions regions;
-    ProzessorPointer prozessor;
+    rpgmapper::model::command::ProzessorPointer prozessor;
     unsigned int unmodifiedCommandCounter = 0;
 
 public:
@@ -50,9 +48,9 @@ public:
 
     std::set<QString> getAllRegionNames() const;
 
-    ProzessorPointer & getCommandProzessor();
+    rpgmapper::model::command::ProzessorPointer & getCommandProzessor();
 
-    ProzessorPointer const & getCommandProzessor() const;
+    rpgmapper::model::command::ProzessorPointer const & getCommandProzessor() const;
 
     QJsonObject getJsonObject() const override;
 

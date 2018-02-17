@@ -8,6 +8,8 @@
 #include <rpgmapper/atlas.hpp>
 #include "region_impl.hpp"
 
+using namespace rpgmapper::model;
+
 
 Region::Region(QString const & name, Atlas * atlas) : QObject{atlas} {
     impl = std::make_shared<Region::Impl>(atlas, this);

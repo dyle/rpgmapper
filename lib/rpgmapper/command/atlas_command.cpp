@@ -7,6 +7,7 @@
 
 #include <rpgmapper/command/atlas_command.hpp>
 
+using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 

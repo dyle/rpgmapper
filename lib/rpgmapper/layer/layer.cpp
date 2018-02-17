@@ -8,6 +8,8 @@
 #include <rpgmapper/layer/layer.hpp>
 #include "layer_impl.hpp"
 
+using namespace rpgmapper::model;
+
 
 Layer::Layer(Map * map, QObject * parent) : QObject{parent} {
     impl = std::make_shared<Layer::Impl>(map);

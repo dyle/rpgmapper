@@ -14,8 +14,6 @@
 #include <rpgmapper/atlas_io.hpp>
 
 
-using namespace rpgmapper::model;
-
 namespace rpgmapper {
 namespace model {
 

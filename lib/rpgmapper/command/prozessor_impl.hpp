@@ -11,8 +11,6 @@
 
 #include <rpgmapper/command/prozessor.hpp>
 
-using namespace rpgmapper::model;
-
 
 namespace rpgmapper {
 namespace model {

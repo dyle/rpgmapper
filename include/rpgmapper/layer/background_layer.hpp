@@ -12,8 +12,6 @@
 #include <rpgmapper/layer/layer.hpp>
 
 
-using namespace rpgmapper::model;
-
 namespace rpgmapper {
 namespace model {
 
@@ -23,7 +21,7 @@ class BackgroundLayer : public Layer {
 
 public:
 
-    explicit BackgroundLayer(Map * map, QObject * parent = nullptr);
+    explicit BackgroundLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
     virtual ~BackgroundLayer() = default;
 

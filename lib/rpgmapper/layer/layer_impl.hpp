@@ -12,8 +12,6 @@
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/layer/layer.hpp>
 
-using namespace rpgmapper::model;
-
 
 namespace rpgmapper {
 namespace model {

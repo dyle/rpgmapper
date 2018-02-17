@@ -33,7 +33,7 @@ public:
 
     using Attributes = std::map<QString, QString>;
 
-    explicit Layer(Map * map, QObject * parent = nullptr);
+    explicit Layer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
     virtual ~Layer() = default;
 

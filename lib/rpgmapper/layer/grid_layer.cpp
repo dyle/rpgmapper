@@ -7,6 +7,8 @@
 
 #include <rpgmapper/layer/grid_layer.hpp>
 
+using namespace rpgmapper::model;
+
 
 GridLayer::GridLayer(Map * map, QObject * parent) : Layer{map, parent} {
 }

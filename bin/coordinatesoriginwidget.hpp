@@ -15,8 +15,6 @@
 
 #include <rpgmapper/coordinate_system.hpp>
 
-using namespace rpgmapper::model;
-
 
 class Ui_coordinatesOriginWidget;
 
@@ -34,11 +32,11 @@ public:
 
     explicit CoordinatesOriginWidget(QWidget * parent);
 
-    CoordinatesOrigin origin() const;
+    rpgmapper::model::CoordinatesOrigin origin() const;
 
 public slots:
 
-    void setOrigin(CoordinatesOrigin origin);
+    void setOrigin(rpgmapper::model::CoordinatesOrigin origin);
 
 };
 

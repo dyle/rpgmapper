@@ -12,8 +12,6 @@
 #include <rpgmapper/layer/layer.hpp>
 
 
-using namespace rpgmapper::model;
-
 namespace rpgmapper {
 namespace model {
 
@@ -23,7 +21,7 @@ Q_OBJECT
 
 public:
 
-    explicit TextLayer(Map * map, QObject * parent = nullptr);
+    explicit TextLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
     virtual ~TextLayer() = default;
 

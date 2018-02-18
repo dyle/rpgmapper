@@ -106,10 +106,12 @@ void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * current) {
             break;
 
         case ItemType::map:
+            selection->selectMap(itemInfo.name);
             emit selectedMap(itemInfo.name);
             break;
 
         case ItemType::region:
+            selection->selectRegion(itemInfo.name);
             emit selectedRegion(itemInfo.name);
             break;
     }
@@ -144,35 +146,60 @@ void StructuralTreeWidget::connectSelectionSignals() {
 
     connect(selection, &Selection::newAtlas, this, &StructuralTreeWidget::resetStructure);
 
-//    connect(atlas.data(), &Atlas::changedName, this, &StructuralTreeWidget::changedAtlasName);
-//    connect(atlas.data(), &Atlas::changedMapName, this, &StructuralTreeWidget::changedMapName);
-//    connect(atlas.data(), &Atlas::changedRegionName, this, &StructuralTreeWidget::changedRegionName);
-//    connect(atlas.data(), &Atlas::deletedMap, this, &StructuralTreeWidget::deletedMap);
-//    connect(atlas.data(), &Atlas::deletedRegion, this, &StructuralTreeWidget::deletedRegion);
-//    connect(atlas.data(), &Atlas::newMap, this, &StructuralTreeWidget::newMap);
-//    connect(atlas.data(), &Atlas::newRegion, this, &StructuralTreeWidget::newRegion);
+    connect(selection->getAtlas().data(), &Atlas::nameChanged,
+            this, &StructuralTreeWidget::changedAtlasName);
+    connect(selection->getAtlas().data(), &Atlas::mapNameChanged,
+            this, &StructuralTreeWidget::changedMapName);
+    connect(selection->getAtlas().data(), &Atlas::regionNameChanged,
+            this, &StructuralTreeWidget::changedRegionName);
+    connect(selection->getAtlas().data(), &Atlas::mapRemoved,
+            this, &StructuralTreeWidget::removedMap);
+    connect(selection->getAtlas().data(), &Atlas::regionRemoved,
+            this, &StructuralTreeWidget::removedRegion);
+    connect(selection->getAtlas().data(), &Atlas::mapCreated,
+            this, &StructuralTreeWidget::createdMap);
+    connect(selection->getAtlas().data(), &Atlas::regionCreated,
+            this, &StructuralTreeWidget::createdRegion);
 }
 
 
-void StructuralTreeWidget::deletedMap(QString const & name) {
+void StructuralTreeWidget::createdMap(QString const &name) {
 
-    auto item = searchItem(ItemType::map, name);
-    if (item == nullptr) {
+    auto map = selection->getAtlas()->findMap(name);
+    if (!map->isValid()) {
         return;
     }
-    topLevelItem(0)->removeChild(item);
-    delete item;
+
+    auto parentItem = searchItem(ItemType::region, map->getRegionName());
+    if (parentItem == nullptr) {
+        return;
+    }
+
+    auto mapName = addMap(parentItem, map);
+    if (mapName) {
+        scrollToItem(mapName, QAbstractItemView::EnsureVisible);
+        setCurrentItem(mapName);
+    }
 }
 
 
-void StructuralTreeWidget::deletedRegion(QString const & name) {
+void StructuralTreeWidget::createdRegion(QString const &name) {
 
-    auto item = searchItem(ItemType::region, name);
-    if (item == nullptr) {
+    auto region = selection->getAtlas()->findRegion(name);
+    if (!region->isValid()) {
         return;
     }
-    topLevelItem(0)->removeChild(item);
-    delete item;
+
+    auto parentItem = searchItem(ItemType::atlas, QString::null);
+    if (parentItem == nullptr) {
+        return;
+    }
+
+    auto regionItem = addRegion(parentItem, region);
+    if (regionItem) {
+        scrollToItem(regionItem, QAbstractItemView::EnsureVisible);
+        setCurrentItem(regionItem);
+    }
 }
 
 
@@ -190,10 +217,12 @@ void StructuralTreeWidget::doubleClickedItem(QTreeWidgetItem * item, UNUSED int 
             break;
 
         case ItemType::map:
+            selection->selectMap(itemInfo.name);
             emit doubleClickedMap(itemInfo.name);
             break;
 
         case ItemType::region:
+            selection->selectRegion(itemInfo.name);
             emit doubleClickedRegion(itemInfo.name);
             break;
     }
@@ -223,43 +252,25 @@ StructuralTreeWidget::ItemInfo StructuralTreeWidget::getItemInfo(QTreeWidgetItem
 }
 
 
-void StructuralTreeWidget::newMap(QString const & name) {
+void StructuralTreeWidget::removedMap(QString const &name) {
 
-    auto map = selection->getAtlas()->findMap(name);
-    if (!map->isValid()) {
+    auto item = searchItem(ItemType::map, name);
+    if (item == nullptr) {
         return;
     }
-
-    auto parentItem = searchItem(ItemType::region, map->getRegionName());
-    if (parentItem == nullptr) {
-        return;
-    }
-
-    auto mapName = addMap(parentItem, map);
-    if (mapName) {
-        scrollToItem(mapName, QAbstractItemView::EnsureVisible);
-        setCurrentItem(mapName);
-    }
+    topLevelItem(0)->removeChild(item);
+    delete item;
 }
 
 
-void StructuralTreeWidget::newRegion(QString const & name) {
+void StructuralTreeWidget::removedRegion(QString const &name) {
 
-    auto region = selection->getAtlas()->findRegion(name);
-    if (!region->isValid()) {
+    auto item = searchItem(ItemType::region, name);
+    if (item == nullptr) {
         return;
     }
-
-    auto parentItem = searchItem(ItemType::atlas, QString::null);
-    if (parentItem == nullptr) {
-        return;
-    }
-
-    auto regionItem = addRegion(parentItem, region);
-    if (regionItem) {
-        scrollToItem(regionItem, QAbstractItemView::EnsureVisible);
-        setCurrentItem(regionItem);
-    }
+    topLevelItem(0)->removeChild(item);
+    delete item;
 }
 
 

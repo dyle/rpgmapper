@@ -45,13 +45,13 @@ public slots:
 
     void changedRegionName(QString const & nameBefore, QString const & nameAfter);
 
-    void deletedMap(QString const & name);
+    void createdMap(QString const &name);
 
-    void deletedRegion(QString const & name);
+    void createdRegion(QString const &name);
 
-    void newMap(QString const & name);
+    void removedMap(QString const &name);
 
-    void newRegion(QString const & name);
+    void removedRegion(QString const &name);
 
     void selectFirstMap();
 

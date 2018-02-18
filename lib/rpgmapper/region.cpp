@@ -26,6 +26,7 @@ bool Region::addMap(MapPointer & map) {
     }
 
     auto added = impl->addMap(map);
+    connectMapSignals(map);
     emit mapAdded(map->getName());
     return added;
 }
@@ -36,22 +37,51 @@ bool Region::applyJsonObject(QJsonObject const & json) {
 }
 
 
+void Region::changedMapName(QString const & nameBefore, QString const & nameAfter) {
+    auto map = findMap(nameBefore);
+    if (!map->isValid()) {
+        return;
+    }
+    impl->removeMap(nameBefore);
+    impl->addMap(map);
+    emit mapNameChanged(nameBefore, nameAfter);
+}
+
+
+void Region::connectMapSignals(MapPointer & map) {
+    if (!map->isValid()) {
+        return;
+    }
+    connect(map.data(), &Map::nameChanged, this, &Region::changedMapName);
+    connect(map.data(), &Map::resized, this, &Region::resizedMap);
+}
+
+
+void Region::disconnectMapSignals(MapPointer & map) {
+    if (!map->isValid()) {
+        return;
+    }
+    disconnect(map.data());
+}
+
+
 Atlas * Region::getAtlas() {
     return impl->getAtlas();
 }
 
 
-MapPointer Region::createMap(QString const & name) {
-    auto map = impl->createMap(name);
+MapPointer Region::createMap(QString const & mapName) {
+    auto map = impl->createMap(mapName);
     if (map->isValid()) {
-        emit mapCreated(name);
+        connectMapSignals(map);
+        emit mapCreated(mapName);
     }
     return map;
 }
 
 
-MapPointer Region::findMap(QString const & name) {
-    return impl->findMap(name);
+MapPointer Region::findMap(QString const & mapName) {
+    return impl->findMap(mapName);
 }
 
 
@@ -74,17 +104,31 @@ QString const & Region::getName() const {
 }
 
 
-void Region::removeMap(QString const & name) {
-    if (impl->removeMap(name)) {
-        emit mapRemoved(name);
+void Region::resizedMap() {
+    auto map = dynamic_cast<Map *>(sender());
+    if (map == nullptr) {
+        return;
     }
+    emit mapResized(map->getName());
+}
+
+
+void Region::removeMap(QString const & mapName) {
+    auto map = findMap(mapName);
+    if (!map->isValid()) {
+        return;
+    }
+    impl->removeMap(mapName);
+    disconnectMapSignals(map);
+    emit mapRemoved(mapName);
 }
 
 
 void Region::setName(QString const & name) {
-    if (name == impl->getName()) {
+    auto nameBefore = impl->getName();
+    if (name == nameBefore) {
         return;
     }
     impl->setName(name);
-    emit nameChanged();
+    emit nameChanged(nameBefore, name);
 }

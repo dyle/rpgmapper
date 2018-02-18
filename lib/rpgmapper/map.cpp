@@ -113,15 +113,13 @@ void Map::resize(QSize const & size) {
 
 
 void Map::setName(QString const & name) {
-    if (name == impl->getName()) {
+    QString nameBefore = impl->getName();
+    if (nameBefore == name) {
         return;
     }
     impl->setName(name);
-    emit nameChanged();
+    emit nameChanged(nameBefore, name);
 }
-
-
-
 
 
 

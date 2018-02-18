@@ -64,16 +64,31 @@ public:
 
     void setName(QString const & name);
 
+private:
+
+    void connectMapSignals(MapPointer & map);
+
+    void disconnectMapSignals(MapPointer & map);
+
+private slots:
+
+    void changedMapName(QString const & nameBefore, QString const & nameAfter);
+
+    void resizedMap();
+
 signals:
 
-    void mapAdded(QString name);
+    void mapAdded(QString const & mapName);
 
-    void mapCreated(QString name);
+    void mapCreated(QString const & mapName);
 
-    void mapRemoved(QString name);
+    void mapNameChanged(QString const & nameBefore, QString const & nameAfter);
 
-    void nameChanged();
+    void mapResized(QString const & mapName);
 
+    void mapRemoved(QString const & mapName);
+
+    void nameChanged(QString const & nameBefore, QString const & nameAfter);
 };
 
 class InvalidRegion final : public Region {

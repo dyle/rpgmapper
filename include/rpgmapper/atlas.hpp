@@ -86,11 +86,23 @@ public:
 
 signals:
 
-    void changed();
+    void nameChanged(QString const & name);
 
-    void regionCreated(QString name);
+    void mapAdded(QString const & regionName, QString const & mapName);
 
-    void regionRemoved(QString name);
+    void mapCreated(QString const & mapName);
+
+    void mapNameChanged(QString const & mapNameBefore, QString const & mapNameAfter);
+
+    void mapResized(QString const & mapName);
+
+    void mapRemoved(QString const & mapName);
+
+    void regionCreated(QString const & name);
+
+    void regionNameChanged(QString const & nameBefore, QString const & nameAfter);
+
+    void regionRemoved(QString const & name);
 
 };
 

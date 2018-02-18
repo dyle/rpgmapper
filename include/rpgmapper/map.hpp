@@ -87,7 +87,7 @@ public:
 
 signals:
 
-    void nameChanged();
+    void nameChanged(QString const & nameBefore, QString const & nameAfter);
 
     void resized();
 };

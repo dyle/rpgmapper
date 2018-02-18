@@ -121,8 +121,8 @@ void MainWindow::connectActions() {
 //    connect(ui->acCloseMap, &QAction::triggered, ui->tabMap, &MapTabWidget::closeCurrentMap);
 //    connect(ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
 //    connect(ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
-//    connect(ui->acNewMap, &QAction::triggered, this, &MainWindow::newMap);
-//    connect(ui->acNewRegion, &QAction::triggered, this, &MainWindow::newRegion);
+//    connect(ui->acNewMap, &QAction::triggered, this, &MainWindow::createdMap);
+//    connect(ui->acNewRegion, &QAction::triggered, this, &MainWindow::createdRegion);
 
     connect(ui->actionClearRecentList, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
@@ -639,7 +639,7 @@ void MainWindow::deleteRegion() {
 /**
  * A new map shall be created.
  */
-void MainWindow::newMap() {
+void MainWindow::createdMap() {
     Controller::instance().instance().atlas()->createMap();
 }
 
@@ -647,7 +647,7 @@ void MainWindow::newMap() {
 /**
  * A new region shall be created.
  */
-void MainWindow::newRegion() {
+void MainWindow::createdRegion() {
     Controller::instance().instance().atlas()->createRegion();
 }
 

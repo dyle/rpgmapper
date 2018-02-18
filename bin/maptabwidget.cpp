@@ -16,7 +16,7 @@ using namespace rpgmapper::view;
 
 MapTabWidget::MapTabWidget(QWidget * parent) : QTabWidget{parent} {
     connect(this, &QTabWidget::tabCloseRequested, this, &MapTabWidget::mapCloseRequested);
-//    connect(Controller::instance().atlas().data(), &Atlas::deletedMap, this, &MapTabWidget::deletedMap);
+//    connect(Controller::instance().atlas().data(), &Atlas::deletedMap, this, &MapTabWidget::removedMap);
 //    connect(Controller::instance().atlas().data(), &Atlas::selectedMap, this, &MapTabWidget::selectMap);
 }
 

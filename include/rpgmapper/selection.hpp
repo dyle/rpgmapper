@@ -48,7 +48,11 @@ public:
 
     void selectMap(MapPointer map);
 
+    void selectMap(QString const & mapName);
+
     void selectRegion(RegionPointer region);
+
+    void selectRegion(QString const & regionName);
 
 signals:
 

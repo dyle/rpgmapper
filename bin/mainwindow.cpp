@@ -33,6 +33,7 @@ MainWindow::MainWindow() : QMainWindow{} {
     selection->setAtlas(AtlasPointer{new Atlas});
 
     ui->atlasTreeWidget->setSelection(selection);
+    ui->mapTabWidget->setSelection(selection);
 
     ui->mapTabWidget->clear();
     ui->atlasTreeWidget->selectFirstMap();

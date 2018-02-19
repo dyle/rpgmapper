@@ -24,7 +24,7 @@ void Selection::setAtlas(AtlasPointer atlas) {
 
 
 void Selection::selectMap(MapPointer map) {
-    if (this->map->getName() != map->getName()) {
+    if (this->map->getName() == map->getName()) {
         return;
     }
     this->map = map;
@@ -38,7 +38,7 @@ void Selection::selectMap(QString const & mapName) {
 
 
 void Selection::selectRegion(RegionPointer region) {
-    if (this->region->getName() != region->getName()) {
+    if (this->region->getName() == region->getName()) {
         return;
     }
     this->region = region;

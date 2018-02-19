@@ -16,8 +16,6 @@ using namespace rpgmapper::view;
 
 MapTabWidget::MapTabWidget(QWidget * parent) : QTabWidget{parent} {
     connect(this, &QTabWidget::tabCloseRequested, this, &MapTabWidget::mapCloseRequested);
-//    connect(Controller::instance().atlas().data(), &Atlas::deletedMap, this, &MapTabWidget::removedMap);
-//    connect(Controller::instance().atlas().data(), &Atlas::selectedMap, this, &MapTabWidget::selectMap);
 }
 
 
@@ -26,7 +24,16 @@ void MapTabWidget::closeCurrentMap() {
 }
 
 
-void MapTabWidget::mapDeleted(QString const & mapName) {
+void MapTabWidget::connectSelectionSignals() {
+    if (selection == nullptr) {
+        return;
+    }
+    connect(selection->getAtlas().data(), &Atlas::mapRemoved, this, &MapTabWidget::mapRemoved);
+    connect(selection, &Selection::mapSelected, this, &MapTabWidget::mapSelected);
+}
+
+
+void MapTabWidget::mapRemoved(QString const &mapName) {
 
     auto iter = mapScrollAreas.find(mapName);
     if (iter != mapScrollAreas.end()) {
@@ -53,7 +60,7 @@ void MapTabWidget::mapSelected(QString const & mapName) {
         QPixmapCache::find("map", &pixmap);
     }
 
-    auto map = atlas->findMap(mapName);
+    auto map = selection->getAtlas()->findMap(mapName);
     auto iter = mapScrollAreas.find(mapName);
     if (iter == mapScrollAreas.end()) {
 
@@ -77,6 +84,7 @@ void MapTabWidget::mapSelected(QString const & mapName) {
 }
 
 
-void MapTabWidget::setAtlas(rpgmapper::model::AtlasPointer atlas) {
-    this->atlas = atlas;
+void MapTabWidget::setSelection(rpgmapper::model::Selection * selection) {
+    this->selection = selection;
+    connectSelectionSignals();
 }

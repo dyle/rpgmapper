@@ -13,7 +13,7 @@
 
 #include <QTabWidget>
 
-#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/selection.hpp>
 #include "mapscrollarea.hpp"
 
 
@@ -26,23 +26,27 @@ class MapTabWidget : public QTabWidget {
 
     Q_OBJECT
 
-    rpgmapper::model::AtlasPointer atlas;
+    rpgmapper::model::Selection * selection = nullptr;
     std::map<QString, MapScrollArea *> mapScrollAreas;
 
 public:
 
     explicit MapTabWidget(QWidget * parent = nullptr);
 
-    void setAtlas(rpgmapper::model::AtlasPointer atlas);
+    void setSelection(rpgmapper::model::Selection * selection);
 
 public slots:
 
     void closeCurrentMap();
 
-    void mapDeleted(QString const & mapName);
+    void mapRemoved(QString const &mapName);
 
     void mapSelected(QString const & mapName);
 
+
+private:
+
+    void connectSelectionSignals();
 
 private slots:
 
@@ -51,10 +55,6 @@ private slots:
 signals:
 
     void hoverCoordinates(int x, int y);
-
-private:
-
-
 
 };
 

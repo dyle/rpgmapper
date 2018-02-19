@@ -60,10 +60,15 @@ void MapWidget::mapChanged() {
 
 
 void MapWidget::mouseMoveEvent(QMouseEvent * event) {
+
     QWidget::mouseMoveEvent(event);
     int x = event->pos().x() / STANDARD_TILE_SIZE - 1;
     int y = event->pos().y() / STANDARD_TILE_SIZE - 1;
-    emit hoverCoordinates(x, y);
+
+    auto size = map->getSize();
+    if ((x >= 0) && (x < size.width()) && (y >= 0) && (y < size.height())) {
+        emit hoverCoordinates(x, y);
+    }
 }
 
 

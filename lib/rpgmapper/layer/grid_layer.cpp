@@ -10,15 +10,31 @@
 using namespace rpgmapper::model;
 
 
+static char const * DEFAULT_ANNOTATION_COLOR = "#000000";
 static char const * DEFAULT_GRID_COLOR = "#0022ff";
 static char const * WARNING_GRID_COLOR = "#ff0088";
 
 
 GridLayer::GridLayer(Map * map, QObject * parent) : Layer{map, parent} {
-    getAttributes()["color"] = DEFAULT_GRID_COLOR;
+
+    getAttributes()["annotationColor"] = DEFAULT_ANNOTATION_COLOR;
+    getAttributes()["gridColor"] = DEFAULT_GRID_COLOR;
+
     QFont cDefaultFont{"Monospace", 10};
     getAttributes()["font"] = cDefaultFont.toString();
+
     getAttributes()["image"] = "";
+}
+
+
+QColor GridLayer::annotationColor() const {
+
+    auto iter = getAttributes().find("annotationColor");
+    if (iter != getAttributes().end()) {
+        return QColor{(*iter).second};
+    }
+
+    return QColor{WARNING_GRID_COLOR};
 }
 
 
@@ -52,7 +68,7 @@ void GridLayer::drawBorder(QPainter & painter, int tileSize) const {
 
 void GridLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
 
-    painter.setPen(gridColor());
+    painter.setPen(annotationColor());
     painter.setFont(gridFont());
 
     QSize cSize = getMap()->getSize();
@@ -82,7 +98,7 @@ void GridLayer::drawXAxis(QPainter & painter, int tileSize) const {
 
 void GridLayer::drawYAnnotation(QPainter & painter, int tileSize) const {
 
-    painter.setPen(gridColor());
+    painter.setPen(annotationColor());
     painter.setFont(gridFont());
 
     QSize cSize = getMap()->getSize();
@@ -112,7 +128,7 @@ void GridLayer::drawYAxis(QPainter & painter, int tileSize) const {
 
 QColor GridLayer::gridColor() const {
 
-    auto iter = getAttributes().find("color");
+    auto iter = getAttributes().find("gridColor");
     if (iter != getAttributes().end()) {
         return QColor{(*iter).second};
     }

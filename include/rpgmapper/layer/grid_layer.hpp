@@ -28,7 +28,13 @@ public:
 
     ~GridLayer() override = default;
 
+    QColor annotationColor() const;
+
     void draw(QPainter & painter, int tileSize) const override;
+
+    QColor gridColor() const;
+
+    QFont gridFont() const;
 
 private:
 
@@ -42,9 +48,6 @@ private:
 
     void drawYAxis(QPainter & painter, int tileSize) const;
 
-    QColor gridColor() const;
-
-    QFont gridFont() const;
 };
 
 using GridLayerPointer = QSharedPointer<GridLayer>;

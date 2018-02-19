@@ -11,8 +11,10 @@ using namespace rpgmapper::view;
 
 
 MapScrollArea::MapScrollArea(QWidget * parent, MapWidget * mapWidget) : QScrollArea{parent} {
-    setBackgroundRole(QPalette::Dark);
-    setWidget(mapWidget);
+
     setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    setBackgroundRole(QPalette::Dark);
+
     mapWidget->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    setWidget(mapWidget);
 }

@@ -68,6 +68,16 @@ QString const & Map::getName() const {
 }
 
 
+QSharedPointer<NumeralConverter> const & Map::getNumeralXAxis() const {
+    return impl->getNumeralXAxis();
+}
+
+
+QSharedPointer<NumeralConverter> const & Map::getNumeralYAxis() const {
+    return impl->getNumeralYAxis();
+}
+
+
 Region * Map::getRegion() {
     return impl->getRegion();
 }
@@ -122,8 +132,26 @@ void Map::setName(QString const & name) {
 }
 
 
+void Map::setNumeralXAxis(QString numeral) {
+    impl->setNumeralXAxis(numeral);
+    emit numeralForAxisChanged();
+}
 
 
+void Map::setNumeralYAxis(QString numeral) {
+    impl->setNumeralYAxis(numeral);
+    emit numeralForAxisChanged();
+}
+
+
+QString Map::tanslateToNumeralOnX(int x) const {
+    return getNumeralXAxis()->convert(x);
+}
+
+
+QString Map::tanslateToNumeralOnY(int y) const {
+    return getNumeralYAxis()->convert(y);
+}
 
 
 

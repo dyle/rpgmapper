@@ -43,7 +43,6 @@ public slots:
 
     void mapSelected(QString const & mapName);
 
-
 private:
 
     void connectSelectionSignals();

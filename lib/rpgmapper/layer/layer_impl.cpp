@@ -12,3 +12,13 @@ using namespace rpgmapper::model;
 
 Layer::Impl::Impl(Map * map) : map{map} {
 }
+
+
+void Layer::Impl::hide() {
+    visible = false;
+}
+
+
+void Layer::Impl::show() {
+    visible = true;
+}

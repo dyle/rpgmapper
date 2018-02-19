@@ -23,10 +23,11 @@ public:
 
     explicit BackgroundLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
-    virtual ~BackgroundLayer() = default;
+    ~BackgroundLayer() override = default;
 
     QColor getColor() const;
 
+    void draw(QPainter & painter, int tileSize) const override;
 };
 
 using BackgroundLayerPointer = QSharedPointer<BackgroundLayer>;

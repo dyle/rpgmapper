@@ -21,6 +21,7 @@ class Layer::Impl final {
 
     Map * map = nullptr;
     Attributes attributes;
+    bool visible;
 
 public:
 
@@ -31,6 +32,16 @@ public:
     Attributes & getAttributes() { return attributes; }
 
     Attributes const & getAttributes() const { return attributes; }
+
+    Map * getMap() { return map; }
+
+    Map const * getMap() const { return map; }
+
+    void hide();
+
+    bool isVisible() const { return visible; }
+
+    void show();
 };
 
 

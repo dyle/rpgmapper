@@ -26,6 +26,35 @@ Layer::Attributes const & Layer::getAttributes() const {
 }
 
 
+Map * Layer::getMap() {
+    return impl->getMap();
+}
+
+
+Map const * Layer::getMap() const {
+    return impl->getMap();
+}
+
+
+void Layer::hide() {
+    if (impl->isVisible()) {
+        impl->hide();
+        emit visibilityChanged();
+    }
+}
+
+
+bool Layer::isVisible() const {
+    return impl->isVisible();
+}
+
+
+void Layer::show() {
+    if (!impl->isVisible()) {
+        impl->show();
+        emit visibilityChanged();
+    }
+}
 
 
 

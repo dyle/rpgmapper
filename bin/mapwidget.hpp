@@ -35,10 +35,6 @@ public slots:
 
     void mapChanged();
 
-signals:
-
-    void hoverCoordinates(int x, int y);
-
 protected:
 
     void mouseMoveEvent(QMouseEvent * event) override;
@@ -46,6 +42,13 @@ protected:
     void paintEvent(QPaintEvent * event) override;
 
 
+private:
+
+    std::list<rpgmapper::model::Layer *> collectVisibleLayers() const;
+
+signals:
+
+    void hoverCoordinates(int x, int y);
 };
 
 }

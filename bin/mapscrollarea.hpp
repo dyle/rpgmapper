@@ -26,7 +26,6 @@ public:
     explicit MapScrollArea(QWidget * parent, MapWidget * mapWidget);
 
     MapWidget * mapWidget() { return dynamic_cast<MapWidget *>(widget()); }
-
 };
 
 }

@@ -5,194 +5,115 @@
  */
 
 
-#include <rpgmapper/layer/grid_layer.hpp>
+#include <rpgmapper/map.hpp>
 
 using namespace rpgmapper::model;
+
+
+static char const * DEFAULT_GRID_COLOR = "#0022ff";
+static char const * WARNING_GRID_COLOR = "#ff0088";
 
 
 GridLayer::GridLayer(Map * map, QObject * parent) : Layer{map, parent} {
-}
-
-
-
-
-
-
-
-
-#if 0
-
-#define DEFAULT_GRID_COLOR        "#f0f0ff"
-#define WARNING_GRID_COLOR        "#ff0088"
-
-
-// ------------------------------------------------------------
-// incs
-
-#include <QPainter>
-
-// rpgmapper
-#include <rpgmapper/map.hpp>
-#include "gridlayer.hpp"
-
-using namespace rpgmapper::model;
-
-
-// ------------------------------------------------------------
-// code
-
-
-/**
- * Ctor.
- *
- * @param   cMap        parent object
- * @param   nId         id of the layer
- * @param   eLayer      the layer type
- */
-GridLayer::GridLayer(Map * cMap, layerid_t nId) : Layer(cMap, nId, Layer::layer_t::grid) {
-
-    attributes()["color"] = DEFAULT_GRID_COLOR;
-
+    getAttributes()["color"] = DEFAULT_GRID_COLOR;
     QFont cDefaultFont{"Monospace", 10};
-    attributes()["font"] = cDefaultFont.toString();
-
-    attributes()["image"] = "";
+    getAttributes()["font"] = cDefaultFont.toString();
+    getAttributes()["image"] = "";
 }
 
 
-/**
- * Draw the border around the map.
- *
- * @param   cPainter        painter instance to draw this layer
- * @param   nTileSize       dimension of a single tile
- */
-void GridLayer::drawBorder(QPainter & cPainter, int nTileSize) const {
+void GridLayer::draw(QPainter & painter, int tileSize) const {
+    drawXAxis(painter, tileSize);
+    drawYAxis(painter, tileSize);
+    drawBorder(painter, tileSize);
+    drawXAnnotation(painter, tileSize);
+    drawYAnnotation(painter, tileSize);
+}
 
-    QSize cSize = map()->size() * nTileSize;
 
-    cPainter.setPen(QPen(gridColor(), 1, Qt::SolidLine, Qt::FlatCap));
-    cPainter.drawRect(0, 0, cSize.width(), cSize.height());
+void GridLayer::drawBorder(QPainter & painter, int tileSize) const {
 
-    auto nOuterTickLength = nTileSize / 4;
-    for (int x = 0; x <= cSize.width(); x += nTileSize) {
-        cPainter.drawLine(x, -nOuterTickLength, x, 0);
-        cPainter.drawLine(x, cSize.height(), x, cSize.height() + nOuterTickLength);
+    QSize size = getMap()->getSize() * tileSize;
+
+    painter.setPen(QPen(gridColor(), 1, Qt::SolidLine, Qt::FlatCap));
+    painter.drawRect(0, 0, size.width(), size.height());
+
+    auto nOuterTickLength = tileSize / 4;
+    for (int x = 0; x <= size.width(); x += tileSize) {
+        painter.drawLine(x, -nOuterTickLength, x, 0);
+        painter.drawLine(x, size.height(), x, size.height() + nOuterTickLength);
     }
-    for (int y = 0; y <= cSize.height(); y += nTileSize) {
-        cPainter.drawLine(-nOuterTickLength, y, 0, y);
-        cPainter.drawLine(cSize.width(), y, cSize.width() + nOuterTickLength, y);
+    for (int y = 0; y <= size.height(); y += tileSize) {
+        painter.drawLine(-nOuterTickLength, y, 0, y);
+        painter.drawLine(size.width(), y, size.width() + nOuterTickLength, y);
     }
 }
 
 
-/**
- * Draw the current layer given the painter.
- *
- * @param   cPainter        painter instance to draw this layer
- * @param   nTileSize       dimension of a single tile
- */
-void GridLayer::drawLayer(QPainter & cPainter, int nTileSize) const {
-    drawXAxis(cPainter, nTileSize);
-    drawYAxis(cPainter, nTileSize);
-    drawBorder(cPainter, nTileSize);
-    drawXAnnotation(cPainter, nTileSize);
-    drawYAnnotation(cPainter, nTileSize);
-}
+void GridLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
 
+    painter.setPen(gridColor());
+    painter.setFont(gridFont());
 
-/**
- * Draw X-axis annotation
- *
- * @param   cPainter        painter instance to draw this layer
- * @param   nTileSize       dimension of a single tile
- */
-void GridLayer::drawXAnnotation(QPainter & cPainter, int nTileSize) const {
-
-    cPainter.setPen(gridColor());
-    cPainter.setFont(gridFont());
-
-    QSize cSize = map()->size();
-    int nBottom = cSize.height() * nTileSize;
+    QSize cSize = getMap()->getSize();
+    int nBottom = cSize.height() * tileSize;
 
     for (int x = 0; x < cSize.width(); ++x) {
 
-        QString sX = map()->translateX(x);
+        QString sX = getMap()->tanslateToNumeralOnX(x);
 
-        QRect cUpperRect{x * nTileSize, -nTileSize, nTileSize, nTileSize};
-        cPainter.drawText(cUpperRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
-        QRect cLowerRect{x * nTileSize, nBottom, nTileSize, nTileSize};
-        cPainter.drawText(cLowerRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
+        QRect cUpperRect{x * tileSize, -tileSize, tileSize, tileSize};
+        painter.drawText(cUpperRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
+        QRect cLowerRect{x * tileSize, nBottom, tileSize, tileSize};
+        painter.drawText(cLowerRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
     }
 }
 
 
-/**
- * Draw X-axis ticks
- *
- * @param   cPainter        painter instance to draw this layer
- * @param   nTileSize       dimension of a single tile
- */
-void GridLayer::drawXAxis(QPainter & cPainter, int nTileSize) const {
+void GridLayer::drawXAxis(QPainter & painter, int tileSize) const {
 
-    QSize cSize = map()->size() * nTileSize;
-    cPainter.setPen(QPen(gridColor(), 1, Qt::DotLine, Qt::FlatCap));
-    for (int x = nTileSize; x <= cSize.width() - nTileSize; x += nTileSize) {
-        cPainter.drawLine(x, 0, x, cSize.height());
+    QSize cSize = getMap()->getSize() * tileSize;
+    painter.setPen(QPen(gridColor(), 1, Qt::DotLine, Qt::FlatCap));
+    for (int x = tileSize; x <= cSize.width() - tileSize; x += tileSize) {
+        painter.drawLine(x, 0, x, cSize.height());
     }
 }
 
 
-/**
- * Draw Y-axis annotation
- *
- * @param   cPainter        painter instance to draw this layer
- * @param   nTileSize       dimension of a single tile
- */
-void GridLayer::drawYAnnotation(QPainter & cPainter, int nTileSize) const {
+void GridLayer::drawYAnnotation(QPainter & painter, int tileSize) const {
 
-    cPainter.setPen(gridColor());
-    cPainter.setFont(gridFont());
+    painter.setPen(gridColor());
+    painter.setFont(gridFont());
 
-    QSize cSize = map()->size();
-    int nRight = cSize.width() * nTileSize;
+    QSize cSize = getMap()->getSize();
+    int nRight = cSize.width() * tileSize;
 
     for (int y = 0; y < cSize.height(); ++y) {
 
-        QString sY = map()->translateY(y);
+        QString sY = getMap()->tanslateToNumeralOnY(y);
 
-        QRect cLeftRect{-nTileSize, y * nTileSize, nTileSize, nTileSize};
-        cPainter.drawText(cLeftRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
-        QRect cRightRect{nRight, y * nTileSize, nTileSize, nTileSize};
-        cPainter.drawText(cRightRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
+        QRect cLeftRect{-tileSize, y * tileSize, tileSize, tileSize};
+        painter.drawText(cLeftRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
+        QRect cRightRect{nRight, y * tileSize, tileSize, tileSize};
+        painter.drawText(cRightRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
     }
 }
 
 
-/**
- * Draw Y-axis ticks
- *
- * @param   cPainter        painter instance to draw this layer
- * @param   nTileSize       dimension of a single tile
- */
-void GridLayer::drawYAxis(QPainter & cPainter, int nTileSize) const {
+void GridLayer::drawYAxis(QPainter & painter, int tileSize) const {
 
-    QSize cSize = map()->size() * nTileSize;
-    cPainter.setPen(QPen(gridColor(), 1, Qt::DotLine, Qt::FlatCap));
-    for (int y = nTileSize; y <= cSize.height() - nTileSize; y += nTileSize) {
-        cPainter.drawLine(0, y, cSize.height(), y);
+    QSize cSize = getMap()->getSize() * tileSize;
+    painter.setPen(QPen(gridColor(), 1, Qt::DotLine, Qt::FlatCap));
+    for (int y = tileSize; y <= cSize.height() - tileSize; y += tileSize) {
+        painter.drawLine(0, y, cSize.height(), y);
     }
 }
 
 
-/**
- * Retrieve the grid color.
- *
- * @return  the color encoded in the tiles of this layer
- */
 QColor GridLayer::gridColor() const {
 
-    auto iter = attributes().find("color");
-    if (iter != attributes().end()) {
+    auto iter = getAttributes().find("color");
+    if (iter != getAttributes().end()) {
         return QColor{(*iter).second};
     }
 
@@ -200,22 +121,14 @@ QColor GridLayer::gridColor() const {
 }
 
 
-/**
- * Retrieve the grid font for X Axis.
- *
- * @return  the font used for the grid
- */
 QFont GridLayer::gridFont() const {
 
     QFont res{"Monospace", 10};
 
-    auto iter = attributes().find("font");
-    if (iter != attributes().end()) {
+    auto iter = getAttributes().find("font");
+    if (iter != getAttributes().end()) {
         res.fromString((*iter).second);
     }
 
     return res;
 }
-
-
-#endif

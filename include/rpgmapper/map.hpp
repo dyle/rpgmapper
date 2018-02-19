@@ -65,6 +65,10 @@ public:
 
     QString const & getName() const;
 
+    QSharedPointer<NumeralConverter> const & getNumeralXAxis() const;
+
+    QSharedPointer<NumeralConverter> const & getNumeralYAxis() const;
+
     Region * getRegion();
 
     QString getRegionName() const;
@@ -85,9 +89,19 @@ public:
 
     void setName(QString const & name);
 
+    void setNumeralXAxis(QString numeral);
+
+    void setNumeralYAxis(QString numeral);
+
+    QString tanslateToNumeralOnX(int x) const;
+
+    QString tanslateToNumeralOnY(int y) const;
+
 signals:
 
     void nameChanged(QString const & nameBefore, QString const & nameAfter);
+
+    void numeralForAxisChanged();
 
     void resized();
 };

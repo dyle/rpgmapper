@@ -9,6 +9,18 @@
 
 using namespace rpgmapper::model;
 
+// TODO: remove, when done
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
+
 
 TextLayer::TextLayer(Map * map, QObject * parent) : Layer{map, parent} {
+}
+
+
+void TextLayer::draw(UNUSED QPainter & painter, UNUSED int tileSize) const {
+
 }

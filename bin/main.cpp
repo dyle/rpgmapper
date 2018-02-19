@@ -46,9 +46,9 @@ int main(int argc, char ** argv) {
     application.setApplicationName("RPGMapper");
     application.setApplicationVersion(VERSION);
 
-    QPixmapCache::insert("atlas", QPixmap(":/icons/atlas.png"));
-    QPixmapCache::insert("region", QPixmap(":/icons/region.png"));
-    QPixmapCache::insert("map", QPixmap(":/icons/map.png"));
+    QPixmapCache::insert("atlas", QPixmap(":/icons/gfx/atlas.png"));
+    QPixmapCache::insert("region", QPixmap(":/icons/gfx/region.png"));
+    QPixmapCache::insert("map", QPixmap(":/icons/gfx/map.png"));
 
     rpgmapper::view::MainWindow mainWindow;
     mainWindow.show();

@@ -7,12 +7,12 @@
 
 #include <QColor>
 
-#include <rpgmapper/layer/background_layer.hpp>
+#include <rpgmapper/map.hpp>
 
 using namespace rpgmapper::model;
 
 
-static char const * BACKGROUND_COLOR_DEFAULT = "#000060";
+static char const * BACKGROUND_COLOR_DEFAULT = "#fafaff";
 
 
 BackgroundLayer::BackgroundLayer(Map * map, QObject * parent) : Layer{map, parent} {
@@ -29,23 +29,9 @@ QColor BackgroundLayer::getColor() const {
 }
 
 
+void BackgroundLayer::draw(QPainter & painter, int tileSize) const {
+    QSize size = getMap()->getSize() * tileSize;
+    QColor backgroundColor = getColor();
+    painter.fillRect(QRect{QPoint{0, 0}, size}, backgroundColor);
 
-
-
-#if 0
-
-/**
- * Draw the current layer given the painter.
- *
- * @param   cPainter        painter instance to draw this layer
- * @param   nTileSize       dimension of a single tile
- */
-void BackgroundLayer::drawLayer(QPainter & cPainter, int nTileSize) const {
-
-    QSize cSize = map()->size() * nTileSize;
-    QColor cBackgroundColor = backgroundColor();
-    cPainter.fillRect(QRect{QPoint{0, 0}, cSize}, cBackgroundColor);
 }
-
-
-#endif

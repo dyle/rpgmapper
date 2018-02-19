@@ -12,6 +12,7 @@
 #include <memory>
 
 #include <QObject>
+#include <QPainter>
 #include <QSharedPointer>
 
 #include <rpgmapper/field.hpp>
@@ -35,14 +36,31 @@ public:
 
     explicit Layer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
-    virtual ~Layer() = default;
+    ~Layer() override = default;
+
+    virtual void draw(QPainter & painter, int tileSize) const = 0;
 
     Attributes & getAttributes();
 
     Attributes const & getAttributes() const;
 
+    void hide();
+
     virtual bool isValid() const { return true; }
 
+    bool isVisible() const;
+
+    void show();
+
+protected:
+
+    Map * getMap();
+
+    Map const * getMap() const;
+
+signals:
+
+    void visibilityChanged();
 };
 
 

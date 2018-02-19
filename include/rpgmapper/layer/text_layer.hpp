@@ -23,8 +23,9 @@ public:
 
     explicit TextLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
-    virtual ~TextLayer() = default;
+    ~TextLayer() override = default;
 
+    void draw(QPainter & painter, int tileSize) const override;
 };
 
 using TextLayerPointer = QSharedPointer<TextLayer>;

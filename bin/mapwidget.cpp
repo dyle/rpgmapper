@@ -23,10 +23,39 @@ MapWidget::MapWidget(QWidget * parent) : QWidget{parent} {
 }
 
 
+std::list<Layer *> MapWidget::collectVisibleLayers() const {
+
+    std::list<Layer *> layers;
+
+    if (map->getBackgroundLayer()->isVisible()) {
+        layers.push_back(map->getBackgroundLayer().data());
+    }
+    for (auto & baseLayer : map->getBaseLayers()) {
+        if (baseLayer->isVisible()) {
+            layers.push_back(baseLayer.data());
+        }
+    }
+    if (map->getGridLayer()->isVisible()) {
+        layers.push_back(map->getGridLayer().data());
+    }
+    for (auto & tileLayer : map->getTileLayers()) {
+        if (tileLayer->isVisible()) {
+            layers.push_back(tileLayer.data());
+        }
+    }
+    if (map->getTextLayer()->isVisible()) {
+        layers.push_back(map->getTextLayer().data());
+    }
+
+    return layers;
+}
+
+
+
 void MapWidget::mapChanged() {
-    QSize cSize{(map->getSize().width() + 2) * STANDARD_TILE_SIZE,
-                (map->getSize().height() + 2) * STANDARD_TILE_SIZE};
-    resize(cSize);
+    QSize size{(map->getSize().width() + 2) * STANDARD_TILE_SIZE,
+               (map->getSize().height() + 2) * STANDARD_TILE_SIZE};
+    resize(size);
 }
 
 
@@ -47,14 +76,18 @@ void MapWidget::paintEvent(QPaintEvent * event) {
     painter.setTransform(QTransform::fromTranslate(STANDARD_TILE_SIZE, STANDARD_TILE_SIZE));
     painter.setViewTransformEnabled(true);
 
-//    for (auto const & cPair : map->layers()) {
-//        cPair.second->draw(painter, STANDARD_TILE_SIZE);
-//    }
+    if (!map->isValid()) {
+        return;
+    }
+    for (auto layer : collectVisibleLayers()) {
+        layer->draw(painter, STANDARD_TILE_SIZE);
+    }
 }
 
 
 void MapWidget::setMap(rpgmapper::model::MapPointer & map) {
     this->map = map;
-//    connect(map.data(), &Map::changedSize, this, &MapWidget::mapChanged);
+    connect(map.data(), &Map::resized, this, &MapWidget::mapChanged);
+    mapChanged();
     update();
 }

@@ -25,7 +25,7 @@ public:
 
     explicit TileLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
-    virtual ~TileLayer() = default;
+    ~TileLayer() override = default;
 
     void addField(Field const & field);
 
@@ -35,6 +35,7 @@ public:
 
     FieldPointer const getField(QPoint const & point) const { return getField(point.x(), point.y()); }
 
+    void draw(QPainter & painter, int tileSize) const override;
 };
 
 using TileLayerPointer = QSharedPointer<TileLayer>;

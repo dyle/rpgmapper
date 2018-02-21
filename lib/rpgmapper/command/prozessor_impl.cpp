@@ -10,7 +10,7 @@
 using namespace rpgmapper::model::command;
 
 
-void Prozessor::Impl::execute(CommandPointer command) {
+void Prozessor::Impl::execute(CommandPointer & command) {
     redoList.clear();
     runCommand(command);
 }

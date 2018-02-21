@@ -22,7 +22,7 @@ class CreateRegion : public AtlasCommand {
 
 public:
 
-    CreateRegion(AtlasPointer atlas, QString name);
+    CreateRegion(AtlasPointer & atlas, QString const & name);
 
     ~CreateRegion() override = default;
 

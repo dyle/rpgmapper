@@ -23,7 +23,7 @@ class CreateMap : public AtlasCommand {
 
 public:
 
-    CreateMap(AtlasPointer atlas, QString regionName, QString mapName);
+    CreateMap(AtlasPointer & atlas, QString const & regionName, QString const & mapName);
 
     ~CreateMap() override = default;
 

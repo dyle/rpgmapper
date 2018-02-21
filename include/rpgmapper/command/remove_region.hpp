@@ -22,7 +22,7 @@ class RemoveRegion : public CompositeCommand {
 
 public:
 
-    RemoveRegion(AtlasPointer atlas, QString const & regionName);
+    RemoveRegion(AtlasPointer & atlas, QString const & regionName);
 
     ~RemoveRegion() override = default;
 

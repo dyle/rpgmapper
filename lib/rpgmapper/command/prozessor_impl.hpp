@@ -24,7 +24,7 @@ class Prozessor::Impl final {
 
 public:
 
-    void execute(CommandPointer command);
+    void execute(CommandPointer & command);
 
     Commands const & getHistory() const;
 

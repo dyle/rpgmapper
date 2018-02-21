@@ -23,7 +23,7 @@ class AtlasSetName : public AtlasCommand {
 
 public:
 
-    AtlasSetName(AtlasPointer atlas, QString name);
+    AtlasSetName(AtlasPointer & atlas, QString const & name);
 
     ~AtlasSetName() override = default;
 

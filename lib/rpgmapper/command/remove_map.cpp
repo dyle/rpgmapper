@@ -11,9 +11,10 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-RemoveMap::RemoveMap(AtlasPointer atlas, QString regionName, QString mapName): AtlasCommand{atlas},
-                                                                               mapName{mapName},
-                                                                               regionName{regionName} {
+RemoveMap::RemoveMap(AtlasPointer & atlas,
+                     QString const & regionName,
+                     QString const & mapName):
+                            AtlasCommand{atlas}, mapName{mapName}, regionName{regionName} {
 }
 
 void RemoveMap::execute() {

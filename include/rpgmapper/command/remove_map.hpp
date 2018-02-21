@@ -23,7 +23,7 @@ class RemoveMap : public AtlasCommand {
 
 public:
 
-    RemoveMap(AtlasPointer atlas, QString regionName, QString mapName);
+    RemoveMap(AtlasPointer & atlas, QString const & regionName, QString const & mapName);
 
     ~RemoveMap() override = default;
 

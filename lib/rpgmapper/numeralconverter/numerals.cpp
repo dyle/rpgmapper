@@ -22,12 +22,18 @@ QSharedPointer<NumeralConverter> const & NumeralConverter::create(QString const 
         {"AlphaBig", QSharedPointer<NumeralConverter>{new AlphaBigCapsConverter}},
         {"Roman", QSharedPointer<NumeralConverter>{new RomanConverter}}
     };
-    static QSharedPointer<NumeralConverter> invalidConverter{new InvalidNumeralConverter};
 
     auto iter = converters.find(method);
     if (iter == converters.end()) {
-        return invalidConverter;
+        return nullConverter();
     }
 
     return (*iter).second;
 }
+
+
+QSharedPointer<NumeralConverter> const & NumeralConverter::nullConverter() {
+    static QSharedPointer<NumeralConverter> invalidConverter{new InvalidNumeralConverter};
+    return invalidConverter;
+}
+

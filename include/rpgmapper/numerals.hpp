@@ -31,6 +31,8 @@ public:
 
     virtual QString name() const = 0;
 
+    static QSharedPointer<NumeralConverter> const & nullConverter();
+
 protected:
 
     NumeralConverter() = default;

@@ -36,4 +36,3 @@ QSharedPointer<NumeralConverter> const & NumeralConverter::nullConverter() {
     static QSharedPointer<NumeralConverter> invalidConverter{new InvalidNumeralConverter};
     return invalidConverter;
 }
-

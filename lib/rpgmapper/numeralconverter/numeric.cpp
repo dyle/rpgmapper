@@ -5,24 +5,11 @@
  */
 
 
-// ------------------------------------------------------------
-// incs
-
 #include "numeric.hpp"
 
 using namespace rpgmapper::model;
 
 
-// ------------------------------------------------------------
-// code
-
-
-/**
- * Convert the given value into the user units.
- *
- * @param   nValue      value to convert
- * @return  A string holding the user value
- */
 QString NumericConverter::convert(int nValue) const {
     return QString::number(nValue);
 }

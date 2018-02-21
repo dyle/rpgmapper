@@ -235,7 +235,6 @@ TEST(AtlasTest, DeleteRegion) {
 
     Atlas atlas;
     auto region = atlas.createRegion("foo");
-
     region->createMap("bar");
     region->createMap("baz");
     region->createMap("bam");

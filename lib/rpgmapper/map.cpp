@@ -23,12 +23,12 @@ bool Map::applyJsonObject(QJsonObject const & json) {
 }
 
 
-BackgroundLayerPointer Map::getBackgroundLayer() {
+BackgroundLayerPointer & Map::getBackgroundLayer() {
     return impl->getBackgroundLayer();
 }
 
 
-BackgroundLayerPointer const Map::getBackgroundLayer() const {
+BackgroundLayerPointer const & Map::getBackgroundLayer() const {
     return impl->getBackgroundLayer();
 }
 
@@ -48,12 +48,12 @@ CoordinateSystem const & Map::getCoordinateSystem() const {
 }
 
 
-GridLayerPointer Map::getGridLayer() {
+GridLayerPointer & Map::getGridLayer() {
     return impl->getGridLayer();
 }
 
 
-GridLayerPointer const Map::getGridLayer() const {
+GridLayerPointer const & Map::getGridLayer() const {
     return impl->getGridLayer();
 }
 
@@ -83,7 +83,7 @@ Region * Map::getRegion() {
 }
 
 
-QString Map::getRegionName() const {
+QString const & Map::getRegionName() const {
     return impl->getRegionName();
 }
 
@@ -93,12 +93,12 @@ QSize Map::getSize() const {
 }
 
 
-TextLayerPointer Map::getTextLayer() {
+TextLayerPointer & Map::getTextLayer() {
     return impl->getTextLayer();
 }
 
 
-TextLayerPointer const Map::getTextLayer() const {
+TextLayerPointer const & Map::getTextLayer() const {
     return impl->getTextLayer();
 }
 
@@ -132,13 +132,13 @@ void Map::setName(QString const & name) {
 }
 
 
-void Map::setNumeralXAxis(QString numeral) {
+void Map::setNumeralXAxis(QString const & numeral) {
     impl->setNumeralXAxis(numeral);
     emit numeralForAxisChanged();
 }
 
 
-void Map::setNumeralYAxis(QString numeral) {
+void Map::setNumeralYAxis(QString const & numeral) {
     impl->setNumeralYAxis(numeral);
     emit numeralForAxisChanged();
 }

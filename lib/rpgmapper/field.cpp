@@ -24,6 +24,10 @@ int Field::getIndex(int x, int y) {
 }
 
 
+Field const & Field::nullField() {
+    static InvalidField nullField;
+    return nullField;
+}
 
 
 

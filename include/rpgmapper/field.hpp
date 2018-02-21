@@ -31,9 +31,9 @@ class Field {
 
 public:
 
-    Field(int x = 0, int y = 0);
+    explicit Field(int x = 0, int y = 0);
 
-    Field(QPoint const & position);
+    explicit Field(QPoint const & position);
 
     int getIndex() const { return getIndex(position); }
 
@@ -42,6 +42,8 @@ public:
     static int getIndex(QPoint const & point) { return getIndex(point.x(), point.y()); }
 
     virtual bool isValid() const { return true; }
+
+    static Field const & nullField();
 };
 
 class InvalidField final : public Field {

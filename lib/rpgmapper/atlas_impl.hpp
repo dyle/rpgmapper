@@ -22,7 +22,7 @@ class Atlas::Impl final : public Nameable {
     Atlas * atlas = nullptr;
     Regions regions;
     rpgmapper::model::command::ProzessorPointer prozessor;
-    unsigned int unmodifiedCommandCounter = 0;
+    unsigned long unmodifiedCommandCounter = 0;
     QString fileName;
 
 public:
@@ -35,7 +35,7 @@ public:
 
     void clear() override;
 
-    RegionPointer createRegion(QString const & name);
+    RegionPointer & createRegion(QString const & name);
 
     MapPointer findMap(QString const & name);
 

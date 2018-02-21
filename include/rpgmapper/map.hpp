@@ -47,9 +47,9 @@ public:
 
     bool applyJsonObject(QJsonObject const & json);
 
-    BackgroundLayerPointer getBackgroundLayer();
+    BackgroundLayerPointer & getBackgroundLayer();
 
-    BackgroundLayerPointer const getBackgroundLayer() const;
+    BackgroundLayerPointer const & getBackgroundLayer() const;
 
     TileLayers & getBaseLayers();
 
@@ -57,9 +57,9 @@ public:
 
     CoordinateSystem const & getCoordinateSystem() const;
 
-    GridLayerPointer getGridLayer();
+    GridLayerPointer & getGridLayer();
 
-    GridLayerPointer const getGridLayer() const;
+    GridLayerPointer const & getGridLayer() const;
 
     QJsonObject getJsonObject() const;
 
@@ -71,7 +71,7 @@ public:
 
     Region * getRegion();
 
-    QString getRegionName() const;
+    QString const & getRegionName() const;
 
     QSize getSize() const;
 
@@ -79,9 +79,9 @@ public:
 
     TileLayers const & getTileLayers() const;
 
-    TextLayerPointer getTextLayer();
+    TextLayerPointer & getTextLayer();
 
-    TextLayerPointer const getTextLayer() const;
+    TextLayerPointer const & getTextLayer() const;
 
     virtual bool isValid() const { return true; }
 
@@ -89,9 +89,9 @@ public:
 
     void setName(QString const & name);
 
-    void setNumeralXAxis(QString numeral);
+    void setNumeralXAxis(QString const & numeral);
 
-    void setNumeralYAxis(QString numeral);
+    void setNumeralYAxis(QString const & numeral);
 
     QString tanslateToNumeralOnX(int x) const;
 
@@ -99,7 +99,7 @@ public:
 
 signals:
 
-    void nameChanged(QString const & nameBefore, QString const & nameAfter);
+    void nameChanged(QString nameBefore, QString nameAfter);
 
     void numeralForAxisChanged();
 

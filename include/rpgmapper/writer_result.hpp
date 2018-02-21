@@ -9,6 +9,7 @@
 #define RPGMAPPER_MODEL_WRITER_RESULT_HPP
 
 #include <QStringList>
+#include <utility>
 
 
 namespace rpgmapper {
@@ -22,11 +23,11 @@ class WriterResult {
 
 public:
 
-    explicit WriterResult(bool success = false) : success{success} {}
+    explicit WriterResult(bool success = false) : WriterResult{success, QStringList{}} {}
+
+    WriterResult(bool success, QStringList log) : success{success}, log{std::move(log)} {}
 
     virtual ~WriterResult() = default;
-
-    WriterResult(bool success, QStringList const & log) : success{success}, log{log} {}
 
     QStringList & getLog() { return log; }
 

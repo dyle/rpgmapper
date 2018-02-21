@@ -14,9 +14,11 @@ using namespace rpgmapper::model;
 
 
 Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region} {
+
     if (map == nullptr) {
         throw std::invalid_argument{"Map must not be nullptr."};
     }
+
     backgroundLayer = BackgroundLayerPointer{new BackgroundLayer{map}};
     baseLayers = TileLayers{TileLayerPointer{new TileLayer{map}}};
     gridLayer = GridLayerPointer{new GridLayer{map}};
@@ -34,4 +36,10 @@ bool Map::Impl::applyJsonObject(QJsonObject const & json) {
 QJsonObject Map::Impl::getJsonObject() const {
     auto json = Nameable::getJsonObject();
     return json;
+}
+
+
+QString const & Map::Impl::getRegionName() const {
+    static QString nullName = QString::null;
+    return region != nullptr ? region->getName() : nullName;
 }

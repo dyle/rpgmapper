@@ -38,13 +38,13 @@ public:
 
     explicit Region(QString const & name, Atlas * atlas = nullptr);
 
-    virtual ~Region() = default;
+    ~Region() override = default;
 
     bool addMap(MapPointer & map);
 
     bool applyJsonObject(QJsonObject const & json);
 
-    MapPointer createMap(QString const & name);
+    MapPointer & createMap(QString const & name);
 
     MapPointer findMap(QString const & name);
 
@@ -60,6 +60,8 @@ public:
 
     virtual bool isValid() const { return true; }
 
+    static Region const & nullRegion();
+
     void removeMap(QString const & name);
 
     void setName(QString const & name);
@@ -72,23 +74,23 @@ private:
 
 private slots:
 
-    void changedMapName(QString const & nameBefore, QString const & nameAfter);
+    void changedMapName(QString nameBefore, QString nameAfter);
 
     void resizedMap();
 
 signals:
 
-    void mapAdded(QString const & mapName);
+    void mapAdded(QString mapName);
 
-    void mapCreated(QString const & mapName);
+    void mapCreated(QString mapName);
 
-    void mapNameChanged(QString const & nameBefore, QString const & nameAfter);
+    void mapNameChanged(QString nameBefore, QString nameAfter);
 
-    void mapResized(QString const & mapName);
+    void mapResized(QString mapName);
 
-    void mapRemoved(QString const & mapName);
+    void mapRemoved(QString mapName);
 
-    void nameChanged(QString const & nameBefore, QString const & nameAfter);
+    void nameChanged(QString nameBefore, QString nameAfter);
 };
 
 class InvalidRegion final : public Region {

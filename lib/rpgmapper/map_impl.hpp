@@ -41,9 +41,9 @@ public:
 
     bool applyJsonObject(QJsonObject const & json) override;
 
-    BackgroundLayerPointer getBackgroundLayer() { return backgroundLayer; }
+    BackgroundLayerPointer & getBackgroundLayer() { return backgroundLayer; }
 
-    BackgroundLayerPointer const getBackgroundLayer() const { return backgroundLayer; }
+    BackgroundLayerPointer const & getBackgroundLayer() const { return backgroundLayer; }
 
     TileLayers & getBaseLayers() { return baseLayers; }
 
@@ -53,23 +53,23 @@ public:
 
     CoordinateSystem const & getCoordinateSystem() const { return *this; }
 
-    GridLayerPointer getGridLayer() { return gridLayer; }
+    GridLayerPointer & getGridLayer() { return gridLayer; }
 
-    GridLayerPointer const getGridLayer() const { return gridLayer; }
+    GridLayerPointer const & getGridLayer() const { return gridLayer; }
 
     QJsonObject getJsonObject() const override ;
 
     Region * getRegion() { return region; }
 
-    QString getRegionName() const { return region != nullptr ? region->getName() : QString::null; }
+    QString const & getRegionName() const;
 
     TileLayers & getTileLayers() { return tileLayers; }
 
     TileLayers const & getTileLayers() const { return tileLayers; }
 
-    TextLayerPointer getTextLayer() { return textLayer; }
+    TextLayerPointer & getTextLayer() { return textLayer; }
 
-    TextLayerPointer const getTextLayer() const { return textLayer; }
+    TextLayerPointer const & getTextLayer() const { return textLayer; }
 
 };
 

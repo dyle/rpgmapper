@@ -74,17 +74,20 @@ void Region::Impl::clear() {
 }
 
 
-MapPointer Region::Impl::createMap(QString const & name) {
+MapPointer & Region::Impl::createMap(QString const & name) {
+
+    static MapPointer invalidMap{new InvalidMap};
     auto allMaps = getAtlas() ? getAtlas()->getAllMapNames() : getMapNames();
     if (allMaps.find(name) != allMaps.end()) {
-        return MapPointer{new InvalidMap};
+        return invalidMap;
     }
     return maps.emplace(std::make_pair(name, MapPointer{new Map{name, region}, &Map::deleteLater})).first->second;
 }
 
 
 MapPointer Region::Impl::findMap(QString const & name) {
-    MapPointer map{new InvalidMap};
+
+    MapPointer map{new InvalidMap, &Map::deleteLater};
     auto iter = maps.find(name);
     if (iter != maps.end()) {
         map = (*iter).second;

@@ -34,7 +34,7 @@ public:
 
     void clear() override;
 
-    MapPointer createMap(QString const & name);
+    MapPointer & createMap(QString const & name);
 
     MapPointer findMap(QString const & name);
 

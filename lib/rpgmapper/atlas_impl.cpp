@@ -20,7 +20,9 @@ Atlas::Impl::Impl(Atlas * atlas) : atlas(atlas) {
     prozessor = ProzessorPointer{new Prozessor};
 }
 
+
 bool Atlas::Impl::applyJsonObject(QJsonObject const & json) {
+
     if (!Nameable::applyJsonObject(json)) {
         return false;
     }
@@ -55,9 +57,11 @@ void Atlas::Impl::clear() {
 }
 
 
-RegionPointer Atlas::Impl::createRegion(QString const & name) {
+RegionPointer & Atlas::Impl::createRegion(QString const & name) {
+
+    static RegionPointer invalidRegion{new InvalidRegion};
     if (regions.find(name) != regions.end()) {
-        return RegionPointer{new InvalidRegion};
+        return invalidRegion;
     }
     auto pair = regions.emplace(std::make_pair(name,
                                                RegionPointer{new Region{name, this->atlas},
@@ -68,7 +72,7 @@ RegionPointer Atlas::Impl::createRegion(QString const & name) {
 
 MapPointer Atlas::Impl::findMap(QString const & name) {
 
-    MapPointer map = MapPointer{new InvalidMap};
+    MapPointer map{new InvalidMap};
 
     for (auto & pair : regions) {
         map = pair.second->findMap(name);
@@ -83,7 +87,7 @@ MapPointer Atlas::Impl::findMap(QString const & name) {
 
 MapPointer const Atlas::Impl::findMap(QString const & name) const {
 
-    MapPointer map = MapPointer{new InvalidMap};
+    MapPointer map{new InvalidMap};
 
     for (auto & pair : regions) {
         map = pair.second->findMap(name);
@@ -91,12 +95,11 @@ MapPointer const Atlas::Impl::findMap(QString const & name) const {
             break;
         }
     }
-
     return map;
 }
 
 
-RegionPointer Atlas::Impl::findRegion(QString const &name) {
+RegionPointer Atlas::Impl::findRegion(QString const & name) {
     auto iter = regions.find(name);
     if (iter == regions.end()) {
         return RegionPointer{new InvalidRegion};
@@ -105,7 +108,7 @@ RegionPointer Atlas::Impl::findRegion(QString const &name) {
 }
 
 
-RegionPointer const Atlas::Impl::findRegion(QString const &name) const {
+RegionPointer const Atlas::Impl::findRegion(QString const & name) const {
     auto iter = regions.find(name);
     if (iter == regions.end()) {
         return RegionPointer{new InvalidRegion};

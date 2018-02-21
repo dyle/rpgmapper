@@ -40,7 +40,7 @@ public:
 
     bool applyJsonObject(QJsonObject json);
 
-    RegionPointer createRegion(QString const & name);
+    RegionPointer & createRegion(QString const & name);
 
     MapPointer findMap(QString const & name);
 
@@ -76,6 +76,8 @@ public:
 
     bool moveMap(MapPointer map, RegionPointer regionTo);
 
+    static Atlas const & nullAtlas();
+
     void removeRegion(QString const & name);
 
     void resetChanged();
@@ -86,23 +88,23 @@ public:
 
 signals:
 
-    void nameChanged(QString const & name);
+    void nameChanged(QString name);
 
-    void mapAdded(QString const & regionName, QString const & mapName);
+    void mapAdded(QString regionName, QString mapName);
 
-    void mapCreated(QString const & mapName);
+    void mapCreated(QString mapName);
 
-    void mapNameChanged(QString const & mapNameBefore, QString const & mapNameAfter);
+    void mapNameChanged(QString mapNameBefore, QString mapNameAfter);
 
-    void mapResized(QString const & mapName);
+    void mapResized(QString mapName);
 
-    void mapRemoved(QString const & mapName);
+    void mapRemoved(QString mapName);
 
-    void regionCreated(QString const & name);
+    void regionCreated(QString name);
 
-    void regionNameChanged(QString const & nameBefore, QString const & nameAfter);
+    void regionNameChanged(QString nameBefore, QString nameAfter);
 
-    void regionRemoved(QString const & name);
+    void regionRemoved(QString name);
 
 };
 

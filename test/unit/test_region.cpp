@@ -88,6 +88,7 @@ TEST(RegionTest, GetAllMapNames) {
     EXPECT_TRUE(mapNamesExpected == region.getMapNames());
 }
 
+
 TEST(RegionTest, CreateMap) {
 
     Region region{"foo"};

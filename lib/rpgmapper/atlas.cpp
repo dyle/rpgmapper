@@ -6,6 +6,7 @@
 
 
 #include <rpgmapper/atlas.hpp>
+#include <utility>
 #include "atlas_impl.hpp"
 
 using namespace rpgmapper::model;
@@ -23,8 +24,8 @@ bool Atlas::applyJsonObject(QJsonObject json) {
 }
 
 
-RegionPointer Atlas::createRegion(QString const & name) {
-    auto region = impl->createRegion(name);
+RegionPointer & Atlas::createRegion(QString const & name) {
+    auto & region = impl->createRegion(name);
     if (region->isValid()) {
         emit regionCreated(name);
     }
@@ -77,7 +78,7 @@ QJsonObject Atlas::getJsonObject() const  {
 }
 
 
-QString const& Atlas::getFileName() const {
+QString const & Atlas::getFileName() const {
     return impl->getFileName();
 }
 
@@ -99,10 +100,13 @@ bool Atlas::isModified() const {
 
 bool Atlas::moveMap(MapPointer map, RegionPointer regionTo) {
     auto regionFrom = findRegion(map->getRegionName());
-    if (impl->moveMap(map, regionTo)) {
-        return true;
-    }
-    return false;
+    return impl->moveMap(map, std::move(regionTo));
+}
+
+
+Atlas const & Atlas::nullAtlas() {
+    static InvalidAtlas nullAtlas;
+    return nullAtlas;
 }
 
 

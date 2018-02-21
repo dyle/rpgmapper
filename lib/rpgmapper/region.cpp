@@ -6,6 +6,7 @@
 
 
 #include <rpgmapper/atlas.hpp>
+#include <utility>
 #include "region_impl.hpp"
 
 using namespace rpgmapper::model;
@@ -37,14 +38,14 @@ bool Region::applyJsonObject(QJsonObject const & json) {
 }
 
 
-void Region::changedMapName(QString const & nameBefore, QString const & nameAfter) {
+void Region::changedMapName(QString nameBefore, QString nameAfter) {
     auto map = findMap(nameBefore);
     if (!map->isValid()) {
         return;
     }
     impl->removeMap(nameBefore);
     impl->addMap(map);
-    emit mapNameChanged(nameBefore, nameAfter);
+    emit mapNameChanged(nameBefore, std::move(nameAfter));
 }
 
 
@@ -70,10 +71,10 @@ Atlas * Region::getAtlas() {
 }
 
 
-MapPointer Region::createMap(QString const & mapName) {
-    auto map = impl->createMap(mapName);
+MapPointer & Region::createMap(QString const & mapName) {
+    auto & map = impl->createMap(mapName);
     if (map->isValid()) {
-        connectMapSignals(map);
+        //connectMapSignals(map);
         emit mapCreated(mapName);
     }
     return map;
@@ -101,6 +102,12 @@ std::set<QString> Region::getMapNames() const {
 
 QString const & Region::getName() const {
     return impl->getName();
+}
+
+
+Region const & Region::nullRegion() {
+    static InvalidRegion nullRegion;
+    return nullRegion;
 }
 
 

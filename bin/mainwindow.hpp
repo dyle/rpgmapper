@@ -90,6 +90,8 @@ private:
 
     void connectActions();
 
+    void connectModelSignals();
+
     void clearRecentFileActions();
 
     void createRecentFileActions();
@@ -108,9 +110,13 @@ private:
 
     void saveSettingsWindow(QSettings & settings);
 
+    void setApplicationWindowTitle();
+
     void setupDialogs();
 
 private slots:
+
+    void atlasNameChanges(QString newName);
 
     void clearListOfRecentFiles();
 

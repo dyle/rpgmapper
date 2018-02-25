@@ -12,10 +12,18 @@
 #include <QStatusBar>
 
 #include <rpgmapper/atlas_io.hpp>
+#include <rpgmapper/command/atlas_set_name.hpp>
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
+
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::command;
 using namespace rpgmapper::view;
 
 
@@ -44,7 +52,9 @@ MainWindow::MainWindow() : QMainWindow{} {
 
     setupDialogs();
     connectActions();
+    connectModelSignals();
     loadSettings();
+    setApplicationWindowTitle();
 }
 
 
@@ -67,6 +77,11 @@ void MainWindow::addRecentFileName(QString const & fileName) {
     }
 
     createRecentFileActions();
+}
+
+
+void MainWindow::atlasNameChanges(UNUSED QString) {
+    setApplicationWindowTitle();
 }
 
 
@@ -149,6 +164,11 @@ void MainWindow::connectActions() {
 }
 
 
+void MainWindow::connectModelSignals() {
+    connect(selection->getAtlas().data(), &Atlas::nameChanged, this, &MainWindow::atlasNameChanges);
+}
+
+
 void MainWindow::createRecentFileActions() {
 
     clearRecentFileActions();
@@ -184,8 +204,8 @@ void MainWindow::editAtlasProperties() {
         return;
     }
 
-    // TODO: COMMAND!
-    selection->getAtlas()->setName(atlasName);
+    auto command = CommandPointer{new AtlasSetName{selection->getAtlas(), atlasName}};
+    selection->getAtlas()->getCommandProzessor()->execute(command);
 }
 
 
@@ -379,6 +399,14 @@ void MainWindow::saveSettingsWindow(QSettings & settings) {
 }
 
 
+void MainWindow::setApplicationWindowTitle() {
+    auto atlas = selection->getAtlas();
+    auto changed = atlas->getCommandProzessor()->modifications() == 0 ? "" : " * ";
+    auto title = QString("%1%2 - %3").arg(atlas->getName()).arg(changed).arg(qApp->applicationName());
+    setWindowTitle(title);
+}
+
+
 void MainWindow::setupDialogs() {
 
     QStringList fileNameFilters;
@@ -434,9 +462,9 @@ void MainWindow::showEvent(QShowEvent * cEvent) {
     static bool bFirstTime = true;
     if (bFirstTime) {
 
-        // ugly hack, since I did not get how Qt saves the visibility state
-        // in the saveState() and restoreState() methods of the QDockWindow children
-        // --> anyone?
+        // ugly hack, since I did not investigate how Qt saves
+        // the visibility state in the saveState() and restoreState()
+        // methods of the QDockWindow children --> anyone?
         ui->actionViewMinimap->setChecked(ui->miniMapDockWidget->isVisible());
         ui->actionViewStructureTree->setChecked(ui->atlasStructureDockWidget->isVisible());
         ui->actionViewTilesDock->setChecked(ui->tilesDockWidget->isVisible());

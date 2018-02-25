@@ -37,6 +37,8 @@ public:
 
     Commands const & getUndone() const;
 
+    int modifications() const;
+
     void redo();
 
     void undo();

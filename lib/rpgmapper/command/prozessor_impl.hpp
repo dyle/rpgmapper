@@ -21,6 +21,7 @@ class Prozessor::Impl final {
 
     Commands history;
     Commands redoList;
+    int changes = 0;
 
 public:
 
@@ -29,6 +30,8 @@ public:
     Commands const & getHistory() const;
 
     Commands const & getUndone() const;
+
+    int modifications() const { return changes; }
 
     void redo();
 

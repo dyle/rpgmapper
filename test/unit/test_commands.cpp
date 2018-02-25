@@ -23,14 +23,18 @@ TEST(ProzessorTest, DoNopCommand) {
 
     Prozessor prozessor;
 
+    EXPECT_EQ(prozessor.modifications(), 0);
     EXPECT_TRUE(prozessor.getHistory().empty());
     prozessor.execute(CommandPointer{new Nop});
+    EXPECT_NE(prozessor.modifications(), 0);
 
     EXPECT_EQ(prozessor.getHistory().size(), 1);
     prozessor.undo();
+    EXPECT_EQ(prozessor.modifications(), 0);
     EXPECT_TRUE(prozessor.getHistory().empty());
     prozessor.redo();
     EXPECT_EQ(prozessor.getHistory().size(), 1);
+    EXPECT_NE(prozessor.modifications(), 0);
 }
 
 

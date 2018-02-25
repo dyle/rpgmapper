@@ -25,9 +25,16 @@ Commands const & Prozessor::getHistory() const {
     return impl->getHistory();
 }
 
+
 Commands const & Prozessor::getUndone() const {
     return impl->getUndone();
 }
+
+
+int Prozessor::modifications() const {
+    return impl->modifications();
+}
+
 
 void Prozessor::redo() {
     impl->redo();

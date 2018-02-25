@@ -37,6 +37,7 @@ void Prozessor::Impl::redo() {
 
 void Prozessor::Impl::runCommand(CommandPointer & command) {
     history.push_back(command);
+    changes++;
     command->execute();
 }
 
@@ -49,4 +50,5 @@ void Prozessor::Impl::undo() {
     history.pop_back();
     redoList.push_back(command);
     command->undo();
+    changes--;
 }

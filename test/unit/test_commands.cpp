@@ -8,7 +8,7 @@
 #include <gtest/gtest.h>
 
 #include <rpgmapper/atlas.hpp>
-#include <rpgmapper/command/atlas_set_name.hpp>
+#include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/command/create_map.hpp>
 #include <rpgmapper/command/create_region.hpp>
 #include <rpgmapper/command/nop.hpp>
@@ -43,7 +43,7 @@ TEST(ProzessorTest, AtlasChanged) {
     AtlasPointer atlas{new Atlas};
     EXPECT_FALSE(atlas->isModified());
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "foo"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new SetAtlasName{atlas, "foo"}});
     EXPECT_TRUE(atlas->isModified());
 
     atlas->getCommandProzessor()->undo();
@@ -59,7 +59,7 @@ TEST(ProzessorTest, SetAtlasName) {
     AtlasPointer atlas{new Atlas};
     atlas->setName("foo");
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "bar"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new SetAtlasName{atlas, "bar"}});
     EXPECT_EQ(atlas->getName().toStdString(), "bar");
     EXPECT_EQ(atlas->getCommandProzessor()->getHistory().size(), 1);
     EXPECT_EQ(atlas->getCommandProzessor()->getHistory().front()->getDescription().toStdString(),
@@ -95,14 +95,14 @@ TEST(ProzessorTest, NewCommandResetsUndoneList) {
     AtlasPointer atlas{new Atlas};
     atlas->setName("foo");
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "bar"}});
-    atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "baz"}});
-    atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "bam"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new SetAtlasName{atlas, "bar"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new SetAtlasName{atlas, "baz"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new SetAtlasName{atlas, "bam"}});
     atlas->getCommandProzessor()->undo();
     atlas->getCommandProzessor()->undo();
     EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 2);
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new AtlasSetName{atlas, "bag"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new SetAtlasName{atlas, "bag"}});
     EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 0);
 }
 

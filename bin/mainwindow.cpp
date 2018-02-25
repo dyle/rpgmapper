@@ -12,7 +12,8 @@
 #include <QStatusBar>
 
 #include <rpgmapper/atlas_io.hpp>
-#include <rpgmapper/command/atlas_set_name.hpp>
+#include <rpgmapper/command/set_atlas_name.hpp>
+#include <rpgmapper/command/set_region_name.hpp>
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
@@ -166,6 +167,7 @@ void MainWindow::connectActions() {
 
 void MainWindow::connectModelSignals() {
     connect(selection->getAtlas().data(), &Atlas::nameChanged, this, &MainWindow::atlasNameChanges);
+    connect(selection->getAtlas().data(), &Atlas::regionNameChanged, this, &MainWindow::setApplicationWindowTitle);
 }
 
 
@@ -204,7 +206,7 @@ void MainWindow::editAtlasProperties() {
         return;
     }
 
-    auto command = CommandPointer{new AtlasSetName{selection->getAtlas(), atlasName}};
+    auto command = CommandPointer{new SetAtlasName{selection->getAtlas(), atlasName}};
     selection->getAtlas()->getCommandProzessor()->execute(command);
 }
 
@@ -238,8 +240,8 @@ void MainWindow::editRegionProperties() {
         return;
     }
 
-    // TODO: COMMAND!
-    region->setName(regionName);
+    auto command = CommandPointer{new SetRegionName{selection->getAtlas(), region->getName(), regionName}};
+    selection->getAtlas()->getCommandProzessor()->execute(command);
 }
 
 

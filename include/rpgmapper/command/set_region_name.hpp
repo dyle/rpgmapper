@@ -5,8 +5,8 @@
  */
 
 
-#ifndef RPGMAPPER_MODEL_COMMAND_ATLAS_SET_NAME_HPP
-#define RPGMAPPER_MODEL_COMMAND_ATLAS_SET_NAME_HPP
+#ifndef RPGMAPPER_MODEL_COMMAND_SET_REGION_NAME_HPP
+#define RPGMAPPER_MODEL_COMMAND_SET_REGION_NAME_HPP
 
 #include <rpgmapper/command/atlas_command.hpp>
 
@@ -16,16 +16,16 @@ namespace model {
 namespace command {
 
 
-class AtlasSetName : public AtlasCommand {
+class SetRegionName : public AtlasCommand {
 
     QString newName;
     QString oldName;
 
 public:
 
-    AtlasSetName(AtlasPointer & atlas, QString const & name);
+    SetRegionName(AtlasPointer & atlas, QString const & oldName, QString const & newName);
 
-    ~AtlasSetName() override = default;
+    ~SetRegionName() override = default;
 
     void execute() override;
 

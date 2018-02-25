@@ -5,26 +5,26 @@
  */
 
 
-#include <rpgmapper/command/atlas_set_name.hpp>
+#include <rpgmapper/command/set_atlas_name.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-AtlasSetName::AtlasSetName(AtlasPointer & atlas, QString const & name): AtlasCommand{atlas}, newName{name} {
+SetAtlasName::SetAtlasName(AtlasPointer & atlas, QString const & name): AtlasCommand{atlas}, newName{name} {
 }
 
-void AtlasSetName::execute() {
+void SetAtlasName::execute() {
     auto atlas = getAtlas();
     oldName = atlas->getName();
     atlas->setName(newName);
 }
 
-QString AtlasSetName::getDescription() const {
+QString SetAtlasName::getDescription() const {
     return QString{"Set atlas name to %1."}.arg(newName);
 }
 
-void AtlasSetName::undo() {
+void SetAtlasName::undo() {
     auto atlas = getAtlas();
     atlas->setName(oldName);
 }

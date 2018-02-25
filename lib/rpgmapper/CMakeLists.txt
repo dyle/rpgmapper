@@ -34,7 +34,6 @@ set(RPGMAPPER_LIB_SRC
     selection.cpp
 
     command/atlas_command.cpp
-    command/atlas_set_name.cpp
     command/composite_command.cpp
     command/create_map.cpp
     command/create_region.cpp
@@ -42,6 +41,8 @@ set(RPGMAPPER_LIB_SRC
     command/prozessor_impl.cpp
     command/remove_map.cpp
     command/remove_region.cpp
+    command/set_atlas_name.cpp
+    command/set_region_name.cpp
 
     layer/background_layer.cpp
     layer/grid_layer.cpp

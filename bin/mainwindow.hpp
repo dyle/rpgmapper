@@ -68,6 +68,8 @@ public slots:
 
     void enableActions();
 
+    void setApplicationWindowTitle();
+
     void showCoordinates(int x, int y);
 
     void visibleMinimap(bool bView);
@@ -110,8 +112,6 @@ private:
 
     void saveSettingsWindow(QSettings & settings);
 
-    void setApplicationWindowTitle();
-
     void setupDialogs();
 
 private slots:
@@ -127,7 +127,6 @@ private slots:
     void save();
 
     void saveAs();
-
 };
 
 

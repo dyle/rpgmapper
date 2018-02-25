@@ -162,12 +162,6 @@ QJsonObject Atlas::Impl::getJsonObject() const {
 }
 
 
-void Atlas::Impl::init() {
-    auto region = createRegion(QObject::tr("New Region 1"));
-    region->createMap(QObject::tr("New Map 1"));
-}
-
-
 bool Atlas::Impl::isModified() const {
     return getCommandProzessor()->getHistory().size() != unmodifiedCommandCounter;
 }

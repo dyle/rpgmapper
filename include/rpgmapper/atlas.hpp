@@ -86,19 +86,38 @@ public:
 
     void setName(QString const & name);
 
+private:
+
+    void connectRegionSignal(RegionPointer & region);
+
+
+private slots:
+
+    void addedMapInRegion(QString mapName);
+
+    void createdMapInRegion(QString mapName);
+
+    void changedNameOfMapInRegion(QString nameBefore, QString nameAfter);
+
+    void resizedMapInRegion(QString mapName);
+
+    void removedMapOfRegion(QString mapName);
+
+    void changedNamedOfRegion(QString nameBefore, QString nameAfter);
+
 signals:
 
     void nameChanged(QString name);
 
     void mapAdded(QString regionName, QString mapName);
 
-    void mapCreated(QString mapName);
+    void mapCreated(QString regionName, QString mapName);
 
     void mapNameChanged(QString mapNameBefore, QString mapNameAfter);
 
     void mapResized(QString mapName);
 
-    void mapRemoved(QString mapName);
+    void mapRemoved(QString regionName, QString mapName);
 
     void regionCreated(QString name);
 

@@ -144,7 +144,7 @@ void StructuralTreeWidget::connectSelectionSignals() {
         return;
     }
 
-    connect(selection, &Selection::newAtlas, this, &StructuralTreeWidget::resetStructure);
+    connect(selection.data(), &Selection::newAtlas, this, &StructuralTreeWidget::resetStructure);
 
     connect(selection->getAtlas().data(), &Atlas::nameChanged,
             this, &StructuralTreeWidget::changedAtlasName);
@@ -343,7 +343,7 @@ void StructuralTreeWidget::selectFirstMap() {
 }
 
 
-void StructuralTreeWidget::setSelection(rpgmapper::model::Selection * selection) {
+void StructuralTreeWidget::setSelection(rpgmapper::model::SelectionPointer & selection) {
     this->selection = selection;
     connectSelectionSignals();
     resetStructure();

@@ -9,6 +9,8 @@
 #define RPGMAPPER_MODEL_SELECTION_HPP
 
 
+#include <QSharedPointer>
+
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
@@ -63,6 +65,8 @@ signals:
     void regionSelected(QString const & regionName);
 
 };
+
+using SelectionPointer = QSharedPointer<Selection>;
 
 
 }

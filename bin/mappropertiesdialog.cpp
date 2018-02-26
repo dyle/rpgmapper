@@ -194,14 +194,14 @@ void MapPropertiesDialog::setBackgroundImageRenderMode() {
 }
 
 
-void MapPropertiesDialog::setMap(MapPointer & map) {
+void MapPropertiesDialog::setMap(__attribute__((unused)) MapPointer & map) {
 
     this->map = map;
 //    axisFont.fromString(this->map->gridLayer()->attributes()["font"]);
 //    axisColor = QColor(map->gridLayer()->attributes()["color"]);
 //    backgroundColor = QColor(map->backgroundLayer()->attributes()["color"]);
 
-    evaluate();
+    //evaluate();
 }
 
 

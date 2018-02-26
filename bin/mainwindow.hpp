@@ -35,7 +35,7 @@ class MainWindow : public QMainWindow {
 
     std::shared_ptr<Ui_mainwindow> ui;
 
-    rpgmapper::model::Selection * selection;
+    rpgmapper::model::SelectionPointer selection;
 
     AboutDialog * aboutDialog = nullptr;
     QFileDialog * loadAtlasDialog = nullptr;

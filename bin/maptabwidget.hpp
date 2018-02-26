@@ -26,14 +26,14 @@ class MapTabWidget : public QTabWidget {
 
     Q_OBJECT
 
-    rpgmapper::model::Selection * selection = nullptr;
+    rpgmapper::model::SelectionPointer selection;
     std::map<QString, MapScrollArea *> mapScrollAreas;
 
 public:
 
     explicit MapTabWidget(QWidget * parent = nullptr);
 
-    void setSelection(rpgmapper::model::Selection * selection);
+    void setSelection(rpgmapper::model::SelectionPointer & selection);
 
 public slots:
 

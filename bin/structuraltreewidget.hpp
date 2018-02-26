@@ -23,7 +23,7 @@ class StructuralTreeWidget : public QTreeWidget {
 
     Q_OBJECT
 
-    rpgmapper::model::Selection * selection = nullptr;
+    rpgmapper::model::SelectionPointer selection;
 
     enum class ItemType { atlas, map, region };
 
@@ -55,7 +55,7 @@ public slots:
 
     void selectFirstMap();
 
-    void setSelection(rpgmapper::model::Selection * selection);
+    void setSelection(rpgmapper::model::SelectionPointer & selection);
 
     void resetStructure();
 

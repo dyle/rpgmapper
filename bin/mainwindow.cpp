@@ -38,7 +38,7 @@ MainWindow::MainWindow() : QMainWindow{} {
     statusBar()->setSizeGripEnabled(false);
     statusBar()->setVisible(true);
 
-    selection = new Selection{this};
+    selection = SelectionPointer(new rpgmapper::model::Selection{this});
     selection->setAtlas(AtlasPointer{new Atlas});
 
     ui->atlasTreeWidget->setSelection(selection);

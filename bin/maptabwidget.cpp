@@ -29,7 +29,7 @@ void MapTabWidget::connectSelectionSignals() {
         return;
     }
     connect(selection->getAtlas().data(), &Atlas::mapRemoved, this, &MapTabWidget::mapRemoved);
-    connect(selection, &Selection::mapSelected, this, &MapTabWidget::mapSelected);
+    connect(selection.data(), &Selection::mapSelected, this, &MapTabWidget::mapSelected);
 }
 
 
@@ -84,7 +84,7 @@ void MapTabWidget::mapSelected(QString const & mapName) {
 }
 
 
-void MapTabWidget::setSelection(rpgmapper::model::Selection * selection) {
+void MapTabWidget::setSelection(rpgmapper::model::SelectionPointer & selection) {
     this->selection = selection;
     connectSelectionSignals();
 }

@@ -80,15 +80,11 @@ private slots:
 
 signals:
 
-    void mapAdded(QString mapName);
+    void mapAdded(QString regionName, QString mapName);
 
-    void mapCreated(QString mapName);
+    void mapCreated(QString regionName, QString mapName);
 
-    void mapNameChanged(QString nameBefore, QString nameAfter);
-
-    void mapResized(QString mapName);
-
-    void mapRemoved(QString mapName);
+    void mapRemoved(QString regionName, QString mapName);
 
     void nameChanged(QString nameBefore, QString nameAfter);
 };

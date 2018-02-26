@@ -20,49 +20,20 @@ Atlas::Atlas(QObject * parent) : QObject{parent} {
 }
 
 
-void Atlas::addedMapInRegion(QString mapName) {
-    auto region = dynamic_cast<Region *>(sender());
-    if (region == nullptr) {
-        return;
-    }
-    emit mapAdded(region->getName(), mapName);
-}
-
-
 bool Atlas::applyJsonObject(QJsonObject json) {
     return impl->applyJsonObject(json);
 }
 
 
-void Atlas::changedNameOfMapInRegion(QString nameBefore, QString nameAfter) {
-    emit mapNameChanged(nameBefore, nameAfter);
-}
-
-
-void Atlas::changedNamedOfRegion(QString nameBefore, QString nameAfter) {
-    emit regionNameChanged(nameBefore, nameAfter);
-}
-
-
-void Atlas::connectRegionSignal(RegionPointer & region) {
+void Atlas::connectRegionSignals(RegionPointer & region) {
     if (!region->isValid()) {
         return;
     }
-    connect(region.data(), &Region::mapAdded, this, &Atlas::addedMapInRegion);
-    connect(region.data(), &Region::mapCreated, this, &Atlas::createdMapInRegion);
-    connect(region.data(), &Region::mapNameChanged, this, &Atlas::changedNameOfMapInRegion);
-    connect(region.data(), &Region::mapResized, this, &Atlas::resizedMapInRegion);
-    connect(region.data(), &Region::mapResized, this, &Atlas::removedMapOfRegion);
-    connect(region.data(), &Region::nameChanged, this, &Atlas::changedNamedOfRegion);
-}
-
-
-void Atlas::createdMapInRegion(QString mapName) {
-    auto region = dynamic_cast<Region *>(sender());
-    if (region == nullptr) {
-        return;
-    }
-    emit mapCreated(region->getName(), mapName);
+    // TODO
+    connect(region.data(), &Region::mapAdded, this, &Atlas::mapAdded);
+    connect(region.data(), &Region::mapCreated, this, &Atlas::mapCreated);
+    connect(region.data(), &Region::mapRemoved, this, &Atlas::mapRemoved);
+    connect(region.data(), &Region::nameChanged, this, &Atlas::regionNameChanged);
 }
 
 
@@ -153,15 +124,6 @@ Atlas const & Atlas::nullAtlas() {
 }
 
 
-void Atlas::removedMapOfRegion(QString mapName) {
-    auto region = dynamic_cast<Region *>(sender());
-    if (region == nullptr) {
-        return;
-    }
-    emit mapRemoved(region->getName(), mapName);
-}
-
-
 void Atlas::removeRegion(QString const & name) {
     if (impl->removeRegion(name)) {
         emit regionRemoved(name);
@@ -171,11 +133,6 @@ void Atlas::removeRegion(QString const & name) {
 
 void Atlas::resetChanged() {
     impl->resetChanged();
-}
-
-
-void Atlas::resizedMapInRegion(QString mapName) {
-    emit mapResized(mapName);
 }
 
 

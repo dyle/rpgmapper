@@ -88,22 +88,7 @@ public:
 
 private:
 
-    void connectRegionSignal(RegionPointer & region);
-
-
-private slots:
-
-    void addedMapInRegion(QString mapName);
-
-    void createdMapInRegion(QString mapName);
-
-    void changedNameOfMapInRegion(QString nameBefore, QString nameAfter);
-
-    void resizedMapInRegion(QString mapName);
-
-    void removedMapOfRegion(QString mapName);
-
-    void changedNamedOfRegion(QString nameBefore, QString nameAfter);
+    void connectRegionSignals(RegionPointer & region);
 
 signals:
 

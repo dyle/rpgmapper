@@ -51,11 +51,11 @@ public:
 
     explicit MapPropertiesDialog(QWidget * parent);
 
+    void setMap(rpgmapper::model::MapPointer cMap);
+
 public slots:
 
     void evaluate();
-
-    void setMap(rpgmapper::model::MapPointer & cMap);
 
 private:
 

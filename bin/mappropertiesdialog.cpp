@@ -194,7 +194,7 @@ void MapPropertiesDialog::setBackgroundImageRenderMode() {
 }
 
 
-void MapPropertiesDialog::setMap(__attribute__((unused)) MapPointer & map) {
+void MapPropertiesDialog::setMap(MapPointer map) {
 
     this->map = map;
 //    axisFont.fromString(this->map->gridLayer()->attributes()["font"]);

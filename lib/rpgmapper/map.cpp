@@ -118,7 +118,7 @@ void Map::resize(QSize const & size) {
         return;
     }
     impl->resize(size);
-    emit resized();
+    emit resized(getName());
 }
 
 
@@ -134,13 +134,13 @@ void Map::setName(QString const & name) {
 
 void Map::setNumeralXAxis(QString const & numeral) {
     impl->setNumeralXAxis(numeral);
-    emit numeralForAxisChanged();
+    emit numeralForAxisChanged(getName());
 }
 
 
 void Map::setNumeralYAxis(QString const & numeral) {
     impl->setNumeralYAxis(numeral);
-    emit numeralForAxisChanged();
+    emit numeralForAxisChanged(getName());
 }
 
 

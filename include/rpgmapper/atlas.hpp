@@ -92,24 +92,25 @@ private:
 
 signals:
 
-    void nameChanged(QString name);
-
     void mapAdded(QString regionName, QString mapName);
 
     void mapCreated(QString regionName, QString mapName);
 
-    void mapNameChanged(QString mapNameBefore, QString mapNameAfter);
+    void mapNameChanged(QString regionName, QString nameBefore, QString nameAfter);
 
-    void mapResized(QString mapName);
+    void mapNumeralForAxisChanged(QString regionName, QString mapName);
 
     void mapRemoved(QString regionName, QString mapName);
+
+    void mapResized(QString regionName, QString mapName);
+
+    void nameChanged(QString name);
 
     void regionCreated(QString name);
 
     void regionNameChanged(QString nameBefore, QString nameAfter);
 
     void regionRemoved(QString name);
-
 };
 
 class InvalidAtlas final : public Atlas {

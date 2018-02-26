@@ -29,10 +29,12 @@ void Atlas::connectRegionSignals(RegionPointer & region) {
     if (!region->isValid()) {
         return;
     }
-    // TODO
     connect(region.data(), &Region::mapAdded, this, &Atlas::mapAdded);
     connect(region.data(), &Region::mapCreated, this, &Atlas::mapCreated);
+    connect(region.data(), &Region::mapNameChanged, this, &Atlas::mapNameChanged);
+    connect(region.data(), &Region::mapNumeralForAxisChanged, this, &Atlas::mapNumeralForAxisChanged);
     connect(region.data(), &Region::mapRemoved, this, &Atlas::mapRemoved);
+    connect(region.data(), &Region::mapResized, this, &Atlas::mapResized);
     connect(region.data(), &Region::nameChanged, this, &Atlas::regionNameChanged);
 }
 
@@ -40,7 +42,7 @@ void Atlas::connectRegionSignals(RegionPointer & region) {
 RegionPointer & Atlas::createRegion(QString const & name) {
     auto & region = impl->createRegion(name);
     if (region->isValid()) {
-        connectRegionSignal(region);
+        connectRegionSignals(region);
         emit regionCreated(name);
     }
     return region;

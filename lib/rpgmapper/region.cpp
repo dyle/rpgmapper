@@ -28,7 +28,7 @@ bool Region::addMap(MapPointer & map) {
 
     auto added = impl->addMap(map);
     connectMapSignals(map);
-    emit mapAdded(map->getName());
+    emit mapAdded(getName(), map->getName());
     return added;
 }
 
@@ -45,7 +45,12 @@ void Region::changedMapName(QString nameBefore, QString nameAfter) {
     }
     impl->removeMap(nameBefore);
     impl->addMap(map);
-    emit mapNameChanged(nameBefore, std::move(nameAfter));
+    emit mapNameChanged(getName(), nameBefore, std::move(nameAfter));
+}
+
+
+void Region::changedNumeralForAxis(QString mapName) {
+    emit mapNumeralForAxisChanged(getName(), mapName);
 }
 
 
@@ -54,6 +59,7 @@ void Region::connectMapSignals(MapPointer & map) {
         return;
     }
     connect(map.data(), &Map::nameChanged, this, &Region::changedMapName);
+    connect(map.data(), &Map::numeralForAxisChanged, this, &Region::changedNumeralForAxis);
     connect(map.data(), &Map::resized, this, &Region::resizedMap);
 }
 
@@ -74,8 +80,8 @@ Atlas * Region::getAtlas() {
 MapPointer & Region::createMap(QString const & mapName) {
     auto & map = impl->createMap(mapName);
     if (map->isValid()) {
-        //connectMapSignals(map);
-        emit mapCreated(mapName);
+        connectMapSignals(map);
+        emit mapCreated(getName(), mapName);
     }
     return map;
 }
@@ -111,12 +117,8 @@ Region const & Region::nullRegion() {
 }
 
 
-void Region::resizedMap() {
-    auto map = dynamic_cast<Map *>(sender());
-    if (map == nullptr) {
-        return;
-    }
-    emit mapResized(map->getName());
+void Region::resizedMap(QString mapName) {
+    emit mapResized(getName(), mapName);
 }
 
 
@@ -127,7 +129,7 @@ void Region::removeMap(QString const & mapName) {
     }
     impl->removeMap(mapName);
     disconnectMapSignals(map);
-    emit mapRemoved(mapName);
+    emit mapRemoved(getName(), mapName);
 }
 
 

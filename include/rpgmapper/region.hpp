@@ -76,7 +76,9 @@ private slots:
 
     void changedMapName(QString nameBefore, QString nameAfter);
 
-    void resizedMap();
+    void changedNumeralForAxis(QString mapName);
+
+    void resizedMap(QString mapName);
 
 signals:
 
@@ -84,7 +86,13 @@ signals:
 
     void mapCreated(QString regionName, QString mapName);
 
+    void mapNameChanged(QString regionName, QString nameBefore, QString nameAfter);
+
+    void mapNumeralForAxisChanged(QString regionName, QString mapName);
+
     void mapRemoved(QString regionName, QString mapName);
+
+    void mapResized(QString regionName, QString mapName);
 
     void nameChanged(QString nameBefore, QString nameAfter);
 };

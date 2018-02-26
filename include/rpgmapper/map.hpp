@@ -101,9 +101,9 @@ signals:
 
     void nameChanged(QString nameBefore, QString nameAfter);
 
-    void numeralForAxisChanged();
+    void numeralForAxisChanged(QString mapName);
 
-    void resized();
+    void resized(QString mapName);
 };
 
 class InvalidMap final : public Map {

@@ -37,13 +37,13 @@ public:
 
     RegionPointer & createRegion(QString const & name);
 
-    MapPointer findMap(QString const & name);
+    MapPointer & findMap(QString const & name);
 
-    MapPointer const findMap(QString const & name) const;
+    MapPointer const & findMap(QString const & name) const;
 
-    RegionPointer findRegion(QString const & name);
+    RegionPointer & findRegion(QString const & name);
 
-    RegionPointer const findRegion(QString const & name) const;
+    RegionPointer const & findRegion(QString const & name) const;
 
     std::set<QString> getAllMapNames() const;
 

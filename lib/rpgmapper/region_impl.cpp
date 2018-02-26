@@ -85,14 +85,14 @@ MapPointer & Region::Impl::createMap(QString const & name) {
 }
 
 
-MapPointer Region::Impl::findMap(QString const & name) {
+MapPointer & Region::Impl::findMap(QString const & name) {
 
-    MapPointer map{new InvalidMap, &Map::deleteLater};
+    static MapPointer invalidMap{new InvalidMap};
     auto iter = maps.find(name);
     if (iter != maps.end()) {
-        map = (*iter).second;
+        return (*iter).second;
     }
-    return map;
+    return invalidMap;
 }
 
 

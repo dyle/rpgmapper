@@ -16,7 +16,6 @@ Atlas::Impl::Impl(Atlas * atlas) : atlas(atlas) {
     if (atlas == nullptr) {
         throw std::invalid_argument("rpgmapper::model::Atlas::Impl::Impl() - atlas must not be nullptr.");
     }
-    setName(QObject::tr("New Atlas"));
     prozessor = ProzessorPointer{new Prozessor};
 }
 
@@ -70,48 +69,45 @@ RegionPointer & Atlas::Impl::createRegion(QString const & name) {
 }
 
 
-MapPointer Atlas::Impl::findMap(QString const & name) {
-
-    MapPointer map{new InvalidMap};
-
+MapPointer & Atlas::Impl::findMap(QString const & name) {
+    static MapPointer invalidMap{new InvalidMap};
     for (auto & pair : regions) {
-        map = pair.second->findMap(name);
+        auto & map = pair.second->findMap(name);
         if (map->isValid()) {
-            break;
+            return map;
         }
     }
-
-    return map;
+    return invalidMap;
 }
 
 
-MapPointer const Atlas::Impl::findMap(QString const & name) const {
-
-    MapPointer map{new InvalidMap};
-
+MapPointer const & Atlas::Impl::findMap(QString const & name) const {
+    static MapPointer invalidMap{new InvalidMap};
     for (auto & pair : regions) {
-        map = pair.second->findMap(name);
+        auto & map = pair.second->findMap(name);
         if (map->isValid()) {
-            break;
+            return map;
         }
     }
-    return map;
+    return invalidMap;
 }
 
 
-RegionPointer Atlas::Impl::findRegion(QString const & name) {
+RegionPointer & Atlas::Impl::findRegion(QString const & name) {
+    static RegionPointer invalidRegion{new InvalidRegion};
     auto iter = regions.find(name);
     if (iter == regions.end()) {
-        return RegionPointer{new InvalidRegion};
+        return invalidRegion;
     }
     return (*iter).second;
 }
 
 
-RegionPointer const Atlas::Impl::findRegion(QString const & name) const {
+RegionPointer const & Atlas::Impl::findRegion(QString const & name) const {
+    static RegionPointer invalidRegion{new InvalidRegion};
     auto iter = regions.find(name);
     if (iter == regions.end()) {
-        return RegionPointer{new InvalidRegion};
+        return invalidRegion;
     }
     return (*iter).second;
 }

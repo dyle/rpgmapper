@@ -40,6 +40,7 @@ MainWindow::MainWindow() : QMainWindow{} {
 
     selection = SelectionPointer(new rpgmapper::model::Selection{this});
     selection->setAtlas(AtlasPointer{new Atlas});
+    selection->getAtlas()->init();
 
     ui->atlasTreeWidget->setSelection(selection);
     ui->mapTabWidget->setSelection(selection);

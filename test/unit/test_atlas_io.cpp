@@ -21,6 +21,7 @@ TEST(AtlasIO, GetJsonOfAtlas) {
         R"raw({"name":"New Atlas","regions":[{"maps":[{"name":"New Map 1"}],"name":"New Region 1"}]})raw"
     };
     AtlasPointer atlas{new Atlas};
+    atlas->init();
     auto json = QJsonDocument{atlas->getJsonObject()}.toJson(QJsonDocument::Compact).toStdString();
 
     EXPECT_EQ(json, expectedJson);

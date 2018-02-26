@@ -46,7 +46,7 @@ public:
 
     MapPointer & createMap(QString const & name);
 
-    MapPointer findMap(QString const & name);
+    MapPointer & findMap(QString const & name);
 
     Atlas * getAtlas();
 

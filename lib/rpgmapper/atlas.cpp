@@ -15,8 +15,6 @@ using namespace rpgmapper::model::command;
 
 Atlas::Atlas(QObject * parent) : QObject{parent} {
     impl = std::make_shared<Atlas::Impl>(this);
-    auto region = createRegion(QObject::tr("New Region 1"));
-    region->createMap(QObject::tr("New Map 1"));
 }
 
 
@@ -59,22 +57,22 @@ ProzessorPointer const & Atlas::getCommandProzessor() const {
 }
 
 
-MapPointer Atlas::findMap(QString const & name) {
+MapPointer & Atlas::findMap(QString const & name) {
     return impl->findMap(name);
 }
 
 
-MapPointer const Atlas::findMap(QString const & name) const {
+MapPointer const & Atlas::findMap(QString const & name) const {
     return impl->findMap(name);
 }
 
 
-RegionPointer Atlas::findRegion(QString const & name) {
+RegionPointer & Atlas::findRegion(QString const & name) {
     return impl->findRegion(name);
 }
 
 
-RegionPointer const Atlas::findRegion(QString const & name) const {
+RegionPointer const & Atlas::findRegion(QString const & name) const {
     return impl->findRegion(name);
 }
 
@@ -106,6 +104,14 @@ QString const & Atlas::getName() const {
 
 Regions const & Atlas::getRegions() const {
     return impl->getRegions();
+}
+
+
+void Atlas::init() {
+    impl->clear();
+    setName(QObject::tr("New Atlas"));
+    auto region = createRegion(QObject::tr("New Region 1"));
+    region->createMap(QObject::tr("New Map 1"));
 }
 
 

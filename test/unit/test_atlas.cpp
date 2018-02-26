@@ -48,6 +48,7 @@ TEST(AtlasTest, CreateInvalidAtlasPointerIsNotValid) {
 TEST(AtlasTest, InitialAtlasNameIsNewAtlas) {
 
     Atlas atlas;
+    atlas.init();
 
     EXPECT_EQ(atlas.getName().toStdString(), "New Atlas");
 }
@@ -56,6 +57,7 @@ TEST(AtlasTest, InitialAtlasNameIsNewAtlas) {
 TEST(AtlasTest, InitialAtlasRegionAndMap) {
 
     Atlas atlas;
+    atlas.init();
 
     ASSERT_EQ(atlas.getRegions().size(), 1);
     auto region = (*std::begin(atlas.getRegions())).second;
@@ -81,6 +83,8 @@ TEST(AtlasTest, AtlasNameSet) {
 TEST(AtlasTest, InitialAtlasRemoveRegionResultsInEmptyRegions) {
 
     Atlas atlas;
+    atlas.init();
+
     auto regionName = atlas.getRegions().begin()->second->getName();
     atlas.removeRegion(regionName);
 
@@ -189,6 +193,8 @@ TEST(AtlasTest, CreateAndRemoveIdenticalRegions) {
                                  "Region 1"};
 
     Atlas atlas;
+    atlas.init();
+
     auto regionName = atlas.getRegions().begin()->second->getName();
     atlas.removeRegion(regionName);
 

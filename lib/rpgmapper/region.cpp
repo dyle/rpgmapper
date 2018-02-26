@@ -87,7 +87,7 @@ MapPointer & Region::createMap(QString const & mapName) {
 }
 
 
-MapPointer Region::findMap(QString const & mapName) {
+MapPointer & Region::findMap(QString const & mapName) {
     return impl->findMap(mapName);
 }
 

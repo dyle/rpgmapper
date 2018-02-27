@@ -23,6 +23,7 @@ using namespace rpgmapper::view;
 StructuralTreeWidget::StructuralTreeWidget(QWidget * parent) : QTreeWidget{parent} {
     connect(this, &QTreeWidget::currentItemChanged, this, &StructuralTreeWidget::changedCurrentItem);
     connect(this, &QTreeWidget::itemDoubleClicked, this, &StructuralTreeWidget::doubleClickedItem);
+    connect(this, &QTreeWidget::itemClicked, this, &StructuralTreeWidget::singleClickedItem);
 }
 
 
@@ -373,4 +374,32 @@ void StructuralTreeWidget::setSelection(rpgmapper::model::SelectionPointer & sel
     this->selection = selection;
     connectSelectionSignals();
     resetStructure();
+}
+
+
+void StructuralTreeWidget::singleClickedItem(QTreeWidgetItem * item, UNUSED int column) {
+
+    auto itemInfo = getItemInfo(item);
+    if (!itemInfo.valid) {
+        return;
+    }
+
+    auto selection = this->selection.toStrongRef();
+    if (selection.data() == nullptr) {
+        throw std::runtime_error("Selection instance is invalid (nullptr).");
+    }
+
+    switch (itemInfo.itemType) {
+
+        case ItemType::atlas:
+            break;
+
+        case ItemType::map:
+            selection->selectMap(itemInfo.name);
+            break;
+
+        case ItemType::region:
+            selection->selectRegion(itemInfo.name);
+            break;
+    }
 }

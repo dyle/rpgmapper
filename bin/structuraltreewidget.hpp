@@ -81,6 +81,8 @@ private slots:
 
     void doubleClickedItem(QTreeWidgetItem * item, int column);
 
+    void singleClickedItem(QTreeWidgetItem * item, int column);
+
 signals:
 
     void doubleClickedAtlas();

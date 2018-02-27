@@ -26,7 +26,7 @@ class MapWidget : public QWidget {
     Q_OBJECT
 
     QWeakPointer<rpgmapper::model::Map> map;
-    rpgmapper::model::AverageOverSize<unsigned int> averagePaintDuration;
+    rpgmapper::model::AverageOverSize<float> averagePaintDuration;
 
 
 public:

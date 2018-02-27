@@ -18,9 +18,9 @@ namespace rpgmapper {
 namespace model {
 
 
-template <typename T> class Average {
+template<typename T> class Average {
 
-public:
+protected:
 
     using Element = struct {
         T value;
@@ -28,8 +28,6 @@ public:
     };
 
     using Container = std::list<Element>;
-
-protected:
 
     mutable Container container;
     mutable T currentSum = 0;
@@ -55,7 +53,7 @@ private:
 };
 
 
-template <typename T> class AverageOverSize : public Average<T> {
+template<typename T> class AverageOverSize : public Average<T> {
 
     unsigned int maxElements = 10;
 
@@ -78,7 +76,7 @@ private:
 };
 
 
-template <typename T> class AverageOverTime : public Average<T> {
+template<typename T> class AverageOverTime : public Average<T> {
 
     std::chrono::milliseconds maxDuration;
 
@@ -108,33 +106,8 @@ private:
 }
 
 
-static inline rpgmapper::model::Average<int> & operator<<(rpgmapper::model::Average<int> & average,
-                                                          int value) {
-    return average.add(value);
-}
-
-static inline rpgmapper::model::Average<unsigned int> & operator<<(rpgmapper::model::Average<unsigned int> & average,
-                                                                   int value) {
-    return average.add(value);
-}
-
-static inline rpgmapper::model::Average<long> & operator<<(rpgmapper::model::Average<long> & average,
-                                                           long value) {
-    return average.add(value);
-}
-
-static inline rpgmapper::model::Average<unsigned long> & operator<<(rpgmapper::model::Average<unsigned long> & average,
-                                                                    long value) {
-    return average.add(value);
-}
-
-static inline rpgmapper::model::Average<float> & operator<<(rpgmapper::model::Average<float> & average,
-                                                            float value) {
-    return average.add(value);
-}
-
-static inline rpgmapper::model::Average<double> & operator<<(rpgmapper::model::Average<double> & average,
-                                                             double value) {
+template<typename T, typename U> rpgmapper::model::Average<T> & operator<<(rpgmapper::model::Average<T> & average,
+                                                                           U value) {
     return average.add(value);
 }
 

@@ -11,7 +11,6 @@
 
 #include <chrono>
 #include <list>
-#include <numeric>
 
 
 namespace rpgmapper {

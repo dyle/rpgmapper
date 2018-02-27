@@ -7,8 +7,6 @@
 
 #define STANDARD_TILE_SIZE      48
 
-#include <iostream>
-
 #include <QMouseEvent>
 #include <QPainter>
 
@@ -112,9 +110,6 @@ void MapWidget::paintEvent(QPaintEvent * event) {
     auto end = std::chrono::system_clock::now();
     auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     averagePaintDuration << milliseconds;
-    std::cerr << "map paint duration: " << milliseconds << " msec "
-              << "[avg: " << averagePaintDuration.average() << " msec] "
-              << std::endl;
 }
 
 

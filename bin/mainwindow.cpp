@@ -15,6 +15,7 @@
 #include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/command/set_region_name.hpp>
 #include "mainwindow.hpp"
+#include "visibility_action_filter.hpp"
 #include "ui_mainwindow.h"
 
 #if defined(__GNUC__) || defined(__GNUCPP__)
@@ -151,9 +152,13 @@ void MainWindow::connectActions() {
     connect(ui->actionShowRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
     connect(ui->actionSaveAtlasFile, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionSaveAtlasFileAs, &QAction::triggered, this, &MainWindow::saveAs);
+
     connect(ui->actionViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
     connect(ui->actionViewStructureTree, &QAction::triggered, this, &MainWindow::visibleStructure);
     connect(ui->actionViewTilesDock, &QAction::triggered, this, &MainWindow::visibleTiles);
+    new VisibiltyActionFiler(ui->miniMapDockWidget, ui->actionViewMinimap, this);
+    new VisibiltyActionFiler(ui->atlasStructureDockWidget, ui->actionViewStructureTree, this);
+    new VisibiltyActionFiler(ui->tilesDockWidget, ui->actionViewTilesDock, this);
 
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedAtlas,
             ui->actionShowAtlasProperties, &QAction::trigger);
@@ -489,6 +494,3 @@ void MainWindow::visibleStructure(bool view) {
 void MainWindow::visibleTiles(bool view) {
     ui->tilesDockWidget->setVisible(view);
 }
-
-
-// TODO DOCKWINDOW CLOSE CLICK DOES NOT SWITCH TOOLBUTTONS IN MENU

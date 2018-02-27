@@ -33,6 +33,7 @@ set(RPGMAPPER_MOC
     maptabwidget.hpp
     mapwidget.hpp
     structuraltreewidget.hpp
+    visibility_action_filter.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
 
@@ -49,6 +50,7 @@ set(RPGMAPPER_SRC
     maptabwidget.cpp
     mapwidget.cpp
     structuraltreewidget.cpp
+    visibility_action_filter.cpp
 )
 
 

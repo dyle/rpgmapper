@@ -6,7 +6,6 @@
 
 
 #include <rpgmapper/atlas.hpp>
-#include <utility>
 #include "atlas_impl.hpp"
 
 using namespace rpgmapper::model;

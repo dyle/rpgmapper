@@ -22,71 +22,110 @@ template <typename T> class Average {
 
 public:
 
-    using AverageElement = struct {
+    using Element = struct {
         T value;
         std::chrono::system_clock::time_point timeStamp;
     };
 
-    using container = std::list<AverageElement>;
+    using Container = std::list<Element>;
 
-private:
+protected:
 
-    unsigned int maxElements = 10;
-    std::chrono::milliseconds maxDuration;
-
-    mutable container elements;
+    mutable Container container;
     mutable T currentSum = 0;
 
 public:
 
-    explicit Average(unsigned int maxElements = 10, std::chrono::milliseconds maxDuration = std::chrono::milliseconds(0))
-            : maxElements{maxElements}, maxDuration{maxDuration} {};
+    Average() = default;
 
     Average & add(T value) {
-        elements.push_back({value, std::chrono::system_clock::now()});
+        container.push_back({value, std::chrono::system_clock::now()});
         currentSum += value;
         return *this;
     }
 
     T average() const {
-        if (elements.size() == 0) {
-            return 0;
-        }
-        if (maxElements == 0) {
-            return averageOverTime();
-        }
-        return averageOverSize();
+        trim();
+        return container.size() > 0 ? currentSum / container.size() : T{0};
     }
 
 private:
 
-    T averageOverSize() const {
+    virtual void trim() const = 0;
+};
 
-        while (elements.size() > maxElements) {
-            auto iter = std::begin(elements);
+
+template <typename T> class AverageOverSize : public Average<T> {
+
+    unsigned int maxElements = 10;
+
+    using Average<T>::container;
+    using Average<T>::currentSum;
+
+public:
+
+    explicit AverageOverSize(unsigned int maxElements = 10) : maxElements{maxElements} {};
+
+private:
+
+    void trim() const override {
+        while (container.size() > maxElements) {
+            auto iter = std::begin(container);
             currentSum -= (*iter).value;
-            elements.erase(std::begin(elements));
+            container.erase(std::begin(container));
         }
-        return elements.size() > 0 ? currentSum / elements.size() : T{0};
     }
+};
 
 
-    T averageOverTime() const {
+template <typename T> class AverageOverTime : public Average<T> {
 
+    std::chrono::milliseconds maxDuration;
+
+    using Average<T>::container;
+    using Average<T>::currentSum;
+
+public:
+
+    explicit AverageOverTime(std::chrono::milliseconds maxDuration = std::chrono::milliseconds(1000))
+            : maxDuration{maxDuration} {};
+
+private:
+
+    void trim() const override {
         auto oldest = std::chrono::system_clock::now() - maxDuration;
-        auto header = std::begin(elements);
-        while ((header != std::end(elements)) && ((*header).timeStamp < oldest)) {
+        auto header = std::begin(container);
+        while ((header != std::end(container)) && ((*header).timeStamp < oldest)) {
             currentSum -= (*header).value;
-            elements.erase(header);
-            header = std::begin(elements);
+            container.erase(header);
+            header = std::begin(container);
         }
-
-        return elements.size() > 0 ? currentSum / elements.size() : T{0};
     }
 };
 
 
 }
+}
+
+
+static inline rpgmapper::model::Average<int> & operator<<(rpgmapper::model::Average<int> & average,
+                                                          int value) {
+    return average.add(value);
+}
+
+static inline rpgmapper::model::Average<long> & operator<<(rpgmapper::model::Average<long> & average,
+                                                           long value) {
+    return average.add(value);
+}
+
+static inline rpgmapper::model::Average<float> & operator<<(rpgmapper::model::Average<float> & average,
+                                                            float value) {
+    return average.add(value);
+}
+
+static inline rpgmapper::model::Average<double> & operator<<(rpgmapper::model::Average<double> & average,
+                                                             double value) {
+    return average.add(value);
 }
 
 

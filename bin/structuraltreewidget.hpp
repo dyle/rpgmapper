@@ -23,7 +23,7 @@ class StructuralTreeWidget : public QTreeWidget {
 
     Q_OBJECT
 
-    rpgmapper::model::SelectionPointer selection;
+    QWeakPointer<rpgmapper::model::Selection> selection;
 
     enum class ItemType { atlas, map, region };
 

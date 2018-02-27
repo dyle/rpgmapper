@@ -33,6 +33,11 @@ void StructuralTreeWidget::addAtlas() {
         QPixmapCache::find("atlas", &atlasPixmap);
     }
 
+    auto selection = this->selection.toStrongRef();
+    if (selection.data() == nullptr) {
+        throw std::runtime_error("Selection instance is invalid (nullptr).");
+    }
+
     QStringList columns;
     columns << selection->getAtlas()->getName() << "atlas" << "0";
 
@@ -99,6 +104,11 @@ void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * current) {
         return;
     }
 
+    auto selection = this->selection.toStrongRef();
+    if (selection.data() == nullptr) {
+        throw std::runtime_error("Selection instance is invalid (nullptr).");
+    }
+
     switch (itemInfo.itemType) {
 
         case ItemType::atlas:
@@ -140,7 +150,8 @@ void StructuralTreeWidget::changedRegionName(QString const & nameBefore, QString
 
 void StructuralTreeWidget::connectSelectionSignals() {
 
-    if (selection == nullptr) {
+    auto selection = this->selection.toStrongRef();
+    if (selection.data() == nullptr) {
         return;
     }
 
@@ -165,6 +176,11 @@ void StructuralTreeWidget::connectSelectionSignals() {
 
 void StructuralTreeWidget::createdMap(QString const &name) {
 
+    auto selection = this->selection.toStrongRef();
+    if (selection.data() == nullptr) {
+        throw std::runtime_error("Selection instance is invalid (nullptr).");
+    }
+
     auto map = selection->getAtlas()->findMap(name);
     if (!map->isValid()) {
         return;
@@ -184,6 +200,11 @@ void StructuralTreeWidget::createdMap(QString const &name) {
 
 
 void StructuralTreeWidget::createdRegion(QString const &name) {
+
+    auto selection = this->selection.toStrongRef();
+    if (selection.data() == nullptr) {
+        throw std::runtime_error("Selection instance is invalid (nullptr).");
+    }
 
     auto region = selection->getAtlas()->findRegion(name);
     if (!region->isValid()) {
@@ -208,6 +229,11 @@ void StructuralTreeWidget::doubleClickedItem(QTreeWidgetItem * item, UNUSED int 
     auto itemInfo = getItemInfo(item);
     if (!itemInfo.valid) {
         return;
+    }
+
+    auto selection = this->selection.toStrongRef();
+    if (selection.data() == nullptr) {
+        throw std::runtime_error("Selection instance is invalid (nullptr).");
     }
 
     switch (itemInfo.itemType) {

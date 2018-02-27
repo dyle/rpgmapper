@@ -7,6 +7,8 @@
 
 #define STANDARD_TILE_SIZE      48
 
+#include <iostream>
+
 #include <QMouseEvent>
 #include <QPainter>
 
@@ -89,6 +91,8 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
 
 void MapWidget::paintEvent(QPaintEvent * event) {
 
+    auto start = std::chrono::system_clock::now();
+
     QWidget::paintEvent(event);
 
     QPainter painter(this);
@@ -104,6 +108,13 @@ void MapWidget::paintEvent(QPaintEvent * event) {
     for (auto layer : collectVisibleLayers()) {
         layer->draw(painter, STANDARD_TILE_SIZE);
     }
+
+    auto end = std::chrono::system_clock::now();
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    averagePaintDuration << milliseconds;
+    std::cerr << "map paint duration: " << milliseconds << " msec "
+              << "[avg: " << averagePaintDuration.average() << " msec] "
+              << std::endl;
 }
 
 

@@ -113,8 +113,18 @@ static inline rpgmapper::model::Average<int> & operator<<(rpgmapper::model::Aver
     return average.add(value);
 }
 
+static inline rpgmapper::model::Average<unsigned int> & operator<<(rpgmapper::model::Average<unsigned int> & average,
+                                                                   int value) {
+    return average.add(value);
+}
+
 static inline rpgmapper::model::Average<long> & operator<<(rpgmapper::model::Average<long> & average,
                                                            long value) {
+    return average.add(value);
+}
+
+static inline rpgmapper::model::Average<unsigned long> & operator<<(rpgmapper::model::Average<unsigned long> & average,
+                                                                    long value) {
     return average.add(value);
 }
 

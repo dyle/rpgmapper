@@ -10,8 +10,10 @@
 
 
 #include <memory>
+
 #include <QWidget>
 
+#include <rpgmapper/average.hpp>
 #include <rpgmapper/map.hpp>
 
 
@@ -24,6 +26,8 @@ class MapWidget : public QWidget {
     Q_OBJECT
 
     QWeakPointer<rpgmapper::model::Map> map;
+    rpgmapper::model::AverageOverSize<unsigned int> averagePaintDuration;
+
 
 public:
 
@@ -40,7 +44,6 @@ protected:
     void mouseMoveEvent(QMouseEvent * event) override;
 
     void paintEvent(QPaintEvent * event) override;
-
 
 private:
 

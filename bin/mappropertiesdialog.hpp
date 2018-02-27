@@ -32,7 +32,7 @@ class MapPropertiesDialog : public QDialog {
 
     std::shared_ptr<Ui_mapPropertiesDialog> ui;
 
-    rpgmapper::model::MapPointer map;
+    QWeakPointer<rpgmapper::model::Map> map;
     QFont axisFont;
     QColor axisColor;
     QColor backgroundColor;
@@ -51,7 +51,7 @@ public:
 
     explicit MapPropertiesDialog(QWidget * parent);
 
-    void setMap(rpgmapper::model::MapPointer cMap);
+    void setMap(rpgmapper::model::MapPointer & cMap);
 
 public slots:
 

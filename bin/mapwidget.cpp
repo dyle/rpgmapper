@@ -27,6 +27,11 @@ std::list<Layer *> MapWidget::collectVisibleLayers() const {
 
     std::list<Layer *> layers;
 
+    auto map = this->map.toStrongRef();
+    if (map.data() == nullptr) {
+        throw std::runtime_error("map of MapWidget no longer valid (nullptr).");
+    }
+
     if (map->getBackgroundLayer()->isVisible()) {
         layers.push_back(map->getBackgroundLayer().data());
     }
@@ -53,8 +58,13 @@ std::list<Layer *> MapWidget::collectVisibleLayers() const {
 
 
 void MapWidget::mapChanged() {
-    QSize size{(map->getSize().width() + 2) * STANDARD_TILE_SIZE,
-               (map->getSize().height() + 2) * STANDARD_TILE_SIZE};
+
+    auto map = this->map.toStrongRef();
+    if (map.data() == nullptr) {
+        throw std::runtime_error("map of MapWidget no longer valid (nullptr).");
+    }
+
+    QSize size{(map->getSize().width() + 2) * STANDARD_TILE_SIZE, (map->getSize().height() + 2) * STANDARD_TILE_SIZE};
     resize(size);
 }
 
@@ -64,6 +74,11 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
     QWidget::mouseMoveEvent(event);
     int x = event->pos().x() / STANDARD_TILE_SIZE - 1;
     int y = event->pos().y() / STANDARD_TILE_SIZE - 1;
+
+    auto map = this->map.toStrongRef();
+    if (map.data() == nullptr) {
+        throw std::runtime_error("map of MapWidget no longer valid (nullptr).");
+    }
 
     auto size = map->getSize();
     if ((x >= 0) && (x < size.width()) && (y >= 0) && (y < size.height())) {
@@ -81,9 +96,11 @@ void MapWidget::paintEvent(QPaintEvent * event) {
     painter.setTransform(QTransform::fromTranslate(STANDARD_TILE_SIZE, STANDARD_TILE_SIZE));
     painter.setViewTransformEnabled(true);
 
-    if (!map->isValid()) {
-        return;
+    auto map = this->map.toStrongRef();
+    if (map.data() == nullptr) {
+        throw std::runtime_error("map of MapWidget no longer valid (nullptr).");
     }
+
     for (auto layer : collectVisibleLayers()) {
         layer->draw(painter, STANDARD_TILE_SIZE);
     }

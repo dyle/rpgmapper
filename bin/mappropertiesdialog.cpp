@@ -67,6 +67,7 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
 
 void MapPropertiesDialog::evaluate() {
 
+    auto map = this->map.toStrongRef();
     if (map.data() == nullptr) {
         return;
     }
@@ -194,7 +195,7 @@ void MapPropertiesDialog::setBackgroundImageRenderMode() {
 }
 
 
-void MapPropertiesDialog::setMap(MapPointer map) {
+void MapPropertiesDialog::setMap(MapPointer & map) {
 
     this->map = map;
 //    axisFont.fromString(this->map->gridLayer()->attributes()["font"]);

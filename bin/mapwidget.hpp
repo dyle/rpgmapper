@@ -23,7 +23,7 @@ class MapWidget : public QWidget {
 
     Q_OBJECT
 
-    rpgmapper::model::MapPointer map;
+    QWeakPointer<rpgmapper::model::Map> map;
 
 public:
 

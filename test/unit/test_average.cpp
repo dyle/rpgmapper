@@ -27,6 +27,8 @@ TEST(Average, FloatAverage) {
     AverageOverSize<float> average(10);
     average << 5 << 4 << 3 << 2 << 1 << 0;
     EXPECT_EQ(average.average(), 2.5);
+    EXPECT_EQ(average.items().size(), 6);
+    EXPECT_EQ(average.sum(), 15);
 }
 
 

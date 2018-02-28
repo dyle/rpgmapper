@@ -19,7 +19,7 @@ namespace model {
 
 template<typename T> class Average {
 
-protected:
+public:
 
     using Element = struct {
         T value;
@@ -27,6 +27,8 @@ protected:
     };
 
     using Container = std::list<Element>;
+
+protected:
 
     mutable Container container;
     mutable T currentSum = 0;
@@ -44,6 +46,16 @@ public:
     T average() const {
         trim();
         return container.size() > 0 ? currentSum / container.size() : T{0};
+    }
+
+    Container const & items() const {
+        trim();
+        return container;
+    }
+
+    T sum() const {
+        trim();
+        return currentSum;
     }
 
 private:

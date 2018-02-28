@@ -159,6 +159,7 @@ void MainWindow::connectActions() {
     new VisibiltyActionFiler(ui->miniMapDockWidget, ui->actionViewMinimap, this);
     new VisibiltyActionFiler(ui->atlasStructureDockWidget, ui->actionViewStructureTree, this);
     new VisibiltyActionFiler(ui->tilesDockWidget, ui->actionViewTilesDock, this);
+    new VisibiltyActionFiler(ui->colorPickerDockWidget, ui->actionViewColorPicker, this);
 
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedAtlas,
             ui->actionShowAtlasProperties, &QAction::trigger);

@@ -42,18 +42,18 @@ void CoordinateSystem::setNumeralYAxis(QString numeral) {
 }
 
 
-Coordinates CoordinateSystem::transpose(QPoint const & position) const {
+QPoint CoordinateSystem::transpose(QPoint const & position) const {
 
-    Coordinates coordinate;
+    QPoint coordinate;
 
     switch (getOrigin()) {
 
         case CoordinatesOrigin::bottomLeft:
-            coordinate = Coordinates{position.x(), getSize().height() - position.y() - 1};
+            coordinate = QPoint{position.x(), getSize().height() - position.y() - 1};
             break;
 
         case CoordinatesOrigin::bottomRight:
-            coordinate = Coordinates{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
+            coordinate = QPoint{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
             break;
 
         case CoordinatesOrigin::topLeft:
@@ -61,7 +61,7 @@ Coordinates CoordinateSystem::transpose(QPoint const & position) const {
             break;
 
         case CoordinatesOrigin::topRight:
-            coordinate = Coordinates{getSize().width() - position.x() - 1, position.y()};
+            coordinate = QPoint{getSize().width() - position.x() - 1, position.y()};
             break;
     }
 
@@ -69,18 +69,18 @@ Coordinates CoordinateSystem::transpose(QPoint const & position) const {
 }
 
 
-CoordinatesF CoordinateSystem::transpose(QPointF const & position) const{
+QPointF CoordinateSystem::transpose(QPointF const & position) const{
 
-    CoordinatesF coordinate;
+    QPointF coordinate;
 
     switch (getOrigin()) {
 
         case CoordinatesOrigin::bottomLeft:
-            coordinate = CoordinatesF{position.x(), getSize().height() - position.y() - 1};
+            coordinate = QPointF{position.x(), getSize().height() - position.y() - 1};
             break;
 
         case CoordinatesOrigin::bottomRight:
-            coordinate = CoordinatesF{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
+            coordinate = QPointF{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
             break;
 
         case CoordinatesOrigin::topLeft:
@@ -88,7 +88,7 @@ CoordinatesF CoordinateSystem::transpose(QPointF const & position) const{
             break;
 
         case CoordinatesOrigin::topRight:
-            coordinate = CoordinatesF{getSize().width() - position.x() - 1, position.y()};
+            coordinate = QPointF{getSize().width() - position.x() - 1, position.y()};
             break;
     }
 

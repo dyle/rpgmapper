@@ -10,9 +10,10 @@
 
 #include <tuple>
 
+#include <QPoint>
+#include <QPointF>
 #include <QSize>
 
-#include <rpgmapper/coordinates.hpp>
 #include <rpgmapper/numerals.hpp>
 
 
@@ -60,15 +61,15 @@ public:
 
     void setOrigin(CoordinatesOrigin origin) { this->origin = origin; }
 
-    Coordinates transpose(QPoint const & position) const;
+    QPoint transpose(QPoint const & position) const;
 
-    Coordinates transpose(int x, int y) const { return transpose(QPoint{x, y}); }
+    QPoint transpose(int x, int y) const { return transpose(QPoint{x, y}); }
 
-    CoordinatesF transpose(QPointF const & position) const;
+    QPointF transpose(QPointF const & position) const;
 
-    CoordinatesF transpose(float x, float y) const { return transpose(QPointF{x, y}); }
+    QPointF transpose(float x, float y) const { return transpose(QPointF{x, y}); }
 
-    CoordinatesF transpose(double x, double y) const { return transpose(QPointF{x, y}); }
+    QPointF transpose(double x, double y) const { return transpose(QPointF{x, y}); }
 
     void resize(QSize const & size);
 

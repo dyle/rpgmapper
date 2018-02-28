@@ -452,11 +452,7 @@ void MainWindow::showAboutDialog() {
 void MainWindow::showCoordinates(int x, int y) {
 
     if (selection->getMap()->isValid()) {
-        // TODO
-        // auto cUserCoordinates = selection->getMap()->translate(x, y);
-        // coordinatesWidget->showCoordinates(cUserCoordinates.m_sX, cUserCoordinates.m_sY);
-        NumeralCoordinates coordinates{QString::number(x), QString::number(y)};
-        coordinatesWidget->showCoordinates(coordinates);
+        coordinatesWidget->showCoordinates(selection->getMap()->getCoordinateSystem().getNumeralCoordinates(x, y));
     }
     else {
         coordinatesWidget->clear();

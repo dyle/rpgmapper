@@ -76,8 +76,8 @@ TEST(CoordinateSystemTest, TransposeCoordinates) {
 
     CoordinateSystem coordinateSystem;
     coordinateSystem.resize(10, 10);
-    Coordinates position;
-    CoordinatesF positionF;
+    QPoint position;
+    QPointF positionF;
     QPoint point;
     QPointF pointF;
 

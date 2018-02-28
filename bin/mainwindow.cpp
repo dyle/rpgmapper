@@ -83,6 +83,11 @@ void MainWindow::addRecentFileName(QString const & fileName) {
 }
 
 
+void MainWindow::addUnusedActions() {
+    addAction(ui->actionCloseMap);
+}
+
+
 void MainWindow::atlasNameChanges(UNUSED QString newName) {
     setApplicationWindowTitle();
 }
@@ -135,14 +140,15 @@ void MainWindow::closeEvent(QCloseEvent * event) {
 
 void MainWindow::connectActions() {
 
+    addUnusedActions();
 
-//    connect(ui->acCloseMap, &QAction::triggered, ui->tabMap, &MapTabWidget::closeCurrentMap);
 //    connect(ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
 //    connect(ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
 //    connect(ui->acNewMap, &QAction::triggered, this, &MainWindow::createdMap);
 //    connect(ui->acNewRegion, &QAction::triggered, this, &MainWindow::createdRegion);
 
     connect(ui->actionClearRecentList, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
+    connect(ui->actionCloseMap, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::closeCurrentMap);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->actionOpenAtlasFile, &QAction::triggered, this, &MainWindow::load);
     connect(ui->actionShowAboutDialog, &QAction::triggered, this, &MainWindow::showAboutDialog);

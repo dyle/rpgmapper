@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>700</height>
+    <width>904</width>
+    <height>638</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -64,7 +64,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>900</width>
+     <width>904</width>
      <height>29</height>
     </rect>
    </property>
@@ -113,6 +113,7 @@
     <addaction name="actionViewTilesDock"/>
     <addaction name="actionViewStructureTree"/>
     <addaction name="actionViewColorPicker"/>
+    <addaction name="separator"/>
    </widget>
    <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
@@ -155,8 +156,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>184</width>
-          <height>158</height>
+          <width>196</width>
+          <height>138</height>
          </rect>
         </property>
        </widget>
@@ -184,8 +185,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>204</width>
-          <height>227</height>
+          <width>80</width>
+          <height>393</height>
          </rect>
         </property>
         <attribute name="label">
@@ -197,8 +198,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>224</width>
-          <height>227</height>
+          <width>234</width>
+          <height>184</height>
          </rect>
         </property>
         <attribute name="label">

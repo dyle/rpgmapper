@@ -90,6 +90,8 @@ private:
 
     void addRecentFileName(QString const & fileName);
 
+    void addUnusedActions();
+
     void centerWindow();
 
     void connectActions();

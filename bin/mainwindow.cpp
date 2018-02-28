@@ -13,6 +13,7 @@
 
 #include <rpgmapper/atlas_io.hpp>
 #include <rpgmapper/command/create_map.hpp>
+#include <rpgmapper/command/remove_map.hpp>
 #include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/command/set_region_name.hpp>
 #include "mainwindow.hpp"
@@ -87,6 +88,7 @@ void MainWindow::addRecentFileName(QString const & fileName) {
 void MainWindow::addUnusedActions() {
     addAction(ui->actionCloseMap);
     addAction(ui->actionCreateNewMap);
+    addAction(ui->actionDeleteMap);
 }
 
 
@@ -144,13 +146,13 @@ void MainWindow::connectActions() {
 
     addUnusedActions();
 
-//    connect(ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
 //    connect(ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
 //    connect(ui->acNewRegion, &QAction::triggered, this, &MainWindow::createdRegion);
 
     connect(ui->actionClearRecentList, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
     connect(ui->actionCloseMap, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::closeCurrentMap);
     connect(ui->actionCreateNewMap, &QAction::triggered, this, &MainWindow::createNewMap);
+    connect(ui->actionDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->actionOpenAtlasFile, &QAction::triggered, this, &MainWindow::load);
     connect(ui->actionShowAboutDialog, &QAction::triggered, this, &MainWindow::showAboutDialog);
@@ -218,6 +220,20 @@ void MainWindow::createRecentFileActions() {
     ui->openRecentMenu->insertSeparator(ui->actionClearRecentList);
 
     enableActions();
+}
+
+
+void MainWindow::deleteMap() {
+
+    auto map = selection->getMap();
+    if (!map->isValid()) {
+        return;
+    }
+
+    auto command = CommandPointer{new RemoveMap{selection->getAtlas(),
+                                                map->getRegionName(),
+                                                map->getName()}};
+    selection->getAtlas()->getCommandProzessor()->execute(command);
 }
 
 

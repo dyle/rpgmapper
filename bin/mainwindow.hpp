@@ -72,11 +72,13 @@ public slots:
 
     void showCoordinates(int x, int y);
 
-    void visibleMinimap(bool bView);
+    void visibleColorPicker(bool visible);
 
-    void visibleStructure(bool bView);
+    void visibleMinimap(bool visible);
 
-    void visibleTiles(bool bView);
+    void visibleStructure(bool visible);
+
+    void visibleTiles(bool visible);
 
 protected:
 

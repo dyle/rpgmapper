@@ -83,7 +83,7 @@ void MainWindow::addRecentFileName(QString const & fileName) {
 }
 
 
-void MainWindow::atlasNameChanges(UNUSED QString) {
+void MainWindow::atlasNameChanges(UNUSED QString newName) {
     setApplicationWindowTitle();
 }
 
@@ -152,6 +152,7 @@ void MainWindow::connectActions() {
     connect(ui->actionSaveAtlasFile, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionSaveAtlasFileAs, &QAction::triggered, this, &MainWindow::saveAs);
 
+    connect(ui->actionViewColorPicker, &QAction::triggered, this, &MainWindow::visibleColorPicker);
     connect(ui->actionViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
     connect(ui->actionViewStructureTree, &QAction::triggered, this, &MainWindow::visibleStructure);
     connect(ui->actionViewTilesDock, &QAction::triggered, this, &MainWindow::visibleTiles);
@@ -481,16 +482,21 @@ void MainWindow::showEvent(QShowEvent * cEvent) {
 }
 
 
-void MainWindow::visibleMinimap(bool view) {
-    ui->miniMapDockWidget->setVisible(view);
+void MainWindow::visibleColorPicker(bool visible) {
+    ui->colorPickerDockWidget->setVisible(visible);
 }
 
 
-void MainWindow::visibleStructure(bool view) {
-    ui->atlasStructureDockWidget->setVisible(view);
+void MainWindow::visibleMinimap(bool visible) {
+    ui->miniMapDockWidget->setVisible(visible);
 }
 
 
-void MainWindow::visibleTiles(bool view) {
-    ui->tilesDockWidget->setVisible(view);
+void MainWindow::visibleStructure(bool visible) {
+    ui->atlasStructureDockWidget->setVisible(visible);
+}
+
+
+void MainWindow::visibleTiles(bool visible) {
+    ui->tilesDockWidget->setVisible(visible);
 }

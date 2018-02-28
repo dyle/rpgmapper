@@ -449,10 +449,11 @@ void MainWindow::showAboutDialog() {
 }
 
 
-void MainWindow::showCoordinates(int x, int y) {
+void MainWindow::showCoordinates(int mapX, int mapY) {
 
     if (selection->getMap()->isValid()) {
-        coordinatesWidget->showCoordinates(selection->getMap()->getCoordinateSystem().getNumeralCoordinates(x, y));
+        auto const & coordinateSystem = selection->getMap()->getCoordinateSystem();
+        coordinatesWidget->showCoordinates(coordinateSystem.getNumeralCoordinates(mapX, mapY));
     }
     else {
         coordinatesWidget->clear();

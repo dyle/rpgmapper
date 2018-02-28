@@ -51,7 +51,7 @@ private:
 
 signals:
 
-    void hoverCoordinates(int x, int y);
+    void hoverCoordinates(int mapX, int mapY);
 };
 
 }

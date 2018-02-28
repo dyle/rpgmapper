@@ -70,7 +70,7 @@ public slots:
 
     void setApplicationWindowTitle();
 
-    void showCoordinates(int x, int y);
+    void showCoordinates(int mapX, int mapY);
 
     void visibleColorPicker(bool visible);
 

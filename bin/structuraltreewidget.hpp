@@ -39,19 +39,21 @@ public:
 
 public slots:
 
-    void changedAtlasName(QString const & name);
+    void addedMap(QString regionName, QString mapName);
 
-    void changedMapName(QString const & nameBefore, QString const & nameAfter);
+    void changedAtlasName(QString name);
 
-    void changedRegionName(QString const & nameBefore, QString const & nameAfter);
+    void changedMapName(QString regionName, QString nameBefore, QString nameAfter);
 
-    void createdMap(QString const &name);
+    void changedRegionName(QString nameBefore, QString nameAfter);
 
-    void createdRegion(QString const &name);
+    void createdMap(QString regionName, QString mapName);
 
-    void removedMap(QString const &name);
+    void createdRegion(QString name);
 
-    void removedRegion(QString const &name);
+    void removedMap(QString regionName, QString mapName);
+
+    void removedRegion(QString name);
 
     void selectFirstMap();
 

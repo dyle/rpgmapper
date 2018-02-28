@@ -55,6 +55,11 @@ void StructuralTreeWidget::addAtlas() {
 }
 
 
+void StructuralTreeWidget::addedMap(UNUSED QString regionName, UNUSED QString mapName) {
+    throw std::runtime_error("StructuralTreeWidget::addedMap not implemented.");
+}
+
+
 QTreeWidgetItem * StructuralTreeWidget::addMap(QTreeWidgetItem * regionItem, MapPointer const & map) {
 
     static QPixmap mapPixmap;
@@ -92,7 +97,7 @@ QTreeWidgetItem * StructuralTreeWidget::addRegion(QTreeWidgetItem * atlasItem, R
 }
 
 
-void StructuralTreeWidget::changedAtlasName(QString const & name) {
+void StructuralTreeWidget::changedAtlasName(QString name) {
     auto item = topLevelItem(0);
     item->setText(0, name);
 }
@@ -129,7 +134,7 @@ void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * current) {
 }
 
 
-void StructuralTreeWidget::changedMapName(QString const & nameBefore, QString const & nameAfter) {
+void StructuralTreeWidget::changedMapName(UNUSED QString regionName, QString nameBefore, QString nameAfter) {
 
     auto item = searchItem(ItemType::map, nameBefore);
     if (item == nullptr) {
@@ -139,7 +144,7 @@ void StructuralTreeWidget::changedMapName(QString const & nameBefore, QString co
 }
 
 
-void StructuralTreeWidget::changedRegionName(QString const & nameBefore, QString const & nameAfter) {
+void StructuralTreeWidget::changedRegionName(QString nameBefore, QString nameAfter) {
 
     auto item = searchItem(ItemType::region, nameBefore);
     if (item == nullptr) {
@@ -158,49 +163,52 @@ void StructuralTreeWidget::connectSelectionSignals() {
 
     connect(selection.data(), &Selection::newAtlas, this, &StructuralTreeWidget::resetStructure);
 
-    connect(selection->getAtlas().data(), &Atlas::nameChanged,
-            this, &StructuralTreeWidget::changedAtlasName);
-    connect(selection->getAtlas().data(), &Atlas::mapNameChanged,
-            this, &StructuralTreeWidget::changedMapName);
-    connect(selection->getAtlas().data(), &Atlas::regionNameChanged,
-            this, &StructuralTreeWidget::changedRegionName);
-    connect(selection->getAtlas().data(), &Atlas::mapRemoved,
-            this, &StructuralTreeWidget::removedMap);
-    connect(selection->getAtlas().data(), &Atlas::regionRemoved,
-            this, &StructuralTreeWidget::removedRegion);
+    connect(selection->getAtlas().data(), &Atlas::mapAdded,
+            this, &StructuralTreeWidget::addedMap);
     connect(selection->getAtlas().data(), &Atlas::mapCreated,
             this, &StructuralTreeWidget::createdMap);
+    connect(selection->getAtlas().data(), &Atlas::mapNameChanged,
+            this, &StructuralTreeWidget::changedMapName);
+    connect(selection->getAtlas().data(), &Atlas::mapRemoved,
+            this, &StructuralTreeWidget::removedMap);
+    connect(selection->getAtlas().data(), &Atlas::nameChanged,
+            this, &StructuralTreeWidget::changedAtlasName);
+    connect(selection->getAtlas().data(), &Atlas::regionNameChanged,
+            this, &StructuralTreeWidget::changedRegionName);
     connect(selection->getAtlas().data(), &Atlas::regionCreated,
             this, &StructuralTreeWidget::createdRegion);
+    connect(selection->getAtlas().data(), &Atlas::regionRemoved,
+            this, &StructuralTreeWidget::removedRegion);
+
 }
 
 
-void StructuralTreeWidget::createdMap(QString const &name) {
+void StructuralTreeWidget::createdMap(QString regionName, QString mapName) {
 
     auto selection = this->selection.toStrongRef();
     if (selection.data() == nullptr) {
         throw std::runtime_error("Selection instance is invalid (nullptr).");
     }
 
-    auto map = selection->getAtlas()->findMap(name);
+    auto map = selection->getAtlas()->findMap(mapName);
     if (!map->isValid()) {
         return;
     }
 
-    auto parentItem = searchItem(ItemType::region, map->getRegionName());
+    auto parentItem = searchItem(ItemType::region, regionName);
     if (parentItem == nullptr) {
         return;
     }
 
-    auto mapName = addMap(parentItem, map);
-    if (mapName) {
-        scrollToItem(mapName, QAbstractItemView::EnsureVisible);
-        setCurrentItem(mapName);
+    auto mapItem = addMap(parentItem, map);
+    if (mapItem) {
+        scrollToItem(mapItem, QAbstractItemView::EnsureVisible);
+        setCurrentItem(mapItem);
     }
 }
 
 
-void StructuralTreeWidget::createdRegion(QString const &name) {
+void StructuralTreeWidget::createdRegion(QString name) {
 
     auto selection = this->selection.toStrongRef();
     if (selection.data() == nullptr) {
@@ -279,9 +287,9 @@ StructuralTreeWidget::ItemInfo StructuralTreeWidget::getItemInfo(QTreeWidgetItem
 }
 
 
-void StructuralTreeWidget::removedMap(QString const &name) {
+void StructuralTreeWidget::removedMap(UNUSED QString regionName, QString mapName) {
 
-    auto item = searchItem(ItemType::map, name);
+    auto item = searchItem(ItemType::map, mapName);
     if (item == nullptr) {
         return;
     }
@@ -290,7 +298,7 @@ void StructuralTreeWidget::removedMap(QString const &name) {
 }
 
 
-void StructuralTreeWidget::removedRegion(QString const &name) {
+void StructuralTreeWidget::removedRegion(QString name) {
 
     auto item = searchItem(ItemType::region, name);
     if (item == nullptr) {

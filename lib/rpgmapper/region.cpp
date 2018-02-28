@@ -6,7 +6,6 @@
 
 
 #include <rpgmapper/atlas.hpp>
-#include <utility>
 #include "region_impl.hpp"
 
 using namespace rpgmapper::model;
@@ -64,6 +63,16 @@ void Region::connectMapSignals(MapPointer & map) {
 }
 
 
+MapPointer & Region::createMap(QString const & mapName) {
+    auto & map = impl->createMap(mapName);
+    if (map->isValid()) {
+        connectMapSignals(map);
+        emit mapCreated(getName(), mapName);
+    }
+    return map;
+}
+
+
 void Region::disconnectMapSignals(MapPointer & map) {
     if (!map->isValid()) {
         return;
@@ -74,16 +83,6 @@ void Region::disconnectMapSignals(MapPointer & map) {
 
 Atlas * Region::getAtlas() {
     return impl->getAtlas();
-}
-
-
-MapPointer & Region::createMap(QString const & mapName) {
-    auto & map = impl->createMap(mapName);
-    if (map->isValid()) {
-        connectMapSignals(map);
-        emit mapCreated(getName(), mapName);
-    }
-    return map;
 }
 
 

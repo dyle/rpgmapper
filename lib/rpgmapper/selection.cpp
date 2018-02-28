@@ -17,6 +17,20 @@ Selection::Selection(QObject * parent) : QObject(parent) {
 }
 
 
+QString Selection::createNewMapName() const {
+
+    auto allMapNames = getAtlas()->getAllMapNames();
+    int i = 1;
+    QString candidate = QString("New Map %1").arg(QString::number(i));
+    auto iter = allMapNames.find(candidate);
+    while (iter != allMapNames.end()) {
+        candidate = QString("New Map %1").arg(QString::number(++i));
+        iter = allMapNames.find(candidate);
+    }
+    return candidate;
+}
+
+
 void Selection::setAtlas(AtlasPointer atlas) {
     this->atlas = atlas;
     emit newAtlas();
@@ -25,6 +39,8 @@ void Selection::setAtlas(AtlasPointer atlas) {
 
 void Selection::selectMap(MapPointer map) {
     this->map = map;
+    auto region = getAtlas()->findRegion(map->getRegion()->getName());
+    selectRegion(region);
     emit mapSelected(map->getName());
 }
 

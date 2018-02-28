@@ -34,6 +34,8 @@ public:
 
     ~Selection() override = default;
 
+    QString createNewMapName() const;
+
     AtlasPointer & getAtlas() { return atlas; }
 
     AtlasPointer const & getAtlas() const { return atlas; }

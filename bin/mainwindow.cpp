@@ -12,6 +12,7 @@
 #include <QStatusBar>
 
 #include <rpgmapper/atlas_io.hpp>
+#include <rpgmapper/command/create_map.hpp>
 #include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/command/set_region_name.hpp>
 #include "mainwindow.hpp"
@@ -85,6 +86,7 @@ void MainWindow::addRecentFileName(QString const & fileName) {
 
 void MainWindow::addUnusedActions() {
     addAction(ui->actionCloseMap);
+    addAction(ui->actionCreateNewMap);
 }
 
 
@@ -144,11 +146,11 @@ void MainWindow::connectActions() {
 
 //    connect(ui->acDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
 //    connect(ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
-//    connect(ui->acNewMap, &QAction::triggered, this, &MainWindow::createdMap);
 //    connect(ui->acNewRegion, &QAction::triggered, this, &MainWindow::createdRegion);
 
     connect(ui->actionClearRecentList, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
     connect(ui->actionCloseMap, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::closeCurrentMap);
+    connect(ui->actionCreateNewMap, &QAction::triggered, this, &MainWindow::createNewMap);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->actionOpenAtlasFile, &QAction::triggered, this, &MainWindow::load);
     connect(ui->actionShowAboutDialog, &QAction::triggered, this, &MainWindow::showAboutDialog);
@@ -181,6 +183,20 @@ void MainWindow::connectActions() {
 void MainWindow::connectModelSignals() {
     connect(selection->getAtlas().data(), &Atlas::nameChanged, this, &MainWindow::atlasNameChanges);
     connect(selection->getAtlas().data(), &Atlas::regionNameChanged, this, &MainWindow::setApplicationWindowTitle);
+}
+
+
+void MainWindow::createNewMap() {
+
+    auto region = selection->getRegion();
+    if (!region->isValid()) {
+        return;
+    }
+
+    auto command = CommandPointer{new CreateMap{selection->getAtlas(),
+                                                region->getName(),
+                                                selection->createNewMapName()}};
+    selection->getAtlas()->getCommandProzessor()->execute(command);
 }
 
 

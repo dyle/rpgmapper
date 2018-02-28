@@ -62,9 +62,9 @@ signals:
 
     void newAtlas();
 
-    void mapSelected(QString const & mapName);
+    void mapSelected(QString mapName);
 
-    void regionSelected(QString const & regionName);
+    void regionSelected(QString regionName);
 
 };
 

@@ -39,9 +39,9 @@ public slots:
 
     void closeCurrentMap();
 
-    void mapRemoved(QString const &mapName);
+    void removedMap(QString regionName, QString mapName);
 
-    void mapSelected(QString const & mapName);
+    void selectedMap(QString mapName);
 
 private:
 

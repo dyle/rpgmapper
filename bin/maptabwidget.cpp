@@ -10,6 +10,12 @@
 
 #include "maptabwidget.hpp"
 
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
+
 using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 
@@ -28,12 +34,19 @@ void MapTabWidget::connectSelectionSignals() {
     if (selection == nullptr) {
         return;
     }
-    connect(selection->getAtlas().data(), &Atlas::mapRemoved, this, &MapTabWidget::mapRemoved);
-    connect(selection.data(), &Selection::mapSelected, this, &MapTabWidget::mapSelected);
+    connect(selection->getAtlas().data(), &Atlas::mapRemoved, this, &MapTabWidget::removedMap);
+    connect(selection.data(), &Selection::mapSelected, this, &MapTabWidget::selectedMap);
 }
 
 
-void MapTabWidget::mapRemoved(QString const &mapName) {
+void MapTabWidget::mapCloseRequested(int nIndex) {
+    if (nIndex != -1) {
+        removeTab(nIndex);
+    }
+}
+
+
+void MapTabWidget::removedMap(UNUSED QString regionName, QString mapName) {
 
     auto iter = mapScrollAreas.find(mapName);
     if (iter != mapScrollAreas.end()) {
@@ -46,14 +59,7 @@ void MapTabWidget::mapRemoved(QString const &mapName) {
 }
 
 
-void MapTabWidget::mapCloseRequested(int nIndex) {
-    if (nIndex != -1) {
-        removeTab(nIndex);
-    }
-}
-
-
-void MapTabWidget::mapSelected(QString const & mapName) {
+void MapTabWidget::selectedMap(QString mapName) {
 
     static QPixmap pixmap;
     if (pixmap.isNull()) {

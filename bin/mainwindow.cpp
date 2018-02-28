@@ -90,14 +90,13 @@ void MainWindow::atlasNameChanges(UNUSED QString) {
 
 void MainWindow::centerWindow() {
 
-    const int defaultWidth = 600;
-    const int defaultHeight = 400;
-
     auto desktop = dynamic_cast<QApplication *>(QApplication::instance())->desktop();
-    int x = (desktop->width() - defaultWidth) / 2;
-    int y = (desktop->height() - defaultHeight) / 2;
+    auto width = static_cast<int>(desktop->width() * 0.8);
+    auto height = static_cast<int>(desktop->height() * 0.8);
+    int x = (desktop->width() - width) / 2;
+    int y = (desktop->height() - height) / 2;
 
-    resize(QSize{defaultWidth, defaultHeight});
+    resize(QSize{width, height});
     move(QPoint{x, y});
 }
 

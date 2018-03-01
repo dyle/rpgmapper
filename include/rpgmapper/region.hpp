@@ -24,6 +24,11 @@ namespace model {
 
 
 class Atlas;
+class Region;
+
+using RegionPointer = QSharedPointer<Region>;
+
+using Regions = std::map<QString, RegionPointer>;
 
 class Region : public QObject {
 
@@ -60,7 +65,7 @@ public:
 
     virtual bool isValid() const { return true; }
 
-    static Region const & nullRegion();
+    static RegionPointer const & null();
 
     void removeMap(QString const & name);
 
@@ -102,10 +107,6 @@ public:
     InvalidRegion() : Region{QString::Null{}, nullptr} {}
     bool isValid() const override { return false; }
 };
-
-using RegionPointer = QSharedPointer<Region>;
-
-using Regions = std::map<QString, RegionPointer>;
 
 
 }

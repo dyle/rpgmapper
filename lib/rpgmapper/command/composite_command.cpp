@@ -22,7 +22,7 @@ void CompositeCommand::clearCommands() {
 
 void CompositeCommand::execute() {
     for (auto iter = std::begin(commands); iter != std::end(commands); ++iter) {
-        (*iter)->undo();
+        (*iter)->execute();
     }
 }
 

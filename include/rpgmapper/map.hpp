@@ -28,7 +28,12 @@
 namespace rpgmapper {
 namespace model {
 
+class Map;
 class Region;
+
+using MapPointer = QSharedPointer<Map>;
+
+using Maps = std::map<QString, MapPointer>;
 
 class Map : public QObject {
 
@@ -85,6 +90,8 @@ public:
 
     virtual bool isValid() const { return true; }
 
+    static MapPointer const & null();
+
     void resize(QSize const & size);
 
     void setName(QString const & name);
@@ -111,10 +118,6 @@ public:
     InvalidMap() : Map{QString::Null{}, nullptr} {}
     bool isValid() const override { return false; }
 };
-
-using MapPointer = QSharedPointer<Map>;
-
-using Maps = std::map<QString, MapPointer>;
 
 
 }

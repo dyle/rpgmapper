@@ -25,6 +25,10 @@ namespace rpgmapper {
 namespace model {
 
 
+class Atlas;
+
+using AtlasPointer = QSharedPointer<Atlas>;
+
 class Atlas : public QObject {
 
     Q_OBJECT
@@ -78,7 +82,7 @@ public:
 
     bool moveMap(MapPointer map, RegionPointer regionTo);
 
-    static Atlas const & nullAtlas();
+    static AtlasPointer const & null();
 
     void removeRegion(QString const & name);
 
@@ -120,8 +124,6 @@ public:
     InvalidAtlas() : Atlas{nullptr} {}
     bool isValid() const override { return false; }
 };
-
-using AtlasPointer = QSharedPointer<Atlas>;
 
 
 }

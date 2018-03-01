@@ -113,6 +113,12 @@ TileLayers const & Map::getTileLayers() const {
 }
 
 
+MapPointer const & Map::null() {
+    static MapPointer nullMap{new InvalidMap};
+    return nullMap;
+}
+
+
 void Map::resize(QSize const & size) {
     if (size == getSize()) {
         return;

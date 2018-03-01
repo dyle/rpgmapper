@@ -60,6 +60,13 @@ public:
 
     void selectRegion(QString const & regionName);
 
+
+public slots:
+
+    void removedMap(QString regionName, QString mapName);
+
+    void removedRegion(QString name);
+
 signals:
 
     void newAtlas();
@@ -67,7 +74,6 @@ signals:
     void mapSelected(QString mapName);
 
     void regionSelected(QString regionName);
-
 };
 
 using SelectionPointer = QSharedPointer<Selection>;

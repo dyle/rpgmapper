@@ -61,6 +61,10 @@ void MapTabWidget::removedMap(UNUSED QString regionName, QString mapName) {
 
 void MapTabWidget::selectedMap(QString mapName) {
 
+    if (mapName.isEmpty()) {
+        return;
+    }
+
     static QPixmap pixmap;
     if (pixmap.isNull()) {
         QPixmapCache::find("map", &pixmap);

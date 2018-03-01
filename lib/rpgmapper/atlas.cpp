@@ -125,8 +125,8 @@ bool Atlas::moveMap(MapPointer map, RegionPointer regionTo) {
 }
 
 
-Atlas const & Atlas::nullAtlas() {
-    static InvalidAtlas nullAtlas;
+AtlasPointer const & Atlas::null() {
+    static AtlasPointer nullAtlas{new InvalidAtlas};
     return nullAtlas;
 }
 

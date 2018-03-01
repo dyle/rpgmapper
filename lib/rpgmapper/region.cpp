@@ -110,8 +110,8 @@ QString const & Region::getName() const {
 }
 
 
-Region const & Region::nullRegion() {
-    static InvalidRegion nullRegion;
+RegionPointer const & Region::null() {
+    static RegionPointer nullRegion{new InvalidRegion};
     return nullRegion;
 }
 

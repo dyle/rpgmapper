@@ -20,6 +20,10 @@
 namespace rpgmapper {
 namespace model {
 
+class Field;
+
+using FieldPointer = QSharedPointer<Field>;
+
 using Tile = std::map<QString, QString>;
 
 using Tiles = std::vector<Tile>;
@@ -54,8 +58,6 @@ public:
 
     bool isValid() const override { return false; }
 };
-
-using FieldPointer = QSharedPointer<Field>;
 
 
 }

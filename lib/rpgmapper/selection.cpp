@@ -7,6 +7,12 @@
 
 #include <rpgmapper/selection.hpp>
 
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
+
 using namespace rpgmapper::model;
 
 
@@ -45,17 +51,48 @@ QString Selection::createNewRegionName() const {
 }
 
 
+void Selection::removedMap(UNUSED QString regionName, QString mapName) {
+    auto map = getMap();
+    if (!map->isValid()) {
+        return;
+    }
+    if (mapName == map->getName()) {
+        selectMap(Map::null());
+    }
+}
+
+
+void Selection::removedRegion(QString name) {
+    auto region = getRegion();
+    if (!region->isValid()) {
+        return;
+    }
+    if (name == region->getName()) {
+        selectMap(Map::null());
+        selectRegion(Region::null());
+    }
+}
+
+
 void Selection::setAtlas(AtlasPointer atlas) {
     this->atlas = atlas;
+    connect(this->atlas.data(), &Atlas::mapRemoved, this, &Selection::removedMap);
+    connect(this->atlas.data(), &Atlas::regionRemoved, this, &Selection::removedRegion);
     emit newAtlas();
 }
 
 
 void Selection::selectMap(MapPointer map) {
+
     this->map = map;
-    auto region = getAtlas()->findRegion(map->getRegion()->getName());
-    selectRegion(region);
-    emit mapSelected(map->getName());
+    if (map->isValid()) {
+        auto region = getAtlas()->findRegion(map->getRegion()->getName());
+        selectRegion(region);
+        emit mapSelected(map->getName());
+    }
+    else {
+        emit mapSelected(QString::null);
+    }
 }
 
 
@@ -65,8 +102,14 @@ void Selection::selectMap(QString const & mapName) {
 
 
 void Selection::selectRegion(RegionPointer region) {
+
     this->region = region;
-    emit regionSelected(region->getName());
+    if (region->isValid()) {
+        emit regionSelected(region->getName());
+    }
+    else {
+        emit regionSelected(QString::null);
+    }
 }
 
 

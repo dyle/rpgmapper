@@ -15,6 +15,7 @@
 #include <rpgmapper/command/create_map.hpp>
 #include <rpgmapper/command/create_region.hpp>
 #include <rpgmapper/command/remove_map.hpp>
+#include <rpgmapper/command/remove_region.hpp>
 #include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/command/set_region_name.hpp>
 #include "mainwindow.hpp"
@@ -147,13 +148,12 @@ void MainWindow::connectActions() {
 
     addUnusedActions();
 
-//    connect(ui->acDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
-
     connect(ui->actionClearRecentList, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
     connect(ui->actionCloseMap, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::closeCurrentMap);
     connect(ui->actionCreateNewMap, &QAction::triggered, this, &MainWindow::createNewMap);
     connect(ui->actionCreateNewRegion, &QAction::triggered, this, &MainWindow::createNewRegion);
     connect(ui->actionDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
+    connect(ui->actionDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->actionOpenAtlasFile, &QAction::triggered, this, &MainWindow::load);
     connect(ui->actionShowAboutDialog, &QAction::triggered, this, &MainWindow::showAboutDialog);
@@ -241,6 +241,19 @@ void MainWindow::deleteMap() {
     auto command = CommandPointer{new RemoveMap{selection->getAtlas(),
                                                 map->getRegionName(),
                                                 map->getName()}};
+    selection->getAtlas()->getCommandProzessor()->execute(command);
+}
+
+
+void MainWindow::deleteRegion() {
+
+    auto region = selection->getRegion();
+    if (!region->isValid()) {
+        return;
+    }
+
+    auto command = CommandPointer{new RemoveRegion{selection->getAtlas(),
+                                                   region->getName()}};
     selection->getAtlas()->getCommandProzessor()->execute(command);
 }
 

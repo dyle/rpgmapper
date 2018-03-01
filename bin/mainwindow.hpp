@@ -130,6 +130,8 @@ private slots:
 
     void deleteMap();
 
+    void deleteRegion();
+
     void load();
 
     void loadRecentFile();

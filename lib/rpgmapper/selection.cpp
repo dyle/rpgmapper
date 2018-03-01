@@ -31,6 +31,20 @@ QString Selection::createNewMapName() const {
 }
 
 
+QString Selection::createNewRegionName() const {
+
+    auto allRegionNames = getAtlas()->getAllRegionNames();
+    int i = 1;
+    QString candidate = QString("New Region %1").arg(QString::number(i));
+    auto iter = allRegionNames.find(candidate);
+    while (iter != allRegionNames.end()) {
+        candidate = QString("New Region %1").arg(QString::number(++i));
+        iter = allRegionNames.find(candidate);
+    }
+    return candidate;
+}
+
+
 void Selection::setAtlas(AtlasPointer atlas) {
     this->atlas = atlas;
     emit newAtlas();

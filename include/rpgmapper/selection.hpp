@@ -36,6 +36,8 @@ public:
 
     QString createNewMapName() const;
 
+    QString createNewRegionName() const;
+
     AtlasPointer & getAtlas() { return atlas; }
 
     AtlasPointer const & getAtlas() const { return atlas; }

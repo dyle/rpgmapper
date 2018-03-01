@@ -126,6 +126,8 @@ private slots:
 
     void createNewMap();
 
+    void createNewRegion();
+
     void deleteMap();
 
     void load();

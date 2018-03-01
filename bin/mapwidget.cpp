@@ -5,14 +5,14 @@
  */
 
 
-#define STANDARD_TILE_SIZE      48
-
 #include <QMouseEvent>
 #include <QPainter>
 
 #include <rpgmapper/layer/layer.hpp>
 #include <rpgmapper/map.hpp>
 #include "mapwidget.hpp"
+
+#define STANDARD_TILE_SIZE      48
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::view;

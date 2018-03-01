@@ -25,17 +25,22 @@ VisibiltyActionFiler::VisibiltyActionFiler(QWidget * widget, QAction * action, Q
 
 
 bool VisibiltyActionFiler::eventFilter(QObject * object, QEvent * event) {
+
     if (object == widget) {
+
         switch (event->type()) {
             case QEvent::Hide:
                 action->setChecked(false);
                 break;
+
             case QEvent::Show:
                 action->setChecked(true);
                 break;
+
             default:
                 break;
         }
     }
+
     return QObject::eventFilter(object, event);
 }

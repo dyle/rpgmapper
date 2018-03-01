@@ -65,6 +65,50 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
 }
 
 
+void MapPropertiesDialog::clearUi() {
+    ui->nameEdit->setText(QString::null);
+    clearUiDimensionTab();
+    clearUiAxisTab();
+    clearUiBackgroundTab();
+}
+
+
+void MapPropertiesDialog::clearUiAxisTab() {
+
+    ui->xNumericalRadioButton->setChecked(true);
+    ui->xAlphaSmallRadioButton->setChecked(false);
+    ui->xAlphaBigRadioButton->setChecked(false);
+    ui->xRomanRadioButton->setChecked(false);
+    ui->xStartValueSpinBox->setValue(0);
+
+    ui->yNumericalRadioButton->setChecked(true);
+    ui->yAlphaSmallRadioButton->setChecked(false);
+    ui->yAlphaBigRadioButton->setChecked(false);
+    ui->yRomanRadioButton->setChecked(false);
+    ui->yStartValueSpinBox->setValue(0);
+
+    ui->axisFontLineEdit->setText(font().toString());
+    //ui->axisColorFrame->setBackgroundColor();
+}
+
+
+void MapPropertiesDialog::clearUiBackgroundTab() {
+    ui->backgroundColorRadioButton->setChecked(true);
+    ui->backgroundImageRadioButton->setChecked(false);
+    ui->backgroundImagePlainRadioButton->setChecked(true);
+    ui->backgroundImageScaledRadioButton->setChecked(false);
+    ui->backgroundImageTiledRadioButton->setChecked(false);
+    // ui->backgroundImageContentWidget->setPixmap()
+}
+
+
+void MapPropertiesDialog::clearUiDimensionTab() {
+    ui->widthSpinBox->setValue(1);
+    ui->heightSpinBox->setValue(1);
+    ui->coordinatesOriginWidget->setOrigin(CoordinatesOrigin::bottomLeft);
+}
+
+
 void MapPropertiesDialog::evaluate() {
 
     auto map = this->map.toStrongRef();
@@ -198,6 +242,8 @@ void MapPropertiesDialog::setBackgroundImageRenderMode() {
 void MapPropertiesDialog::setMap(MapPointer & map) {
 
     this->map = map;
+
+    clearUi();
 //    axisFont.fromString(this->map->gridLayer()->attributes()["font"]);
 //    axisColor = QColor(map->gridLayer()->attributes()["color"]);
 //    backgroundColor = QColor(map->backgroundLayer()->attributes()["color"]);

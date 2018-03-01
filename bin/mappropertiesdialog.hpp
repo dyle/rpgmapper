@@ -59,6 +59,14 @@ public slots:
 
 private:
 
+    void clearUi();
+
+    void clearUiAxisTab();
+
+    void clearUiBackgroundTab();
+
+    void clearUiDimensionTab();
+
     void initNumeralConverters();
 
 private slots:

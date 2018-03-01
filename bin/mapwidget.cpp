@@ -35,19 +35,23 @@ std::list<Layer *> MapWidget::collectVisibleLayers() const {
     if (map->getBackgroundLayer()->isVisible()) {
         layers.push_back(map->getBackgroundLayer().data());
     }
+
     for (auto & baseLayer : map->getBaseLayers()) {
         if (baseLayer->isVisible()) {
             layers.push_back(baseLayer.data());
         }
     }
+
     if (map->getGridLayer()->isVisible()) {
         layers.push_back(map->getGridLayer().data());
     }
+
     for (auto & tileLayer : map->getTileLayers()) {
         if (tileLayer->isVisible()) {
             layers.push_back(tileLayer.data());
         }
     }
+
     if (map->getTextLayer()->isVisible()) {
         layers.push_back(map->getTextLayer().data());
     }

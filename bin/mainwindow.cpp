@@ -9,6 +9,7 @@
 #include <QCloseEvent>
 #include <QDesktopWidget>
 #include <QInputDialog>
+#include <QMessageBox>
 #include <QStatusBar>
 
 #include <rpgmapper/atlas_io.hpp>
@@ -250,6 +251,14 @@ void MainWindow::deleteRegion() {
     auto region = selection->getRegion();
     if (!region->isValid()) {
         return;
+    }
+
+    if (!region->getMaps().empty()) {
+        auto question = tr("Region '%1' has maps.\nRemove them as well?").arg(region->getName());
+        auto answer = QMessageBox::question(this, tr("Delete region and all maps in it?"), question);
+        if (answer != QMessageBox::Yes) {
+            return;
+        }
     }
 
     auto command = CommandPointer{new RemoveRegion{selection->getAtlas(),

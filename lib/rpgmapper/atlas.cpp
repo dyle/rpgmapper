@@ -22,6 +22,11 @@ bool Atlas::applyJsonObject(QJsonObject json) {
 }
 
 
+void Atlas::changedRegionName(QString nameBefore, QString nameAfter) {
+    impl->renameRegion(nameBefore, nameAfter);
+}
+
+
 void Atlas::connectRegionSignals(RegionPointer & region) {
     if (!region->isValid()) {
         return;
@@ -32,6 +37,7 @@ void Atlas::connectRegionSignals(RegionPointer & region) {
     connect(region.data(), &Region::mapNumeralForAxisChanged, this, &Atlas::mapNumeralForAxisChanged);
     connect(region.data(), &Region::mapRemoved, this, &Atlas::mapRemoved);
     connect(region.data(), &Region::mapResized, this, &Atlas::mapResized);
+    connect(region.data(), &Region::nameChanged, this, &Atlas::changedRegionName);
     connect(region.data(), &Region::nameChanged, this, &Atlas::regionNameChanged);
 }
 

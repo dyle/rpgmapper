@@ -186,6 +186,15 @@ bool Atlas::Impl::removeRegion(QString const & name) {
 }
 
 
+void Atlas::Impl::renameRegion(QString nameBefore, QString nameAfter) {
+    auto iter = regions.find(nameBefore);
+    if (iter != regions.end()) {
+        regions[nameAfter] = (*iter).second;
+        regions.erase(iter);
+    }
+}
+
+
 void Atlas::Impl::resetChanged() {
     unmodifiedCommandCounter = getCommandProzessor()->getHistory().size();
 }

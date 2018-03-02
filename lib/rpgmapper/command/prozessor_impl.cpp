@@ -49,6 +49,6 @@ void Prozessor::Impl::undo() {
     auto command = history.back();
     history.pop_back();
     redoList.push_back(command);
-    command->undo();
     changes--;
+    command->undo();
 }

@@ -96,6 +96,10 @@ private:
 
     void connectRegionSignals(RegionPointer & region);
 
+private slots:
+
+    void changedRegionName(QString nameBefore, QString nameAfter);
+
 signals:
 
     void mapAdded(QString regionName, QString mapName);

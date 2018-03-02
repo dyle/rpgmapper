@@ -65,6 +65,8 @@ public:
 
     bool removeRegion(QString const & name);
 
+    void renameRegion(QString nameBefore, QString nameAfter);
+
     void resetChanged();
 
     void setFileName(QString const & fileName) { this->fileName = fileName; }

@@ -25,10 +25,7 @@ bool Region::Impl::addMap(MapPointer & map) {
         return false;
     }
     auto regionFrom = map->getRegion();
-    if (regionFrom == region) {
-        return false;
-    }
-    if (regionFrom != nullptr) {
+    if (regionFrom != region) {
         regionFrom->removeMap(map->getName());
     }
     maps[map->getName()] = map;

@@ -246,7 +246,7 @@ TEST(ProzessorTest, SetMapName) {
     EXPECT_EQ(map->getName().toStdString(), "bar");
 
     atlas->getCommandProzessor()->execute(CommandPointer{new SetMapName{atlas, "bar", "baz"}});
-    map = atlas->findMap("bar");
+    map = atlas->findMap("baz");
     ASSERT_TRUE(map->isValid());
     EXPECT_EQ(map->getName().toStdString(), "baz");
 }

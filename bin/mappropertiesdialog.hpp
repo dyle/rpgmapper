@@ -15,6 +15,7 @@
 #include <QFile>
 #include <QLabel>
 
+#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/numerals.hpp>
 
@@ -32,6 +33,7 @@ class MapPropertiesDialog : public QDialog {
 
     std::shared_ptr<Ui_mapPropertiesDialog> ui;
 
+    QWeakPointer<rpgmapper::model::Atlas> atlas;
     QWeakPointer<rpgmapper::model::Map> map;
     QFont axisFont;
     QColor axisColor;
@@ -51,7 +53,7 @@ public:
 
     explicit MapPropertiesDialog(QWidget * parent);
 
-    void setMap(rpgmapper::model::MapPointer & cMap);
+    void setMap(rpgmapper::model::AtlasPointer & atlas, rpgmapper::model::MapPointer & map);
 
 public slots:
 
@@ -59,17 +61,19 @@ public slots:
 
 private:
 
-    void clearUi();
-
-    void clearUiAxisTab();
-
-    void clearUiBackgroundTab();
-
-    void clearUiDimensionTab();
+    void applyValuesToMap();
 
     void initNumeralConverters();
 
+    void setAxisUiFromMap();
+
+    void setBackgroundUiFromMap();
+
+    void setDimensionUiFromMap();
+
 private slots:
+
+    void clickedOk();
 
     void heightChanged(int value);
 

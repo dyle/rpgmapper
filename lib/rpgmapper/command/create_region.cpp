@@ -14,14 +14,17 @@ using namespace rpgmapper::model::command;
 CreateRegion::CreateRegion(AtlasPointer & atlas, QString const & name): AtlasCommand{atlas}, name{name} {
 }
 
+
 void CreateRegion::execute() {
     auto atlas = getAtlas();
     atlas->createRegion(name);
 }
 
+
 QString CreateRegion::getDescription() const {
     return QString{"Create region %1."}.arg(name);
 }
+
 
 void CreateRegion::undo() {
     auto atlas = getAtlas();

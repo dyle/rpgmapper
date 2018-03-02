@@ -20,6 +20,17 @@ void CompositeCommand::clearCommands() {
 }
 
 
+QString CompositeCommand::getDescription() const {
+
+    QStringList commandDescriptions;
+    for (auto iter = std::begin(commands); iter != std::end(commands); ++iter) {
+        commandDescriptions << (*iter)->getDescription();
+    }
+
+    return QString{"Composite command of [%1]."}.arg(commandDescriptions.join(", "));
+}
+
+
 void CompositeCommand::execute() {
     for (auto iter = std::begin(commands); iter != std::end(commands); ++iter) {
         (*iter)->execute();

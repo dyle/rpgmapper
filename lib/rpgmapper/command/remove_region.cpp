@@ -16,6 +16,7 @@ RemoveRegion::RemoveRegion(AtlasPointer & atlas, QString const & regionName):
         CompositeCommand{atlas}, regionName{regionName} {
 }
 
+
 void RemoveRegion::execute() {
 
     clearCommands();
@@ -31,9 +32,11 @@ void RemoveRegion::execute() {
     atlas->removeRegion(regionName);
 }
 
+
 QString RemoveRegion::getDescription() const {
     return QString{"Remove region %1."}.arg(regionName);
 }
+
 
 void RemoveRegion::undo() {
 

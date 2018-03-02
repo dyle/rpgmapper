@@ -32,13 +32,15 @@ public:
 
     ~CompositeCommand() override = default;
 
+    void addCommand(CommandPointer command);
+
+    QString getDescription() const override;
+
     void execute() override;
 
     void undo() override;
 
 protected:
-
-    void addCommand(CommandPointer command);
 
     void clearCommands();
 };

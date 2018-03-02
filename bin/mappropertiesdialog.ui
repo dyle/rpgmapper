@@ -905,21 +905,5 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>okButton</sender>
-   <signal>clicked()</signal>
-   <receiver>mapPropertiesDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>644</x>
-     <y>727</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>391</x>
-     <y>374</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
 </ui>

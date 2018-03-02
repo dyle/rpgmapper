@@ -15,18 +15,26 @@ SetRegionName::SetRegionName(AtlasPointer & atlas, QString const & oldName, QStr
         : AtlasCommand{atlas}, newName{newName}, oldName{oldName} {
 }
 
+
 void SetRegionName::execute() {
+
     auto atlas = getAtlas();
     auto region = atlas->findRegion(oldName);
     if (!region->isValid()) {
         return;
     }
+
+    // TODO: check for existing name
+    // TODO: check for invalid characters
+
     region->setName(newName);
 }
+
 
 QString SetRegionName::getDescription() const {
     return QString{"Set name of region %1 to %2."}.arg(oldName).arg(newName);
 }
+
 
 void SetRegionName::undo() {
     auto atlas = getAtlas();

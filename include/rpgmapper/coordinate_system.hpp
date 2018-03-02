@@ -39,8 +39,6 @@ public:
 
     CoordinateSystem();
 
-    CoordinatesOrigin getOrigin() const { return origin; }
-
     static constexpr QSize getMaximumSize() { return QSize{1000, 1000}; }
 
     static constexpr QSize getMinimumSize() { return QSize{1, 1}; }
@@ -52,6 +50,8 @@ public:
     QSharedPointer<NumeralConverter> const & getNumeralXAxis() const { return numeralXAxis; }
 
     QSharedPointer<NumeralConverter> const & getNumeralYAxis() const { return numeralYAxis; }
+
+    CoordinatesOrigin getOrigin() const { return origin; }
 
     QSize getSize() const { return size; }
 

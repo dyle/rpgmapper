@@ -8,12 +8,14 @@
 #include <gtest/gtest.h>
 
 #include <rpgmapper/atlas.hpp>
-#include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/command/create_map.hpp>
 #include <rpgmapper/command/create_region.hpp>
 #include <rpgmapper/command/nop.hpp>
 #include <rpgmapper/command/remove_map.hpp>
 #include <rpgmapper/command/remove_region.hpp>
+#include <rpgmapper/command/set_atlas_name.hpp>
+#include <rpgmapper/command/set_map_name.hpp>
+#include <rpgmapper/command/set_region_name.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
@@ -214,4 +216,37 @@ TEST(ProzessorTest, RemoveRegion) {
     EXPECT_NE(mapNames.find("bar"), mapNames.end());
     EXPECT_NE(mapNames.find("baz"), mapNames.end());
     EXPECT_NE(mapNames.find("bam"), mapNames.end());
+}
+
+
+TEST(ProzessorTest, SetRegionName) {
+
+    AtlasPointer atlas{new Atlas};
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    auto region = atlas->findRegion("foo");
+    EXPECT_TRUE(region->isValid());
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new SetRegionName{atlas, "foo", "bar"}});
+    region = atlas->findRegion("bar");
+    ASSERT_TRUE(region->isValid());
+    EXPECT_EQ(region->getName().toStdString(), "bar");
+}
+
+
+TEST(ProzessorTest, SetMapName) {
+
+    AtlasPointer atlas{new Atlas};
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    auto region = atlas->findRegion("foo");
+    EXPECT_TRUE(region->isValid());
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    auto map = atlas->findMap("bar");
+    ASSERT_TRUE(map->isValid());
+    EXPECT_EQ(map->getName().toStdString(), "bar");
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new SetMapName{atlas, "bar", "baz"}});
+    map = atlas->findMap("bar");
+    ASSERT_TRUE(map->isValid());
+    EXPECT_EQ(map->getName().toStdString(), "baz");
 }

@@ -281,6 +281,8 @@ void MainWindow::editAtlasProperties() {
         return;
     }
 
+    // TODO: check for invalid characters
+
     auto command = CommandPointer{new SetAtlasName{selection->getAtlas(), atlasName}};
     selection->getAtlas()->getCommandProzessor()->execute(command);
 }
@@ -291,7 +293,7 @@ void MainWindow::editMapProperties() {
     if (!map->isValid()) {
         return;
     }
-    mapPropertiesDialog->setMap(map);
+    mapPropertiesDialog->setMap(selection->getAtlas(), map);
     mapPropertiesDialog->exec();
 }
 
@@ -314,6 +316,8 @@ void MainWindow::editRegionProperties() {
     if (!changed || regionName.isEmpty()) {
         return;
     }
+
+    // TODO: check for invalid characters
 
     auto command = CommandPointer{new SetRegionName{selection->getAtlas(), region->getName(), regionName}};
     selection->getAtlas()->getCommandProzessor()->execute(command);

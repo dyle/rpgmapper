@@ -24,6 +24,8 @@ namespace command {
 
 class Prozessor {
 
+    // TODO: make this a QObject emiting a command executed signal
+
     class Impl;
     std::shared_ptr<Impl> impl;
 

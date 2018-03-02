@@ -17,6 +17,7 @@ CreateMap::CreateMap(AtlasPointer & atlas,
                             AtlasCommand{atlas}, mapName{mapName}, regionName{regionName} {
 }
 
+
 void CreateMap::execute() {
     auto atlas = getAtlas();
     auto region = atlas->findRegion(regionName);
@@ -25,9 +26,11 @@ void CreateMap::execute() {
     }
 }
 
+
 QString CreateMap::getDescription() const {
     return QString{"Create map %1 in region %2."}.arg(mapName).arg(regionName);
 }
+
 
 void CreateMap::undo() {
     auto atlas = getAtlas();

@@ -14,15 +14,18 @@ using namespace rpgmapper::model::command;
 SetAtlasName::SetAtlasName(AtlasPointer & atlas, QString const & name): AtlasCommand{atlas}, newName{name} {
 }
 
+
 void SetAtlasName::execute() {
     auto atlas = getAtlas();
     oldName = atlas->getName();
     atlas->setName(newName);
 }
 
+
 QString SetAtlasName::getDescription() const {
     return QString{"Set atlas name to %1."}.arg(newName);
 }
+
 
 void SetAtlasName::undo() {
     auto atlas = getAtlas();

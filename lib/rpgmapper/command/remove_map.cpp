@@ -17,6 +17,7 @@ RemoveMap::RemoveMap(AtlasPointer & atlas,
                             AtlasCommand{atlas}, mapName{mapName}, regionName{regionName} {
 }
 
+
 void RemoveMap::execute() {
     auto atlas = getAtlas();
     auto region = atlas->findRegion(regionName);
@@ -25,9 +26,11 @@ void RemoveMap::execute() {
     }
 }
 
+
 QString RemoveMap::getDescription() const {
     return QString{"Remove map %1 from region %2."}.arg(mapName).arg(regionName);
 }
+
 
 void RemoveMap::undo() {
     auto atlas = getAtlas();

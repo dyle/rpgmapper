@@ -11,10 +11,14 @@
 #include <QMessageBox>
 
 #include <rpgmapper/atlas.hpp>
+#include <rpgmapper/command/composite_command.hpp>
+#include <rpgmapper/command/prozessor.hpp>
+#include <rpgmapper/command/set_map_name.hpp>
 #include "mappropertiesdialog.hpp"
 #include "ui_mappropertiesdialog.h"
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::command;
 using namespace rpgmapper::view;
 
 
@@ -62,50 +66,40 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
             this, &MapPropertiesDialog::setBackgroundImageRenderMode);
     connect(ui->backgroundImageTiledRadioButton, &QRadioButton::clicked,
             this, &MapPropertiesDialog::setBackgroundImageRenderMode);
+
+    connect(ui->okButton, &QPushButton::clicked, this, &MapPropertiesDialog::clickedOk);
 }
 
 
-void MapPropertiesDialog::clearUi() {
-    ui->nameEdit->setText(QString::null);
-    clearUiDimensionTab();
-    clearUiAxisTab();
-    clearUiBackgroundTab();
+void MapPropertiesDialog::applyValuesToMap() {
+
+    auto atlas = this->atlas.toStrongRef();
+    if (atlas == nullptr) {
+        throw std::runtime_error("Atlas instance in properties vanished (nullptr).");
+    }
+
+    auto map = this->map.toStrongRef();
+    if (map == nullptr) {
+        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    }
+
+    auto commands = new CompositeCommand{atlas};
+    if (ui->nameEdit->text() != map->getName()) {
+        // TODO: check for invalid characters
+        commands->addCommand(CommandPointer{new SetMapName(atlas, map->getName(), ui->nameEdit->text())});
+    }
+
+    // TODO: add dimension values
+    // TODO: add axis values
+    // TODO: add background values
+
+    atlas->getCommandProzessor()->execute(CommandPointer{commands});
 }
 
 
-void MapPropertiesDialog::clearUiAxisTab() {
-
-    ui->xNumericalRadioButton->setChecked(true);
-    ui->xAlphaSmallRadioButton->setChecked(false);
-    ui->xAlphaBigRadioButton->setChecked(false);
-    ui->xRomanRadioButton->setChecked(false);
-    ui->xStartValueSpinBox->setValue(0);
-
-    ui->yNumericalRadioButton->setChecked(true);
-    ui->yAlphaSmallRadioButton->setChecked(false);
-    ui->yAlphaBigRadioButton->setChecked(false);
-    ui->yRomanRadioButton->setChecked(false);
-    ui->yStartValueSpinBox->setValue(0);
-
-    ui->axisFontLineEdit->setText(font().toString());
-    //ui->axisColorFrame->setBackgroundColor();
-}
-
-
-void MapPropertiesDialog::clearUiBackgroundTab() {
-    ui->backgroundColorRadioButton->setChecked(true);
-    ui->backgroundImageRadioButton->setChecked(false);
-    ui->backgroundImagePlainRadioButton->setChecked(true);
-    ui->backgroundImageScaledRadioButton->setChecked(false);
-    ui->backgroundImageTiledRadioButton->setChecked(false);
-    // ui->backgroundImageContentWidget->setPixmap()
-}
-
-
-void MapPropertiesDialog::clearUiDimensionTab() {
-    ui->widthSpinBox->setValue(1);
-    ui->heightSpinBox->setValue(1);
-    ui->coordinatesOriginWidget->setOrigin(CoordinatesOrigin::bottomLeft);
+void MapPropertiesDialog::clickedOk() {
+    applyValuesToMap();
+    accept();
 }
 
 
@@ -234,20 +228,78 @@ void MapPropertiesDialog::selectBackgroundImage() {
 }
 
 
+void MapPropertiesDialog::setAxisUiFromMap() {
+
+    // TODO: check with map settings
+
+    ui->xNumericalRadioButton->setChecked(true);
+    ui->xAlphaSmallRadioButton->setChecked(false);
+    ui->xAlphaBigRadioButton->setChecked(false);
+    ui->xRomanRadioButton->setChecked(false);
+    ui->xStartValueSpinBox->setValue(0);
+
+    ui->yNumericalRadioButton->setChecked(true);
+    ui->yAlphaSmallRadioButton->setChecked(false);
+    ui->yAlphaBigRadioButton->setChecked(false);
+    ui->yRomanRadioButton->setChecked(false);
+    ui->yStartValueSpinBox->setValue(0);
+
+    ui->axisFontLineEdit->setText(font().toString());
+    //ui->axisColorFrame->setBackgroundColor();
+//    axisFont.fromString(this->map->gridLayer()->attributes()["font"]);
+//    axisColor = QColor(map->gridLayer()->attributes()["color"]);
+}
+
+
 void MapPropertiesDialog::setBackgroundImageRenderMode() {
     evaluate();
 }
 
 
-void MapPropertiesDialog::setMap(MapPointer & map) {
+void MapPropertiesDialog::setBackgroundUiFromMap() {
 
+    // TODO: check with map settings
+
+    ui->backgroundColorRadioButton->setChecked(true);
+    ui->backgroundImageRadioButton->setChecked(false);
+    ui->backgroundImagePlainRadioButton->setChecked(true);
+    ui->backgroundImageScaledRadioButton->setChecked(false);
+    ui->backgroundImageTiledRadioButton->setChecked(false);
+    // ui->backgroundImageContentWidget->setPixmap()
+//    backgroundColor = QColor(map->backgroundLayer()->attributes()["color"]);
+}
+
+
+void MapPropertiesDialog::setDimensionUiFromMap() {
+
+    auto map = this->map.toStrongRef();
+    if (map == nullptr) {
+        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    }
+
+    ui->widthSpinBox->setValue(map->isValid() ? map->getSize().width() : 0);
+    ui->heightSpinBox->setValue(map->isValid() ? map->getSize().height() : 0);
+    ui->coordinatesOriginWidget->setOrigin(map->isValid() ? map->getCoordinateSystem().getOrigin()
+                                                          : CoordinatesOrigin::bottomLeft);
+}
+
+
+
+void MapPropertiesDialog::setMap(AtlasPointer & atlas, MapPointer & map) {
+
+    this->atlas = atlas;
     this->map = map;
 
-    clearUi();
-//    axisFont.fromString(this->map->gridLayer()->attributes()["font"]);
-//    axisColor = QColor(map->gridLayer()->attributes()["color"]);
-//    backgroundColor = QColor(map->backgroundLayer()->attributes()["color"]);
+    ui->nameEdit->setText(map->getName());
+    setDimensionUiFromMap();
+    setAxisUiFromMap();
+    setBackgroundUiFromMap();
 
+    ui->propertiesTabWidget->setCurrentWidget(ui->dimensionsWidget);
+    ui->nameEdit->selectAll();
+    ui->nameEdit->setFocus();
+
+    // TODO: evaluate?
     //evaluate();
 }
 

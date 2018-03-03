@@ -12,7 +12,7 @@
 
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/command/composite_command.hpp>
-#include <rpgmapper/command/prozessor.hpp>
+#include <rpgmapper/command/resize_map.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
 #include "mappropertiesdialog.hpp"
 #include "ui_mappropertiesdialog.h"
@@ -71,6 +71,30 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
 }
 
 
+void MapPropertiesDialog::applyDimensionValuesToMap(CompositeCommand * & commands) {
+
+    auto atlas = this->atlas.toStrongRef();
+    if (atlas == nullptr) {
+        throw std::runtime_error("Atlas instance in properties vanished (nullptr).");
+    }
+
+    auto map = this->map.toStrongRef();
+    if (map == nullptr) {
+        throw std::runtime_error("Internal map lost when applying values of property dialog (map == nullptr).");
+    }
+
+    auto newWidth = ui->widthSpinBox->value();
+    auto newHeight = ui->heightSpinBox->value();
+    auto mapSize = map->getSize();
+    if ((mapSize.width() != newWidth) || (mapSize.height() != newHeight)) {
+        commands->addCommand(CommandPointer{new ResizeMap{atlas, map->getName(), QSize{newWidth, newHeight}}});
+    }
+
+    // ui->coordinatesOriginWidget->setOrigin(map->isValid() ? map->getCoordinateSystem().getOrigin()
+    //                                                      : CoordinatesOrigin::bottomLeft);
+}
+
+
 void MapPropertiesDialog::applyValuesToMap() {
 
     auto atlas = this->atlas.toStrongRef();
@@ -89,7 +113,7 @@ void MapPropertiesDialog::applyValuesToMap() {
         commands->addCommand(CommandPointer{new SetMapName(atlas, map->getName(), ui->nameEdit->text())});
     }
 
-    // TODO: add dimension values
+    applyDimensionValuesToMap(commands);
     // TODO: add axis values
     // TODO: add background values
 

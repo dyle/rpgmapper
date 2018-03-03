@@ -135,18 +135,21 @@ void Map::setName(QString const & name) {
     }
     impl->setName(name);
     emit nameChanged(nameBefore, name);
+    emit changed();
 }
 
 
 void Map::setNumeralXAxis(QString const & numeral) {
     impl->setNumeralXAxis(numeral);
     emit numeralForAxisChanged(getName());
+    emit changed();
 }
 
 
 void Map::setNumeralYAxis(QString const & numeral) {
     impl->setNumeralYAxis(numeral);
     emit numeralForAxisChanged(getName());
+    emit changed();
 }
 
 

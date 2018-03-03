@@ -106,6 +106,8 @@ public:
 
 signals:
 
+    void changed();
+
     void nameChanged(QString nameBefore, QString nameAfter);
 
     void numeralForAxisChanged(QString mapName);

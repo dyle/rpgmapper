@@ -42,6 +42,7 @@ set(RPGMAPPER_LIB_SRC
     command/prozessor_impl.cpp
     command/remove_map.cpp
     command/remove_region.cpp
+    command/resize_map.cpp
     command/set_atlas_name.cpp
     command/set_map_name.cpp
     command/set_region_name.cpp

@@ -120,7 +120,13 @@ void MapWidget::paintEvent(QPaintEvent * event) {
 
 void MapWidget::setMap(rpgmapper::model::MapPointer & map) {
     this->map = map;
+    connect(map.data(), &Map::changed, this, &MapWidget::update);
     connect(map.data(), &Map::resized, this, &MapWidget::mapChanged);
     mapChanged();
     update();
+}
+
+
+void MapWidget::update() {
+    QWidget::update();
 }

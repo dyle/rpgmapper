@@ -13,6 +13,7 @@
 #include <rpgmapper/command/nop.hpp>
 #include <rpgmapper/command/remove_map.hpp>
 #include <rpgmapper/command/remove_region.hpp>
+#include <rpgmapper/command/resize_map.hpp>
 #include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
 #include <rpgmapper/command/set_region_name.hpp>
@@ -249,4 +250,26 @@ TEST(ProzessorTest, SetMapName) {
     map = atlas->findMap("baz");
     ASSERT_TRUE(map->isValid());
     EXPECT_EQ(map->getName().toStdString(), "baz");
+}
+
+
+TEST(ProzessorTest, ResizeMap) {
+
+    AtlasPointer atlas{new Atlas};
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    auto region = atlas->findRegion("foo");
+    EXPECT_TRUE(region->isValid());
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    auto map = atlas->findMap("bar");
+    ASSERT_TRUE(map->isValid());
+    EXPECT_EQ(map->getSize().width(), 10);
+    EXPECT_EQ(map->getSize().height(), 10);
+
+    atlas->getCommandProzessor()->execute(CommandPointer{new ResizeMap{atlas, "bar", QSize{100, 50}}});
+    EXPECT_EQ(map->getSize().width(), 100);
+    EXPECT_EQ(map->getSize().height(), 50);
+    atlas->getCommandProzessor()->undo();
+    EXPECT_EQ(map->getSize().width(), 10);
+    EXPECT_EQ(map->getSize().height(), 10);
 }

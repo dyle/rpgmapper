@@ -18,6 +18,7 @@
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/numerals.hpp>
+#include <rpgmapper/command/composite_command.hpp>
 
 
 class Ui_mapPropertiesDialog;
@@ -60,6 +61,8 @@ public slots:
     void evaluate();
 
 private:
+
+    void applyDimensionValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
 
     void applyValuesToMap();
 

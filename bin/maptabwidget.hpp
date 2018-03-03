@@ -37,6 +37,8 @@ public:
 
 public slots:
 
+    void changedMapName(QString regionName, QString nameBefore, QString nameAfter);
+
     void closeCurrentMap();
 
     void removedMap(QString regionName, QString mapName);

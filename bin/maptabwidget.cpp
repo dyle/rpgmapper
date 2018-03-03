@@ -25,6 +25,23 @@ MapTabWidget::MapTabWidget(QWidget * parent) : QTabWidget{parent} {
 }
 
 
+void MapTabWidget::changedMapName(UNUSED QString regionName, QString nameBefore, QString nameAfter) {
+
+    auto iter = mapScrollAreas.find(nameBefore);
+    if (iter == mapScrollAreas.end()) {
+        return;
+    }
+
+    mapScrollAreas[nameAfter] = (*iter).second;
+    mapScrollAreas.erase(iter);
+    auto tabIndex = indexOf((*iter).second);
+    if (tabIndex == -1) {
+        return;
+    }
+    setTabText(tabIndex, nameAfter);
+}
+
+
 void MapTabWidget::closeCurrentMap() {
     removeTab(currentIndex());
 }
@@ -34,6 +51,7 @@ void MapTabWidget::connectSelectionSignals() {
     if (selection == nullptr) {
         return;
     }
+    connect(selection->getAtlas().data(), &Atlas::mapNameChanged, this, &MapTabWidget::changedMapName);
     connect(selection->getAtlas().data(), &Atlas::mapRemoved, this, &MapTabWidget::removedMap);
     connect(selection.data(), &Selection::mapSelected, this, &MapTabWidget::selectedMap);
 }

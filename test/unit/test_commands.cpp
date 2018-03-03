@@ -16,6 +16,7 @@
 #include <rpgmapper/command/resize_map.hpp>
 #include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
+#include <rpgmapper/command/set_map_origin.hpp>
 #include <rpgmapper/command/set_region_name.hpp>
 
 using namespace rpgmapper::model;
@@ -272,4 +273,43 @@ TEST(ProzessorTest, ResizeMap) {
     atlas->getCommandProzessor()->undo();
     EXPECT_EQ(map->getSize().width(), 10);
     EXPECT_EQ(map->getSize().height(), 10);
+}
+
+
+TEST(ProzessorTest, SetMapOrigin) {
+
+    AtlasPointer atlas{new Atlas};
+    auto & prozessor = atlas->getCommandProzessor();
+    prozessor->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    auto region = atlas->findRegion("foo");
+    EXPECT_TRUE(region->isValid());
+
+    prozessor->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    auto map = atlas->findMap("bar");
+    ASSERT_TRUE(map->isValid());
+    EXPECT_EQ(map->getCoordinateSystem().getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
+
+    prozessor->execute(CommandPointer{new SetMapOrigin{atlas, "bar",
+                                                       rpgmapper::model::CoordinatesOrigin::topLeft}});
+    EXPECT_EQ(map->getCoordinateSystem().getOrigin(), rpgmapper::model::CoordinatesOrigin::topLeft);
+    prozessor->undo();
+    EXPECT_EQ(map->getCoordinateSystem().getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
+
+    prozessor->execute(CommandPointer{new SetMapOrigin{atlas, "bar",
+                                                       rpgmapper::model::CoordinatesOrigin::topRight}});
+    EXPECT_EQ(map->getCoordinateSystem().getOrigin(), rpgmapper::model::CoordinatesOrigin::topRight);
+    prozessor->undo();
+    EXPECT_EQ(map->getCoordinateSystem().getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
+
+    prozessor->execute(CommandPointer{new SetMapOrigin{atlas, "bar",
+                                                       rpgmapper::model::CoordinatesOrigin::bottomRight}});
+    EXPECT_EQ(map->getCoordinateSystem().getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomRight);
+    prozessor->undo();
+    EXPECT_EQ(map->getCoordinateSystem().getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
+
+    prozessor->execute(CommandPointer{new SetMapOrigin{atlas, "bar",
+                                                       rpgmapper::model::CoordinatesOrigin::bottomLeft}});
+    EXPECT_EQ(map->getCoordinateSystem().getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
+    prozessor->undo();
+    EXPECT_EQ(map->getCoordinateSystem().getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
 }

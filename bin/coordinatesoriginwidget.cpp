@@ -18,7 +18,7 @@ CoordinatesOriginWidget::CoordinatesOriginWidget(QWidget * parent) : QWidget{par
 }
 
 
-CoordinatesOrigin CoordinatesOriginWidget::origin() const {
+CoordinatesOrigin CoordinatesOriginWidget::getOrigin() const {
 
     if (ui->bottomLeftRadioButton->isChecked()) {
         return CoordinatesOrigin::bottomLeft;

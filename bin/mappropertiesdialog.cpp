@@ -14,6 +14,7 @@
 #include <rpgmapper/command/composite_command.hpp>
 #include <rpgmapper/command/resize_map.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
+#include <rpgmapper/command/set_map_origin.hpp>
 #include "mappropertiesdialog.hpp"
 #include "ui_mappropertiesdialog.h"
 
@@ -90,8 +91,10 @@ void MapPropertiesDialog::applyDimensionValuesToMap(CompositeCommand * & command
         commands->addCommand(CommandPointer{new ResizeMap{atlas, map->getName(), QSize{newWidth, newHeight}}});
     }
 
-    // ui->coordinatesOriginWidget->setOrigin(map->isValid() ? map->getCoordinateSystem().getOrigin()
-    //                                                      : CoordinatesOrigin::bottomLeft);
+    auto origin = ui->coordinatesOriginWidget->getOrigin();
+    if (origin != map->getCoordinateSystem().getOrigin()) {
+        commands->addCommand(CommandPointer{new SetMapOrigin{atlas, map->getName(), origin}});
+    }
 }
 
 

@@ -32,7 +32,7 @@ public:
 
     explicit CoordinatesOriginWidget(QWidget * parent);
 
-    rpgmapper::model::CoordinatesOrigin origin() const;
+    rpgmapper::model::CoordinatesOrigin getOrigin() const;
 
 public slots:
 

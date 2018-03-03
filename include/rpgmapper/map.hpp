@@ -100,6 +100,8 @@ public:
 
     void setNumeralYAxis(QString const & numeral);
 
+    void setOrigin(CoordinatesOrigin origin);
+
     QString tanslateToNumeralOnX(int x) const;
 
     QString tanslateToNumeralOnY(int y) const;

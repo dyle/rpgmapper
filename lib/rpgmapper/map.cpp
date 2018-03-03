@@ -153,6 +153,14 @@ void Map::setNumeralYAxis(QString const & numeral) {
 }
 
 
+void Map::setOrigin(CoordinatesOrigin origin) {
+    if (origin != impl->getCoordinateSystem().getOrigin()) {
+        impl->getCoordinateSystem().setOrigin(origin);
+        emit changed();
+    }
+}
+
+
 QString Map::tanslateToNumeralOnX(int x) const {
     return getNumeralXAxis()->convert(x);
 }

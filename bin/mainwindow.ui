@@ -156,7 +156,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>196</width>
+          <width>252</width>
           <height>138</height>
          </rect>
         </property>
@@ -185,8 +185,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>80</width>
-          <height>393</height>
+          <width>96</width>
+          <height>26</height>
          </rect>
         </property>
         <attribute name="label">
@@ -198,8 +198,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>234</width>
-          <height>184</height>
+          <width>80</width>
+          <height>344</height>
          </rect>
         </property>
         <attribute name="label">
@@ -596,6 +596,14 @@
    </property>
    <property name="text">
     <string>&amp;Colors</string>
+   </property>
+  </action>
+  <action name="actionRedraw">
+   <property name="text">
+    <string>Redraw</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
    </property>
   </action>
  </widget>

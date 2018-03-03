@@ -64,6 +64,15 @@ void MapTabWidget::mapCloseRequested(int nIndex) {
 }
 
 
+void MapTabWidget::redrawCurrentMap() {
+    auto widget = currentWidget();
+    if (widget == nullptr) {
+        return;
+    }
+    widget->repaint();
+}
+
+
 void MapTabWidget::removedMap(UNUSED QString regionName, QString mapName) {
 
     auto iter = mapScrollAreas.find(mapName);

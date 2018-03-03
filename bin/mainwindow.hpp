@@ -120,8 +120,6 @@ private:
 
 private slots:
 
-    void atlasNameChanges(QString newName);
-
     void clearListOfRecentFiles();
 
     void createNewMap();
@@ -131,6 +129,8 @@ private slots:
     void deleteMap();
 
     void deleteRegion();
+
+    void executedCommand();
 
     void load();
 

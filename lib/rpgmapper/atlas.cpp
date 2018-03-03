@@ -14,6 +14,7 @@ using namespace rpgmapper::model::command;
 
 Atlas::Atlas(QObject * parent) : QObject{parent} {
     impl = std::make_shared<Atlas::Impl>(this);
+    connect(getCommandProzessor().data(), &Prozessor::commandExecuted, this, &Atlas::commandExecuted);
 }
 
 

@@ -95,11 +95,6 @@ void MainWindow::addUnusedActions() {
 }
 
 
-void MainWindow::atlasNameChanges(UNUSED QString newName) {
-    setApplicationWindowTitle();
-}
-
-
 void MainWindow::centerWindow() {
 
     auto desktop = dynamic_cast<QApplication *>(QApplication::instance())->desktop();
@@ -185,7 +180,7 @@ void MainWindow::connectActions() {
 
 
 void MainWindow::connectModelSignals() {
-    connect(selection->getAtlas().data(), &Atlas::nameChanged, this, &MainWindow::atlasNameChanges);
+    connect(selection->getAtlas().data(), &Atlas::commandExecuted, this, &MainWindow::executedCommand);
     connect(selection->getAtlas().data(), &Atlas::regionNameChanged, this, &MainWindow::setApplicationWindowTitle);
 }
 
@@ -326,6 +321,11 @@ void MainWindow::editRegionProperties() {
 
 void MainWindow::enableActions() {
     ui->actionClearRecentList->setEnabled(!recentAtlasFileNames.empty());
+}
+
+
+void MainWindow::executedCommand() {
+    setApplicationWindowTitle();
 }
 
 

@@ -11,13 +11,14 @@
 using namespace rpgmapper::model::command;
 
 
-Prozessor::Prozessor() {
+Prozessor::Prozessor(QObject * parent) : QObject(parent) {
     impl = std::make_shared<Prozessor::Impl>();
 }
 
 
 void Prozessor::execute(CommandPointer command) {
     impl->execute(command);
+    emit commandExecuted();
 }
 
 

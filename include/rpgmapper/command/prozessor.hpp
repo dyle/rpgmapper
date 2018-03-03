@@ -11,6 +11,7 @@
 
 #include <memory>
 
+#include <QObject>
 #include <QString>
 #include <QSharedPointer>
 
@@ -22,16 +23,18 @@ namespace model {
 namespace command {
 
 
-class Prozessor {
+class Prozessor : public QObject {
 
-    // TODO: make this a QObject emiting a command executed signal
+    Q_OBJECT
 
     class Impl;
     std::shared_ptr<Impl> impl;
 
 public:
 
-    Prozessor();
+    Prozessor(QObject * parent = nullptr);
+
+    ~Prozessor() = default;
 
     void execute(CommandPointer command);
 
@@ -44,6 +47,10 @@ public:
     void redo();
 
     void undo();
+
+signals:
+
+    void commandExecuted();
 
 };
 

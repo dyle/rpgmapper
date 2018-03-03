@@ -102,6 +102,8 @@ private slots:
 
 signals:
 
+    void commandExecuted();
+
     void mapAdded(QString regionName, QString mapName);
 
     void mapCreated(QString regionName, QString mapName);

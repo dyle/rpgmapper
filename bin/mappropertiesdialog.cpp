@@ -17,6 +17,7 @@
 #include <rpgmapper/command/set_map_axis_font_color.hpp>
 #include <rpgmapper/command/set_map_grid_color.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
+#include <rpgmapper/command/set_map_numeral_axis.hpp>
 #include <rpgmapper/command/set_map_origin.hpp>
 #include "mappropertiesdialog.hpp"
 #include "ui_mappropertiesdialog.h"
@@ -88,9 +89,18 @@ void MapPropertiesDialog::applyAxisValuesToMap(CompositeCommand * & commands) {
         throw std::runtime_error("Internal map lost when applying values of property dialog (map == nullptr).");
     }
 
-    // TODO: set x numerical
+    auto xNumeric = getSelectedXAxisNumeral();
+    if (!xNumeric.isEmpty() && (xNumeric != map->getNumeralXAxis()->getName())) {
+        commands->addCommand(CommandPointer{new SetMapNumeralAxis{atlas, map->getName(), true, xNumeric}});
+    }
+
     // TODO: set x start value
-    // TODO: set y numerical
+
+    auto yNumeric = getSelectedYAxisNumeral();
+    if (!yNumeric.isEmpty() && (yNumeric != map->getNumeralYAxis()->getName())) {
+        commands->addCommand(CommandPointer{new SetMapNumeralAxis{atlas, map->getName(), false, yNumeric}});
+    }
+
     // TODO: set y start value
 
     auto axisPalette = ui->axisColorFrame->palette();
@@ -228,6 +238,68 @@ void MapPropertiesDialog::evaluate() {
             break;
     }
 */
+}
+
+
+QAbstractButton *
+        MapPropertiesDialog::getFirstCheckedButton(std::list<QAbstractButton *> const & abstractButtons) const {
+
+    QAbstractButton * res = nullptr;
+    for (auto const button : abstractButtons) {
+        if (button->isChecked()) {
+            res = button;
+            break;
+        }
+    }
+    return res;
+}
+
+
+QString MapPropertiesDialog::getSelectedXAxisNumeral() const {
+
+    QString res = QString::null;
+
+    auto button = getFirstCheckedButton({ui->xNumericalRadioButton,
+                                         ui->xAlphaSmallRadioButton,
+                                         ui->xAlphaBigRadioButton,
+                                         ui->xRomanRadioButton});
+
+    std::map<QAbstractButton *, QString> buttons {
+            {ui->xNumericalRadioButton, "Numeric"},
+            {ui->xAlphaSmallRadioButton, "AlphaSmall"},
+            {ui->xAlphaBigRadioButton, "AlphaBig"},
+            {ui->xRomanRadioButton, "Roman"}
+    };
+    auto iter = buttons.find(button);
+    if (iter != buttons.end()) {
+        res = (*iter).second;
+    }
+
+    return res;
+}
+
+
+QString MapPropertiesDialog::getSelectedYAxisNumeral() const {
+
+    QString res = QString::null;
+
+    auto button = getFirstCheckedButton({ui->yNumericalRadioButton,
+                                         ui->yAlphaSmallRadioButton,
+                                         ui->yAlphaBigRadioButton,
+                                         ui->yRomanRadioButton});
+
+    std::map<QAbstractButton *, QString> buttons {
+            {ui->yNumericalRadioButton, "Numeric"},
+            {ui->yAlphaSmallRadioButton, "AlphaSmall"},
+            {ui->yAlphaBigRadioButton, "AlphaBig"},
+            {ui->yRomanRadioButton, "Roman"}
+    };
+    auto iter = buttons.find(button);
+    if (iter != buttons.end()) {
+        res = (*iter).second;
+    }
+
+    return res;
 }
 
 

@@ -11,6 +11,7 @@
 
 #include <memory>
 
+#include <QAbstractButton>
 #include <QDialog>
 #include <QFile>
 #include <QLabel>
@@ -64,6 +65,12 @@ private:
     void applyDimensionValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
 
     void applyValuesToMap();
+
+    QAbstractButton * getFirstCheckedButton(std::list<QAbstractButton *> const & abstractButtons) const;
+
+    QString getSelectedXAxisNumeral() const;
+
+    QString getSelectedYAxisNumeral() const;
 
     void initNumeralConverters();
 

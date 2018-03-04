@@ -49,6 +49,7 @@ set(RPGMAPPER_LIB_SRC
     command/set_map_axis_font_color.cpp
     command/set_map_grid_color.cpp
     command/set_map_name.cpp
+    command/set_map_numeral_axis.cpp
     command/set_map_origin.cpp
     command/set_region_name.cpp
 

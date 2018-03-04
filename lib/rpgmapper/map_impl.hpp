@@ -27,6 +27,7 @@ class Map::Impl final : public Nameable, public CoordinateSystem {
     Map * map = nullptr;
     Region * region = nullptr;
 
+    AxisLayerPointer axisLayer;
     BackgroundLayerPointer backgroundLayer;
     TileLayers baseLayers;
     GridLayerPointer gridLayer;
@@ -40,6 +41,10 @@ public:
     Impl(Impl const & ) = delete;
 
     bool applyJsonObject(QJsonObject const & json) override;
+
+    AxisLayerPointer & getAxisLayer() { return axisLayer; }
+
+    AxisLayerPointer const & getAxisLayer() const { return axisLayer; }
 
     BackgroundLayerPointer & getBackgroundLayer() { return backgroundLayer; }
 

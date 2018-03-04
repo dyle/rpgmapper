@@ -15,6 +15,12 @@
 namespace rpgmapper {
 namespace model {
 
+
+class TileLayer;
+using TileLayerPointer = QSharedPointer<TileLayer>;
+
+using TileLayers = std::list<TileLayerPointer>;
+
 class TileLayer : public Layer {
 
     Q_OBJECT
@@ -37,10 +43,6 @@ public:
 
     void draw(QPainter & painter, int tileSize) const override;
 };
-
-using TileLayerPointer = QSharedPointer<TileLayer>;
-
-using TileLayers = std::list<TileLayerPointer>;
 
 
 }

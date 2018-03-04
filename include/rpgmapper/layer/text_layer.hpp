@@ -15,6 +15,10 @@
 namespace rpgmapper {
 namespace model {
 
+
+class TextLayer;
+using TextLayerPointer = QSharedPointer<TextLayer>;
+
 class TextLayer : public Layer {
 
 Q_OBJECT
@@ -28,7 +32,6 @@ public:
     void draw(QPainter & painter, int tileSize) const override;
 };
 
-using TextLayerPointer = QSharedPointer<TextLayer>;
 
 
 }

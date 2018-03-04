@@ -12,6 +12,7 @@ set(RPGMAPPER_LIB_MOC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/selection.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/command/prozessor.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/axis_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/background_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/grid_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/layer.hpp
@@ -48,6 +49,7 @@ set(RPGMAPPER_LIB_SRC
     command/set_map_origin.cpp
     command/set_region_name.cpp
 
+    layer/axis_layer.cpp
     layer/background_layer.cpp
     layer/grid_layer.cpp
     layer/layer.cpp

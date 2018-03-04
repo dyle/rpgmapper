@@ -10,31 +10,15 @@
 using namespace rpgmapper::model;
 
 
-static char const * DEFAULT_ANNOTATION_COLOR = "#000000";
 static char const * DEFAULT_GRID_COLOR = "#0022ff";
 static char const * WARNING_GRID_COLOR = "#ff0088";
 
 
 GridLayer::GridLayer(Map * map, QObject * parent) : Layer{map, parent} {
 
-    getAttributes()["annotationColor"] = DEFAULT_ANNOTATION_COLOR;
     getAttributes()["gridColor"] = DEFAULT_GRID_COLOR;
-
     QFont cDefaultFont{"Monospace", 10};
     getAttributes()["font"] = cDefaultFont.toString();
-
-    getAttributes()["image"] = "";
-}
-
-
-QColor GridLayer::annotationColor() const {
-
-    auto iter = getAttributes().find("annotationColor");
-    if (iter != getAttributes().end()) {
-        return QColor{(*iter).second};
-    }
-
-    return QColor{WARNING_GRID_COLOR};
 }
 
 
@@ -42,8 +26,6 @@ void GridLayer::draw(QPainter & painter, int tileSize) const {
     drawXAxis(painter, tileSize);
     drawYAxis(painter, tileSize);
     drawBorder(painter, tileSize);
-    drawXAnnotation(painter, tileSize);
-    drawYAnnotation(painter, tileSize);
 }
 
 
@@ -66,54 +48,12 @@ void GridLayer::drawBorder(QPainter & painter, int tileSize) const {
 }
 
 
-void GridLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
-
-    painter.setPen(annotationColor());
-    painter.setFont(gridFont());
-
-    QSize cSize = getMap()->getSize();
-    int nBottom = cSize.height() * tileSize;
-
-    for (int x = 0; x < cSize.width(); ++x) {
-
-        auto mapPosition = getMap()->getCoordinateSystem().transpose(x, 0);
-        QString sX = getMap()->tanslateToNumeralOnX(mapPosition.x());
-
-        QRect cUpperRect{x * tileSize, -tileSize, tileSize, tileSize};
-        painter.drawText(cUpperRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
-        QRect cLowerRect{x * tileSize, nBottom, tileSize, tileSize};
-        painter.drawText(cLowerRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
-    }
-}
-
-
 void GridLayer::drawXAxis(QPainter & painter, int tileSize) const {
 
     QSize cSize = getMap()->getSize() * tileSize;
     painter.setPen(QPen(gridColor(), 1, Qt::DotLine, Qt::FlatCap));
     for (int x = tileSize; x <= cSize.width() - tileSize; x += tileSize) {
         painter.drawLine(x, 0, x, cSize.height());
-    }
-}
-
-
-void GridLayer::drawYAnnotation(QPainter & painter, int tileSize) const {
-
-    painter.setPen(annotationColor());
-    painter.setFont(gridFont());
-
-    QSize cSize = getMap()->getSize();
-    int nRight = cSize.width() * tileSize;
-
-    for (int y = 0; y < cSize.height(); ++y) {
-
-        auto mapPosition = getMap()->getCoordinateSystem().transpose(0, y);
-        QString sY = getMap()->tanslateToNumeralOnY(mapPosition.y());
-
-        QRect cLeftRect{-tileSize, y * tileSize, tileSize, tileSize};
-        painter.drawText(cLeftRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
-        QRect cRightRect{nRight, y * tileSize, tileSize, tileSize};
-        painter.drawText(cRightRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
     }
 }
 

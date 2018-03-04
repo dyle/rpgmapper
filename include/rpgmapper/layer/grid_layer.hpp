@@ -18,6 +18,10 @@
 namespace rpgmapper {
 namespace model {
 
+
+class GridLayer;
+using GridLayerPointer = QSharedPointer<GridLayer>;
+
 class GridLayer : public Layer {
 
     Q_OBJECT
@@ -27,8 +31,6 @@ public:
     explicit GridLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
     ~GridLayer() override = default;
-
-    QColor annotationColor() const;
 
     void draw(QPainter & painter, int tileSize) const override;
 
@@ -40,17 +42,12 @@ private:
 
     void drawBorder(QPainter & painter, int tileSize) const;
 
-    void drawXAnnotation(QPainter & painter, int tileSize) const;
-
     void drawXAxis(QPainter & painter, int tileSize) const;
-
-    void drawYAnnotation(QPainter & painter, int tileSize) const;
 
     void drawYAxis(QPainter & painter, int tileSize) const;
 
 };
 
-using GridLayerPointer = QSharedPointer<GridLayer>;
 
 
 }

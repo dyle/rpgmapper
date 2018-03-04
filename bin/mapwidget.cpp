@@ -46,6 +46,10 @@ std::list<Layer *> MapWidget::collectVisibleLayers() const {
         layers.push_back(map->getGridLayer().data());
     }
 
+    if (map->getAxisLayer()->isVisible()) {
+        layers.push_back(map->getAxisLayer().data());
+    }
+
     for (auto & tileLayer : map->getTileLayers()) {
         if (tileLayer->isVisible()) {
             layers.push_back(tileLayer.data());

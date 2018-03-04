@@ -19,6 +19,7 @@ Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region} {
         throw std::invalid_argument{"Map must not be nullptr."};
     }
 
+    axisLayer = AxisLayerPointer{new AxisLayer{map}};
     backgroundLayer = BackgroundLayerPointer{new BackgroundLayer{map}};
     baseLayers = TileLayers{TileLayerPointer{new TileLayer{map}}};
     gridLayer = GridLayerPointer{new GridLayer{map}};

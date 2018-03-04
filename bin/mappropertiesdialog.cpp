@@ -275,6 +275,9 @@ void MapPropertiesDialog::setAxisUiFromMap() {
     //ui->axisColorFrame->setBackgroundColor();
 //    axisFont.fromString(this->map->gridLayer()->attributes()["font"]);
 //    axisColor = QColor(map->gridLayer()->attributes()["color"]);
+
+    showSampleXAxis();
+    showSampleYAxis();
 }
 
 

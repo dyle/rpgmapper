@@ -23,6 +23,16 @@ bool Map::applyJsonObject(QJsonObject const & json) {
 }
 
 
+AxisLayerPointer & Map::getAxisLayer() {
+    return impl->getAxisLayer();
+}
+
+
+AxisLayerPointer const & Map::getAxisLayer() const {
+    return impl->getAxisLayer();
+}
+
+
 BackgroundLayerPointer & Map::getBackgroundLayer() {
     return impl->getBackgroundLayer();
 }

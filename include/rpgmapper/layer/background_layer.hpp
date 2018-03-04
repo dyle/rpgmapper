@@ -15,6 +15,9 @@
 namespace rpgmapper {
 namespace model {
 
+class BackgroundLayer;
+using BackgroundLayerPointer = QSharedPointer<BackgroundLayer>;
+
 class BackgroundLayer : public Layer {
 
     Q_OBJECT
@@ -30,7 +33,6 @@ public:
     void draw(QPainter & painter, int tileSize) const override;
 };
 
-using BackgroundLayerPointer = QSharedPointer<BackgroundLayer>;
 
 
 }

@@ -18,6 +18,7 @@
 #include <QString>
 
 #include <rpgmapper/coordinate_system.hpp>
+#include <rpgmapper/layer/axis_layer.hpp>
 #include <rpgmapper/layer/background_layer.hpp>
 #include <rpgmapper/layer/grid_layer.hpp>
 #include <rpgmapper/layer/layer.hpp>
@@ -51,6 +52,10 @@ public:
     ~Map() override = default;
 
     bool applyJsonObject(QJsonObject const & json);
+
+    AxisLayerPointer & getAxisLayer();
+
+    AxisLayerPointer const & getAxisLayer() const;
 
     BackgroundLayerPointer & getBackgroundLayer();
 

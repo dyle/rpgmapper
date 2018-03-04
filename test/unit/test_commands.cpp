@@ -15,6 +15,9 @@
 #include <rpgmapper/command/remove_region.hpp>
 #include <rpgmapper/command/resize_map.hpp>
 #include <rpgmapper/command/set_atlas_name.hpp>
+#include <rpgmapper/command/set_map_axis_font.hpp>
+#include <rpgmapper/command/set_map_axis_font_color.hpp>
+#include <rpgmapper/command/set_map_grid_color.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
 #include <rpgmapper/command/set_map_origin.hpp>
 #include <rpgmapper/command/set_region_name.hpp>
@@ -312,4 +315,56 @@ TEST(ProzessorTest, SetMapOrigin) {
     EXPECT_EQ(map->getCoordinateSystem().getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
     prozessor->undo();
     EXPECT_EQ(map->getCoordinateSystem().getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
+}
+
+
+TEST(ProzessorTest, SetMapGridColor) {
+
+    AtlasPointer atlas{new Atlas};
+    auto & prozessor = atlas->getCommandProzessor();
+    prozessor->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    auto region = atlas->findRegion("foo");
+    EXPECT_TRUE(region->isValid());
+
+    prozessor->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    auto map = atlas->findMap("bar");
+    ASSERT_TRUE(map->isValid());
+
+    prozessor->execute(CommandPointer{new SetMapGridColor{atlas, "bar", QColor{"#FFAA88"}}});
+    EXPECT_EQ(map->getGridLayer()->getGridColor(), QColor{"#FFAA88"});
+}
+
+
+TEST(ProzessorTest, SetMapAxisFontColor) {
+
+    AtlasPointer atlas{new Atlas};
+    auto & prozessor = atlas->getCommandProzessor();
+    prozessor->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    auto region = atlas->findRegion("foo");
+    EXPECT_TRUE(region->isValid());
+
+    prozessor->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    auto map = atlas->findMap("bar");
+    ASSERT_TRUE(map->isValid());
+
+    prozessor->execute(CommandPointer{new SetMapAxisFontColor{atlas, "bar", QColor{"#883311"}}});
+    EXPECT_EQ(map->getAxisLayer()->getAxisFontColor(), QColor{"#883311"});
+}
+
+
+TEST(ProzessorTest, SetMapAxisFont) {
+
+    AtlasPointer atlas{new Atlas};
+    auto & prozessor = atlas->getCommandProzessor();
+    prozessor->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    auto region = atlas->findRegion("foo");
+    EXPECT_TRUE(region->isValid());
+
+    prozessor->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    auto map = atlas->findMap("bar");
+    ASSERT_TRUE(map->isValid());
+
+    QFont font{"Arial", 16};
+    prozessor->execute(CommandPointer{new SetMapAxisFont{atlas, "bar", font}});
+    EXPECT_EQ(map->getAxisLayer()->getAxisFont().toString().toStdString(), font.toString().toStdString());
 }

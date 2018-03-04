@@ -260,25 +260,19 @@ void MapPropertiesDialog::setAxisUiFromMap() {
     setXAxisUiFromMap();
     setYAxisUiFromMap();
 
+    auto map = this->map.toStrongRef();
+    if (map == nullptr) {
+        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    }
 
-    // TODO: check with map settings
+    ui->axisFontLineEdit->setText(map->getAxisLayer()->getAxisFont().toString());
+    auto axisPalette = ui->axisColorFrame->palette();
+    axisPalette.setColor(QPalette::Window, map->getAxisLayer()->getAxisFontColor());
+    ui->axisColorFrame->setPalette(axisPalette);
 
-    ui->xNumericalRadioButton->setChecked(true);
-    ui->xAlphaSmallRadioButton->setChecked(false);
-    ui->xAlphaBigRadioButton->setChecked(false);
-    ui->xRomanRadioButton->setChecked(false);
-    ui->xStartValueSpinBox->setValue(0);
-
-    ui->yNumericalRadioButton->setChecked(true);
-    ui->yAlphaSmallRadioButton->setChecked(false);
-    ui->yAlphaBigRadioButton->setChecked(false);
-    ui->yRomanRadioButton->setChecked(false);
-    ui->yStartValueSpinBox->setValue(0);
-
-    ui->axisFontLineEdit->setText(font().toString());
-    //ui->axisColorFrame->setBackgroundColor();
-//    axisFont.fromString(this->map->gridLayer()->attributes()["font"]);
-//    axisColor = QColor(map->gridLayer()->attributes()["color"]);
+    auto gridPalette = ui->gridColorFrame->palette();
+    gridPalette.setColor(QPalette::Window, map->getGridLayer()->getGridColor());
+    ui->gridColorFrame->setPalette(gridPalette);
 
     showSampleXAxis();
     showSampleYAxis();

@@ -40,7 +40,7 @@ public:
 
     void setAxisFont(QFont font);
 
-    void setAxisColor(QColor color);
+    void setAxisFontColor(QColor color);
 
 private:
 

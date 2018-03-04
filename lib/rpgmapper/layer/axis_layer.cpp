@@ -95,6 +95,6 @@ void AxisLayer::setAxisFont(QFont font) {
 }
 
 
-void AxisLayer::setAxisColor(QColor color) {
+void AxisLayer::setAxisFontColor(QColor color) {
     getAttributes()["axisColor"] = color.name(QColor::HexArgb);
 }

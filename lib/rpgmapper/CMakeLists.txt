@@ -45,6 +45,9 @@ set(RPGMAPPER_LIB_SRC
     command/remove_region.cpp
     command/resize_map.cpp
     command/set_atlas_name.cpp
+    command/set_map_axis_font.cpp
+    command/set_map_axis_font_color.cpp
+    command/set_map_grid_color.cpp
     command/set_map_name.cpp
     command/set_map_origin.cpp
     command/set_region_name.cpp

@@ -34,9 +34,9 @@ public:
 
     void draw(QPainter & painter, int tileSize) const override;
 
-    QColor gridColor() const;
+    QColor getGridColor() const;
 
-    QFont gridFont() const;
+    void setGridColor(QColor color);
 
 private:
 

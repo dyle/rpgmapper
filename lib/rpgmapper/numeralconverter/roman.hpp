@@ -23,7 +23,7 @@ public:
 
     QString convert(int value) const override;
 
-    QString name() const override { return "Roman"; }
+    QString getName() const override { return "Roman"; }
 };
 
 

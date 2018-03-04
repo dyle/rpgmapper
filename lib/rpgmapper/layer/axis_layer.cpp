@@ -21,27 +21,6 @@ AxisLayer::AxisLayer(Map * map, QObject * parent) : Layer{map, parent} {
 }
 
 
-QFont AxisLayer::axisFont() const {
-
-    QFont res{"Monospace", 10};
-    auto iter = getAttributes().find("axisFont");
-    if (iter != getAttributes().end()) {
-        res.fromString((*iter).second);
-    }
-    return res;
-}
-
-
-QColor AxisLayer::axisFontColor() const {
-
-    auto iter = getAttributes().find("axisColor");
-    if (iter != getAttributes().end()) {
-        return QColor{(*iter).second};
-    }
-    return QColor{DEFAULT_AXIS_COLOR};
-}
-
-
 void AxisLayer::draw(QPainter & painter, int tileSize) const {
     drawXAnnotation(painter, tileSize);
     drawYAnnotation(painter, tileSize);
@@ -50,8 +29,8 @@ void AxisLayer::draw(QPainter & painter, int tileSize) const {
 
 void AxisLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
 
-    painter.setPen(axisFontColor());
-    painter.setFont(axisFont());
+    painter.setPen(getAxisFontColor());
+    painter.setFont(getAxisFont());
 
     QSize cSize = getMap()->getSize();
     int nBottom = cSize.height() * tileSize;
@@ -71,8 +50,8 @@ void AxisLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
 
 void AxisLayer::drawYAnnotation(QPainter & painter, int tileSize) const {
 
-    painter.setPen(axisFontColor());
-    painter.setFont(axisFont());
+    painter.setPen(getAxisFontColor());
+    painter.setFont(getAxisFont());
 
     QSize cSize = getMap()->getSize();
     int nRight = cSize.width() * tileSize;
@@ -87,4 +66,35 @@ void AxisLayer::drawYAnnotation(QPainter & painter, int tileSize) const {
         QRect cRightRect{nRight, y * tileSize, tileSize, tileSize};
         painter.drawText(cRightRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
     }
+}
+
+
+QFont AxisLayer::getAxisFont() const {
+
+    QFont res{"Monospace", 10};
+    auto iter = getAttributes().find("axisFont");
+    if (iter != getAttributes().end()) {
+        res.fromString((*iter).second);
+    }
+    return res;
+}
+
+
+QColor AxisLayer::getAxisFontColor() const {
+
+    auto iter = getAttributes().find("axisColor");
+    if (iter != getAttributes().end()) {
+        return QColor{(*iter).second};
+    }
+    return QColor{DEFAULT_AXIS_COLOR};
+}
+
+
+void AxisLayer::setAxisFont(QFont font) {
+    getAttributes()["axisFont"] = font.toString();
+}
+
+
+void AxisLayer::setAxisColor(QColor color) {
+    getAttributes()["axisColor"] = color.name(QColor::HexArgb);
 }

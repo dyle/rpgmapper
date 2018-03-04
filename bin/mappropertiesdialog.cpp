@@ -257,6 +257,10 @@ void MapPropertiesDialog::selectBackgroundImage() {
 
 void MapPropertiesDialog::setAxisUiFromMap() {
 
+    setXAxisUiFromMap();
+    setYAxisUiFromMap();
+
+
     // TODO: check with map settings
 
     ui->xNumericalRadioButton->setChecked(true);
@@ -278,6 +282,68 @@ void MapPropertiesDialog::setAxisUiFromMap() {
 
     showSampleXAxis();
     showSampleYAxis();
+}
+
+
+void MapPropertiesDialog::setXAxisUiFromMap() {
+
+    auto map = this->map.toStrongRef();
+    if (map == nullptr) {
+        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    }
+
+    auto radioButtons = std::list<QRadioButton *>{ui->xNumericalRadioButton,
+                                                  ui->xAlphaSmallRadioButton,
+                                                  ui->xAlphaBigRadioButton,
+                                                  ui->xRomanRadioButton};
+    for (auto radioButton : radioButtons) {
+        radioButton->setChecked(false);
+    }
+
+    using RadioButtonMap = std::map<QString, QRadioButton *>;
+    RadioButtonMap xAxisNumericalRadioButtons = {
+        {"Numeric", ui->xNumericalRadioButton},
+        {"AlphaSmall", ui->xAlphaSmallRadioButton},
+        {"AlphaBig", ui->xAlphaBigRadioButton},
+        {"Roman", ui->xRomanRadioButton}
+    };
+    auto xAxisIter = xAxisNumericalRadioButtons.find(map->getNumeralXAxis()->getName());
+    if (xAxisIter == xAxisNumericalRadioButtons.end()) {
+        throw std::runtime_error("Unknown setting for map x axis numeric.");
+    }
+
+    (*xAxisIter).second->setChecked(true);
+}
+
+
+void MapPropertiesDialog::setYAxisUiFromMap() {
+
+    auto map = this->map.toStrongRef();
+    if (map == nullptr) {
+        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    }
+
+    auto radioButtons = std::list<QRadioButton *>{ui->yNumericalRadioButton,
+                                                  ui->yAlphaSmallRadioButton,
+                                                  ui->yAlphaBigRadioButton,
+                                                  ui->yRomanRadioButton};
+    for (auto radioButton : radioButtons) {
+        radioButton->setChecked(false);
+    }
+
+    using RadioButtonMap = std::map<QString, QRadioButton *>;
+    RadioButtonMap yAxisNumericalRadioButtons = {
+        {"Numeric", ui->yNumericalRadioButton},
+        {"AlphaSmall", ui->yAlphaSmallRadioButton},
+        {"AlphaBig", ui->yAlphaBigRadioButton},
+        {"Roman", ui->yRomanRadioButton}
+    };
+    auto yAxisIter = yAxisNumericalRadioButtons.find(map->getNumeralYAxis()->getName());
+    if (yAxisIter == yAxisNumericalRadioButtons.end()) {
+        throw std::runtime_error("Unknown setting for map y axis numeric.");
+    }
+
+    (*yAxisIter).second->setChecked(true);
 }
 
 
@@ -319,6 +385,8 @@ void MapPropertiesDialog::setMap(AtlasPointer & atlas, MapPointer & map) {
 
     this->atlas = atlas;
     this->map = map;
+
+    setWindowTitle(tr("Change properties of map '%1'").arg(map->getName()));
 
     ui->nameEdit->setText(map->getName());
     setDimensionUiFromMap();

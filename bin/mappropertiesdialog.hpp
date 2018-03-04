@@ -70,6 +70,10 @@ private:
 
     void setAxisUiFromMap();
 
+    void setXAxisUiFromMap();
+
+    void setYAxisUiFromMap();
+
     void setBackgroundUiFromMap();
 
     void setDimensionUiFromMap();

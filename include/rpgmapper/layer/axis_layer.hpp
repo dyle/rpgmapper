@@ -34,9 +34,13 @@ public:
 
     void draw(QPainter & painter, int tileSize) const override;
 
-    QFont axisFont() const;
+    QFont getAxisFont() const;
 
-    QColor axisFontColor() const;
+    QColor getAxisFontColor() const;
+
+    void setAxisFont(QFont font);
+
+    void setAxisColor(QColor color);
 
 private:
 

@@ -27,9 +27,9 @@ public:
 
     virtual QString convert(int value) const = 0;
 
-    virtual bool isValid() const { return true; }
+    virtual QString getName() const = 0;
 
-    virtual QString name() const = 0;
+    virtual bool isValid() const { return true; }
 
     static QSharedPointer<NumeralConverter> const & nullConverter();
 
@@ -45,9 +45,10 @@ public:
 
     QString convert(int) const override { return QString::null; }
 
+    QString getName() const override { return "Invalid"; }
+
     bool isValid() const override { return false; }
 
-    QString name() const override { return "Invalid"; }
 };
 
 

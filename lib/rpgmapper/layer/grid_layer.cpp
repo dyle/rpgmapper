@@ -15,10 +15,7 @@ static char const * WARNING_GRID_COLOR = "#ff0088";
 
 
 GridLayer::GridLayer(Map * map, QObject * parent) : Layer{map, parent} {
-
     getAttributes()["gridColor"] = DEFAULT_GRID_COLOR;
-    QFont cDefaultFont{"Monospace", 10};
-    getAttributes()["font"] = cDefaultFont.toString();
 }
 
 
@@ -33,7 +30,7 @@ void GridLayer::drawBorder(QPainter & painter, int tileSize) const {
 
     QSize size = getMap()->getSize() * tileSize;
 
-    painter.setPen(QPen(gridColor(), 1, Qt::SolidLine, Qt::FlatCap));
+    painter.setPen(QPen(getGridColor(), 1, Qt::SolidLine, Qt::FlatCap));
     painter.drawRect(0, 0, size.width(), size.height());
 
     auto nOuterTickLength = tileSize / 4;
@@ -51,7 +48,7 @@ void GridLayer::drawBorder(QPainter & painter, int tileSize) const {
 void GridLayer::drawXAxis(QPainter & painter, int tileSize) const {
 
     QSize cSize = getMap()->getSize() * tileSize;
-    painter.setPen(QPen(gridColor(), 1, Qt::DotLine, Qt::FlatCap));
+    painter.setPen(QPen(getGridColor(), 1, Qt::DotLine, Qt::FlatCap));
     for (int x = tileSize; x <= cSize.width() - tileSize; x += tileSize) {
         painter.drawLine(x, 0, x, cSize.height());
     }
@@ -61,14 +58,14 @@ void GridLayer::drawXAxis(QPainter & painter, int tileSize) const {
 void GridLayer::drawYAxis(QPainter & painter, int tileSize) const {
 
     QSize cSize = getMap()->getSize() * tileSize;
-    painter.setPen(QPen(gridColor(), 1, Qt::DotLine, Qt::FlatCap));
+    painter.setPen(QPen(getGridColor(), 1, Qt::DotLine, Qt::FlatCap));
     for (int y = tileSize; y <= cSize.height() - tileSize; y += tileSize) {
         painter.drawLine(0, y, cSize.height(), y);
     }
 }
 
 
-QColor GridLayer::gridColor() const {
+QColor GridLayer::getGridColor() const {
 
     auto iter = getAttributes().find("gridColor");
     if (iter != getAttributes().end()) {
@@ -79,14 +76,7 @@ QColor GridLayer::gridColor() const {
 }
 
 
-QFont GridLayer::gridFont() const {
-
-    QFont res{"Monospace", 10};
-
-    auto iter = getAttributes().find("font");
-    if (iter != getAttributes().end()) {
-        res.fromString((*iter).second);
-    }
-
-    return res;
+void GridLayer::setGridColor(QColor color) {
+    getAttributes()["gridColor"] = color.name(QColor::HexArgb);
 }
+

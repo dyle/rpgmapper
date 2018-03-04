@@ -126,8 +126,8 @@ TEST(CoordinateSystemTest, NumeralsNumeric) {
     coordinateSystem.setNumeralYAxis("Numeric");
     EXPECT_TRUE(coordinateSystem.getNumeralXAxis()->isValid());
     EXPECT_TRUE(coordinateSystem.getNumeralYAxis()->isValid());
-    EXPECT_EQ(coordinateSystem.getNumeralXAxis()->name().toStdString(), "Numeric");
-    EXPECT_EQ(coordinateSystem.getNumeralYAxis()->name().toStdString(), "Numeric");
+    EXPECT_EQ(coordinateSystem.getNumeralXAxis()->getName().toStdString(), "Numeric");
+    EXPECT_EQ(coordinateSystem.getNumeralYAxis()->getName().toStdString(), "Numeric");
 
     auto coordinates = coordinateSystem.getNumeralCoordinates(QPoint{0, 0});
     EXPECT_EQ(coordinates.x.toStdString(), "0");
@@ -146,8 +146,8 @@ TEST(CoordinateSystemTest, NumeralsAlphaSmall) {
     coordinateSystem.setNumeralYAxis("AlphaSmall");
     EXPECT_TRUE(coordinateSystem.getNumeralXAxis()->isValid());
     EXPECT_TRUE(coordinateSystem.getNumeralYAxis()->isValid());
-    EXPECT_EQ(coordinateSystem.getNumeralXAxis()->name().toStdString(), "AlphaSmall");
-    EXPECT_EQ(coordinateSystem.getNumeralYAxis()->name().toStdString(), "AlphaSmall");
+    EXPECT_EQ(coordinateSystem.getNumeralXAxis()->getName().toStdString(), "AlphaSmall");
+    EXPECT_EQ(coordinateSystem.getNumeralYAxis()->getName().toStdString(), "AlphaSmall");
 
     auto coordinates = coordinateSystem.getNumeralCoordinates(QPoint{0, 0});
     EXPECT_EQ(coordinates.x.toStdString(), "a");
@@ -166,8 +166,8 @@ TEST(CoordinateSystemTest, NumeralsAlphaBig) {
     coordinateSystem.setNumeralYAxis("AlphaBig");
     EXPECT_TRUE(coordinateSystem.getNumeralXAxis()->isValid());
     EXPECT_TRUE(coordinateSystem.getNumeralYAxis()->isValid());
-    EXPECT_EQ(coordinateSystem.getNumeralXAxis()->name().toStdString(), "AlphaBig");
-    EXPECT_EQ(coordinateSystem.getNumeralYAxis()->name().toStdString(), "AlphaBig");
+    EXPECT_EQ(coordinateSystem.getNumeralXAxis()->getName().toStdString(), "AlphaBig");
+    EXPECT_EQ(coordinateSystem.getNumeralYAxis()->getName().toStdString(), "AlphaBig");
 
     auto coordinates = coordinateSystem.getNumeralCoordinates(QPoint{0, 0});
     EXPECT_EQ(coordinates.x.toStdString(), "A");
@@ -186,8 +186,8 @@ TEST(CoordinateSystemTest, NumeralsRoman) {
     coordinateSystem.setNumeralYAxis("Roman");
     EXPECT_TRUE(coordinateSystem.getNumeralXAxis()->isValid());
     EXPECT_TRUE(coordinateSystem.getNumeralYAxis()->isValid());
-    EXPECT_EQ(coordinateSystem.getNumeralXAxis()->name().toStdString(), "Roman");
-    EXPECT_EQ(coordinateSystem.getNumeralYAxis()->name().toStdString(), "Roman");
+    EXPECT_EQ(coordinateSystem.getNumeralXAxis()->getName().toStdString(), "Roman");
+    EXPECT_EQ(coordinateSystem.getNumeralYAxis()->getName().toStdString(), "Roman");
 
     auto coordinates = coordinateSystem.getNumeralCoordinates(QPoint{0, 0});
     EXPECT_EQ(coordinates.x.toStdString(), "O");

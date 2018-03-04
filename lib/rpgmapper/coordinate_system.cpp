@@ -69,7 +69,7 @@ QPoint CoordinateSystem::transpose(QPoint const & position) const {
 }
 
 
-QPointF CoordinateSystem::transpose(QPointF const & position) const{
+QPointF CoordinateSystem::transpose(QPointF const & position) const {
 
     QPointF coordinate;
 
@@ -93,6 +93,26 @@ QPointF CoordinateSystem::transpose(QPointF const & position) const{
     }
 
     return coordinate;
+}
+
+
+QPoint CoordinateSystem::transposeToMapCoordinates(QPoint const & position) const {
+    return transpose(position) + getOffset();
+}
+
+
+QPointF CoordinateSystem::transposeToMapCoordinates(QPointF const & position) const{
+    return transpose(position) + getOffsetF();
+}
+
+
+QPoint CoordinateSystem::transposeToScreenCoordinates(QPoint const & position) const {
+    return transpose(position) - getOffset();
+}
+
+
+QPointF CoordinateSystem::transposeToScreenCoordinates(QPointF const & position) const{
+    return transpose(position) - getOffsetF();
 }
 
 

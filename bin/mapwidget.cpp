@@ -90,7 +90,7 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
 
     auto size = map->getSize();
     if ((x >= 0) && (x < size.width()) && (y >= 0) && (y < size.height())) {
-        auto mapPosition = map->getCoordinateSystem().transpose(x, y);
+        auto mapPosition = map->getCoordinateSystem().transposeToMapCoordinates(x, y);
         emit hoverCoordinates(mapPosition.x(), mapPosition.y());
     }
 }

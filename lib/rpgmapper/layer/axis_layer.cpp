@@ -37,7 +37,7 @@ void AxisLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
 
     for (int x = 0; x < cSize.width(); ++x) {
 
-        auto mapPosition = getMap()->getCoordinateSystem().transpose(x, 0);
+        auto mapPosition = getMap()->getCoordinateSystem().transposeToMapCoordinates(x, 0);
         QString sX = getMap()->tanslateToNumeralOnX(mapPosition.x());
 
         QRect cUpperRect{x * tileSize, -tileSize, tileSize, tileSize};
@@ -58,7 +58,7 @@ void AxisLayer::drawYAnnotation(QPainter & painter, int tileSize) const {
 
     for (int y = 0; y < cSize.height(); ++y) {
 
-        auto mapPosition = getMap()->getCoordinateSystem().transpose(0, y);
+        auto mapPosition = getMap()->getCoordinateSystem().transposeToMapCoordinates(0, y);
         QString sY = getMap()->tanslateToNumeralOnY(mapPosition.y());
 
         QRect cLeftRect{-tileSize, y * tileSize, tileSize, tileSize};

@@ -72,7 +72,7 @@ TEST(CoordinateSystemTest, SizeAboveMaximum) {
 }
 
 
-TEST(CoordinateSystemTest, TransposeCoordinates) {
+TEST(CoordinateSystemTest, TransposeCoordinatesToMap) {
 
     CoordinateSystem coordinateSystem;
     coordinateSystem.resize(10, 10);
@@ -82,38 +82,97 @@ TEST(CoordinateSystemTest, TransposeCoordinates) {
     QPointF pointF;
 
     coordinateSystem.setOrigin(CoordinatesOrigin::bottomLeft);
-    position = coordinateSystem.transpose(2, 7);
+    position = coordinateSystem.transposeToMapCoordinates(2, 7);
     point = QPoint{2, 2};
     EXPECT_EQ(position, point);
 
-    positionF = coordinateSystem.transpose(2.0, 7.0);
+    positionF = coordinateSystem.transposeToMapCoordinates(2.0, 7.0);
     pointF = QPointF{2.0, 2.0};
     EXPECT_EQ(positionF, pointF);
 
+    coordinateSystem.setOffset(QPoint{2, 1});
+    position = coordinateSystem.transposeToMapCoordinates(2, 7);
+    point = QPoint{4, 3};
+    EXPECT_EQ(position, point);
+
     coordinateSystem.setOrigin(CoordinatesOrigin::bottomRight);
-    position = coordinateSystem.transpose(3, 4);
+    coordinateSystem.setOffset(QPoint{0, 0});
+    position = coordinateSystem.transposeToMapCoordinates(3, 4);
     point = QPoint{6, 5};
     EXPECT_EQ(position, point);
 
-    positionF = coordinateSystem.transpose(3.0, 4.0);
+    positionF = coordinateSystem.transposeToMapCoordinates(3.0, 4.0);
     pointF = QPointF{6.0, 5.0};
     EXPECT_EQ(positionF, pointF);
 
     coordinateSystem.setOrigin(CoordinatesOrigin::topLeft);
-    position = coordinateSystem.transpose(0, 8);
+    position = coordinateSystem.transposeToMapCoordinates(0, 8);
     point = QPoint{0, 8};
     EXPECT_EQ(position, point);
 
-    positionF = coordinateSystem.transpose(0.0, 8.0);
+    positionF = coordinateSystem.transposeToMapCoordinates(0.0, 8.0);
     pointF = QPointF{0.0, 8.0};
     EXPECT_EQ(positionF, pointF);
 
     coordinateSystem.setOrigin(CoordinatesOrigin::topRight);
-    position = coordinateSystem.transpose(9, 2);
+    position = coordinateSystem.transposeToMapCoordinates(9, 2);
     point = QPoint{0, 2};
     EXPECT_EQ(position, point);
 
-    positionF = coordinateSystem.transpose(9.0, 2.0);
+    positionF = coordinateSystem.transposeToMapCoordinates(9.0, 2.0);
+    pointF = QPointF{0.0, 2.0};
+    EXPECT_EQ(positionF, pointF);
+}
+
+
+TEST(CoordinateSystemTest, TransposeCoordinatesToScreen) {
+
+    CoordinateSystem coordinateSystem;
+    coordinateSystem.resize(10, 10);
+    QPoint position;
+    QPointF positionF;
+    QPoint point;
+    QPointF pointF;
+
+    coordinateSystem.setOrigin(CoordinatesOrigin::bottomLeft);
+    position = coordinateSystem.transposeToScreenCoordinates(2, 7);
+    point = QPoint{2, 2};
+    EXPECT_EQ(position, point);
+
+    positionF = coordinateSystem.transposeToScreenCoordinates(2.0, 7.0);
+    pointF = QPointF{2.0, 2.0};
+    EXPECT_EQ(positionF, pointF);
+
+    coordinateSystem.setOffset(QPoint{2, 1});
+    position = coordinateSystem.transposeToScreenCoordinates(2, 7);
+    point = QPoint{0, 1};
+    EXPECT_EQ(position, point);
+
+    coordinateSystem.setOrigin(CoordinatesOrigin::bottomRight);
+    coordinateSystem.setOffset(QPoint{0, 0});
+    position = coordinateSystem.transposeToScreenCoordinates(3, 4);
+    point = QPoint{6, 5};
+    EXPECT_EQ(position, point);
+
+    positionF = coordinateSystem.transposeToScreenCoordinates(3.0, 4.0);
+    pointF = QPointF{6.0, 5.0};
+    EXPECT_EQ(positionF, pointF);
+
+    coordinateSystem.setOrigin(CoordinatesOrigin::topLeft);
+    position = coordinateSystem.transposeToScreenCoordinates(0, 8);
+    point = QPoint{0, 8};
+    EXPECT_EQ(position, point);
+
+    positionF = coordinateSystem.transposeToScreenCoordinates(0.0, 8.0);
+    pointF = QPointF{0.0, 8.0};
+    EXPECT_EQ(positionF, pointF);
+
+    coordinateSystem.setOrigin(CoordinatesOrigin::topRight);
+    position = coordinateSystem.transposeToScreenCoordinates(9, 2);
+    point = QPoint{0, 2};
+    EXPECT_EQ(position, point);
+
+    positionF = coordinateSystem.transposeToScreenCoordinates(9.0, 2.0);
     pointF = QPointF{0.0, 2.0};
     EXPECT_EQ(positionF, pointF);
 }

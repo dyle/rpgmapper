@@ -36,9 +36,6 @@ class MapPropertiesDialog : public QDialog {
 
     QWeakPointer<rpgmapper::model::Atlas> atlas;
     QWeakPointer<rpgmapper::model::Map> map;
-    QFont axisFont;
-    QColor axisColor;
-    QColor backgroundColor;
     QImage backgroundImage;
     QString backgroundImageFileName;
     QLabel * backgroundPreviewLabel;
@@ -61,6 +58,8 @@ public slots:
     void evaluate();
 
 private:
+
+    void applyAxisValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
 
     void applyDimensionValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
 
@@ -93,6 +92,8 @@ private slots:
     void selectBackgroundImage();
 
     void setBackgroundImageRenderMode();
+
+    void selectGridColor();
 
     void showSampleXAxis();
 

@@ -13,6 +13,9 @@
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/command/composite_command.hpp>
 #include <rpgmapper/command/resize_map.hpp>
+#include <rpgmapper/command/set_map_axis_font.hpp>
+#include <rpgmapper/command/set_map_axis_font_color.hpp>
+#include <rpgmapper/command/set_map_grid_color.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
 #include <rpgmapper/command/set_map_origin.hpp>
 #include "mappropertiesdialog.hpp"
@@ -56,6 +59,7 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
 
     connect(ui->axisFontToolButton, &QToolButton::clicked, this, &MapPropertiesDialog::selectAxisFont);
     connect(ui->axisColorToolButton, &QToolButton::clicked, this, &MapPropertiesDialog::selectAxisColor);
+    connect(ui->gridColorToolButton, &QToolButton::clicked, this, &MapPropertiesDialog::selectGridColor);
 
     connect(ui->backgroundColorToolButton, &QToolButton::clicked,
             this, &MapPropertiesDialog::selectBackgroundColor);
@@ -69,6 +73,43 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
             this, &MapPropertiesDialog::setBackgroundImageRenderMode);
 
     connect(ui->okButton, &QPushButton::clicked, this, &MapPropertiesDialog::clickedOk);
+}
+
+
+void MapPropertiesDialog::applyAxisValuesToMap(CompositeCommand * & commands) {
+
+    auto atlas = this->atlas.toStrongRef();
+    if (atlas == nullptr) {
+        throw std::runtime_error("Atlas instance in properties vanished (nullptr).");
+    }
+
+    auto map = this->map.toStrongRef();
+    if (map == nullptr) {
+        throw std::runtime_error("Internal map lost when applying values of property dialog (map == nullptr).");
+    }
+
+    // TODO: set x numerical
+    // TODO: set x start value
+    // TODO: set y numerical
+    // TODO: set y start value
+
+    auto axisPalette = ui->axisColorFrame->palette();
+    auto axisColor = axisPalette.window().color();
+    if (map->getAxisLayer()->getAxisFontColor() != axisColor) {
+        commands->addCommand(CommandPointer{new SetMapAxisFontColor{atlas, map->getName(), axisColor}});
+    }
+
+    QFont axisFont;
+    axisFont.fromString(ui->axisFontLineEdit->text());
+    if (map->getAxisLayer()->getAxisFont().toString() != axisFont.toString()) {
+        commands->addCommand(CommandPointer{new SetMapAxisFont{atlas, map->getName(), axisFont}});
+    }
+
+    auto gridPalette = ui->gridColorFrame->palette();
+    auto gridColor = gridPalette.window().color();
+    if (map->getGridLayer()->getGridColor() != gridColor) {
+        commands->addCommand(CommandPointer{new SetMapGridColor{atlas, map->getName(), gridColor}});
+    }
 }
 
 
@@ -117,7 +158,7 @@ void MapPropertiesDialog::applyValuesToMap() {
     }
 
     applyDimensionValuesToMap(commands);
-    // TODO: add axis values
+    applyAxisValuesToMap(commands);
     // TODO: add background values
 
     atlas->getCommandProzessor()->execute(CommandPointer{commands});
@@ -199,32 +240,36 @@ void MapPropertiesDialog::heightChanged(int value) {
 
 void MapPropertiesDialog::selectAxisColor() {
 
+    auto axisPalette = ui->axisColorFrame->palette();
+    QColor axisColor = axisPalette.window().color();
     QColor color = QColorDialog::getColor(axisColor, this);
     if (color.isValid()) {
-        axisColor = color;
-        evaluate();
+        axisPalette.setColor(QPalette::Window, color);
+        ui->axisColorFrame->setPalette(axisPalette);
     }
 }
 
 
 void MapPropertiesDialog::selectAxisFont() {
 
+    QFont axisFont;
+    axisFont.fromString(ui->axisFontLineEdit->text());
     bool ok = false;
-    QFont cFont = QFontDialog::getFont(&ok, axisFont, this);
+    QFont newFont = QFontDialog::getFont(&ok, axisFont, this);
     if (ok) {
-        axisFont = cFont.toString();
-        evaluate();
+        ui->axisFontLineEdit->setText(newFont.toString());
     }
 }
 
 
 void MapPropertiesDialog::selectBackgroundColor() {
 
-    QColor color = QColorDialog::getColor(backgroundColor, this);
-    if (color.isValid()) {
-        backgroundColor = color;
-        evaluate();
-    }
+    // TODO: work with fram widget
+    // QColor color = QColorDialog::getColor(backgroundColor, this);
+    // if (color.isValid()) {
+    //    backgroundColor = color;
+    //     evaluate();
+    //}
 }
 
 
@@ -252,6 +297,18 @@ void MapPropertiesDialog::selectBackgroundImage() {
     }
 
     evaluate();
+}
+
+
+void MapPropertiesDialog::selectGridColor() {
+
+    auto gridPalette = ui->gridColorFrame->palette();
+    QColor gridColor = gridPalette.window().color();
+    QColor color = QColorDialog::getColor(gridColor, this);
+    if (color.isValid()) {
+        gridPalette.setColor(QPalette::Window, color);
+        ui->gridColorFrame->setPalette(gridPalette);
+    }
 }
 
 
@@ -390,9 +447,6 @@ void MapPropertiesDialog::setMap(AtlasPointer & atlas, MapPointer & map) {
     ui->propertiesTabWidget->setCurrentWidget(ui->dimensionsWidget);
     ui->nameEdit->selectAll();
     ui->nameEdit->setFocus();
-
-    // TODO: evaluate?
-    //evaluate();
 }
 
 

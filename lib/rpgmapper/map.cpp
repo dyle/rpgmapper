@@ -138,6 +138,12 @@ void Map::resize(QSize const & size) {
 }
 
 
+void Map::setCoordinateOffset(QPointF offset) {
+    impl->setOffsetF(offset);
+    emit changed();
+}
+
+
 void Map::setName(QString const & name) {
     QString nameBefore = impl->getName();
     if (nameBefore == name) {

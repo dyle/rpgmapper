@@ -105,6 +105,8 @@ public:
 
     void setNumeralYAxis(QString const & numeral);
 
+    void setCoordinateOffset(QPointF offset);
+
     void setOrigin(CoordinatesOrigin origin);
 
     QString tanslateToNumeralOnX(int x) const;

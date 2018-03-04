@@ -11,10 +11,10 @@
 
 #include <memory>
 
-#include <QAbstractButton>
 #include <QDialog>
 #include <QFile>
 #include <QLabel>
+#include <QRadioButton>
 
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/map.hpp>
@@ -48,6 +48,9 @@ class MapPropertiesDialog : public QDialog {
         QSharedPointer<rpgmapper::model::NumeralConverter> roman;
     } numeralConverters;
 
+    std::list<QRadioButton *> xAxisNumeralButtons;
+    std::list<QRadioButton *> yAxisNumeralButtons;
+
 public:
 
     explicit MapPropertiesDialog(QWidget * parent);
@@ -65,8 +68,6 @@ private:
     void applyDimensionValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
 
     void applyValuesToMap();
-
-    QAbstractButton * getFirstCheckedButton(std::list<QAbstractButton *> const & abstractButtons) const;
 
     QString getSelectedXAxisNumeral() const;
 

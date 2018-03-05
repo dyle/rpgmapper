@@ -34,6 +34,11 @@ bool Map::Impl::applyJsonObject(QJsonObject const & json) {
 }
 
 
+QString Map::Impl::getInvalidCharactersInName() {
+    return R"raw(:\\*\?/)raw";
+}
+
+
 QJsonObject Map::Impl::getJsonObject() const {
     auto json = Nameable::getJsonObject();
     return json;
@@ -43,4 +48,10 @@ QJsonObject Map::Impl::getJsonObject() const {
 QString const & Map::Impl::getRegionName() const {
     static QString nullName = QString::null;
     return region != nullptr ? region->getName() : nullName;
+}
+
+
+bool Map::Impl::isNameValid(QString name) {
+    QRegExp regExp{QString{"[%1]"}.arg(getInvalidCharactersInName())};
+    return (!name.isEmpty()) && (regExp.indexIn(name) == -1);
 }

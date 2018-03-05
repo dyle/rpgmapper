@@ -125,3 +125,15 @@ TEST(MapTest, GetTextLayer) {
 
     EXPECT_TRUE(layer->isValid());
 }
+
+
+TEST(MapTest, ValidNames) {
+
+    EXPECT_TRUE(Map::isNameValid("Middleearth"));
+    EXPECT_TRUE(Map::isNameValid("A land far far away"));
+    EXPECT_TRUE(Map::isNameValid("Asgard!"));
+    EXPECT_FALSE(Map::isNameValid("This is: invalid"));
+    EXPECT_FALSE(Map::isNameValid("This is also \\ invalid"));
+    EXPECT_FALSE(Map::isNameValid("This is invalid * as well"));
+    EXPECT_FALSE(Map::isNameValid("And this ? is also invalid"));
+}

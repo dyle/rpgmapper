@@ -91,6 +91,11 @@ MapPointer & Region::findMap(QString const & mapName) {
 }
 
 
+QString Region::getInvalidCharactersInName() {
+    return Region::Impl::getInvalidCharactersInName();
+}
+
+
 QJsonObject Region::getJsonObject() const {
     return impl->getJsonObject();
 }
@@ -107,6 +112,11 @@ std::set<QString> Region::getMapNames() const {
 
 QString const & Region::getName() const {
     return impl->getName();
+}
+
+
+bool Region::isNameValid(QString name) {
+    return Region::Impl::isNameValid(name);
 }
 
 

@@ -24,8 +24,12 @@ void SetRegionName::execute() {
         return;
     }
 
-    // TODO: check for existing name
-    // TODO: check for invalid characters
+    if (!Region::isNameValid(newName)) {
+        throw std::runtime_error("Region name is invalid.");
+    }
+    if (atlas->findRegion(newName)->isValid()) {
+        throw std::runtime_error("Region with new name already exists.");
+    }
 
     region->setName(newName);
 }

@@ -93,6 +93,11 @@ MapPointer & Region::Impl::findMap(QString const & name) {
 }
 
 
+QString Region::Impl::getInvalidCharactersInName() {
+    return R"raw(:\\*\?/)raw";
+}
+
+
 QJsonObject Region::Impl::getJsonObject() const {
 
     auto json = Nameable::getJsonObject();
@@ -114,6 +119,12 @@ std::set<QString> Region::Impl::getMapNames() const {
                   std::end(getMaps()),
                   [&] (auto const & pair) { mapNames.insert(pair.second->getName()); });
     return mapNames;
+}
+
+
+bool Region::Impl::isNameValid(QString name) {
+    QRegExp regExp{QString{"[%1]"}.arg(getInvalidCharactersInName())};
+    return (!name.isEmpty()) && (regExp.indexIn(name) == -1);
 }
 
 

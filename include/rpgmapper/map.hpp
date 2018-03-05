@@ -71,6 +71,8 @@ public:
 
     GridLayerPointer const & getGridLayer() const;
 
+    static QString getInvalidCharactersInName();
+
     QJsonObject getJsonObject() const;
 
     QString const & getName() const;
@@ -92,6 +94,8 @@ public:
     TextLayerPointer & getTextLayer();
 
     TextLayerPointer const & getTextLayer() const;
+
+    static bool isNameValid(QString name);
 
     virtual bool isValid() const { return true; }
 

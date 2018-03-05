@@ -55,11 +55,15 @@ public:
 
     QString const & getFileName() const { return fileName; }
 
+    static QString getInvalidCharactersInName();
+
     QJsonObject getJsonObject() const override;
 
     Regions const & getRegions() const { return regions; }
 
     bool isModified() const;
+
+    static bool isNameValid(QString name);
 
     bool moveMap(MapPointer map, RegionPointer regionTo);
 

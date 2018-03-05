@@ -66,6 +66,8 @@ public:
 
     QString const & getFileName() const;
 
+    static QString getInvalidCharactersInName();
+
     QString const & getName() const;
 
     Regions const & getRegions() const;
@@ -73,6 +75,8 @@ public:
     void init();
 
     bool isModified() const;
+
+    static bool isNameValid(QString name);
 
     virtual bool isValid() const { return true; }
 

@@ -16,6 +16,11 @@ SetAtlasName::SetAtlasName(AtlasPointer & atlas, QString const & name): AtlasCom
 
 
 void SetAtlasName::execute() {
+
+    if (!Atlas::isNameValid(newName)) {
+        throw std::runtime_error("Atlas name is invalid.");
+    }
+
     auto atlas = getAtlas();
     oldName = atlas->getName();
     atlas->setName(newName);

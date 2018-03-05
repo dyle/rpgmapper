@@ -162,3 +162,15 @@ TEST(RegionTest, DeleteMap) {
     region.removeMap("bar");
     EXPECT_FALSE(region.findMap("bar")->isValid());
 }
+
+
+TEST(RegionTest, ValidNames) {
+
+    EXPECT_TRUE(Region::isNameValid("Middleearth"));
+    EXPECT_TRUE(Region::isNameValid("A land far far away"));
+    EXPECT_TRUE(Region::isNameValid("Asgard!"));
+    EXPECT_FALSE(Region::isNameValid("This is: invalid"));
+    EXPECT_FALSE(Region::isNameValid("This is also \\ invalid"));
+    EXPECT_FALSE(Region::isNameValid("This is invalid * as well"));
+    EXPECT_FALSE(Region::isNameValid("And this ? is also invalid"));
+}

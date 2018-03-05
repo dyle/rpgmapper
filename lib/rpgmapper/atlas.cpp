@@ -93,6 +93,11 @@ std::set<QString> Atlas::getAllRegionNames() const {
 }
 
 
+QString Atlas::getInvalidCharactersInName() {
+    return Atlas::Impl::getInvalidCharactersInName();
+}
+
+
 QJsonObject Atlas::getJsonObject() const  {
     return impl->getJsonObject();
 }
@@ -123,6 +128,11 @@ void Atlas::init() {
 
 bool Atlas::isModified() const {
     return impl->isModified();
+}
+
+
+bool Atlas::isNameValid(QString name) {
+    return Atlas::Impl::isNameValid(name);
 }
 
 

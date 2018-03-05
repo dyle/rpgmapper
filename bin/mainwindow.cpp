@@ -266,22 +266,35 @@ void MainWindow::deleteRegion() {
 
 void MainWindow::editAtlasProperties() {
 
-    bool changed = false;
-    auto atlasName = QInputDialog::getText(this,
-                                           tr("Atlas Properties"),
-                                           tr("New name of atlas:"),
-                                           QLineEdit::Normal,
-                                           selection->getAtlas()->getName(),
-                                           &changed);
+    QString message = tr("Choose new name of atlas.\n"
+                         "Name must not include these characters: \"%1\"").arg(Atlas::getInvalidCharactersInName());
 
-    if (!changed || atlasName.isEmpty()) {
-        return;
-    }
+    bool abortLoop = false;
+    do {
 
-    // TODO: check for invalid characters
-
-    auto command = CommandPointer{new SetAtlasName{selection->getAtlas(), atlasName}};
-    selection->getAtlas()->getCommandProzessor()->execute(command);
+        bool ok = false;
+        auto atlasName = QInputDialog::getText(this,
+                                               tr("Atlas Properties"),
+                                               message,
+                                               QLineEdit::Normal,
+                                               selection->getAtlas()->getName(),
+                                               &ok);
+        if (!ok) {
+            abortLoop = true;
+        }
+        else {
+            if (!Atlas::isNameValid(atlasName)) {
+                QMessageBox::critical(this,
+                                      tr("Refused to change name of atlas"),
+                                      tr("Name is empty or contains invalid characters."));
+            }
+            else {
+                auto command = CommandPointer{new SetAtlasName{selection->getAtlas(), atlasName}};
+                selection->getAtlas()->getCommandProzessor()->execute(command);
+                abortLoop = true;
+            }
+        }
+    } while (!abortLoop);
 }
 
 
@@ -297,27 +310,48 @@ void MainWindow::editMapProperties() {
 
 void MainWindow::editRegionProperties() {
 
-    bool changed = false;
     auto region = selection->getRegion();
     if (!region->isValid()) {
         return;
     }
 
-    auto regionName = QInputDialog::getText(this,
-                                            tr("Region Properties"),
-                                            tr("New name of region:"),
-                                            QLineEdit::Normal,
-                                            region->getName(),
-                                            &changed);
+    QString message = tr("Choose new name of region.\n"
+                         "Name must not include these characters: \"%1\"").arg(Region::getInvalidCharactersInName());
 
-    if (!changed || regionName.isEmpty()) {
-        return;
-    }
 
-    // TODO: check for invalid characters
+    bool abortLoop = false;
+    do {
 
-    auto command = CommandPointer{new SetRegionName{selection->getAtlas(), region->getName(), regionName}};
-    selection->getAtlas()->getCommandProzessor()->execute(command);
+        bool ok = false;
+        auto regionName = QInputDialog::getText(this,
+                                                tr("Region Properties"),
+                                                message,
+                                                QLineEdit::Normal,
+                                                selection->getRegion()->getName(),
+                                                &ok);
+        if (!ok) {
+            abortLoop = true;
+        }
+        else {
+            if (!Region::isNameValid(regionName)) {
+                QMessageBox::critical(this,
+                                      tr("Refused to change name of region"),
+                                      tr("Name is empty or contains invalid characters."));
+            }
+            else
+            if (selection->getAtlas()->findRegion(regionName)->isValid()) {
+                QMessageBox::critical(this,
+                                      tr("Refused to change name of region"),
+                                      tr("A region with this name already exists."));
+            }
+            else {
+                auto command = CommandPointer{new SetRegionName{selection->getAtlas(), region->getName(), regionName}};
+                selection->getAtlas()->getCommandProzessor()->execute(command);
+                abortLoop = true;
+            }
+        }
+
+    } while (!abortLoop);
 }
 
 

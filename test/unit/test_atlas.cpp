@@ -256,3 +256,15 @@ TEST(AtlasTest, DeleteRegion) {
     EXPECT_EQ(mapNames.find("baz"), mapNames.end());
     EXPECT_EQ(mapNames.find("bam"), mapNames.end());
 }
+
+
+TEST(AtlasTest, ValidNames) {
+
+    EXPECT_TRUE(Atlas::isNameValid("Middleearth"));
+    EXPECT_TRUE(Atlas::isNameValid("A land far far away"));
+    EXPECT_TRUE(Atlas::isNameValid("Asgard!"));
+    EXPECT_FALSE(Atlas::isNameValid("This is: invalid"));
+    EXPECT_FALSE(Atlas::isNameValid("This is also \\ invalid"));
+    EXPECT_FALSE(Atlas::isNameValid("This is invalid * as well"));
+    EXPECT_FALSE(Atlas::isNameValid("And this ? is also invalid"));
+}

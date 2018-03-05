@@ -177,7 +177,6 @@ void MapPropertiesDialog::applyValuesToMap() {
 
     auto commands = new CompositeCommand{atlas};
     if (ui->nameEdit->text() != map->getName()) {
-        // TODO: check for invalid characters
         commands->addCommand(CommandPointer{new SetMapName(atlas, map->getName(), ui->nameEdit->text())});
     }
 
@@ -190,8 +189,10 @@ void MapPropertiesDialog::applyValuesToMap() {
 
 
 void MapPropertiesDialog::clickedOk() {
-    applyValuesToMap();
-    accept();
+    if (isUserInputValid()) {
+        applyValuesToMap();
+        accept();
+    }
 }
 
 
@@ -315,6 +316,55 @@ void MapPropertiesDialog::heightChanged(int value) {
     if (ui->linkWidthHeightToolButton->isChecked() && (ui->widthSpinBox->value() != value)) {
         ui->widthSpinBox->setValue(value);
     }
+}
+
+
+void MapPropertiesDialog::initNumeralConverters() {
+
+    if (numeralConverters.alphabeticalBigCaps.data() == nullptr) {
+        numeralConverters.alphabeticalBigCaps = NumeralConverter::create("AlphaBig");
+    }
+
+    if (numeralConverters.alphabeticalSmallCaps.data() == nullptr) {
+        numeralConverters.alphabeticalSmallCaps = NumeralConverter::create("AlphaSmall");
+    }
+
+    if (numeralConverters.numerical.data() == nullptr) {
+        numeralConverters.numerical = NumeralConverter::create("Numeric");
+    }
+
+    if (numeralConverters.roman.data() == nullptr) {
+        numeralConverters.roman = NumeralConverter::create("Roman");
+    }
+}
+
+
+bool MapPropertiesDialog::isUserInputValid() {
+
+    static QString invalidNameMessage{
+        tr("Map name is empty or contains invalid characters (any of \"%1\").").arg(Map::getInvalidCharactersInName())};
+
+    if (!Map::isNameValid(ui->nameEdit->text())) {
+        ui->nameEdit->selectAll();
+        ui->nameEdit->setFocus();
+        QMessageBox::critical(this, tr("Refused to change name of map"), invalidNameMessage);
+        return false;
+    }
+
+    auto atlas = this->atlas.toStrongRef();
+    if (atlas == nullptr) {
+        throw std::runtime_error("Atlas instance in properties vanished (nullptr).");
+    }
+
+    static QString alreayExistingMessage{tr("Map name is already used by another map.")};
+    if (atlas->findMap(ui->nameEdit->text())->isValid()) {
+        ui->nameEdit->selectAll();
+        ui->nameEdit->setFocus();
+        QMessageBox::critical(this, tr("Refused to change name of map"), alreayExistingMessage);
+        return false;
+    }
+
+    return true;
 }
 
 
@@ -588,22 +638,3 @@ void MapPropertiesDialog::widthChanged(int value) {
     }
 }
 
-
-void MapPropertiesDialog::initNumeralConverters() {
-
-    if (numeralConverters.alphabeticalBigCaps.data() == nullptr) {
-        numeralConverters.alphabeticalBigCaps = NumeralConverter::create("AlphaBig");
-    }
-
-    if (numeralConverters.alphabeticalSmallCaps.data() == nullptr) {
-        numeralConverters.alphabeticalSmallCaps = NumeralConverter::create("AlphaSmall");
-    }
-
-    if (numeralConverters.numerical.data() == nullptr) {
-        numeralConverters.numerical = NumeralConverter::create("Numeric");
-    }
-
-    if (numeralConverters.roman.data() == nullptr) {
-        numeralConverters.roman = NumeralConverter::create("Roman");
-    }
-}

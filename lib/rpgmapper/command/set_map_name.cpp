@@ -24,8 +24,12 @@ void SetMapName::execute() {
         return;
     }
 
-    // TODO: check for existing name
-    // TODO: check for invalid characters
+    if (!Map::isNameValid(newName)) {
+        throw std::runtime_error("Map name is invalid.");
+    }
+    if (atlas->findMap(newName)->isValid()) {
+        throw std::runtime_error("Map with new name already exists.");
+    }
 
     map->setName(newName);
 }

@@ -64,6 +64,8 @@ public:
 
     QJsonObject getJsonObject() const override ;
 
+    static QString getInvalidCharactersInName();
+
     Region * getRegion() { return region; }
 
     QString const & getRegionName() const;
@@ -76,6 +78,7 @@ public:
 
     TextLayerPointer const & getTextLayer() const { return textLayer; }
 
+    static bool isNameValid(QString name);
 };
 
 }

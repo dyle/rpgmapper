@@ -68,6 +68,11 @@ GridLayerPointer const & Map::getGridLayer() const {
 }
 
 
+QString Map::getInvalidCharactersInName() {
+    return Map::Impl::getInvalidCharactersInName();
+}
+
+
 QJsonObject Map::getJsonObject() const {
     return impl->getJsonObject();
 }
@@ -120,6 +125,11 @@ TileLayers & Map::getTileLayers() {
 
 TileLayers const & Map::getTileLayers() const {
     return impl->getTileLayers();
+}
+
+
+bool Map::isNameValid(QString name) {
+    return Map::Impl::isNameValid(name);
 }
 
 

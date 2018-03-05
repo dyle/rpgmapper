@@ -6,6 +6,8 @@
 
 
 #include <QJsonArray>
+#include <QRegExp>
+
 #include "atlas_impl.hpp"
 
 using namespace rpgmapper::model;
@@ -145,6 +147,11 @@ ProzessorPointer const & Atlas::Impl::getCommandProzessor() const {
 }
 
 
+QString Atlas::Impl::getInvalidCharactersInName() {
+    return R"raw(:\\*\?/)raw";
+}
+
+
 QJsonObject Atlas::Impl::getJsonObject() const {
 
     auto json = Nameable::getJsonObject();
@@ -160,6 +167,12 @@ QJsonObject Atlas::Impl::getJsonObject() const {
 
 bool Atlas::Impl::isModified() const {
     return getCommandProzessor()->getHistory().size() != unmodifiedCommandCounter;
+}
+
+
+bool Atlas::Impl::isNameValid(QString name) {
+    QRegExp regExp{QString{"[%1]"}.arg(getInvalidCharactersInName())};
+    return (!name.isEmpty()) && (regExp.indexIn(name) == -1);
 }
 
 

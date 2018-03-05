@@ -40,11 +40,15 @@ public:
 
     Atlas * getAtlas() { return atlas; }
 
+    static QString getInvalidCharactersInName();
+
     QJsonObject getJsonObject() const override;
 
     std::set<QString> getMapNames() const;
 
     Maps const & getMaps() const { return maps; }
+
+    static bool isNameValid(QString name);
 
     bool removeMap(QString const & name);
 

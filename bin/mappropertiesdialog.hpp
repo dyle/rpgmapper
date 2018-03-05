@@ -75,6 +75,8 @@ private:
 
     void initNumeralConverters();
 
+    bool isUserInputValid();
+
     void setAxisUiFromMap();
 
     void setXAxisUiFromMap();

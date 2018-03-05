@@ -55,6 +55,8 @@ public:
 
     Atlas * getAtlas();
 
+    static QString getInvalidCharactersInName();
+
     QJsonObject getJsonObject() const;
 
     Maps const & getMaps() const;
@@ -62,6 +64,8 @@ public:
     std::set<QString> getMapNames() const;
 
     QString const & getName() const;
+
+    static bool isNameValid(QString name);
 
     virtual bool isValid() const { return true; }
 

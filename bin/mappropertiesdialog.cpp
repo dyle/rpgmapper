@@ -11,6 +11,7 @@
 #include <QMessageBox>
 
 #include <rpgmapper/atlas.hpp>
+#include <rpgmapper/filesystem.hpp>
 #include <rpgmapper/command/composite_command.hpp>
 #include <rpgmapper/command/resize_map.hpp>
 #include <rpgmapper/command/set_map_axis_font.hpp>
@@ -87,6 +88,19 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
                                                     ui->yAlphaBigRadioButton,
                                                     ui->yRomanRadioButton};
 
+}
+
+
+void MapPropertiesDialog::addBackgroundImageFromFile(QFileInfo const & fileInfo) {
+
+    if (!fileInfo.exists()) {
+        return;
+    }
+    QImage image(fileInfo.absoluteFilePath());
+    if (!image.isNull()) {
+        backgroundImages[fileInfo.absoluteFilePath()] = image;
+        ui->backgroundImageFileComboBox->addItem(fileInfo.absoluteFilePath());
+    }
 }
 
 
@@ -192,6 +206,43 @@ void MapPropertiesDialog::clickedOk() {
     if (isUserInputValid()) {
         applyValuesToMap();
         accept();
+    }
+}
+
+
+void MapPropertiesDialog::collectBackgroundImages() {
+    backgroundImages.clear();
+    collectBackgroundImagesFromUser();
+    collectBackgroundImagesFromSystem();
+}
+
+
+void MapPropertiesDialog::collectBackgroundImagesFromSystem() {
+    auto systemDataPath = rpgmapper::model::getApplicationDataSystemPath();
+    if (systemDataPath.cd("backgrounds")) {
+        collectBackgroundImagesInPath(systemDataPath);
+    }
+}
+
+
+void MapPropertiesDialog::collectBackgroundImagesFromUser() {
+    auto userDataPath = rpgmapper::model::getApplicationDataUserPath();
+    if (userDataPath.cd("backgrounds")) {
+        collectBackgroundImagesInPath(userDataPath);
+    }
+}
+
+
+void MapPropertiesDialog::collectBackgroundImagesInPath(QDir const & path) {
+
+    if (!path.exists()) {
+        return;
+    }
+
+    QStringList imageExtension;
+    imageExtension << "*.png" << "*.jpg";
+    for (auto const & fileInfo : path.entryInfoList(imageExtension, QDir::Files | QDir::Readable | QDir::NoDotAndDotDot)) {
+        addBackgroundImageFromFile(fileInfo);
     }
 }
 
@@ -466,6 +517,60 @@ void MapPropertiesDialog::setAxisUiFromMap() {
 }
 
 
+void MapPropertiesDialog::setBackgroundImageRenderMode() {
+    evaluate();
+}
+
+
+void MapPropertiesDialog::setBackgroundUiFromMap() {
+
+    collectBackgroundImages();
+
+    // TODO: check with map settings
+
+    ui->backgroundColorRadioButton->setChecked(true);
+    ui->backgroundImageRadioButton->setChecked(false);
+    ui->backgroundImagePlainRadioButton->setChecked(true);
+    ui->backgroundImageScaledRadioButton->setChecked(false);
+    ui->backgroundImageTiledRadioButton->setChecked(false);
+    // ui->backgroundImageContentWidget->setPixmap()
+//    backgroundColor = QColor(map->backgroundLayer()->attributes()["color"]);
+}
+
+
+void MapPropertiesDialog::setDimensionUiFromMap() {
+
+    auto map = this->map.toStrongRef();
+    if (map == nullptr) {
+        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    }
+
+    ui->widthSpinBox->setValue(map->isValid() ? map->getSize().width() : 0);
+    ui->heightSpinBox->setValue(map->isValid() ? map->getSize().height() : 0);
+    ui->coordinatesOriginWidget->setOrigin(map->isValid() ? map->getCoordinateSystem().getOrigin()
+                                                          : CoordinatesOrigin::bottomLeft);
+}
+
+
+
+void MapPropertiesDialog::setMap(AtlasPointer & atlas, MapPointer & map) {
+
+    this->atlas = atlas;
+    this->map = map;
+
+    setWindowTitle(tr("Change properties of map '%1'").arg(map->getName()));
+
+    ui->nameEdit->setText(map->getName());
+    setDimensionUiFromMap();
+    setAxisUiFromMap();
+    setBackgroundUiFromMap();
+
+    ui->propertiesTabWidget->setCurrentWidget(ui->dimensionsWidget);
+    ui->nameEdit->selectAll();
+    ui->nameEdit->setFocus();
+}
+
+
 void MapPropertiesDialog::setXAxisUiFromMap() {
 
     auto map = this->map.toStrongRef();
@@ -519,58 +624,6 @@ void MapPropertiesDialog::setYAxisUiFromMap() {
     }
 
     (*yAxisIter).second->setChecked(true);
-}
-
-
-void MapPropertiesDialog::setBackgroundImageRenderMode() {
-    evaluate();
-}
-
-
-void MapPropertiesDialog::setBackgroundUiFromMap() {
-
-    // TODO: check with map settings
-
-    ui->backgroundColorRadioButton->setChecked(true);
-    ui->backgroundImageRadioButton->setChecked(false);
-    ui->backgroundImagePlainRadioButton->setChecked(true);
-    ui->backgroundImageScaledRadioButton->setChecked(false);
-    ui->backgroundImageTiledRadioButton->setChecked(false);
-    // ui->backgroundImageContentWidget->setPixmap()
-//    backgroundColor = QColor(map->backgroundLayer()->attributes()["color"]);
-}
-
-
-void MapPropertiesDialog::setDimensionUiFromMap() {
-
-    auto map = this->map.toStrongRef();
-    if (map == nullptr) {
-        throw std::runtime_error("Map instance in properties vanished (nullptr).");
-    }
-
-    ui->widthSpinBox->setValue(map->isValid() ? map->getSize().width() : 0);
-    ui->heightSpinBox->setValue(map->isValid() ? map->getSize().height() : 0);
-    ui->coordinatesOriginWidget->setOrigin(map->isValid() ? map->getCoordinateSystem().getOrigin()
-                                                          : CoordinatesOrigin::bottomLeft);
-}
-
-
-
-void MapPropertiesDialog::setMap(AtlasPointer & atlas, MapPointer & map) {
-
-    this->atlas = atlas;
-    this->map = map;
-
-    setWindowTitle(tr("Change properties of map '%1'").arg(map->getName()));
-
-    ui->nameEdit->setText(map->getName());
-    setDimensionUiFromMap();
-    setAxisUiFromMap();
-    setBackgroundUiFromMap();
-
-    ui->propertiesTabWidget->setCurrentWidget(ui->dimensionsWidget);
-    ui->nameEdit->selectAll();
-    ui->nameEdit->setFocus();
 }
 
 

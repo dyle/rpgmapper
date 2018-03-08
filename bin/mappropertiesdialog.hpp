@@ -13,6 +13,7 @@
 
 #include <QDialog>
 #include <QFile>
+#include <QFileInfo>
 #include <QLabel>
 #include <QRadioButton>
 
@@ -37,6 +38,7 @@ class MapPropertiesDialog : public QDialog {
 
     QWeakPointer<rpgmapper::model::Atlas> atlas;
     QWeakPointer<rpgmapper::model::Map> map;
+    std::map<QString, QImage> backgroundImages;
     QImage backgroundImage;
     QString backgroundImageFileName;
     QLabel * backgroundPreviewLabel;
@@ -63,11 +65,21 @@ public slots:
 
 private:
 
+    void addBackgroundImageFromFile(QFileInfo const & fileInfo);
+
     void applyAxisValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
 
     void applyDimensionValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
 
     void applyValuesToMap();
+
+    void collectBackgroundImages();
+
+    void collectBackgroundImagesFromSystem();
+
+    void collectBackgroundImagesFromUser();
+
+    void collectBackgroundImagesInPath(QDir const & path);
 
     QString getSelectedXAxisNumeral() const;
 

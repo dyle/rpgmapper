@@ -45,7 +45,7 @@
    <item>
     <widget class="QTabWidget" name="propertiesTabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="dimensionsWidget">
       <attribute name="title">
@@ -736,9 +736,12 @@
                     <number>0</number>
                    </property>
                    <item>
-                    <widget class="QLineEdit" name="backgroundImageFileLineEdit">
-                     <property name="readOnly">
+                    <widget class="QComboBox" name="backgroundImageFileComboBox">
+                     <property name="editable">
                       <bool>true</bool>
+                     </property>
+                     <property name="insertPolicy">
+                      <enum>QComboBox::InsertAtTop</enum>
                      </property>
                     </widget>
                    </item>

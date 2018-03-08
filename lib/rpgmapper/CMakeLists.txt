@@ -28,6 +28,7 @@ set(RPGMAPPER_LIB_SRC
     atlas_io.cpp
     coordinate_system.cpp
     field.cpp
+    filesystem.cpp
     map.cpp
     map_impl.cpp
     nameable.cpp

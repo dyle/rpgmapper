@@ -8,6 +8,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data  DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 set(TEST_UNITS_SRC
+    test_filesystem.cpp
     test_average.cpp
     test_numerals.cpp
     test_coordinate_system.cpp

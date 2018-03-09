@@ -38,9 +38,8 @@ class MapPropertiesDialog : public QDialog {
 
     QWeakPointer<rpgmapper::model::Atlas> atlas;
     QWeakPointer<rpgmapper::model::Map> map;
+
     std::map<QString, QImage> backgroundImages;
-    QImage backgroundImage;
-    QString backgroundImageFileName;
     QLabel * backgroundPreviewLabel;
 
     struct {

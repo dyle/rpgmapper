@@ -17,6 +17,8 @@ static char const * BACKGROUND_COLOR_DEFAULT = "#fafaff";
 
 BackgroundLayer::BackgroundLayer(Map * map, QObject * parent) : Layer{map, parent} {
     getAttributes()["color"] = BACKGROUND_COLOR_DEFAULT;
+    getAttributes()["rendering"] = "color";
+    getAttributes()["renderMode"] = "plain";
 }
 
 
@@ -79,7 +81,7 @@ bool BackgroundLayer::isColorRendered() const {
 bool BackgroundLayer::isImageRendered() const {
     auto pair = getAttributes().find("rendering");
     if (pair == getAttributes().end()) {
-        return true;
+        return false;
     }
     return pair->second == "image";
 }

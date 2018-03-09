@@ -445,12 +445,13 @@ void MapPropertiesDialog::selectAxisFont() {
 
 void MapPropertiesDialog::selectBackgroundColor() {
 
-    // TODO: work with from widget
-    // QColor color = QColorDialog::getColor(backgroundColor, this);
-    // if (color.isValid()) {
-    //    backgroundColor = color;
-    //     evaluate();
-    //}
+    auto backgroundPalette = ui->backgroundColorFrame->palette();
+    QColor backgroundColor = backgroundPalette.window().color();
+    QColor color = QColorDialog::getColor(backgroundColor, this);
+    if (color.isValid()) {
+        backgroundPalette.setColor(QPalette::Window, color);
+        ui->backgroundColorFrame->setPalette(backgroundPalette);
+    }
 }
 
 
@@ -527,15 +528,34 @@ void MapPropertiesDialog::setBackgroundUiFromMap() {
 
     collectBackgroundImages();
 
-    // TODO: check with map settings
+    auto map = this->map.toStrongRef();
+    if (map == nullptr) {
+        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    }
 
-    ui->backgroundColorRadioButton->setChecked(true);
-    ui->backgroundImageRadioButton->setChecked(false);
-    ui->backgroundImagePlainRadioButton->setChecked(true);
-    ui->backgroundImageScaledRadioButton->setChecked(false);
-    ui->backgroundImageTiledRadioButton->setChecked(false);
-    // ui->backgroundImageContentWidget->setPixmap()
-//    backgroundColor = QColor(map->backgroundLayer()->attributes()["color"]);
+    bool coloredBackground = map->getBackgroundLayer()->isColorRendered();
+    bool imageBackground = map->getBackgroundLayer()->isImageRendered();
+    if (coloredBackground && imageBackground) {
+        throw std::runtime_error("Color and image background both set on map. These are mutual exclusive.");
+    }
+
+    ui->backgroundColorRadioButton->setChecked(coloredBackground);
+    ui->backgroundImageRadioButton->setChecked(imageBackground);
+
+    ui->backgroundImagePlainRadioButton->setChecked(map->getBackgroundLayer()->isImageRenderedPlain());
+    ui->backgroundImageScaledRadioButton->setChecked(map->getBackgroundLayer()->isImageRenderedScaled());
+    ui->backgroundImageTiledRadioButton->setChecked(map->getBackgroundLayer()->isImageRenderedTiled());
+
+    auto backgroundFramePalette = ui->backgroundColorFrame->palette();
+    backgroundFramePalette.setColor(QPalette::Window, map->getBackgroundLayer()->getColor());
+    ui->backgroundColorFrame->setPalette(backgroundFramePalette);
+
+    auto backgroundImage = map->getBackgroundLayer()->getImage();
+    if (!backgroundImage.isNull()) {
+        QPixmap pixmap;
+        pixmap.convertFromImage(backgroundImage);
+        backgroundPreviewLabel->setPixmap(pixmap);
+    }
 }
 
 

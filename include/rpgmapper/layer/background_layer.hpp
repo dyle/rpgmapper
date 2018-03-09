@@ -51,6 +51,11 @@ public:
 
     bool isImageRendered() const;
 
+    bool isImageRenderedPlain() const { return getImageRenderMode() == ImageRenderMode::plain; }
+
+    bool isImageRenderedScaled() const { return getImageRenderMode() == ImageRenderMode::scaled; }
+
+    bool isImageRenderedTiled() const { return getImageRenderMode() == ImageRenderMode::tiled; }
 };
 
 

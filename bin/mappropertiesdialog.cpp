@@ -36,7 +36,8 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
 
     initNumeralConverters();
 
-    backgroundPreviewLabel = new QLabel{this};
+    backgroundPreviewLabel = new BackgroundImageRenderer{this};
+    backgroundPreviewLabel->setMinimumSize(QSize{48,48});
     backgroundPreviewLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     backgroundPreviewLabel->setScaledContents(false);
     ui->backgroundImageScrollArea->setWidget(backgroundPreviewLabel);
@@ -408,7 +409,12 @@ bool MapPropertiesDialog::isUserInputValid() {
     }
 
     static QString alreayExistingMessage{tr("Map name is already used by another map.")};
-    if (atlas->findMap(ui->nameEdit->text())->isValid()) {
+    auto map = this->map.toStrongRef();
+    if (map == nullptr) {
+        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    }
+    auto otherMap = atlas->findMap(ui->nameEdit->text());
+    if (otherMap->isValid() && (otherMap.data() != map.data())) {
         ui->nameEdit->selectAll();
         ui->nameEdit->setFocus();
         QMessageBox::critical(this, tr("Refused to change name of map"), alreayExistingMessage);
@@ -520,7 +526,18 @@ void MapPropertiesDialog::setAxisUiFromMap() {
 
 
 void MapPropertiesDialog::setBackgroundImageRenderMode() {
-    evaluate();
+
+    if (ui->backgroundImagePlainRadioButton->isChecked()) {
+        backgroundPreviewLabel->setImageRenderMode(BackgroundLayer::ImageRenderMode::plain);
+    }
+    else
+    if (ui->backgroundImageScaledRadioButton->isChecked()) {
+        backgroundPreviewLabel->setImageRenderMode(BackgroundLayer::ImageRenderMode::scaled);
+    }
+    else
+    if (ui->backgroundImageTiledRadioButton->isChecked()) {
+        backgroundPreviewLabel->setImageRenderMode(BackgroundLayer::ImageRenderMode::tiled);
+    }
 }
 
 
@@ -556,6 +573,8 @@ void MapPropertiesDialog::setBackgroundUiFromMap() {
         pixmap.convertFromImage(backgroundImage);
         backgroundPreviewLabel->setPixmap(pixmap);
     }
+
+    setBackgroundImageRenderMode();
 }
 
 

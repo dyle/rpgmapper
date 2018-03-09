@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>599</width>
-    <height>481</height>
+    <width>500</width>
+    <height>580</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>500</width>
+    <height>580</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
@@ -637,13 +643,19 @@
          <property name="title">
           <string>Background</string>
          </property>
-         <layout class="QHBoxLayout" name="imageAndColorLayout">
+         <layout class="QHBoxLayout" name="imageAndColorLayout" stretch="0,1">
           <item>
            <widget class="QWidget" name="imageAndColorWidget" native="true">
             <property name="minimumSize">
              <size>
-              <width>300</width>
+              <width>0</width>
               <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>300</width>
+              <height>16777215</height>
              </size>
             </property>
             <layout class="QGridLayout" name="backgroundColorAndImageLayout" columnstretch="0,1">
@@ -737,6 +749,12 @@
                    </property>
                    <item>
                     <widget class="QComboBox" name="backgroundImageFileComboBox">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
                      <property name="editable">
                       <bool>true</bool>
                      </property>
@@ -782,8 +800,86 @@
                   </property>
                  </widget>
                 </item>
+                <item>
+                 <widget class="QGroupBox" name="backgroundMarginsGroupBox">
+                  <property name="title">
+                   <string>Margins</string>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout" columnstretch="0,1">
+                   <item row="2" column="1">
+                    <widget class="QSpinBox" name="topMarginSpinBox">
+                     <property name="maximum">
+                      <number>1024</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="leftMarginLabel">
+                     <property name="text">
+                      <string>Left:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QSpinBox" name="leftMarginSpinBox">
+                     <property name="maximum">
+                      <number>1024</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QSpinBox" name="rightMarginSpinBox">
+                     <property name="maximum">
+                      <number>1024</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QSpinBox" name="bottomMarginSpinBox">
+                     <property name="maximum">
+                      <number>1024</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="rightMarginLabel">
+                     <property name="text">
+                      <string>Right:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="topMarginLabel">
+                     <property name="text">
+                      <string>Top:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="bottomMarginLabel">
+                     <property name="text">
+                      <string>Bottom:</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
                </layout>
               </widget>
+             </item>
+             <item row="3" column="0" colspan="2">
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>
@@ -801,8 +897,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>241</width>
-               <height>301</height>
+               <width>231</width>
+               <height>400</height>
               </rect>
              </property>
             </widget>
@@ -878,18 +974,41 @@
  </customwidgets>
  <tabstops>
   <tabstop>nameEdit</tabstop>
-  <tabstop>widthSpinBox</tabstop>
-  <tabstop>cancelButton</tabstop>
   <tabstop>propertiesTabWidget</tabstop>
+  <tabstop>widthSpinBox</tabstop>
   <tabstop>heightSpinBox</tabstop>
   <tabstop>linkWidthHeightToolButton</tabstop>
-  <tabstop>okButton</tabstop>
   <tabstop>xNumericalRadioButton</tabstop>
   <tabstop>xAlphaSmallRadioButton</tabstop>
   <tabstop>xAlphaBigRadioButton</tabstop>
   <tabstop>xRomanRadioButton</tabstop>
   <tabstop>xStartValueSpinBox</tabstop>
   <tabstop>xAxisSampleLineEdit</tabstop>
+  <tabstop>yNumericalRadioButton</tabstop>
+  <tabstop>yAlphaSmallRadioButton</tabstop>
+  <tabstop>yAlphaBigRadioButton</tabstop>
+  <tabstop>yRomanRadioButton</tabstop>
+  <tabstop>yStartValueSpinBox</tabstop>
+  <tabstop>yAxisSampleLineEdit</tabstop>
+  <tabstop>axisFontLineEdit</tabstop>
+  <tabstop>axisFontToolButton</tabstop>
+  <tabstop>axisColorToolButton</tabstop>
+  <tabstop>gridColorToolButton</tabstop>
+  <tabstop>backgroundColorRadioButton</tabstop>
+  <tabstop>backgroundColorToolButton</tabstop>
+  <tabstop>backgroundImageRadioButton</tabstop>
+  <tabstop>backgroundImageFileComboBox</tabstop>
+  <tabstop>backgroundImageFileToolButton</tabstop>
+  <tabstop>backgroundImagePlainRadioButton</tabstop>
+  <tabstop>backgroundImageScaledRadioButton</tabstop>
+  <tabstop>backgroundImageTiledRadioButton</tabstop>
+  <tabstop>leftMarginSpinBox</tabstop>
+  <tabstop>rightMarginSpinBox</tabstop>
+  <tabstop>topMarginSpinBox</tabstop>
+  <tabstop>bottomMarginSpinBox</tabstop>
+  <tabstop>backgroundImageScrollArea</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>cancelButton</tabstop>
  </tabstops>
  <resources>
   <include location="rpgmapper.qrc"/>

@@ -46,10 +46,6 @@ protected:
 
     void paintEvent(QPaintEvent * event) override;
 
-private:
-
-    std::list<rpgmapper::model::Layer *> collectVisibleLayers() const;
-
 signals:
 
     void hoverCoordinates(int mapX, int mapY);

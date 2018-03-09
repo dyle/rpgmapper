@@ -23,48 +23,6 @@ MapWidget::MapWidget(QWidget * parent) : QWidget{parent} {
 }
 
 
-std::list<Layer *> MapWidget::collectVisibleLayers() const {
-
-    std::list<Layer *> layers;
-
-    auto map = this->map.toStrongRef();
-    if (map.data() == nullptr) {
-        throw std::runtime_error("map of MapWidget no longer valid (nullptr).");
-    }
-
-    if (map->getBackgroundLayer()->isVisible()) {
-        layers.push_back(map->getBackgroundLayer().data());
-    }
-
-    for (auto & baseLayer : map->getBaseLayers()) {
-        if (baseLayer->isVisible()) {
-            layers.push_back(baseLayer.data());
-        }
-    }
-
-    if (map->getGridLayer()->isVisible()) {
-        layers.push_back(map->getGridLayer().data());
-    }
-
-    if (map->getAxisLayer()->isVisible()) {
-        layers.push_back(map->getAxisLayer().data());
-    }
-
-    for (auto & tileLayer : map->getTileLayers()) {
-        if (tileLayer->isVisible()) {
-            layers.push_back(tileLayer.data());
-        }
-    }
-
-    if (map->getTextLayer()->isVisible()) {
-        layers.push_back(map->getTextLayer().data());
-    }
-
-    return layers;
-}
-
-
-
 void MapWidget::mapChanged() {
 
     auto map = this->map.toStrongRef();
@@ -112,7 +70,7 @@ void MapWidget::paintEvent(QPaintEvent * event) {
         throw std::runtime_error("map of MapWidget no longer valid (nullptr).");
     }
 
-    for (auto layer : collectVisibleLayers()) {
+    for (auto layer : map->collectVisibleLayers()) {
         layer->draw(painter, STANDARD_TILE_SIZE);
     }
 

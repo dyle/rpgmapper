@@ -18,12 +18,7 @@
 #include <QString>
 
 #include <rpgmapper/coordinate_system.hpp>
-#include <rpgmapper/layer/axis_layer.hpp>
-#include <rpgmapper/layer/background_layer.hpp>
-#include <rpgmapper/layer/grid_layer.hpp>
-#include <rpgmapper/layer/layer.hpp>
-#include <rpgmapper/layer/tile_layer.hpp>
-#include <rpgmapper/layer/text_layer.hpp>
+#include <rpgmapper/layer/layer_stack.hpp>
 
 
 namespace rpgmapper {
@@ -36,7 +31,7 @@ using MapPointer = QSharedPointer<Map>;
 
 using Maps = std::map<QString, MapPointer>;
 
-class Map : public QObject {
+class Map : public QObject, public LayerStack {
 
     Q_OBJECT
 
@@ -53,23 +48,15 @@ public:
 
     bool applyJsonObject(QJsonObject const & json);
 
-    AxisLayerPointer & getAxisLayer();
+    AxisLayerPointer const & getAxisLayer() const override;
 
-    AxisLayerPointer const & getAxisLayer() const;
+    BackgroundLayerPointer const & getBackgroundLayer() const override;
 
-    BackgroundLayerPointer & getBackgroundLayer();
-
-    BackgroundLayerPointer const & getBackgroundLayer() const;
-
-    TileLayers & getBaseLayers();
-
-    TileLayers const & getBaseLayers() const;
+    TileLayers const & getBaseLayers() const override;
 
     CoordinateSystem const & getCoordinateSystem() const;
 
-    GridLayerPointer & getGridLayer();
-
-    GridLayerPointer const & getGridLayer() const;
+    GridLayerPointer const & getGridLayer() const override;
 
     static QString getInvalidCharactersInName();
 
@@ -87,13 +74,9 @@ public:
 
     QSize getSize() const;
 
-    TileLayers & getTileLayers();
+    TileLayers const & getTileLayers() const override;
 
-    TileLayers const & getTileLayers() const;
-
-    TextLayerPointer & getTextLayer();
-
-    TextLayerPointer const & getTextLayer() const;
+    TextLayerPointer const & getTextLayer() const override;
 
     static bool isNameValid(QString name);
 

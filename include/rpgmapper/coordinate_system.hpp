@@ -72,27 +72,41 @@ public:
 
     QPoint transposeToMapCoordinates(QPoint const & position) const;
 
-    QPoint transposeToMapCoordinates(int x, int y) const { return transposeToMapCoordinates(QPoint{x, y}); }
+    QPoint transposeToMapCoordinates(int x, int y) const {
+        return transposeToMapCoordinates(QPoint{x, y});
+    }
 
     QPointF transposeToMapCoordinates(QPointF const & position) const;
 
-    QPointF transposeToMapCoordinates(float x, float y) const { return transposeToMapCoordinates(QPointF{x, y}); }
+    QPointF transposeToMapCoordinates(float x, float y) const {
+        return transposeToMapCoordinates(QPointF{x, y});
+    }
 
-    QPointF transposeToMapCoordinates(double x, double y) const { return transposeToMapCoordinates(QPointF{x, y}); }
+    QPointF transposeToMapCoordinates(double x, double y) const {
+        return transposeToMapCoordinates(QPointF{x, y});
+    }
 
     QPoint transposeToScreenCoordinates(QPoint const & position) const;
 
-    QPoint transposeToScreenCoordinates(int x, int y) const { return transposeToScreenCoordinates(QPoint{x, y}); }
+    QPoint transposeToScreenCoordinates(int x, int y) const {
+        return transposeToScreenCoordinates(QPoint{x, y});
+    }
 
     QPointF transposeToScreenCoordinates(QPointF const & position) const;
 
-    QPointF transposeToScreenCoordinates(float x, float y) const { return transposeToScreenCoordinates(QPointF{x, y}); }
+    QPointF transposeToScreenCoordinates(float x, float y) const {
+        return transposeToScreenCoordinates(QPointF{x, y});
+    }
 
-    QPointF transposeToScreenCoordinates(double x, double y) const { return transposeToScreenCoordinates(QPointF{x, y}); }
+    QPointF transposeToScreenCoordinates(double x, double y) const {
+        return transposeToScreenCoordinates(QPointF{x, y});
+    }
 
     void resize(QSize const & size);
 
-    void resize(int width, int height) { resize(QSize{width, height}); }
+    void resize(int width, int height) {
+        resize(QSize{width, height});
+    }
 
 private:
 

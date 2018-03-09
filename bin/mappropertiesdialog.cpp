@@ -456,28 +456,29 @@ void MapPropertiesDialog::selectBackgroundColor() {
 
 void MapPropertiesDialog::selectBackgroundImage() {
 
-    auto fileName = QFileDialog::getOpenFileName(this, tr("Pick an image as map background"));
-    QImage backgroundImage{fileName};
-    if (backgroundImage.isNull()) {
-        QString message = QString{tr("Failed to load image '%1'\nIs this an image?")}.arg(fileName);
-        QMessageBox::critical(this, tr("Failed to load image."), message);
-        return;
-    }
-
-    backgroundImageFileName = fileName;
-    this->backgroundImage = backgroundImage;
-
-    QPixmap backgroundPixmap;
-    if (backgroundPixmap.convertFromImage(this->backgroundImage)) {
-        backgroundPreviewLabel->setPixmap(backgroundPixmap);
-        backgroundPreviewLabel->resize(backgroundPreviewLabel->pixmap()->size());
-    }
-    else {
-        QString message = QString{tr("Failed to apply image '%1'.\n")}.arg(fileName);
-        QMessageBox::critical(this, tr("Failed to set image."), message);
-    }
-
-    evaluate();
+    // TODO: select and apply background image in UI
+//    auto fileName = QFileDialog::getOpenFileName(this, tr("Pick an image as map background"));
+//    QImage backgroundImage{fileName};
+//    if (backgroundImage.isNull()) {
+//        QString message = QString{tr("Failed to load image '%1'\nIs this an image?")}.arg(fileName);
+//        QMessageBox::critical(this, tr("Failed to load image."), message);
+//        return;
+//    }
+//
+//    backgroundImageFileName = fileName;
+//    this->backgroundImage = backgroundImage;
+//
+//    QPixmap backgroundPixmap;
+//    if (backgroundPixmap.convertFromImage(this->backgroundImage)) {
+//        backgroundPreviewLabel->setPixmap(backgroundPixmap);
+//        backgroundPreviewLabel->resize(backgroundPreviewLabel->pixmap()->size());
+//    }
+//    else {
+//        QString message = QString{tr("Failed to apply image '%1'.\n")}.arg(fileName);
+//        QMessageBox::critical(this, tr("Failed to set image."), message);
+//    }
+//
+//    evaluate();
 }
 
 

@@ -9,6 +9,10 @@
 #define RPGMAPPER_MODEL_LAYER_BACKGROUND_LAYER_HPP
 
 
+#include <QColor>
+#include <QImage>
+#include <QMargins>
+
 #include <rpgmapper/layer/layer.hpp>
 
 
@@ -22,15 +26,31 @@ class BackgroundLayer : public Layer {
 
     Q_OBJECT
 
+    QImage image;
+    QMargins margins;
+
 public:
+
+    enum class ImageRenderMode { plain, scaled, tiled };
 
     explicit BackgroundLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
     ~BackgroundLayer() override = default;
 
+    void draw(QPainter & painter, int tileSize) const override;
+
     QColor getColor() const;
 
-    void draw(QPainter & painter, int tileSize) const override;
+    QImage const & getImage() const;
+
+    ImageRenderMode getImageRenderMode() const;
+
+    QMargins const & getMargins() const;
+
+    bool isColorRendered() const;
+
+    bool isImageRendered() const;
+
 };
 
 

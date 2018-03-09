@@ -20,6 +20,13 @@ BackgroundLayer::BackgroundLayer(Map * map, QObject * parent) : Layer{map, paren
 }
 
 
+void BackgroundLayer::draw(QPainter & painter, int tileSize) const {
+    QSize size = getMap()->getSize() * tileSize;
+    QColor backgroundColor = getColor();
+    painter.fillRect(QRect{QPoint{0, 0}, size}, backgroundColor);
+}
+
+
 QColor BackgroundLayer::getColor() const {
     auto pair = getAttributes().find("color");
     if (pair == getAttributes().end()) {
@@ -29,9 +36,50 @@ QColor BackgroundLayer::getColor() const {
 }
 
 
-void BackgroundLayer::draw(QPainter & painter, int tileSize) const {
-    QSize size = getMap()->getSize() * tileSize;
-    QColor backgroundColor = getColor();
-    painter.fillRect(QRect{QPoint{0, 0}, size}, backgroundColor);
+QImage const & BackgroundLayer::getImage() const {
+    return image;
+}
 
+
+BackgroundLayer::ImageRenderMode BackgroundLayer::getImageRenderMode() const {
+
+    auto pair = getAttributes().find("renderMode");
+    if (pair == getAttributes().end()) {
+        return ImageRenderMode::plain;
+    }
+
+    static std::map<QString, ImageRenderMode> const modes{
+        {"plain", ImageRenderMode::plain},
+        {"scaled", ImageRenderMode::scaled},
+        {"tiled", ImageRenderMode::tiled}
+    };
+    auto renderPair = modes.find((*pair).second);
+    if (renderPair == modes.end()) {
+        return ImageRenderMode::plain;
+    }
+
+    return (*renderPair).second;
+}
+
+
+QMargins const & BackgroundLayer::getMargins() const {
+    return margins;
+}
+
+
+bool BackgroundLayer::isColorRendered() const {
+    auto pair = getAttributes().find("rendering");
+    if (pair == getAttributes().end()) {
+        return true;
+    }
+    return pair->second == "color";
+}
+
+
+bool BackgroundLayer::isImageRendered() const {
+    auto pair = getAttributes().find("rendering");
+    if (pair == getAttributes().end()) {
+        return true;
+    }
+    return pair->second == "image";
 }

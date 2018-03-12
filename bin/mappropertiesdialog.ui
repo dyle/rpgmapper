@@ -755,9 +755,6 @@
                        <height>16777215</height>
                       </size>
                      </property>
-                     <property name="editable">
-                      <bool>true</bool>
-                     </property>
                      <property name="insertPolicy">
                       <enum>QComboBox::InsertAtTop</enum>
                      </property>

@@ -56,6 +56,7 @@ set(RPGMAPPER_LIB_SRC
     command/set_region_name.cpp
 
     layer/axis_layer.cpp
+    layer/background_renderer.cpp
     layer/background_layer.cpp
     layer/grid_layer.cpp
     layer/layer.cpp

@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include <QFontDialog>
 #include <QMessageBox>
+#include <QConstOverload>
 
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/filesystem.hpp>
@@ -36,7 +37,7 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
 
     initNumeralConverters();
 
-    backgroundPreviewLabel = new BackgroundImageRenderer{this};
+    backgroundPreviewLabel = new BackgroundImageLabel{this};
     backgroundPreviewLabel->setMinimumSize(QSize{48,48});
     backgroundPreviewLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     backgroundPreviewLabel->setScaledContents(false);
@@ -75,9 +76,10 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
             this, &MapPropertiesDialog::setBackgroundImageRenderMode);
     connect(ui->backgroundImageTiledRadioButton, &QRadioButton::clicked,
             this, &MapPropertiesDialog::setBackgroundImageRenderMode);
+    connect(ui->backgroundImageFileComboBox, QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
+            this, &MapPropertiesDialog::backgroundImageSelected);
 
     connect(ui->okButton, &QPushButton::clicked, this, &MapPropertiesDialog::clickedOk);
-
 
     xAxisNumeralButtons = std::list<QRadioButton *>{ui->xNumericalRadioButton,
                                                     ui->xAlphaSmallRadioButton,
@@ -200,6 +202,42 @@ void MapPropertiesDialog::applyValuesToMap() {
     // TODO: add background values
 
     atlas->getCommandProzessor()->execute(CommandPointer{commands});
+}
+
+
+void MapPropertiesDialog::backgroundImageSelected(QString const & backgroundImage) {
+
+    if (backgroundImage.isEmpty()) {
+        backgroundPreviewLabel->setPixmap(QPixmap{});
+        backgroundPreviewLabel->update();
+    }
+    else {
+
+        if (backgroundImage == tr("<applied on map>")) {
+
+            auto map = this->map.toStrongRef();
+            if (map == nullptr) {
+                throw std::runtime_error("Map instance in properties vanished (nullptr).");
+            }
+
+            QPixmap pixmap;
+            pixmap.convertFromImage(map->getBackgroundLayer()->getImage());
+            backgroundPreviewLabel->setPixmap(pixmap);
+            backgroundPreviewLabel->update();
+        }
+        else {
+
+            auto pair = backgroundImages.find(backgroundImage);
+            if (pair == backgroundImages.end()) {
+                throw std::runtime_error("Unable to locate image selected background image.");
+            }
+
+            QPixmap pixmap;
+            pixmap.convertFromImage((*pair).second);
+            backgroundPreviewLabel->setPixmap(pixmap);
+            backgroundPreviewLabel->update();
+        }
+    }
 }
 
 
@@ -538,6 +576,7 @@ void MapPropertiesDialog::setBackgroundImageRenderMode() {
     if (ui->backgroundImageTiledRadioButton->isChecked()) {
         backgroundPreviewLabel->setImageRenderMode(BackgroundLayer::ImageRenderMode::tiled);
     }
+    backgroundPreviewLabel->update();
 }
 
 
@@ -572,6 +611,7 @@ void MapPropertiesDialog::setBackgroundUiFromMap() {
         QPixmap pixmap;
         pixmap.convertFromImage(backgroundImage);
         backgroundPreviewLabel->setPixmap(pixmap);
+        ui->backgroundImageFileComboBox->addItem(tr("<applied on map>"));
     }
 
     setBackgroundImageRenderMode();
@@ -730,4 +770,3 @@ void MapPropertiesDialog::widthChanged(int value) {
         ui->heightSpinBox->setValue(value);
     }
 }
-

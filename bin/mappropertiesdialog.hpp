@@ -21,7 +21,7 @@
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/numerals.hpp>
 #include <rpgmapper/command/composite_command.hpp>
-#include "background_image_renderer.hpp"
+#include "background_image_label.hpp"
 
 class Ui_mapPropertiesDialog;
 
@@ -40,7 +40,7 @@ class MapPropertiesDialog : public QDialog {
     QWeakPointer<rpgmapper::model::Map> map;
 
     std::map<QString, QImage> backgroundImages;
-    BackgroundImageRenderer * backgroundPreviewLabel;
+    BackgroundImageLabel * backgroundPreviewLabel;
 
     struct {
         QSharedPointer<rpgmapper::model::NumeralConverter> alphabeticalBigCaps;
@@ -99,6 +99,8 @@ private:
     void setDimensionUiFromMap();
 
 private slots:
+
+    void backgroundImageSelected(QString const & backgroundImage);
 
     void clickedOk();
 

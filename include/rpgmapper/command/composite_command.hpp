@@ -34,6 +34,8 @@ public:
 
     void addCommand(CommandPointer command);
 
+    unsigned int size() const { return commands.size(); }
+
     QString getDescription() const override;
 
     void execute() override;

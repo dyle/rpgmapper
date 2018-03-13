@@ -230,7 +230,12 @@ void MapPropertiesDialog::applyValuesToMap() {
     applyAxisValuesToMap(commands);
     applyBackgroundValuesToMap(commands);
 
-    atlas->getCommandProzessor()->execute(CommandPointer{commands});
+    if (commands->size() > 0) {
+        atlas->getCommandProzessor()->execute(CommandPointer{commands});
+    }
+    else {
+        delete commands;
+    }
 }
 
 

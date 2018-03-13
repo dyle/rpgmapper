@@ -9,7 +9,6 @@
 #include <QFileDialog>
 #include <QFontDialog>
 #include <QMessageBox>
-#include <QConstOverload>
 
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/filesystem.hpp>
@@ -17,6 +16,8 @@
 #include <rpgmapper/command/resize_map.hpp>
 #include <rpgmapper/command/set_map_axis_font.hpp>
 #include <rpgmapper/command/set_map_axis_font_color.hpp>
+#include <rpgmapper/command/set_map_background_color.hpp>
+#include <rpgmapper/command/set_map_background_rendering.hpp>
 #include <rpgmapper/command/set_map_grid_color.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
@@ -154,6 +155,34 @@ void MapPropertiesDialog::applyAxisValuesToMap(CompositeCommand * & commands) {
 }
 
 
+void MapPropertiesDialog::applyBackgroundValuesToMap(CompositeCommand * & commands) {
+
+    auto atlas = this->atlas.toStrongRef();
+    if (atlas == nullptr) {
+        throw std::runtime_error("Atlas instance in properties vanished (nullptr).");
+    }
+
+    auto map = this->map.toStrongRef();
+    if (map == nullptr) {
+        throw std::runtime_error("Internal map lost when applying values of property dialog (map == nullptr).");
+    }
+
+    auto backgroundPalette = ui->backgroundColorFrame->palette();
+    auto backgroundColor = backgroundPalette.window().color();
+    if (map->getBackgroundLayer()->getColor() != backgroundColor) {
+        commands->addCommand(CommandPointer{new SetMapBackgroundColor{atlas, map->getName(), backgroundColor}});
+    }
+
+    if (ui->backgroundColorRadioButton->isChecked() && !map->getBackgroundLayer()->isColorRendered()) {
+        commands->addCommand(CommandPointer{new SetMapBackgroundRendering{atlas, map->getName(), "color"}});
+    }
+
+    if (ui->backgroundImageRadioButton->isChecked() && !map->getBackgroundLayer()->isImageRendered()) {
+        commands->addCommand(CommandPointer{new SetMapBackgroundRendering{atlas, map->getName(), "image"}});
+    }
+}
+
+
 void MapPropertiesDialog::applyDimensionValuesToMap(CompositeCommand * & commands) {
 
     auto atlas = this->atlas.toStrongRef();
@@ -199,7 +228,7 @@ void MapPropertiesDialog::applyValuesToMap() {
 
     applyDimensionValuesToMap(commands);
     applyAxisValuesToMap(commands);
-    // TODO: add background values
+    applyBackgroundValuesToMap(commands);
 
     atlas->getCommandProzessor()->execute(CommandPointer{commands});
 }
@@ -283,66 +312,6 @@ void MapPropertiesDialog::collectBackgroundImagesInPath(QDir const & path) {
     for (auto const & fileInfo : path.entryInfoList(imageExtension, QDir::Files | QDir::Readable | QDir::NoDotAndDotDot)) {
         addBackgroundImageFromFile(fileInfo);
     }
-}
-
-
-void MapPropertiesDialog::evaluate() {
-
-    auto map = this->map.toStrongRef();
-    if (map.data() == nullptr) {
-        return;
-    }
-
-    ui->nameEdit->setText(map->getName());
-/*
-    // Dimension tab
-    ui->widthSpinBox->setValue(map->getSize().width());
-    ui->heightSpinBox->setValue(map->getSize().height());
-    ui->wdOriginCornerWidget->setCorner(map->originCorner());
-
-    // Axis tab
-    ui->xNumericalRadioButton->setChecked(true);
-    ui->xStartValueSpinBox->setValue(0);
-    ui->edtAxisXSample->setFont(axisFont);
-    ui->yNumericalRadioButton->setChecked(true);
-    ui->yStartValueSpinBox->setValue(0);
-    ui->edtAxisYSample->setFont(axisFont);
-    ui->edtFontAxis->setText(axisFont.family() + ", " + QString::number(axisFont.pointSize()) + "pt");
-    ui->edtFontAxis->setCursorPosition(0);
-    auto cAxisPalette = ui->frAxisColor->palette();
-    cAxisPalette.setColor(QPalette::Window, axisColor);
-    ui->frAxisColor->setPalette(cAxisPalette);
-    showSampleXAxis();
-    showSampleYAxis();
-
-    // Background tab
-    auto cBackgroundPalette = ui->frBackgroundColor->palette();
-    cBackgroundPalette.setColor(QPalette::Window, backgroundColor);
-    ui->frBackgroundColor->setPalette(cBackgroundPalette);
-    ui->edtImageFile->setText(m_sImageFile);
-    ui->edtImageFile->setCursorPosition(0);
-    Map::map_background_image_render_mode eRenderMode = Map::map_background_image_render_mode::plain;
-    if (ui->backgroundImageScaledRadioButton->isChecked()) {
-        eRenderMode = Map::map_background_image_render_mode::scaled;
-    }
-    if (ui->backgroundImageTiledRadioButton->isChecked()) {
-        eRenderMode = Map::map_background_image_render_mode::tiled;
-    }
-    switch (eRenderMode) {
-
-        case Map::map_background_image_render_mode::plain:
-            backgroundPreviewLabel->setScaledContents(false);
-            break;
-
-        case Map::map_background_image_render_mode::scaled:
-            backgroundPreviewLabel->setScaledContents(true);
-            break;
-
-        case Map::map_background_image_render_mode::tiled:
-            // TODO
-            break;
-    }
-*/
 }
 
 
@@ -501,29 +470,21 @@ void MapPropertiesDialog::selectBackgroundColor() {
 
 void MapPropertiesDialog::selectBackgroundImage() {
 
-    // TODO: select and apply background image in UI
-//    auto fileName = QFileDialog::getOpenFileName(this, tr("Pick an image as map background"));
-//    QImage backgroundImage{fileName};
-//    if (backgroundImage.isNull()) {
-//        QString message = QString{tr("Failed to load image '%1'\nIs this an image?")}.arg(fileName);
-//        QMessageBox::critical(this, tr("Failed to load image."), message);
-//        return;
-//    }
-//
-//    backgroundImageFileName = fileName;
-//    this->backgroundImage = backgroundImage;
-//
-//    QPixmap backgroundPixmap;
-//    if (backgroundPixmap.convertFromImage(this->backgroundImage)) {
-//        backgroundPreviewLabel->setPixmap(backgroundPixmap);
-//        backgroundPreviewLabel->resize(backgroundPreviewLabel->pixmap()->size());
-//    }
-//    else {
-//        QString message = QString{tr("Failed to apply image '%1'.\n")}.arg(fileName);
-//        QMessageBox::critical(this, tr("Failed to set image."), message);
-//    }
-//
-//    evaluate();
+    auto filename = QFileDialog::getOpenFileName(this, tr("Pick an image as map background"));
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    QImage backgroundImage{filename};
+    if (backgroundImage.isNull()) {
+        QString message = QString{tr("Failed to load image '%1'\nIs this an image?")}.arg(filename);
+        QMessageBox::critical(this, tr("Failed to load image."), message);
+        return;
+    }
+
+    backgroundImages[filename] = backgroundImage;
+    ui->backgroundImageFileComboBox->addItem(filename);
+    ui->backgroundImageFileComboBox->setCurrentText(filename);
 }
 
 
@@ -635,6 +596,8 @@ void MapPropertiesDialog::setDimensionUiFromMap() {
 
 void MapPropertiesDialog::setMap(AtlasPointer & atlas, MapPointer & map) {
 
+    Map * oldMap = this->map.data();
+
     this->atlas = atlas;
     this->map = map;
 
@@ -645,9 +608,11 @@ void MapPropertiesDialog::setMap(AtlasPointer & atlas, MapPointer & map) {
     setAxisUiFromMap();
     setBackgroundUiFromMap();
 
-    ui->propertiesTabWidget->setCurrentWidget(ui->dimensionsWidget);
-    ui->nameEdit->selectAll();
-    ui->nameEdit->setFocus();
+    if (oldMap != this->map.data()) {
+        ui->propertiesTabWidget->setCurrentWidget(ui->dimensionsWidget);
+        ui->nameEdit->selectAll();
+        ui->nameEdit->setFocus();
+    }
 }
 
 

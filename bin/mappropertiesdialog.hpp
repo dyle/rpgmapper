@@ -58,15 +58,13 @@ public:
 
     void setMap(rpgmapper::model::AtlasPointer & atlas, rpgmapper::model::MapPointer & map);
 
-public slots:
-
-    void evaluate();
-
 private:
 
     void addBackgroundImageFromFile(QFileInfo const & fileInfo);
 
     void applyAxisValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
+
+    void applyBackgroundValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
 
     void applyDimensionValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
 

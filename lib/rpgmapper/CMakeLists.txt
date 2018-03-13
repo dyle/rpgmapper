@@ -48,6 +48,8 @@ set(RPGMAPPER_LIB_SRC
     command/set_atlas_name.cpp
     command/set_map_axis_font.cpp
     command/set_map_axis_font_color.cpp
+    command/set_map_background_color.cpp
+    command/set_map_background_rendering.cpp
     command/set_map_grid_color.cpp
     command/set_map_name.cpp
     command/set_map_numeral_axis.cpp

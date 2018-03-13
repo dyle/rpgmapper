@@ -17,6 +17,8 @@
 #include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/command/set_map_axis_font.hpp>
 #include <rpgmapper/command/set_map_axis_font_color.hpp>
+#include <rpgmapper/command/set_map_background_color.hpp>
+#include <rpgmapper/command/set_map_background_rendering.hpp>
 #include <rpgmapper/command/set_map_grid_color.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
@@ -226,4 +228,42 @@ TEST(MapCommand, SetMapNumeralYAxis) {
     EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), "Numeric");
     prozessor->undo();
     EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), defaultNumeral.toStdString());
+}
+
+
+TEST(MapCommand, SetMapBackgroundColor) {
+
+    AtlasPointer atlas{new Atlas};
+    auto & prozessor = atlas->getCommandProzessor();
+    prozessor->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    auto region = atlas->findRegion("foo");
+    EXPECT_TRUE(region->isValid());
+
+    prozessor->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    auto map = atlas->findMap("bar");
+    ASSERT_TRUE(map->isValid());
+
+    prozessor->execute(CommandPointer{new SetMapBackgroundColor{atlas, "bar", QColor{"#112233"}}});
+    EXPECT_EQ(map->getBackgroundLayer()->getColor(), QColor{"#112233"});
+}
+
+
+TEST(MapCommand, SetMapBackgroundRendering) {
+
+    AtlasPointer atlas{new Atlas};
+    auto & prozessor = atlas->getCommandProzessor();
+    prozessor->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    auto region = atlas->findRegion("foo");
+    EXPECT_TRUE(region->isValid());
+
+    prozessor->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    auto map = atlas->findMap("bar");
+    ASSERT_TRUE(map->isValid());
+
+    prozessor->execute(CommandPointer{new SetMapBackgroundRendering{atlas, "bar", "color"}});
+    EXPECT_TRUE(map->getBackgroundLayer()->isColorRendered());
+    EXPECT_FALSE(map->getBackgroundLayer()->isImageRendered());
+    prozessor->execute(CommandPointer{new SetMapBackgroundRendering{atlas, "bar", "image"}});
+    EXPECT_FALSE(map->getBackgroundLayer()->isColorRendered());
+    EXPECT_TRUE(map->getBackgroundLayer()->isImageRendered());
 }

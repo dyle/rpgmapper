@@ -299,10 +299,12 @@ void MainWindow::editAtlasProperties() {
 
 
 void MainWindow::editMapProperties() {
+
     auto map = selection->getMap();
     if (!map->isValid()) {
         return;
     }
+
     mapPropertiesDialog->setMap(selection->getAtlas(), map);
     mapPropertiesDialog->exec();
 }

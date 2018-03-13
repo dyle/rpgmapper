@@ -47,6 +47,8 @@ public:
 
     QMargins const & getMargins() const;
 
+    QString getRendering() const;
+
     bool isColorRendered() const;
 
     bool isImageRendered() const;
@@ -56,6 +58,12 @@ public:
     bool isImageRenderedScaled() const { return getImageRenderMode() == ImageRenderMode::scaled; }
 
     bool isImageRenderedTiled() const { return getImageRenderMode() == ImageRenderMode::tiled; }
+
+    static bool isValidRendering(QString const & rendering);
+
+    void setColor(QColor color);
+
+    void setRendering(QString const & rendering);
 };
 
 

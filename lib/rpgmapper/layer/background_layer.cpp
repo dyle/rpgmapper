@@ -69,19 +69,41 @@ QMargins const & BackgroundLayer::getMargins() const {
 }
 
 
-bool BackgroundLayer::isColorRendered() const {
+QString BackgroundLayer::getRendering() const {
     auto pair = getAttributes().find("rendering");
     if (pair == getAttributes().end()) {
-        return true;
+        return QString::null;
     }
-    return pair->second == "color";
+    return pair->second;
+}
+
+bool BackgroundLayer::isColorRendered() const {
+    return getRendering() == "color";
 }
 
 
 bool BackgroundLayer::isImageRendered() const {
-    auto pair = getAttributes().find("rendering");
-    if (pair == getAttributes().end()) {
-        return false;
+    return getRendering() == "image";
+}
+
+
+bool BackgroundLayer::isValidRendering(QString const & rendering) {
+    static std::map<QString, bool> const renderingValues{
+        {"color", true},
+        {"image", true}
+    };
+    return renderingValues.find(rendering) != renderingValues.end();
+}
+
+
+void BackgroundLayer::setColor(QColor color) {
+    getAttributes()["color"] = color.name(QColor::HexArgb);
+}
+
+
+void BackgroundLayer::setRendering(QString const & rendering) {
+    if (!isValidRendering(rendering)) {
+        throw std::runtime_error("Invalid background rendering value.");
     }
-    return pair->second == "image";
+    getAttributes()["rendering"] = rendering;
 }

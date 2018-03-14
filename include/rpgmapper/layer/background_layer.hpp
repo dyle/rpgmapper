@@ -13,6 +13,7 @@
 #include <QImage>
 #include <QMargins>
 
+#include <rpgmapper/layer/image_render_mode.hpp>
 #include <rpgmapper/layer/layer.hpp>
 
 
@@ -31,8 +32,6 @@ class BackgroundLayer : public Layer {
 
 public:
 
-    enum class ImageRenderMode { plain, scaled, tiled };
-
     explicit BackgroundLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
     ~BackgroundLayer() override = default;
@@ -42,6 +41,8 @@ public:
     QColor getColor() const;
 
     QImage const & getImage() const;
+
+    quint16 getImageChecksum() const;
 
     ImageRenderMode getImageRenderMode() const;
 
@@ -62,6 +63,10 @@ public:
     static bool isValidRendering(QString const & rendering);
 
     void setColor(QColor color);
+
+    void setImage(QImage image);
+
+    void setImageRenderMode(ImageRenderMode mode);
 
     void setRendering(QString const & rendering);
 };

@@ -78,6 +78,8 @@ private:
 
     void collectBackgroundImagesInPath(QDir const & path);
 
+    rpgmapper::model::ImageRenderMode getSelectedImageRenderMode() const;
+
     QString getSelectedXAxisNumeral() const;
 
     QString getSelectedYAxisNumeral() const;

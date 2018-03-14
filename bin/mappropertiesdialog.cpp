@@ -17,6 +17,8 @@
 #include <rpgmapper/command/set_map_axis_font.hpp>
 #include <rpgmapper/command/set_map_axis_font_color.hpp>
 #include <rpgmapper/command/set_map_background_color.hpp>
+#include <rpgmapper/command/set_map_background_image.hpp>
+#include <rpgmapper/command/set_map_background_image_render_mode.hpp>
 #include <rpgmapper/command/set_map_background_rendering.hpp>
 #include <rpgmapper/command/set_map_grid_color.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
@@ -100,6 +102,7 @@ void MapPropertiesDialog::addBackgroundImageFromFile(QFileInfo const & fileInfo)
     if (!fileInfo.exists()) {
         return;
     }
+
     QImage image(fileInfo.absoluteFilePath());
     if (!image.isNull()) {
         backgroundImages[fileInfo.absoluteFilePath()] = image;
@@ -179,6 +182,17 @@ void MapPropertiesDialog::applyBackgroundValuesToMap(CompositeCommand * & comman
 
     if (ui->backgroundImageRadioButton->isChecked() && !map->getBackgroundLayer()->isImageRendered()) {
         commands->addCommand(CommandPointer{new SetMapBackgroundRendering{atlas, map->getName(), "image"}});
+    }
+
+    auto selectedImage = ui->backgroundImageFileComboBox->currentText();
+    if (selectedImage != tr("<applied on map>")) {
+        auto image = backgroundImages[selectedImage];
+        commands->addCommand(CommandPointer{new SetMapBackgroundImage{atlas, map->getName(), image}});
+    }
+
+    auto mode = getSelectedImageRenderMode();
+    if (map->getBackgroundLayer()->getImageRenderMode() != mode) {
+        commands->addCommand(CommandPointer{new SetMapBackgroundImageRenderMode{atlas, map->getName(), mode}});
     }
 }
 
@@ -314,9 +328,33 @@ void MapPropertiesDialog::collectBackgroundImagesInPath(QDir const & path) {
 
     QStringList imageExtension;
     imageExtension << "*.png" << "*.jpg";
-    for (auto const & fileInfo : path.entryInfoList(imageExtension, QDir::Files | QDir::Readable | QDir::NoDotAndDotDot)) {
+    auto filter = QDir::Files | QDir::Readable | QDir::NoDotAndDotDot;
+    for (auto const & fileInfo : path.entryInfoList(imageExtension, filter)) {
         addBackgroundImageFromFile(fileInfo);
     }
+}
+
+
+rpgmapper::model::ImageRenderMode MapPropertiesDialog::getSelectedImageRenderMode() const {
+
+    ImageRenderMode mode;
+
+    if (ui->backgroundImagePlainRadioButton->isChecked()) {
+        mode = ImageRenderMode::plain;
+    }
+    else
+    if (ui->backgroundImageScaledRadioButton->isChecked()) {
+        mode = ImageRenderMode::scaled;
+    }
+    else
+    if (ui->backgroundImageTiledRadioButton->isChecked()) {
+        mode = ImageRenderMode::tiled;
+    }
+    else {
+        throw std::runtime_error("Don't know which background image render mode is selected.");
+    }
+
+    return mode;
 }
 
 
@@ -532,15 +570,15 @@ void MapPropertiesDialog::setAxisUiFromMap() {
 void MapPropertiesDialog::setBackgroundImageRenderMode() {
 
     if (ui->backgroundImagePlainRadioButton->isChecked()) {
-        backgroundPreviewLabel->setImageRenderMode(BackgroundLayer::ImageRenderMode::plain);
+        backgroundPreviewLabel->setImageRenderMode(ImageRenderMode::plain);
     }
     else
     if (ui->backgroundImageScaledRadioButton->isChecked()) {
-        backgroundPreviewLabel->setImageRenderMode(BackgroundLayer::ImageRenderMode::scaled);
+        backgroundPreviewLabel->setImageRenderMode(ImageRenderMode::scaled);
     }
     else
     if (ui->backgroundImageTiledRadioButton->isChecked()) {
-        backgroundPreviewLabel->setImageRenderMode(BackgroundLayer::ImageRenderMode::tiled);
+        backgroundPreviewLabel->setImageRenderMode(ImageRenderMode::tiled);
     }
     backgroundPreviewLabel->update();
 }
@@ -548,12 +586,21 @@ void MapPropertiesDialog::setBackgroundImageRenderMode() {
 
 void MapPropertiesDialog::setBackgroundUiFromMap() {
 
-    collectBackgroundImages();
-
     auto map = this->map.toStrongRef();
     if (map == nullptr) {
         throw std::runtime_error("Map instance in properties vanished (nullptr).");
     }
+
+    ui->backgroundImageFileComboBox->clear();
+    auto backgroundImage = map->getBackgroundLayer()->getImage();
+    if (!backgroundImage.isNull()) {
+        QPixmap pixmap;
+        pixmap.convertFromImage(backgroundImage);
+        backgroundPreviewLabel->setPixmap(pixmap);
+        ui->backgroundImageFileComboBox->addItem(tr("<applied on map>"));
+        ui->backgroundImageFileComboBox->setCurrentIndex(0);
+    }
+    collectBackgroundImages();
 
     bool coloredBackground = map->getBackgroundLayer()->isColorRendered();
     bool imageBackground = map->getBackgroundLayer()->isImageRendered();
@@ -571,14 +618,6 @@ void MapPropertiesDialog::setBackgroundUiFromMap() {
     auto backgroundFramePalette = ui->backgroundColorFrame->palette();
     backgroundFramePalette.setColor(QPalette::Window, map->getBackgroundLayer()->getColor());
     ui->backgroundColorFrame->setPalette(backgroundFramePalette);
-
-    auto backgroundImage = map->getBackgroundLayer()->getImage();
-    if (!backgroundImage.isNull()) {
-        QPixmap pixmap;
-        pixmap.convertFromImage(backgroundImage);
-        backgroundPreviewLabel->setPixmap(pixmap);
-        ui->backgroundImageFileComboBox->addItem(tr("<applied on map>"));
-    }
 
     setBackgroundImageRenderMode();
 }

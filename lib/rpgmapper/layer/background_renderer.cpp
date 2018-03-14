@@ -26,15 +26,15 @@ void BackgroundRenderer::drawBackground(QPainter & painter, QRect const & rect) 
 
     switch (getImageRenderMode()) {
 
-        case BackgroundLayer::ImageRenderMode::plain:
+        case ImageRenderMode::plain:
             drawPlainBackground(painter, rect);
             break;
 
-        case BackgroundLayer::ImageRenderMode::scaled:
+        case ImageRenderMode::scaled:
             drawScaledBackground(painter, rect);
             break;
 
-        case BackgroundLayer::ImageRenderMode::tiled:
+        case ImageRenderMode::tiled:
             drawTiledBackground(painter, rect);
             break;
     }

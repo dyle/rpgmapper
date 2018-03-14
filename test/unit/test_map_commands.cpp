@@ -18,6 +18,7 @@
 #include <rpgmapper/command/set_map_axis_font.hpp>
 #include <rpgmapper/command/set_map_axis_font_color.hpp>
 #include <rpgmapper/command/set_map_background_color.hpp>
+#include <rpgmapper/command/set_map_background_image_render_mode.hpp>
 #include <rpgmapper/command/set_map_background_rendering.hpp>
 #include <rpgmapper/command/set_map_grid_color.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
@@ -266,4 +267,33 @@ TEST(MapCommand, SetMapBackgroundRendering) {
     prozessor->execute(CommandPointer{new SetMapBackgroundRendering{atlas, "bar", "image"}});
     EXPECT_FALSE(map->getBackgroundLayer()->isColorRendered());
     EXPECT_TRUE(map->getBackgroundLayer()->isImageRendered());
+}
+
+
+TEST(MapCommand, SetMapBackgroundImageRenderMode) {
+
+    AtlasPointer atlas{new Atlas};
+    auto & prozessor = atlas->getCommandProzessor();
+    prozessor->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    auto region = atlas->findRegion("foo");
+    EXPECT_TRUE(region->isValid());
+
+    prozessor->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    auto map = atlas->findMap("bar");
+    ASSERT_TRUE(map->isValid());
+
+    prozessor->execute(CommandPointer{new SetMapBackgroundImageRenderMode{atlas, "bar", ImageRenderMode::plain}});
+    EXPECT_TRUE(map->getBackgroundLayer()->isImageRenderedPlain());
+    EXPECT_FALSE(map->getBackgroundLayer()->isImageRenderedScaled());
+    EXPECT_FALSE(map->getBackgroundLayer()->isImageRenderedTiled());
+
+    prozessor->execute(CommandPointer{new SetMapBackgroundImageRenderMode{atlas, "bar", ImageRenderMode::scaled}});
+    EXPECT_FALSE(map->getBackgroundLayer()->isImageRenderedPlain());
+    EXPECT_TRUE(map->getBackgroundLayer()->isImageRenderedScaled());
+    EXPECT_FALSE(map->getBackgroundLayer()->isImageRenderedTiled());
+
+    prozessor->execute(CommandPointer{new SetMapBackgroundImageRenderMode{atlas, "bar", ImageRenderMode::tiled}});
+    EXPECT_FALSE(map->getBackgroundLayer()->isImageRenderedPlain());
+    EXPECT_FALSE(map->getBackgroundLayer()->isImageRenderedScaled());
+    EXPECT_TRUE(map->getBackgroundLayer()->isImageRenderedTiled());
 }

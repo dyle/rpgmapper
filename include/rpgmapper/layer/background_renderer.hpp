@@ -13,6 +13,7 @@
 #include <QPixmap>
 
 #include <rpgmapper/layer/background_layer.hpp>
+#include <rpgmapper/layer/image_render_mode.hpp>
 
 
 namespace rpgmapper {
@@ -21,18 +22,17 @@ namespace model {
 
 class BackgroundRenderer {
 
-    rpgmapper::model::BackgroundLayer::ImageRenderMode renderMode =
-            rpgmapper::model::BackgroundLayer::ImageRenderMode::plain;
+    rpgmapper::model::ImageRenderMode renderMode = rpgmapper::model::ImageRenderMode::plain;
 
 public:
 
     BackgroundRenderer() = default;
 
-    rpgmapper::model::BackgroundLayer::ImageRenderMode getImageRenderMode() const { return renderMode; }
+    rpgmapper::model::ImageRenderMode getImageRenderMode() const { return renderMode; }
 
     virtual QPixmap const * getBackgroundPixmap() const = 0;
 
-    void setImageRenderMode(rpgmapper::model::BackgroundLayer::ImageRenderMode renderMode) {
+    void setImageRenderMode(rpgmapper::model::ImageRenderMode renderMode) {
         this->renderMode = renderMode;
     }
 

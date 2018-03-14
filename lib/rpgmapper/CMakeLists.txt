@@ -49,6 +49,8 @@ set(RPGMAPPER_LIB_SRC
     command/set_map_axis_font.cpp
     command/set_map_axis_font_color.cpp
     command/set_map_background_color.cpp
+    command/set_map_background_image.cpp
+    command/set_map_background_image_render_mode.cpp
     command/set_map_background_rendering.cpp
     command/set_map_grid_color.cpp
     command/set_map_name.cpp
@@ -61,6 +63,7 @@ set(RPGMAPPER_LIB_SRC
     layer/background_renderer.cpp
     layer/background_layer.cpp
     layer/grid_layer.cpp
+    layer/image_render_mode.cpp
     layer/layer.cpp
     layer/layer_impl.cpp
     layer/layer_stack.cpp

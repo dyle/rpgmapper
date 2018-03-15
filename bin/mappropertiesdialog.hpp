@@ -80,6 +80,8 @@ private:
 
     rpgmapper::model::ImageRenderMode getSelectedImageRenderMode() const;
 
+    QMargins getSelectedMargins() const;
+
     QString getSelectedXAxisNumeral() const;
 
     QString getSelectedYAxisNumeral() const;
@@ -115,6 +117,8 @@ private slots:
     void selectBackgroundImage();
 
     void setBackgroundImageRenderMode();
+
+    void setMargins();
 
     void selectGridColor();
 

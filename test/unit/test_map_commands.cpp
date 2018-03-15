@@ -21,6 +21,7 @@
 #include <rpgmapper/command/set_map_background_image_render_mode.hpp>
 #include <rpgmapper/command/set_map_background_rendering.hpp>
 #include <rpgmapper/command/set_map_grid_color.hpp>
+#include <rpgmapper/command/set_map_margins.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
 #include <rpgmapper/command/set_map_origin.hpp>
@@ -296,4 +297,39 @@ TEST(MapCommand, SetMapBackgroundImageRenderMode) {
     EXPECT_FALSE(map->getBackgroundLayer()->isImageRenderedPlain());
     EXPECT_FALSE(map->getBackgroundLayer()->isImageRenderedScaled());
     EXPECT_TRUE(map->getBackgroundLayer()->isImageRenderedTiled());
+}
+
+
+TEST(MapCommand, SetMapMargins) {
+
+    AtlasPointer atlas{new Atlas};
+    auto & prozessor = atlas->getCommandProzessor();
+    prozessor->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    auto region = atlas->findRegion("foo");
+    EXPECT_TRUE(region->isValid());
+
+    prozessor->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    auto map = atlas->findMap("bar");
+    ASSERT_TRUE(map->isValid());
+
+    prozessor->execute(CommandPointer{new SetMapMargins{atlas, "bar", QMargins{11, 22, 33, 44}}});
+    auto margins = map->getBackgroundLayer()->getMargins();
+    EXPECT_EQ(margins.left(), 11);
+    EXPECT_EQ(margins.top(), 22);
+    EXPECT_EQ(margins.right(), 33);
+    EXPECT_EQ(margins.bottom(), 44);
+
+    prozessor->execute(CommandPointer{new SetMapMargins{atlas, "bar", QMargins{9, 8, 7, 6}}});
+    margins = map->getBackgroundLayer()->getMargins();
+    EXPECT_EQ(margins.left(), 9);
+    EXPECT_EQ(margins.top(), 8);
+    EXPECT_EQ(margins.right(), 7);
+    EXPECT_EQ(margins.bottom(), 6);
+
+    prozessor->execute(CommandPointer{new SetMapMargins{atlas, "bar", QMargins{0, 0, 0, 0}}});
+    margins = map->getBackgroundLayer()->getMargins();
+    EXPECT_EQ(margins.left(), 0);
+    EXPECT_EQ(margins.top(), 0);
+    EXPECT_EQ(margins.right(), 0);
+    EXPECT_EQ(margins.bottom(), 0);
 }

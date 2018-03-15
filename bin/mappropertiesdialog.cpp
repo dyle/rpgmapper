@@ -21,6 +21,7 @@
 #include <rpgmapper/command/set_map_background_image_render_mode.hpp>
 #include <rpgmapper/command/set_map_background_rendering.hpp>
 #include <rpgmapper/command/set_map_grid_color.hpp>
+#include <rpgmapper/command/set_map_margins.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
 #include <rpgmapper/command/set_map_numeral_offset.hpp>
@@ -194,6 +195,11 @@ void MapPropertiesDialog::applyBackgroundValuesToMap(CompositeCommand * & comman
     if (map->getBackgroundLayer()->getImageRenderMode() != mode) {
         commands->addCommand(CommandPointer{new SetMapBackgroundImageRenderMode{atlas, map->getName(), mode}});
     }
+
+    auto margins = getSelectedMargins();
+    if (margins != map->getBackgroundLayer()->getMargins()) {
+        commands->addCommand(CommandPointer{new SetMapMargins{atlas, map->getName(), margins}});
+    }
 }
 
 
@@ -355,6 +361,14 @@ rpgmapper::model::ImageRenderMode MapPropertiesDialog::getSelectedImageRenderMod
     }
 
     return mode;
+}
+
+
+QMargins MapPropertiesDialog::getSelectedMargins() const {
+    return QMargins(ui->leftMarginSpinBox->value(),
+                    ui->topMarginSpinBox->value(),
+                    ui->rightMarginSpinBox->value(),
+                    ui->bottomMarginSpinBox->value());
 }
 
 
@@ -620,6 +634,7 @@ void MapPropertiesDialog::setBackgroundUiFromMap() {
     ui->backgroundColorFrame->setPalette(backgroundFramePalette);
 
     setBackgroundImageRenderMode();
+    setMargins();
 }
 
 
@@ -635,7 +650,6 @@ void MapPropertiesDialog::setDimensionUiFromMap() {
     ui->coordinatesOriginWidget->setOrigin(map->isValid() ? map->getCoordinateSystem().getOrigin()
                                                           : CoordinatesOrigin::bottomLeft);
 }
-
 
 
 void MapPropertiesDialog::setMap(AtlasPointer & atlas, MapPointer & map) {
@@ -657,6 +671,21 @@ void MapPropertiesDialog::setMap(AtlasPointer & atlas, MapPointer & map) {
         ui->nameEdit->selectAll();
         ui->nameEdit->setFocus();
     }
+}
+
+
+void MapPropertiesDialog::setMargins() {
+
+    auto map = this->map.toStrongRef();
+    if (map == nullptr) {
+        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    }
+
+    auto margins = map->getBackgroundLayer()->getMargins();
+    ui->leftMarginSpinBox->setValue(margins.left());
+    ui->topMarginSpinBox->setValue(margins.top());
+    ui->rightMarginSpinBox->setValue(margins.right());
+    ui->bottomMarginSpinBox->setValue(margins.bottom());
 }
 
 

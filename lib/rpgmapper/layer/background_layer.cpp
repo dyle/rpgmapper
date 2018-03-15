@@ -5,11 +5,12 @@
  */
 
 
+#include <QBuffer>
 #include <QColor>
+#include <QJsonDocument>
 
 #include <rpgmapper/map.hpp>
-#include <QtCore/QBuffer>
-#include <utility>
+
 
 using namespace rpgmapper::model;
 
@@ -25,6 +26,7 @@ static char const * BACKGROUND_COLOR_DEFAULT = "#fafaff";
 
 BackgroundLayer::BackgroundLayer(Map * map, QObject * parent) : Layer{map, parent} {
     getAttributes()["color"] = BACKGROUND_COLOR_DEFAULT;
+    getAttributes()["margins"] = R"raw({"top":0,"left":0,"right":0,"bottom":0})raw";
     getAttributes()["rendering"] = "color";
     getAttributes()["renderMode"] = "plain";
 }
@@ -73,8 +75,16 @@ rpgmapper::model::ImageRenderMode BackgroundLayer::getImageRenderMode() const {
 }
 
 
-QMargins const & BackgroundLayer::getMargins() const {
-    return margins;
+QMargins BackgroundLayer::getMargins() const {
+
+    auto json = QJsonDocument::fromJson(getAttributes().at("margins").toUtf8()).object();
+
+    int left = json.contains("left") ? static_cast<int>(json["left"].toDouble(0.0)) : 0;
+    int top = json.contains("top") ? static_cast<int>(json["top"].toDouble(0.0)) : 0;
+    int right = json.contains("right") ? static_cast<int>(json["right"].toDouble(0.0)) : 0;
+    int bottom = json.contains("bottom") ? static_cast<int>(json["bottom"].toDouble(0.0)) : 0;
+
+    return QMargins(left, top, right, bottom);
 }
 
 
@@ -117,6 +127,13 @@ void BackgroundLayer::setImage(QImage image) {
 
 void BackgroundLayer::setImageRenderMode(ImageRenderMode mode) {
     getAttributes()["renderMode"] = imageRenderModeToString(mode);
+}
+
+
+void BackgroundLayer::setMargins(QMargins const & margins) {
+    auto json = QString(R"raw({"top":%1,"left":%2,"right":%3,"bottom":%4})raw")
+        .arg(margins.top()).arg(margins.left()).arg(margins.right()).arg(margins.bottom());
+    getAttributes()["margins"] = json;
 }
 
 

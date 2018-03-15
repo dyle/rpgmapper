@@ -28,7 +28,6 @@ class BackgroundLayer : public Layer {
     Q_OBJECT
 
     QImage image;
-    QMargins margins;
 
 public:
 
@@ -46,7 +45,7 @@ public:
 
     ImageRenderMode getImageRenderMode() const;
 
-    QMargins const & getMargins() const;
+    QMargins getMargins() const;
 
     QString getRendering() const;
 
@@ -67,6 +66,8 @@ public:
     void setImage(QImage image);
 
     void setImageRenderMode(ImageRenderMode mode);
+
+    void setMargins(QMargins const & margins);
 
     void setRendering(QString const & rendering);
 };

@@ -53,6 +53,7 @@ set(RPGMAPPER_LIB_SRC
     command/set_map_background_image_render_mode.cpp
     command/set_map_background_rendering.cpp
     command/set_map_grid_color.cpp
+    command/set_map_margings.cpp
     command/set_map_name.cpp
     command/set_map_numeral_axis.cpp
     command/set_map_numeral_offset.cpp

@@ -22,7 +22,7 @@ TEST(NumeralsTest, TestInvalidNumeralConverter) {
 
 TEST(NumeralsTest, TestNumericConverter) {
 
-    auto converter = NumeralConverter::create("Numeric");
+    auto converter = NumeralConverter::create("numeric");
 
     ASSERT_TRUE(converter->isValid());
     EXPECT_EQ(converter->convert(0).toStdString(), "0");
@@ -57,7 +57,7 @@ TEST(NumeralsTest, TestNumericConverter) {
 
 TEST(NumeralsTest, TestAlphaSmallConverter) {
 
-    auto converter = NumeralConverter::create("AlphaSmall");
+    auto converter = NumeralConverter::create("alphaSmall");
 
     ASSERT_TRUE(converter->isValid());
     EXPECT_EQ(converter->convert(0).toStdString(), "a");
@@ -92,7 +92,7 @@ TEST(NumeralsTest, TestAlphaSmallConverter) {
 
 TEST(NumeralsTest, TestAlphaBigConverter) {
 
-    auto converter = NumeralConverter::create("AlphaBig");
+    auto converter = NumeralConverter::create("alphaBig");
 
     ASSERT_TRUE(converter->isValid());
     EXPECT_EQ(converter->convert(0).toStdString(), "A");
@@ -127,7 +127,7 @@ TEST(NumeralsTest, TestAlphaBigConverter) {
 
 TEST(NumeralsTest, TestRomanConverter) {
 
-    auto converter = NumeralConverter::create("Roman");
+    auto converter = NumeralConverter::create("roman");
 
     ASSERT_TRUE(converter->isValid());
     EXPECT_EQ(converter->convert(0).toStdString(), "O");

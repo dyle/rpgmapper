@@ -24,3 +24,9 @@ TextLayer::TextLayer(Map * map, QObject * parent) : Layer{map, parent} {
 void TextLayer::draw(UNUSED QPainter & painter, UNUSED int tileSize) const {
 
 }
+
+
+QJsonObject TextLayer::getJsonObject() const {
+    QJsonObject jsonObject = Layer::getJsonObject();
+    return jsonObject;
+}

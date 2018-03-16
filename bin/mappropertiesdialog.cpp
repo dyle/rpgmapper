@@ -141,13 +141,13 @@ void MapPropertiesDialog::applyAxisValuesToMap(CompositeCommand * & commands) {
 
     auto axisPalette = ui->axisColorFrame->palette();
     auto axisColor = axisPalette.window().color();
-    if (map->getAxisLayer()->getAxisFontColor() != axisColor) {
+    if (map->getAxisLayer()->getColor() != axisColor) {
         commands->addCommand(CommandPointer{new SetMapAxisFontColor{atlas, map->getName(), axisColor}});
     }
 
     QFont axisFont;
     axisFont.fromString(ui->axisFontLineEdit->text());
-    if (map->getAxisLayer()->getAxisFont().toString() != axisFont.toString()) {
+    if (map->getAxisLayer()->getFont().toString() != axisFont.toString()) {
         commands->addCommand(CommandPointer{new SetMapAxisFont{atlas, map->getName(), axisFont}});
     }
 
@@ -377,10 +377,10 @@ QString MapPropertiesDialog::getSelectedXAxisNumeral() const {
     QString res = QString::null;
 
     static std::map<QAbstractButton *, QString> const buttons {
-            {ui->xNumericalRadioButton, "Numeric"},
-            {ui->xAlphaSmallRadioButton, "AlphaSmall"},
-            {ui->xAlphaBigRadioButton, "AlphaBig"},
-            {ui->xRomanRadioButton, "Roman"}
+            {ui->xNumericalRadioButton, "numeric"},
+            {ui->xAlphaSmallRadioButton, "alphaSmall"},
+            {ui->xAlphaBigRadioButton, "alphaBig"},
+            {ui->xRomanRadioButton, "roman"}
     };
 
     QRadioButton * checkedButton = nullptr;
@@ -405,10 +405,10 @@ QString MapPropertiesDialog::getSelectedYAxisNumeral() const {
     QString res = QString::null;
 
     static std::map<QAbstractButton *, QString> const buttons {
-            {ui->yNumericalRadioButton, "Numeric"},
-            {ui->yAlphaSmallRadioButton, "AlphaSmall"},
-            {ui->yAlphaBigRadioButton, "AlphaBig"},
-            {ui->yRomanRadioButton, "Roman"}
+            {ui->yNumericalRadioButton, "numeric"},
+            {ui->yAlphaSmallRadioButton, "alphaSmall"},
+            {ui->yAlphaBigRadioButton, "alphaBig"},
+            {ui->yRomanRadioButton, "roman"}
     };
 
     QRadioButton * checkedButton = nullptr;
@@ -438,19 +438,19 @@ void MapPropertiesDialog::heightChanged(int value) {
 void MapPropertiesDialog::initNumeralConverters() {
 
     if (numeralConverters.alphabeticalBigCaps.data() == nullptr) {
-        numeralConverters.alphabeticalBigCaps = NumeralConverter::create("AlphaBig");
+        numeralConverters.alphabeticalBigCaps = NumeralConverter::create("alphaBig");
     }
 
     if (numeralConverters.alphabeticalSmallCaps.data() == nullptr) {
-        numeralConverters.alphabeticalSmallCaps = NumeralConverter::create("AlphaSmall");
+        numeralConverters.alphabeticalSmallCaps = NumeralConverter::create("alphaSmall");
     }
 
     if (numeralConverters.numerical.data() == nullptr) {
-        numeralConverters.numerical = NumeralConverter::create("Numeric");
+        numeralConverters.numerical = NumeralConverter::create("numeric");
     }
 
     if (numeralConverters.roman.data() == nullptr) {
-        numeralConverters.roman = NumeralConverter::create("Roman");
+        numeralConverters.roman = NumeralConverter::create("roman");
     }
 }
 
@@ -567,9 +567,9 @@ void MapPropertiesDialog::setAxisUiFromMap() {
         throw std::runtime_error("Map instance in properties vanished (nullptr).");
     }
 
-    ui->axisFontLineEdit->setText(map->getAxisLayer()->getAxisFont().toString());
+    ui->axisFontLineEdit->setText(map->getAxisLayer()->getFont().toString());
     auto axisPalette = ui->axisColorFrame->palette();
-    axisPalette.setColor(QPalette::Window, map->getAxisLayer()->getAxisFontColor());
+    axisPalette.setColor(QPalette::Window, map->getAxisLayer()->getColor());
     ui->axisColorFrame->setPalette(axisPalette);
 
     auto gridPalette = ui->gridColorFrame->palette();
@@ -702,10 +702,10 @@ void MapPropertiesDialog::setXAxisUiFromMap() {
 
     using RadioButtonMap = std::map<QString, QRadioButton *>;
     static RadioButtonMap const xAxisNumericalRadioButtons = {
-        {"Numeric", ui->xNumericalRadioButton},
-        {"AlphaSmall", ui->xAlphaSmallRadioButton},
-        {"AlphaBig", ui->xAlphaBigRadioButton},
-        {"Roman", ui->xRomanRadioButton}
+        {"numeric", ui->xNumericalRadioButton},
+        {"alphaSmall", ui->xAlphaSmallRadioButton},
+        {"alphaBig", ui->xAlphaBigRadioButton},
+        {"roman", ui->xRomanRadioButton}
     };
 
     auto xAxisIter = xAxisNumericalRadioButtons.find(map->getNumeralXAxis()->getName());
@@ -730,10 +730,10 @@ void MapPropertiesDialog::setYAxisUiFromMap() {
 
     using RadioButtonMap = std::map<QString, QRadioButton *>;
     static RadioButtonMap const yAxisNumericalRadioButtons = {
-        {"Numeric", ui->yNumericalRadioButton},
-        {"AlphaSmall", ui->yAlphaSmallRadioButton},
-        {"AlphaBig", ui->yAlphaBigRadioButton},
-        {"Roman", ui->yRomanRadioButton}
+        {"aumeric", ui->yNumericalRadioButton},
+        {"alphaSmall", ui->yAlphaSmallRadioButton},
+        {"alphaBig", ui->yAlphaBigRadioButton},
+        {"roman", ui->yRomanRadioButton}
     };
 
     auto yAxisIter = yAxisNumericalRadioButtons.find(map->getNumeralYAxis()->getName());

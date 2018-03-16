@@ -11,6 +11,7 @@
 
 #include <memory>
 
+#include <QJsonObject>
 #include <QObject>
 #include <QPainter>
 #include <QSharedPointer>
@@ -43,6 +44,8 @@ public:
     Attributes & getAttributes();
 
     Attributes const & getAttributes() const;
+
+    virtual QJsonObject getJsonObject() const;
 
     void hide();
 

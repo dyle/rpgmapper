@@ -141,7 +141,7 @@ TEST(MapCommand, SetMapAxisFontColor) {
     ASSERT_TRUE(map->isValid());
 
     prozessor->execute(CommandPointer{new SetMapAxisFontColor{atlas, "bar", QColor{"#883311"}}});
-    EXPECT_EQ(map->getAxisLayer()->getAxisFontColor(), QColor{"#883311"});
+    EXPECT_EQ(map->getAxisLayer()->getColor(), QColor{"#883311"});
 }
 
 
@@ -159,7 +159,7 @@ TEST(MapCommand, SetMapAxisFont) {
 
     QFont font{"Arial", 16};
     prozessor->execute(CommandPointer{new SetMapAxisFont{atlas, "bar", font}});
-    EXPECT_EQ(map->getAxisLayer()->getAxisFont().toString().toStdString(), font.toString().toStdString());
+    EXPECT_EQ(map->getAxisLayer()->getFont().toString().toStdString(), font.toString().toStdString());
 }
 
 
@@ -176,23 +176,23 @@ TEST(MapCommand, SetMapNumeralXAxis) {
     ASSERT_TRUE(map->isValid());
 
     auto defaultNumeral = map->getNumeralXAxis()->getName();
-    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", true, "AlphaBig"}});
-    EXPECT_EQ(map->getNumeralXAxis()->getName().toStdString(), "AlphaBig");
+    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", true, "alphaBig"}});
+    EXPECT_EQ(map->getNumeralXAxis()->getName().toStdString(), "alphaBig");
     prozessor->undo();
     EXPECT_EQ(map->getNumeralXAxis()->getName().toStdString(), defaultNumeral.toStdString());
 
-    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", true, "AlphaSmall"}});
-    EXPECT_EQ(map->getNumeralXAxis()->getName().toStdString(), "AlphaSmall");
+    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", true, "alphaSmall"}});
+    EXPECT_EQ(map->getNumeralXAxis()->getName().toStdString(), "alphaSmall");
     prozessor->undo();
     EXPECT_EQ(map->getNumeralXAxis()->getName().toStdString(), defaultNumeral.toStdString());
 
-    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", true, "Roman"}});
-    EXPECT_EQ(map->getNumeralXAxis()->getName().toStdString(), "Roman");
+    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", true, "roman"}});
+    EXPECT_EQ(map->getNumeralXAxis()->getName().toStdString(), "roman");
     prozessor->undo();
     EXPECT_EQ(map->getNumeralXAxis()->getName().toStdString(), defaultNumeral.toStdString());
 
-    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", true, "Numeric"}});
-    EXPECT_EQ(map->getNumeralXAxis()->getName().toStdString(), "Numeric");
+    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", true, "numeric"}});
+    EXPECT_EQ(map->getNumeralXAxis()->getName().toStdString(), "numeric");
     prozessor->undo();
     EXPECT_EQ(map->getNumeralXAxis()->getName().toStdString(), defaultNumeral.toStdString());
 }
@@ -211,23 +211,23 @@ TEST(MapCommand, SetMapNumeralYAxis) {
     ASSERT_TRUE(map->isValid());
 
     auto defaultNumeral = map->getNumeralYAxis()->getName();
-    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", false, "AlphaBig"}});
-    EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), "AlphaBig");
+    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", false, "alphaBig"}});
+    EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), "alphaBig");
     prozessor->undo();
     EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), defaultNumeral.toStdString());
 
-    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", false, "AlphaSmall"}});
-    EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), "AlphaSmall");
+    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", false, "alphaSmall"}});
+    EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), "alphaSmall");
     prozessor->undo();
     EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), defaultNumeral.toStdString());
 
-    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", false, "Roman"}});
-    EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), "Roman");
+    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", false, "roman"}});
+    EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), "roman");
     prozessor->undo();
     EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), defaultNumeral.toStdString());
 
-    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", false, "Numeric"}});
-    EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), "Numeric");
+    prozessor->execute(CommandPointer{new SetMapNumeralAxis{atlas, "bar", false, "numeric"}});
+    EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), "numeric");
     prozessor->undo();
     EXPECT_EQ(map->getNumeralYAxis()->getName().toStdString(), defaultNumeral.toStdString());
 }

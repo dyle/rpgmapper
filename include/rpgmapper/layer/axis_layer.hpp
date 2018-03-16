@@ -34,13 +34,15 @@ public:
 
     void draw(QPainter & painter, int tileSize) const override;
 
-    QFont getAxisFont() const;
+    QColor getColor() const;
 
-    QColor getAxisFontColor() const;
+    QFont getFont() const;
 
-    void setAxisFont(QFont font);
+    QJsonObject getJsonObject() const override;
 
-    void setAxisFontColor(QColor color);
+    void setColor(QColor color);
+
+    void setFont(QFont font);
 
 private:
 

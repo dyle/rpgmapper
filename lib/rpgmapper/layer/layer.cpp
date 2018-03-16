@@ -26,6 +26,13 @@ Layer::Attributes const & Layer::getAttributes() const {
 }
 
 
+QJsonObject Layer::getJsonObject() const {
+    QJsonObject jsonObject;
+    jsonObject["visible"] = isVisible();
+    return jsonObject;
+}
+
+
 Map * Layer::getMap() {
     return impl->getMap();
 }

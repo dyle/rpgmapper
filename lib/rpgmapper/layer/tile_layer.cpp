@@ -39,3 +39,9 @@ FieldPointer const TileLayer::getField(int index) const {
 void TileLayer::draw(UNUSED QPainter & painter, UNUSED int tileSize) const {
 
 }
+
+
+QJsonObject TileLayer::getJsonObject() const {
+    QJsonObject jsonObject = Layer::getJsonObject();
+    return jsonObject;
+}

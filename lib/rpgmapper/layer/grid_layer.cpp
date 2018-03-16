@@ -76,6 +76,12 @@ QColor GridLayer::getGridColor() const {
 }
 
 
+QJsonObject GridLayer::getJsonObject() const {
+    QJsonObject jsonObject = Layer::getJsonObject();
+    return jsonObject;
+}
+
+
 void GridLayer::setGridColor(QColor color) {
     getAttributes()["gridColor"] = color.name(QColor::HexArgb);
 }

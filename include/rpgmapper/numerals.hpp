@@ -9,6 +9,7 @@
 #define RPGMAPPER_MODEL_NUMERALS_HPP
 
 
+#include <QJsonObject>
 #include <QString>
 #include <QSharedPointer>
 

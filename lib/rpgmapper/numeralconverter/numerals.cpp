@@ -17,10 +17,10 @@ using namespace rpgmapper::model;
 QSharedPointer<NumeralConverter> const & NumeralConverter::create(QString const & method) {
 
     static std::map<QString, QSharedPointer<NumeralConverter>> const converters{
-        {"Numeric", QSharedPointer<NumeralConverter>{new NumericConverter}},
-        {"AlphaSmall", QSharedPointer<NumeralConverter>{new AlphaSmallCapsConverter}},
-        {"AlphaBig", QSharedPointer<NumeralConverter>{new AlphaBigCapsConverter}},
-        {"Roman", QSharedPointer<NumeralConverter>{new RomanConverter}}
+        {"numeric", QSharedPointer<NumeralConverter>{new NumericConverter}},
+        {"alphaSmall", QSharedPointer<NumeralConverter>{new AlphaSmallCapsConverter}},
+        {"alphaBig", QSharedPointer<NumeralConverter>{new AlphaBigCapsConverter}},
+        {"roman", QSharedPointer<NumeralConverter>{new RomanConverter}}
     };
 
     auto iter = converters.find(method);

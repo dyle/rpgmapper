@@ -155,6 +155,7 @@ QString Atlas::Impl::getInvalidCharactersInName() {
 QJsonObject Atlas::Impl::getJsonObject() const {
 
     auto json = Nameable::getJsonObject();
+
     QJsonArray jsonRegions;
     std::for_each(std::begin(regions),
                   std::end(regions),

@@ -30,6 +30,8 @@ public:
     ~TextLayer() override = default;
 
     void draw(QPainter & painter, int tileSize) const override;
+
+    QJsonObject getJsonObject() const override;
 };
 
 

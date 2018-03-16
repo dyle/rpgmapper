@@ -75,6 +75,12 @@ rpgmapper::model::ImageRenderMode BackgroundLayer::getImageRenderMode() const {
 }
 
 
+QJsonObject BackgroundLayer::getJsonObject() const {
+    QJsonObject jsonObject = Layer::getJsonObject();
+    return jsonObject;
+}
+
+
 QMargins BackgroundLayer::getMargins() const {
 
     auto json = QJsonDocument::fromJson(getAttributes().at("margins").toUtf8()).object();

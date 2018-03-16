@@ -20,8 +20,8 @@ void SetMapAxisFontColor::execute() {
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
-        oldColor = map->getAxisLayer()->getAxisFontColor();
-        map->getAxisLayer()->setAxisFontColor(newColor);
+        oldColor = map->getAxisLayer()->getColor();
+        map->getAxisLayer()->setColor(newColor);
     }
 }
 
@@ -35,6 +35,6 @@ void SetMapAxisFontColor::undo() {
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
-        map->getAxisLayer()->setAxisFontColor(oldColor);
+        map->getAxisLayer()->setColor(oldColor);
     }
 }

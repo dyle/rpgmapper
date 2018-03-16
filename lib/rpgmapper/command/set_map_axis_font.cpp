@@ -20,8 +20,8 @@ void SetMapAxisFont::execute() {
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
-        oldFont = map->getAxisLayer()->getAxisFont();
-        map->getAxisLayer()->setAxisFont(newFont);
+        oldFont = map->getAxisLayer()->getFont();
+        map->getAxisLayer()->setFont(newFont);
     }
 }
 
@@ -35,6 +35,6 @@ void SetMapAxisFont::undo() {
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
-        map->getAxisLayer()->setAxisFont(oldFont);
+        map->getAxisLayer()->setFont(oldFont);
     }
 }

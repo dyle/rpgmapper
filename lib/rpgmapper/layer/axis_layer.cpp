@@ -15,9 +15,9 @@ static char const * DEFAULT_AXIS_COLOR = "#000000";
 
 AxisLayer::AxisLayer(Map * map, QObject * parent) : Layer{map, parent} {
 
-    getAttributes()["axisColor"] = DEFAULT_AXIS_COLOR;
+    getAttributes()["color"] = DEFAULT_AXIS_COLOR;
     QFont cDefaultFont{"Monospace", 10};
-    getAttributes()["axisFont"] = cDefaultFont.toString();
+    getAttributes()["font"] = cDefaultFont.toString();
 }
 
 
@@ -29,8 +29,8 @@ void AxisLayer::draw(QPainter & painter, int tileSize) const {
 
 void AxisLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
 
-    painter.setPen(getAxisFontColor());
-    painter.setFont(getAxisFont());
+    painter.setPen(getColor());
+    painter.setFont(getFont());
 
     QSize cSize = getMap()->getSize();
     int nBottom = cSize.height() * tileSize;
@@ -50,8 +50,8 @@ void AxisLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
 
 void AxisLayer::drawYAnnotation(QPainter & painter, int tileSize) const {
 
-    painter.setPen(getAxisFontColor());
-    painter.setFont(getAxisFont());
+    painter.setPen(getColor());
+    painter.setFont(getFont());
 
     QSize cSize = getMap()->getSize();
     int nRight = cSize.width() * tileSize;
@@ -69,20 +69,9 @@ void AxisLayer::drawYAnnotation(QPainter & painter, int tileSize) const {
 }
 
 
-QFont AxisLayer::getAxisFont() const {
+QColor AxisLayer::getColor() const {
 
-    QFont res{"Monospace", 10};
-    auto iter = getAttributes().find("axisFont");
-    if (iter != getAttributes().end()) {
-        res.fromString((*iter).second);
-    }
-    return res;
-}
-
-
-QColor AxisLayer::getAxisFontColor() const {
-
-    auto iter = getAttributes().find("axisColor");
+    auto iter = getAttributes().find("color");
     if (iter != getAttributes().end()) {
         return QColor{(*iter).second};
     }
@@ -90,11 +79,30 @@ QColor AxisLayer::getAxisFontColor() const {
 }
 
 
-void AxisLayer::setAxisFont(QFont font) {
-    getAttributes()["axisFont"] = font.toString();
+QFont AxisLayer::getFont() const {
+
+    QFont res{"Monospace", 10};
+    auto iter = getAttributes().find("font");
+    if (iter != getAttributes().end()) {
+        res.fromString((*iter).second);
+    }
+    return res;
 }
 
 
-void AxisLayer::setAxisFontColor(QColor color) {
-    getAttributes()["axisColor"] = color.name(QColor::HexArgb);
+QJsonObject AxisLayer::getJsonObject() const {
+    QJsonObject jsonObject = Layer::getJsonObject();
+    jsonObject["color"] = getColor().name(QColor::HexArgb);
+    jsonObject["font"] = getFont().toString();
+    return jsonObject;
+}
+
+
+void AxisLayer::setColor(QColor color) {
+    getAttributes()["color"] = color.name(QColor::HexArgb);
+}
+
+
+void AxisLayer::setFont(QFont font) {
+    getAttributes()["font"] = font.toString();
 }

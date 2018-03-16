@@ -45,6 +45,8 @@ public:
 
     ImageRenderMode getImageRenderMode() const;
 
+    QJsonObject getJsonObject() const override;
+
     QMargins getMargins() const;
 
     QString getRendering() const;

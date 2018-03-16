@@ -36,6 +36,8 @@ public:
 
     QColor getGridColor() const;
 
+    QJsonObject getJsonObject() const override;
+
     void setGridColor(QColor color);
 
 private:

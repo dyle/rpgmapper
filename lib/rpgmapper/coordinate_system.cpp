@@ -9,15 +9,75 @@
 using namespace rpgmapper::model;
 
 
+QString rpgmapper::model::coordinatesOriginToString(rpgmapper::model::CoordinatesOrigin origin) {
+
+    static std::map<rpgmapper::model::CoordinatesOrigin, QString> const originNames{
+        {rpgmapper::model::CoordinatesOrigin::topLeft, "topLeft"},
+        {rpgmapper::model::CoordinatesOrigin::topRight, "topRight"},
+        {rpgmapper::model::CoordinatesOrigin::bottomLeft, "bottomLeft"},
+        {rpgmapper::model::CoordinatesOrigin::bottomRight, "bottomRight"}
+    };
+
+    auto pair = originNames.find(origin);
+    if (pair == originNames.end()) {
+        throw std::out_of_range("Name for given coordinate origin not found.");
+    }
+    return (*pair).second;
+}
+
+
+rpgmapper::model::CoordinatesOrigin rpgmapper::model::stringToCoordinatesOrigin(QString const & string) {
+
+    static std::map<QString, rpgmapper::model::CoordinatesOrigin> const originNames{
+        {"topLeft", rpgmapper::model::CoordinatesOrigin::topLeft},
+        {"topRight", rpgmapper::model::CoordinatesOrigin::topRight},
+        {"bottomLeft", rpgmapper::model::CoordinatesOrigin::bottomLeft},
+        {"bottomRight", rpgmapper::model::CoordinatesOrigin::bottomRight, }
+    };
+
+    auto pair = originNames.find(string);
+    if (pair == originNames.end()) {
+        throw std::out_of_range("Cannot convert given coordinate origin to a name.");
+    }
+    return (*pair).second;
+}
+
+
 CoordinateSystem::CoordinateSystem() {
-    numeralXAxis = NumeralConverter::create("Numeric");
+
+    numeralXAxis = NumeralConverter::create("numeric");
     if (!numeralXAxis->isValid()) {
         throw std::runtime_error("Failed to create default numeral converter for X axis.");
     }
-    numeralYAxis = NumeralConverter::create("Numeric");
+
+    numeralYAxis = NumeralConverter::create("numeric");
     if (!numeralYAxis->isValid()) {
         throw std::runtime_error("Failed to create default numeral converter for Y axis.");
     }
+}
+
+
+QJsonObject CoordinateSystem::getJsonObject() const {
+
+    QJsonObject jsonObject;
+    jsonObject["origin"] = coordinatesOriginToString(origin);
+
+    QJsonObject jsonSize;
+    jsonSize["width"] = size.width();
+    jsonSize["height"] = size.height();
+    jsonObject["size"] = jsonSize;
+
+    QJsonObject jsonOffset;
+    jsonOffset["x"] = offset.x();
+    jsonOffset["y"] = offset.y();
+    jsonObject["offset"] = jsonOffset;
+
+    QJsonObject jsonNumerals;
+    jsonNumerals["x"] = numeralXAxis->getName();
+    jsonNumerals["y"] = numeralYAxis->getName();
+    jsonObject["numerals"] = jsonNumerals;
+
+    return jsonObject;
 }
 
 

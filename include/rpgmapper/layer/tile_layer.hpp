@@ -35,13 +35,15 @@ public:
 
     void addField(Field const & field);
 
+    void draw(QPainter & painter, int tileSize) const override;
+
     FieldPointer const getField(int index) const;
 
     FieldPointer const getField(int x, int y) const { return getField(Field::getIndex(x, y)); }
 
     FieldPointer const getField(QPoint const & point) const { return getField(point.x(), point.y()); }
 
-    void draw(QPainter & painter, int tileSize) const override;
+    QJsonObject getJsonObject() const override;
 };
 
 

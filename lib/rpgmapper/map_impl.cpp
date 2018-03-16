@@ -4,6 +4,9 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+
+#include <QJsonArray>
+
 #include <rpgmapper/layer/background_layer.hpp>
 #include <rpgmapper/layer/grid_layer.hpp>
 #include <rpgmapper/layer/text_layer.hpp>
@@ -40,7 +43,31 @@ QString Map::Impl::getInvalidCharactersInName() {
 
 
 QJsonObject Map::Impl::getJsonObject() const {
+
     auto json = Nameable::getJsonObject();
+    json["coordinateSystem"] = CoordinateSystem::getJsonObject();
+
+    QJsonObject layers;
+    layers["axis"] = getAxisLayer()->getJsonObject();
+    layers["background"] = getBackgroundLayer()->getJsonObject();
+
+    QJsonArray jsonBaseLayers;
+    for (auto const & baseLayer: baseLayers) {
+        jsonBaseLayers.append(baseLayer->getJsonObject());
+    }
+    layers["base"] = jsonBaseLayers;
+
+    layers["grid"] = getGridLayer()->getJsonObject();
+    QJsonArray jsonTileLayers;
+    for (auto const & tileLayer: tileLayers) {
+        jsonTileLayers.append(tileLayer->getJsonObject());
+    }
+    layers["tile"] = jsonTileLayers;
+
+    layers["text"] = getTextLayer()->getJsonObject();
+
+    json["layers"] = layers;
+
     return json;
 }
 

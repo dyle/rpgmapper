@@ -10,6 +10,7 @@
 
 #include <tuple>
 
+#include <QJsonObject>
 #include <QPoint>
 #include <QPointF>
 #include <QSize>
@@ -22,6 +23,12 @@ namespace model {
 
 
 enum class CoordinatesOrigin { topLeft, topRight, bottomLeft, bottomRight };
+
+
+QString coordinatesOriginToString(CoordinatesOrigin origin);
+
+CoordinatesOrigin stringToCoordinatesOrigin(QString const & string);
+
 
 struct NumeralCoordinates {
     QString x;
@@ -39,6 +46,8 @@ class CoordinateSystem {
 public:
 
     CoordinateSystem();
+
+    QJsonObject getJsonObject() const;
 
     static constexpr QSize getMaximumSize() { return QSize{1000, 1000}; }
 

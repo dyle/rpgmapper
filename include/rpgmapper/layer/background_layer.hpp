@@ -12,6 +12,7 @@
 #include <QColor>
 #include <QImage>
 #include <QMargins>
+#include <QUuid>
 
 #include <rpgmapper/layer/image_render_mode.hpp>
 #include <rpgmapper/layer/layer.hpp>
@@ -28,6 +29,7 @@ class BackgroundLayer : public Layer {
     Q_OBJECT
 
     QImage image;
+    QUuid imageUUID;
 
 public:
 
@@ -44,6 +46,8 @@ public:
     quint16 getImageChecksum() const;
 
     ImageRenderMode getImageRenderMode() const;
+
+    QUuid const & getImageUUID() const { return this->imageUUID; }
 
     QJsonObject getJsonObject() const override;
 

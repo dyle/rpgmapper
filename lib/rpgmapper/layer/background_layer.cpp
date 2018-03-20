@@ -76,7 +76,23 @@ rpgmapper::model::ImageRenderMode BackgroundLayer::getImageRenderMode() const {
 
 
 QJsonObject BackgroundLayer::getJsonObject() const {
+
     QJsonObject jsonObject = Layer::getJsonObject();
+
+    jsonObject["color"] = getColor().name(QColor::HexArgb);
+    jsonObject["renderMode"] = rpgmapper::model::imageRenderModeToString(getImageRenderMode());
+    jsonObject["rendering"] = getRendering();
+
+    QJsonObject jsonMargins;
+    auto margins = getMargins();
+    jsonMargins["left"] = margins.left();
+    jsonMargins["top"] = margins.top();
+    jsonMargins["right"] = margins.right();
+    jsonMargins["bottom"] = margins.bottom();
+    jsonObject["margins"] = jsonMargins;
+
+    jsonObject["image"] = QString("images/background/%1").arg(getImageUUID().toString());
+
     return jsonObject;
 }
 
@@ -128,6 +144,7 @@ void BackgroundLayer::setColor(QColor color) {
 
 void BackgroundLayer::setImage(QImage image) {
     this->image = std::move(image);
+    this->imageUUID = QUuid::createUuid();
 }
 
 

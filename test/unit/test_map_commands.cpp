@@ -124,7 +124,7 @@ TEST(MapCommand, SetMapGridColor) {
     ASSERT_TRUE(map->isValid());
 
     prozessor->execute(CommandPointer{new SetMapGridColor{atlas, "bar", QColor{"#FFAA88"}}});
-    EXPECT_EQ(map->getGridLayer()->getGridColor(), QColor{"#FFAA88"});
+    EXPECT_EQ(map->getGridLayer()->getColor(), QColor{"#FFAA88"});
 }
 
 

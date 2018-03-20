@@ -20,8 +20,8 @@ void SetMapGridColor::execute() {
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
-        oldColor = map->getGridLayer()->getGridColor();
-        map->getGridLayer()->setGridColor(newColor);
+        oldColor = map->getGridLayer()->getColor();
+        map->getGridLayer()->setColor(newColor);
     }
 }
 
@@ -35,6 +35,6 @@ void SetMapGridColor::undo() {
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
-        map->getGridLayer()->setGridColor(oldColor);
+        map->getGridLayer()->setColor(oldColor);
     }
 }

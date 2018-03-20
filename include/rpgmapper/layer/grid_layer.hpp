@@ -34,11 +34,11 @@ public:
 
     void draw(QPainter & painter, int tileSize) const override;
 
-    QColor getGridColor() const;
+    QColor getColor() const;
 
     QJsonObject getJsonObject() const override;
 
-    void setGridColor(QColor color);
+    void setColor(QColor color);
 
 private:
 

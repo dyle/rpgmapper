@@ -21,7 +21,7 @@ class Layer::Impl final {
 
     Map * map = nullptr;
     Attributes attributes;
-    bool visible;
+    bool visible = true;
 
 public:
 

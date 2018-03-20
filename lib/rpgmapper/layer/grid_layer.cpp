@@ -15,7 +15,7 @@ static char const * WARNING_GRID_COLOR = "#ff0088";
 
 
 GridLayer::GridLayer(Map * map, QObject * parent) : Layer{map, parent} {
-    getAttributes()["gridColor"] = DEFAULT_GRID_COLOR;
+    getAttributes()["color"] = DEFAULT_GRID_COLOR;
 }
 
 
@@ -30,7 +30,7 @@ void GridLayer::drawBorder(QPainter & painter, int tileSize) const {
 
     QSize size = getMap()->getSize() * tileSize;
 
-    painter.setPen(QPen(getGridColor(), 1, Qt::SolidLine, Qt::FlatCap));
+    painter.setPen(QPen(getColor(), 1, Qt::SolidLine, Qt::FlatCap));
     painter.drawRect(0, 0, size.width(), size.height());
 
     auto nOuterTickLength = tileSize / 4;
@@ -48,7 +48,7 @@ void GridLayer::drawBorder(QPainter & painter, int tileSize) const {
 void GridLayer::drawXAxis(QPainter & painter, int tileSize) const {
 
     QSize cSize = getMap()->getSize() * tileSize;
-    painter.setPen(QPen(getGridColor(), 1, Qt::DotLine, Qt::FlatCap));
+    painter.setPen(QPen(getColor(), 1, Qt::DotLine, Qt::FlatCap));
     for (int x = tileSize; x <= cSize.width() - tileSize; x += tileSize) {
         painter.drawLine(x, 0, x, cSize.height());
     }
@@ -58,16 +58,16 @@ void GridLayer::drawXAxis(QPainter & painter, int tileSize) const {
 void GridLayer::drawYAxis(QPainter & painter, int tileSize) const {
 
     QSize cSize = getMap()->getSize() * tileSize;
-    painter.setPen(QPen(getGridColor(), 1, Qt::DotLine, Qt::FlatCap));
+    painter.setPen(QPen(getColor(), 1, Qt::DotLine, Qt::FlatCap));
     for (int y = tileSize; y <= cSize.height() - tileSize; y += tileSize) {
         painter.drawLine(0, y, cSize.height(), y);
     }
 }
 
 
-QColor GridLayer::getGridColor() const {
+QColor GridLayer::getColor() const {
 
-    auto iter = getAttributes().find("gridColor");
+    auto iter = getAttributes().find("color");
     if (iter != getAttributes().end()) {
         return QColor{(*iter).second};
     }
@@ -78,11 +78,12 @@ QColor GridLayer::getGridColor() const {
 
 QJsonObject GridLayer::getJsonObject() const {
     QJsonObject jsonObject = Layer::getJsonObject();
+    jsonObject["color"] = getColor().name(QColor::HexArgb);
     return jsonObject;
 }
 
 
-void GridLayer::setGridColor(QColor color) {
-    getAttributes()["gridColor"] = color.name(QColor::HexArgb);
+void GridLayer::setColor(QColor color) {
+    getAttributes()["color"] = color.name(QColor::HexArgb);
 }
 

@@ -153,7 +153,7 @@ void MapPropertiesDialog::applyAxisValuesToMap(CompositeCommand * & commands) {
 
     auto gridPalette = ui->gridColorFrame->palette();
     auto gridColor = gridPalette.window().color();
-    if (map->getGridLayer()->getGridColor() != gridColor) {
+    if (map->getGridLayer()->getColor() != gridColor) {
         commands->addCommand(CommandPointer{new SetMapGridColor{atlas, map->getName(), gridColor}});
     }
 }
@@ -573,7 +573,7 @@ void MapPropertiesDialog::setAxisUiFromMap() {
     ui->axisColorFrame->setPalette(axisPalette);
 
     auto gridPalette = ui->gridColorFrame->palette();
-    gridPalette.setColor(QPalette::Window, map->getGridLayer()->getGridColor());
+    gridPalette.setColor(QPalette::Window, map->getGridLayer()->getColor());
     ui->gridColorFrame->setPalette(gridPalette);
 
     showSampleXAxis();

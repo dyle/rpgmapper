@@ -63,6 +63,16 @@ ProzessorPointer const & Atlas::getCommandProzessor() const {
 }
 
 
+ResourceDBPointer & Atlas::getResourceDB() {
+    return impl->getResourceDB();
+}
+
+
+ResourceDBPointer const & Atlas::getResourceDB() const {
+    return impl->getResourceDB();
+}
+
+
 MapPointer & Atlas::findMap(QString const & name) {
     return impl->findMap(name);
 }

@@ -18,6 +18,7 @@
 #include <QSharedPointer>
 
 #include <rpgmapper/region.hpp>
+#include <rpgmapper/resource_db.hpp>
 #include <rpgmapper/command/prozessor.hpp>
 
 
@@ -71,6 +72,10 @@ public:
     QString const & getName() const;
 
     Regions const & getRegions() const;
+
+    ResourceDBPointer & getResourceDB();
+
+    ResourceDBPointer const & getResourceDB() const;
 
     void init();
 

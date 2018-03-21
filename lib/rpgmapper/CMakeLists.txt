@@ -34,6 +34,8 @@ set(RPGMAPPER_LIB_SRC
     nameable.cpp
     region.cpp
     region_impl.cpp
+    resource.cpp
+    resource_db.cpp
     selection.cpp
 
     command/atlas_command.cpp

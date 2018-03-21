@@ -19,6 +19,7 @@ Atlas::Impl::Impl(Atlas * atlas) : atlas(atlas) {
         throw std::invalid_argument("rpgmapper::model::Atlas::Impl::Impl() - atlas must not be nullptr.");
     }
     prozessor = ProzessorPointer{new Prozessor};
+    resourceDB = ResourceDBPointer{new ResourceDB};
 }
 
 

@@ -12,6 +12,7 @@ set(TEST_UNITS_SRC
     test_average.cpp
     test_numerals.cpp
     test_coordinate_system.cpp
+    test_resource.cpp
     test_field.cpp
     test_layer.cpp
     test_map.cpp

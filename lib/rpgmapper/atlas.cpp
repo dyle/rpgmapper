@@ -28,6 +28,11 @@ void Atlas::changedRegionName(QString nameBefore, QString nameAfter) {
 }
 
 
+void Atlas::collectIOContent(rpgmapper::model::io::Content & content) const  {
+    return impl->getJsonObject(rpgmapper::model::io::Content & content);
+}
+
+
 void Atlas::connectRegionSignals(RegionPointer & region) {
     if (!region->isValid()) {
         return;
@@ -105,11 +110,6 @@ std::set<QString> Atlas::getAllRegionNames() const {
 
 QString Atlas::getInvalidCharactersInName() {
     return Atlas::Impl::getInvalidCharactersInName();
-}
-
-
-QJsonObject Atlas::getJsonObject() const  {
-    return impl->getJsonObject();
 }
 
 

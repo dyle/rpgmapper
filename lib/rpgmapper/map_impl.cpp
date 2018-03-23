@@ -42,29 +42,29 @@ QString Map::Impl::getInvalidCharactersInName() {
 }
 
 
-QJsonObject Map::Impl::getJsonObject() const {
+QJsonObject Map::Impl::getJsonObject(rpgmapper::model::io::Content & content) const {
 
-    auto json = Nameable::getJsonObject();
-    json["coordinateSystem"] = CoordinateSystem::getJsonObject();
+    auto json = Nameable::getJsonObject(content);
+    json["coordinateSystem"] = CoordinateSystem::getJsonObject(content);
 
     QJsonObject layers;
     layers["axis"] = getAxisLayer()->getJsonObject();
-    layers["background"] = getBackgroundLayer()->getJsonObject();
+    layers["background"] = getBackgroundLayer()->getJsonObject(content);
 
     QJsonArray jsonBaseLayers;
     for (auto const & baseLayer: baseLayers) {
-        jsonBaseLayers.append(baseLayer->getJsonObject());
+        jsonBaseLayers.append(baseLayer->getJsonObject(content));
     }
     layers["base"] = jsonBaseLayers;
 
-    layers["grid"] = getGridLayer()->getJsonObject();
+    layers["grid"] = getGridLayer()->getJsonObject(content);
     QJsonArray jsonTileLayers;
     for (auto const & tileLayer: tileLayers) {
-        jsonTileLayers.append(tileLayer->getJsonObject());
+        jsonTileLayers.append(tileLayer->getJsonObject(content));
     }
     layers["tile"] = jsonTileLayers;
 
-    layers["text"] = getTextLayer()->getJsonObject();
+    layers["text"] = getTextLayer()->getJsonObject(content);
 
     json["layers"] = layers;
 

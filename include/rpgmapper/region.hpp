@@ -18,6 +18,7 @@
 
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/io/content.hpp>
 
 
 namespace rpgmapper {
@@ -60,7 +61,7 @@ public:
 
     static QString getInvalidCharactersInName();
 
-    QJsonObject getJsonObject() const;
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const;
 
     Maps const & getMaps() const;
 

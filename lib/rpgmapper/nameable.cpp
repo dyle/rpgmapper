@@ -22,7 +22,7 @@ bool Nameable::applyJsonObject(QJsonObject const & json) {
     return true;
 }
 
-QJsonObject Nameable::getJsonObject() const {
+QJsonObject Nameable::getJsonObject(UNUSED rpgmapper::model::io::Content & content) const {
 
     QJsonObject jsonObject;
     jsonObject["name"] = name;

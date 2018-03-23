@@ -98,14 +98,14 @@ QString Region::Impl::getInvalidCharactersInName() {
 }
 
 
-QJsonObject Region::Impl::getJsonObject() const {
+QJsonObject Region::Impl::getJsonObject(rpgmapper::model::io::Content & content) const {
 
-    auto json = Nameable::getJsonObject();
+    auto json = Nameable::getJsonObject(content);
 
     QJsonArray jsonMaps;
     std::for_each(std::begin(maps),
                   std::end(maps),
-                  [&] (auto const & pair) { jsonMaps.append(pair.second->getJsonObject()); });
+                  [&] (auto const & pair) { jsonMaps.append(pair.second->getJsonObject(content)); });
     json["maps"] = jsonMaps;
 
     return json;

@@ -5,8 +5,8 @@
  */
 
 
-#ifndef RPGMAPPER_MODEL_ATLAS_IO_HPP
-#define RPGMAPPER_MODEL_ATLAS_IO_HPP
+#ifndef RPGMAPPER_MODEL_IO_ATLAS_IO_HPP
+#define RPGMAPPER_MODEL_IO_ATLAS_IO_HPP
 
 #include <QFile>
 #include <QStringList>

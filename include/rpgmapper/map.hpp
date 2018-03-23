@@ -19,6 +19,7 @@
 
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/io/content.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
 
 
@@ -61,7 +62,7 @@ public:
 
     static QString getInvalidCharactersInName();
 
-    QJsonObject getJsonObject() const;
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const;
 
     QString const & getName() const;
 

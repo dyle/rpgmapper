@@ -60,7 +60,7 @@ public:
 
     static QString getInvalidCharactersInName();
 
-    QJsonObject getJsonObject() const override;
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
 
     Regions const & getRegions() const {
         return regions;

@@ -153,14 +153,14 @@ QString Atlas::Impl::getInvalidCharactersInName() {
 }
 
 
-QJsonObject Atlas::Impl::getJsonObject() const {
+QJsonObject Atlas::Impl::getJsonObject(rpgmapper::model::io::Content & content) const {
 
-    auto json = Nameable::getJsonObject();
+    auto json = Nameable::getJsonObject(content);
 
     QJsonArray jsonRegions;
     std::for_each(std::begin(regions),
                   std::end(regions),
-                  [&] (auto const & pair) { jsonRegions.append(pair.second->getJsonObject()); });
+                  [&] (auto const & pair) { jsonRegions.append(pair.second->getJsonObject(content)); });
     json["regions"] = jsonRegions;
 
     return json;

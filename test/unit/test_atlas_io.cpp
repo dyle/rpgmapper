@@ -23,7 +23,7 @@ TEST(AtlasIO, GetJsonOfAtlas) {
     };
     AtlasPointer atlas{new Atlas};
     atlas->init();
-    auto json = QJsonDocument{atlas->getJsonObject()}.toJson(QJsonDocument::Compact).toStdString();
+    auto json = QJsonDocument{atlas->collectIOContent()}.toJson(QJsonDocument::Compact).toStdString();
 
     EXPECT_EQ(json, expectedJson);
 }

@@ -5,13 +5,12 @@
  */
 
 
+#include <rpgmapper/io/content.hpp>
 #include "zip.hpp"
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::io;
 
-
-using Content = std::map<QString, QByteArray>;
 
 WriterResult appendContent(Content const & content, QuaZip & zip);
 
@@ -142,7 +141,7 @@ WriterResult appendFile(QString const & name, QByteArray const & blob, QuaZip & 
 
 Content collectContent(AtlasPointer const & atlas) {
     Content content;
-    content["atlas.json"] = QJsonDocument{atlas->getJsonObject()}.toJson(QJsonDocument::Compact);
+    content["atlas.json"] = QJsonDocument{atlas->collectIOContent()}.toJson(QJsonDocument::Compact);
     return content;
 }
 

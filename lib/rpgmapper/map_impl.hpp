@@ -82,7 +82,7 @@ public:
         return gridLayer;
     }
 
-    QJsonObject getJsonObject() const override ;
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override ;
 
     static QString getInvalidCharactersInName();
 

@@ -48,7 +48,7 @@ public:
 
     static QString getInvalidCharactersInName();
 
-    QJsonObject getJsonObject() const override;
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
 
     std::set<QString> getMapNames() const;
 

@@ -20,6 +20,7 @@
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/resource_db.hpp>
 #include <rpgmapper/command/prozessor.hpp>
+#include <rpgmapper/io/content.hpp>
 
 
 namespace rpgmapper {
@@ -45,6 +46,8 @@ public:
 
     bool applyJsonObject(QJsonObject json);
 
+    void collectIOContent(rpgmapper::model::io::Content & content) const;
+
     RegionPointer & createRegion(QString const & name);
 
     MapPointer & findMap(QString const & name);
@@ -62,8 +65,6 @@ public:
     rpgmapper::model::command::ProzessorPointer & getCommandProzessor();
 
     rpgmapper::model::command::ProzessorPointer const & getCommandProzessor() const;
-
-    QJsonObject getJsonObject() const;
 
     QString const & getFileName() const;
 

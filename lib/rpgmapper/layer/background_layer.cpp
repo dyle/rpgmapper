@@ -9,8 +9,9 @@
 #include <QColor>
 #include <QJsonDocument>
 
+#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/map.hpp>
-
+#include <rpgmapper/region.hpp>
 
 using namespace rpgmapper::model;
 
@@ -53,11 +54,6 @@ QImage const & BackgroundLayer::getImage() const {
 }
 
 
-quint16 BackgroundLayer::getImageChecksum() const {
-    return imageChecksum(image);
-}
-
-
 rpgmapper::model::ImageRenderMode BackgroundLayer::getImageRenderMode() const {
 
     auto pair = getAttributes().find("renderMode");
@@ -90,8 +86,7 @@ QJsonObject BackgroundLayer::getJsonObject() const {
     jsonMargins["right"] = margins.right();
     jsonMargins["bottom"] = margins.bottom();
     jsonObject["margins"] = jsonMargins;
-
-    jsonObject["image"] = QString("images/background/%1").arg(getImageUUID().toString());
+    jsonObject["image"] = imageName;
 
     return jsonObject;
 }
@@ -106,7 +101,7 @@ QMargins BackgroundLayer::getMargins() const {
     int right = json.contains("right") ? static_cast<int>(json["right"].toDouble(0.0)) : 0;
     int bottom = json.contains("bottom") ? static_cast<int>(json["bottom"].toDouble(0.0)) : 0;
 
-    return QMargins(left, top, right, bottom);
+    return {left, top, right, bottom};
 }
 
 
@@ -143,8 +138,17 @@ void BackgroundLayer::setColor(QColor color) {
 
 
 void BackgroundLayer::setImage(QImage image) {
+
     this->image = std::move(image);
-    this->imageUUID = QUuid::createUuid();
+
+    QByteArray data;
+    QBuffer buf(&data);
+    buf.open(QIODevice::WriteOnly);
+    this->image.save(&buf, "PNG");
+
+    imageName = QString("images/background/%1.png").arg(Resource::getHash(data));
+    auto backgroundResource = ResourcePointer{new Resource{imageName, data}};
+    getMap()->getRegion()->getAtlas()->getResourceDB()->addResource(backgroundResource);
 }
 
 

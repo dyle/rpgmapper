@@ -29,7 +29,7 @@ class BackgroundLayer : public Layer {
     Q_OBJECT
 
     QImage image;
-    QUuid imageUUID;
+    QString imageName;
 
 public:
 
@@ -43,13 +43,11 @@ public:
 
     QImage const & getImage() const;
 
-    quint16 getImageChecksum() const;
+    QString getImageName() const {
+        return imageName;
+    }
 
     ImageRenderMode getImageRenderMode() const;
-
-    QUuid const & getImageUUID() const {
-        return this->imageUUID;
-    }
 
     QJsonObject getJsonObject() const override;
 

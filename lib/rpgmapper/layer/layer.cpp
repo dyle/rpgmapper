@@ -43,6 +43,15 @@ Map const * Layer::getMap() const {
 }
 
 
+ResourceDBPointer & Layer::getResourceDB() {
+    return getMap()->getResourceDB();
+}
+
+
+ResourceDBPointer const & Layer::getResourceDB() const {
+    return getMap()->getResourceDB();
+}
+
 void Layer::hide() {
     if (impl->isVisible()) {
         impl->hide();

@@ -86,6 +86,11 @@ Atlas * Region::getAtlas() {
 }
 
 
+Atlas const * Region::getAtlas() const {
+    return impl->getAtlas();
+}
+
+
 MapPointer & Region::findMap(QString const & mapName) {
     return impl->findMap(mapName);
 }
@@ -114,6 +119,15 @@ QString const & Region::getName() const {
     return impl->getName();
 }
 
+
+ResourceDBPointer & Region::getResourceDB() {
+    return getAtlas()->getResourceDB();
+}
+
+
+ResourceDBPointer const & Region::getResourceDB() const {
+    return getAtlas()->getResourceDB();
+}
 
 bool Region::isNameValid(QString name) {
     return Region::Impl::isNameValid(name);

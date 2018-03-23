@@ -29,7 +29,7 @@ class BackgroundLayer : public Layer {
     Q_OBJECT
 
     QImage image;
-    QString imageName;
+    QString imageResourcePath;
 
 public:
 
@@ -43,8 +43,8 @@ public:
 
     QImage const & getImage() const;
 
-    QString getImageName() const {
-        return imageName;
+    QString getImageResourcePath() const {
+        return imageResourcePath;
     }
 
     ImageRenderMode getImageRenderMode() const;

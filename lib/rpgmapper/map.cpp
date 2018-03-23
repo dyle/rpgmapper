@@ -78,8 +78,23 @@ Region * Map::getRegion() {
 }
 
 
+Region const * Map::getRegion() const {
+    return impl->getRegion();
+}
+
+
 QString const & Map::getRegionName() const {
     return impl->getRegionName();
+}
+
+
+ResourceDBPointer & Map::getResourceDB() {
+    return getRegion()->getResourceDB();
+}
+
+
+ResourceDBPointer const & Map::getResourceDB() const {
+    return getRegion()->getResourceDB();
 }
 
 

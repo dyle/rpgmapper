@@ -17,6 +17,7 @@
 #include <QSharedPointer>
 
 #include <rpgmapper/field.hpp>
+#include <rpgmapper/resource_db.hpp>
 
 
 namespace rpgmapper {
@@ -46,6 +47,10 @@ public:
     Attributes const & getAttributes() const;
 
     virtual QJsonObject getJsonObject() const;
+
+    ResourceDBPointer & getResourceDB();
+
+    ResourceDBPointer const & getResourceDB() const;
 
     void hide();
 

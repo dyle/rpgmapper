@@ -17,6 +17,7 @@
 #include <QSharedPointer>
 
 #include <rpgmapper/map.hpp>
+#include <rpgmapper/resource_db.hpp>
 
 
 namespace rpgmapper {
@@ -55,6 +56,8 @@ public:
 
     Atlas * getAtlas();
 
+    Atlas const * getAtlas() const;
+
     static QString getInvalidCharactersInName();
 
     QJsonObject getJsonObject() const;
@@ -64,6 +67,10 @@ public:
     std::set<QString> getMapNames() const;
 
     QString const & getName() const;
+
+    ResourceDBPointer & getResourceDB();
+
+    ResourceDBPointer const & getResourceDB() const;
 
     static bool isNameValid(QString name);
 

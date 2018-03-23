@@ -18,6 +18,7 @@
 #include <QString>
 
 #include <rpgmapper/coordinate_system.hpp>
+#include <rpgmapper/resource_db.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
 
 
@@ -70,7 +71,13 @@ public:
 
     Region * getRegion();
 
+    Region const * getRegion() const;
+
     QString const & getRegionName() const;
+
+    ResourceDBPointer & getResourceDB();
+
+    ResourceDBPointer const & getResourceDB() const;
 
     QSize getSize() const;
 

@@ -86,7 +86,7 @@ QJsonObject BackgroundLayer::getJsonObject() const {
     jsonMargins["right"] = margins.right();
     jsonMargins["bottom"] = margins.bottom();
     jsonObject["margins"] = jsonMargins;
-    jsonObject["image"] = imageName;
+    jsonObject["image"] = getImageResourcePath();
 
     return jsonObject;
 }
@@ -146,9 +146,9 @@ void BackgroundLayer::setImage(QImage image) {
     buf.open(QIODevice::WriteOnly);
     this->image.save(&buf, "PNG");
 
-    imageName = QString("images/background/%1.png").arg(Resource::getHash(data));
-    auto backgroundResource = ResourcePointer{new Resource{imageName, data}};
-    getMap()->getRegion()->getAtlas()->getResourceDB()->addResource(backgroundResource);
+    imageResourcePath = QString("images/background/%1.png").arg(Resource::getHash(data));
+    auto backgroundResource = ResourcePointer{new Resource{imageResourcePath, data}};
+    getResourceDB()->addResource(backgroundResource);
 }
 
 

@@ -42,6 +42,10 @@ public:
         return atlas;
     }
 
+    Atlas const * getAtlas() const {
+        return atlas;
+    }
+
     static QString getInvalidCharactersInName();
 
     QJsonObject getJsonObject() const override;

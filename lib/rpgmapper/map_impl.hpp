@@ -90,6 +90,10 @@ public:
         return region;
     }
 
+    Region const * getRegion() const {
+        return region;
+    }
+
     QString const & getRegionName() const;
 
     TileLayers & getTileLayers() {

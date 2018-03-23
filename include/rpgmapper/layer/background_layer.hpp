@@ -47,7 +47,9 @@ public:
 
     ImageRenderMode getImageRenderMode() const;
 
-    QUuid const & getImageUUID() const { return this->imageUUID; }
+    QUuid const & getImageUUID() const {
+        return this->imageUUID;
+    }
 
     QJsonObject getJsonObject() const override;
 
@@ -59,11 +61,17 @@ public:
 
     bool isImageRendered() const;
 
-    bool isImageRenderedPlain() const { return getImageRenderMode() == ImageRenderMode::plain; }
+    bool isImageRenderedPlain() const {
+        return getImageRenderMode() == ImageRenderMode::plain;
+    }
 
-    bool isImageRenderedScaled() const { return getImageRenderMode() == ImageRenderMode::scaled; }
+    bool isImageRenderedScaled() const {
+        return getImageRenderMode() == ImageRenderMode::scaled;
+    }
 
-    bool isImageRenderedTiled() const { return getImageRenderMode() == ImageRenderMode::tiled; }
+    bool isImageRenderedTiled() const {
+        return getImageRenderMode() == ImageRenderMode::tiled;
+    }
 
     static bool isValidRendering(QString const & rendering);
 

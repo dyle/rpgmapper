@@ -28,13 +28,17 @@ class CompositeCommand : public AtlasCommand {
 
 public:
 
-    CompositeCommand(rpgmapper::model::AtlasPointer & atlas) : AtlasCommand{atlas} {}
+    explicit CompositeCommand(rpgmapper::model::AtlasPointer & atlas)
+        : AtlasCommand{atlas} {
+    }
 
     ~CompositeCommand() override = default;
 
     void addCommand(CommandPointer command);
 
-    unsigned int size() const { return commands.size(); }
+    unsigned long size() const {
+        return commands.size();
+    }
 
     QString getDescription() const override;
 

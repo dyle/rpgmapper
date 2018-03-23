@@ -38,17 +38,29 @@ public:
 
     QString createNewRegionName() const;
 
-    AtlasPointer & getAtlas() { return atlas; }
+    AtlasPointer & getAtlas() {
+        return atlas;
+    }
 
-    AtlasPointer const & getAtlas() const { return atlas; }
+    AtlasPointer const & getAtlas() const {
+        return atlas;
+    }
 
-    MapPointer & getMap() { return map; }
+    MapPointer & getMap() {
+        return map;
+    }
 
-    MapPointer const & getMap() const { return map; }
+    MapPointer const & getMap() const {
+        return map;
+    }
 
-    RegionPointer & getRegion() { return region; }
+    RegionPointer & getRegion() {
+        return region;
+    }
 
-    RegionPointer const & getRegion() const { return region; }
+    RegionPointer const & getRegion() const {
+        return region;
+    }
 
     void setAtlas(AtlasPointer atlas);
 
@@ -59,7 +71,6 @@ public:
     void selectRegion(RegionPointer region);
 
     void selectRegion(QString const & regionName);
-
 
 public slots:
 

@@ -49,7 +49,9 @@ public:
 
     void hide();
 
-    virtual bool isValid() const { return true; }
+    virtual bool isValid() const {
+        return true;
+    }
 
     bool isVisible() const;
 
@@ -71,10 +73,13 @@ class InvalidLayer final : public Layer {
 
 public:
 
-    InvalidLayer() : Layer{nullptr, nullptr} {}
+    InvalidLayer()
+        : Layer{nullptr, nullptr} {
+    }
 
-    bool isValid() const override { return false; }
-
+    bool isValid() const override {
+        return false;
+    }
 };
 
 

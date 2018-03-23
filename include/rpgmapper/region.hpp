@@ -67,7 +67,9 @@ public:
 
     static bool isNameValid(QString name);
 
-    virtual bool isValid() const { return true; }
+    virtual bool isValid() const {
+        return true;
+    }
 
     static RegionPointer const & null();
 
@@ -106,10 +108,18 @@ signals:
     void nameChanged(QString nameBefore, QString nameAfter);
 };
 
+
 class InvalidRegion final : public Region {
+
 public:
-    InvalidRegion() : Region{QString::Null{}, nullptr} {}
-    bool isValid() const override { return false; }
+
+    InvalidRegion()
+        : Region{QString::Null{}, nullptr} {
+    }
+
+    bool isValid() const override {
+        return false;
+    }
 };
 
 

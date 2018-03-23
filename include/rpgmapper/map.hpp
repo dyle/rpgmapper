@@ -80,7 +80,9 @@ public:
 
     static bool isNameValid(QString name);
 
-    virtual bool isValid() const { return true; }
+    virtual bool isValid() const {
+        return true;
+    }
 
     static MapPointer const & null();
 
@@ -111,10 +113,18 @@ signals:
     void resized(QString mapName);
 };
 
+
 class InvalidMap final : public Map {
+
 public:
-    InvalidMap() : Map{QString::Null{}, nullptr} {}
-    bool isValid() const override { return false; }
+
+    InvalidMap()
+        : Map{QString::Null{}, nullptr} {
+    }
+
+    bool isValid() const override {
+        return false;
+    }
 };
 
 

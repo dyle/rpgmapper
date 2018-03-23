@@ -30,7 +30,9 @@ public:
 
     void execute() override {}
 
-    QString getDescription() const override { return "No operation."; }
+    QString getDescription() const override {
+        return "No operation.";
+    }
 
     void undo() override {}
 };

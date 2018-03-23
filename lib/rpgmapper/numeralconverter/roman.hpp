@@ -23,7 +23,9 @@ public:
 
     QString convert(int value) const override;
 
-    QString getName() const override { return "roman"; }
+    QString getName() const override {
+        return "roman";
+    }
 };
 
 

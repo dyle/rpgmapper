@@ -42,41 +42,71 @@ public:
 
     bool applyJsonObject(QJsonObject const & json) override;
 
-    AxisLayerPointer & getAxisLayer() { return axisLayer; }
+    AxisLayerPointer & getAxisLayer() {
+        return axisLayer;
+    }
 
-    AxisLayerPointer const & getAxisLayer() const { return axisLayer; }
+    AxisLayerPointer const & getAxisLayer() const {
+        return axisLayer;
+    }
 
-    BackgroundLayerPointer & getBackgroundLayer() { return backgroundLayer; }
+    BackgroundLayerPointer & getBackgroundLayer() {
+        return backgroundLayer;
+    }
 
-    BackgroundLayerPointer const & getBackgroundLayer() const { return backgroundLayer; }
+    BackgroundLayerPointer const & getBackgroundLayer() const {
+        return backgroundLayer;
+    }
 
-    TileLayers & getBaseLayers() { return baseLayers; }
+    TileLayers & getBaseLayers() {
+        return baseLayers;
+    }
 
-    TileLayers const & getBaseLayers() const { return baseLayers; }
+    TileLayers const & getBaseLayers() const {
+        return baseLayers;
+    }
 
-    CoordinateSystem & getCoordinateSystem() { return *this; }
+    CoordinateSystem & getCoordinateSystem() {
+        return *this;
+    }
 
-    CoordinateSystem const & getCoordinateSystem() const { return *this; }
+    CoordinateSystem const & getCoordinateSystem() const {
+        return *this;
+    }
 
-    GridLayerPointer & getGridLayer() { return gridLayer; }
+    GridLayerPointer & getGridLayer() {
+        return gridLayer;
+    }
 
-    GridLayerPointer const & getGridLayer() const { return gridLayer; }
+    GridLayerPointer const & getGridLayer() const {
+        return gridLayer;
+    }
 
     QJsonObject getJsonObject() const override ;
 
     static QString getInvalidCharactersInName();
 
-    Region * getRegion() { return region; }
+    Region * getRegion() {
+        return region;
+    }
 
     QString const & getRegionName() const;
 
-    TileLayers & getTileLayers() { return tileLayers; }
+    TileLayers & getTileLayers() {
+        return tileLayers;
+    }
 
-    TileLayers const & getTileLayers() const { return tileLayers; }
+    TileLayers const & getTileLayers() const {
+        return tileLayers;
+    }
 
-    TextLayerPointer & getTextLayer() { return textLayer; }
+    TextLayerPointer & getTextLayer() {
+        return textLayer;
+    }
 
-    TextLayerPointer const & getTextLayer() const { return textLayer; }
+    TextLayerPointer const & getTextLayer() const {
+        return textLayer;
+    }
 
     static bool isNameValid(QString name);
 };

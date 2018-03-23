@@ -49,35 +49,59 @@ public:
 
     QJsonObject getJsonObject() const;
 
-    static constexpr QSize getMaximumSize() { return QSize{1000, 1000}; }
+    static constexpr QSize getMaximumSize() {
+        return QSize{1000, 1000};
+    }
 
-    static constexpr QSize getMinimumSize() { return QSize{1, 1}; }
+    static constexpr QSize getMinimumSize() {
+        return QSize{1, 1};
+    }
 
     NumeralCoordinates getNumeralCoordinates(QPoint position) const;
 
-    NumeralCoordinates getNumeralCoordinates(int x, int y) const { return getNumeralCoordinates(QPoint{x, y}); }
+    NumeralCoordinates getNumeralCoordinates(int x, int y) const {
+        return getNumeralCoordinates(QPoint{x, y});
+    }
 
-    QSharedPointer<NumeralConverter> const & getNumeralXAxis() const { return numeralXAxis; }
+    QSharedPointer<NumeralConverter> const & getNumeralXAxis() const {
+        return numeralXAxis;
+    }
 
-    QSharedPointer<NumeralConverter> const & getNumeralYAxis() const { return numeralYAxis; }
+    QSharedPointer<NumeralConverter> const & getNumeralYAxis() const {
+        return numeralYAxis;
+    }
 
-    QPoint getOffset() const { return QPoint{static_cast<int>(offset.x()), static_cast<int>(offset.y())}; }
+    QPoint getOffset() const {
+        return QPoint{static_cast<int>(offset.x()), static_cast<int>(offset.y())};
+    }
 
-    QPointF getOffsetF() const { return offset; }
+    QPointF getOffsetF() const {
+        return offset;
+    }
 
-    CoordinatesOrigin getOrigin() const { return origin; }
+    CoordinatesOrigin getOrigin() const {
+        return origin;
+    }
 
-    QSize getSize() const { return size; }
+    QSize getSize() const {
+        return size;
+    }
 
     void setNumeralXAxis(QString numeral);
 
     void setNumeralYAxis(QString numeral);
 
-    void setOffset(QPoint offset) { this->offset = offset; }
+    void setOffset(QPoint offset) {
+        this->offset = offset;
+    }
 
-    void setOffsetF(QPointF offset) { this->offset = offset; }
+    void setOffsetF(QPointF offset) {
+        this->offset = offset;
+    }
 
-    void setOrigin(CoordinatesOrigin origin) { this->origin = origin; }
+    void setOrigin(CoordinatesOrigin origin) {
+        this->origin = origin;
+    }
 
     QPoint transposeToMapCoordinates(QPoint const & position) const;
 

@@ -30,7 +30,9 @@ public:
 
     virtual QString getName() const = 0;
 
-    virtual bool isValid() const { return true; }
+    virtual bool isValid() const {
+        return true;
+    }
 
     static QSharedPointer<NumeralConverter> const & nullConverter();
 
@@ -40,16 +42,22 @@ protected:
 
 };
 
+
 class InvalidNumeralConverter final : public NumeralConverter {
 
 public:
 
-    QString convert(int) const override { return QString::null; }
+    QString convert(int) const override {
+        return QString::null;
+    }
 
-    QString getName() const override { return "Invalid"; }
+    QString getName() const override {
+        return "Invalid";
+    }
 
-    bool isValid() const override { return false; }
-
+    bool isValid() const override {
+        return false;
+    }
 };
 
 

@@ -26,7 +26,9 @@ public:
 
     explicit BackgroundImageLabel(QWidget * parent);
 
-    QPixmap const * getBackgroundPixmap() const override { return pixmap(); }
+    QPixmap const * getBackgroundPixmap() const override {
+        return pixmap();
+    }
 
 protected:
 

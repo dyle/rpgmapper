@@ -25,14 +25,20 @@ public:
 
     virtual ~ReaderResult() = default;
 
-    AtlasPointer const & getAtlas() const { return atlas; }
+    AtlasPointer const & getAtlas() const {
+        return atlas;
+    }
 
-    void setAtlas(AtlasPointer & atlas) { this->atlas = atlas; }
+    void setAtlas(AtlasPointer & atlas) {
+        this->atlas = atlas;
+    }
 
     friend ReaderResult & operator<<(ReaderResult & lvalue, ReaderResult const & rvalue);
 };
 
+
 inline ReaderResult & operator<<(ReaderResult & lvalue, ReaderResult const & rvalue) {
+
     static_cast<WriterResult &>(lvalue) << static_cast<WriterResult const &>(rvalue);
     lvalue.atlas = rvalue.atlas;
     return lvalue;

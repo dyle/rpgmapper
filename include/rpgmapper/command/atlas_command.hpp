@@ -23,7 +23,9 @@ class AtlasCommand : public Command {
 
 public:
 
-    explicit AtlasCommand(rpgmapper::model::AtlasPointer & atlas) : atlas{atlas} {}
+    explicit AtlasCommand(rpgmapper::model::AtlasPointer & atlas)
+        : atlas{atlas} {
+    }
 
     rpgmapper::model::AtlasPointer getAtlas();
 

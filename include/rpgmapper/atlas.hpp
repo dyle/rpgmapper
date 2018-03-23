@@ -83,7 +83,9 @@ public:
 
     static bool isNameValid(QString name);
 
-    virtual bool isValid() const { return true; }
+    virtual bool isValid() const {
+        return true;
+    }
 
     bool moveMap(QString const & map, QString const & regionTo) {
         return moveMap(findMap(map), findRegion(regionTo));
@@ -133,6 +135,7 @@ signals:
 
     void regionRemoved(QString name);
 };
+
 
 class InvalidAtlas final : public Atlas {
 public:

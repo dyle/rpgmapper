@@ -39,9 +39,13 @@ public:
 
     FieldPointer const getField(int index) const;
 
-    FieldPointer const getField(int x, int y) const { return getField(Field::getIndex(x, y)); }
+    FieldPointer const getField(int x, int y) const {
+        return getField(Field::getIndex(x, y));
+    }
 
-    FieldPointer const getField(QPoint const & point) const { return getField(point.x(), point.y()); }
+    FieldPointer const getField(QPoint const & point) const {
+        return getField(point.x(), point.y());
+    }
 
     QJsonObject getJsonObject() const override;
 };

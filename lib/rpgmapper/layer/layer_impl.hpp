@@ -29,17 +29,27 @@ public:
 
     Impl(Impl const & ) = delete;
 
-    Attributes & getAttributes() { return attributes; }
+    Attributes & getAttributes() {
+        return attributes;
+    }
 
-    Attributes const & getAttributes() const { return attributes; }
+    Attributes const & getAttributes() const {
+        return attributes;
+    }
 
-    Map * getMap() { return map; }
+    Map * getMap() {
+        return map;
+    }
 
-    Map const * getMap() const { return map; }
+    Map const * getMap() const {
+        return map;
+    }
 
     void hide();
 
-    bool isVisible() const { return visible; }
+    bool isVisible() const {
+        return visible;
+    }
 
     void show();
 };

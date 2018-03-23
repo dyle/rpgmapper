@@ -39,16 +39,23 @@ public:
 
     explicit Field(QPoint const & position);
 
-    int getIndex() const { return getIndex(position); }
+    int getIndex() const {
+        return getIndex(position);
+    }
 
     static int getIndex(int x, int y);
 
-    static int getIndex(QPoint const & point) { return getIndex(point.x(), point.y()); }
+    static int getIndex(QPoint const & point) {
+        return getIndex(point.x(), point.y());
+    }
 
-    virtual bool isValid() const { return true; }
+    virtual bool isValid() const {
+        return true;
+    }
 
     static Field const & nullField();
 };
+
 
 class InvalidField final : public Field {
 
@@ -56,7 +63,9 @@ public:
 
     InvalidField() : Field(0, 0) {}
 
-    bool isValid() const override { return false; }
+    bool isValid() const override {
+        return false;
+    }
 };
 
 

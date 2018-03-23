@@ -27,14 +27,19 @@ public:
 
     virtual bool applyJsonObject(QJsonObject const & json);
 
-    virtual void clear() { name.clear(); }
+    virtual void clear() {
+        name.clear();
+    }
 
     virtual QJsonObject getJsonObject() const;
 
-    QString const & getName() const { return name; }
+    QString const & getName() const {
+        return name;
+    }
 
-    virtual void setName(QString const & name) { this->name = name; }
-
+    virtual void setName(QString const & name) {
+        this->name = name;
+    }
 };
 
 

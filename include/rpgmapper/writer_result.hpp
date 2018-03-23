@@ -23,19 +23,32 @@ class WriterResult {
 
 public:
 
-    explicit WriterResult(bool success = false) : WriterResult{success, QStringList{}} {}
+    explicit WriterResult(bool success = false)
+        : WriterResult{success, QStringList{}} {
+    }
 
-    WriterResult(bool success, QStringList log) : success{success}, log{std::move(log)} {}
+    WriterResult(bool success, QStringList log)
+        : success{success},
+          log{std::move(log)} {
+    }
 
     virtual ~WriterResult() = default;
 
-    QStringList & getLog() { return log; }
+    QStringList & getLog() {
+        return log;
+    }
 
-    QStringList const & getLog() const { return log; }
+    QStringList const & getLog() const {
+        return log;
+    }
 
-    bool hasSuccess() const { return success; }
+    bool hasSuccess() const {
+        return success;
+    }
 
-    void setSuccess(bool success) { this->success = success; }
+    void setSuccess(bool success) {
+        this->success = success;
+    }
 
     friend WriterResult & operator<<(WriterResult & lvalue, bool rvalue);
 
@@ -44,15 +57,18 @@ public:
     friend WriterResult & operator<<(WriterResult & lvalue, WriterResult const & rvalue);
 };
 
+
 inline WriterResult & operator<<(WriterResult & lvalue, bool rvalue) {
     lvalue.success = rvalue;
     return lvalue;
 }
 
+
 inline WriterResult & operator<<(WriterResult & lvalue, QString const & rvalue) {
     lvalue.log << rvalue;
     return lvalue;
 }
+
 
 inline WriterResult & operator<<(WriterResult & lvalue, WriterResult const & rvalue) {
     lvalue.success = rvalue.success;

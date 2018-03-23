@@ -42,7 +42,6 @@ public:
     Resources const & getResources() const {
         return resources;
     }
-
 };
 
 

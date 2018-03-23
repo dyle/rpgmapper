@@ -38,7 +38,9 @@ public:
 
     MapPointer & findMap(QString const & name);
 
-    Atlas * getAtlas() { return atlas; }
+    Atlas * getAtlas() {
+        return atlas;
+    }
 
     static QString getInvalidCharactersInName();
 
@@ -46,7 +48,9 @@ public:
 
     std::set<QString> getMapNames() const;
 
-    Maps const & getMaps() const { return maps; }
+    Maps const & getMaps() const {
+        return maps;
+    }
 
     static bool isNameValid(QString name);
 

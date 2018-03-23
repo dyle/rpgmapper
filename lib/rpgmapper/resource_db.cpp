@@ -16,5 +16,8 @@ void ResourceDB::addResource(QString name, QByteArray const & data) {
 
 
 void ResourceDB::addResource(ResourcePointer resource) {
+    if (resource->getData().isEmpty()) {
+        throw std::runtime_error("Refused to add empty resource to resource DB.");
+    }
     resources[resource->getHash()] = resource;
 }

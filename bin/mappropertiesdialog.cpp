@@ -730,7 +730,7 @@ void MapPropertiesDialog::setYAxisUiFromMap() {
 
     using RadioButtonMap = std::map<QString, QRadioButton *>;
     static RadioButtonMap const yAxisNumericalRadioButtons = {
-        {"aumeric", ui->yNumericalRadioButton},
+        {"numeric", ui->yNumericalRadioButton},
         {"alphaSmall", ui->yAlphaSmallRadioButton},
         {"alphaBig", ui->yAlphaBigRadioButton},
         {"roman", ui->yRomanRadioButton}

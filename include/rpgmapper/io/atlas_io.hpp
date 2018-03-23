@@ -12,11 +12,12 @@
 #include <QStringList>
 
 #include <rpgmapper/atlas.hpp>
-#include <rpgmapper/reader_result.hpp>
+#include <rpgmapper/io/reader_result.hpp>
 
 
 namespace rpgmapper {
 namespace model {
+namespace io {
 
 
 class AtlasIO {
@@ -30,6 +31,7 @@ public:
 };
 
 
+}
 }
 }
 

@@ -8,6 +8,7 @@
 #include "zip.hpp"
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::io;
 
 
 using Content = std::map<QString, QByteArray>;
@@ -23,13 +24,13 @@ ReaderResult createAtlas(Content const & content);
 WriterResult extractContent(QuaZip & zip, Content & content);
 
 
-WriterResult rpgmapper::model::closeZip(QuaZip & zip) {
+WriterResult rpgmapper::model::io::closeZip(QuaZip & zip) {
     zip.close();
     return WriterResult{true, {"Closed."}};
 }
 
 
-WriterResult rpgmapper::model::openZipForReading(QuaZip & zip, QFile & file) {
+WriterResult rpgmapper::model::io::openZipForReading(QuaZip & zip, QFile & file) {
 
     WriterResult result;
 
@@ -47,7 +48,7 @@ WriterResult rpgmapper::model::openZipForReading(QuaZip & zip, QFile & file) {
 }
 
 
-WriterResult rpgmapper::model::openZipForWriting(QuaZip & zip, QFile & file) {
+WriterResult rpgmapper::model::io::openZipForWriting(QuaZip & zip, QFile & file) {
 
     WriterResult result;
 
@@ -65,7 +66,7 @@ WriterResult rpgmapper::model::openZipForWriting(QuaZip & zip, QFile & file) {
 }
 
 
-ReaderResult rpgmapper::model::readAtlas(QuaZip &zip) {
+ReaderResult rpgmapper::model::io::readAtlas(QuaZip &zip) {
 
     ReaderResult result;
 
@@ -82,7 +83,7 @@ ReaderResult rpgmapper::model::readAtlas(QuaZip &zip) {
 }
 
 
-WriterResult rpgmapper::model::writeAtlas(QuaZip &zip, AtlasPointer & atlas) {
+WriterResult rpgmapper::model::io::writeAtlas(QuaZip &zip, AtlasPointer & atlas) {
 
     WriterResult result;
 

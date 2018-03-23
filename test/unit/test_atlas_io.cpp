@@ -10,9 +10,10 @@
 #include <QFile>
 
 #include <rpgmapper/atlas.hpp>
-#include <rpgmapper/atlas_io.hpp>
+#include <rpgmapper/io/atlas_io.hpp>
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::io;
 
 
 TEST(AtlasIO, GetJsonOfAtlas) {

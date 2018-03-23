@@ -11,11 +11,12 @@
 #include <quazip/quazip.h>
 #include <quazip/quazipfile.h>
 
-#include <rpgmapper/atlas_io.hpp>
+#include <rpgmapper/io/atlas_io.hpp>
 
 
 namespace rpgmapper {
 namespace model {
+namespace io {
 
 
 WriterResult closeZip(QuaZip & zip);
@@ -29,6 +30,7 @@ ReaderResult readAtlas(QuaZip & zip);
 WriterResult writeAtlas(QuaZip & zip, AtlasPointer & atlas);
 
 
+}
 }
 }
 

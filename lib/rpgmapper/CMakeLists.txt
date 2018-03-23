@@ -25,7 +25,6 @@ set(RPGMAPPER_LIB_SRC
 
     atlas.cpp
     atlas_impl.cpp
-    atlas_io.cpp
     coordinate_system.cpp
     field.cpp
     filesystem.cpp
@@ -62,6 +61,9 @@ set(RPGMAPPER_LIB_SRC
     command/set_map_origin.cpp
     command/set_region_name.cpp
 
+    io/atlas_io.cpp
+    io/zip.cpp
+
     layer/axis_layer.cpp
     layer/background_renderer.cpp
     layer/background_layer.cpp
@@ -79,8 +81,6 @@ set(RPGMAPPER_LIB_SRC
     numeralconverter/numerals.cpp
     numeralconverter/numeric.cpp
     numeralconverter/roman.cpp
-
-    zip/zip.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

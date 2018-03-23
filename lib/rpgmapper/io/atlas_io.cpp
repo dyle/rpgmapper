@@ -7,10 +7,10 @@
 
 #include <quazip/quazip.h>
 
-#include <rpgmapper/atlas_io.hpp>
-#include "zip/zip.hpp"
+#include <rpgmapper/io/atlas_io.hpp>
+#include "zip.hpp"
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::io;
 
 
 ReaderResult AtlasIO::read(QFile & file) const {

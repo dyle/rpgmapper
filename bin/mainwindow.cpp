@@ -12,13 +12,13 @@
 #include <QMessageBox>
 #include <QStatusBar>
 
-#include <rpgmapper/atlas_io.hpp>
 #include <rpgmapper/command/create_map.hpp>
 #include <rpgmapper/command/create_region.hpp>
 #include <rpgmapper/command/remove_map.hpp>
 #include <rpgmapper/command/remove_region.hpp>
 #include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/command/set_region_name.hpp>
+#include <rpgmapper/io/atlas_io.hpp>
 #include "mainwindow.hpp"
 #include "visibility_action_filter.hpp"
 #include "ui_mainwindow.h"
@@ -31,6 +31,7 @@
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
+using namespace rpgmapper::model::io;
 using namespace rpgmapper::view;
 
 

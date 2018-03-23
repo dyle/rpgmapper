@@ -14,6 +14,7 @@
 
 namespace rpgmapper {
 namespace model {
+namespace io {
 
 
 class WriterResult {
@@ -77,6 +78,7 @@ inline WriterResult & operator<<(WriterResult & lvalue, WriterResult const & rva
 }
 
 
+}
 }
 }
 

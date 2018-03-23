@@ -7,7 +7,7 @@
 
 #include <gtest/gtest.h>
 
-#include <rpgmapper/atlas_io.hpp>
+#include <rpgmapper/io/atlas_io.hpp>
 
 using namespace rpgmapper::model;
 

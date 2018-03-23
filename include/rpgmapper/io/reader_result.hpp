@@ -10,11 +10,12 @@
 
 
 #include <rpgmapper/atlas.hpp>
-#include <rpgmapper/writer_result.hpp>
+#include <rpgmapper/io/writer_result.hpp>
 
 
 namespace rpgmapper {
 namespace model {
+namespace io {
 
 
 class ReaderResult : public WriterResult {
@@ -45,6 +46,7 @@ inline ReaderResult & operator<<(ReaderResult & lvalue, ReaderResult const & rva
 }
 
 
+}
 }
 }
 

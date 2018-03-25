@@ -29,7 +29,7 @@ BackgroundLayer::BackgroundLayer(Map * map, QObject * parent) : Layer{map, paren
     getAttributes()["color"] = BACKGROUND_COLOR_DEFAULT;
     getAttributes()["margins"] = R"raw({"top":0,"left":0,"right":0,"bottom":0})raw";
     getAttributes()["rendering"] = "color";
-    getAttributes()["renderMode"] = "plain";
+    getAttributes()["renderImageMode"] = "plain";
 }
 
 
@@ -56,7 +56,7 @@ QImage const & BackgroundLayer::getImage() const {
 
 rpgmapper::model::ImageRenderMode BackgroundLayer::getImageRenderMode() const {
 
-    auto pair = getAttributes().find("renderMode");
+    auto pair = getAttributes().find("renderImageMode");
     if (pair == getAttributes().end()) {
         return ImageRenderMode::plain;
     }
@@ -76,7 +76,7 @@ QJsonObject BackgroundLayer::getJsonObject(rpgmapper::model::io::Content & conte
     QJsonObject jsonObject = Layer::getJsonObject(content);
 
     jsonObject["color"] = getColor().name(QColor::HexArgb);
-    jsonObject["renderMode"] = rpgmapper::model::imageRenderModeToString(getImageRenderMode());
+    jsonObject["renderImageMode"] = rpgmapper::model::imageRenderModeToString(getImageRenderMode());
     jsonObject["rendering"] = getRendering();
 
     QJsonObject jsonMargins;
@@ -153,7 +153,7 @@ void BackgroundLayer::setImage(QImage image) {
 
 
 void BackgroundLayer::setImageRenderMode(ImageRenderMode mode) {
-    getAttributes()["renderMode"] = imageRenderModeToString(mode);
+    getAttributes()["renderImageMode"] = imageRenderModeToString(mode);
 }
 
 

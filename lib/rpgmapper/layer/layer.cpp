@@ -10,6 +10,12 @@
 
 using namespace rpgmapper::model;
 
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
+
 
 Layer::Layer(Map * map, QObject * parent) : QObject{parent} {
     impl = std::make_shared<Layer::Impl>(map);
@@ -26,7 +32,7 @@ Layer::Attributes const & Layer::getAttributes() const {
 }
 
 
-QJsonObject Layer::getJsonObject() const {
+QJsonObject Layer::getJsonObject(UNUSED rpgmapper::model::io::Content & content) const {
     QJsonObject jsonObject;
     jsonObject["visible"] = isVisible();
     return jsonObject;

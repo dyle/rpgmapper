@@ -16,6 +16,7 @@
 #include <QSize>
 
 #include <rpgmapper/numerals.hpp>
+#include <rpgmapper/io/content.hpp>
 
 
 namespace rpgmapper {
@@ -47,7 +48,7 @@ public:
 
     CoordinateSystem();
 
-    QJsonObject getJsonObject() const;
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const;
 
     static constexpr QSize getMaximumSize() {
         return QSize{1000, 1000};

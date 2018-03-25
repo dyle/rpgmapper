@@ -29,7 +29,7 @@ void Atlas::changedRegionName(QString nameBefore, QString nameAfter) {
 
 
 void Atlas::collectIOContent(rpgmapper::model::io::Content & content) const  {
-    return impl->getJsonObject(rpgmapper::model::io::Content & content);
+    impl->collectIOContent(content);
 }
 
 

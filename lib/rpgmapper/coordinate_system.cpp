@@ -8,6 +8,12 @@
 
 using namespace rpgmapper::model;
 
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
+
 
 QString rpgmapper::model::coordinatesOriginToString(rpgmapper::model::CoordinatesOrigin origin) {
 
@@ -57,7 +63,7 @@ CoordinateSystem::CoordinateSystem() {
 }
 
 
-QJsonObject CoordinateSystem::getJsonObject() const {
+QJsonObject CoordinateSystem::getJsonObject(UNUSED rpgmapper::model::io::Content & content) const {
 
     QJsonObject jsonObject;
     jsonObject["origin"] = coordinatesOriginToString(origin);

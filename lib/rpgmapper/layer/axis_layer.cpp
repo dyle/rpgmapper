@@ -9,6 +9,12 @@
 
 using namespace rpgmapper::model;
 
+// TODO: remove, when done
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
 
 static char const * DEFAULT_AXIS_COLOR = "#000000";
 
@@ -90,8 +96,8 @@ QFont AxisLayer::getFont() const {
 }
 
 
-QJsonObject AxisLayer::getJsonObject() const {
-    QJsonObject jsonObject = Layer::getJsonObject();
+QJsonObject AxisLayer::getJsonObject(rpgmapper::model::io::Content & content) const {
+    QJsonObject jsonObject = Layer::getJsonObject(content);
     jsonObject["color"] = getColor().name(QColor::HexArgb);
     jsonObject["font"] = getFont().toString();
     return jsonObject;

@@ -48,7 +48,7 @@ QJsonObject Map::Impl::getJsonObject(rpgmapper::model::io::Content & content) co
     json["coordinateSystem"] = CoordinateSystem::getJsonObject(content);
 
     QJsonObject layers;
-    layers["axis"] = getAxisLayer()->getJsonObject();
+    layers["axis"] = getAxisLayer()->getJsonObject(content);
     layers["background"] = getBackgroundLayer()->getJsonObject(content);
 
     QJsonArray jsonBaseLayers;

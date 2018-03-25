@@ -47,7 +47,7 @@ public:
         return getField(point.x(), point.y());
     }
 
-    QJsonObject getJsonObject() const override;
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
 };
 
 

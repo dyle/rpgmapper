@@ -71,9 +71,9 @@ rpgmapper::model::ImageRenderMode BackgroundLayer::getImageRenderMode() const {
 }
 
 
-QJsonObject BackgroundLayer::getJsonObject() const {
+QJsonObject BackgroundLayer::getJsonObject(rpgmapper::model::io::Content & content) const {
 
-    QJsonObject jsonObject = Layer::getJsonObject();
+    QJsonObject jsonObject = Layer::getJsonObject(content);
 
     jsonObject["color"] = getColor().name(QColor::HexArgb);
     jsonObject["renderMode"] = rpgmapper::model::imageRenderModeToString(getImageRenderMode());

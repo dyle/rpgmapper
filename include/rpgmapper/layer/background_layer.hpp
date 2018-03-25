@@ -49,7 +49,7 @@ public:
 
     ImageRenderMode getImageRenderMode() const;
 
-    QJsonObject getJsonObject() const override;
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
 
     QMargins getMargins() const;
 

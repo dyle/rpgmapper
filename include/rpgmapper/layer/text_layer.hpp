@@ -31,7 +31,7 @@ public:
 
     void draw(QPainter & painter, int tileSize) const override;
 
-    QJsonObject getJsonObject() const override;
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
 };
 
 

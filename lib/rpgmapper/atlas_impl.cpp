@@ -41,7 +41,9 @@ bool Atlas::Impl::applyJsonObject(QJsonObject const & json) {
 
 
 bool Atlas::Impl::applyJsonRegionsArray(QJsonArray const & jsonRegions) {
+
     for (auto && jsonRegion : jsonRegions) {
+
         if (jsonRegion.toObject().contains("name") && jsonRegion.toObject()["name"].isString()) {
             auto region = createRegion(jsonRegion.toObject()["name"].toString());
             if (!region->applyJsonObject(jsonRegion.toObject())) {
@@ -56,6 +58,13 @@ bool Atlas::Impl::applyJsonRegionsArray(QJsonArray const & jsonRegions) {
 void Atlas::Impl::clear() {
     Nameable::clear();
     regions.clear();
+}
+
+
+void Atlas::Impl::collectIOContent(rpgmapper::model::io::Content & content) const {
+    QJsonDocument json;
+    json.setObject(getJsonObject(content));
+    content["atlas.json"] = json.toJson(QJsonDocument::Compact);
 }
 
 

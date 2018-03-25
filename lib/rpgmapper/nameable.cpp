@@ -9,6 +9,12 @@
 
 using namespace rpgmapper::model;
 
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
+
 
 bool Nameable::applyJsonObject(QJsonObject const & json) {
     clear();

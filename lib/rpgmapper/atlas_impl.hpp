@@ -36,6 +36,8 @@ public:
 
     void clear() override;
 
+    void collectIOContent(rpgmapper::model::io::Content & content) const;
+
     RegionPointer & createRegion(QString const & name);
 
     MapPointer & findMap(QString const & name);

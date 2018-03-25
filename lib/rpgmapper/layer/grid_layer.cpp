@@ -9,6 +9,12 @@
 
 using namespace rpgmapper::model;
 
+// TODO: remove, when done
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
 
 static char const * DEFAULT_GRID_COLOR = "#0022ff";
 static char const * WARNING_GRID_COLOR = "#ff0088";
@@ -76,8 +82,8 @@ QColor GridLayer::getColor() const {
 }
 
 
-QJsonObject GridLayer::getJsonObject() const {
-    QJsonObject jsonObject = Layer::getJsonObject();
+QJsonObject GridLayer::getJsonObject(rpgmapper::model::io::Content & content) const {
+    QJsonObject jsonObject = Layer::getJsonObject(content);
     jsonObject["color"] = getColor().name(QColor::HexArgb);
     return jsonObject;
 }

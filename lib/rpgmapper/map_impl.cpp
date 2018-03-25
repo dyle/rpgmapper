@@ -51,8 +51,10 @@ bool Map::Impl::applyJsonObject(QJsonObject const & json) {
     if (!Nameable::applyJsonObject(json)) {
         return false;
     }
-    if (!CoordinateSystem::applyJsonObject(json)) {
-        return false;
+    if (json.contains("coordinateSystem") && json["coordinateSystem"].isObject()) {
+        if (!CoordinateSystem::applyJsonObject(json["coordinateSystem"].toObject())) {
+            return false;
+        }
     }
 
     if (json.contains("layers") && json["layers"].isObject()) {

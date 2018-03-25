@@ -406,6 +406,7 @@ void MainWindow::loadAtlas(QString const & fileName) {
         ui->atlasTreeWidget->clear();
         ui->mapTabWidget->removedAllMaps();
         selection->setAtlas(result.getAtlas());
+        setApplicationWindowTitle();
     }
 }
 

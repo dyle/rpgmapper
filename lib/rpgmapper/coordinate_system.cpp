@@ -111,8 +111,8 @@ bool CoordinateSystem::applyJsonObject(QJsonObject const & json) {
         return false;
     }
 
-    if (json.contains("numerals") && json["numerals"].isObject() && !applyJsonNumerals(json["numerals"].toObject())) {
-        return false;
+    if (json.contains("numerals") && json["numerals"].isObject()) {
+        return applyJsonNumerals(json["numerals"].toObject());
     }
 
     return true;

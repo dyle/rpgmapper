@@ -116,7 +116,11 @@ public:
 
 private:
 
+    bool applyJsonBaseLayers(QJsonArray const & jsonArray);
+
     bool applyJsonLayers(QJsonObject const & json);
+
+    bool applyJsonTileLayers(QJsonArray const & jsonArray);
 };
 
 }

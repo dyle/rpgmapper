@@ -186,7 +186,7 @@ void MapPropertiesDialog::applyBackgroundValuesToMap(CompositeCommand * & comman
     }
 
     auto selectedImage = ui->backgroundImageFileComboBox->currentText();
-    if (selectedImage != tr("<applied on map>")) {
+    if (selectedImage != tr("<applied on map>") && ui->backgroundImageRadioButton->isChecked()) {
         auto image = backgroundImages[selectedImage];
         commands->addCommand(CommandPointer{new SetMapBackgroundImage{atlas, map->getName(), image}});
     }

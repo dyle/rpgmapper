@@ -86,8 +86,15 @@ QJsonObject BackgroundLayer::getJsonObject(rpgmapper::model::io::Content & conte
     jsonMargins["right"] = margins.right();
     jsonMargins["bottom"] = margins.bottom();
     jsonObject["margins"] = jsonMargins;
-    jsonObject["image"] = getImageResourcePath();
 
+    if (!imageResourceHash.isEmpty()) {
+        auto imageResource = getResourceDB()->getResource(imageResourceHash);
+        if (imageResource->isEmpty()) {
+            throw std::logic_error("Unable to find background image resource though a hash is available.");
+        }
+        jsonObject["image"] = imageResource->getName();
+        content[imageResource->getName()] = imageResource->getData();
+    }
     return jsonObject;
 }
 
@@ -146,7 +153,8 @@ void BackgroundLayer::setImage(QImage image) {
     buf.open(QIODevice::WriteOnly);
     this->image.save(&buf, "PNG");
 
-    imageResourcePath = QString("images/background/%1.png").arg(Resource::getHash(data));
+    imageResourceHash = Resource::getHash(data);
+    auto imageResourcePath = QString("images/background/%1.png").arg(imageResourceHash);
     auto backgroundResource = ResourcePointer{new Resource{imageResourcePath, data}};
     getResourceDB()->addResource(backgroundResource);
 }

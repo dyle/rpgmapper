@@ -39,6 +39,10 @@ public:
 
     void addResource(ResourcePointer resource);
 
+    QByteArray const & getData(QString hash) const;
+
+    ResourcePointer const & getResource(QString hash) const;
+
     Resources const & getResources() const {
         return resources;
     }

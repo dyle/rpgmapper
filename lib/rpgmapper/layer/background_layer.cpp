@@ -33,6 +33,50 @@ BackgroundLayer::BackgroundLayer(Map * map, QObject * parent) : Layer{map, paren
 }
 
 
+bool BackgroundLayer::applyJsonMargins(QJsonObject const & json) {
+
+    auto margins = getMargins();
+
+    if (json.contains("left") && json["left"].isDouble()) {
+        margins.setLeft(static_cast<int>(json["left"].toDouble()));
+    }
+    if (json.contains("top") && json["top"].isDouble()) {
+        margins.setTop(static_cast<int>(json["top"].toDouble()));
+    }
+    if (json.contains("right") && json["right"].isDouble()) {
+        margins.setRight(static_cast<int>(json["right"].toDouble()));
+    }
+    if (json.contains("bottom") && json["bottom"].isDouble()) {
+        margins.setBottom(static_cast<int>(json["bottom"].toDouble()));
+    }
+
+    setMargins(margins);
+    return true;
+}
+
+
+
+bool BackgroundLayer::applyJsonObject(QJsonObject const & json) {
+
+    Layer::applyJsonObject(json);
+
+    if (json.contains("color") && json["color"].isString()) {
+        setColor(QColor{json["color"].toString()});
+    }
+    if (json.contains("renderImageMode") && json["renderImageMode"].isString()) {
+        setImageRenderMode(stringToImageRenderMode(json["renderImageMode"].toString()));
+    }
+    if (json.contains("rendering") && json["rendering"].isString()) {
+        setRendering(json["rendering"].toString());
+    }
+    if (json.contains("margins") && json["margins"].isObject()) {
+        applyJsonMargins(json["margins"].toObject());
+    }
+
+    // TODO: load image
+    return true;
+}
+
 void BackgroundLayer::draw(QPainter & painter, int tileSize) const {
     QSize size = getMap()->getSize() * tileSize;
     QColor backgroundColor = getColor();

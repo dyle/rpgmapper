@@ -46,6 +46,8 @@ public:
 
     void redo();
 
+    void resetModifications();
+
     void undo();
 
 signals:

@@ -31,17 +31,21 @@ public:
 
     Commands const & getUndone() const;
 
-    int modifications() const { return changes; }
+    int modifications() const {
+        return changes;
+    }
 
     void redo();
 
-    void undo();
+    void resetModifications() {
+        changes = 0;
+    }
 
+    void undo();
 
 private:
 
     void runCommand(CommandPointer & command);
-
 };
 
 

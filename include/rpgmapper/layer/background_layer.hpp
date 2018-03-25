@@ -37,6 +37,8 @@ public:
 
     ~BackgroundLayer() override = default;
 
+    bool applyJsonObject(QJsonObject const & json) override;
+
     void draw(QPainter & painter, int tileSize) const override;
 
     QColor getColor() const;
@@ -78,6 +80,10 @@ public:
     void setMargins(QMargins const & margins);
 
     void setRendering(QString const & rendering);
+
+private:
+
+    bool applyJsonMargins(QJsonObject const & json);
 };
 
 

@@ -406,6 +406,7 @@ void MainWindow::loadAtlas(QString const & fileName) {
         ui->atlasTreeWidget->clear();
         ui->mapTabWidget->removedAllMaps();
         selection->setAtlas(result.getAtlas());
+        connectModelSignals();
         setApplicationWindowTitle();
     }
 }
@@ -489,6 +490,8 @@ void MainWindow::saveAtlas(QString const & fileName) {
     }
     else {
         addRecentFileName(getAtlas()->getFileName());
+        getAtlas()->getCommandProzessor()->resetModifications();
+        setApplicationWindowTitle();
     }
 }
 

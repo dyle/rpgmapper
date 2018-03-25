@@ -42,6 +42,11 @@ void Prozessor::redo() {
 }
 
 
+void Prozessor::resetModifications() {
+    impl->resetModifications();
+}
+
+
 void Prozessor::undo() {
     impl->undo();
 }

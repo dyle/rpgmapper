@@ -48,6 +48,8 @@ public:
 
     CoordinateSystem();
 
+    virtual bool applyJsonObject(QJsonObject const & json);
+
     QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const;
 
     static constexpr QSize getMaximumSize() {
@@ -143,6 +145,12 @@ public:
     }
 
 private:
+
+    bool applyJsonNumerals(QJsonObject const & json);
+
+    bool applyJsonOffset(QJsonObject const & json);
+
+    bool applyJsonSize(QJsonObject const & json);
 
     QPoint transpose(QPoint const & position) const;
 

@@ -113,6 +113,10 @@ public:
     }
 
     static bool isNameValid(QString name);
+
+private:
+
+    bool applyJsonLayers(QJsonObject const & json);
 };
 
 }

@@ -73,14 +73,25 @@ void MapTabWidget::redrawCurrentMap() {
 }
 
 
+void MapTabWidget::removedAllMaps() {
+    for (auto & pair : mapScrollAreas) {
+        int tabIndex = indexOf(pair.second);
+        if (tabIndex != -1) {
+            removeTab(tabIndex);
+        }
+    }
+    mapScrollAreas.clear();
+}
+
+
 void MapTabWidget::removedMap(UNUSED QString regionName, QString mapName) {
 
-    auto iter = mapScrollAreas.find(mapName);
-    if (iter != mapScrollAreas.end()) {
-        int nTabIndex = indexOf((*iter).second);
-        mapScrollAreas.erase(iter);
-        if (nTabIndex != -1) {
-            removeTab(nTabIndex);
+    auto pair = mapScrollAreas.find(mapName);
+    if (pair != mapScrollAreas.end()) {
+        int tabIndex = indexOf((*pair).second);
+        mapScrollAreas.erase(pair);
+        if (tabIndex != -1) {
+            removeTab(tabIndex);
         }
     }
 }

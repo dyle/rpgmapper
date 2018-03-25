@@ -63,6 +63,86 @@ CoordinateSystem::CoordinateSystem() {
 }
 
 
+bool CoordinateSystem::applyJsonNumerals(QJsonObject const & json) {
+
+    if (json.contains("x") && json["x"].isString()) {
+        auto numeralXAxis = NumeralConverter::create(json["x"].toString());
+        if (!numeralXAxis->isValid()) {
+            return false;
+        }
+        this->numeralXAxis = numeralXAxis;
+    }
+    if (json.contains("y") && json["y"].isString()) {
+        auto numeralYAxis = NumeralConverter::create(json["y"].toString());
+        if (!numeralYAxis->isValid()) {
+            return false;
+        }
+        this->numeralYAxis = numeralYAxis;
+    }
+
+    return true;
+}
+
+
+bool CoordinateSystem::applyJsonOffset(QJsonObject const & json) {
+    
+    QPointF offset;
+    if (json.contains("x") && json["x"].isDouble()) {
+        offset.setX(json["x"].toDouble());
+    }
+    if (json.contains("y") && json["y"].isDouble()) {
+        offset.setY(json["y"].toDouble());
+    }
+    return true;
+}
+
+
+bool CoordinateSystem::applyJsonObject(QJsonObject const & json) {
+
+    if (json.contains("origin") && json["origin"].isString()) {
+        origin = stringToCoordinatesOrigin(json["origin"].toString());
+    }
+
+    if (json.contains("size") && json["size"].isObject() && !applyJsonSize(json["size"].toObject())) {
+        return false;
+    }
+
+    if (json.contains("offset") && json["offset"].isObject() && !applyJsonOffset(json["offset"].toObject())) {
+        return false;
+    }
+
+    if (json.contains("numerals") && json["numerals"].isObject() && !applyJsonNumerals(json["numerals"].toObject())) {
+        return false;
+    }
+
+    return true;
+}
+
+
+bool CoordinateSystem::applyJsonSize(QJsonObject const & json) {
+
+    QSize size;
+
+    if (json.contains("width") && json["width"].isDouble()) {
+        size.setWidth(static_cast<int>(json["width"].toDouble()));
+    }
+    if (json.contains("height") && json["height"].isDouble()) {
+        size.setHeight(static_cast<int>(json["height"].toDouble()));
+    }
+
+    if (size.width() < getMinimumSize().width() || size.width() >= getMaximumSize().width()) {
+        return false;
+    }
+    if (size.height() < getMinimumSize().height() || size.height() >= getMaximumSize().height()) {
+        return false;
+    }
+
+    this->size = size;
+
+    return true;
+}
+
+
 QJsonObject CoordinateSystem::getJsonObject(UNUSED rpgmapper::model::io::Content & content) const {
 
     QJsonObject jsonObject;

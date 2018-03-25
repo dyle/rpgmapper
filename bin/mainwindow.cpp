@@ -403,6 +403,8 @@ void MainWindow::loadAtlas(QString const & fileName) {
     }
     else {
         addRecentFileName(fileName);
+        ui->atlasTreeWidget->clear();
+        ui->mapTabWidget->removedAllMaps();
         selection->setAtlas(result.getAtlas());
     }
 }

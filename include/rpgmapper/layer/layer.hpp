@@ -41,6 +41,8 @@ public:
 
     ~Layer() override = default;
 
+    virtual bool applyJsonObject(QJsonObject const & json);
+
     virtual void draw(QPainter & painter, int tileSize) const = 0;
 
     Attributes & getAttributes();

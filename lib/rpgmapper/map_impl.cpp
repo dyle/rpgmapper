@@ -31,9 +31,35 @@ Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region} {
 }
 
 
+bool Map::Impl::applyJsonLayers(QJsonObject const & json) {
+
+    bool applied = true;
+
+    if (applied && json.contains("axis") && json["axis"].isObject()) {
+        applied = getAxisLayer()->applyJsonObject(json["axis"].toObject());
+    }
+    if (applied && json.contains("background") && json["background"].isObject()) {
+        applied = getBackgroundLayer()->applyJsonObject(json["background"].toObject());
+    }
+
+    return applied;
+}
+
+
 bool Map::Impl::applyJsonObject(QJsonObject const & json) {
-    auto result = Nameable::applyJsonObject(json);
-    return result;
+
+    if (!Nameable::applyJsonObject(json)) {
+        return false;
+    }
+    if (!CoordinateSystem::applyJsonObject(json)) {
+        return false;
+    }
+
+    if (json.contains("layers") && json["layers"].isObject()) {
+        return applyJsonLayers(json["layers"].toObject());
+    }
+
+    return true;
 }
 
 

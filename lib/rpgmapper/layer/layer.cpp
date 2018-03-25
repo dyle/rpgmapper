@@ -22,6 +22,20 @@ Layer::Layer(Map * map, QObject * parent) : QObject{parent} {
 }
 
 
+bool Layer::applyJsonObject(QJsonObject const & json) {
+
+    if (json.contains("visible") && json["visible"].isBool()) {
+        if (json["visible"].toBool()) {
+            show();
+        }
+        else {
+            hide();
+        }
+    }
+    return true;
+}
+
+
 Layer::Attributes & Layer::getAttributes() {
     return impl->getAttributes();
 }

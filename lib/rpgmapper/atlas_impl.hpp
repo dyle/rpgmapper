@@ -82,6 +82,8 @@ public:
 
     bool moveMap(MapPointer map, RegionPointer regionTo);
 
+    void readIOContent(rpgmapper::model::io::Content const & content);
+
     bool removeRegion(QString const & name);
 
     void renameRegion(QString nameBefore, QString nameAfter);

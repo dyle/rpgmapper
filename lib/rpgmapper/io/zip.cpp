@@ -169,6 +169,7 @@ ReaderResult createAtlas(Content const & content) {
     }
 
     AtlasPointer atlas{new Atlas};
+    atlas->readIOContent(content);
     atlas->applyJsonObject(jsonDocument.object());
     if (atlas->isValid()) {
         atlas->resetChanged();

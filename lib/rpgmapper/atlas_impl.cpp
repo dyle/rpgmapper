@@ -200,6 +200,13 @@ bool Atlas::Impl::moveMap(MapPointer map, RegionPointer regionTo) {
 }
 
 
+void Atlas::Impl::readIOContent(rpgmapper::model::io::Content const & content) {
+    for (auto const & pair : content) {
+        resourceDB->addResource(pair.first, pair.second);
+    }
+}
+
+
 bool Atlas::Impl::removeRegion(QString const & name) {
     auto iter = regions.find(name);
     if (iter == regions.end()) {

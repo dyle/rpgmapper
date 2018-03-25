@@ -158,6 +158,11 @@ AtlasPointer const & Atlas::null() {
 }
 
 
+void Atlas::readIOContent(rpgmapper::model::io::Content const & content) {
+    impl->readIOContent(content);
+}
+
+
 void Atlas::removeRegion(QString const & name) {
     if (impl->removeRegion(name)) {
         emit regionRemoved(name);

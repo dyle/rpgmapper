@@ -30,6 +30,8 @@ public:
 
     explicit Resource(QString name, QByteArray const & data);
 
+    Resource(Resource const &) = delete;
+
     QByteArray const & getData() const {
         return data;
     }

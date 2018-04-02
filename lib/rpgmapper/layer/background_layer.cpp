@@ -113,6 +113,7 @@ QString BackgroundLayer::getRendering() const {
     return pair->second;
 }
 
+
 bool BackgroundLayer::isColorRendered() const {
     return getRendering() == "color";
 }

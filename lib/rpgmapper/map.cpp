@@ -53,8 +53,8 @@ QString Map::getInvalidCharactersInName() {
 }
 
 
-QJsonObject Map::getJsonObject() const {
-    return impl->getJsonObject();
+QJsonObject Map::getJsonObject(rpgmapper::model::io::Content & content) const {
+    return impl->getJsonObject(content);
 }
 
 

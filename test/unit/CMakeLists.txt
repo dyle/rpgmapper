@@ -18,7 +18,6 @@ set(TEST_UNITS_SRC
     test_map.cpp
     test_region.cpp
     test_atlas.cpp
-    test_atlas_io.cpp
     test_commands.cpp
     test_map_commands.cpp
 )

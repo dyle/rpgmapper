@@ -82,7 +82,7 @@ public:
         return gridLayer;
     }
 
-    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override ;
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
 
     static QString getInvalidCharactersInName();
 
@@ -113,6 +113,14 @@ public:
     }
 
     static bool isNameValid(QString name);
+
+private:
+
+    bool applyJsonBaseLayers(QJsonArray const & jsonArray);
+
+    bool applyJsonLayers(QJsonObject const & json);
+
+    bool applyJsonTileLayers(QJsonArray const & jsonArray);
 };
 
 }

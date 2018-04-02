@@ -141,7 +141,7 @@ WriterResult appendFile(QString const & name, QByteArray const & blob, QuaZip & 
 
 Content collectContent(AtlasPointer const & atlas) {
     Content content;
-    content["atlas.json"] = QJsonDocument{atlas->collectIOContent()}.toJson(QJsonDocument::Compact);
+    atlas->collectIOContent(content);
     return content;
 }
 
@@ -169,6 +169,7 @@ ReaderResult createAtlas(Content const & content) {
     }
 
     AtlasPointer atlas{new Atlas};
+    atlas->readIOContent(content);
     atlas->applyJsonObject(jsonDocument.object());
     if (atlas->isValid()) {
         atlas->resetChanged();

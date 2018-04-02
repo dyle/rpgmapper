@@ -31,9 +31,76 @@ Map::Impl::Impl(Map * map, Region * region) : map{map}, region{region} {
 }
 
 
+bool Map::Impl::applyJsonBaseLayers(QJsonArray const & jsonArray) {
+
+    bool applied = true;
+    baseLayers.clear();
+    for (auto && json : jsonArray) {
+        auto baseLayer = TileLayerPointer{new TileLayer{map}};
+        applied = applied && baseLayer->applyJsonObject(json.toObject());
+        baseLayers.push_back(baseLayer);
+    }
+
+    return applied;
+}
+
+
+bool Map::Impl::applyJsonLayers(QJsonObject const & json) {
+
+    bool applied = true;
+
+    if (applied && json.contains("axis") && json["axis"].isObject()) {
+        applied = getAxisLayer()->applyJsonObject(json["axis"].toObject());
+    }
+    if (applied && json.contains("background") && json["background"].isObject()) {
+        applied = getBackgroundLayer()->applyJsonObject(json["background"].toObject());
+    }
+    if (applied && json.contains("base") && json["base"].isArray()) {
+        applied = applyJsonBaseLayers(json["base"].toArray());
+    }
+    if (applied && json.contains("grid") && json["grid"].isObject()) {
+        applied = getGridLayer()->applyJsonObject(json["grid"].toObject());
+    }
+    if (applied && json.contains("tile") && json["tile"].isArray()) {
+        applied = applyJsonTileLayers(json["tile"].toArray());
+    }
+    if (applied && json.contains("text") && json["text"].isObject()) {
+        applied = getTextLayer()->applyJsonObject(json["text"].toObject());
+    }
+
+    return applied;
+}
+
+
 bool Map::Impl::applyJsonObject(QJsonObject const & json) {
-    auto result = Nameable::applyJsonObject(json);
-    return result;
+
+    if (!Nameable::applyJsonObject(json)) {
+        return false;
+    }
+    if (json.contains("coordinateSystem") && json["coordinateSystem"].isObject()) {
+        if (!CoordinateSystem::applyJsonObject(json["coordinateSystem"].toObject())) {
+            return false;
+        }
+    }
+
+    if (json.contains("layers") && json["layers"].isObject()) {
+        return applyJsonLayers(json["layers"].toObject());
+    }
+
+    return true;
+}
+
+
+bool Map::Impl::applyJsonTileLayers(QJsonArray const & jsonArray) {
+
+    bool applied = true;
+    tileLayers.clear();
+    for (auto && json : jsonArray) {
+        auto tileLayer = TileLayerPointer{new TileLayer{map}};
+        applied = applied && tileLayer->applyJsonObject(json.toObject());
+        tileLayers.push_back(tileLayer);
+    }
+    return applied;
 }
 
 
@@ -48,7 +115,7 @@ QJsonObject Map::Impl::getJsonObject(rpgmapper::model::io::Content & content) co
     json["coordinateSystem"] = CoordinateSystem::getJsonObject(content);
 
     QJsonObject layers;
-    layers["axis"] = getAxisLayer()->getJsonObject();
+    layers["axis"] = getAxisLayer()->getJsonObject(content);
     layers["background"] = getBackgroundLayer()->getJsonObject(content);
 
     QJsonArray jsonBaseLayers;

@@ -18,6 +18,7 @@
 
 #include <rpgmapper/field.hpp>
 #include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/io/content.hpp>
 
 
 namespace rpgmapper {
@@ -40,13 +41,15 @@ public:
 
     ~Layer() override = default;
 
+    virtual bool applyJsonObject(QJsonObject const & json);
+
     virtual void draw(QPainter & painter, int tileSize) const = 0;
 
     Attributes & getAttributes();
 
     Attributes const & getAttributes() const;
 
-    virtual QJsonObject getJsonObject() const;
+    virtual QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const;
 
     ResourceDBPointer & getResourceDB();
 

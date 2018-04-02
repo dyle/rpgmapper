@@ -75,6 +75,8 @@ void Selection::removedRegion(QString name) {
 
 
 void Selection::setAtlas(AtlasPointer atlas) {
+    map = MapPointer{new InvalidMap{}};
+    region = RegionPointer{new InvalidRegion{}};
     this->atlas = atlas;
     connect(this->atlas.data(), &Atlas::mapRemoved, this, &Selection::removedMap);
     connect(this->atlas.data(), &Atlas::regionRemoved, this, &Selection::removedRegion);

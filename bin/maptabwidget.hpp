@@ -43,6 +43,8 @@ public slots:
 
     void redrawCurrentMap();
 
+    void removedAllMaps();
+
     void removedMap(QString regionName, QString mapName);
 
     void selectedMap(QString mapName);

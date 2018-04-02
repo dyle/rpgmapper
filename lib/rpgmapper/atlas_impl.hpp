@@ -36,6 +36,8 @@ public:
 
     void clear() override;
 
+    void collectIOContent(rpgmapper::model::io::Content & content) const;
+
     RegionPointer & createRegion(QString const & name);
 
     MapPointer & findMap(QString const & name);
@@ -79,6 +81,8 @@ public:
     static bool isNameValid(QString name);
 
     bool moveMap(MapPointer map, RegionPointer regionTo);
+
+    void readIOContent(rpgmapper::model::io::Content const & content);
 
     bool removeRegion(QString const & name);
 

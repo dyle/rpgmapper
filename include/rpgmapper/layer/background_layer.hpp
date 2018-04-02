@@ -29,7 +29,7 @@ class BackgroundLayer : public Layer {
     Q_OBJECT
 
     QImage image;
-    QString imageResourcePath;
+    QString imageResourceHash;
 
 public:
 
@@ -37,19 +37,17 @@ public:
 
     ~BackgroundLayer() override = default;
 
+    bool applyJsonObject(QJsonObject const & json) override;
+
     void draw(QPainter & painter, int tileSize) const override;
 
     QColor getColor() const;
 
     QImage const & getImage() const;
 
-    QString getImageResourcePath() const {
-        return imageResourcePath;
-    }
-
     ImageRenderMode getImageRenderMode() const;
 
-    QJsonObject getJsonObject() const override;
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
 
     QMargins getMargins() const;
 
@@ -82,6 +80,10 @@ public:
     void setMargins(QMargins const & margins);
 
     void setRendering(QString const & rendering);
+
+private:
+
+    bool applyJsonMargins(QJsonObject const & json);
 };
 
 

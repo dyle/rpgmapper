@@ -47,6 +47,10 @@ public:
     }
 
     static QString getSHA256(QByteArray const & data);
+
+    bool isEmpty() const {
+        return name.isEmpty();
+    }
 };
 
 

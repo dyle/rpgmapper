@@ -16,6 +16,7 @@
 #include <QSize>
 
 #include <rpgmapper/numerals.hpp>
+#include <rpgmapper/io/content.hpp>
 
 
 namespace rpgmapper {
@@ -47,7 +48,9 @@ public:
 
     CoordinateSystem();
 
-    QJsonObject getJsonObject() const;
+    virtual bool applyJsonObject(QJsonObject const & json);
+
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const;
 
     static constexpr QSize getMaximumSize() {
         return QSize{1000, 1000};
@@ -142,6 +145,12 @@ public:
     }
 
 private:
+
+    bool applyJsonNumerals(QJsonObject const & json);
+
+    bool applyJsonOffset(QJsonObject const & json);
+
+    bool applyJsonSize(QJsonObject const & json);
 
     QPoint transpose(QPoint const & position) const;
 

@@ -29,7 +29,7 @@ void Atlas::changedRegionName(QString nameBefore, QString nameAfter) {
 
 
 void Atlas::collectIOContent(rpgmapper::model::io::Content & content) const  {
-    return impl->getJsonObject(rpgmapper::model::io::Content & content);
+    impl->collectIOContent(content);
 }
 
 
@@ -155,6 +155,11 @@ bool Atlas::moveMap(MapPointer map, RegionPointer regionTo) {
 AtlasPointer const & Atlas::null() {
     static AtlasPointer nullAtlas{new InvalidAtlas};
     return nullAtlas;
+}
+
+
+void Atlas::readIOContent(rpgmapper::model::io::Content const & content) {
+    impl->readIOContent(content);
 }
 
 

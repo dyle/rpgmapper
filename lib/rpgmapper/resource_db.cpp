@@ -21,3 +21,18 @@ void ResourceDB::addResource(ResourcePointer resource) {
     }
     resources[resource->getHash()] = resource;
 }
+
+
+QByteArray const & ResourceDB::getData(QString hash) const {
+    return getResource(hash)->getData();
+}
+
+
+ResourcePointer const & ResourceDB::getResource(QString hash) const {
+    static ResourcePointer emptyResource{new Resource{QString::null, QByteArray{}}};
+    auto pair = resources.find(hash);
+    if (pair == resources.end()) {
+        return emptyResource;
+    }
+    return (*pair).second;
+}

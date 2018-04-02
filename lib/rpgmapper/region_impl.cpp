@@ -33,6 +33,19 @@ bool Region::Impl::addMap(MapPointer & map) {
 }
 
 
+bool Region::Impl::applyJsonMapsArray(QJsonArray const & jsonMaps) {
+    for (auto && jsonMap : jsonMaps) {
+        if (jsonMap.toObject().contains("name") && jsonMap.toObject()["name"].isString()) {
+            auto map = createMap(jsonMap.toObject()["name"].toString());
+            if (!map->applyJsonObject(jsonMap.toObject())) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
 bool Region::Impl::applyJsonObject(QJsonObject const & json) {
 
     if (!Nameable::applyJsonObject(json)) {
@@ -48,19 +61,6 @@ bool Region::Impl::applyJsonObject(QJsonObject const & json) {
         }
     }
 
-    return true;
-}
-
-
-bool Region::Impl::applyJsonMapsArray(QJsonArray const & jsonMaps) {
-    for (auto && jsonMap : jsonMaps) {
-        if (jsonMap.toObject().contains("name") && jsonMap.toObject()["name"].isString()) {
-            auto map = createMap(jsonMap.toObject()["name"].toString());
-            if (!map->applyJsonObject(jsonMap.toObject())) {
-                return false;
-            }
-        }
-    }
     return true;
 }
 

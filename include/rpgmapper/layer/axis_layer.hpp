@@ -38,7 +38,7 @@ public:
 
     QFont getFont() const;
 
-    QJsonObject getJsonObject() const override;
+    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
 
     void setColor(QColor color);
 

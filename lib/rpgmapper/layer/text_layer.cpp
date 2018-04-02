@@ -26,7 +26,7 @@ void TextLayer::draw(UNUSED QPainter & painter, UNUSED int tileSize) const {
 }
 
 
-QJsonObject TextLayer::getJsonObject() const {
-    QJsonObject jsonObject = Layer::getJsonObject();
+QJsonObject TextLayer::getJsonObject(rpgmapper::model::io::Content & content) const {
+    QJsonObject jsonObject = Layer::getJsonObject(content);
     return jsonObject;
 }

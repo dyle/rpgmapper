@@ -96,6 +96,8 @@ public:
 
     static AtlasPointer const & null();
 
+    void readIOContent(rpgmapper::model::io::Content const & content);
+
     void removeRegion(QString const & name);
 
     void resetChanged();

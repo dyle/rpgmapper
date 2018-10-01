@@ -7,11 +7,11 @@ any dungeon-like map. The user should be capable of sharing these maps freely.
 
 ## Preamble
 
-In  this project of mine I try to adhere to the recent software engineering principles found
+In  this project of mine, I try to adhere to the recent software engineering principles found
 in such books as:
 
 * Robert C. Martin, "Clean Code: A Handbook of Agile Software Craftsmanship"
-* Stephan Roth, "Clean C++: Sustainable Software Development, Patters and Best Practices 
+* Stephan Roth, "Clean C++: Sustainable Software Development, and Best Practices 
 with C++17"  
 
 As for the latter, due to my target to support Debian, whose version number is - at the time
@@ -26,7 +26,17 @@ Some more notes:
 * [CMake](https://cmake.org)
 * and [GoogleTest](https://github.com/google/googletest)
 
+## Edit 1
 
+Aaaarrrgghhh! I cannot stand it to _not_ comment my work. After some months of inactivity 
+I myself find it hard to reflect upon this code.
+
+Therefore: sorry uncle Bob, I will comment my code.
+
+## Edit 2
+
+Obviously, it is hard to find and figure out the software patterns and C++ idioms I use.
+I will include them in the documentation too.
 
 ---
 Oliver Maurhart, <dyle71@gmail.com>  

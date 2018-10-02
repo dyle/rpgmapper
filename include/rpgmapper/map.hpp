@@ -26,11 +26,21 @@
 namespace rpgmapper {
 namespace model {
 
+
+// Forward declaration of Map.
 class Map;
+
+// Forward declaration of Region.
 class Region;
 
+/**
+ * A MapPointer is a smart pointer to a Map instance.
+ */
 using MapPointer = QSharedPointer<Map>;
 
+/**
+ * Maps are several MapPointers identified by strings, e.g. "Gondor", "Hobbiton", or "Skara Brae".
+ */
 using Maps = std::map<QString, MapPointer>;
 
 class Map : public QObject, public LayerStack {

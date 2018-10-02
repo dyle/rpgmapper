@@ -24,14 +24,22 @@
 namespace rpgmapper {
 namespace model {
 
+
+// Forward declaration of Map class.
 class Map;
 
+/**
+ * A single map is built by Layer objects stacked upon each other.
+ *
+ * A Layer has a specific purpose: there are base (ground) layers, wall layers, etc.
+ * Layers are stacked in a Z-order. The lowest layer will be rendered first.
+ */
 class Layer : public QObject {
 
     Q_OBJECT
 
-    class Impl;
-    std::shared_ptr<Impl> impl;
+    class Impl;                                 /**< Implmentation class. */
+    std::shared_ptr<Impl> impl;                 /**< Pimpl idiom. */
 
 public:
 

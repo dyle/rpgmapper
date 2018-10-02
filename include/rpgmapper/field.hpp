@@ -20,9 +20,7 @@
 namespace rpgmapper {
 namespace model {
 
-/**
- * Forward declaration of the Field class.
- */
+// Forward declaration of the Field class.
 class Field;
 
 /**
@@ -37,6 +35,8 @@ using FieldPointer = QSharedPointer<Field>;
  *  - "river" - "south-west"
  *  - "wall" - "east"
  *  - "special" - "trapdoor"
+ *
+ * TODO: subject for redesign.
  */
 using Tile = std::map<QString, QString>;
 

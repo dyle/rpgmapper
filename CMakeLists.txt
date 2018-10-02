@@ -41,6 +41,8 @@ check_include_file(assert.h HAVE_ASSERT_H)
 check_include_file(errno.h HAVE_ERRNO_H)
 check_include_file(limits.h HAVE_LIMITS_H)
 
+# ------------------------------------------------------------
+
 find_package(Boost 1.65.0 COMPONENTS program_options)
 if (Boost_FOUND)
     set(CMAKE_REQUIRED_LIBRARIES "${Boost_LIBRARIES};${CMAKE_REQUIRED_LIBRARIES}")
@@ -72,6 +74,8 @@ else (DEFINED QUAZIP_INCLUDE)
 endif (DEFINED QUAZIP_INCLUDE)
 
 find_package(GTest REQUIRED)
+
+# ------------------------------------------------------------
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QUAZIP_INCLUDE})

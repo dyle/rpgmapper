@@ -38,8 +38,12 @@ Therefore: sorry uncle Bob, I will comment my code.
 Obviously, it is hard to find and figure out the software patterns and C++ idioms I use.
 I will include them in the documentation too.
 
-## Software Patterns and C/C++ Idioms in this project
+### Software Patterns and C/C++ Idioms in this project:
 
+(in no particular order)
+
+- Model-View-Controller - https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller 
+  Having model/controller classes defined in the library and view classes in the binary. 
 - Null object pattern - https://en.wikipedia.org/wiki/Null_object_pattern
 
 ---

@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_MODEL_COORDINATE_SYSTEM_HPP
 #define RPGMAPPER_MODEL_COORDINATE_SYSTEM_HPP
 
@@ -28,6 +27,7 @@ enum class CoordinatesOrigin { topLeft, topRight, bottomLeft, bottomRight };
 
 QString coordinatesOriginToString(CoordinatesOrigin origin);
 
+
 CoordinatesOrigin stringToCoordinatesOrigin(QString const & string);
 
 
@@ -35,6 +35,7 @@ struct NumeralCoordinates {
     QString x;
     QString y;
 };
+
 
 class CoordinateSystem {
 
@@ -160,5 +161,6 @@ private:
 
 }
 }
+
 
 #endif

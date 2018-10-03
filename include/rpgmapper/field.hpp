@@ -4,10 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_MODEL_FIELD_HPP
 #define RPGMAPPER_MODEL_FIELD_HPP
-
 
 #include <map>
 #include <vector>
@@ -20,13 +18,16 @@
 namespace rpgmapper {
 namespace model {
 
+
 // Forward declaration of the Field class.
 class Field;
+
 
 /**
  * A FieldPointer is a shared pointer to Field heap instances.
  */
 using FieldPointer = QSharedPointer<Field>;
+
 
 /**
  * A single tile on a field holds key-value pairs.
@@ -40,10 +41,12 @@ using FieldPointer = QSharedPointer<Field>;
  */
 using Tile = std::map<QString, QString>;
 
+
 /**
  * Tiles is a list (vector) of Tiles (aka key-value pairs).
  */
 using Tiles = std::vector<Tile>;
+
 
 /**
  * A Field class has a position and a list of tiles placed on it.

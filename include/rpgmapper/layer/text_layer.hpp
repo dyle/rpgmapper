@@ -4,10 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_MODEL_LAYER_TEXT_LAYER_HPP
 #define RPGMAPPER_MODEL_LAYER_TEXT_LAYER_HPP
-
 
 #include <rpgmapper/layer/layer.hpp>
 
@@ -33,7 +31,6 @@ public:
 
     QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
 };
-
 
 
 }

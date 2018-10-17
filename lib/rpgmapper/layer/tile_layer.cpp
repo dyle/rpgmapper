@@ -22,7 +22,7 @@ TileLayer::TileLayer(Map * map, QObject * parent) : Layer{map, parent} {
 
 
 void TileLayer::addField(Field const & field) {
-    fields[field.getIndex()] = FieldPointer{new Field(field)};
+    fields[field.getIndex()] = FieldPointer{new Field{field}};
 }
 
 
@@ -37,7 +37,6 @@ FieldPointer const TileLayer::getField(int index) const {
 
 
 void TileLayer::draw(UNUSED QPainter & painter, UNUSED int tileSize) const {
-
 }
 
 

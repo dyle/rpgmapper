@@ -40,7 +40,7 @@ I will include them in the documentation too.
 
 ### Software Patterns and C/C++ Idioms in this project:
 
-(in no particular order)
+(in no particular order; sure some missing...)
 
 - Model-View-Controller - https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller 
   Having model/controller classes defined in the library and view classes in the binary. 

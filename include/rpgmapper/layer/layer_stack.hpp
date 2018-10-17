@@ -22,7 +22,11 @@ namespace model {
 
 
 /**
- * This class aggreates all known layers into a single object.
+ * This class aggregates all known layers into a single object.
+ *
+ * With respect to the collectVisibleLayers method this class is
+ * an interface for a stack of named layers. This serves as the base
+ * class for the Map class later on.
  */
 class LayerStack {
 

@@ -9,15 +9,11 @@
 
 using namespace rpgmapper::model;
 
-// TODO: remove, when done
-#if defined(__GNUC__) || defined(__GNUCPP__)
-#   define UNUSED   __attribute__((unused))
-#else
-#   define UNUSED
-#endif
 
+/**
+ * Default color of the grid on the map.
+ */
 static char const * DEFAULT_GRID_COLOR = "#0022ff";
-static char const * WARNING_GRID_COLOR = "#ff0088";
 
 
 GridLayer::GridLayer(Map * map, QObject * parent) : Layer{map, parent} {
@@ -72,13 +68,11 @@ void GridLayer::drawYAxis(QPainter & painter, int tileSize) const {
 
 
 QColor GridLayer::getColor() const {
-
     auto iter = getAttributes().find("color");
     if (iter != getAttributes().end()) {
         return QColor{(*iter).second};
     }
-
-    return QColor{WARNING_GRID_COLOR};
+    return QColor{DEFAULT_GRID_COLOR};
 }
 
 
@@ -92,4 +86,3 @@ QJsonObject GridLayer::getJsonObject(rpgmapper::model::io::Content & content) co
 void GridLayer::setColor(QColor color) {
     getAttributes()["color"] = color.name(QColor::HexArgb);
 }
-

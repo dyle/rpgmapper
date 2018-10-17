@@ -47,7 +47,7 @@ public:
     explicit AxisLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
     /**
-     * Destructs the AxisLayer
+     * Destructs the AxisLayer.
      */
     ~AxisLayer() override = default;
 
@@ -69,7 +69,7 @@ public:
     /**
      * Gets the font used for drawing the annotations.
      *
-     * @return  the font used for drawing the annotations
+     * @return  the font used for drawing the annotations.
      */
     QFont getFont() const;
 

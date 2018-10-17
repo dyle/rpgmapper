@@ -9,13 +9,10 @@
 
 using namespace rpgmapper::model;
 
-// TODO: remove, when done
-#if defined(__GNUC__) || defined(__GNUCPP__)
-#   define UNUSED   __attribute__((unused))
-#else
-#   define UNUSED
-#endif
 
+/**
+ * The default color for the axis annotations.
+ */
 static char const * DEFAULT_AXIS_COLOR = "#000000";
 
 

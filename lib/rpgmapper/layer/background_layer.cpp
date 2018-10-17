@@ -22,6 +22,9 @@ using namespace rpgmapper::model;
 #endif
 
 
+/**
+ * Default background color.
+ */
 static char const * BACKGROUND_COLOR_DEFAULT = "#fafaff";
 
 
@@ -76,6 +79,7 @@ bool BackgroundLayer::applyJsonObject(QJsonObject const & json) {
     // TODO: load image
     return true;
 }
+
 
 void BackgroundLayer::draw(QPainter & painter, int tileSize) const {
     QSize size = getMap()->getSize() * tileSize;

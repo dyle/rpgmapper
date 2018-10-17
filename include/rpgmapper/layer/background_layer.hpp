@@ -20,7 +20,7 @@ namespace rpgmapper {
 namespace model {
 
 
-// Forward declaration of the BackgroudLayer class
+// Forward declaration of the BackgroundLayer class
 class BackgroundLayer;
 
 
@@ -52,7 +52,7 @@ public:
     explicit BackgroundLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
 
     /**
-     * Destructs the AxisLayer
+     * Destructs the BackgroundLayer.
      */
     ~BackgroundLayer() override = default;
 

@@ -9,7 +9,7 @@
 
 using namespace rpgmapper::model;
 
-// TODO: remove, when done
+// TODO: remove when done.
 #if defined(__GNUC__) || defined(__GNUCPP__)
 #   define UNUSED   __attribute__((unused))
 #else

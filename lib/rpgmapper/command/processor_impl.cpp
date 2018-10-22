@@ -5,28 +5,28 @@
  */
 
 
-#include "prozessor_impl.hpp"
+#include "processor_impl.hpp"
 
 using namespace rpgmapper::model::command;
 
 
-void Prozessor::Impl::execute(CommandPointer & command) {
+void Processor::Impl::execute(CommandPointer & command) {
     redoList.clear();
     runCommand(command);
 }
 
 
-Commands const & Prozessor::Impl::getHistory() const {
+Commands const & Processor::Impl::getHistory() const {
     return history;
 }
 
 
-Commands const & Prozessor::Impl::getUndone() const {
+Commands const & Processor::Impl::getUndone() const {
     return redoList;
 }
 
 
-void Prozessor::Impl::redo() {
+void Processor::Impl::redo() {
     if (redoList.empty()) {
         return;
     }
@@ -35,14 +35,14 @@ void Prozessor::Impl::redo() {
     runCommand(command);
 }
 
-void Prozessor::Impl::runCommand(CommandPointer & command) {
+void Processor::Impl::runCommand(CommandPointer & command) {
     history.push_back(command);
     changes++;
     command->execute();
 }
 
 
-void Prozessor::Impl::undo() {
+void Processor::Impl::undo() {
     if (history.empty()) {
         return;
     }

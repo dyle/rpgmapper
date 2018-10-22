@@ -37,7 +37,7 @@ class Layer : public QObject {
 
     Q_OBJECT
 
-    class Impl;                                 /**< Implmentation class. */
+    class Impl;                                 /**< Implementation class. */
     std::shared_ptr<Impl> impl;                 /**< Pimpl C++ idiom. */
 
 public:

@@ -11,7 +11,7 @@ set(RPGMAPPER_LIB_MOC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/selection.hpp
-    ${CMAKE_SOURCE_DIR}/include/rpgmapper/command/prozessor.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/command/processor.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/axis_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/background_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/grid_layer.hpp
@@ -41,8 +41,8 @@ set(RPGMAPPER_LIB_SRC
     command/composite_command.cpp
     command/create_map.cpp
     command/create_region.cpp
-    command/prozessor.cpp
-    command/prozessor_impl.cpp
+    command/processor.cpp
+    command/processor_impl.cpp
     command/remove_map.cpp
     command/remove_region.cpp
     command/resize_map.cpp

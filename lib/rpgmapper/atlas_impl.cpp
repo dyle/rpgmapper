@@ -18,7 +18,7 @@ Atlas::Impl::Impl(Atlas * atlas) : atlas(atlas) {
     if (atlas == nullptr) {
         throw std::invalid_argument("rpgmapper::model::Atlas::Impl::Impl() - atlas must not be nullptr.");
     }
-    prozessor = ProzessorPointer{new Prozessor};
+    prozessor = ProcessorPointer{new Processor};
     resourceDB = ResourceDBPointer{new ResourceDB};
 }
 
@@ -147,12 +147,12 @@ std::set<QString> Atlas::Impl::getAllRegionNames() const {
 }
 
 
-ProzessorPointer & Atlas::Impl::getCommandProzessor() {
+ProcessorPointer & Atlas::Impl::getCommandProzessor() {
     return prozessor;
 }
 
 
-ProzessorPointer const & Atlas::Impl::getCommandProzessor() const {
+ProcessorPointer const & Atlas::Impl::getCommandProzessor() const {
     return prozessor;
 }
 

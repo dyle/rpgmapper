@@ -29,7 +29,7 @@ using namespace rpgmapper::model::command;
 
 TEST(ProzessorTest, DoNopCommand) {
 
-    Prozessor prozessor;
+    Processor prozessor;
 
     EXPECT_EQ(prozessor.modifications(), 0);
     EXPECT_TRUE(prozessor.getHistory().empty());

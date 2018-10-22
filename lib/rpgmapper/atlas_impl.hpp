@@ -21,7 +21,7 @@ class Atlas::Impl final : public Nameable {
 
     Atlas * atlas = nullptr;
     Regions regions;
-    rpgmapper::model::command::ProzessorPointer prozessor;
+    rpgmapper::model::command::ProcessorPointer prozessor;
     unsigned long unmodifiedCommandCounter = 0;
     QString fileName;
     ResourceDBPointer resourceDB;
@@ -52,9 +52,9 @@ public:
 
     std::set<QString> getAllRegionNames() const;
 
-    rpgmapper::model::command::ProzessorPointer & getCommandProzessor();
+    rpgmapper::model::command::ProcessorPointer & getCommandProzessor();
 
-    rpgmapper::model::command::ProzessorPointer const & getCommandProzessor() const;
+    rpgmapper::model::command::ProcessorPointer const & getCommandProzessor() const;
 
     QString const & getFileName() const {
         return fileName;

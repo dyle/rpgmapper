@@ -17,7 +17,7 @@
 
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/resource_db.hpp>
-#include <rpgmapper/command/prozessor.hpp>
+#include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/io/content.hpp>
 
 
@@ -60,9 +60,9 @@ public:
 
     std::set<QString> getAllRegionNames() const;
 
-    rpgmapper::model::command::ProzessorPointer & getCommandProzessor();
+    rpgmapper::model::command::ProcessorPointer & getCommandProzessor();
 
-    rpgmapper::model::command::ProzessorPointer const & getCommandProzessor() const;
+    rpgmapper::model::command::ProcessorPointer const & getCommandProzessor() const;
 
     QString const & getFileName() const;
 

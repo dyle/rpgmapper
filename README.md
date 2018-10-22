@@ -46,6 +46,7 @@ I will include them in the documentation too.
   Having model/controller classes defined in the library and view classes in the binary. 
 - Null object pattern - https://en.wikipedia.org/wiki/Null_object_pattern
 - Pimpl - https://en.wikipedia.org/wiki/Opaque_pointer
+- Command - https://en.wikipedia.org/wiki/Command_pattern
 
 ---
 Oliver Maurhart, <dyle71@gmail.com>  

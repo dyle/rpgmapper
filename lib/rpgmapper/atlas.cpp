@@ -14,7 +14,7 @@ using namespace rpgmapper::model::command;
 
 Atlas::Atlas(QObject * parent) : QObject{parent} {
     impl = std::make_shared<Atlas::Impl>(this);
-    connect(getCommandProzessor().data(), &Prozessor::commandExecuted, this, &Atlas::commandExecuted);
+    connect(getCommandProzessor().data(), &Processor::commandExecuted, this, &Atlas::commandExecuted);
 }
 
 
@@ -58,12 +58,12 @@ RegionPointer & Atlas::createRegion(QString const & name) {
 }
 
 
-ProzessorPointer & Atlas::getCommandProzessor() {
+ProcessorPointer & Atlas::getCommandProzessor() {
     return impl->getCommandProzessor();
 }
 
 
-ProzessorPointer const & Atlas::getCommandProzessor() const {
+ProcessorPointer const & Atlas::getCommandProzessor() const {
     return impl->getCommandProzessor();
 }
 

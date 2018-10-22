@@ -5,6 +5,9 @@
 project(rpgmapper C CXX)
 cmake_minimum_required(VERSION 3.9.1)
 
+cmake_policy(SET CMP0057 NEW)
+cmake_policy(SET CMP0075 NEW)
+
 enable_testing()
 
 include(CheckIncludeFile)

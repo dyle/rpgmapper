@@ -19,22 +19,46 @@ namespace model {
 namespace command {
 
 
+/**
+ * This command switches between plain color and image background rendering of a map.
+ */
 class SetMapBackgroundRendering : public AtlasCommand {
 
-    QString mapName;
-    QString newRendering;
-    QString oldRendering;
+    QString mapName;            /**< the map to modify. */
+    QString newRendering;       /**< the new rendering directive. */
+    QString oldRendering;       /**< the old rendering directive. */
 
 public:
-
+    
+    /**
+     * Constructor.
+     *
+     * @param   atlas           the current atlas.
+     * @param   mapName         the name of the map to change the background rendering.
+     * @param   newRendering    the new rendering directive.
+     */
     SetMapBackgroundRendering(AtlasPointer & atlas, QString const & mapName, QString newRendering);
-
+    
+    /**
+     * Destructor.
+     */
     ~SetMapBackgroundRendering() override = default;
-
+    
+    /**
+     * Executes this command.
+     */
     void execute() override;
-
+    
+    /**
+     * Returns a human readable string for this command.
+     *
+     * @return  a string describing this command.
+     */
     QString getDescription() const override;
-
+    
+    /**
+     * Undoes the command.
+     */
     void undo() override;
 };
 

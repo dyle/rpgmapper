@@ -17,23 +17,49 @@ namespace model {
 namespace command {
 
 
+
+/**
+ * This class changes how the axis numerals are drawn on the map.
+ */
 class SetMapNumeralAxis : public AtlasCommand {
 
-    QString mapName;
-    bool xAxis;
-    QString newNumeral;
-    QString oldNumeral;
+    QString mapName;            /**< the map to modify. */
+    bool xAxis;                 /**< flag for X-axis (if false, then Y-axis is targeted). */
+    QString newNumeral;         /**< the new numeral setting. */
+    QString oldNumeral;         /**< the old numeral setting. */
 
 public:
-
+    
+    /**
+     * Constructor.
+     *
+     * @param   atlas           the current atlas.
+     * @param   mapName         the name of the map to modify.
+     * @param   xAxis           true, for X-axis, false for Y-axis.
+     * @param   newNumeral      the new numeral setting for the maps axis.
+     */
     SetMapNumeralAxis(AtlasPointer & atlas, QString const & mapName, bool xAxis, QString newNumeral);
-
+    
+    /**
+     * Destructor.
+     */
     ~SetMapNumeralAxis() override = default;
-
+    
+    /**
+     * Executes this command.
+     */
     void execute() override;
-
+    
+    /**
+     * Returns a human readable string for this command.
+     *
+     * @return  a string describing this command.
+     */
     QString getDescription() const override;
-
+    
+    /**
+     * Undoes the command.
+     */
     void undo() override;
 };
 

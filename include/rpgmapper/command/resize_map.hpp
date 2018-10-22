@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_MODEL_COMMAND_RESIZE_MAP_HPP
 #define RPGMAPPER_MODEL_COMMAND_RESIZE_MAP_HPP
 
@@ -19,22 +18,47 @@ namespace model {
 namespace command {
 
 
+
+/**
+ * With this class, maps a assigned new dimensions.
+ */
 class ResizeMap : public AtlasCommand {
 
-    QString mapName;
-    QSize newSize;
-    QSize oldSize;
+    QString mapName;            /**< The name of the map to resize. */
+    QSize newSize;              /**< The new size of the map. */
+    QSize oldSize;              /**< The old size of the map. */
 
 public:
-
+    
+    /**
+     * Constructor.
+     *
+     * @param   atlas           the current atlas.
+     * @param   mapName         the map to resize.
+     * @param   newSize         the maps new size.
+     */
     ResizeMap(AtlasPointer & atlas, QString const & mapName, QSize newSize);
-
+    
+    /**
+     * Destructor.
+     */
     ~ResizeMap() override = default;
-
+    
+    /**
+     * Executes this command.
+     */
     void execute() override;
-
+    
+    /**
+     * Returns a human readable string for this command.
+     *
+     * @return  a string describing this command.
+     */
     QString getDescription() const override;
-
+    
+    /**
+     * Undoes the command.
+     */
     void undo() override;
 };
 

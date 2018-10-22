@@ -31,7 +31,7 @@ Some more notes:
 Aaaarrrgghhh! I cannot stand it to _not_ comment my work. After some months of inactivity 
 I myself find it hard to reflect upon this code.
 
-Therefore: sorry uncle Bob, I will comment my code.
+Therefore: sorry, I will comment my code.
 
 ## Edit 2
 

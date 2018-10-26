@@ -62,6 +62,7 @@ set(RPGMAPPER_LIB_SRC
     command/set_region_name.cpp
 
     io/atlas_io.cpp
+    io/reader_result.cpp
     io/zip.cpp
 
     layer/axis_layer.cpp

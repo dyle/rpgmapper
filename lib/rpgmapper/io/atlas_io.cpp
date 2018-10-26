@@ -14,44 +14,33 @@ using namespace rpgmapper::model::io;
 
 
 ReaderResult AtlasIO::read(QFile & file) const {
-
-    ReaderResult result;
-
-    QuaZip zip;
-    result << openZipForReading(zip, file);
-    if (!result.hasSuccess()) {
-        return result;
+    
+    auto atlas = AtlasPointer{new InvalidAtlas};
+    QStringList log;
+    
+    bool read = readAtlas(atlas, file, log);
+    if (read) {
+        atlas->setFileName(file.fileName());
     }
-
-    result << readAtlas(zip);
-    closeZip(zip);
-
-    result.getAtlas()->setFileName(file.fileName());
-
-    return result;
+    
+    return ReaderResult{atlas, read, log};
 }
 
 
 WriterResult AtlasIO::write(AtlasPointer & atlas, QFile & file) const {
-
-    WriterResult result;
-
+    
+    bool written = true;
+    QStringList log;
     if (!atlas->isValid()) {
-        result << false;
-        result << "Atlas not valid, refusing to save.";
-        return result;
+        written = false;
+        log.append("Atlas not valid, refusing to save.");
+    }
+    else {
+        written = writeAtlas(atlas, file, log);
+        if (written) {
+            atlas->setFileName(file.fileName());
+        }
     }
 
-    QuaZip zip;
-    result << openZipForWriting(zip, file);
-    if (!result.hasSuccess()) {
-        return result;
-    }
-
-    result << writeAtlas(zip, atlas);
-    closeZip(zip);
-
-    atlas->setFileName(file.fileName());
-
-    return result;
+    return WriterResult{written, log};
 }

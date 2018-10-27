@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <rpgmapper/numerals.hpp>
+
 #include "alpha_big.hpp"
 #include "alpha_small.hpp"
 #include "numeric.hpp"
@@ -14,7 +14,7 @@
 using namespace rpgmapper::model;
 
 
-QSharedPointer<NumeralConverter> const & NumeralConverter::create(QString const & method) {
+QSharedPointer<NumeralConverter> const & NumeralConverter::create(QString method) {
 
     static std::map<QString, QSharedPointer<NumeralConverter>> const converters{
         {"numeric", QSharedPointer<NumeralConverter>{new NumericConverter}},

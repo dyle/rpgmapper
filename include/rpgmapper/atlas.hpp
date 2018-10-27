@@ -15,19 +15,15 @@
 #include <QString>
 #include <QSharedPointer>
 
-#include <rpgmapper/region.hpp>
-#include <rpgmapper/resource_db.hpp>
 #include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/io/content.hpp>
+#include <rpgmapper/region.hpp>
+#include <rpgmapper/resource_db.hpp>
 
 
 namespace rpgmapper {
 namespace model {
 
-
-class Atlas;
-
-using AtlasPointer = QSharedPointer<Atlas>;
 
 class Atlas : public QObject {
 
@@ -42,7 +38,7 @@ public:
 
     ~Atlas() override = default;
 
-    bool applyJsonObject(QJsonObject json);
+    bool applyJSON(QJsonObject json);
 
     void collectIOContent(rpgmapper::model::io::Content & content) const;
 
@@ -92,7 +88,7 @@ public:
 
     bool moveMap(MapPointer map, RegionPointer regionTo);
 
-    static AtlasPointer const & null();
+    static QSharedPointer<Atlas> const & null();
 
     void readIOContent(rpgmapper::model::io::Content const & content);
 

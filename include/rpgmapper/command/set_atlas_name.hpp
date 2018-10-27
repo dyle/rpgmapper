@@ -31,7 +31,7 @@ public:
      * @param   atlas           the current atlas.
      * @param   name            the new name of the atlas.
      */
-    SetAtlasName(AtlasPointer & atlas, QString const & name);
+    SetAtlasName(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & name);
     
     /**
      * Destructor.

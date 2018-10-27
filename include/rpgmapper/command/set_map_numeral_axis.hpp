@@ -4,10 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_MAP_NUMERAL_AXIS_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_NUMERAL_AXIS_HPP
-
 
 #include <rpgmapper/command/atlas_command.hpp>
 
@@ -38,7 +36,7 @@ public:
      * @param   xAxis           true, for X-axis, false for Y-axis.
      * @param   newNumeral      the new numeral setting for the maps axis.
      */
-    SetMapNumeralAxis(AtlasPointer & atlas, QString const & mapName, bool xAxis, QString newNumeral);
+    SetMapNumeralAxis(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, bool xAxis, QString newNumeral);
     
     /**
      * Destructor.

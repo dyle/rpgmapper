@@ -36,7 +36,7 @@ public:
      * @param   mapName         the name of the map to change the font color for.
      * @param   newColor        the new font color.
      */
-    SetMapAxisFontColor(AtlasPointer & atlas, QString const & mapName, QColor newColor);
+    SetMapAxisFontColor(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QColor newColor);
     
     /**
      * Destructor.

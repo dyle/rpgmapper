@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapBackgroundColor::SetMapBackgroundColor(AtlasPointer & atlas, QString const & mapName, QColor newColor)
+SetMapBackgroundColor::SetMapBackgroundColor(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QColor newColor)
     : AtlasCommand{atlas}, mapName{mapName}, newColor{newColor} {
 }
 

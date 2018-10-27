@@ -32,8 +32,8 @@ bool Region::addMap(MapPointer & map) {
 }
 
 
-bool Region::applyJsonObject(QJsonObject const & json) {
-    return impl->applyJsonObject(json);
+bool Region::applyJSON(QJsonObject const & json) {
+    return impl->applyJSON(json);
 }
 
 
@@ -101,8 +101,8 @@ QString Region::getInvalidCharactersInName() {
 }
 
 
-QJsonObject Region::getJsonObject(rpgmapper::model::io::Content & content) const {
-    return impl->getJsonObject(content);
+QJsonObject Region::getJSON(rpgmapper::model::io::Content & content) const {
+    return impl->getJSON(content);
 }
 
 Maps const & Region::getMaps() const {

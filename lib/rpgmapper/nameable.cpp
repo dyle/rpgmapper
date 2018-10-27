@@ -4,33 +4,41 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
-#include "nameable.hpp"
+#include <rpgmapper/nameable.hpp>
 
 using namespace rpgmapper::model;
 
-#if defined(__GNUC__) || defined(__GNUCPP__)
-#   define UNUSED   __attribute__((unused))
-#else
-#   define UNUSED
-#endif
 
-
-bool Nameable::applyJsonObject(QJsonObject const & json) {
-    clear();
-    if (!json.contains("name")) {
+bool Nameable::applyJSON(QJsonObject const & json) {
+    
+    if (!json.contains("name") || !json["name"].isString()) {
         return false;
     }
-    if (!json["name"].isString()) {
-        return false;
-    }
-    name = json["name"].toString();
+    
+    setName(json["name"].toString());
     return true;
 }
 
-QJsonObject Nameable::getJsonObject(UNUSED rpgmapper::model::io::Content & content) const {
 
-    QJsonObject jsonObject;
-    jsonObject["name"] = name;
-    return jsonObject;
+void Nameable::clear() {
+    name.clear();
+    emit nameChanged();
+}
+
+
+QJsonObject Nameable::getJSON() const {
+    QJsonObject json;
+    json["name"] = name;
+    return json;
+}
+
+
+void Nameable::setName(QString const & name) {
+    
+    if (name == this->name) {
+        return;
+    }
+    
+    this->name = name;
+    emit nameChanged();
 }

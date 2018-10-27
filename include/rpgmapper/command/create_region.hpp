@@ -30,7 +30,7 @@ public:
      * @param   atlas       the atlas we are currently working on.
      * @param   name        the name of the region to create.
      */
-    CreateRegion(AtlasPointer & atlas, QString const & name);
+    CreateRegion(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & name);
 
     /**
      * Destructor.

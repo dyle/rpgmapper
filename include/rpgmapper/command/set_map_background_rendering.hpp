@@ -37,7 +37,7 @@ public:
      * @param   mapName         the name of the map to change the background rendering.
      * @param   newRendering    the new rendering directive.
      */
-    SetMapBackgroundRendering(AtlasPointer & atlas, QString const & mapName, QString newRendering);
+    SetMapBackgroundRendering(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QString newRendering);
     
     /**
      * Destructor.

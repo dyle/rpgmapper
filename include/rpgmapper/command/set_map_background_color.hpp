@@ -36,7 +36,7 @@ public:
      * @param   mapName         the name of the map to change the background color for.
      * @param   newColor        the new background color.
      */
-    SetMapBackgroundColor(AtlasPointer & atlas, QString const & mapName, QColor newColor);
+    SetMapBackgroundColor(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QColor newColor);
     
     /**
      * Destructor.

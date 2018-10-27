@@ -14,22 +14,6 @@ namespace rpgmapper {
 namespace model {
 
 
-// Forward declaration of the TileLayer class.
-class TileLayer;
-
-
-/**
- * A smart pointer on the heap for TileLayer objects.
- */
-using TileLayerPointer = QSharedPointer<TileLayer>;
-
-
-/**
- * A list of TileLayer objects.
- */
-using TileLayers = std::list<TileLayerPointer>;
-
-
 /**
  * A TileLayer object draws tiles on the map.
  */
@@ -37,7 +21,7 @@ class TileLayer : public Layer {
 
     Q_OBJECT
 
-    std::map<int, FieldPointer> fields;         /**< All known fields of this layer. */
+    std::map<int, QSharedPointer<Field>> fields;        /**< All known fields of this layer. */
 
 public:
 
@@ -78,7 +62,7 @@ public:
      *
      * @param   index       the field index.
      */
-    FieldPointer const getField(int index) const;
+    QSharedPointer<Field> const getField(int index) const;
 
     /**
      * Gets a field from the map.
@@ -88,7 +72,7 @@ public:
      * @param   x       X-coordinate of the field.
      * @param   y       Y-coordinate of the field.
      */
-    FieldPointer const getField(int x, int y) const {
+    QSharedPointer<Field> const getField(int x, int y) const {
         return getField(Field::getIndex(x, y));
     }
 
@@ -99,17 +83,16 @@ public:
      *
      * @param   point   point holding the field's position.
      */
-    FieldPointer const getField(QPoint const & point) const {
+    QSharedPointer<Field> const getField(QPoint const & point) const {
         return getField(point.x(), point.y());
     }
 
     /**
      * Extracts this layer as JSON object.
      *
-     * @param   content     TODO: why content object?
      * @return  a JSON object holding the layer data.
      */
-    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
+    QJsonObject getJSON() const override;
 
 };
 

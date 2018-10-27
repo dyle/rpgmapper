@@ -10,6 +10,6 @@
 using namespace rpgmapper::model::io;
 
 
-ReaderResult::ReaderResult(AtlasPointer & atlas, bool success, QStringList log)
+ReaderResult::ReaderResult(QSharedPointer<rpgmapper::model::Atlas> & atlas, bool success, QStringList log)
         : Result{success, log}, atlas{atlas} {
 }

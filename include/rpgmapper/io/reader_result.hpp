@@ -7,8 +7,8 @@
 #ifndef RPGMAPPER_MODEL_IO_READER_RESULT_HPP
 #define RPGMAPPER_MODEL_IO_READER_RESULT_HPP
 
-#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/io/result.hpp>
+#include <rpgmapper/atlas.hpp>
 
 
 namespace rpgmapper {
@@ -24,7 +24,7 @@ class ReaderResult : public Result {
     /**
      * The atlas we read.
      */
-    AtlasPointer atlas = AtlasPointer{new InvalidAtlas};
+    QSharedPointer<rpgmapper::model::Atlas> atlas = QSharedPointer<rpgmapper::model::Atlas>{new InvalidAtlas};
 
 public:
     
@@ -33,7 +33,7 @@ public:
      *
      * @param   success     has the operation succeeded flag
      */
-    ReaderResult(AtlasPointer & atlas, bool success, QStringList log);
+    ReaderResult(QSharedPointer<rpgmapper::model::Atlas> & atlas, bool success, QStringList log);
     
     /**
      * Destructor.
@@ -45,7 +45,7 @@ public:
      *
      * @return  the loaded atlas.
      */
-    AtlasPointer const & getAtlas() const {
+    QSharedPointer<rpgmapper::model::Atlas> const & getAtlas() const {
         return atlas;
     }
     
@@ -57,7 +57,8 @@ private:
      * @param   atlas       the atlas we've loaded.
      */
 /*
-    void setAtlas(AtlasPointer & atlas) {
+ * TODO
+    void setAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas) {
         this->atlas = atlas;
     }
 */
@@ -66,6 +67,7 @@ private:
 
 
 /*
+ * TODO
 inline ReaderResult & operator<<(ReaderResult & lvalue, ReaderResult const & rvalue) {
 
     static_cast<WriterResult &>(lvalue) << static_cast<WriterResult const &>(rvalue);

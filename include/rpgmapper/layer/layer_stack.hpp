@@ -29,6 +29,13 @@ namespace model {
  * class for the Map class later on.
  */
 class LayerStack {
+    
+    QSharedPointer<AxisLayer> axisLayer;                    /**< The axis layer */
+    QSharedPointer<BackgroundLayer> backgroundLayer;        /**< The background layer. */
+    std::list<QSharedPointer<TileLayer>> baseLayers;        /**< The base layers. */
+    QSharedPointer<GridLayer> gridLayer;                    /**< The grid layer. */
+    QSharedPointer<TextLayer> textLayer;                    /**< the text layer. */
+    std::list<QSharedPointer<TileLayer>> tileLayers;        /**< the tile layers. */
 
 public:
 
@@ -44,49 +51,117 @@ public:
      *      [5] - text
      */
     std::list<rpgmapper::model::Layer const *> collectVisibleLayers() const;
-
+    
     /**
      * Gets the axis layer.
      *
      * @return  the Layer used for the axis on a map.
      */
-    virtual AxisLayerPointer const & getAxisLayer() const = 0;
-
+    QSharedPointer<AxisLayer> & getAxisLayer() {
+        return axisLayer;
+    }
+    
+    /**
+     * Gets the axis layer.
+     *
+     * @return  the Layer used for the axis on a map.
+     */
+    QSharedPointer<AxisLayer> const & getAxisLayer() const {
+        return axisLayer;
+    }
+    
     /**
      * Gets the background layer.
      *
      * @return  the Layer object holding the background data.
      */
-    virtual BackgroundLayerPointer const & getBackgroundLayer() const = 0;
-
+    QSharedPointer<BackgroundLayer> & getBackgroundLayer() {
+        return backgroundLayer;
+    }
+    
+    /**
+     * Gets the background layer.
+     *
+     * @return  the Layer object holding the background data.
+     */
+    QSharedPointer<BackgroundLayer> const & getBackgroundLayer() const {
+        return backgroundLayer;
+    }
+    
     /**
      * Gets the layers holding the bases.
      *
      * @return  layers (maybe more than 1) holding tiles of the bases.
      */
-    virtual TileLayers const & getBaseLayers() const  = 0;
-
+    std::list<QSharedPointer<TileLayer>> & getBaseLayers() {
+        return baseLayers;
+    }
+    
+    /**
+     * Gets the layers holding the bases.
+     *
+     * @return  layers (maybe more than 1) holding tiles of the bases.
+     */
+    std::list<QSharedPointer<TileLayer>> const & getBaseLayers() const {
+        return baseLayers;
+    }
+    
     /**
      * Gets the grid layer.
      *
      * @return  the layer holding the grid information.
      */
-    virtual GridLayerPointer const & getGridLayer() const  = 0;
-
+    QSharedPointer<GridLayer> & getGridLayer() {
+        return gridLayer;
+    }
+    
+    /**
+     * Gets the grid layer.
+     *
+     * @return  the layer holding the grid information.
+     */
+    QSharedPointer<GridLayer> const & getGridLayer() const {
+        return gridLayer;
+    }
+    
+    /**
+     * Gets the layer holding any texts on the map.
+     *
+     * @return  a layer with text information on the map.
+     */
+    QSharedPointer<TextLayer> & getTextLayer() {
+        return textLayer;
+    }
+    
+    
+    /**
+     * Gets the layer holding any texts on the map.
+     *
+     * @return  a layer with text information on the map.
+     */
+    QSharedPointer<TextLayer> const & getTextLayer() const {
+        return textLayer;
+    }
+    
     /**
      * Gets the layers holding the tiles of a map.
      *
      * @return  the layers (maybe more than 1) of the tiles on the map.
      */
 
-    virtual TileLayers const & getTileLayers() const  = 0;
-
+    std::list<QSharedPointer<TileLayer>> & getTileLayers() {
+        return tileLayers;
+    }
+    
     /**
-     * Gets the layer holding any texts on the map.
+     * Gets the layers holding the tiles of a map.
      *
-     * @return  a layer with text information on the map.
+     * @return  the layers (maybe more than 1) of the tiles on the map.
      */
-    virtual TextLayerPointer const & getTextLayer() const  = 0;
+
+    std::list<QSharedPointer<TileLayer>> const & getTileLayers() const {
+        return tileLayers;
+    }
 };
 
 

@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapBackgroundRendering::SetMapBackgroundRendering(AtlasPointer & atlas, QString const & mapName, QString newRendering)
+SetMapBackgroundRendering::SetMapBackgroundRendering(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QString newRendering)
     : AtlasCommand{atlas}, mapName{mapName}, newRendering{newRendering} {
 }
 

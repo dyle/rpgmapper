@@ -24,7 +24,7 @@ class Selection : public QObject {
 
     Q_OBJECT
 
-    AtlasPointer atlas;
+    QSharedPointer<rpgmapper::model::Atlas> atlas;
     MapPointer map;
     RegionPointer region;
 
@@ -38,11 +38,11 @@ public:
 
     QString createNewRegionName() const;
 
-    AtlasPointer & getAtlas() {
+    QSharedPointer<rpgmapper::model::Atlas> & getAtlas() {
         return atlas;
     }
 
-    AtlasPointer const & getAtlas() const {
+    QSharedPointer<rpgmapper::model::Atlas> const & getAtlas() const {
         return atlas;
     }
 
@@ -62,7 +62,7 @@ public:
         return region;
     }
 
-    void setAtlas(AtlasPointer atlas);
+    void setAtlas(QSharedPointer<rpgmapper::model::Atlas> atlas);
 
     void selectMap(MapPointer map);
 

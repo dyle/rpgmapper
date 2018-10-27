@@ -14,9 +14,9 @@
 #include <QPainter>
 #include <QSharedPointer>
 
+#include <rpgmapper/json/json_io.hpp>
 #include <rpgmapper/field.hpp>
 #include <rpgmapper/resource_db.hpp>
-#include <rpgmapper/io/content.hpp>
 
 
 namespace rpgmapper {
@@ -33,7 +33,7 @@ class Map;
  * A Layer has a specific purpose: there are base (ground) layers, wall layers, etc.
  * Layers are stacked in a Z-order. The lowest layer will be rendered first.
  */
-class Layer : public QObject {
+class Layer : public QObject, public rpgmapper::model::json::JSONIO {
 
     Q_OBJECT
 
@@ -53,6 +53,8 @@ public:
     /**
      * Constructs a new Layer.
      *
+     * TODO: turn map to smart pointer
+     *
      * @param   map         the Map instance the layer belongs to.
      * @param   parent      QObject parent.
      */
@@ -69,7 +71,7 @@ public:
      * @param   json        The JSON object which maybe hold some information.
      * @return  always true (TODO: why? kick this! Unnecessary)
      */
-    virtual bool applyJsonObject(QJsonObject const & json);
+    bool applyJSON(QJsonObject const & json) override;
 
     /**
      * Draws the layer using the given painter and a certain tile size.
@@ -92,24 +94,9 @@ public:
     /**
      * Extracts the layer as JSON object.
      *
-     * @param   content     TODO: why content object?
      * @return  a JSON object holding the layer data.
      */
-    virtual QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const;
-
-    /**
-     * Gets the resource database used for this layer.
-     *
-     * @return  the resource database holding all necessary resources for this layer.
-     */
-    ResourceDBPointer & getResourceDB();
-
-    /**
-     * Gets the resource database used for this layer (const version).
-     *
-     * @return  the const resource database holding all necessary resources for this layer.
-     */
-    ResourceDBPointer const & getResourceDB() const;
+    QJsonObject getJSON() const override;
 
     /**
      * Disables draw/visiblity on next repaint.
@@ -142,12 +129,16 @@ protected:
     /**
      * Returns the parent map this layer belongs to.
      *
+     * TODO; turn map to smart pointer
+     *
      * @return  the map this layer belongs to.
      */
     Map * getMap();
 
     /**
      * Returns the parent map this layer belongs to (const version).
+     *
+     * TODO; turn map to smart pointer
      *
      * @return  the map this layer belongs to.
      */

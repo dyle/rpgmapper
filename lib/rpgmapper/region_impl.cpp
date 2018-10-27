@@ -37,7 +37,7 @@ bool Region::Impl::applyJsonMapsArray(QJsonArray const & jsonMaps) {
     for (auto && jsonMap : jsonMaps) {
         if (jsonMap.toObject().contains("name") && jsonMap.toObject()["name"].isString()) {
             auto map = createMap(jsonMap.toObject()["name"].toString());
-            if (!map->applyJsonObject(jsonMap.toObject())) {
+            if (!map->applyJSON(jsonMap.toObject())) {
                 return false;
             }
         }
@@ -46,9 +46,9 @@ bool Region::Impl::applyJsonMapsArray(QJsonArray const & jsonMaps) {
 }
 
 
-bool Region::Impl::applyJsonObject(QJsonObject const & json) {
+bool Region::Impl::applyJSON(QJsonObject const & json) {
 
-    if (!Nameable::applyJsonObject(json)) {
+    if (!Nameable::applyJSON(json)) {
         return false;
     }
 
@@ -98,14 +98,14 @@ QString Region::Impl::getInvalidCharactersInName() {
 }
 
 
-QJsonObject Region::Impl::getJsonObject(rpgmapper::model::io::Content & content) const {
+QJsonObject Region::Impl::getJSON(rpgmapper::model::io::Content & content) const {
 
-    auto json = Nameable::getJsonObject(content);
+    auto json = Nameable::getJSON(content);
 
     QJsonArray jsonMaps;
     std::for_each(std::begin(maps),
                   std::end(maps),
-                  [&] (auto const & pair) { jsonMaps.append(pair.second->getJsonObject(content)); });
+                  [&] (auto const & pair) { jsonMaps.append(pair.second->getJSON(content)); });
     json["maps"] = jsonMaps;
 
     return json;

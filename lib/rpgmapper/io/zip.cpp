@@ -59,7 +59,7 @@ static void closeZip(QuaZip & zip, QStringList & log);
  * @param   log             the protcol.
  * @return  true, for a successful loaded atlas.
  */
-static bool createAtlas(AtlasPointer & atlas, Content const & content, QStringList & log);
+static bool createAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas, Content const & content, QStringList & log);
 
 
 /**
@@ -71,7 +71,7 @@ static bool createAtlas(AtlasPointer & atlas, Content const & content, QStringLi
  * @param   log             the protcol.
  * @return  true, for a successful loaded atlas.
  */
-static bool createAtlasFromJSON(AtlasPointer & atlas,
+static bool createAtlasFromJSON(QSharedPointer<rpgmapper::model::Atlas> & atlas,
         Content const & content,
         QJsonDocument const & json,
         QStringList & log);
@@ -159,7 +159,7 @@ void rpgmapper::model::io::closeZip(QuaZip & zip, QStringList & log) {
 }
 
 
-bool rpgmapper::model::io::createAtlas(AtlasPointer & atlas, Content const & content, QStringList & log) {
+bool rpgmapper::model::io::createAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas, Content const & content, QStringList & log) {
     
     bool res = true;
     
@@ -175,7 +175,7 @@ bool rpgmapper::model::io::createAtlas(AtlasPointer & atlas, Content const & con
 }
 
 
-bool rpgmapper::model::io::createAtlasFromJSON(AtlasPointer & atlas,
+bool rpgmapper::model::io::createAtlasFromJSON(QSharedPointer<rpgmapper::model::Atlas> & atlas,
         Content const & content,
         QJsonDocument const & json,
         QStringList & log) {
@@ -193,9 +193,9 @@ bool rpgmapper::model::io::createAtlasFromJSON(AtlasPointer & atlas,
     }
     else {
         
-        atlas = AtlasPointer{new Atlas};
+        atlas = QSharedPointer<rpgmapper::model::Atlas>{new Atlas};
         atlas->readIOContent(content);
-        atlas->applyJsonObject(json.object());
+        atlas->applyJSON(json.object());
         if (atlas->isValid()) {
             atlas->resetChanged();
             log.append("Loaded atlas.");
@@ -272,7 +272,7 @@ bool rpgmapper::model::io::openZipForWriting(QuaZip & zip, QFile & file, QString
 
 
 
-bool rpgmapper::model::io::readAtlas(AtlasPointer & atlas, QFile & file, QStringList & log) {
+bool rpgmapper::model::io::readAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas, QFile & file, QStringList & log) {
     
     QuaZip zip;
     bool res = openZipForReading(zip, file, log);
@@ -294,7 +294,7 @@ bool rpgmapper::model::io::readAtlas(AtlasPointer & atlas, QFile & file, QString
 }
 
 
-bool rpgmapper::model::io::writeAtlas(AtlasPointer const & atlas, QFile & file, QStringList & log) {
+bool rpgmapper::model::io::writeAtlas(QSharedPointer<rpgmapper::model::Atlas> const & atlas, QFile & file, QStringList & log) {
     
     QuaZip zip;
     bool res = openZipForWriting(zip, file, log);

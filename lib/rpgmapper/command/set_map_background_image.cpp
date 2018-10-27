@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapBackgroundImage::SetMapBackgroundImage(AtlasPointer & atlas, QString const & mapName, QImage newImage)
+SetMapBackgroundImage::SetMapBackgroundImage(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QImage newImage)
     : AtlasCommand{atlas}, mapName{mapName}, newImage{std::move(newImage)} {
 }
 

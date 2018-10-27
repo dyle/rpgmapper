@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapMargins::SetMapMargins(AtlasPointer & atlas, QString const & mapName, QMargins newMargins)
+SetMapMargins::SetMapMargins(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QMargins newMargins)
     : AtlasCommand{atlas}, mapName{mapName}, newMargins{newMargins} {
 }
 

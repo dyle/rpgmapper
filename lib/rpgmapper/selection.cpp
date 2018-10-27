@@ -17,7 +17,7 @@ using namespace rpgmapper::model;
 
 
 Selection::Selection(QObject * parent) : QObject(parent) {
-    atlas = AtlasPointer{new InvalidAtlas{}};
+    atlas = QSharedPointer<rpgmapper::model::Atlas>{new InvalidAtlas{}};
     map = MapPointer{new InvalidMap{}};
     region = RegionPointer{new InvalidRegion{}};
 }
@@ -74,7 +74,7 @@ void Selection::removedRegion(QString name) {
 }
 
 
-void Selection::setAtlas(AtlasPointer atlas) {
+void Selection::setAtlas(QSharedPointer<rpgmapper::model::Atlas> atlas) {
     map = MapPointer{new InvalidMap{}};
     region = RegionPointer{new InvalidRegion{}};
     this->atlas = atlas;

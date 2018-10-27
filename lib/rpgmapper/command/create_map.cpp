@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-CreateMap::CreateMap(AtlasPointer & atlas,
+CreateMap::CreateMap(QSharedPointer<rpgmapper::model::Atlas> & atlas,
                      QString const & regionName,
                      QString const & mapName):
                             AtlasCommand{atlas}, mapName{mapName}, regionName{regionName} {

@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-RemoveMap::RemoveMap(AtlasPointer & atlas,
+RemoveMap::RemoveMap(QSharedPointer<rpgmapper::model::Atlas> & atlas,
                      QString const & regionName,
                      QString const & mapName):
                             AtlasCommand{atlas}, mapName{mapName}, regionName{regionName} {

@@ -4,142 +4,159 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_MODEL_MAP_HPP
 #define RPGMAPPER_MODEL_MAP_HPP
 
-
 #include <memory>
 
-#include <QJsonObject>
 #include <QObject>
 #include <QSize>
 #include <QSharedPointer>
 #include <QString>
 
-#include <rpgmapper/coordinate_system.hpp>
-#include <rpgmapper/resource_db.hpp>
-#include <rpgmapper/io/content.hpp>
+#include <rpgmapper/json/json_io.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
+#include <rpgmapper/coordinate_system.hpp>
+#include <rpgmapper/nameable.hpp>
+#include <rpgmapper/resource_db.hpp>
 
 
 namespace rpgmapper {
 namespace model {
 
 
-// Forward declaration of Map.
-class Map;
-
-// Forward declaration of Region.
 class Region;
 
-/**
- * A MapPointer is a smart pointer to a Map instance.
- */
-using MapPointer = QSharedPointer<Map>;
 
 /**
- * Maps are several MapPointers identified by strings, e.g. "Gondor", "Hobbiton", or "Skara Brae".
+ * A single map.
+ *
+ * This is the heart of the rpgmapper. A map is a collection of layers,
+ * which in turn define tiles, background, texts, etc. it has a name and
+ * a coordinate system attached.
  */
-using Maps = std::map<QString, MapPointer>;
-
-class Map : public QObject, public LayerStack {
+class Map : public Nameable, public LayerStack {
 
     Q_OBJECT
-
-    class Impl;
-    std::shared_ptr<Impl> impl;
+    
+    // TODO: turn to smart pointer
+    CoordinateSystem * coordinateSystem;            /**< the coordinate system of the map */
+    QWeakPointer<Region> region;                    /**< The region the map is placed in. */
 
 public:
 
-    Map() = delete;
-
+    /**
+     * Creates a map with a given name inside a region.
+     *
+     * @param   name        the new name of the map.
+     * @param   region      the region to which the map belongs to.
+     */
     explicit Map(QString const & name, Region * region = nullptr);
 
-    ~Map() override = default;
+    /**
+     * Destructor.
+     */
+    ~Map();
+    
+    /**
+     * Applies a JSON to this instance.
+     *
+     * @param   json    the JSON.
+     * @return  true, if the found values in the JSON data has been applied.
+     */
+    bool applyJSON(QJsonObject const & json) override;
 
-    bool applyJsonObject(QJsonObject const & json);
+    /**
+     * Gets the coordinate system of the map.
+     *
+     * @return  the coordinate system of the map.
+     */
+    CoordinateSystem * getCoordinateSystem() {
+        return coordinateSystem;
+    }
+    
+    /**
+     * Gets the coordinate system of the map (const version).
+     *
+     * @return  the coordinate system of the map.
+     */
+    CoordinateSystem const * getCoordinateSystem() const {
+        return coordinateSystem;
+    }
+    
+    /**
+     * Create a JSON structure from oourselves.
+     *
+     * @return      a valid JSON  structure from ooourselves.
+     */
+    QJsonObject getJSON() const override;
 
-    AxisLayerPointer const & getAxisLayer() const override;
+    /**
+     * Gets the region the map belongs to.
+     *
+     * @return  the region the map belongs to.
+     */
+    QSharedPointer<Region> getRegion() {
+        return region;
+    }
+    
+    
+    /**
+     * Gets the region the map belongs to (const version).
+     *
+     * @return  the region the map belongs to.
+     */
+    QSharedPointer<Region> const getRegion() const {
+        return region;
+    }
 
-    BackgroundLayerPointer const & getBackgroundLayer() const override;
-
-    TileLayers const & getBaseLayers() const override;
-
-    CoordinateSystem const & getCoordinateSystem() const;
-
-    GridLayerPointer const & getGridLayer() const override;
-
-    static QString getInvalidCharactersInName();
-
-    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const;
-
-    QString const & getName() const;
-
-    QSharedPointer<NumeralConverter> const & getNumeralXAxis() const;
-
-    QSharedPointer<NumeralConverter> const & getNumeralYAxis() const;
-
-    Region * getRegion();
-
-    Region const * getRegion() const;
-
-    QString const & getRegionName() const;
-
-    ResourceDBPointer & getResourceDB();
-
-    ResourceDBPointer const & getResourceDB() const;
-
-    QSize getSize() const;
-
-    TileLayers const & getTileLayers() const override;
-
-    TextLayerPointer const & getTextLayer() const override;
-
+    /**
+     * Checks if the given name is valid.
+     *
+     * @param   name        a potential name of a map.
+     * @return  true, if the name can be used for a map.
+     */
     static bool isNameValid(QString name);
 
+    /**
+     * Checks if this is a valid map.
+     *
+     * @return  returns true, if this is a valid map.
+     */
     virtual bool isValid() const {
         return true;
     }
 
-    static MapPointer const & null();
-
-    void resize(QSize const & size);
-
-    void setName(QString const & name);
-
-    void setNumeralXAxis(QString const & numeral);
-
-    void setNumeralYAxis(QString const & numeral);
-
-    void setCoordinateOffset(QPointF offset);
-
-    void setOrigin(CoordinatesOrigin origin);
-
-    QString tanslateToNumeralOnX(int x) const;
-
-    QString tanslateToNumeralOnY(int y) const;
-
-signals:
-
-    void changed();
-
-    void nameChanged(QString nameBefore, QString nameAfter);
-
-    void numeralForAxisChanged(QString mapName);
-
-    void resized(QString mapName);
+    /**
+     * Returns the invalid null map pointer.
+     *
+     * [null object pattern]
+     *
+     * @return  an invalid null map.
+     */
+    static QSharedPointer<Map> const & null();
 };
 
 
+/**
+ * An invalid Map.
+ */
 class InvalidMap final : public Map {
 
 public:
 
+    /**
+     * Constructor.
+     */
     InvalidMap()
         : Map{QString::Null{}, nullptr} {
     }
 
+    /**
+     * Checks if this is a valid map.
+     *
+     * @return  always false.
+     */
     bool isValid() const override {
         return false;
     }

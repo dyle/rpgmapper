@@ -7,8 +7,9 @@
 #ifndef RPGMAPPER_MODEL_IO_WRITER_RESULT_HPP
 #define RPGMAPPER_MODEL_IO_WRITER_RESULT_HPP
 
-#include <QStringList>
 #include <utility>
+
+#include <QStringList>
 
 #include <rpgmapper/io/result.hpp>
 

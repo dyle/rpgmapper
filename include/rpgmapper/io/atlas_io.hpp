@@ -10,9 +10,9 @@
 #include <QFile>
 #include <QStringList>
 
-#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/io/reader_result.hpp>
 #include <rpgmapper/io/writer_result.hpp>
+#include <rpgmapper/atlas.hpp>
 
 
 namespace rpgmapper {
@@ -51,7 +51,7 @@ public:
      * @param   file        the file to write to.
      * @return  The result of the write operation.
      */
-    WriterResult write(AtlasPointer & atlas, QFile & file) const;
+    WriterResult write(QSharedPointer<rpgmapper::model::Atlas> & atlas, QFile & file) const;
 };
 
 

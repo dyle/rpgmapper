@@ -15,7 +15,7 @@ using namespace rpgmapper::model::io;
 
 ReaderResult AtlasIO::read(QFile & file) const {
     
-    auto atlas = AtlasPointer{new InvalidAtlas};
+    auto atlas = QSharedPointer<rpgmapper::model::Atlas>{new InvalidAtlas};
     QStringList log;
     
     bool read = readAtlas(atlas, file, log);
@@ -27,7 +27,7 @@ ReaderResult AtlasIO::read(QFile & file) const {
 }
 
 
-WriterResult AtlasIO::write(AtlasPointer & atlas, QFile & file) const {
+WriterResult AtlasIO::write(QSharedPointer<rpgmapper::model::Atlas> & atlas, QFile & file) const {
     
     bool written = true;
     QStringList log;

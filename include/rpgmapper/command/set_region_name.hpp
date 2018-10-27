@@ -32,7 +32,7 @@ public:
      * @param   oldName         the regions old name.
      * @param   newName         the regions new name.
      */
-    SetRegionName(AtlasPointer & atlas, QString const & oldName, QString const & newName);
+    SetRegionName(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & oldName, QString const & newName);
     
     /**
      * Destructor.

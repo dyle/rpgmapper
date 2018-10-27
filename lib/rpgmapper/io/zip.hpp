@@ -23,7 +23,7 @@ namespace io {
  * @param   log     Huamn Readable logs (appended).
  * @return  true, for successful read.
  */
-bool readAtlas(AtlasPointer & atlas, QFile & file, QStringList & log);
+bool readAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas, QFile & file, QStringList & log);
 
 
 /**
@@ -34,7 +34,7 @@ bool readAtlas(AtlasPointer & atlas, QFile & file, QStringList & log);
  * @param   log     Huamn Readable logs (appended).
  * @return  true, for successful write.
  */
-bool writeAtlas(AtlasPointer const & atlas, QFile & file, QStringList & log);
+bool writeAtlas(QSharedPointer<rpgmapper::model::Atlas> const & atlas, QFile & file, QStringList & log);
 
 
 }

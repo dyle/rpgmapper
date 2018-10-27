@@ -37,7 +37,7 @@ public:
      * @param   mapName         the name of the map to change the background rendering mode.
      * @param   newMode         the new map background image render mode.
      */
-    SetMapBackgroundImageRenderMode(AtlasPointer & atlas,
+    SetMapBackgroundImageRenderMode(QSharedPointer<rpgmapper::model::Atlas> & atlas,
                                     QString const & mapName,
                                     rpgmapper::model::ImageRenderMode newMode);
     

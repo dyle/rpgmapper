@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-AtlasPointer AtlasCommand::getAtlas() {
+QSharedPointer<rpgmapper::model::Atlas> AtlasCommand::getAtlas() {
     auto atlas = this->atlas.toStrongRef();
     if (atlas.isNull()) {
         throw std::runtime_error("Atlas for atlas command is nullptr.");
@@ -20,7 +20,7 @@ AtlasPointer AtlasCommand::getAtlas() {
 }
 
 
-AtlasPointer const AtlasCommand::getAtlas() const {
+QSharedPointer<rpgmapper::model::Atlas> const AtlasCommand::getAtlas() const {
     auto atlas = this->atlas.toStrongRef();
     if (atlas.isNull()) {
         throw std::runtime_error("Atlas for atlas command is nullptr.");

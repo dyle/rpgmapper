@@ -1,3 +1,7 @@
+#include <utility>
+
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -7,12 +11,6 @@
 #include <rpgmapper/coordinate_system.hpp>
 
 using namespace rpgmapper::model;
-
-#if defined(__GNUC__) || defined(__GNUCPP__)
-#   define UNUSED   __attribute__((unused))
-#else
-#   define UNUSED
-#endif
 
 
 QString rpgmapper::model::coordinatesOriginToString(rpgmapper::model::CoordinatesOrigin origin) {
@@ -63,7 +61,29 @@ CoordinateSystem::CoordinateSystem() {
 }
 
 
-bool CoordinateSystem::applyJsonNumerals(QJsonObject const & json) {
+bool CoordinateSystem::applyJSON(QJsonObject const & json) {
+    
+    if (json.contains("origin") && json["origin"].isString()) {
+        origin = stringToCoordinatesOrigin(json["origin"].toString());
+    }
+    
+    if (json.contains("size") && json["size"].isObject() && !applyJSONSize(json["size"].toObject())) {
+        return false;
+    }
+    
+    if (json.contains("offset") && json["offset"].isObject() && !applyJSONOffset(json["offset"].toObject())) {
+        return false;
+    }
+    
+    if (json.contains("numerals") && json["numerals"].isObject()) {
+        return applyJSONNumerals(json["numerals"].toObject());
+    }
+    
+    return true;
+}
+
+
+bool CoordinateSystem::applyJSONNumerals(QJsonObject const & json) {
 
     if (json.contains("x") && json["x"].isString()) {
         auto numeralXAxis = NumeralConverter::create(json["x"].toString());
@@ -84,7 +104,7 @@ bool CoordinateSystem::applyJsonNumerals(QJsonObject const & json) {
 }
 
 
-bool CoordinateSystem::applyJsonOffset(QJsonObject const & json) {
+bool CoordinateSystem::applyJSONOffset(QJsonObject const & json) {
     
     QPointF offset;
     if (json.contains("x") && json["x"].isDouble()) {
@@ -97,29 +117,7 @@ bool CoordinateSystem::applyJsonOffset(QJsonObject const & json) {
 }
 
 
-bool CoordinateSystem::applyJsonObject(QJsonObject const & json) {
-
-    if (json.contains("origin") && json["origin"].isString()) {
-        origin = stringToCoordinatesOrigin(json["origin"].toString());
-    }
-
-    if (json.contains("size") && json["size"].isObject() && !applyJsonSize(json["size"].toObject())) {
-        return false;
-    }
-
-    if (json.contains("offset") && json["offset"].isObject() && !applyJsonOffset(json["offset"].toObject())) {
-        return false;
-    }
-
-    if (json.contains("numerals") && json["numerals"].isObject()) {
-        return applyJsonNumerals(json["numerals"].toObject());
-    }
-
-    return true;
-}
-
-
-bool CoordinateSystem::applyJsonSize(QJsonObject const & json) {
+bool CoordinateSystem::applyJSONSize(QJsonObject const & json) {
 
     QSize size;
 
@@ -143,27 +141,27 @@ bool CoordinateSystem::applyJsonSize(QJsonObject const & json) {
 }
 
 
-QJsonObject CoordinateSystem::getJsonObject(UNUSED rpgmapper::model::io::Content & content) const {
+QJsonObject CoordinateSystem::getJSON() const {
 
-    QJsonObject jsonObject;
-    jsonObject["origin"] = coordinatesOriginToString(origin);
+    QJsonObject json;
+    json["origin"] = coordinatesOriginToString(origin);
 
     QJsonObject jsonSize;
     jsonSize["width"] = size.width();
     jsonSize["height"] = size.height();
-    jsonObject["size"] = jsonSize;
+    json["size"] = jsonSize;
 
     QJsonObject jsonOffset;
     jsonOffset["x"] = offset.x();
     jsonOffset["y"] = offset.y();
-    jsonObject["offset"] = jsonOffset;
+    json["offset"] = jsonOffset;
 
     QJsonObject jsonNumerals;
     jsonNumerals["x"] = numeralXAxis->getName();
     jsonNumerals["y"] = numeralYAxis->getName();
-    jsonObject["numerals"] = jsonNumerals;
+    json["numerals"] = jsonNumerals;
 
-    return jsonObject;
+    return json;
 }
 
 
@@ -173,7 +171,7 @@ NumeralCoordinates CoordinateSystem::getNumeralCoordinates(QPoint position) cons
 
 
 void CoordinateSystem::setNumeralXAxis(QString numeral) {
-    auto const & numeralConverter = NumeralConverter::create(numeral);
+    auto const & numeralConverter = NumeralConverter::create(std::move(numeral));
     if (numeralConverter->isValid()) {
         numeralXAxis = numeralConverter;
     }
@@ -181,7 +179,7 @@ void CoordinateSystem::setNumeralXAxis(QString numeral) {
 
 
 void CoordinateSystem::setNumeralYAxis(QString numeral) {
-    auto const & numeralConverter = NumeralConverter::create(numeral);
+    auto const & numeralConverter = NumeralConverter::create(std::move(numeral));
     if (numeralConverter->isValid()) {
         numeralYAxis = numeralConverter;
     }
@@ -242,22 +240,22 @@ QPointF CoordinateSystem::transpose(QPointF const & position) const {
 }
 
 
-QPoint CoordinateSystem::transposeToMapCoordinates(QPoint const & position) const {
+QPoint CoordinateSystem::transposeToMapCoordinates(QPoint position) const {
     return transpose(position) + getOffset();
 }
 
 
-QPointF CoordinateSystem::transposeToMapCoordinates(QPointF const & position) const{
+QPointF CoordinateSystem::transposeToMapCoordinates(QPointF position) const{
     return transpose(position) + getOffsetF();
 }
 
 
-QPoint CoordinateSystem::transposeToScreenCoordinates(QPoint const & position) const {
+QPoint CoordinateSystem::transposeToScreenCoordinates(QPoint position) const {
     return transpose(position) - getOffset();
 }
 
 
-QPointF CoordinateSystem::transposeToScreenCoordinates(QPointF const & position) const{
+QPointF CoordinateSystem::transposeToScreenCoordinates(QPointF position) const{
     return transpose(position) - getOffsetF();
 }
 

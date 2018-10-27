@@ -18,7 +18,6 @@ namespace model {
 namespace command {
 
 
-
 /**
  * With this class, maps a assigned new dimensions.
  */
@@ -37,7 +36,7 @@ public:
      * @param   mapName         the map to resize.
      * @param   newSize         the maps new size.
      */
-    ResizeMap(AtlasPointer & atlas, QString const & mapName, QSize newSize);
+    ResizeMap(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QSize newSize);
     
     /**
      * Destructor.

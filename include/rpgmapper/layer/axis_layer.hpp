@@ -17,16 +17,6 @@ namespace rpgmapper {
 namespace model {
 
 
-// Forward declaration of the AxisLayer
-class AxisLayer;
-
-
-/**
- * This is a smart pointer on an AxisLayer instance on the heap.
- */
-using AxisLayerPointer = QSharedPointer<AxisLayer>;
-
-
 /**
  * An AxisLayer is responsible for holding and drawing the axis information on a map.
  *
@@ -76,10 +66,9 @@ public:
     /**
      * Extracts this layer as JSON object.
      *
-     * @param   content     TODO: why content object?
      * @return  a JSON object holding the layer data.
      */
-    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
+    QJsonObject getJSON() const override;
 
     /**
      * Applies a new color to the axis lines and annotations.

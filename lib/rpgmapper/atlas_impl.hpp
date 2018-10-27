@@ -10,7 +10,7 @@
 
 
 #include <rpgmapper/atlas.hpp>
-#include "nameable.hpp"
+#include <rpgmapper/nameable.hpp>
 
 
 namespace rpgmapper {
@@ -32,7 +32,7 @@ public:
 
     Impl(Impl const &) = delete;
 
-    bool applyJsonObject(QJsonObject const & json) override;
+    bool applyJSON(QJsonObject const & json) override;
 
     void clear() override;
 
@@ -62,7 +62,7 @@ public:
 
     static QString getInvalidCharactersInName();
 
-    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
+    QJsonObject getJSON(rpgmapper::model::io::Content & content) const override;
 
     Regions const & getRegions() const {
         return regions;

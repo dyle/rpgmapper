@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -11,8 +13,8 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapNumeralAxis::SetMapNumeralAxis(AtlasPointer & atlas, QString const & mapName, bool xAxis, QString newNumeral)
-        : AtlasCommand{atlas}, mapName{mapName}, xAxis{xAxis}, newNumeral{newNumeral} {
+SetMapNumeralAxis::SetMapNumeralAxis(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, bool xAxis, QString newNumeral)
+        : AtlasCommand{atlas}, mapName{mapName}, xAxis{xAxis}, newNumeral{std::move(newNumeral)} {
 }
 
 
@@ -21,12 +23,12 @@ void SetMapNumeralAxis::execute() {
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         if (xAxis) {
-            oldNumeral = map->getNumeralXAxis()->getName();
-            map->setNumeralXAxis(newNumeral);
+            oldNumeral = map->getCoordinateSystem()->getNumeralXAxis()->getName();
+            map->getCoordinateSystem()->setNumeralXAxis(newNumeral);
         }
         else {
-            oldNumeral = map->getNumeralYAxis()->getName();
-            map->setNumeralYAxis(newNumeral);
+            oldNumeral = map->getCoordinateSystem()->getNumeralYAxis()->getName();
+            map->getCoordinateSystem()->setNumeralYAxis(newNumeral);
         }
     }
 }
@@ -43,10 +45,10 @@ void SetMapNumeralAxis::undo() {
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         if (xAxis) {
-            map->setNumeralXAxis(oldNumeral);
+            map->getCoordinateSystem()->setNumeralXAxis(oldNumeral);
         }
         else {
-            map->setNumeralYAxis(oldNumeral);
+            map->getCoordinateSystem()->setNumeralYAxis(oldNumeral);
         }
     }
 }

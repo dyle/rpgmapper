@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapNumeralOffset::SetMapNumeralOffset(AtlasPointer & atlas, QString const & mapName, QPointF newOffset)
+SetMapNumeralOffset::SetMapNumeralOffset(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QPointF newOffset)
         : AtlasCommand{atlas}, mapName{mapName}, newOffset{newOffset} {
 }
 
@@ -20,8 +20,8 @@ void SetMapNumeralOffset::execute() {
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
-        oldOffset = map->getCoordinateSystem().getOffsetF();
-        map->setCoordinateOffset(newOffset);
+        oldOffset = map->getCoordinateSystem()->getOffsetF();
+        map->getCoordinateSystem()->setOffsetF(newOffset);
     }
 }
 
@@ -35,6 +35,6 @@ void SetMapNumeralOffset::undo() {
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
-        map->setCoordinateOffset(oldOffset);
+        map->getCoordinateSystem()->setOffsetF(oldOffset);
     }
 }

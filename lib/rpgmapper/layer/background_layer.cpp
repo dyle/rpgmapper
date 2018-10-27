@@ -59,9 +59,9 @@ bool BackgroundLayer::applyJsonMargins(QJsonObject const & json) {
 
 
 
-bool BackgroundLayer::applyJsonObject(QJsonObject const & json) {
+bool BackgroundLayer::applyJSON(QJsonObject const & json) {
 
-    Layer::applyJsonObject(json);
+    Layer::applyJSON(json);
 
     if (json.contains("color") && json["color"].isString()) {
         setColor(QColor{json["color"].toString()});
@@ -82,7 +82,7 @@ bool BackgroundLayer::applyJsonObject(QJsonObject const & json) {
 
 
 void BackgroundLayer::draw(QPainter & painter, int tileSize) const {
-    QSize size = getMap()->getSize() * tileSize;
+    QSize size = getMap()->getCoordinateSystem()->getSize() * tileSize;
     QColor backgroundColor = getColor();
     painter.fillRect(QRect{QPoint{0, 0}, size}, backgroundColor);
 }
@@ -119,9 +119,9 @@ rpgmapper::model::ImageRenderMode BackgroundLayer::getImageRenderMode() const {
 }
 
 
-QJsonObject BackgroundLayer::getJsonObject(rpgmapper::model::io::Content & content) const {
+QJsonObject BackgroundLayer::getJSON(rpgmapper::model::io::Content & content) const {
 
-    QJsonObject jsonObject = Layer::getJsonObject(content);
+    QJsonObject jsonObject = Layer::getJSON(content);
 
     jsonObject["color"] = getColor().name(QColor::HexArgb);
     jsonObject["renderImageMode"] = rpgmapper::model::imageRenderModeToString(getImageRenderMode());

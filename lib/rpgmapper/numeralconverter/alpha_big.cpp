@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <iostream>
 #include "alphabetic.hpp"
 #include "alpha_big.hpp"
@@ -12,6 +11,11 @@
 using namespace rpgmapper::model;
 
 
+/**
+ * Inits a cache of values for faster lookup.
+ *
+ * @param   cache   the cache to init.
+ */
 static void initCachedValues(std::map<int, QString> & cache);
 
 

@@ -32,7 +32,7 @@ public:
      * @param   regionName      the name of the region to add the map to.
      * @param   mapName         the name of the map.
      */
-    CreateMap(AtlasPointer & atlas, QString const & regionName, QString const & mapName);
+    CreateMap(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & regionName, QString const & mapName);
 
     /**
      * Destructor.

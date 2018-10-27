@@ -8,8 +8,8 @@
 #define RPGMAPPER_MODEL_COMMAND_ATLAS_COMMAND_HPP
 
 
-#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/atlas.hpp>
 
 
 namespace rpgmapper {
@@ -34,7 +34,7 @@ public:
      *
      * @param   atlas       the atlas managed.
      */
-    explicit AtlasCommand(rpgmapper::model::AtlasPointer & atlas)
+    explicit AtlasCommand(QSharedPointer<rpgmapper::model::Atlas> & atlas)
         : atlas{atlas} {
     }
 
@@ -43,14 +43,14 @@ public:
      *
      * @return  the current atlas instance.
      */
-    rpgmapper::model::AtlasPointer getAtlas();
+    QSharedPointer<rpgmapper::model::Atlas> getAtlas();
 
     /**
      * Returns the const Atals we are working on.
      *
      * @return  the current atlas instance (const version).
      */
-    rpgmapper::model::AtlasPointer const getAtlas() const;
+    QSharedPointer<rpgmapper::model::Atlas> const getAtlas() const;
 };
 
 

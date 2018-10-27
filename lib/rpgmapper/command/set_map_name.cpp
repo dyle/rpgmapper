@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapName::SetMapName(AtlasPointer & atlas, QString const & oldName, QString const & newName)
+SetMapName::SetMapName(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & oldName, QString const & newName)
         : AtlasCommand{atlas}, newName{newName}, oldName{oldName} {
 }
 

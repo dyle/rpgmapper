@@ -37,7 +37,7 @@ public:
      * @param   mapName         the name of the map to change the background image for.
      * @param   newImage        the new background image.
      */
-    SetMapBackgroundImage(AtlasPointer & atlas, QString const & mapName, QImage newImage);
+    SetMapBackgroundImage(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QImage newImage);
     
     /**
      * Destructor.

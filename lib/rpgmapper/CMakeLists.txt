@@ -8,7 +8,9 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 set(RPGMAPPER_LIB_MOC
 
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/atlas.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/coordinate_system.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/nameable.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/selection.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/command/processor.hpp
@@ -22,20 +24,6 @@ set(RPGMAPPER_LIB_MOC
 qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
 
 set(RPGMAPPER_LIB_SRC
-
-    atlas.cpp
-    atlas_impl.cpp
-    coordinate_system.cpp
-    field.cpp
-    filesystem.cpp
-    map.cpp
-    map_impl.cpp
-    nameable.cpp
-    region.cpp
-    region_impl.cpp
-    resource.cpp
-    resource_db.cpp
-    selection.cpp
 
     command/atlas_command.cpp
     command/composite_command.cpp
@@ -82,6 +70,19 @@ set(RPGMAPPER_LIB_SRC
     numeralconverter/numerals.cpp
     numeralconverter/numeric.cpp
     numeralconverter/roman.cpp
+
+    atlas.cpp
+    atlas_impl.cpp
+    coordinate_system.cpp
+    field.cpp
+    filesystem.cpp
+    map.cpp
+    nameable.cpp
+    region.cpp
+    region_impl.cpp
+    resource.cpp
+    resource_db.cpp
+    selection.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

@@ -38,7 +38,7 @@ public:
      *
      * @param   atlas       the atlas managed.
      */
-    explicit CompositeCommand(rpgmapper::model::AtlasPointer & atlas)
+    explicit CompositeCommand(QSharedPointer<rpgmapper::model::Atlas> & atlas)
         : AtlasCommand{atlas} {
     }
 
@@ -52,7 +52,7 @@ public:
      *
      * @param   command     the next sub-command to be executes.
      */
-    void addCommand(CommandPointer command);
+    void addCommand(QSharedPointer<rpgmapper::model::command::Command> command);
 
     /**
      * Returns the number of commnands so far collected.

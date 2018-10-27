@@ -14,7 +14,7 @@
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
-#include "nameable.hpp"
+#include <rpgmapper/nameable.hpp>
 
 
 namespace rpgmapper {
@@ -23,16 +23,6 @@ namespace model {
 
 class Map::Impl final : public Nameable, public CoordinateSystem {
 
-    QString name;
-    Map * map = nullptr;
-    Region * region = nullptr;
-
-    AxisLayerPointer axisLayer;
-    BackgroundLayerPointer backgroundLayer;
-    TileLayers baseLayers;
-    GridLayerPointer gridLayer;
-    TextLayerPointer textLayer;
-    TileLayers tileLayers;
 
 public:
 
@@ -40,7 +30,7 @@ public:
 
     Impl(Impl const & ) = delete;
 
-    bool applyJsonObject(QJsonObject const & json) override;
+    bool applyJSON(QJsonObject const & json) override;
 
     AxisLayerPointer & getAxisLayer() {
         return axisLayer;
@@ -82,7 +72,7 @@ public:
         return gridLayer;
     }
 
-    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
+    QJsonObject getJSON(rpgmapper::model::io::Content & content) const override;
 
     static QString getInvalidCharactersInName();
 

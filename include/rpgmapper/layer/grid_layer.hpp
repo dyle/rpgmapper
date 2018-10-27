@@ -17,16 +17,6 @@ namespace rpgmapper {
 namespace model {
 
 
-// Forward declaration of the GridLayer class.
-class GridLayer;
-
-
-/**
- * This is a smart pointer on an GridLayer instance on the heap.
- */
-using GridLayerPointer = QSharedPointer<GridLayer>;
-
-
 /**
  * Objects of the GridLayer class draw grids on a map.
  */
@@ -67,10 +57,9 @@ public:
     /**
      * Extracts this layer as JSON object.
      *
-     * @param   content     TODO: why content object?
      * @return  a JSON object holding the layer data.
      */
-    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
+    QJsonObject getJSON() const override;
 
     /**
      * Applies a new grid color.

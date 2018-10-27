@@ -36,7 +36,7 @@ public:
      * @param   mapName         the name of the map to change the grid color for.
      * @param   newColor        the new grid color.
      */
-    SetMapGridColor(AtlasPointer & atlas, QString const & mapName, QColor newColor);
+    SetMapGridColor(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QColor newColor);
     
     /**
      * Destructor.

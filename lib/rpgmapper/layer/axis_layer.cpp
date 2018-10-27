@@ -35,13 +35,13 @@ void AxisLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
     painter.setPen(getColor());
     painter.setFont(getFont());
 
-    QSize cSize = getMap()->getSize();
+    QSize cSize = getMap()->getCoordinateSystem()->getSize();
     int nBottom = cSize.height() * tileSize;
 
     for (int x = 0; x < cSize.width(); ++x) {
 
-        auto mapPosition = getMap()->getCoordinateSystem().transposeToMapCoordinates(x, 0);
-        QString sX = getMap()->tanslateToNumeralOnX(mapPosition.x());
+        auto mapPosition = getMap()->getCoordinateSystem()->transposeToMapCoordinates(x, 0);
+        QString sX = getMap()->getCoordinateSystem()->tanslateToNumeralOnX(mapPosition.x());
 
         QRect cUpperRect{x * tileSize, -tileSize, tileSize, tileSize};
         painter.drawText(cUpperRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
@@ -56,13 +56,13 @@ void AxisLayer::drawYAnnotation(QPainter & painter, int tileSize) const {
     painter.setPen(getColor());
     painter.setFont(getFont());
 
-    QSize cSize = getMap()->getSize();
+    QSize cSize = getMap()->getCoordinateSystem()->getSize();
     int nRight = cSize.width() * tileSize;
 
     for (int y = 0; y < cSize.height(); ++y) {
 
-        auto mapPosition = getMap()->getCoordinateSystem().transposeToMapCoordinates(0, y);
-        QString sY = getMap()->tanslateToNumeralOnY(mapPosition.y());
+        auto mapPosition = getMap()->getCoordinateSystem()->transposeToMapCoordinates(0, y);
+        QString sY = getMap()->getCoordinateSystem()->tanslateToNumeralOnY(mapPosition.y());
 
         QRect cLeftRect{-tileSize, y * tileSize, tileSize, tileSize};
         painter.drawText(cLeftRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
@@ -93,8 +93,8 @@ QFont AxisLayer::getFont() const {
 }
 
 
-QJsonObject AxisLayer::getJsonObject(rpgmapper::model::io::Content & content) const {
-    QJsonObject jsonObject = Layer::getJsonObject(content);
+QJsonObject AxisLayer::getJSON(rpgmapper::model::io::Content & content) const {
+    QJsonObject jsonObject = Layer::getJSON(content);
     jsonObject["color"] = getColor().name(QColor::HexArgb);
     jsonObject["font"] = getFont().toString();
     return jsonObject;

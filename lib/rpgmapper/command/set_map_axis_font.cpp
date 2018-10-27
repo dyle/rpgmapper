@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapAxisFont::SetMapAxisFont(AtlasPointer & atlas, QString const & mapName, QFont newFont)
+SetMapAxisFont::SetMapAxisFont(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QFont newFont)
     : AtlasCommand{atlas}, mapName{mapName}, newFont{newFont} {
 }
 

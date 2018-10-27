@@ -36,7 +36,7 @@ public:
      * @param   mapName         the name of the map to change the font for.
      * @param   newFont         the new font.
      */
-    SetMapAxisFont(AtlasPointer & atlas, QString const & mapName, QFont newFont);
+    SetMapAxisFont(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QFont newFont);
     
     /**
      * Destructor.

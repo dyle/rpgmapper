@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-ResizeMap::ResizeMap(AtlasPointer & atlas, QString const & mapName, QSize newSize)
+ResizeMap::ResizeMap(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QSize newSize)
         : AtlasCommand{atlas}, mapName{mapName}, newSize{newSize} {
 }
 
@@ -20,8 +20,8 @@ void ResizeMap::execute() {
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
-        oldSize = map->getSize();
-        map->resize(newSize);
+        oldSize = map->getCoordinateSystem()->getSize();
+        map->getCoordinateSystem()->resize(newSize);
     }
 }
 
@@ -35,6 +35,6 @@ void ResizeMap::undo() {
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
-        map->resize(oldSize);
+        map->getCoordinateSystem()->resize(oldSize);
     }
 }

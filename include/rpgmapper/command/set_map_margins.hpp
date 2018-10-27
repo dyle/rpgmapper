@@ -36,7 +36,7 @@ public:
      * @param   mapName         the name of the map to change the margins for.
      * @param   newColor        the new margins.
      */
-    SetMapMargins(AtlasPointer & atlas, QString const & mapName, QMargins newMargins);
+    SetMapMargins(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QMargins newMargins);
     
     /**
      * Destructor.

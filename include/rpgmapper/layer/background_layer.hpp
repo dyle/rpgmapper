@@ -20,16 +20,6 @@ namespace rpgmapper {
 namespace model {
 
 
-// Forward declaration of the BackgroundLayer class
-class BackgroundLayer;
-
-
-/**
- * This is a smart pointer on an BackgroundLayer instance on the heap.
- */
-using BackgroundLayerPointer = QSharedPointer<BackgroundLayer>;
-
-
 /**
  * The BackgroundLayer class is responsible to draw the maps background.
  */
@@ -62,7 +52,7 @@ public:
      * @param   json        The JSON object which maybe hold some information.
      * @return  always true (TODO: why? kick this! Unnecessary)
      */
-    bool applyJsonObject(QJsonObject const & json) override;
+    bool applyJSON(QJsonObject const & json) override;
 
     /**
      * Draws the background of the map.
@@ -96,10 +86,9 @@ public:
     /**
      * Extracts this layer as JSON object.
      *
-     * @param   content     TODO: why content object?
      * @return  a JSON object holding the layer data.
      */
-    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const override;
+    QJsonObject getJSON() const override;
 
     /**
      * Gets the margins used for rendering the background.

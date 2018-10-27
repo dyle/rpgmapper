@@ -4,10 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_MODEL_REGION_HPP
 #define RPGMAPPER_MODEL_REGION_HPP
-
 
 #include <map>
 #include <memory>
@@ -49,7 +47,7 @@ public:
 
     bool addMap(MapPointer & map);
 
-    bool applyJsonObject(QJsonObject const & json);
+    bool applyJSON(QJsonObject const & json);
 
     MapPointer & createMap(QString const & name);
 
@@ -61,7 +59,7 @@ public:
 
     static QString getInvalidCharactersInName();
 
-    QJsonObject getJsonObject(rpgmapper::model::io::Content & content) const;
+    QJsonObject getJSON(rpgmapper::model::io::Content & content) const;
 
     Maps const & getMaps() const;
 

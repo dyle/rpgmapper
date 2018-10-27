@@ -18,8 +18,8 @@ Atlas::Atlas(QObject * parent) : QObject{parent} {
 }
 
 
-bool Atlas::applyJsonObject(QJsonObject json) {
-    return impl->applyJsonObject(json);
+bool Atlas::applyJSON(QJsonObject json) {
+    return impl->applyJSON(json);
 }
 
 
@@ -152,8 +152,8 @@ bool Atlas::moveMap(MapPointer map, RegionPointer regionTo) {
 }
 
 
-AtlasPointer const & Atlas::null() {
-    static AtlasPointer nullAtlas{new InvalidAtlas};
+QSharedPointer<rpgmapper::model::Atlas> const & Atlas::null() {
+    static QSharedPointer<rpgmapper::model::Atlas> nullAtlas{new InvalidAtlas};
     return nullAtlas;
 }
 

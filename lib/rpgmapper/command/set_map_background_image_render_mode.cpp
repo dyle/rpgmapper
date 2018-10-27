@@ -11,7 +11,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapBackgroundImageRenderMode::SetMapBackgroundImageRenderMode(AtlasPointer & atlas,
+SetMapBackgroundImageRenderMode::SetMapBackgroundImageRenderMode(QSharedPointer<rpgmapper::model::Atlas> & atlas,
                                                                  QString const & mapName,
                                                                  rpgmapper::model::ImageRenderMode newMode)
     : AtlasCommand{atlas}, mapName{mapName}, newMode{newMode}, oldMode{ImageRenderMode::plain} {

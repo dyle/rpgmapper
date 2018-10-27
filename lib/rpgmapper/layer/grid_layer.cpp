@@ -30,7 +30,7 @@ void GridLayer::draw(QPainter & painter, int tileSize) const {
 
 void GridLayer::drawBorder(QPainter & painter, int tileSize) const {
 
-    QSize size = getMap()->getSize() * tileSize;
+    QSize size = getMap()->getCoordinateSystem()->getSize() * tileSize;
 
     painter.setPen(QPen(getColor(), 1, Qt::SolidLine, Qt::FlatCap));
     painter.drawRect(0, 0, size.width(), size.height());
@@ -49,7 +49,7 @@ void GridLayer::drawBorder(QPainter & painter, int tileSize) const {
 
 void GridLayer::drawXAxis(QPainter & painter, int tileSize) const {
 
-    QSize cSize = getMap()->getSize() * tileSize;
+    QSize cSize = getMap()->getCoordinateSystem()->getSize() * tileSize;
     painter.setPen(QPen(getColor(), 1, Qt::DotLine, Qt::FlatCap));
     for (int x = tileSize; x <= cSize.width() - tileSize; x += tileSize) {
         painter.drawLine(x, 0, x, cSize.height());
@@ -59,7 +59,7 @@ void GridLayer::drawXAxis(QPainter & painter, int tileSize) const {
 
 void GridLayer::drawYAxis(QPainter & painter, int tileSize) const {
 
-    QSize cSize = getMap()->getSize() * tileSize;
+    QSize cSize = getMap()->getCoordinateSystem()->getSize() * tileSize;
     painter.setPen(QPen(getColor(), 1, Qt::DotLine, Qt::FlatCap));
     for (int y = tileSize; y <= cSize.height() - tileSize; y += tileSize) {
         painter.drawLine(0, y, cSize.height(), y);
@@ -76,8 +76,8 @@ QColor GridLayer::getColor() const {
 }
 
 
-QJsonObject GridLayer::getJsonObject(rpgmapper::model::io::Content & content) const {
-    QJsonObject jsonObject = Layer::getJsonObject(content);
+QJsonObject GridLayer::getJSON(rpgmapper::model::io::Content & content) const {
+    QJsonObject jsonObject = Layer::getJSON(content);
     jsonObject["color"] = getColor().name(QColor::HexArgb);
     return jsonObject;
 }

@@ -23,9 +23,9 @@ Atlas::Impl::Impl(Atlas * atlas) : atlas(atlas) {
 }
 
 
-bool Atlas::Impl::applyJsonObject(QJsonObject const & json) {
+bool Atlas::Impl::applyJSON(QJsonObject const & json) {
 
-    if (!Nameable::applyJsonObject(json)) {
+    if (!Nameable::applyJSON(json)) {
         return false;
     }
     if (json.contains("regions")) {
@@ -46,7 +46,7 @@ bool Atlas::Impl::applyJsonRegionsArray(QJsonArray const & jsonRegions) {
 
         if (jsonRegion.toObject().contains("name") && jsonRegion.toObject()["name"].isString()) {
             auto region = createRegion(jsonRegion.toObject()["name"].toString());
-            if (!region->applyJsonObject(jsonRegion.toObject())) {
+            if (!region->applyJSON(jsonRegion.toObject())) {
                 return false;
             }
         }
@@ -63,7 +63,7 @@ void Atlas::Impl::clear() {
 
 void Atlas::Impl::collectIOContent(rpgmapper::model::io::Content & content) const {
     QJsonDocument json;
-    json.setObject(getJsonObject(content));
+    json.setObject(getJSON(content));
     content["atlas.json"] = json.toJson(QJsonDocument::Compact);
 }
 
@@ -162,14 +162,14 @@ QString Atlas::Impl::getInvalidCharactersInName() {
 }
 
 
-QJsonObject Atlas::Impl::getJsonObject(rpgmapper::model::io::Content & content) const {
+QJsonObject Atlas::Impl::getJSON(rpgmapper::model::io::Content & content) const {
 
-    auto json = Nameable::getJsonObject(content);
+    auto json = Nameable::getJSON(content);
 
     QJsonArray jsonRegions;
     std::for_each(std::begin(regions),
                   std::end(regions),
-                  [&] (auto const & pair) { jsonRegions.append(pair.second->getJsonObject(content)); });
+                  [&] (auto const & pair) { jsonRegions.append(pair.second->getJSON(content)); });
     json["regions"] = jsonRegions;
 
     return json;

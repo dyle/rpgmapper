@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -11,8 +13,8 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapAxisFontColor::SetMapAxisFontColor(AtlasPointer & atlas, QString const & mapName, QColor newColor)
-    : AtlasCommand{atlas}, mapName{mapName}, newColor{newColor} {
+SetMapAxisFontColor::SetMapAxisFontColor(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QColor newColor)
+    : AtlasCommand{atlas}, mapName{mapName}, newColor{std::move(newColor)} {
 }
 
 

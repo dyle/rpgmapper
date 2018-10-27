@@ -4,10 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_RESOURCE_DB_HPP
 #define RPGMAPPER_RESOURCE_DB_HPP
-
 
 #include <map>
 
@@ -18,32 +16,70 @@ namespace rpgmapper {
 namespace model {
 
 
-class ResourceDB;
-using ResourceDBPointer = QSharedPointer<ResourceDB>;
-
-using Resources = std::map<QString, rpgmapper::model::ResourcePointer>;
-
+/**
+ * This class represents a resource database.
+ */
 class ResourceDB {
-
-     Resources resources;
+    
+    /**
+     * The resources an object of this class manages.
+     */
+    std::map<QString, QSharedPointer<Resource>> resources;
 
 public:
 
+    /**
+     * Constructor.
+     */
     ResourceDB() = default;
 
+    /**
+     * Copy constructor.
+     */
     ResourceDB(ResourceDB const &) = delete;
 
+    /**
+     * Destructor.
+     */
     ~ResourceDB() = default;
 
+    /**
+     * Adds a BLOB with a name to the resource database.
+     *
+     * @param   name    the name of the BLOB
+     * @param   data    the BLOB.
+     */
     void addResource(QString name, QByteArray const & data);
+    
+    /**
+     * Adds an existing resource to the database.
+     *
+     * @param   resource    the resource to add.
+     */
+    void addResource(QSharedPointer<Resource> resource);
 
-    void addResource(ResourcePointer resource);
-
+    /**
+     * Gets a BLOB based on a hash value.
+     *
+     * @param   hash        the hash value.
+     * @return  The BLOB as registered with this hash value.
+     */
     QByteArray const & getData(QString hash) const;
 
-    ResourcePointer const & getResource(QString hash) const;
-
-    Resources const & getResources() const {
+    /**
+     * Gets a BLOB based on a hash value (const version).
+     *
+     * @param   hash        the hash value.
+     * @return  The BLOB as registered with this hash value.
+     */
+    QSharedPointer<Resource> const & getResource(QString hash) const;
+    
+    /**
+     * Gets all known resources.
+     *
+     * @return  all resources we know in this database.
+     */
+    std::map<QString, QSharedPointer<Resource>> const & getResources() const {
         return resources;
     }
 };

@@ -7,7 +7,6 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_MAP_NUMERAL_OFFSET_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_NUMERAL_OFFSET_HPP
 
-
 #include <QPointF>
 
 #include <rpgmapper/command/atlas_command.hpp>
@@ -36,7 +35,7 @@ public:
      * @param   mapName         the name of the map to modify.
      * @param   newOffset       the new offset values of the map.
      */
-    SetMapNumeralOffset(AtlasPointer & atlas, QString const & mapName, QPointF newOffset);
+    SetMapNumeralOffset(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QPointF newOffset);
     
     /**
      * Destructor.

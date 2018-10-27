@@ -23,7 +23,7 @@ namespace command {
 
 
 /**
- * The Prozessor class is capable of executing, redo and undo commands.
+ * The Processor class is capable of executing, redo and undo commands.
  *
  * Pattern: Command (https://en.wikipedia.org/wiki/Command_pattern)
  */
@@ -53,7 +53,7 @@ public:
      *
      * @param   command     the command to execute.
      */
-    void execute(CommandPointer command);
+    void execute(QSharedPointer<rpgmapper::model::command::Command> & command);
 
     /**
      * Returns the list of commands executed so far.
@@ -100,11 +100,6 @@ signals:
 
 };
 
-
-/**
- * A ProcessorPointer is a smart pointer to a processor instance on the heap.
- */
-using ProcessorPointer = QSharedPointer<Processor>;
 
 
 }

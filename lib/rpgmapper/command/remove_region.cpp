@@ -12,7 +12,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-RemoveRegion::RemoveRegion(AtlasPointer & atlas, QString const & regionName):
+RemoveRegion::RemoveRegion(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & regionName):
         CompositeCommand{atlas}, regionName{regionName} {
 }
 

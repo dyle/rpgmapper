@@ -32,7 +32,7 @@ public:
      * @param   regionName      the region of the map.
      * @param   mapName         the map to remove.
      */
-    RemoveMap(AtlasPointer & atlas, QString const & regionName, QString const & mapName);
+    RemoveMap(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & regionName, QString const & mapName);
     
     /**
      * Destructor.

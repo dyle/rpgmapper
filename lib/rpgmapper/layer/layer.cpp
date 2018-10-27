@@ -22,7 +22,7 @@ Layer::Layer(Map * map, QObject * parent) : QObject{parent} {
 }
 
 
-bool Layer::applyJsonObject(QJsonObject const & json) {
+bool Layer::applyJSON(QJsonObject const & json) {
 
     if (json.contains("visible") && json["visible"].isBool()) {
         if (json["visible"].toBool()) {
@@ -46,7 +46,7 @@ Layer::Attributes const & Layer::getAttributes() const {
 }
 
 
-QJsonObject Layer::getJsonObject(UNUSED rpgmapper::model::io::Content & content) const {
+QJsonObject Layer::getJSON(UNUSED rpgmapper::model::io::Content & content) const {
     QJsonObject jsonObject;
     jsonObject["visible"] = isVisible();
     return jsonObject;

@@ -9,8 +9,8 @@
 
 #include <list>
 
-#include <QString>
 #include <QSharedPointer>
+#include <QString>
 
 
 namespace rpgmapper {
@@ -52,15 +52,9 @@ public:
 
 
 /**
- * A CommandPointer is a smart pointer to a Command instance on the heap.
- */
-using CommandPointer = QSharedPointer<Command>;
-
-
-/**
  * A series of Command instances.
  */
-using Commands = std::list<CommandPointer>;
+using Commands = std::list<QSharedPointer<Command>>;
 
 
 }

@@ -32,7 +32,7 @@ public:
      * @param   oldName         the old name of the map.
      * @param   newName         the new name of the map.
      */
-    SetMapName(AtlasPointer & atlas, QString const & oldName, QString const & newName);
+    SetMapName(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & oldName, QString const & newName);
     
     /**
      * Destructor.

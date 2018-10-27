@@ -4,14 +4,25 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include "roman.hpp"
 
 using namespace rpgmapper::model;
 
 
+/**
+ * Coverts a single value to roman value letters.
+ *
+ * @param   value       the value to convert.
+ * @return  a string holding the value in roman letters.
+ */
 static QString convertToRoman(int value);
 
+
+/**
+ * Inits a cache of values for faster lookup.
+ *
+ * @param   cache   the cache to init.
+ */
 static void initCachedValues(std::map<int, QString> & cache);
 
 

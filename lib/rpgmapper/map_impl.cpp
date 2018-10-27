@@ -37,7 +37,7 @@ bool Map::Impl::applyJsonBaseLayers(QJsonArray const & jsonArray) {
     baseLayers.clear();
     for (auto && json : jsonArray) {
         auto baseLayer = TileLayerPointer{new TileLayer{map}};
-        applied = applied && baseLayer->applyJsonObject(json.toObject());
+        applied = applied && baseLayer->applyJSON(json.toObject());
         baseLayers.push_back(baseLayer);
     }
 
@@ -50,35 +50,35 @@ bool Map::Impl::applyJsonLayers(QJsonObject const & json) {
     bool applied = true;
 
     if (applied && json.contains("axis") && json["axis"].isObject()) {
-        applied = getAxisLayer()->applyJsonObject(json["axis"].toObject());
+        applied = getAxisLayer()->applyJSON(json["axis"].toObject());
     }
     if (applied && json.contains("background") && json["background"].isObject()) {
-        applied = getBackgroundLayer()->applyJsonObject(json["background"].toObject());
+        applied = getBackgroundLayer()->applyJSON(json["background"].toObject());
     }
     if (applied && json.contains("base") && json["base"].isArray()) {
         applied = applyJsonBaseLayers(json["base"].toArray());
     }
     if (applied && json.contains("grid") && json["grid"].isObject()) {
-        applied = getGridLayer()->applyJsonObject(json["grid"].toObject());
+        applied = getGridLayer()->applyJSON(json["grid"].toObject());
     }
     if (applied && json.contains("tile") && json["tile"].isArray()) {
         applied = applyJsonTileLayers(json["tile"].toArray());
     }
     if (applied && json.contains("text") && json["text"].isObject()) {
-        applied = getTextLayer()->applyJsonObject(json["text"].toObject());
+        applied = getTextLayer()->applyJSON(json["text"].toObject());
     }
 
     return applied;
 }
 
 
-bool Map::Impl::applyJsonObject(QJsonObject const & json) {
+bool Map::Impl::applyJSON(QJsonObject const & json) {
 
-    if (!Nameable::applyJsonObject(json)) {
+    if (!Nameable::applyJSON(json)) {
         return false;
     }
     if (json.contains("coordinateSystem") && json["coordinateSystem"].isObject()) {
-        if (!CoordinateSystem::applyJsonObject(json["coordinateSystem"].toObject())) {
+        if (!CoordinateSystem::applyJSON(json["coordinateSystem"].toObject())) {
             return false;
         }
     }
@@ -97,41 +97,38 @@ bool Map::Impl::applyJsonTileLayers(QJsonArray const & jsonArray) {
     tileLayers.clear();
     for (auto && json : jsonArray) {
         auto tileLayer = TileLayerPointer{new TileLayer{map}};
-        applied = applied && tileLayer->applyJsonObject(json.toObject());
+        applied = applied && tileLayer->applyJSON(json.toObject());
         tileLayers.push_back(tileLayer);
     }
     return applied;
 }
 
 
-QString Map::Impl::getInvalidCharactersInName() {
-    return R"raw(:\\*\?/)raw";
-}
 
 
-QJsonObject Map::Impl::getJsonObject(rpgmapper::model::io::Content & content) const {
+QJsonObject Map::Impl::getJSON(rpgmapper::model::io::Content & content) const {
 
-    auto json = Nameable::getJsonObject(content);
-    json["coordinateSystem"] = CoordinateSystem::getJsonObject(content);
+    auto json = Nameable::getJSON(content);
+    json["coordinateSystem"] = CoordinateSystem::getJSON(content);
 
     QJsonObject layers;
-    layers["axis"] = getAxisLayer()->getJsonObject(content);
-    layers["background"] = getBackgroundLayer()->getJsonObject(content);
+    layers["axis"] = getAxisLayer()->getJSON(content);
+    layers["background"] = getBackgroundLayer()->getJSON(content);
 
     QJsonArray jsonBaseLayers;
     for (auto const & baseLayer: baseLayers) {
-        jsonBaseLayers.append(baseLayer->getJsonObject(content));
+        jsonBaseLayers.append(baseLayer->getJSON(content));
     }
     layers["base"] = jsonBaseLayers;
 
-    layers["grid"] = getGridLayer()->getJsonObject(content);
+    layers["grid"] = getGridLayer()->getJSON(content);
     QJsonArray jsonTileLayers;
     for (auto const & tileLayer: tileLayers) {
-        jsonTileLayers.append(tileLayer->getJsonObject(content));
+        jsonTileLayers.append(tileLayer->getJSON(content));
     }
     layers["tile"] = jsonTileLayers;
 
-    layers["text"] = getTextLayer()->getJsonObject(content);
+    layers["text"] = getTextLayer()->getJSON(content);
 
     json["layers"] = layers;
 
@@ -145,7 +142,3 @@ QString const & Map::Impl::getRegionName() const {
 }
 
 
-bool Map::Impl::isNameValid(QString name) {
-    QRegExp regExp{QString{"[%1]"}.arg(getInvalidCharactersInName())};
-    return (!name.isEmpty()) && (regExp.indexIn(name) == -1);
-}

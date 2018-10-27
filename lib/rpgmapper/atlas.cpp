@@ -33,7 +33,7 @@ void Atlas::collectIOContent(rpgmapper::model::io::Content & content) const  {
 }
 
 
-void Atlas::connectRegionSignals(RegionPointer & region) {
+void Atlas::connectRegionSignals(QSharedPointer<rpgmapper::model::Region> & region) {
     if (!region->isValid()) {
         return;
     }
@@ -48,7 +48,7 @@ void Atlas::connectRegionSignals(RegionPointer & region) {
 }
 
 
-RegionPointer & Atlas::createRegion(QString const & name) {
+QSharedPointer<rpgmapper::model::Region> & Atlas::createRegion(QString const & name) {
     auto & region = impl->createRegion(name);
     if (region->isValid()) {
         connectRegionSignals(region);
@@ -58,12 +58,12 @@ RegionPointer & Atlas::createRegion(QString const & name) {
 }
 
 
-ProcessorPointer & Atlas::getCommandProzessor() {
+QSharedPointer<rpgmapper::model::command::Processor> & Atlas::getCommandProzessor() {
     return impl->getCommandProzessor();
 }
 
 
-ProcessorPointer const & Atlas::getCommandProzessor() const {
+QSharedPointer<rpgmapper::model::command::Processor> const & Atlas::getCommandProzessor() const {
     return impl->getCommandProzessor();
 }
 
@@ -78,22 +78,22 @@ ResourceDBPointer const & Atlas::getResourceDB() const {
 }
 
 
-MapPointer & Atlas::findMap(QString const & name) {
+QSharedPointer<rpgmapper::model::Map> & Atlas::findMap(QString const & name) {
     return impl->findMap(name);
 }
 
 
-MapPointer const & Atlas::findMap(QString const & name) const {
+QSharedPointer<rpgmapper::model::Map> const & Atlas::findMap(QString const & name) const {
     return impl->findMap(name);
 }
 
 
-RegionPointer & Atlas::findRegion(QString const & name) {
+QSharedPointer<rpgmapper::model::Region> & Atlas::findRegion(QString const & name) {
     return impl->findRegion(name);
 }
 
 
-RegionPointer const & Atlas::findRegion(QString const & name) const {
+QSharedPointer<rpgmapper::model::Region> const & Atlas::findRegion(QString const & name) const {
     return impl->findRegion(name);
 }
 
@@ -146,7 +146,7 @@ bool Atlas::isNameValid(QString name) {
 }
 
 
-bool Atlas::moveMap(MapPointer map, RegionPointer regionTo) {
+bool Atlas::moveMap(QSharedPointer<rpgmapper::model::Map> map, QSharedPointer<rpgmapper::model::Region> regionTo) {
     auto regionFrom = findRegion(map->getRegionName());
     return impl->moveMap(map, std::move(regionTo));
 }

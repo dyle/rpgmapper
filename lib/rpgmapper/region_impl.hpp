@@ -28,15 +28,15 @@ public:
 
     Impl(Impl const &) = delete;
 
-    bool addMap(MapPointer & map);
+    bool addMap(QSharedPointer<rpgmapper::model::Map> & map);
 
     bool applyJSON(QJsonObject const & json) override;
 
     void clear() override;
 
-    MapPointer & createMap(QString const & name);
+    QSharedPointer<rpgmapper::model::Map> & createMap(QString const & name);
 
-    MapPointer & findMap(QString const & name);
+    QSharedPointer<rpgmapper::model::Map> & findMap(QString const & name);
 
     Atlas * getAtlas() {
         return atlas;

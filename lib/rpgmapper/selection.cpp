@@ -18,8 +18,8 @@ using namespace rpgmapper::model;
 
 Selection::Selection(QObject * parent) : QObject(parent) {
     atlas = QSharedPointer<rpgmapper::model::Atlas>{new InvalidAtlas{}};
-    map = MapPointer{new InvalidMap{}};
-    region = RegionPointer{new InvalidRegion{}};
+    map = QSharedPointer<rpgmapper::model::Map>{new InvalidMap{}};
+    region = QSharedPointer<rpgmapper::model::Region>{new InvalidRegion{}};
 }
 
 
@@ -75,8 +75,8 @@ void Selection::removedRegion(QString name) {
 
 
 void Selection::setAtlas(QSharedPointer<rpgmapper::model::Atlas> atlas) {
-    map = MapPointer{new InvalidMap{}};
-    region = RegionPointer{new InvalidRegion{}};
+    map = QSharedPointer<rpgmapper::model::Map>{new InvalidMap{}};
+    region = QSharedPointer<rpgmapper::model::Region>{new InvalidRegion{}};
     this->atlas = atlas;
     connect(this->atlas.data(), &Atlas::mapRemoved, this, &Selection::removedMap);
     connect(this->atlas.data(), &Atlas::regionRemoved, this, &Selection::removedRegion);
@@ -84,7 +84,7 @@ void Selection::setAtlas(QSharedPointer<rpgmapper::model::Atlas> atlas) {
 }
 
 
-void Selection::selectMap(MapPointer map) {
+void Selection::selectMap(QSharedPointer<rpgmapper::model::Map> map) {
 
     this->map = map;
     if (map->isValid()) {
@@ -103,7 +103,7 @@ void Selection::selectMap(QString const & mapName) {
 }
 
 
-void Selection::selectRegion(RegionPointer region) {
+void Selection::selectRegion(QSharedPointer<rpgmapper::model::Region> region) {
 
     this->region = region;
     if (region->isValid()) {

@@ -21,7 +21,7 @@ class Atlas::Impl final : public Nameable {
 
     Atlas * atlas = nullptr;
     Regions regions;
-    rpgmapper::model::command::ProcessorPointer prozessor;
+    QSharedPointer<rpgmapper::model::command::Processor> prozessor;
     unsigned long unmodifiedCommandCounter = 0;
     QString fileName;
     ResourceDBPointer resourceDB;
@@ -38,23 +38,23 @@ public:
 
     void collectIOContent(rpgmapper::model::io::Content & content) const;
 
-    RegionPointer & createRegion(QString const & name);
+    QSharedPointer<rpgmapper::model::Region> & createRegion(QString const & name);
 
-    MapPointer & findMap(QString const & name);
+    QSharedPointer<rpgmapper::model::Map> & findMap(QString const & name);
 
-    MapPointer const & findMap(QString const & name) const;
+    QSharedPointer<rpgmapper::model::Map> const & findMap(QString const & name) const;
 
-    RegionPointer & findRegion(QString const & name);
+    QSharedPointer<rpgmapper::model::Region> & findRegion(QString const & name);
 
-    RegionPointer const & findRegion(QString const & name) const;
+    QSharedPointer<rpgmapper::model::Region> const & findRegion(QString const & name) const;
 
     std::set<QString> getAllMapNames() const;
 
     std::set<QString> getAllRegionNames() const;
 
-    rpgmapper::model::command::ProcessorPointer & getCommandProzessor();
+    QSharedPointer<rpgmapper::model::command::Processor> & getCommandProzessor();
 
-    rpgmapper::model::command::ProcessorPointer const & getCommandProzessor() const;
+    QSharedPointer<rpgmapper::model::command::Processor> const & getCommandProzessor() const;
 
     QString const & getFileName() const {
         return fileName;
@@ -80,7 +80,7 @@ public:
 
     static bool isNameValid(QString name);
 
-    bool moveMap(MapPointer map, RegionPointer regionTo);
+    bool moveMap(QSharedPointer<rpgmapper::model::Map> map, QSharedPointer<rpgmapper::model::Region> regionTo);
 
     void readIOContent(rpgmapper::model::io::Content const & content);
 

@@ -25,7 +25,7 @@ void RemoveRegion::execute() {
     auto region = atlas->findRegion(regionName);
 
     for (auto const & pair : region->getMaps()) {
-        addCommand(CommandPointer{new RemoveMap{atlas, regionName, pair.second->getName()}});
+        addCommand(QSharedPointer<rpgmapper::model::command::Command>{new RemoveMap{atlas, regionName, pair.second->getName()}});
     }
     CompositeCommand::execute();
 

@@ -47,7 +47,7 @@ bool Map::isNameValid(QString name) {
 }
 
 
-MapPointer const & Map::null() {
-    static MapPointer nullMap{new InvalidMap};
+QSharedPointer<rpgmapper::model::Map> const & Map::null() {
+    static QSharedPointer<rpgmapper::model::Map> nullMap{new InvalidMap};
     return nullMap;
 }

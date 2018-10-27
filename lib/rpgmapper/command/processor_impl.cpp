@@ -10,7 +10,7 @@
 using namespace rpgmapper::model::command;
 
 
-void Processor::Impl::execute(CommandPointer & command) {
+void Processor::Impl::execute(QSharedPointer<rpgmapper::model::command::Command> & command) {
     redoList.clear();
     runCommand(command);
 }
@@ -35,7 +35,7 @@ void Processor::Impl::redo() {
     runCommand(command);
 }
 
-void Processor::Impl::runCommand(CommandPointer & command) {
+void Processor::Impl::runCommand(QSharedPointer<rpgmapper::model::command::Command> & command) {
     history.push_back(command);
     changes++;
     command->execute();

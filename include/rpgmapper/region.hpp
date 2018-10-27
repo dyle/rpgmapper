@@ -26,9 +26,7 @@ namespace model {
 class Atlas;
 class Region;
 
-using RegionPointer = QSharedPointer<Region>;
-
-using Regions = std::map<QString, RegionPointer>;
+using Regions = std::map<QString, QSharedPointer<rpgmapper::model::Region>>;
 
 class Region : public QObject {
 
@@ -45,13 +43,13 @@ public:
 
     ~Region() override = default;
 
-    bool addMap(MapPointer & map);
+    bool addMap(QSharedPointer<rpgmapper::model::Map> & map);
 
     bool applyJSON(QJsonObject const & json);
 
-    MapPointer & createMap(QString const & name);
+    QSharedPointer<rpgmapper::model::Map> & createMap(QString const & name);
 
-    MapPointer & findMap(QString const & name);
+    QSharedPointer<rpgmapper::model::Map> & findMap(QString const & name);
 
     Atlas * getAtlas();
 
@@ -60,16 +58,12 @@ public:
     static QString getInvalidCharactersInName();
 
     QJsonObject getJSON(rpgmapper::model::io::Content & content) const;
-
-    Maps const & getMaps() const;
+    
+    std::map<QString, QSharedPointer<rpgmapper::model::Map>> const & getMaps() const;
 
     std::set<QString> getMapNames() const;
 
     QString const & getName() const;
-
-    ResourceDBPointer & getResourceDB();
-
-    ResourceDBPointer const & getResourceDB() const;
 
     static bool isNameValid(QString name);
 
@@ -77,7 +71,7 @@ public:
         return true;
     }
 
-    static RegionPointer const & null();
+    static QSharedPointer<rpgmapper::model::Region> const & null();
 
     void removeMap(QString const & name);
 
@@ -85,9 +79,9 @@ public:
 
 private:
 
-    void connectMapSignals(MapPointer & map);
+    void connectMapSignals(QSharedPointer<rpgmapper::model::Map> & map);
 
-    void disconnectMapSignals(MapPointer & map);
+    void disconnectMapSignals(QSharedPointer<rpgmapper::model::Map> & map);
 
 private slots:
 

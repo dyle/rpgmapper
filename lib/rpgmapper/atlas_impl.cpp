@@ -18,7 +18,7 @@ Atlas::Impl::Impl(Atlas * atlas) : atlas(atlas) {
     if (atlas == nullptr) {
         throw std::invalid_argument("rpgmapper::model::Atlas::Impl::Impl() - atlas must not be nullptr.");
     }
-    prozessor = ProcessorPointer{new Processor};
+    prozessor = QSharedPointer<rpgmapper::model::command::Processor>{new Processor};
     resourceDB = ResourceDBPointer{new ResourceDB};
 }
 
@@ -68,21 +68,21 @@ void Atlas::Impl::collectIOContent(rpgmapper::model::io::Content & content) cons
 }
 
 
-RegionPointer & Atlas::Impl::createRegion(QString const & name) {
+QSharedPointer<rpgmapper::model::Region> & Atlas::Impl::createRegion(QString const & name) {
 
-    static RegionPointer invalidRegion{new InvalidRegion};
+    static QSharedPointer<rpgmapper::model::Region> invalidRegion{new InvalidRegion};
     if (regions.find(name) != regions.end()) {
         return invalidRegion;
     }
     auto pair = regions.emplace(std::make_pair(name,
-                                               RegionPointer{new Region{name, this->atlas},
+                                               QSharedPointer<rpgmapper::model::Region>{new Region{name, this->atlas},
                                                              &Region::deleteLater}));
     return pair.first->second;
 }
 
 
-MapPointer & Atlas::Impl::findMap(QString const & name) {
-    static MapPointer invalidMap{new InvalidMap};
+QSharedPointer<rpgmapper::model::Map> & Atlas::Impl::findMap(QString const & name) {
+    static QSharedPointer<rpgmapper::model::Map> invalidMap{new InvalidMap};
     for (auto & pair : regions) {
         auto & map = pair.second->findMap(name);
         if (map->isValid()) {
@@ -93,8 +93,8 @@ MapPointer & Atlas::Impl::findMap(QString const & name) {
 }
 
 
-MapPointer const & Atlas::Impl::findMap(QString const & name) const {
-    static MapPointer invalidMap{new InvalidMap};
+QSharedPointer<rpgmapper::model::Map> const & Atlas::Impl::findMap(QString const & name) const {
+    static QSharedPointer<rpgmapper::model::Map> invalidMap{new InvalidMap};
     for (auto & pair : regions) {
         auto & map = pair.second->findMap(name);
         if (map->isValid()) {
@@ -105,8 +105,8 @@ MapPointer const & Atlas::Impl::findMap(QString const & name) const {
 }
 
 
-RegionPointer & Atlas::Impl::findRegion(QString const & name) {
-    static RegionPointer invalidRegion{new InvalidRegion};
+QSharedPointer<rpgmapper::model::Region> & Atlas::Impl::findRegion(QString const & name) {
+    static QSharedPointer<rpgmapper::model::Region> invalidRegion{new InvalidRegion};
     auto iter = regions.find(name);
     if (iter == regions.end()) {
         return invalidRegion;
@@ -115,8 +115,8 @@ RegionPointer & Atlas::Impl::findRegion(QString const & name) {
 }
 
 
-RegionPointer const & Atlas::Impl::findRegion(QString const & name) const {
-    static RegionPointer invalidRegion{new InvalidRegion};
+QSharedPointer<rpgmapper::model::Region> const & Atlas::Impl::findRegion(QString const & name) const {
+    static QSharedPointer<rpgmapper::model::Region> invalidRegion{new InvalidRegion};
     auto iter = regions.find(name);
     if (iter == regions.end()) {
         return invalidRegion;
@@ -147,12 +147,12 @@ std::set<QString> Atlas::Impl::getAllRegionNames() const {
 }
 
 
-ProcessorPointer & Atlas::Impl::getCommandProzessor() {
+QSharedPointer<rpgmapper::model::command::Processor> & Atlas::Impl::getCommandProzessor() {
     return prozessor;
 }
 
 
-ProcessorPointer const & Atlas::Impl::getCommandProzessor() const {
+QSharedPointer<rpgmapper::model::command::Processor> const & Atlas::Impl::getCommandProzessor() const {
     return prozessor;
 }
 
@@ -187,7 +187,7 @@ bool Atlas::Impl::isNameValid(QString name) {
 }
 
 
-bool Atlas::Impl::moveMap(MapPointer map, RegionPointer regionTo) {
+bool Atlas::Impl::moveMap(QSharedPointer<rpgmapper::model::Map> map, QSharedPointer<rpgmapper::model::Region> regionTo) {
 
     if (!map->isValid()) {
         return false;

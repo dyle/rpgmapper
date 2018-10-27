@@ -25,6 +25,7 @@ namespace rpgmapper {
 namespace model {
 
 
+// TODO: why?
 class Region;
 
 

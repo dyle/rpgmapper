@@ -16,7 +16,7 @@ Region::Region(QString const & name, Atlas * atlas) : QObject{atlas} {
     impl->setName(name);
 }
 
-bool Region::addMap(MapPointer & map) {
+bool Region::addMap(QSharedPointer<rpgmapper::model::Map> & map) {
 
     if (!map->isValid()) {
         return false;
@@ -53,7 +53,7 @@ void Region::changedNumeralForAxis(QString mapName) {
 }
 
 
-void Region::connectMapSignals(MapPointer & map) {
+void Region::connectMapSignals(QSharedPointer<rpgmapper::model::Map> & map) {
     if (!map->isValid()) {
         return;
     }
@@ -63,7 +63,7 @@ void Region::connectMapSignals(MapPointer & map) {
 }
 
 
-MapPointer & Region::createMap(QString const & mapName) {
+QSharedPointer<rpgmapper::model::Map> & Region::createMap(QString const & mapName) {
     auto & map = impl->createMap(mapName);
     if (map->isValid()) {
         connectMapSignals(map);
@@ -73,7 +73,7 @@ MapPointer & Region::createMap(QString const & mapName) {
 }
 
 
-void Region::disconnectMapSignals(MapPointer & map) {
+void Region::disconnectMapSignals(QSharedPointer<rpgmapper::model::Map> & map) {
     if (!map->isValid()) {
         return;
     }
@@ -91,7 +91,7 @@ Atlas const * Region::getAtlas() const {
 }
 
 
-MapPointer & Region::findMap(QString const & mapName) {
+QSharedPointer<rpgmapper::model::Map> & Region::findMap(QString const & mapName) {
     return impl->findMap(mapName);
 }
 
@@ -134,8 +134,8 @@ bool Region::isNameValid(QString name) {
 }
 
 
-RegionPointer const & Region::null() {
-    static RegionPointer nullRegion{new InvalidRegion};
+QSharedPointer<rpgmapper::model::Region> const & Region::null() {
+    static QSharedPointer<rpgmapper::model::Region> nullRegion{new InvalidRegion};
     return nullRegion;
 }
 

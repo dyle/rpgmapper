@@ -16,7 +16,7 @@ Processor::Processor(QObject * parent) : QObject(parent) {
 }
 
 
-void Processor::execute(CommandPointer command) {
+void Processor::execute(QSharedPointer<rpgmapper::model::command::Command> command) {
     impl->execute(command);
     emit commandExecuted();
 }

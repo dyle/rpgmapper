@@ -42,23 +42,23 @@ public:
 
     void collectIOContent(rpgmapper::model::io::Content & content) const;
 
-    RegionPointer & createRegion(QString const & name);
+    QSharedPointer<rpgmapper::model::Region> & createRegion(QString const & name);
 
-    MapPointer & findMap(QString const & name);
+    QSharedPointer<rpgmapper::model::Map> & findMap(QString const & name);
 
-    MapPointer const & findMap(QString const & name) const;
+    QSharedPointer<rpgmapper::model::Map> const & findMap(QString const & name) const;
 
-    RegionPointer & findRegion(QString const & name);
+    QSharedPointer<rpgmapper::model::Region> & findRegion(QString const & name);
 
-    RegionPointer const & findRegion(QString const & name) const;
+    QSharedPointer<rpgmapper::model::Region> const & findRegion(QString const & name) const;
 
     std::set<QString> getAllMapNames() const;
 
     std::set<QString> getAllRegionNames() const;
 
-    rpgmapper::model::command::ProcessorPointer & getCommandProzessor();
+    QSharedPointer<rpgmapper::model::command::Processor> & getCommandProzessor();
 
-    rpgmapper::model::command::ProcessorPointer const & getCommandProzessor() const;
+    QSharedPointer<rpgmapper::model::command::Processor> const & getCommandProzessor() const;
 
     QString const & getFileName() const;
 
@@ -67,10 +67,6 @@ public:
     QString const & getName() const;
 
     Regions const & getRegions() const;
-
-    ResourceDBPointer & getResourceDB();
-
-    ResourceDBPointer const & getResourceDB() const;
 
     void init();
 
@@ -86,7 +82,7 @@ public:
         return moveMap(findMap(map), findRegion(regionTo));
     }
 
-    bool moveMap(MapPointer map, RegionPointer regionTo);
+    bool moveMap(QSharedPointer<rpgmapper::model::Map> map, QSharedPointer<rpgmapper::model::Region> regionTo);
 
     static QSharedPointer<Atlas> const & null();
 
@@ -102,7 +98,7 @@ public:
 
 private:
 
-    void connectRegionSignals(RegionPointer & region);
+    void connectRegionSignals(QSharedPointer<rpgmapper::model::Region> & region);
 
 private slots:
 

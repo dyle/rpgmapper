@@ -32,7 +32,7 @@ public:
      *
      * @param   command     the command to execute.
      */
-    void execute(CommandPointer & command);
+    void execute(QSharedPointer<rpgmapper::model::command::Command> & command);
     
     /**
      * Returns the history of all commands executed.
@@ -81,7 +81,7 @@ private:
      *
      * @param   command     the command to execute.
      */
-    void runCommand(CommandPointer & command);
+    void runCommand(QSharedPointer<rpgmapper::model::command::Command> & command);
 };
 
 

@@ -34,7 +34,7 @@ class Atlas : public QObject, public SessionAware {
 
     Q_OBJECT
 
-    class Impl;                         /**< Internal data class.
+    class Impl;                         /**< Internal data class. */
     std::shared_ptr<Impl> impl;         /**< Pointer to implementation [PIMPL C++ Idiom] */
 
 public:

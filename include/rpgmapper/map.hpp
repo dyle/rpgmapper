@@ -66,7 +66,14 @@ public:
      * @return  true, if the found values in the JSON data has been applied.
      */
     bool applyJSON(QJsonObject const & json) override;
-
+    
+    /**
+     * Suggests a new map name.
+     *
+     * @return  Creates a new map name.
+     */
+    static QString createMapName();
+    
     /**
      * Gets the coordinate system of the map.
      *

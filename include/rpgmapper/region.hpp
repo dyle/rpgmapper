@@ -48,7 +48,9 @@ public:
     bool applyJSON(QJsonObject const & json);
 
     QSharedPointer<rpgmapper::model::Map> & createMap(QString const & name);
-
+    
+    static QString createRegionName();
+    
     QSharedPointer<rpgmapper::model::Map> & findMap(QString const & name);
 
     Atlas * getAtlas();

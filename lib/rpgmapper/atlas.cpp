@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <rpgmapper/atlas.hpp>
 #include "atlas_impl.hpp"
 
@@ -28,7 +27,7 @@ void Atlas::changedRegionName(QString nameBefore, QString nameAfter) {
 }
 
 
-void Atlas::collectIOContent(rpgmapper::model::io::Content & content) const  {
+void Atlas::collectContent(rpgmapper::model::io::Content & content) const  {
     impl->collectIOContent(content);
 }
 

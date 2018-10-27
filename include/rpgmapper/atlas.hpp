@@ -18,29 +18,42 @@
 #include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/io/content.hpp>
 #include <rpgmapper/region.hpp>
-#include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/session_aware.hpp>
 
 
 namespace rpgmapper {
 namespace model {
 
 
-class Atlas : public QObject {
+/**
+ * This is the main class.
+ *
+ * An atlas as a set of regions, each with a set of maps.
+ */
+class Atlas : public QObject, public SessionAware {
 
     Q_OBJECT
 
-    class Impl;
-    std::shared_ptr<Impl> impl;
+    class Impl;                         /**< Internal data class.
+    std::shared_ptr<Impl> impl;         /**< Pointer to implementation [PIMPL C++ Idiom] */
 
 public:
 
+    /**
+     * Construtor
+     *
+     * @param   parent      parent Qt object.
+     */
     explicit Atlas(QObject * parent = nullptr);
 
+    /**
+     * Destructor.
+     */
     ~Atlas() override = default;
 
     bool applyJSON(QJsonObject json);
 
-    void collectIOContent(rpgmapper::model::io::Content & content) const;
+    void collectContent(rpgmapper::model::io::Content & content) const;
 
     QSharedPointer<rpgmapper::model::Region> & createRegion(QString const & name);
 

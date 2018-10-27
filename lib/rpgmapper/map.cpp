@@ -34,6 +34,20 @@ bool Map::applyJSON(QJsonObject const & json) {
 }
 
 
+QString Map::createNewMapName() {
+    
+    auto allMapNames = getAtlas()->getAllMapNames();
+    int i = 1;
+    QString candidate = QString("New Map %1").arg(QString::number(i));
+    auto iter = allMapNames.find(candidate);
+    while (iter != allMapNames.end()) {
+        candidate = QString("New Map %1").arg(QString::number(++i));
+        iter = allMapNames.find(candidate);
+    }
+    return candidate;
+}
+
+
 QJsonObject Map::getJSON() const {
     auto json = Nameable::getJSON();
     json["layers"] = LayerStack::getJSON();

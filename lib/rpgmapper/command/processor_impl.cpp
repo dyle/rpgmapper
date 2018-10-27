@@ -16,12 +16,12 @@ void Processor::Impl::execute(QSharedPointer<rpgmapper::model::command::Command>
 }
 
 
-Commands const & Processor::Impl::getHistory() const {
+std::list<QSharedPointer<rpgmapper::model::command::Command>> const & Processor::Impl::getHistory() const {
     return history;
 }
 
 
-Commands const & Processor::Impl::getUndone() const {
+std::list<QSharedPointer<rpgmapper::model::command::Command>> const & Processor::Impl::getUndone() const {
     return redoList;
 }
 
@@ -34,6 +34,7 @@ void Processor::Impl::redo() {
     redoList.pop_back();
     runCommand(command);
 }
+
 
 void Processor::Impl::runCommand(QSharedPointer<rpgmapper::model::command::Command> & command) {
     history.push_back(command);

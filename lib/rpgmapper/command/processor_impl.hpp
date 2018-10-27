@@ -20,10 +20,21 @@ namespace command {
  * This class holds the details of a Processor implementation.
  */
 class Processor::Impl final {
-
-    Commands history;           /**< This is the list of commands executed so far. */
-    Commands redoList;          /**< This is the list of commands we have undone recently. */
-    int changes = 0;            /**< This field holds the number of introduced changes to the world. */
+    
+    /**
+     * This is the list of commands executed so far.
+     */
+    std::list<QSharedPointer<rpgmapper::model::command::Command>> history;
+    
+    /**
+     * This is the list of commands we have undone recently.
+     */
+    std::list<QSharedPointer<rpgmapper::model::command::Command>> redoList;
+    
+    /**
+     * This field holds the number of introduced changes to the world.
+     */
+    int changes = 0;
 
 public:
 
@@ -39,14 +50,14 @@ public:
      *
      * @return  a list of all commands executed. Oldest first.
      */
-    Commands const & getHistory() const;
+    std::list<QSharedPointer<rpgmapper::model::command::Command>> const & getHistory() const;
 
     /**
      * Returns the list of all commands recently undone.
      *
      * @return  the list of all undone commands.
      */
-    Commands const & getUndone() const;
+    std::list<QSharedPointer<rpgmapper::model::command::Command>> const & getUndone() const;
 
     /**
      * Tells the number of changes applied to the world.

@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <rpgmapper/command/set_atlas_name.hpp>
 
 using namespace rpgmapper::model;

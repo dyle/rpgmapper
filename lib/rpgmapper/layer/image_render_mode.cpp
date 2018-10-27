@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <QBuffer>
 
 #include <map>
@@ -24,7 +23,7 @@ quint16 rpgmapper::model::imageChecksum(QImage const & image) {
     QBuffer buffer(&imageAsPNG);
     image.save(&buffer, "PNG");
 
-    return qChecksum(imageAsPNG.data(), imageAsPNG.size());
+    return qChecksum(imageAsPNG.data(), static_cast<uint>(imageAsPNG.size()));
 }
 
 

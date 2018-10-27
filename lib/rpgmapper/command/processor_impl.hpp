@@ -7,7 +7,6 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_PROZESSOR_IMPL_HPP
 #define RPGMAPPER_MODEL_COMMAND_PROZESSOR_IMPL_HPP
 
-
 #include <rpgmapper/command/processor.hpp>
 
 

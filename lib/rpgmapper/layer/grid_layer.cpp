@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <rpgmapper/map.hpp>
 
 using namespace rpgmapper::model;
@@ -76,8 +75,8 @@ QColor GridLayer::getColor() const {
 }
 
 
-QJsonObject GridLayer::getJSON(rpgmapper::model::io::Content & content) const {
-    QJsonObject jsonObject = Layer::getJSON(content);
+QJsonObject GridLayer::getJSON() const {
+    QJsonObject jsonObject = Layer::getJSON();
     jsonObject["color"] = getColor().name(QColor::HexArgb);
     return jsonObject;
 }

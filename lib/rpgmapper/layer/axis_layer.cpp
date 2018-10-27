@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <rpgmapper/map.hpp>
 
 using namespace rpgmapper::model;
@@ -93,8 +92,8 @@ QFont AxisLayer::getFont() const {
 }
 
 
-QJsonObject AxisLayer::getJSON(rpgmapper::model::io::Content & content) const {
-    QJsonObject jsonObject = Layer::getJSON(content);
+QJsonObject AxisLayer::getJSON() const {
+    QJsonObject jsonObject = Layer::getJSON();
     jsonObject["color"] = getColor().name(QColor::HexArgb);
     jsonObject["font"] = getFont().toString();
     return jsonObject;

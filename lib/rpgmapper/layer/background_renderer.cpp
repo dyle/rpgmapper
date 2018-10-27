@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <rpgmapper/layer/background_renderer.hpp>
 
 using namespace rpgmapper::model;
@@ -14,7 +13,6 @@ using namespace rpgmapper::model;
 #else
 #   define UNUSED
 #endif
-
 
 
 void BackgroundRenderer::drawBackground(QPainter & painter, QRect const & rect) {

@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <QBuffer>
 #include <QColor>
 #include <QJsonDocument>
@@ -119,9 +118,9 @@ rpgmapper::model::ImageRenderMode BackgroundLayer::getImageRenderMode() const {
 }
 
 
-QJsonObject BackgroundLayer::getJSON(rpgmapper::model::io::Content & content) const {
+QJsonObject BackgroundLayer::getJSON() const {
 
-    QJsonObject jsonObject = Layer::getJSON(content);
+    QJsonObject jsonObject = Layer::getJSON();
 
     jsonObject["color"] = getColor().name(QColor::HexArgb);
     jsonObject["renderImageMode"] = rpgmapper::model::imageRenderModeToString(getImageRenderMode());
@@ -135,6 +134,9 @@ QJsonObject BackgroundLayer::getJSON(rpgmapper::model::io::Content & content) co
     jsonMargins["bottom"] = margins.bottom();
     jsonObject["margins"] = jsonMargins;
 
+    /*
+     * TODO: add resources
+     *
     if (!imageResourceHash.isEmpty()) {
         auto imageResource = getResourceDB()->getResource(imageResourceHash);
         if (imageResource->isEmpty()) {
@@ -143,6 +145,8 @@ QJsonObject BackgroundLayer::getJSON(rpgmapper::model::io::Content & content) co
         jsonObject["image"] = imageResource->getName();
         content[imageResource->getName()] = imageResource->getData();
     }
+    */
+    
     return jsonObject;
 }
 
@@ -204,8 +208,13 @@ void BackgroundLayer::setImage(QImage image) {
 
     imageResourceHash = Resource::getHash(data);
     auto imageResourcePath = QString("images/background/%1.png").arg(imageResourceHash);
+    
+    /*
+     * TODO: set resources
+     *
     auto backgroundResource = ResourcePointer{new Resource{imageResourcePath, data}};
     getResourceDB()->addResource(backgroundResource);
+     */
 }
 
 

@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <rpgmapper/command/set_map_numeral_offset.hpp>
 
 using namespace rpgmapper::model;

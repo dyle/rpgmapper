@@ -10,12 +10,6 @@
 
 using namespace rpgmapper::model;
 
-#if defined(__GNUC__) || defined(__GNUCPP__)
-#   define UNUSED   __attribute__((unused))
-#else
-#   define UNUSED
-#endif
-
 
 Layer::Layer(Map * map, QObject * parent) : QObject{parent} {
     impl = std::make_shared<Layer::Impl>(map);
@@ -46,7 +40,7 @@ Layer::Attributes const & Layer::getAttributes() const {
 }
 
 
-QJsonObject Layer::getJSON(UNUSED rpgmapper::model::io::Content & content) const {
+QJsonObject Layer::getJSON() const {
     QJsonObject jsonObject;
     jsonObject["visible"] = isVisible();
     return jsonObject;
@@ -62,15 +56,6 @@ Map const * Layer::getMap() const {
     return impl->getMap();
 }
 
-
-ResourceDBPointer & Layer::getResourceDB() {
-    return getMap()->getResourceDB();
-}
-
-
-ResourceDBPointer const & Layer::getResourceDB() const {
-    return getMap()->getResourceDB();
-}
 
 void Layer::hide() {
     if (impl->isVisible()) {

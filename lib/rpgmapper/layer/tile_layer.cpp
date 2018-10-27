@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <rpgmapper/layer/tile_layer.hpp>
 
 using namespace rpgmapper::model;
@@ -22,12 +21,12 @@ TileLayer::TileLayer(Map * map, QObject * parent) : Layer{map, parent} {
 
 
 void TileLayer::addField(Field const & field) {
-    fields[field.getIndex()] = FieldPointer{new Field{field}};
+    fields[field.getIndex()] = QSharedPointer<Field>{new Field{field}};
 }
 
 
-FieldPointer const TileLayer::getField(int index) const {
-    static FieldPointer invalidField{new InvalidField};
+QSharedPointer<Field> const TileLayer::getField(int index) const {
+    static QSharedPointer<Field> invalidField{new InvalidField};
     auto iter = fields.find(index);
     if (iter == fields.end()) {
         return invalidField;
@@ -40,7 +39,7 @@ void TileLayer::draw(UNUSED QPainter & painter, UNUSED int tileSize) const {
 }
 
 
-QJsonObject TileLayer::getJSON(rpgmapper::model::io::Content & content) const {
-    QJsonObject jsonObject = Layer::getJSON(content);
+QJsonObject TileLayer::getJSON() const {
+    QJsonObject jsonObject = Layer::getJSON();
     return jsonObject;
 }

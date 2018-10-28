@@ -10,7 +10,7 @@
 #include <QSize>
 #include <QString>
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -21,7 +21,7 @@ namespace command {
 /**
  * With this class, maps a assigned new dimensions.
  */
-class ResizeMap : public AtlasCommand {
+class ResizeMap : public Command {
 
     QString mapName;            /**< The name of the map to resize. */
     QSize newSize;              /**< The new size of the map. */
@@ -32,11 +32,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   mapName         the map to resize.
      * @param   newSize         the maps new size.
      */
-    ResizeMap(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QSize newSize);
+    ResizeMap(QString const & mapName, QSize newSize);
     
     /**
      * Destructor.

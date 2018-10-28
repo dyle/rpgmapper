@@ -11,7 +11,7 @@
 
 #include <QColor>
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -22,7 +22,7 @@ namespace command {
 /**
  * This command switches between plain color and image background rendering of a map.
  */
-class SetMapBackgroundRendering : public AtlasCommand {
+class SetMapBackgroundRendering : public Command {
 
     QString mapName;            /**< the map to modify. */
     QString newRendering;       /**< the new rendering directive. */
@@ -33,11 +33,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   mapName         the name of the map to change the background rendering.
      * @param   newRendering    the new rendering directive.
      */
-    SetMapBackgroundRendering(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QString newRendering);
+    SetMapBackgroundRendering(QString const & mapName, QString newRendering);
     
     /**
      * Destructor.

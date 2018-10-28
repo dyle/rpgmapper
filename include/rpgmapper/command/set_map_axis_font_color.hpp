@@ -10,7 +10,7 @@
 
 #include <QColor>
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -21,7 +21,7 @@ namespace command {
 /**
  * This command changes the color of the axis font on maps.
  */
-class SetMapAxisFontColor : public AtlasCommand {
+class SetMapAxisFontColor : public Command {
 
     QString mapName;            /**< the map for which the color is changed. */
     QColor newColor;            /**< the new color of the axis font. */
@@ -32,11 +32,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   mapName         the name of the map to change the font color for.
      * @param   newColor        the new font color.
      */
-    SetMapAxisFontColor(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QColor newColor);
+    SetMapAxisFontColor(QString const & mapName, QColor newColor);
     
     /**
      * Destructor.

@@ -72,7 +72,6 @@ set(RPGMAPPER_LIB_SRC
     numeralconverter/roman.cpp
 
     atlas.cpp
-    atlas_impl.cpp
     coordinate_system.cpp
     field.cpp
     filesystem.cpp
@@ -83,7 +82,6 @@ set(RPGMAPPER_LIB_SRC
     resource.cpp
     resource_db.cpp
     session.cpp
-    session_aware.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

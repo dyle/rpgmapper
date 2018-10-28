@@ -7,7 +7,7 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_REGION_NAME_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_REGION_NAME_HPP
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -18,7 +18,7 @@ namespace command {
 /**
  * This command changes the name of a region in the atlas.
  */
-class SetRegionName : public AtlasCommand {
+class SetRegionName : public Command {
 
     QString newName;        /**< the new name of the region. */
     QString oldName;        /**< the old name of the region. */
@@ -28,11 +28,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   oldName         the regions old name.
      * @param   newName         the regions new name.
      */
-    SetRegionName(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & oldName, QString const & newName);
+    SetRegionName(QString const & oldName, QString const & newName);
     
     /**
      * Destructor.

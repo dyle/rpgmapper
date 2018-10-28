@@ -7,7 +7,7 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_CREATE_MAP_HPP
 #define RPGMAPPER_MODEL_COMMAND_CREATE_MAP_HPP
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -18,7 +18,7 @@ namespace command {
 /**
  * This command create a new map and adds it to the atlas in a region.
  */
-class CreateMap : public AtlasCommand {
+class CreateMap : public Command {
 
     QString mapName;                /**< the name of the map. */
     QString regionName;             /**< the name of the region. */
@@ -28,11 +28,10 @@ public:
     /**
      * Creates a new map.
      *
-     * @param   atlas           the atlas we are working on.
      * @param   regionName      the name of the region to add the map to.
      * @param   mapName         the name of the map.
      */
-    CreateMap(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & regionName, QString const & mapName);
+    CreateMap(QString const & regionName, QString const & mapName);
 
     /**
      * Destructor.

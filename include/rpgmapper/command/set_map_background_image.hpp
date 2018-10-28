@@ -10,7 +10,7 @@
 
 #include <QImage>
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -21,8 +21,7 @@ namespace command {
 /**
  * This command changes the image used as background image on a map.
  */
-class SetMapBackgroundImage : public AtlasCommand {
- 
+class SetMapBackgroundImage : public Command {
 
     QString mapName;            /**< the map to modify. */
     QImage newImage;            /**< the new background image. */
@@ -33,7 +32,6 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   mapName         the name of the map to change the background image for.
      * @param   newImage        the new background image.
      */

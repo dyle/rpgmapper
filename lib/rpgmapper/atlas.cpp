@@ -5,184 +5,79 @@
  */
 
 #include <rpgmapper/atlas.hpp>
-#include "atlas_impl.hpp"
 
 using namespace rpgmapper::model;
-using namespace rpgmapper::model::command;
+
+// TODO: remove, when done
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
 
 
-Atlas::Atlas(QObject * parent) : QObject{parent} {
-    impl = std::make_shared<Atlas::Impl>(this);
-    connect(getCommandProzessor().data(), &Processor::commandExecuted, this, &Atlas::commandExecuted);
+Atlas::Atlas(QObject * parent) : QObject{parent}, Nameable{} {
 }
 
 
 bool Atlas::applyJSON(QJsonObject json) {
-    return impl->applyJSON(json);
-}
-
-
-void Atlas::changedRegionName(QString nameBefore, QString nameAfter) {
-    impl->renameRegion(nameBefore, nameAfter);
-}
-
-
-void Atlas::collectContent(rpgmapper::model::io::Content & content) const  {
-    impl->collectIOContent(content);
-}
-
-
-void Atlas::connectRegionSignals(QSharedPointer<rpgmapper::model::Region> & region) {
-    if (!region->isValid()) {
-        return;
+    
+    if (!Nameable::applyJSON(json)) {
+        return false;
     }
-    connect(region.data(), &Region::mapAdded, this, &Atlas::mapAdded);
-    connect(region.data(), &Region::mapCreated, this, &Atlas::mapCreated);
-    connect(region.data(), &Region::mapNameChanged, this, &Atlas::mapNameChanged);
-    connect(region.data(), &Region::mapNumeralForAxisChanged, this, &Atlas::mapNumeralForAxisChanged);
-    connect(region.data(), &Region::mapRemoved, this, &Atlas::mapRemoved);
-    connect(region.data(), &Region::mapResized, this, &Atlas::mapResized);
-    connect(region.data(), &Region::nameChanged, this, &Atlas::changedRegionName);
-    connect(region.data(), &Region::nameChanged, this, &Atlas::regionNameChanged);
-}
-
-
-QSharedPointer<rpgmapper::model::Region> & Atlas::createRegion(QString const & name) {
-    auto & region = impl->createRegion(name);
-    if (region->isValid()) {
-        connectRegionSignals(region);
-        emit regionCreated(name);
+    if (json.contains("regions")) {
+        if (!json["regions"].isArray()) {
+            return false;
+        }
+        if (!applyJsonRegionsArray(json["regions"].toArray())) {
+            return false;
+        }
     }
-    return region;
+    return true;
 }
 
 
-QSharedPointer<rpgmapper::model::command::Processor> & Atlas::getCommandProzessor() {
-    return impl->getCommandProzessor();
+bool Atlas::applyJSONRegionsArray(UNUSED QJsonArray const & jsonRegions) {
+
+/* TODO:
+    for (auto && jsonRegion : jsonRegions) {
+        
+        if (jsonRegion.toObject().contains("name") && jsonRegion.toObject()["name"].isString()) {
+            auto region = createRegion(jsonRegion.toObject()["name"].toString());
+            if (!region->applyJSON(jsonRegion.toObject())) {
+                return false;
+            }
+        }
+    }
+*/
+    return true;
 }
 
 
-QSharedPointer<rpgmapper::model::command::Processor> const & Atlas::getCommandProzessor() const {
-    return impl->getCommandProzessor();
-}
-
-
-ResourceDBPointer & Atlas::getResourceDB() {
-    return impl->getResourceDB();
-}
-
-
-ResourceDBPointer const & Atlas::getResourceDB() const {
-    return impl->getResourceDB();
-}
-
-
-QSharedPointer<rpgmapper::model::Map> & Atlas::findMap(QString const & name) {
-    return impl->findMap(name);
-}
-
-
-QSharedPointer<rpgmapper::model::Map> const & Atlas::findMap(QString const & name) const {
-    return impl->findMap(name);
-}
-
-
-QSharedPointer<rpgmapper::model::Region> & Atlas::findRegion(QString const & name) {
-    return impl->findRegion(name);
-}
-
-
-QSharedPointer<rpgmapper::model::Region> const & Atlas::findRegion(QString const & name) const {
-    return impl->findRegion(name);
-}
-
-
-std::set<QString> Atlas::getAllMapNames() const {
-    return impl->getAllMapNames();
-}
-
-
-std::set<QString> Atlas::getAllRegionNames() const {
-    return impl->getAllRegionNames();
-}
-
-
-QString Atlas::getInvalidCharactersInName() {
-    return Atlas::Impl::getInvalidCharactersInName();
-}
-
-
-QString const & Atlas::getFileName() const {
-    return impl->getFileName();
-}
-
-
-QString const & Atlas::getName() const {
-    return impl->getName();
-}
-
-
-Regions const & Atlas::getRegions() const {
-    return impl->getRegions();
+QJsonObject Atlas::getJSON() const {
+    
+    auto json = Nameable::getJSON();
+    
+    
+    /* TODO:
+    QJsonArray jsonRegions;
+    std::for_each(std::begin(regions),
+                  std::end(regions),
+                  [&] (auto const & pair) { jsonRegions.append(pair.second->getJSON(content)); });
+    json["regions"] = jsonRegions;
+    */
+    
+    return json;
 }
 
 
 void Atlas::init() {
+
+/* TODO:
+    
     impl->clear();
     setName(QObject::tr("New Atlas"));
     auto region = createRegion(QObject::tr("New Region 1"));
     region->createMap(QObject::tr("New Map 1"));
-}
-
-
-bool Atlas::isModified() const {
-    return impl->isModified();
-}
-
-
-bool Atlas::isNameValid(QString name) {
-    return Atlas::Impl::isNameValid(name);
-}
-
-
-bool Atlas::moveMap(QSharedPointer<rpgmapper::model::Map> map, QSharedPointer<rpgmapper::model::Region> regionTo) {
-    auto regionFrom = findRegion(map->getRegionName());
-    return impl->moveMap(map, std::move(regionTo));
-}
-
-
-QSharedPointer<rpgmapper::model::Atlas> const & Atlas::null() {
-    static QSharedPointer<rpgmapper::model::Atlas> nullAtlas{new InvalidAtlas};
-    return nullAtlas;
-}
-
-
-void Atlas::readIOContent(rpgmapper::model::io::Content const & content) {
-    impl->readIOContent(content);
-}
-
-
-void Atlas::removeRegion(QString const & name) {
-    if (impl->removeRegion(name)) {
-        emit regionRemoved(name);
-    }
-}
-
-
-void Atlas::resetChanged() {
-    impl->resetChanged();
-}
-
-
-void Atlas::setFileName(QString const & fileName) {
-    impl->setFileName(fileName);
-}
-
-
-void Atlas::setName(QString const & name) {
-    if (name == impl->getName()) {
-        return;
-    }
-    impl->setName(name);
-    emit nameChanged(name);
+*/
 }

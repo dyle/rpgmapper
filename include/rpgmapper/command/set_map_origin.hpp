@@ -9,7 +9,7 @@
 
 #include <QString>
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 #include <rpgmapper/coordinate_system.hpp>
 
 
@@ -21,7 +21,7 @@ namespace command {
 /**
  * This command lets the maps origin move around.
  */
-class SetMapOrigin : public AtlasCommand {
+class SetMapOrigin : public Command {
 
     QString mapName;                    /**< the map to modify. */
     CoordinatesOrigin newOrigin;        /**< the new origin of the map. */
@@ -32,11 +32,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   mapName         the name of the map to modify.
      * @param   origin          the new origin of the map.
      */
-    SetMapOrigin(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, rpgmapper::model::CoordinatesOrigin origin);
+    SetMapOrigin(QString const & mapName, rpgmapper::model::CoordinatesOrigin origin);
     
     /**
      * Destructor.

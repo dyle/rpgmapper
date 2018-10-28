@@ -41,8 +41,8 @@ class Map : public Nameable, public LayerStack {
     Q_OBJECT
     
     // TODO: turn to smart pointer
-    CoordinateSystem * coordinateSystem;            /**< the coordinate system of the map */
-    QWeakPointer<Region> region;                    /**< The region the map is placed in. */
+    CoordinateSystem * coordinateSystem;           /**< the coordinate system of the map */
+    QString regionName;                            /**< The region the map is placed in. */
 
 public:
 
@@ -66,13 +66,6 @@ public:
      * @return  true, if the found values in the JSON data has been applied.
      */
     bool applyJSON(QJsonObject const & json) override;
-    
-    /**
-     * Suggests a new map name.
-     *
-     * @return  Creates a new map name.
-     */
-    static QString createMapName();
     
     /**
      * Gets the coordinate system of the map.
@@ -100,24 +93,14 @@ public:
     QJsonObject getJSON() const override;
 
     /**
-     * Gets the region the map belongs to.
+     * Gets the name of the region the map belongs to.
      *
-     * @return  the region the map belongs to.
+     * @return  the region name the map belongs to.
      */
-    QSharedPointer<Region> getRegion() {
-        return region;
+    QString getRegionName() const {
+        return regionName;
     }
     
-    
-    /**
-     * Gets the region the map belongs to (const version).
-     *
-     * @return  the region the map belongs to.
-     */
-    QSharedPointer<Region> const getRegion() const {
-        return region;
-    }
-
     /**
      * Checks if the given name is valid.
      *

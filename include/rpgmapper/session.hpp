@@ -9,6 +9,7 @@
 
 #include <QSharedPointer>
 
+#include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
@@ -26,10 +27,41 @@ class Session : public QObject {
 
     Q_OBJECT
     
-    QSharedPointer<rpgmapper::model::Atlas> atlas;
-    QSharedPointer<rpgmapper::model::Map> currentMap;
-    QSharedPointer<rpgmapper::model::Region> currentRegion;
-    QSharedPointer<rpgmapper::model::ResourceDB> resourceDB;
+public:
+    
+    struct resources_t {
+        QSharedPointer<rpgmapper::model::ResourceDB> local;       /**< Atlas own resources. */
+        QSharedPointer<rpgmapper::model::ResourceDB> system;      /**< Resources loaded from system files. */
+        QSharedPointer<rpgmapper::model::ResourceDB> user;        /**< User specific Resources. */
+    };
+    
+private:
+    
+    QSharedPointer<rpgmapper::model::Atlas> atlas;                      /**< The atlas of the session. */
+    std::map<QString, QSharedPointer<rpgmapper::model::Map>> maps;      /**< All maps on the atlas. */
+    std::map<QString, QSharedPointer<rpgmapper::model::Map>> regions;   /**< All regions on the atlas. */
+    
+    QString currentMapName;            /**< Current selected map. */
+    QString currentRegionName;         /**< Current selected region. */
+    
+    resources_t resources;             /**< All resources. */
+    
+    /**
+     * All loaded resources loaded from system files.
+     */
+    static QSharedPointer<rpgmapper::model::ResourceDB> systemResources;
+    
+    /**
+     * All loaded resources loaded from user files.
+     */
+    static QSharedPointer<rpgmapper::model::ResourceDB> userResources;
+
+    /**
+     * This instance operates changes on the atlas.
+     */
+    QSharedPointer<rpgmapper::model::command::Processor> commandProcessor;
+    
+    QString fileName;               /**< Filename of the atlas loaded or recently saved. */
 
 public:
     
@@ -44,6 +76,82 @@ public:
      * Destructor.
      */
     ~Session() override = default;
+    
+    /**
+     * Creates a new map.
+     * @param   mapName         Name of the new map.
+     * @param   regionName      Name of the region to create map in.
+     * @return  the newly created map.
+     */
+    QSharedPointer<rpgmapper::model::Map> & createMap(QString mapName, QString regionName);
+
+    /**
+     * Creates a new region.
+     *
+     * @param   name        The name of the new region.
+     * @return  the new region.
+     */
+    QSharedPointer<rpgmapper::model::Region> & createRegion(QString name);
+    
+    /**
+     * Deletes a map.
+     *
+     * @param   mapName     The map to delete.
+     */
+    void deleteMap(QString mapName);
+    
+    /**
+     * Deletes a region.
+     *
+     * @param   regionName  The region to delete.
+     */
+    void deleteRegion(QString regionName);
+    
+    /**
+     * Finds a specific map by name (convenient method).
+     *
+     * @param   name        name of the map to search.
+     * @return  the found map (maybe invalid map).
+     */
+    QSharedPointer<rpgmapper::model::Map> findMap(QString name);
+    
+    /**
+     * Finds a specific map by name (convenient method) (const version).
+     *
+     * @param   name        name of the map to search.
+     * @return  the found map (maybe invalid map).
+     */
+    QSharedPointer<rpgmapper::model::Map> const findMap(QString name) const;
+    
+    /**
+     * Finds a specific region by name (convenient method).
+     *
+     * @param   name        name of the region to search.
+     * @return  the found region (maybe invalid region).
+     */
+    QSharedPointer<rpgmapper::model::Region> findRegion(QString name);
+    
+    /**
+     * Finds a specific region by name (convenient method) (const version).
+     *
+     * @param   name        name of the region to search.
+     * @return  the found region (maybe invalid region).
+     */
+    QSharedPointer<rpgmapper::model::Region> const findRegion(QString name) const;
+    
+    /**
+     * Collects all map names (conventient method).
+     *
+     * @return  all known map names.
+     */
+    std::set<QString> getAllMapNames() const;
+    
+    /**
+     * Collects all regions names (conventient method).
+     *
+     * @return  all known regions names.
+     */
+    std::set<QString> getAllRegionNames() const;
     
     /**
      * Gets the atlas of the current session.
@@ -64,70 +172,142 @@ public:
     }
     
     /**
-     * Gets the current selected Map of the current session.
+     * Gets the command processor of the session.
      *
-     * @return  the current selected map of the session.
+     * @return  the command processor of this session.
      */
-    QSharedPointer<rpgmapper::model::Map> & getCurrentMap() {
-        return currentMap;
+    QSharedPointer<rpgmapper::model::command::Processor> & getCommandProzessor() {
+        return commandProcessor;
     }
     
     /**
-     * Gets the current selected Map of the current session (const version).
+     * Gets the command processor of the session (const version).
      *
-     * @return  the current selected map of the session.
+     * @return  the command processor of this session.
      */
-    QSharedPointer<rpgmapper::model::Map> const & getCurrentMap() const {
-        return currentMap;
+    QSharedPointer<rpgmapper::model::command::Processor> const & getCommandProzessor() const {
+        return commandProcessor;
     }
     
     /**
-     * Gets the current selected Region of the current session.
+     * Gets the name of the current selected map.
      *
-     * @return  the current selected region of the session.
+     * @return  the name of the current selected map of the session.
      */
-    QSharedPointer<rpgmapper::model::Map> & getCurrentRegion() {
-        return currentRegion;
+    QString getCurrentMapName() const {
+        return currentMapName;
     }
     
     /**
-     * Gets the current selected Region of the current session (const version).
+     * Gets the name of the current selected region.
      *
-     * @return  the current selected region of the session.
+     * @return  the name of the current selected region of the session.
      */
-    QSharedPointer<rpgmapper::model::Map> const & getCurrentRegion() const {
-        return currentRegion;
+    QString getCurrentRegionName() const {
+        return currentRegionName;
+    }
+    
+    /**
+     * Gets the current session of the user.
+     * @return  The current session.
+     */
+    static Session & getCurrentSession();
+    
+    /**
+     * Gets the file name of the atlas file loaded (or saved recently).
+     *
+     * @return  the file name associated with the current atlas.
+     */
+    QString getFileName() {
+        return fileName;
     }
 
     /**
-     * Selects a new current map.
+     * Returns all known maps.
      *
-     * @param   map     the new selected map.
+     * @return  all maps of the atlas.
      */
-    void selectMap(QSharedPointer<rpgmapper::model::Map> map);
+    std::map<QString, QSharedPointer<rpgmapper::model::Map>> const & getMaps() const {
+        return maps;
+    }
+    
+    /**
+     * Returns all known regions.
+     *
+     * @return  all regions of the atlas.
+     */
+    std::map<QString, QSharedPointer<rpgmapper::model::Region>> const & getRegions() const {
+        return regions;
+    }
+    
+    /**
+     * Gets the resources known by the session.
+     *
+     * @return  all the resources known by the system.
+     */
+    resources_t & getResources() {
+        return resources;
+    }
+    
+    /**
+     * Gets the resources known by the session (const version).
+     *
+     * @return  all the resources known by the system.
+     */
+    resources_t const & getResources() const {
+        return resources;
+    }
+    
+    /**
+     * Returns true, of the atlas has changed since last save.
+     *
+     * @return  true, if the atlas changed.
+     */
+    bool isModified() const;
     
     /**
      * Selects a new current map.
      *
-     * @param   mapName     the name of the new selected map.
+     * @param   name        the name of the new selected map.
      */
-    void selectMap(QString const & mapName);
+    void selectMap(QString name);
     
     /**
      * Selects a new current region.
      *
-     * @param   region  the new selected region.
+     * @param   name        the name of the new selected region.
      */
-    void selectRegion(QSharedPointer<rpgmapper::model::Region> region);
+    void selectRegion(QString name);
     
-    /**
-     * Selects a new current region.
-     *
-     * @param   regionName      the name of the new selected map.
-     */
-    void selectRegion(QString const & regionName);
-
 signals:
+    
+    /**
+     * A command has been executed by the processor.
+     */
+    void commandExecuted();
+
+    /**
+     * A new map has been created.
+     *
+     * @param   mapName     the name of the map created.
+     */
+    void mapCreated(QString mapName);
+    
+    /**
+     * A map has been deleted.
+     *
+     * @param   mapName     the name of the map deleted.
+     */
+    void mapDeleted(QString mapName);
+    
+    /**
+     * A map changed a region.
+     *
+     * @param   mapName             the map moved.
+     * @param   regionNameFrom      the region where the map has been.
+     * @param   regionNameTo        the region where the map is now.
+     */
+    void mapMoved(QString mapName, QString regionNameFrom, QString regionNameTo);
     
     /**
      * A new map has been selected.
@@ -137,13 +317,27 @@ signals:
     void mapSelected(QString mapName);
     
     /**
+     * A new region has been created.
+     *
+     * @param   regionName     the name of the region created.
+     */
+    void regionCreated(QString regionName);
+    
+    /**
+     * A region has been deleted.
+     *
+     * @param   regionName     the name of the region deleted.
+     */
+    void regionDeleted(QString regionName);
+    
+    /**
      * A new region has been selected.
      *
      * @param   regionName  the name of the new region selected.
      */
     void regionSelected(QString regionName);
 };
-
+    
 
 }
 }

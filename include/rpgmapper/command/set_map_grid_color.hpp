@@ -10,7 +10,7 @@
 
 #include <QColor>
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -21,7 +21,7 @@ namespace command {
 /**
  * This command changes the color of a maps grid.
  */
-class SetMapGridColor : public AtlasCommand {
+class SetMapGridColor : public Command {
 
     QString mapName;        /**< the map to modify. */
     QColor newColor;        /**< the new grid color. */
@@ -32,11 +32,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   mapName         the name of the map to change the grid color for.
      * @param   newColor        the new grid color.
      */
-    SetMapGridColor(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QColor newColor);
+    SetMapGridColor(QString const & mapName, QColor newColor);
     
     /**
      * Destructor.

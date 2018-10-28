@@ -13,7 +13,7 @@
 #include <QString>
 #include <QSharedPointer>
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -24,7 +24,7 @@ namespace command {
 /**
  * A CompositeCommand is a command which is aggregated by several sub-commands.
  */
-class CompositeCommand : public AtlasCommand {
+class CompositeCommand : public Command {
 
     /**
      * The list of sub-commands.
@@ -35,12 +35,8 @@ public:
     
     /**
      * Constructor.
-     *
-     * @param   atlas       the atlas managed.
      */
-    explicit CompositeCommand(QSharedPointer<rpgmapper::model::Atlas> & atlas)
-        : AtlasCommand{atlas} {
-    }
+    explicit CompositeCommand() = default;
 
     /**
      * Destructor.

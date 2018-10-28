@@ -10,7 +10,7 @@
 
 #include <QColor>
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -21,7 +21,7 @@ namespace command {
 /**
  * This command changes the color used for drawing a maps background.
  */
-class SetMapBackgroundColor : public AtlasCommand {
+class SetMapBackgroundColor : public Command {
 
     QString mapName;            /**< the map to change the background color. */
     QColor newColor;            /**< the new background color. */
@@ -32,11 +32,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   mapName         the name of the map to change the background color for.
      * @param   newColor        the new background color.
      */
-    SetMapBackgroundColor(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QColor newColor);
+    SetMapBackgroundColor(QString const & mapName, QColor newColor);
     
     /**
      * Destructor.

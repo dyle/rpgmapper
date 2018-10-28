@@ -10,7 +10,7 @@
 
 #include <QMargins>
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -32,11 +32,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   mapName         the name of the map to change the margins for.
      * @param   newColor        the new margins.
      */
-    SetMapMargins(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QMargins newMargins);
+    SetMapMargins(QString const & mapName, QMargins newMargins);
     
     /**
      * Destructor.

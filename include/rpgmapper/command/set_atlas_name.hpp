@@ -7,7 +7,7 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_ATLAS_NAME_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_ATLAS_NAME_HPP
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -18,7 +18,7 @@ namespace command {
 /**
  * This command gives the atlas a new name.
  */
-class SetAtlasName : public AtlasCommand {
+class SetAtlasName : public Command {
 
     QString newName;            /**< The new name of the atlas. */
     QString oldName;            /**< The old name of the atlas. */
@@ -28,10 +28,9 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   name            the new name of the atlas.
      */
-    SetAtlasName(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & name);
+    SetAtlasName(QString const & name);
     
     /**
      * Destructor.

@@ -27,10 +27,9 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   regionName      the region to delete.
      */
-    RemoveRegion(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & regionName);
+    RemoveRegion(QString const & regionName);
     
     /**
      * Destructor.

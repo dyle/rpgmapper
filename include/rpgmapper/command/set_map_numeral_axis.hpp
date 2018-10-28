@@ -7,7 +7,7 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_MAP_NUMERAL_AXIS_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_NUMERAL_AXIS_HPP
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -19,7 +19,7 @@ namespace command {
 /**
  * This class changes how the axis numerals are drawn on the map.
  */
-class SetMapNumeralAxis : public AtlasCommand {
+class SetMapNumeralAxis : public Command {
 
     QString mapName;            /**< the map to modify. */
     bool xAxis;                 /**< flag for X-axis (if false, then Y-axis is targeted). */
@@ -31,12 +31,11 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   mapName         the name of the map to modify.
      * @param   xAxis           true, for X-axis, false for Y-axis.
      * @param   newNumeral      the new numeral setting for the maps axis.
      */
-    SetMapNumeralAxis(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, bool xAxis, QString newNumeral);
+    SetMapNumeralAxis(QString const & mapName, bool xAxis, QString newNumeral);
     
     /**
      * Destructor.

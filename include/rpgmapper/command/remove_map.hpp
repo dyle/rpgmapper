@@ -7,7 +7,7 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_REMOVE_MAP_HPP
 #define RPGMAPPER_MODEL_COMMAND_REMOVE_MAP_HPP
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -18,7 +18,7 @@ namespace command {
 /**
  * This command deletes a map from the atlas.
  */
-class RemoveMap : public AtlasCommand {
+class RemoveMap : public Command {
 
     QString mapName;                /**< The map to remove. */
     QString regionName;             /**< The region from which the map is removed. */
@@ -28,11 +28,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   regionName      the region of the map.
      * @param   mapName         the map to remove.
      */
-    RemoveMap(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & regionName, QString const & mapName);
+    RemoveMap(QString const & regionName, QString const & mapName);
     
     /**
      * Destructor.

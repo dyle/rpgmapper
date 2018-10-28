@@ -9,7 +9,7 @@
 
 #include <QPointF>
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 
 
 namespace rpgmapper {
@@ -20,7 +20,7 @@ namespace command {
 /**
  * This command changes the offset values on the axis of a map.
  */
-class SetMapNumeralOffset : public AtlasCommand {
+class SetMapNumeralOffset : public Command {
 
     QString mapName;            /**< the map to modify. */
     QPointF newOffset;          /**< the new offset values. */
@@ -31,11 +31,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   mapName         the name of the map to modify.
      * @param   newOffset       the new offset values of the map.
      */
-    SetMapNumeralOffset(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QPointF newOffset);
+    SetMapNumeralOffset(QString const & mapName, QPointF newOffset);
     
     /**
      * Destructor.

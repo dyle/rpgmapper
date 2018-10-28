@@ -15,23 +15,70 @@ Session::Session(QObject * parent)
 }
 
 
-void Session::selectMap(QSharedPointer<rpgmapper::model::Map> map) {
-    currentMap = map;
-    emit mapSelected(currentMap->getName());
+QSharedPointer<rpgmapper::model::Map> & Session::createMap(QString mapName, QString regionName) {
+
 }
 
 
-void Session::selectMap(QString const & mapName) {
-    // TODO
+QSharedPointer<rpgmapper::model::Region> & Session::createRegion(QString name){
+
 }
 
 
-void Session::selectRegion(QSharedPointer<rpgmapper::model::Region> region) {
-    currentRegion = region;
-    emit regionSelected(currentRegion->getName());
+QSharedPointer<rpgmapper::model::Map> Session::findMap(QString name) {
+    
+    static QSharedPointer<rpgmapper::model::Map> invalidMap{new InvalidMap};
+    
+    auto iter = maps.find(name);
+    if (iter == maps.end()) {
+        return invalidMap;
+    }
+    return (*iter).second;
 }
 
 
-void Session::selectRegion(QString const & regionName) {
-    // TODO
+QSharedPointer<rpgmapper::model::Map> const Session::findMap(QString name) const {
+    
+    static QSharedPointer<rpgmapper::model::Map> invalidMap{new InvalidMap};
+    
+    auto iter = maps.find(name);
+    if (iter == maps.end()) {
+        return invalidMap;
+    }
+    return (*iter).second;
 }
+
+
+QSharedPointer<rpgmapper::model::Region> Session::findRegion(QString name) {
+    
+    static QSharedPointer<rpgmapper::model::Region> invalidRegion{new InvalidRegion};
+    
+    auto iter = regions.find(name);
+    if (iter == regions.end()) {
+        return invalidRegion;
+    }
+    return (*iter).second;
+}
+
+
+QSharedPointer<rpgmapper::model::Region> const Session::findRegion(QString name) const {
+    
+    static QSharedPointer<rpgmapper::model::Region> invalidRegion{new InvalidRegion};
+    auto iter = regions.find(name);
+    if (iter == regions.end()) {
+        return invalidRegion;
+    }
+    return (*iter).second;
+}
+
+
+std::set<QString> Session::getAllMapNames() const {
+
+}
+
+
+std::set<QString> Session::getAllRegionNames() const {
+
+}
+
+

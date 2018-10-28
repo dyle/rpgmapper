@@ -7,18 +7,9 @@
 #ifndef RPGMAPPER_MODEL_ATLAS_HPP
 #define RPGMAPPER_MODEL_ATLAS_HPP
 
-#include <memory>
-#include <set>
-
-#include <QJsonDocument>
 #include <QJsonObject>
-#include <QString>
-#include <QSharedPointer>
 
-#include <rpgmapper/command/processor.hpp>
-#include <rpgmapper/io/content.hpp>
-#include <rpgmapper/region.hpp>
-#include <rpgmapper/session_aware.hpp>
+#include <rpgmapper/nameable.hpp>
 
 
 namespace rpgmapper {
@@ -30,123 +21,100 @@ namespace model {
  *
  * An atlas as a set of regions, each with a set of maps.
  */
-class Atlas : public QObject, public SessionAware {
+class Atlas : public Nameable {
 
     Q_OBJECT
-
-    class Impl;                         /**< Internal data class. */
-    std::shared_ptr<Impl> impl;         /**< Pointer to implementation [PIMPL C++ Idiom] */
-
+    
 public:
 
     /**
-     * Construtor
+     * Constructor.
      *
      * @param   parent      parent Qt object.
      */
     explicit Atlas(QObject * parent = nullptr);
 
     /**
-     * Destructor.
+     * Applies a JSON to this instance.
+     *
+     * @param   json    the JSON.
+     * @return  true, if the found values in the JSON data has been applied.
      */
-    ~Atlas() override = default;
-
     bool applyJSON(QJsonObject json);
+    
+    /**
+     * Create a JSON structure from oourselves.
+     *
+     * @return      a valid JSON  structure from ooourselves.
+     */
+    QJsonObject getJSON() const override;
 
-    void collectContent(rpgmapper::model::io::Content & content) const;
-
-    QSharedPointer<rpgmapper::model::Region> & createRegion(QString const & name);
-
-    QSharedPointer<rpgmapper::model::Map> & findMap(QString const & name);
-
-    QSharedPointer<rpgmapper::model::Map> const & findMap(QString const & name) const;
-
-    QSharedPointer<rpgmapper::model::Region> & findRegion(QString const & name);
-
-    QSharedPointer<rpgmapper::model::Region> const & findRegion(QString const & name) const;
-
-    std::set<QString> getAllMapNames() const;
-
-    std::set<QString> getAllRegionNames() const;
-
-    QSharedPointer<rpgmapper::model::command::Processor> & getCommandProzessor();
-
-    QSharedPointer<rpgmapper::model::command::Processor> const & getCommandProzessor() const;
-
-    QString const & getFileName() const;
-
-    static QString getInvalidCharactersInName();
-
-    QString const & getName() const;
-
-    Regions const & getRegions() const;
-
+    /**
+     * Inits a new atlas.
+     */
     void init();
-
-    bool isModified() const;
-
+    
+    /**
+     * Checks if the given name is valid.
+     *
+     * @param   name        a potential name of an atlas.
+     * @return  true, if the name can be used for an atlas.
+     */
     static bool isNameValid(QString name);
-
+    
+    /**
+     * Checks if this is a valid atlas.
+     *
+     * @return  returns true, if this is a valid atlas.
+     */
     virtual bool isValid() const {
         return true;
     }
-
-    bool moveMap(QString const & map, QString const & regionTo) {
-        return moveMap(findMap(map), findRegion(regionTo));
-    }
-
-    bool moveMap(QSharedPointer<rpgmapper::model::Map> map, QSharedPointer<rpgmapper::model::Region> regionTo);
-
+    
+    /**
+     * Returns the invalid null atlas pointer.
+     *
+     * [null object pattern]
+     *
+     * @return  an invalid null atlas.
+     */
     static QSharedPointer<Atlas> const & null();
-
-    void readIOContent(rpgmapper::model::io::Content const & content);
-
-    void removeRegion(QString const & name);
-
-    void resetChanged();
-
-    void setFileName(QString const & fileName);
-
-    void setName(QString const & name);
-
+    
 private:
+    
+    /**
+     * Applies the regions defined in the JSON array.
+     *
+     * @param   jsonRegions     the array of regions.
+     * @return  true, if the values found have been applied.
+     */
+    bool applyJSONRegionsArray(QJsonArray const & jsonRegions);
 
-    void connectRegionSignals(QSharedPointer<rpgmapper::model::Region> & region);
-
-private slots:
-
-    void changedRegionName(QString nameBefore, QString nameAfter);
-
-signals:
-
-    void commandExecuted();
-
-    void mapAdded(QString regionName, QString mapName);
-
-    void mapCreated(QString regionName, QString mapName);
-
-    void mapNameChanged(QString regionName, QString nameBefore, QString nameAfter);
-
-    void mapNumeralForAxisChanged(QString regionName, QString mapName);
-
-    void mapRemoved(QString regionName, QString mapName);
-
-    void mapResized(QString regionName, QString mapName);
-
-    void nameChanged(QString name);
-
-    void regionCreated(QString name);
-
-    void regionNameChanged(QString nameBefore, QString nameAfter);
-
-    void regionRemoved(QString name);
 };
 
 
+/**
+ * An invalid Atlas.
+ */
 class InvalidAtlas final : public Atlas {
+
 public:
-    InvalidAtlas() : Atlas{nullptr} {}
-    bool isValid() const override { return false; }
+    
+    /**
+     * Constructor.
+     */
+    InvalidAtlas()
+            : Atlas{nullptr} {
+    }
+    
+    /**
+     * Checks if this is a valid atlas.
+     *
+     * @return  always false.
+     */
+    bool isValid() const override {
+        return false;
+    }
 };
 
 

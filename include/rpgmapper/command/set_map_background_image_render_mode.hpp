@@ -10,7 +10,7 @@
 
 #include <QColor>
 
-#include <rpgmapper/command/atlas_command.hpp>
+#include <rpgmapper/command/command.hpp>
 #include <rpgmapper/layer/image_render_mode.hpp>
 
 
@@ -22,7 +22,7 @@ namespace command {
 /**
  * This command changes the way how the background image is rendered on a map.
  */
-class SetMapBackgroundImageRenderMode : public AtlasCommand {
+class SetMapBackgroundImageRenderMode : public Command {
 
     QString mapName;                                /**< the map to modify. */
     rpgmapper::model::ImageRenderMode newMode;      /**< the new render mode. */
@@ -33,13 +33,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   atlas           the current atlas.
      * @param   mapName         the name of the map to change the background rendering mode.
      * @param   newMode         the new map background image render mode.
      */
-    SetMapBackgroundImageRenderMode(QSharedPointer<rpgmapper::model::Atlas> & atlas,
-                                    QString const & mapName,
-                                    rpgmapper::model::ImageRenderMode newMode);
+    SetMapBackgroundImageRenderMode(QString const & mapName, rpgmapper::model::ImageRenderMode newMode);
     
     /**
      * Destructor.

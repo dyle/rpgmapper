@@ -71,6 +71,7 @@ set(RPGMAPPER_LIB_SRC
     field.cpp
     filesystem.cpp
     map.cpp
+    map_name_validator.cpp
     nameable.cpp
     region.cpp
     region_impl.cpp

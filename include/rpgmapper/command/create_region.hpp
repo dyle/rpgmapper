@@ -29,7 +29,7 @@ public:
      *
      * @param   name        the name of the region to create.
      */
-    CreateRegion(QString const & name);
+    CreateRegion(QString name);
 
     /**
      * Destructor.

@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,24 +7,27 @@
  */
 
 #include <rpgmapper/command/remove_map.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-RemoveMap::RemoveMap(QSharedPointer<rpgmapper::model::Atlas> & atlas,
-                     QString const & regionName,
-                     QString const & mapName):
-                            AtlasCommand{atlas}, mapName{mapName}, regionName{regionName} {
+RemoveMap::RemoveMap(QString regionName, QString mapName)
+    : mapName{std::move(mapName)}, regionName{std::move(regionName)} {
 }
 
 
 void RemoveMap::execute() {
-    auto atlas = getAtlas();
-    auto region = atlas->findRegion(regionName);
+/**
+ * TODO
+ *
+    auto session = Session::getCurrentSession();
+    auto region = session->findRegion(regionName);
     if (region->isValid()) {
         region->removeMap(mapName);
     }
+*/
 }
 
 
@@ -32,9 +37,13 @@ QString RemoveMap::getDescription() const {
 
 
 void RemoveMap::undo() {
-    auto atlas = getAtlas();
+/**
+ * TODO
+ *
+    auto session = Session::getCurrentSession();
     auto region = atlas->findRegion(regionName);
     if (region->isValid()) {
         region->createMap(mapName);
     }
+*/
 }

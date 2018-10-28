@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,23 +7,28 @@
  */
 
 #include <rpgmapper/command/set_map_numeral_offset.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapNumeralOffset::SetMapNumeralOffset(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QPointF newOffset)
-        : AtlasCommand{atlas}, mapName{mapName}, newOffset{newOffset} {
+SetMapNumeralOffset::SetMapNumeralOffset(QString mapName, QPointF newOffset)
+        : mapName{std::move(mapName)}, newOffset{newOffset} {
 }
 
 
 void SetMapNumeralOffset::execute() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         oldOffset = map->getCoordinateSystem()->getOffsetF();
         map->getCoordinateSystem()->setOffsetF(newOffset);
     }
+*/
 }
 
 
@@ -31,9 +38,13 @@ QString SetMapNumeralOffset::getDescription() const {
 
 
 void SetMapNumeralOffset::undo() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         map->getCoordinateSystem()->setOffsetF(oldOffset);
     }
+*/
 }

@@ -30,7 +30,7 @@ public:
      *
      * @param   name            the new name of the atlas.
      */
-    SetAtlasName(QString const & name);
+    SetAtlasName(QString name);
     
     /**
      * Destructor.

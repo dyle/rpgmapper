@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,16 +7,20 @@
  */
 
 #include <rpgmapper/command/set_atlas_name.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetAtlasName::SetAtlasName(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & name): AtlasCommand{atlas}, newName{name} {
+SetAtlasName::SetAtlasName(QString name) : newName{std::move(name)} {
 }
 
 
 void SetAtlasName::execute() {
+/**
+ * TODO
+ *
 
     if (!Atlas::isNameValid(newName)) {
         throw std::runtime_error("Atlas name is invalid.");
@@ -23,6 +29,7 @@ void SetAtlasName::execute() {
     auto atlas = getAtlas();
     oldName = atlas->getName();
     atlas->setName(newName);
+*/
 }
 
 
@@ -32,6 +39,11 @@ QString SetAtlasName::getDescription() const {
 
 
 void SetAtlasName::undo() {
+/**
+ * TODO
+ *
+
     auto atlas = getAtlas();
     atlas->setName(oldName);
+*/
 }

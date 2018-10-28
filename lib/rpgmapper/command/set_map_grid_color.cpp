@@ -1,3 +1,7 @@
+#include <utility>
+
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,23 +9,29 @@
  */
 
 #include <rpgmapper/command/set_map_grid_color.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapGridColor::SetMapGridColor(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QColor newColor)
-    : AtlasCommand{atlas}, mapName{mapName}, newColor{newColor} {
+SetMapGridColor::SetMapGridColor(QString mapName, QColor newColor)
+    : mapName{std::move(mapName)}, newColor{std::move(newColor)} {
 }
 
 
 void SetMapGridColor::execute() {
+/**
+ * TODO
+ *
+
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         oldColor = map->getGridLayer()->getColor();
         map->getGridLayer()->setColor(newColor);
     }
+*/
 }
 
 
@@ -31,9 +41,13 @@ QString SetMapGridColor::getDescription() const {
 
 
 void SetMapGridColor::undo() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         map->getGridLayer()->setColor(oldColor);
     }
+*/
 }

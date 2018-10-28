@@ -5,18 +5,21 @@
  */
 
 #include <rpgmapper/command/set_region_name.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetRegionName::SetRegionName(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & oldName, QString const & newName)
-        : AtlasCommand{atlas}, newName{newName}, oldName{oldName} {
+SetRegionName::SetRegionName(QString oldName, QString newName)
+        : newName{std::move(newName)}, oldName{std::move(oldName)} {
 }
 
 
 void SetRegionName::execute() {
-
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto region = atlas->findRegion(oldName);
     if (!region->isValid()) {
@@ -31,6 +34,7 @@ void SetRegionName::execute() {
     }
 
     region->setName(newName);
+*/
 }
 
 
@@ -40,10 +44,14 @@ QString SetRegionName::getDescription() const {
 
 
 void SetRegionName::undo() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto region = atlas->findRegion(newName);
     if (!region->isValid()) {
         return;
     }
     region->setName(oldName);
+*/
 }

@@ -1,3 +1,7 @@
+#include <utility>
+
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,20 +9,20 @@
  */
 
 #include <rpgmapper/command/create_map.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-CreateMap::CreateMap(QString const & regionName,
-                     QString const & mapName):
-                            AtlasCommand{atlas}, mapName{mapName}, regionName{regionName} {
+CreateMap::CreateMap(QString regionName, QString mapName)
+    : mapName{std::move(mapName)}, regionName{std::move(regionName)} {
 }
 
 
 void CreateMap::execute() {
-    auto atlas = getAtlas();
-    auto region = atlas->findRegion(regionName);
+    auto session = Session::getCurrentSession();
+    auto region = session->findRegion(regionName);
     if (region->isValid()) {
         region->createMap(mapName);
     }
@@ -31,8 +35,8 @@ QString CreateMap::getDescription() const {
 
 
 void CreateMap::undo() {
-    auto atlas = getAtlas();
-    auto region = atlas->findRegion(regionName);
+    auto session = Session::getCurrentSession();
+    auto region = session->findRegion(regionName);
     if (region->isValid()) {
         region->removeMap(mapName);
     }

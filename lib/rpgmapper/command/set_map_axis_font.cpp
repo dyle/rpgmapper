@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,23 +7,28 @@
  */
 
 #include <rpgmapper/command/set_map_axis_font.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapAxisFont::SetMapAxisFont(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QFont newFont)
-    : AtlasCommand{atlas}, mapName{mapName}, newFont{newFont} {
+SetMapAxisFont::SetMapAxisFont(QString mapName, QFont newFont) : mapName{std::move(mapName)}, newFont{newFont} {
 }
 
 
 void SetMapAxisFont::execute() {
+/**
+ * TODO
+ *
+
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         oldFont = map->getAxisLayer()->getFont();
         map->getAxisLayer()->setFont(newFont);
     }
+*/
 }
 
 
@@ -31,9 +38,13 @@ QString SetMapAxisFont::getDescription() const {
 
 
 void SetMapAxisFont::undo() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         map->getAxisLayer()->setFont(oldFont);
     }
+*/
 }

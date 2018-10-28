@@ -35,7 +35,7 @@ public:
      * @param   mapName         the name of the map to modify.
      * @param   origin          the new origin of the map.
      */
-    SetMapOrigin(QString const & mapName, rpgmapper::model::CoordinatesOrigin origin);
+    SetMapOrigin(QString mapName, rpgmapper::model::CoordinatesOrigin origin);
     
     /**
      * Destructor.

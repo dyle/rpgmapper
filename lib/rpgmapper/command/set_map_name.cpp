@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,17 +7,21 @@
  */
 
 #include <rpgmapper/command/set_map_name.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapName::SetMapName(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & oldName, QString const & newName)
-        : AtlasCommand{atlas}, newName{newName}, oldName{oldName} {
+SetMapName::SetMapName(QString oldName, QString newName)
+        : newName{std::move(newName)}, oldName{std::move(oldName)} {
 }
 
 
 void SetMapName::execute() {
+/**
+ * TODO
+ *
 
     auto atlas = getAtlas();
     auto map = atlas->findMap(oldName);
@@ -31,6 +37,7 @@ void SetMapName::execute() {
     }
 
     map->setName(newName);
+*/
 }
 
 
@@ -40,10 +47,14 @@ QString SetMapName::getDescription() const {
 
 
 void SetMapName::undo() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(newName);
     if (!map->isValid()) {
         return;
     }
     map->setName(oldName);
+*/
 }

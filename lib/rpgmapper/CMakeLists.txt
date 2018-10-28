@@ -25,7 +25,6 @@ qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
 
 set(RPGMAPPER_LIB_SRC
 
-    command/atlas_command.cpp
     command/composite_command.cpp
     command/create_map.cpp
     command/create_region.cpp

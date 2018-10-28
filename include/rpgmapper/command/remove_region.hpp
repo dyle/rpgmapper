@@ -29,7 +29,7 @@ public:
      *
      * @param   regionName      the region to delete.
      */
-    RemoveRegion(QString const & regionName);
+    RemoveRegion(QString regionName);
     
     /**
      * Destructor.

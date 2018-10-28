@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,18 +7,19 @@
  */
 
 #include <rpgmapper/command/create_region.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-CreateRegion::CreateRegion(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & name): AtlasCommand{atlas}, name{name} {
+CreateRegion::CreateRegion(QString name): name{std::move(name)} {
 }
 
 
 void CreateRegion::execute() {
-    auto atlas = getAtlas();
-    atlas->createRegion(name);
+    auto session = Session::getCurrentSession();
+    session->createRegion(name);
 }
 
 
@@ -26,6 +29,6 @@ QString CreateRegion::getDescription() const {
 
 
 void CreateRegion::undo() {
-    auto atlas = getAtlas();
-    atlas->removeRegion(name);
+    auto session = Session::getCurrentSession();
+    session->deleteRegion(name);
 }

@@ -9,6 +9,12 @@
 using namespace rpgmapper::model;
 
 
+/**
+ * The one and only current session.
+ */
+static QSharedPointer<Session> currentSession;
+
+
 Session::Session(QObject * parent)
         : QObject(parent) {
     
@@ -82,3 +88,6 @@ std::set<QString> Session::getAllRegionNames() const {
 }
 
 
+QSharedPointer<Session> Session::getCurrentSession() {
+    return currentSession;
+}

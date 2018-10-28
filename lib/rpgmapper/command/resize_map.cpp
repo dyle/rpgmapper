@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,23 +7,28 @@
  */
 
 #include <rpgmapper/command/resize_map.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-ResizeMap::ResizeMap(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QSize newSize)
-        : AtlasCommand{atlas}, mapName{mapName}, newSize{newSize} {
+ResizeMap::ResizeMap(QString mapName, QSize newSize) : mapName{std::move(mapName)}, newSize{newSize} {
 }
 
 
 void ResizeMap::execute() {
+/**
+ * TODO
+ *
+
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         oldSize = map->getCoordinateSystem()->getSize();
         map->getCoordinateSystem()->resize(newSize);
     }
+*/
 }
 
 
@@ -31,9 +38,13 @@ QString ResizeMap::getDescription() const {
 
 
 void ResizeMap::undo() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         map->getCoordinateSystem()->resize(oldSize);
     }
+*/
 }

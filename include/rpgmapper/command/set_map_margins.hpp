@@ -21,7 +21,7 @@ namespace command {
 /**
  * This command changes the margin of a map.
  */
-class SetMapMargins : public AtlasCommand {
+class SetMapMargins : public Command {
 
     QString mapName;            /**< the map to modify. */
     QMargins newMargins;        /**< the new margins of the map. */
@@ -35,7 +35,7 @@ public:
      * @param   mapName         the name of the map to change the margins for.
      * @param   newColor        the new margins.
      */
-    SetMapMargins(QString const & mapName, QMargins newMargins);
+    SetMapMargins(QString mapName, QMargins newMargins);
     
     /**
      * Destructor.

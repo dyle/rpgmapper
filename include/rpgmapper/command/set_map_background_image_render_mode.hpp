@@ -36,7 +36,7 @@ public:
      * @param   mapName         the name of the map to change the background rendering mode.
      * @param   newMode         the new map background image render mode.
      */
-    SetMapBackgroundImageRenderMode(QString const & mapName, rpgmapper::model::ImageRenderMode newMode);
+    SetMapBackgroundImageRenderMode(QString mapName, rpgmapper::model::ImageRenderMode newMode);
     
     /**
      * Destructor.

@@ -35,7 +35,7 @@ public:
      * @param   mapName         the name of the map to change the font color for.
      * @param   newColor        the new font color.
      */
-    SetMapAxisFontColor(QString const & mapName, QColor newColor);
+    SetMapAxisFontColor(QString mapName, QColor newColor);
     
     /**
      * Destructor.

@@ -35,7 +35,7 @@ public:
      * @param   mapName         the name of the map to change the grid color for.
      * @param   newColor        the new grid color.
      */
-    SetMapGridColor(QString const & mapName, QColor newColor);
+    SetMapGridColor(QString mapName, QColor newColor);
     
     /**
      * Destructor.

@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,25 +7,30 @@
  */
 
 #include <rpgmapper/command/set_map_background_image_render_mode.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapBackgroundImageRenderMode::SetMapBackgroundImageRenderMode(QSharedPointer<rpgmapper::model::Atlas> & atlas,
-                                                                 QString const & mapName,
+SetMapBackgroundImageRenderMode::SetMapBackgroundImageRenderMode(QString mapName,
                                                                  rpgmapper::model::ImageRenderMode newMode)
-    : AtlasCommand{atlas}, mapName{mapName}, newMode{newMode}, oldMode{ImageRenderMode::plain} {
+    : mapName{std::move(mapName)}, newMode{newMode}, oldMode{ImageRenderMode::plain} {
 }
 
 
 void SetMapBackgroundImageRenderMode::execute() {
+/**
+ * TODO
+ *
+
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         oldMode = map->getBackgroundLayer()->getImageRenderMode();
         map->getBackgroundLayer()->setImageRenderMode(newMode);
     }
+*/
 }
 
 
@@ -33,9 +40,13 @@ QString SetMapBackgroundImageRenderMode::getDescription() const {
 
 
 void SetMapBackgroundImageRenderMode::undo() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         map->getBackgroundLayer()->setImageRenderMode(oldMode);
     }
+*/
 }

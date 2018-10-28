@@ -35,7 +35,7 @@ public:
      * @param   mapName         the name of the map to change the background color for.
      * @param   newColor        the new background color.
      */
-    SetMapBackgroundColor(QString const & mapName, QColor newColor);
+    SetMapBackgroundColor(QString mapName, QColor newColor);
     
     /**
      * Destructor.

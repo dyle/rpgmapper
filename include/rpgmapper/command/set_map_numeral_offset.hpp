@@ -34,7 +34,7 @@ public:
      * @param   mapName         the name of the map to modify.
      * @param   newOffset       the new offset values of the map.
      */
-    SetMapNumeralOffset(QString const & mapName, QPointF newOffset);
+    SetMapNumeralOffset(QString mapName, QPointF newOffset);
     
     /**
      * Destructor.

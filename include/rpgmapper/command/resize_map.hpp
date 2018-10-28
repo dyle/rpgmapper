@@ -35,7 +35,7 @@ public:
      * @param   mapName         the map to resize.
      * @param   newSize         the maps new size.
      */
-    ResizeMap(QString const & mapName, QSize newSize);
+    ResizeMap(QString mapName, QSize newSize);
     
     /**
      * Destructor.

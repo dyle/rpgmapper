@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,23 +7,28 @@
  */
 
 #include <rpgmapper/command/set_map_background_image.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapBackgroundImage::SetMapBackgroundImage(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QImage newImage)
-    : AtlasCommand{atlas}, mapName{mapName}, newImage{std::move(newImage)} {
+SetMapBackgroundImage::SetMapBackgroundImage(QString mapName, QImage newImage)
+    : mapName{std::move(mapName)}, newImage{std::move(newImage)} {
 }
 
 
 void SetMapBackgroundImage::execute() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         oldImage = map->getBackgroundLayer()->getImage();
         map->getBackgroundLayer()->setImage(newImage);
     }
+*/
 }
 
 
@@ -31,9 +38,13 @@ QString SetMapBackgroundImage::getDescription() const {
 
 
 void SetMapBackgroundImage::undo() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         map->getBackgroundLayer()->setImage(oldImage);
     }
+*/
 }

@@ -31,7 +31,7 @@ public:
      * @param   regionName      the region of the map.
      * @param   mapName         the map to remove.
      */
-    RemoveMap(QString const & regionName, QString const & mapName);
+    RemoveMap(QString regionName, QString mapName);
     
     /**
      * Destructor.

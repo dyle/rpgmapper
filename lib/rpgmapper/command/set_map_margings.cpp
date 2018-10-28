@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,23 +7,28 @@
  */
 
 #include <rpgmapper/command/set_map_margins.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapMargins::SetMapMargins(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, QMargins newMargins)
-    : AtlasCommand{atlas}, mapName{mapName}, newMargins{newMargins} {
+SetMapMargins::SetMapMargins(QString mapName, QMargins newMargins)
+    : mapName{std::move(mapName)}, newMargins{newMargins} {
 }
 
 
 void SetMapMargins::execute() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         oldMargins = map->getBackgroundLayer()->getMargins();
         map->getBackgroundLayer()->setMargins(newMargins);
     }
+*/
 }
 
 
@@ -31,9 +38,13 @@ QString SetMapMargins::getDescription() const {
 
 
 void SetMapMargins::undo() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         map->getBackgroundLayer()->setMargins(oldMargins);
     }
+*/
 }

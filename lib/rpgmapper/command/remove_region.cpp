@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -6,17 +8,20 @@
 
 #include <rpgmapper/command/remove_map.hpp>
 #include <rpgmapper/command/remove_region.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-RemoveRegion::RemoveRegion(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & regionName):
-        CompositeCommand{atlas}, regionName{regionName} {
+RemoveRegion::RemoveRegion(QString regionName) : regionName{std::move(regionName)} {
 }
 
 
 void RemoveRegion::execute() {
+/**
+ * TODO
+ *
 
     clearCommands();
 
@@ -29,6 +34,7 @@ void RemoveRegion::execute() {
     CompositeCommand::execute();
 
     atlas->removeRegion(regionName);
+*/
 }
 
 
@@ -38,8 +44,12 @@ QString RemoveRegion::getDescription() const {
 
 
 void RemoveRegion::undo() {
+/**
+ * TODO
+ *
 
     auto atlas = getAtlas();
     auto region = atlas->createRegion(regionName);
     CompositeCommand::undo();
+*/
 }

@@ -37,9 +37,9 @@ public:
     
 private:
     
-    QSharedPointer<rpgmapper::model::Atlas> atlas;                      /**< The atlas of the session. */
-    std::map<QString, QSharedPointer<rpgmapper::model::Map>> maps;      /**< All maps on the atlas. */
-    std::map<QString, QSharedPointer<rpgmapper::model::Map>> regions;   /**< All regions on the atlas. */
+    QSharedPointer<rpgmapper::model::Atlas> atlas;                          /**< The atlas of the session. */
+    std::map<QString, QSharedPointer<rpgmapper::model::Map>> maps;          /**< All maps on the atlas. */
+    std::map<QString, QSharedPointer<rpgmapper::model::Region>> regions;    /**< All regions on the atlas. */
     
     QString currentMapName;            /**< Current selected map. */
     QString currentRegionName;         /**< Current selected region. */
@@ -209,9 +209,10 @@ public:
     
     /**
      * Gets the current session of the user.
+     *
      * @return  The current session.
      */
-    static Session & getCurrentSession();
+    static QSharedPointer<Session> getCurrentSession();
     
     /**
      * Gets the file name of the atlas file loaded (or saved recently).

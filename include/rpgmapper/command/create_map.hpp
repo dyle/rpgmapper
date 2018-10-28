@@ -31,7 +31,7 @@ public:
      * @param   regionName      the name of the region to add the map to.
      * @param   mapName         the name of the map.
      */
-    CreateMap(QString const & regionName, QString const & mapName);
+    CreateMap(QString regionName, QString mapName);
 
     /**
      * Destructor.

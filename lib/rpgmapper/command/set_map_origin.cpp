@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -5,23 +7,28 @@
  */
 
 #include <rpgmapper/command/set_map_origin.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapOrigin::SetMapOrigin(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, CoordinatesOrigin origin)
-        : AtlasCommand{atlas}, mapName{mapName}, newOrigin{origin} {
+SetMapOrigin::SetMapOrigin(QString mapName, CoordinatesOrigin origin)
+        : mapName{std::move(mapName)}, newOrigin{origin} {
 }
 
 
 void SetMapOrigin::execute() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         oldOrigin = map->getCoordinateSystem()->getOrigin();
         map->getCoordinateSystem()->setOrigin(newOrigin);
     }
+*/
 }
 
 
@@ -31,9 +38,13 @@ QString SetMapOrigin::getDescription() const {
 
 
 void SetMapOrigin::undo() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
         map->getCoordinateSystem()->setOrigin(oldOrigin);
     }
+*/
 }

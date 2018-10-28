@@ -36,7 +36,7 @@ public:
      * @param   mapName         the name of the map to change the background rendering.
      * @param   newRendering    the new rendering directive.
      */
-    SetMapBackgroundRendering(QString const & mapName, QString newRendering);
+    SetMapBackgroundRendering(QString mapName, QString newRendering);
     
     /**
      * Destructor.

@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -7,17 +9,21 @@
 #include <utility>
 
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapNumeralAxis::SetMapNumeralAxis(QSharedPointer<rpgmapper::model::Atlas> & atlas, QString const & mapName, bool xAxis, QString newNumeral)
-        : AtlasCommand{atlas}, mapName{mapName}, xAxis{xAxis}, newNumeral{std::move(newNumeral)} {
+SetMapNumeralAxis::SetMapNumeralAxis(QString mapName, bool xAxis, QString newNumeral)
+        : mapName{std::move(mapName)}, xAxis{xAxis}, newNumeral{std::move(newNumeral)} {
 }
 
 
 void SetMapNumeralAxis::execute() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
@@ -30,6 +36,7 @@ void SetMapNumeralAxis::execute() {
             map->getCoordinateSystem()->setNumeralYAxis(newNumeral);
         }
     }
+*/
 }
 
 
@@ -40,6 +47,9 @@ QString SetMapNumeralAxis::getDescription() const {
 
 
 void SetMapNumeralAxis::undo() {
+/**
+ * TODO
+ *
     auto atlas = getAtlas();
     auto map = atlas->findMap(mapName);
     if (map->isValid()) {
@@ -50,4 +60,5 @@ void SetMapNumeralAxis::undo() {
             map->getCoordinateSystem()->setNumeralYAxis(oldNumeral);
         }
     }
+*/
 }

@@ -31,7 +31,7 @@ public:
      * @param   oldName         the regions old name.
      * @param   newName         the regions new name.
      */
-    SetRegionName(QString const & oldName, QString const & newName);
+    SetRegionName(QString oldName, QString newName);
     
     /**
      * Destructor.

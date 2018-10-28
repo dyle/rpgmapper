@@ -35,7 +35,7 @@ public:
      * @param   xAxis           true, for X-axis, false for Y-axis.
      * @param   newNumeral      the new numeral setting for the maps axis.
      */
-    SetMapNumeralAxis(QString const & mapName, bool xAxis, QString newNumeral);
+    SetMapNumeralAxis(QString mapName, bool xAxis, QString newNumeral);
     
     /**
      * Destructor.

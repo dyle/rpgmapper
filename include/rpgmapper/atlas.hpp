@@ -7,7 +7,9 @@
 #ifndef RPGMAPPER_MODEL_ATLAS_HPP
 #define RPGMAPPER_MODEL_ATLAS_HPP
 
+#include <QJsonArray>
 #include <QJsonObject>
+#include <QSharedPointer>
 
 #include <rpgmapper/nameable.hpp>
 
@@ -26,13 +28,6 @@ class Atlas : public Nameable {
     Q_OBJECT
     
 public:
-
-    /**
-     * Constructor.
-     *
-     * @param   parent      parent Qt object.
-     */
-    explicit Atlas(QObject * parent = nullptr);
 
     /**
      * Applies a JSON to this instance.
@@ -104,7 +99,7 @@ public:
      * Constructor.
      */
     InvalidAtlas()
-            : Atlas{nullptr} {
+            : Atlas{} {
     }
     
     /**

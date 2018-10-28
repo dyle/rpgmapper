@@ -7,6 +7,7 @@
 #ifndef RPGMAPPER_MODEL_SESSION_HPP
 #define RPGMAPPER_MODEL_SESSION_HPP
 
+#include <QFile>
 #include <QSharedPointer>
 
 #include <rpgmapper/command/processor.hpp>
@@ -267,6 +268,16 @@ public:
     bool isModified() const;
     
     /**
+     * Loads a session from an atlas file fromm disk.
+     *
+     * @param   session     the loaded session.
+     * @param   file        the file to load from.
+     * @param   log         Protocol of operations.
+     * @return  true, if successfully loaded.
+     */
+    static bool load(QSharedPointer<Session> & session, QFile & file, QStringList & log);
+    
+    /**
      * Selects a new current map.
      *
      * @param   name        the name of the new selected map.
@@ -279,6 +290,15 @@ public:
      * @param   name        the name of the new selected region.
      */
     void selectRegion(QString name);
+    
+    /**
+     * Saves the current session to an atlas file on disk.
+     *
+     * @param   file        the file to save to.
+     * @param   log         Protocol of operations.
+     * @return  true, if successfully saved.
+     */
+    bool save(QFile & file, QStringList & log);
     
 signals:
     

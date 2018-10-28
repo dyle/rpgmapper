@@ -6,7 +6,16 @@
 
 #include <rpgmapper/session.hpp>
 
+#include "zip.hpp"
+
 using namespace rpgmapper::model;
+
+// TODO: remove, when done
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
 
 
 /**
@@ -90,4 +99,31 @@ std::set<QString> Session::getAllRegionNames() const {
 
 QSharedPointer<Session> Session::getCurrentSession() {
     return currentSession;
+}
+
+
+bool Session::load(UNUSED QSharedPointer<Session> & session, UNUSED QFile & file, UNUSED QStringList & log) {
+    // TODO:
+    return false;
+}
+
+
+bool Session::save(UNUSED QFile & file, QStringList & log) {
+    
+    bool written = false;
+    if (!atlas->isValid()) {
+        written = false;
+        log.append("Atlas not valid, refusing to save.");
+    }
+/**
+ * TODO
+ *
+    else {
+        written = writeAtlas(atlas, file, log);
+        if (written) {
+            atlas->setFileName(file.fileName());
+        }
+    }
+*/
+    return written;
 }

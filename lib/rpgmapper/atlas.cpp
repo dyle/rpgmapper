@@ -16,10 +16,6 @@ using namespace rpgmapper::model;
 #endif
 
 
-Atlas::Atlas(QObject * parent) : QObject{parent}, Nameable{} {
-}
-
-
 bool Atlas::applyJSON(QJsonObject json) {
     
     if (!Nameable::applyJSON(json)) {
@@ -29,7 +25,7 @@ bool Atlas::applyJSON(QJsonObject json) {
         if (!json["regions"].isArray()) {
             return false;
         }
-        if (!applyJsonRegionsArray(json["regions"].toArray())) {
+        if (!applyJSONRegionsArray(json["regions"].toArray())) {
             return false;
         }
     }
@@ -80,4 +76,10 @@ void Atlas::init() {
     auto region = createRegion(QObject::tr("New Region 1"));
     region->createMap(QObject::tr("New Map 1"));
 */
+}
+
+
+QSharedPointer<Atlas> const & Atlas::null() {
+    static QSharedPointer<Atlas> nullAtlas{new InvalidAtlas};
+    return nullAtlas;
 }

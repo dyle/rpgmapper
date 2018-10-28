@@ -48,10 +48,6 @@ set(RPGMAPPER_LIB_SRC
     command/set_map_origin.cpp
     command/set_region_name.cpp
 
-    io/atlas_io.cpp
-    io/reader_result.cpp
-    io/zip.cpp
-
     layer/axis_layer.cpp
     layer/background_renderer.cpp
     layer/background_layer.cpp
@@ -81,6 +77,7 @@ set(RPGMAPPER_LIB_SRC
     resource.cpp
     resource_db.cpp
     session.cpp
+    zip.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

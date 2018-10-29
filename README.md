@@ -47,6 +47,7 @@ I will include them in the documentation too.
 - Null object pattern - https://en.wikipedia.org/wiki/Null_object_pattern
 - Pimpl - https://en.wikipedia.org/wiki/Opaque_pointer
 - Command - https://en.wikipedia.org/wiki/Command_pattern
+- Factory - https://en.wikipedia.org/wiki/Factory_(object-oriented_programming)
 
 ---
 Oliver Maurhart, <dyle71@gmail.com>  

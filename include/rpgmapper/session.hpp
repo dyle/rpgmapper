@@ -67,13 +67,6 @@ private:
 public:
     
     /**
-     * Constructor
-     *
-     * @param   parent      parent Qt object.
-     */
-    explicit Session(QObject * parent);
-    
-    /**
      * Destructor.
      */
     ~Session() override = default;
@@ -268,6 +261,15 @@ public:
     bool isModified() const;
     
     /**
+     * Inits a new session.
+     *
+     * [Factory]
+     *
+     * @return  a new initial session.
+     */
+    static QSharedPointer<Session> init();
+    
+    /**
      * Loads a session from an atlas file fromm disk.
      *
      * @param   session     the loaded session.
@@ -357,6 +359,13 @@ signals:
      * @param   regionName  the name of the new region selected.
      */
     void regionSelected(QString regionName);
+    
+private:
+    
+    /**
+     * Constructor
+     */
+    Session();
 };
     
 

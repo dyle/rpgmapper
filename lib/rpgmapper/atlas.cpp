@@ -67,18 +67,6 @@ QJsonObject Atlas::getJSON() const {
 }
 
 
-void Atlas::init() {
-
-/* TODO:
-    
-    impl->clear();
-    setName(QObject::tr("New Atlas"));
-    auto region = createRegion(QObject::tr("New Region 1"));
-    region->createMap(QObject::tr("New Map 1"));
-*/
-}
-
-
 QSharedPointer<Atlas> const & Atlas::null() {
     static QSharedPointer<Atlas> nullAtlas{new InvalidAtlas};
     return nullAtlas;

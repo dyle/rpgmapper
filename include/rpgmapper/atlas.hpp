@@ -45,11 +45,6 @@ public:
     QJsonObject getJSON() const override;
 
     /**
-     * Inits a new atlas.
-     */
-    void init();
-    
-    /**
      * Checks if the given name is valid.
      *
      * @param   name        a potential name of an atlas.

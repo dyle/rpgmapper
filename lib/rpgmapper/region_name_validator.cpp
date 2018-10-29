@@ -6,18 +6,18 @@
 
 #include <QRegExp>
 
-#include <rpgmapper/map_name_validator.hpp>
+#include <rpgmapper/region_name_validator.hpp>
 
 using namespace rpgmapper::model;
 
 
 /**
- * Invalid characters in a maps name.
+ * Invalid characters in a regions name.
  */
 static QString const INVALID_CHARACTERS = R"raw(:\\*\?/)raw";
 
 
-bool MapNameValidator::isValid(QString name) {
+bool RegionNameValidator::isValid(QString name) {
     QRegExp regExp{QString{"[%1]"}.arg(INVALID_CHARACTERS)};
     return (!name.isEmpty()) && (regExp.indexIn(name) == -1);
 }

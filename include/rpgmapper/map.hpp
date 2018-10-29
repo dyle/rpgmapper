@@ -49,10 +49,10 @@ public:
     /**
      * Creates a map with a given name inside a region.
      *
-     * @param   name        the new name of the map.
-     * @param   region      the region to which the map belongs to.
+     * @param   mapName         the new name of the map.
+     * @param   regionName      the region to which the map belongs to.
      */
-    explicit Map(QString const & name, Region * region = nullptr);
+    explicit Map(QString mapName, QString regionName);
 
     /**
      * Destructor.

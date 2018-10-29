@@ -1,22 +1,22 @@
-#include <utility>
-
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <utility>
 
 #include <rpgmapper/map.hpp>
+#include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/region.hpp>
 
-#include "map_name_validator.hpp"
 
 using namespace rpgmapper::model;
 
 
-Map::Map(QString const & name, Region * region) : Nameable{name} {
-    setParent(region);
+Map::Map(QString mapName, QString regionName) : Nameable{} {
+    setName(mapName);
+    setRegion(regionName);
     coordinateSystem = new CoordinateSystem;
 }
 

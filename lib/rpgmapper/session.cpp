@@ -24,8 +24,8 @@ using namespace rpgmapper::model;
 static QSharedPointer<Session> currentSession;
 
 
-Session::Session(QObject * parent)
-        : QObject(parent) {
+Session::Session()
+        : QObject() {
     
 }
 
@@ -99,6 +99,21 @@ std::set<QString> Session::getAllRegionNames() const {
 
 QSharedPointer<Session> Session::getCurrentSession() {
     return currentSession;
+}
+
+
+QSharedPointer<Session> Session::init() {
+    
+    auto session = QSharedPointer<Session>(new Session);
+    session->atlas->setName(QObject::tr("New Atlas"));
+    
+    auto regionName = QObject::tr("New Region 1");
+    auto mapName = QObject::tr("New Map 1")
+    
+    session->createRegion(regionName);
+    session->createMap(mapName, regionName);
+    
+    return session;
 }
 
 

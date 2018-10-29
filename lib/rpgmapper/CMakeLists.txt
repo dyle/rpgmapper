@@ -67,6 +67,7 @@ set(RPGMAPPER_LIB_SRC
     numeralconverter/roman.cpp
 
     atlas.cpp
+    atlas_name_validator.cpp
     coordinate_system.cpp
     field.cpp
     filesystem.cpp
@@ -74,7 +75,7 @@ set(RPGMAPPER_LIB_SRC
     map_name_validator.cpp
     nameable.cpp
     region.cpp
-    region_impl.cpp
+    region_name_validator.cpp
     resource.cpp
     resource_db.cpp
     session.cpp

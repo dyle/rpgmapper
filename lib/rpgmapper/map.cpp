@@ -18,8 +18,8 @@ using namespace rpgmapper::model;
 
 
 Map::Map(QString mapName, QString regionName) : Nameable{} {
-    setName(mapName);
-    setRegionName(regionName);
+    setName(std::move(mapName));
+    setRegionName(std::move(regionName));
     coordinateSystem = new CoordinateSystem;
 }
 

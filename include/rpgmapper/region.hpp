@@ -23,98 +23,147 @@ namespace rpgmapper {
 namespace model {
 
 
-class Atlas;
-class Region;
-
-using Regions = std::map<QString, QSharedPointer<rpgmapper::model::Region>>;
-
+/**
+ * A Region is a collection of Maps.
+ */
 class Region : public Nameable {
 
     Q_OBJECT
 
-    class Impl;
-    std::shared_ptr<Impl> impl;
+    std::set<QString> maps;             /**< All maps known to this region. */
 
 public:
 
+    /**
+     * Constructor
+     *
+     * @param   name        name of the new region.
+     */
     explicit Region(QString name);
 
+    /**
+     * Destructor.
+     */
     ~Region() = default;
 
-    bool addMap(QSharedPointer<rpgmapper::model::Map> & map);
-
+    /**
+     * Adds an existing map to this region.
+     *
+     * @param   name        name of the map to add.
+     */
+    void addMap(QString name);
+    
+    /**
+     * Applies a JSON to this instance.
+     *
+     * @param   json    the JSON.
+     * @return  true, if the found values in the JSON data has been applied.
+     */
     bool applyJSON(QJsonObject const & json);
 
+    /**
+     * Suggests a new region name.
+     *
+     * @return  a new proper name of a region.
+     */
     static QString createRegionName();
     
-    QSharedPointer<rpgmapper::model::Map> & findMap(QString const & name);
+    /**
+     * Create a JSON structure from oourselves.
+     *
+     * @return      a valid JSON  structure from ooourselves.
+     */
+    QJsonObject getJSON() const;
 
-    Atlas * getAtlas();
-
-    Atlas const * getAtlas() const;
-
-    static QString getInvalidCharactersInName();
-
-    QJsonObject getJSON(rpgmapper::model::io::Content & content) const;
+    /**
+     * Gets all maps known to this region.
+     *
+     * @return  all maps known to this region.
+     */
+    std::set<QString> const & getMapNames() const {
+        return maps;
+    }
     
-    std::map<QString, QSharedPointer<rpgmapper::model::Map>> const & getMaps() const;
-
-    std::set<QString> getMapNames() const;
-
-    QString const & getName() const;
-
-    static bool isNameValid(QString name);
-
+    /**
+     * Checks if this is a valid region.
+     *
+     * @return  returns true, if this is a valid region.
+     */
     virtual bool isValid() const {
         return true;
     }
-
+    
+    /**
+     * Returns the invalid null region pointer.
+     *
+     * [null object pattern]
+     *
+     * @return  an invalid null region.
+     */
     static QSharedPointer<rpgmapper::model::Region> const & null();
 
-    void removeMap(QString const & name);
+    /**
+     * Removes a map from this region.
+     *
+     * @param   name        name of the map to remove.
+     */
+    void removeMap(QString name);
 
+    
+    /**
+     * Sets a new name for this region.
+     *
+     * @param   name        the new name of this region.
+     */
     void setName(QString name) override;
-
-private:
-
-    void connectMapSignals(QSharedPointer<rpgmapper::model::Map> & map);
-
-    void disconnectMapSignals(QSharedPointer<rpgmapper::model::Map> & map);
 
 private slots:
 
+    /**
+     * A map of us has changed its name.
+     *
+     * @param   nameBefore      name of the map as we know it
+     * @param   nameAfter       name of the map afterwards.
+     */
     void changedMapName(QString nameBefore, QString nameAfter);
-
-    void changedNumeralForAxis(QString mapName);
-
-    void resizedMap(QString mapName);
 
 signals:
 
-    void mapAdded(QString regionName, QString mapName);
-
-    void mapCreated(QString regionName, QString mapName);
-
-    void mapNameChanged(QString regionName, QString nameBefore, QString nameAfter);
-
-    void mapNumeralForAxisChanged(QString regionName, QString mapName);
-
-    void mapRemoved(QString regionName, QString mapName);
-
-    void mapResized(QString regionName, QString mapName);
-
-    void nameChanged(QString nameBefore, QString nameAfter);
+    /**
+     * We added a new map to this region.
+     *
+     * @param   name        name of the map added.
+     */
+    void mapAdded(QString name);
+    
+    /**
+     * We removed a map from this region.
+     *
+     * @param   name        name of the map removed.
+     */
+    void mapRemoved(QString name);
 };
 
 
+/**
+ * An invalid Region.
+ */
 class InvalidRegion final : public Region {
 
 public:
-
+    
+    /**
+     * Constructor.
+     */
     InvalidRegion()
-        : Region{QString::Null{}, nullptr} {
+        : Region{QString::Null{}} {
     }
-
+    
+    /**
+     * Checks if this is a valid region.
+     *
+     * @return  always false.
+     */
     bool isValid() const override {
         return false;
     }

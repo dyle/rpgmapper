@@ -15,8 +15,19 @@ namespace rpgmapper {
 namespace model {
 
 
+/**
+ * This is the system path of all installed shared files of the rpgmapper.
+ *
+ * @return  The path to the installed shared files of the rpgmapper.
+ */
 QDir getApplicationDataSystemPath();
 
+
+/**
+ * Returns the path to the local user data files of the rpgmapper.
+ *
+ * @return  The path into the user's home used for local rpgmapper files.
+ */
 QDir getApplicationDataUserPath();
 
 

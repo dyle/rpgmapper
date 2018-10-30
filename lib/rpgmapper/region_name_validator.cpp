@@ -11,13 +11,10 @@
 using namespace rpgmapper::model;
 
 
-/**
- * Invalid characters in a regions name.
- */
-static QString const INVALID_CHARACTERS = R"raw(:\\*\?/)raw";
-
-
 bool RegionNameValidator::isValid(QString name) {
+    
+    static QString const INVALID_CHARACTERS = R"raw(:\\*\?/)raw";
     QRegExp regExp{QString{"[%1]"}.arg(INVALID_CHARACTERS)};
+    
     return (!name.isEmpty()) && (regExp.indexIn(name) == -1);
 }

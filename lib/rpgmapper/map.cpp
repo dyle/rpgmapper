@@ -6,9 +6,12 @@
 
 #include <utility>
 
+#include <rpgmapper/exception/invalid_mapname.hpp>
+#include <rpgmapper/exception/invalid_regionname.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/region.hpp>
+#include <rpgmapper/session.hpp>
 
 
 using namespace rpgmapper::model;
@@ -16,7 +19,7 @@ using namespace rpgmapper::model;
 
 Map::Map(QString mapName, QString regionName) : Nameable{} {
     setName(mapName);
-    setRegion(regionName);
+    setRegionName(regionName);
     coordinateSystem = new CoordinateSystem;
 }
 
@@ -28,15 +31,15 @@ Map::~Map() {
 
 bool Map::applyJSON(QJsonObject const & json) {
     auto appliedName = Nameable::applyJSON(json);
-    auto appliedLayerStack = LayerStack::applyJSON(json)
-    auto appliedCoordinateSystem = coordinateSystem.applyJSON(json);
+    auto appliedLayerStack = LayerStack::applyJSON(json);
+    auto appliedCoordinateSystem = coordinateSystem->applyJSON(json);
     return appliedName && appliedLayerStack && appliedCoordinateSystem;
 }
 
 
 QString Map::createNewMapName() {
     
-    auto allMapNames = getAtlas()->getAllMapNames();
+    auto allMapNames = Session::getCurrentSession()->getAllMapNames();
     int i = 1;
     QString candidate = QString("New Map %1").arg(QString::number(i));
     auto iter = allMapNames.find(candidate);
@@ -51,7 +54,7 @@ QString Map::createNewMapName() {
 QJsonObject Map::getJSON() const {
     auto json = Nameable::getJSON();
     json["layers"] = LayerStack::getJSON();
-    json["coordinate_system"] = coordinateSystem.getJSON();
+    json["coordinate_system"] = coordinateSystem->getJSON();
     return json;
 }
 
@@ -64,4 +67,31 @@ bool Map::isNameValid(QString name) {
 QSharedPointer<rpgmapper::model::Map> const & Map::null() {
     static QSharedPointer<rpgmapper::model::Map> nullMap{new InvalidMap};
     return nullMap;
+}
+
+
+void Map::setName(QString const & name) {
+    
+    if (getName() != name) {
+        if (Session::getCurrentSession()->findMap(name)->isValid()) {
+            throw rpgmapper::model::exception::invalid_mapname();
+        }
+    }
+    
+    Nameable::setName(name);
+}
+
+
+void Map::setRegionName(QString regionName) {
+    
+    if (regionName == this->regionName) {
+        return;
+    }
+    
+    if (!Session::getCurrentSession()->findRegion(regionName)->isValid()) {
+        throw rpgmapper::model::exception::invalid_regionname();
+    }
+    
+    this->regionName = regionName;
+    emit changedRegion();
 }

@@ -68,6 +68,13 @@ public:
     bool applyJSON(QJsonObject const & json) override;
     
     /**
+     * Suggests a new map name.
+     *
+     * @return  a name suitable for a new map.
+     */
+    static QString createNewMapName();
+    
+    /**
      * Gets the coordinate system of the map.
      *
      * @return  the coordinate system of the map.
@@ -126,6 +133,27 @@ public:
      * @return  an invalid null map.
      */
     static QSharedPointer<Map> const & null();
+    
+    /**
+     * Sets a new name for the map.
+     *
+     * @param   name    a new name of this map.
+     */
+    void setName(QString name) override;
+    
+    /**
+     * Sets a new region this map belongs to.
+     *
+     * @return  the new region of the map.
+     */
+    void setRegionName(QString regionName);
+    
+signals:
+    
+    /**
+     * The map changed the region.
+     */
+    void changedRegion();
 };
 
 

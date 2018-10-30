@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <QFile>
 
 #include <rpgmapper/filesystem.hpp>
@@ -12,8 +11,18 @@
 using namespace rpgmapper::model;
 
 
+/**
+ * Gets the installation prefix path.
+ *
+ * @return  The installation prefix.
+ */
 QDir getPrefixPath();
 
+/**
+ * Resolves the path to the program image of the current process.
+ *
+ * @return  path to the program used for launching the current process.
+ */
 QFile const & getProcessImageFile();
 
 

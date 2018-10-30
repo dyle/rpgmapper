@@ -15,8 +15,8 @@
 #include <QSharedPointer>
 
 #include <rpgmapper/map.hpp>
+#include <rpgmapper/nameable.hpp>
 #include <rpgmapper/resource_db.hpp>
-#include <rpgmapper/io/content.hpp>
 
 
 namespace rpgmapper {
@@ -28,7 +28,7 @@ class Region;
 
 using Regions = std::map<QString, QSharedPointer<rpgmapper::model::Region>>;
 
-class Region : public QObject {
+class Region : public Nameable {
 
     Q_OBJECT
 
@@ -37,18 +37,14 @@ class Region : public QObject {
 
 public:
 
-    Region() = delete;
+    explicit Region(QString name);
 
-    explicit Region(QString const & name, Atlas * atlas = nullptr);
-
-    ~Region() override = default;
+    ~Region() = default;
 
     bool addMap(QSharedPointer<rpgmapper::model::Map> & map);
 
     bool applyJSON(QJsonObject const & json);
 
-    QSharedPointer<rpgmapper::model::Map> & createMap(QString const & name);
-    
     static QString createRegionName();
     
     QSharedPointer<rpgmapper::model::Map> & findMap(QString const & name);
@@ -77,7 +73,7 @@ public:
 
     void removeMap(QString const & name);
 
-    void setName(QString const & name);
+    void setName(QString name) override;
 
 private:
 

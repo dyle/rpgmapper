@@ -38,7 +38,15 @@ class LayerStack {
     std::list<QSharedPointer<TileLayer>> tileLayers;        /**< the tile layers. */
 
 public:
-
+    
+    /**
+     * Extract all layer infos and apply this to the current stack.
+     *
+     * @param   json        The JSON object which maybe hold some information.
+     * @return  always true (TODO: why? kick this! Unnecessary)
+     */
+    bool applyJSON(QJsonObject const & json);
+    
     /**
      * Collects all layers, which are currently visible, in proper order.
      *
@@ -123,6 +131,13 @@ public:
     QSharedPointer<GridLayer> const & getGridLayer() const {
         return gridLayer;
     }
+    
+    /**
+     * Extracts the layer stack as JSON object.
+     *
+     * @return  a JSON object holding the layer stack data.
+     */
+    QJsonObject getJSON() const;
     
     /**
      * Gets the layer holding any texts on the map.

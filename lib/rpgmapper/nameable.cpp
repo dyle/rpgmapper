@@ -33,7 +33,7 @@ QJsonObject Nameable::getJSON() const {
 }
 
 
-void Nameable::setName(QString const & name) {
+void Nameable::setName(QString sname) {
     
     if (name == this->name) {
         return;

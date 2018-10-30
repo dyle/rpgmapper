@@ -67,7 +67,7 @@ public:
      *
      * @param   name    a new name of this object.
      */
-    void setName(QString const & name);
+    virtual void setName(QString name);
     
     
 signals:

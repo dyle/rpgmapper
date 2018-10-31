@@ -21,6 +21,7 @@ namespace command {
 class RemoveRegion : public CompositeCommand {
 
     QString regionName;         /**< The name of the region to delete. */
+    
 
 public:
     

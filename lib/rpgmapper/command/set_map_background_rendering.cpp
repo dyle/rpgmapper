@@ -1,12 +1,10 @@
-#include <utility>
-
-#include <utility>
-
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
+
+#include <utility>
 
 #include <rpgmapper/command/set_map_background_rendering.hpp>
 #include <rpgmapper/session.hpp>

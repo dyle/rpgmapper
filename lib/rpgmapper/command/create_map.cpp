@@ -1,12 +1,10 @@
-#include <utility>
-
-#include <utility>
-
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
+
+#include <utility>
 
 #include <rpgmapper/command/create_map.hpp>
 #include <rpgmapper/session.hpp>
@@ -24,7 +22,7 @@ void CreateMap::execute() {
     auto session = Session::getCurrentSession();
     auto region = session->findRegion(regionName);
     if (region->isValid()) {
-        region->createMap(mapName);
+        session->createMap(mapName, regionName);
     }
 }
 

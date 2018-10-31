@@ -28,7 +28,8 @@ void Region::addMap(QString name) {
     if (!map->isValid()) {
         throw rpgmapper::model::exception::invalid_mapname();
     }
-
+    
+    map->setRegionName(getName());
     emit mapAdded(name);
 }
 
@@ -59,12 +60,12 @@ QSharedPointer<rpgmapper::model::Region> const & Region::null() {
 void Region::removeMap(QString mapName) {
     
     auto map = maps.find(mapName);
-    
     if (map != maps.end()) {
         return;
     }
     
     maps.erase(map);
+    Session::getCurrentSession()->findMap(mapName)->setRegionName(QString::null);
     emit mapRemoved(mapName);
 }
 

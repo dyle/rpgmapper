@@ -7,6 +7,8 @@
 #include <quazip/quazip.h>
 #include <quazip/quazipfile.h>
 
+#include <QJsonDocument>
+
 #include <rpgmapper/io/content.hpp>
 #include "zip.hpp"
 
@@ -55,7 +57,7 @@ static void closeZip(QuaZip & zip, QStringList & log);
  *
  * @param   atlas           the atlas to be created.
  * @param   content         the loaded content.
- * @param   log             the protcol.
+ * @param   log             the protocol.
  * @return  true, for a successful loaded atlas.
  */
 static bool createAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas, Content const & content, QStringList & log);
@@ -67,7 +69,7 @@ static bool createAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas, Content
  * @param   atlas           the atlas to be created.
  * @param   content         the loaded content.
  * @param   json            the atlas.json loaded.
- * @param   log             the protcol.
+ * @param   log             the protocol.
  * @return  true, for a successful loaded atlas.
  */
 static bool createAtlasFromJSON(QSharedPointer<rpgmapper::model::Atlas> & atlas,
@@ -158,7 +160,9 @@ void rpgmapper::model::io::closeZip(QuaZip & zip, QStringList & log) {
 }
 
 
-bool rpgmapper::model::io::createAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas, Content const & content, QStringList & log) {
+bool rpgmapper::model::io::createAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas,
+        Content const & content,
+        QStringList & log) {
     
     bool res = true;
     
@@ -193,10 +197,8 @@ bool rpgmapper::model::io::createAtlasFromJSON(QSharedPointer<rpgmapper::model::
     else {
         
         atlas = QSharedPointer<rpgmapper::model::Atlas>{new Atlas};
-        atlas->readIOContent(content);
         atlas->applyJSON(json.object());
         if (atlas->isValid()) {
-            atlas->resetChanged();
             log.append("Loaded atlas.");
         }
     }

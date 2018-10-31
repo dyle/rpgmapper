@@ -140,12 +140,11 @@ template<typename T> class AverageOverTime : public Average<T> {
 
     std::chrono::milliseconds maxDuration;          /**< maximum lifetime of a value in milliseconds. */
 
-    using Average<T>::Clock;
     using Average<T>::container;
     using Average<T>::currentSum;
 
 public:
-
+    
     /**
      * Creates a moving average of all values inserted in the last maxDuration milliseconds.
      *
@@ -160,7 +159,7 @@ private:
      * Cuts off values too old.
      */
     void trim() const override {
-        auto oldest = Clock::now() - maxDuration;
+        auto oldest = Average<T>::Clock::now() - maxDuration;
         auto header = std::begin(container);
         while ((header != std::end(container)) && ((*header).timeStamp < oldest)) {
             currentSum -= (*header).value;

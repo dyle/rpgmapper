@@ -33,7 +33,7 @@ Map::~Map() {
 
 bool Map::applyJSON(QJsonObject const & json) {
     auto appliedName = Nameable::applyJSON(json);
-    auto appliedLayerStack = LayerStack::applyJSON(json);
+    auto appliedLayerStack = getLayers().applyJSON(json);
     auto appliedCoordinateSystem = coordinateSystem->applyJSON(json);
     return appliedName && appliedLayerStack && appliedCoordinateSystem;
 }
@@ -57,7 +57,7 @@ QString Map::createNewMapName() {
 
 QJsonObject Map::getJSON() const {
     auto json = Nameable::getJSON();
-    json["layers"] = LayerStack::getJSON();
+    json["layers"] = getLayers().getJSON();
     json["coordinate_system"] = coordinateSystem->getJSON();
     return json;
 }

@@ -37,9 +37,9 @@ class Region;
  * a coordinate system attached.
  */
 class Map : public Nameable {
-
-    Q_OBJECT
     
+    Q_OBJECT
+
     // TODO: turn to smart pointer
     CoordinateSystem * coordinateSystem;            /**< the coordinate system of the map */
     QString regionName;                             /**< The region the map is placed in. */

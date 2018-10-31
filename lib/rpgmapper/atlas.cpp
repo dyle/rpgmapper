@@ -18,7 +18,7 @@ using namespace rpgmapper::model;
 #endif
 
 
-bool Atlas::applyJSON(QJsonObject json) {
+bool Atlas::applyJSON(QJsonObject const & json) {
     
     if (!Nameable::applyJSON(json)) {
         return false;

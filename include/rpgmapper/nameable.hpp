@@ -20,7 +20,7 @@ namespace model {
 /**
  * An instance of this class can be assigned a name and read/writes it form/to JSON instances.
  */
-class Nameable : public rpgmapper::model::json::JSONIO {
+class Nameable : public QObject, public rpgmapper::model::json::JSONIO {
     
     Q_OBJECT
     

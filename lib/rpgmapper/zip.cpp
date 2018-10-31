@@ -14,6 +14,13 @@
 
 using namespace rpgmapper::model;
 
+// TODO: remove when done
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
+
 
 namespace rpgmapper {
 namespace model {
@@ -28,7 +35,7 @@ namespace io {
  * @param   log         protocol of actions.
  * @return  true, if successfully added
  */
-static bool appendContent(Content const & content, QuaZip & zip, QStringList & log);
+UNUSED static bool appendContent(Content const & content, QuaZip & zip, QStringList & log);
 
 
 /**
@@ -67,13 +74,11 @@ static bool createAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas, Content
  * Creates an atlas from a loaded content.
  *
  * @param   atlas           the atlas to be created.
- * @param   content         the loaded content.
  * @param   json            the atlas.json loaded.
  * @param   log             the protocol.
  * @return  true, for a successful loaded atlas.
  */
 static bool createAtlasFromJSON(QSharedPointer<rpgmapper::model::Atlas> & atlas,
-        Content const & content,
         QJsonDocument const & json,
         QStringList & log);
 
@@ -171,7 +176,7 @@ bool rpgmapper::model::io::createAtlas(QSharedPointer<rpgmapper::model::Atlas> &
         log.append("Atlas json not found in file.");
     }
     else {
-        res = createAtlasFromJSON(atlas, content, QJsonDocument::fromJson(content.at("atlas.json")), log);
+        res = createAtlasFromJSON(atlas, QJsonDocument::fromJson(content.at("atlas.json")), log);
     }
     
     return res;
@@ -179,7 +184,6 @@ bool rpgmapper::model::io::createAtlas(QSharedPointer<rpgmapper::model::Atlas> &
 
 
 bool rpgmapper::model::io::createAtlasFromJSON(QSharedPointer<rpgmapper::model::Atlas> & atlas,
-        Content const & content,
         QJsonDocument const & json,
         QStringList & log) {
     
@@ -273,7 +277,9 @@ bool rpgmapper::model::io::openZipForWriting(QuaZip & zip, QFile & file, QString
 
 
 
-bool rpgmapper::model::io::readAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas, QFile & file, QStringList & log) {
+bool rpgmapper::model::io::readAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas,
+        QFile & file,
+        QStringList & log) {
     
     QuaZip zip;
     bool res = openZipForReading(zip, file, log);
@@ -295,19 +301,24 @@ bool rpgmapper::model::io::readAtlas(QSharedPointer<rpgmapper::model::Atlas> & a
 }
 
 
-bool rpgmapper::model::io::writeAtlas(QSharedPointer<rpgmapper::model::Atlas> const & atlas, QFile & file, QStringList & log) {
+bool rpgmapper::model::io::writeAtlas(UNUSED QSharedPointer<rpgmapper::model::Atlas> const & atlas,
+        QFile & file,
+        QStringList & log) {
     
     QuaZip zip;
     bool res = openZipForWriting(zip, file, log);
     
     if (res) {
     
-        Content content;
+        UNUSED Content content;
+        /*
+         * TODO:
         atlas->collectIOContent(content);
         res = appendContent(content, zip, log);
         if (res) {
             atlas->resetChanged();
         }
+         */
     
         closeZip(zip, log);
     }

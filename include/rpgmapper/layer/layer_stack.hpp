@@ -52,7 +52,7 @@ public:
      *
      * @param   map     the map this layer stack belongs to.
      */
-    explicit LayerStack(QSharedPointer<Map> map);
+    explicit LayerStack(QSharedPointer<Map> map = nullptr);
     
     
     /**

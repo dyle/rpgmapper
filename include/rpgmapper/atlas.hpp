@@ -26,7 +26,7 @@ namespace model {
 class Atlas : public Nameable {
 
     Q_OBJECT
-    
+
 public:
 
     /**
@@ -35,7 +35,7 @@ public:
      * @param   json    the JSON.
      * @return  true, if the found values in the JSON data has been applied.
      */
-    bool applyJSON(QJsonObject json);
+    bool applyJSON(QJsonObject const & json) override;
     
     /**
      * Create a JSON structure from oourselves.
@@ -44,14 +44,6 @@ public:
      */
     QJsonObject getJSON() const override;
 
-    /**
-     * Checks if the given name is valid.
-     *
-     * @param   name        a potential name of an atlas.
-     * @return  true, if the name can be used for an atlas.
-     */
-    static bool isNameValid(QString name);
-    
     /**
      * Checks if this is a valid atlas.
      *

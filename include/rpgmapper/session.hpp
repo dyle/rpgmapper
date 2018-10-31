@@ -126,7 +126,7 @@ public:
      * @param   name        name of the map to search.
      * @return  the found map (maybe invalid map).
      */
-    QSharedPointer<rpgmapper::model::Map> & findMap(QString name);
+    QSharedPointer<rpgmapper::model::Map> findMap(QString name);
     
     /**
      * Finds a specific map by name (convenient method) (const version).
@@ -134,7 +134,7 @@ public:
      * @param   name        name of the map to search.
      * @return  the found map (maybe invalid map).
      */
-    QSharedPointer<rpgmapper::model::Map> const & findMap(QString name) const;
+    QSharedPointer<rpgmapper::model::Map> const findMap(QString name) const;
     
     /**
      * Finds a specific region by name (convenient method).

@@ -29,7 +29,7 @@ namespace model {
 class Region : public Nameable {
 
     Q_OBJECT
-
+    
     std::set<QString> maps;             /**< All maps known to this region. */
 
 public:
@@ -124,6 +124,17 @@ public:
      */
     void setName(QString name) override;
 
+
+private:
+    
+    /**
+     * Applies a JSON Map info to this instance.
+     *
+     * @param   json    the JSON.
+     * @return  true, if the found values in the JSON data has been applied.
+     */
+    bool applyJSONMaps(QJsonArray const & jsonArray);
+    
 private slots:
 
     /**

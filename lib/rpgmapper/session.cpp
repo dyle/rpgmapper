@@ -80,7 +80,7 @@ QSharedPointer<rpgmapper::model::Map> & Session::createMap(QString mapName, QStr
         throw rpgmapper::model::exception::invalid_regionname();
     }
 
-    maps.emplace(QSharedPointer<rpgmapper::model::Map>(new Map(mapName, regionName)));
+    maps.emplace(mapName, QSharedPointer<rpgmapper::model::Map>(new Map(mapName, regionName)));
     emit mapCreated(mapName);
     return maps[mapName];
 }
@@ -93,7 +93,7 @@ QSharedPointer<rpgmapper::model::Region> & Session::createRegion(QString name) {
         throw rpgmapper::model::exception::invalid_regionname();
     }
     
-    regions.emplace(QSharedPointer<rpgmapper::model::Region>(new Region(name)));
+    regions.emplace(name, QSharedPointer<rpgmapper::model::Region>(new Region(name)));
     emit regionCreated(name);
     return regions[name];
 }
@@ -157,7 +157,7 @@ QSharedPointer<rpgmapper::model::Map> const Session::findMap(QString name) const
 }
 
 
-QSharedPointer<rpgmapper::model::Region> & Session::findRegion(QString name) {
+QSharedPointer<rpgmapper::model::Region> Session::findRegion(QString name) {
     
     static QSharedPointer<rpgmapper::model::Region> invalidRegion{new InvalidRegion};
     
@@ -169,7 +169,7 @@ QSharedPointer<rpgmapper::model::Region> & Session::findRegion(QString name) {
 }
 
 
-QSharedPointer<rpgmapper::model::Region> const & Session::findRegion(QString name) const {
+QSharedPointer<rpgmapper::model::Region> const Session::findRegion(QString name) const {
     
     static QSharedPointer<rpgmapper::model::Region> invalidRegion{new InvalidRegion};
     auto iter = regions.find(name);

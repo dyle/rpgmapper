@@ -6,6 +6,8 @@
 
 #include <utility>
 
+#include <QJsonArray>
+
 #include <rpgmapper/exception/invalid_mapname.hpp>
 #include <rpgmapper/exception/invalid_regionname.hpp>
 #include <rpgmapper/region.hpp>
@@ -37,9 +39,29 @@ void Region::addMap(QString name) {
 
 
 bool Region::applyJSON(QJsonObject const & json) {
-    // TODO
+    
+    maps.clear();
+    if (json.contains("maps") && json["maps"].isArray()) {
+        applyJSONMaps(json["maps"].toArray());
+    }
+    
     return true;
 }
+
+
+bool Region::applyJSONMaps(QJsonArray const & jsonArray) {
+    
+    bool applied = true;
+    maps.clear();
+    for (auto && json : jsonArray) {
+        if (json.isString()) {
+            maps.insert(json.toString());
+        }
+    }
+    
+    return applied;
+}
+
 
 
 void Region::changeMapName(QString oldName, QString newName) {
@@ -65,8 +87,16 @@ QString Region::createRegionName() {
 
 
 QJsonObject Region::getJSON() const {
-    // TODO
-    return QJsonObject();
+    
+    QJsonObject json = Nameable::getJSON();
+    
+    QJsonArray jsonMaps;
+    for (auto mapName: getMapNames()) {
+        jsonMaps.append(mapName);
+    }
+    json["maps"] = jsonMaps;
+    
+    return json;
 }
 
 

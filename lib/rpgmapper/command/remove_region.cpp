@@ -6,45 +6,44 @@
 
 #include <utility>
 
-#include <rpgmapper/command/remove_map.hpp>
 #include <rpgmapper/command/remove_region.hpp>
+#include <rpgmapper/exception/invalid_regionname.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-RemoveRegion::RemoveRegion(QString regionName) : regionName{std::move(regionName)} {
+RemoveRegion::RemoveRegion(QString name) {
+    region = Session::getCurrentSession()->findRegion(std::move(name));
+    if (!region->isValid()) {
+        throw rpgmapper::model::exception::invalid_regionname();
+    }
 }
 
 
 void RemoveRegion::execute() {
 
-    clearCommands();
-
     auto session = Session::getCurrentSession();
-    auto region = session->findRegion(regionName);
     for (auto const & mapName : region->getMapNames()) {
-        addCommand(QSharedPointer<rpgmapper::model::command::Command>{new RemoveMap{regionName, mapName}});
+        maps.insert(session->findMap(mapName));
     }
-    CompositeCommand::execute();
 
-    session->removeRegion(regionName);
+    session->deleteRegion(region->getName());
 }
 
 
 QString RemoveRegion::getDescription() const {
-    return QString{"Remove region %1."}.arg(regionName);
+    return QString{"Remove region %1."}.arg(region->getName());
 }
 
 
 void RemoveRegion::undo() {
-/**
- * TODO
- *
-
-    auto atlas = getAtlas();
-    auto region = atlas->createRegion(regionName);
-    CompositeCommand::undo();
-*/
+    
+    auto session = Session::getCurrentSession();
+    session->insertRegion(region);
+    for (auto const & map : maps) {
+        session->insertMap(map);
+        map->setRegionName(region->getName());
+    }
 }

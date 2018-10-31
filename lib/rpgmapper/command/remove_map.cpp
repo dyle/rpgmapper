@@ -16,7 +16,7 @@ using namespace rpgmapper::model::command;
 
 RemoveMap::RemoveMap(QString mapName) {
     
-    map = Session::getCurrentSession()->findMap(mapName);
+    map = Session::getCurrentSession()->findMap(std::move(mapName));
     if (!map->isValid()) {
         throw rpgmapper::model::exception::invalid_mapname();
     }

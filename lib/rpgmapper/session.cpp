@@ -184,6 +184,18 @@ QSharedPointer<Session> Session::init() {
 }
 
 
+void Session::insertMap(QSharedPointer<Map> map) {
+    maps[map->getName()] = map;
+    emit mapCreated(map->getName());
+}
+
+
+void Session::insertRegion(QSharedPointer<Region> region) {
+    regions[region->getName()] = region;
+    emit regionCreated(region->getName());
+}
+
+
 bool Session::load(UNUSED QSharedPointer<Session> & session, UNUSED QFile & file, UNUSED QStringList & log) {
     // TODO:
     return false;

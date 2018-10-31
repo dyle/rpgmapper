@@ -7,7 +7,13 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_REMOVE_REGION_HPP
 #define RPGMAPPER_MODEL_COMMAND_REMOVE_REGION_HPP
 
-#include <rpgmapper/command/composite_command.hpp>
+#include <set>
+
+#include <QSharedPointer>
+
+#include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map.hpp>
+#include <rpgmapper/region.hpp>
 
 
 namespace rpgmapper {
@@ -18,19 +24,19 @@ namespace command {
 /**
  * This class deletes a region from the atlas.
  */
-class RemoveRegion : public CompositeCommand {
+class RemoveRegion : public Command {
 
-    QString regionName;         /**< The name of the region to delete. */
-    
+    QSharedPointer<Region> region;              /**< The region removed. */
+    std::set<QSharedPointer<Map>> maps;         /**< The maps of the region removed. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   regionName      the region to delete.
+     * @param   name        the name of the region to delete.
      */
-    RemoveRegion(QString regionName);
+    RemoveRegion(QString name);
     
     /**
      * Destructor.

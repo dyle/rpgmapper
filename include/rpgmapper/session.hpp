@@ -279,6 +279,14 @@ public:
     
     
     /**
+     * Inserts an existing region into the set of known region.
+     *
+     * @param   region  the region to insert.
+     */
+    void insertRegion(QSharedPointer<Region> region);
+    
+    
+    /**
      * Loads a session from an atlas file fromm disk.
      *
      * @param   session     the loaded session.

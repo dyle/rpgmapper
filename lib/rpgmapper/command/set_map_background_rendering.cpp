@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/set_map_background_rendering.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -19,17 +20,14 @@ SetMapBackgroundRendering::SetMapBackgroundRendering(QString mapName, QString ne
 
 
 void SetMapBackgroundRendering::execute() {
-/**
- * TODO
- *
-
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        oldRendering = map->getBackgroundLayer()->getRendering();
-        map->getBackgroundLayer()->setRendering(newRendering);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    oldRendering = map->getBackgroundLayer()->getRendering();
+    map->getBackgroundLayer()->setRendering(newRendering);
 }
 
 
@@ -39,13 +37,10 @@ QString SetMapBackgroundRendering::getDescription() const {
 
 
 void SetMapBackgroundRendering::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        map->getBackgroundLayer()->setRendering(oldRendering);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    map->getBackgroundLayer()->setRendering(oldRendering);
 }

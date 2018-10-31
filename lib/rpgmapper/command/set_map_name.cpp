@@ -6,6 +6,7 @@
 
 #include <utility>
 
+#include <rpgmapper/exception/invalid_mapname.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
 #include <rpgmapper/session.hpp>
 
@@ -19,25 +20,12 @@ SetMapName::SetMapName(QString oldName, QString newName)
 
 
 void SetMapName::execute() {
-/**
- * TODO
- *
-
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(oldName);
+    
+    auto map = Session::getCurrentSession()->findMap(oldName);
     if (!map->isValid()) {
-        return;
+        throw rpgmapper::model::exception::invalid_mapname();
     }
-
-    if (!Map::isNameValid(newName)) {
-        throw std::runtime_error("Map name is invalid.");
-    }
-    if (atlas->findMap(newName)->isValid()) {
-        throw std::runtime_error("Map with new name already exists.");
-    }
-
     map->setName(newName);
-*/
 }
 
 
@@ -47,14 +35,10 @@ QString SetMapName::getDescription() const {
 
 
 void SetMapName::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(newName);
+    
+    auto map = Session::getCurrentSession()->findMap(newName);
     if (!map->isValid()) {
-        return;
+        throw rpgmapper::model::exception::invalid_mapname();
     }
     map->setName(oldName);
-*/
 }

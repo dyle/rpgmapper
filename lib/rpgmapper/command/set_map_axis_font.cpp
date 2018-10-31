@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/set_map_axis_font.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -18,17 +19,14 @@ SetMapAxisFont::SetMapAxisFont(QString mapName, QFont newFont) : mapName{std::mo
 
 
 void SetMapAxisFont::execute() {
-/**
- * TODO
- *
-
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        oldFont = map->getAxisLayer()->getFont();
-        map->getAxisLayer()->setFont(newFont);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    oldFont = map->getAxisLayer()->getFont();
+    map->getAxisLayer()->setFont(newFont);
 }
 
 
@@ -38,13 +36,10 @@ QString SetMapAxisFont::getDescription() const {
 
 
 void SetMapAxisFont::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        map->getAxisLayer()->setFont(oldFont);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    map->getAxisLayer()->setFont(oldFont);
 }

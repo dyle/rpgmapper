@@ -70,6 +70,13 @@ public:
      */
     static QSharedPointer<Atlas> const & null();
     
+    /**
+     * Sets a new name for the atlas.
+     *
+     * @param   name    a new name for the atlas.
+     */
+    void setName(QString name) override;
+
 private:
     
     /**

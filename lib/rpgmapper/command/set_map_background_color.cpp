@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/set_map_background_color.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -19,16 +20,14 @@ SetMapBackgroundColor::SetMapBackgroundColor(QString mapName, QColor newColor)
 
 
 void SetMapBackgroundColor::execute() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        oldColor = map->getBackgroundLayer()->getColor();
-        map->getBackgroundLayer()->setColor(newColor);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+
+    oldColor = map->getBackgroundLayer()->getColor();
+    map->getBackgroundLayer()->setColor(newColor);
 }
 
 
@@ -38,13 +37,10 @@ QString SetMapBackgroundColor::getDescription() const {
 
 
 void SetMapBackgroundColor::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        map->getBackgroundLayer()->setColor(oldColor);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    map->getBackgroundLayer()->setColor(oldColor);
 }

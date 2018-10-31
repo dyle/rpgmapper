@@ -60,7 +60,14 @@ public:
      * @return  true, if the found values in the JSON data has been applied.
      */
     bool applyJSON(QJsonObject const & json);
-
+    
+    /**
+     * Change the name of a map known to this region.
+     * @param   oldName     old name of the map
+     * @param   newName     new name of the map
+     */
+    void changeMapName(QString oldName, QString newName);
+    
     /**
      * Suggests a new region name.
      *

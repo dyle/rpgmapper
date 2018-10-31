@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/set_map_background_image_render_mode.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -20,17 +21,14 @@ SetMapBackgroundImageRenderMode::SetMapBackgroundImageRenderMode(QString mapName
 
 
 void SetMapBackgroundImageRenderMode::execute() {
-/**
- * TODO
- *
-
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        oldMode = map->getBackgroundLayer()->getImageRenderMode();
-        map->getBackgroundLayer()->setImageRenderMode(newMode);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    oldMode = map->getBackgroundLayer()->getImageRenderMode();
+    map->getBackgroundLayer()->setImageRenderMode(newMode);
 }
 
 
@@ -40,13 +38,11 @@ QString SetMapBackgroundImageRenderMode::getDescription() const {
 
 
 void SetMapBackgroundImageRenderMode::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        map->getBackgroundLayer()->setImageRenderMode(oldMode);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    map->getBackgroundLayer()->setImageRenderMode(oldMode);
 }

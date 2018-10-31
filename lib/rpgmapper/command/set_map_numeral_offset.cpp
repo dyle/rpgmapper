@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/set_map_numeral_offset.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -19,16 +20,14 @@ SetMapNumeralOffset::SetMapNumeralOffset(QString mapName, QPointF newOffset)
 
 
 void SetMapNumeralOffset::execute() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        oldOffset = map->getCoordinateSystem()->getOffsetF();
-        map->getCoordinateSystem()->setOffsetF(newOffset);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    oldOffset = map->getCoordinateSystem()->getOffsetF();
+    map->getCoordinateSystem()->setOffsetF(newOffset);
 }
 
 
@@ -38,13 +37,11 @@ QString SetMapNumeralOffset::getDescription() const {
 
 
 void SetMapNumeralOffset::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        map->getCoordinateSystem()->setOffsetF(oldOffset);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    map->getCoordinateSystem()->setOffsetF(oldOffset);
 }

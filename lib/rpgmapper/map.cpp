@@ -42,11 +42,13 @@ QString Map::createNewMapName() {
     auto allMapNames = Session::getCurrentSession()->getAllMapNames();
     int i = 1;
     QString candidate = QString("New Map %1").arg(QString::number(i));
+    
     auto iter = allMapNames.find(candidate);
     while (iter != allMapNames.end()) {
         candidate = QString("New Map %1").arg(QString::number(++i));
         iter = allMapNames.find(candidate);
     }
+    
     return candidate;
 }
 
@@ -72,12 +74,20 @@ QSharedPointer<rpgmapper::model::Map> const & Map::null() {
 
 void Map::setName(QString name) {
     
-    if (getName() != name) {
-        if (Session::getCurrentSession()->findMap(name)->isValid()) {
-            throw rpgmapper::model::exception::invalid_mapname();
-        }
+    if (getName() == name) {
+        return;
+    }
+    if (!MapNameValidator::isValid(name)) {
+        throw rpgmapper::model::exception::invalid_mapname();
     }
     
+    auto session = Session::getCurrentSession();
+    if (session->findMap(name)->isValid()) {
+        throw rpgmapper::model::exception::invalid_mapname();
+    }
+    
+    session->changeMapLookup(getName(), name);
+    session->findRegion(getRegionName())->changeMapName(getName(), name);
     Nameable::setName(name);
 }
 

@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/set_map_background_image.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -19,16 +20,14 @@ SetMapBackgroundImage::SetMapBackgroundImage(QString mapName, QImage newImage)
 
 
 void SetMapBackgroundImage::execute() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        oldImage = map->getBackgroundLayer()->getImage();
-        map->getBackgroundLayer()->setImage(newImage);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    oldImage = map->getBackgroundLayer()->getImage();
+    map->getBackgroundLayer()->setImage(newImage);
 }
 
 
@@ -38,13 +37,10 @@ QString SetMapBackgroundImage::getDescription() const {
 
 
 void SetMapBackgroundImage::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        map->getBackgroundLayer()->setImage(oldImage);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    map->getBackgroundLayer()->setImage(oldImage);
 }

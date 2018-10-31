@@ -4,7 +4,9 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <rpgmapper/exception/invalid_atlasname.hpp>
 #include <rpgmapper/atlas.hpp>
+#include <rpgmapper/atlas_name_validator.hpp>
 
 using namespace rpgmapper::model;
 
@@ -70,4 +72,17 @@ QJsonObject Atlas::getJSON() const {
 QSharedPointer<Atlas> const & Atlas::null() {
     static QSharedPointer<Atlas> nullAtlas{new InvalidAtlas};
     return nullAtlas;
+}
+
+
+void Atlas::setName(QString name) {
+    
+    if (getName() == name) {
+        return;
+    }
+    if (!AtlasNameValidator::isValid(name)) {
+        throw rpgmapper::model::exception::invalid_atlasname();
+    }
+    
+    Nameable::setName(name);
 }

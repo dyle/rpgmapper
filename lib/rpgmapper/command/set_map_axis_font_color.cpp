@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/set_map_axis_font_color.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -19,16 +20,14 @@ SetMapAxisFontColor::SetMapAxisFontColor(QString mapName, QColor newColor)
 
 
 void SetMapAxisFontColor::execute() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        oldColor = map->getAxisLayer()->getColor();
-        map->getAxisLayer()->setColor(newColor);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    oldColor = map->getAxisLayer()->getColor();
+    map->getAxisLayer()->setColor(newColor);
 }
 
 
@@ -38,13 +37,10 @@ QString SetMapAxisFontColor::getDescription() const {
 
 
 void SetMapAxisFontColor::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        map->getAxisLayer()->setColor(oldColor);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    map->getAxisLayer()->setColor(oldColor);
 }

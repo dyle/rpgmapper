@@ -5,6 +5,7 @@
  */
 
 #include <rpgmapper/command/set_region_name.hpp>
+#include <rpgmapper/exception/invalid_regionname.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -17,24 +18,12 @@ SetRegionName::SetRegionName(QString oldName, QString newName)
 
 
 void SetRegionName::execute() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto region = atlas->findRegion(oldName);
+    
+    auto region = Session::getCurrentSession()->findRegion(oldName);
     if (!region->isValid()) {
-        return;
+        throw rpgmapper::model::exception::invalid_regionname();
     }
-
-    if (!Region::isNameValid(newName)) {
-        throw std::runtime_error("Region name is invalid.");
-    }
-    if (atlas->findRegion(newName)->isValid()) {
-        throw std::runtime_error("Region with new name already exists.");
-    }
-
     region->setName(newName);
-*/
 }
 
 
@@ -44,14 +33,10 @@ QString SetRegionName::getDescription() const {
 
 
 void SetRegionName::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto region = atlas->findRegion(newName);
+    
+    auto region = Session::getCurrentSession()->findRegion(newName);
     if (!region->isValid()) {
-        return;
+        throw rpgmapper::model::exception::invalid_regionname();
     }
     region->setName(oldName);
-*/
 }

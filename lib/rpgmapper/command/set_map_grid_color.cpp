@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/set_map_grid_color.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -19,17 +20,14 @@ SetMapGridColor::SetMapGridColor(QString mapName, QColor newColor)
 
 
 void SetMapGridColor::execute() {
-/**
- * TODO
- *
-
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        oldColor = map->getGridLayer()->getColor();
-        map->getGridLayer()->setColor(newColor);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    oldColor = map->getGridLayer()->getColor();
+    map->getGridLayer()->setColor(newColor);
 }
 
 
@@ -39,13 +37,10 @@ QString SetMapGridColor::getDescription() const {
 
 
 void SetMapGridColor::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        map->getGridLayer()->setColor(oldColor);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    map->getGridLayer()->setColor(oldColor);
 }

@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/set_map_origin.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -19,16 +20,14 @@ SetMapOrigin::SetMapOrigin(QString mapName, CoordinatesOrigin origin)
 
 
 void SetMapOrigin::execute() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        oldOrigin = map->getCoordinateSystem()->getOrigin();
-        map->getCoordinateSystem()->setOrigin(newOrigin);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    oldOrigin = map->getCoordinateSystem()->getOrigin();
+    map->getCoordinateSystem()->setOrigin(newOrigin);
 }
 
 
@@ -38,13 +37,11 @@ QString SetMapOrigin::getDescription() const {
 
 
 void SetMapOrigin::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        map->getCoordinateSystem()->setOrigin(oldOrigin);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    map->getCoordinateSystem()->setOrigin(oldOrigin);
 }

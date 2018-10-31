@@ -34,6 +34,36 @@ Session::Session()
 }
 
 
+void Session::changeMapLookup(QString oldName, QString newName) {
+    
+    auto map = findMap(oldName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_mapname();
+    }
+    if (findMap(newName)->isValid()) {
+        throw rpgmapper::model::exception::invalid_mapname();
+    }
+    
+    maps[newName] = map;
+    maps.erase(oldName);
+}
+
+
+void Session::changeRegionLookup(QString oldName, QString newName) {
+    
+    auto region = findRegion(oldName);
+    if (!region->isValid()) {
+        throw rpgmapper::model::exception::invalid_regionname();
+    }
+    if (findRegion(newName)->isValid()) {
+        throw rpgmapper::model::exception::invalid_regionname();
+    }
+    
+    regions[newName] = region;
+    regions.erase(oldName);
+}
+
+
 QSharedPointer<rpgmapper::model::Map> & Session::createMap(QString mapName, QString regionName) {
     
     if (!MapNameValidator::isValid(mapName)) {
@@ -127,7 +157,7 @@ QSharedPointer<rpgmapper::model::Map> const Session::findMap(QString name) const
 }
 
 
-QSharedPointer<rpgmapper::model::Region> Session::findRegion(QString name) {
+QSharedPointer<rpgmapper::model::Region> & Session::findRegion(QString name) {
     
     static QSharedPointer<rpgmapper::model::Region> invalidRegion{new InvalidRegion};
     
@@ -139,7 +169,7 @@ QSharedPointer<rpgmapper::model::Region> Session::findRegion(QString name) {
 }
 
 
-QSharedPointer<rpgmapper::model::Region> const Session::findRegion(QString name) const {
+QSharedPointer<rpgmapper::model::Region> const & Session::findRegion(QString name) const {
     
     static QSharedPointer<rpgmapper::model::Region> invalidRegion{new InvalidRegion};
     auto iter = regions.find(name);

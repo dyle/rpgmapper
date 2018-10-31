@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -19,22 +20,20 @@ SetMapNumeralAxis::SetMapNumeralAxis(QString mapName, bool xAxis, QString newNum
 
 
 void SetMapNumeralAxis::execute() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        if (xAxis) {
-            oldNumeral = map->getCoordinateSystem()->getNumeralXAxis()->getName();
-            map->getCoordinateSystem()->setNumeralXAxis(newNumeral);
-        }
-        else {
-            oldNumeral = map->getCoordinateSystem()->getNumeralYAxis()->getName();
-            map->getCoordinateSystem()->setNumeralYAxis(newNumeral);
-        }
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    if (xAxis) {
+        oldNumeral = map->getCoordinateSystem()->getNumeralXAxis()->getName();
+        map->getCoordinateSystem()->setNumeralXAxis(newNumeral);
+    }
+    else {
+        oldNumeral = map->getCoordinateSystem()->getNumeralYAxis()->getName();
+        map->getCoordinateSystem()->setNumeralYAxis(newNumeral);
+    }
 }
 
 
@@ -45,18 +44,16 @@ QString SetMapNumeralAxis::getDescription() const {
 
 
 void SetMapNumeralAxis::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        if (xAxis) {
-            map->getCoordinateSystem()->setNumeralXAxis(oldNumeral);
-        }
-        else {
-            map->getCoordinateSystem()->setNumeralYAxis(oldNumeral);
-        }
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    if (xAxis) {
+        map->getCoordinateSystem()->setNumeralXAxis(oldNumeral);
+    }
+    else {
+        map->getCoordinateSystem()->setNumeralYAxis(oldNumeral);
+    }
 }

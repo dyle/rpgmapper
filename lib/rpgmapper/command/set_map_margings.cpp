@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/set_map_margins.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -19,16 +20,14 @@ SetMapMargins::SetMapMargins(QString mapName, QMargins newMargins)
 
 
 void SetMapMargins::execute() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        oldMargins = map->getBackgroundLayer()->getMargins();
-        map->getBackgroundLayer()->setMargins(newMargins);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    
+    oldMargins = map->getBackgroundLayer()->getMargins();
+    map->getBackgroundLayer()->setMargins(newMargins);
 }
 
 
@@ -38,13 +37,10 @@ QString SetMapMargins::getDescription() const {
 
 
 void SetMapMargins::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        map->getBackgroundLayer()->setMargins(oldMargins);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
-*/
+    map->getBackgroundLayer()->setMargins(oldMargins);
 }

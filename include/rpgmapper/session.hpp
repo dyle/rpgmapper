@@ -71,6 +71,25 @@ public:
      */
     ~Session() override = default;
     
+    
+    /**
+     * Change (move) the lookup name of a map from one to another.
+     *
+     * @param   oldName     the old name of the map .
+     * @param   newName     the new lookup name of the map.
+     */
+    void changeMapLookup(QString oldName, QString newName);
+    
+    
+    /**
+     * Change (move) the lookup name of a region from one to another.
+     *
+     * @param   oldName     the old name of the region .
+     * @param   newName     the new lookup name of the region.
+     */
+    void changeRegionLookup(QString oldName, QString newName);
+    
+    
     /**
      * Creates a new map.
      * @param   mapName         Name of the new map.
@@ -107,7 +126,7 @@ public:
      * @param   name        name of the map to search.
      * @return  the found map (maybe invalid map).
      */
-    QSharedPointer<rpgmapper::model::Map> findMap(QString name);
+    QSharedPointer<rpgmapper::model::Map> & findMap(QString name);
     
     /**
      * Finds a specific map by name (convenient method) (const version).
@@ -115,7 +134,7 @@ public:
      * @param   name        name of the map to search.
      * @return  the found map (maybe invalid map).
      */
-    QSharedPointer<rpgmapper::model::Map> const findMap(QString name) const;
+    QSharedPointer<rpgmapper::model::Map> const & findMap(QString name) const;
     
     /**
      * Finds a specific region by name (convenient method).

@@ -16,8 +16,8 @@ namespace exception {
 
 
 /**
-* An invalid region was presented where a valid one has been required.
-*/
+ * An invalid region was presented where a valid one has been required.
+ */
 class invalid_region : public std::invalid_argument {
 
 public:

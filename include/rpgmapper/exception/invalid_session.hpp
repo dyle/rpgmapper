@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_MODEL_EXCEPTION_INVALID_ATLAS_HPP
-#define RPGMAPPER_MODEL_EXCEPTION_INVALID_ATLAS_HPP
+#ifndef RPGMAPPER_MODEL_EXCEPTION_INVALID_SESSION_HPP
+#define RPGMAPPER_MODEL_EXCEPTION_INVALID_SESSION_HPP
 
 #include <stdexcept>
 
@@ -16,16 +16,16 @@ namespace exception {
 
 
 /**
- * An invalid atlas was presented where a valid one has been required.
+ * An invalid session was presented where a valid one has been required.
  */
-class invalid_atlas : public std::invalid_argument {
+class invalid_session : public std::invalid_argument {
 
 public:
     
     /**
      * Constructor
      */
-    invalid_atlas() : std::invalid_argument("Invalid atlas.") {}
+    invalid_session() : std::invalid_argument("Invalid session.") {}
     
 };
 

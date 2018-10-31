@@ -316,6 +316,15 @@ public:
     static bool load(QSharedPointer<Session> & session, QFile & file, QStringList & log);
     
     /**
+     * Saves the current session to an atlas file on disk.
+     *
+     * @param   file        the file to save to.
+     * @param   log         Protocol of operations.
+     * @return  true, if successfully saved.
+     */
+    bool save(QFile & file, QStringList & log);
+    
+    /**
      * Selects a new current map.
      *
      * @param   name        the name of the new selected map.
@@ -330,13 +339,10 @@ public:
     void selectRegion(QString name);
     
     /**
-     * Saves the current session to an atlas file on disk.
-     *
-     * @param   file        the file to save to.
-     * @param   log         Protocol of operations.
-     * @return  true, if successfully saved.
+     * Sets a new current session.
+     * @param   session     the new current session
      */
-    bool save(QFile & file, QStringList & log);
+    static void setCurrentSession(QSharedPointer<Session> session);
     
 signals:
     

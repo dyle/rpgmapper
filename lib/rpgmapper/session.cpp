@@ -7,6 +7,7 @@
 #include <rpgmapper/exception/invalid_mapname.hpp>
 #include <rpgmapper/exception/invalid_region.hpp>
 #include <rpgmapper/exception/invalid_regionname.hpp>
+#include <rpgmapper/exception/invalid_session.hpp>
 #include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/session.hpp>
 
@@ -250,4 +251,12 @@ bool Session::save(UNUSED QFile & file, QStringList & log) {
     }
 */
     return written;
+}
+
+
+void Session::setCurrentSession(QSharedPointer<Session> session) {
+    if (!session) {
+        throw rpgmapper::model::exception::invalid_session();
+    }
+    currentSession = session;
 }

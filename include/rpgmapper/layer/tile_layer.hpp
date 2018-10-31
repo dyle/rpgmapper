@@ -28,10 +28,9 @@ public:
     /**
      * Constructs a new TileLayer.
      *
-     * @param   map         the Map instance the layer belongs to.
-     * @param   parent      QObject parent.
+     * @param   map     the map this layer belongs to.
      */
-    explicit TileLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
+    explicit TileLayer(QSharedPointer<Map> map);
 
     /**
      * Destructs the TileLayer.

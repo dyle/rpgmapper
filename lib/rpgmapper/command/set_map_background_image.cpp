@@ -26,8 +26,8 @@ void SetMapBackgroundImage::execute() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    oldImage = map->getBackgroundLayer()->getImage();
-    map->getBackgroundLayer()->setImage(newImage);
+    oldImage = map->getLayers().getBackgroundLayer()->getImage();
+    map->getLayers().getBackgroundLayer()->setImage(newImage);
 }
 
 
@@ -42,5 +42,5 @@ void SetMapBackgroundImage::undo() {
     if (!map->isValid()) {
         throw rpgmapper::model::exception::invalid_map();
     }
-    map->getBackgroundLayer()->setImage(oldImage);
+    map->getLayers().getBackgroundLayer()->setImage(oldImage);
 }

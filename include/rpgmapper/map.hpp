@@ -36,13 +36,14 @@ class Region;
  * which in turn define tiles, background, texts, etc. it has a name and
  * a coordinate system attached.
  */
-class Map : public Nameable, public LayerStack {
+class Map : public Nameable {
 
     Q_OBJECT
     
     // TODO: turn to smart pointer
-    CoordinateSystem * coordinateSystem;           /**< the coordinate system of the map */
-    QString regionName;                            /**< The region the map is placed in. */
+    CoordinateSystem * coordinateSystem;            /**< the coordinate system of the map */
+    QString regionName;                             /**< The region the map is placed in. */
+    LayerStack layerStack;                          /**< The layer stack of this map. */
 
 public:
 
@@ -98,7 +99,25 @@ public:
      * @return      a valid JSON  structure from ooourselves.
      */
     QJsonObject getJSON() const override;
-
+    
+    /**
+     * Gets the layers of this map.
+     *
+     * @return  all the layers of this map.
+     */
+    LayerStack & getLayers() {
+        return layerStack;
+    }
+    
+    /**
+     * Gets the layers of this map (const version).
+     *
+     * @return  all the layers of this map.
+     */
+    LayerStack const & getLayers() const {
+        return layerStack;
+    }
+    
     /**
      * Gets the name of the region the map belongs to.
      *

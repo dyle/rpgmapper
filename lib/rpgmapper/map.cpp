@@ -18,9 +18,11 @@ using namespace rpgmapper::model;
 
 
 Map::Map(QString mapName, QString regionName) : Nameable{} {
+    
     setName(std::move(mapName));
     setRegionName(std::move(regionName));
     coordinateSystem = new CoordinateSystem;
+    layerStack.setMap(QSharedPointer<Map>(this));
 }
 
 

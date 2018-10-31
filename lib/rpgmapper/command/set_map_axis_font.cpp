@@ -25,8 +25,8 @@ void SetMapAxisFont::execute() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    oldFont = map->getAxisLayer()->getFont();
-    map->getAxisLayer()->setFont(newFont);
+    oldFont = map->getLayers().getAxisLayer()->getFont();
+    map->getLayers().getAxisLayer()->setFont(newFont);
 }
 
 
@@ -41,5 +41,5 @@ void SetMapAxisFont::undo() {
     if (!map->isValid()) {
         throw rpgmapper::model::exception::invalid_map();
     }
-    map->getAxisLayer()->setFont(oldFont);
+    map->getLayers().getAxisLayer()->setFont(oldFont);
 }

@@ -10,6 +10,9 @@
 
 #include <list>
 
+#include <QJsonArray>
+#include <QJsonObject>
+
 #include <rpgmapper/layer/axis_layer.hpp>
 #include <rpgmapper/layer/background_layer.hpp>
 #include <rpgmapper/layer/grid_layer.hpp>
@@ -21,6 +24,9 @@ namespace rpgmapper {
 namespace model {
 
 
+// Forward
+class Map;
+
 /**
  * This class aggregates all known layers into a single object.
  *
@@ -30,6 +36,8 @@ namespace model {
  */
 class LayerStack {
     
+    QWeakPointer<Map> map;                                  /**< The map this LayerStack belongs to. */
+    
     QSharedPointer<AxisLayer> axisLayer;                    /**< The axis layer */
     QSharedPointer<BackgroundLayer> backgroundLayer;        /**< The background layer. */
     std::list<QSharedPointer<TileLayer>> baseLayers;        /**< The base layers. */
@@ -38,6 +46,14 @@ class LayerStack {
     std::list<QSharedPointer<TileLayer>> tileLayers;        /**< the tile layers. */
 
 public:
+    
+    /**
+     * Constructs a new LayerStack.
+     *
+     * @param   map     the map this layer stack belongs to.
+     */
+    explicit LayerStack(QSharedPointer<Map> map);
+    
     
     /**
      * Extract all layer infos and apply this to the current stack.
@@ -140,6 +156,24 @@ public:
     QJsonObject getJSON() const;
     
     /**
+     * Get the map the layer belongs to.
+     *
+     * @return  the map the layer belongs to.
+     */
+    QSharedPointer<Map> getMap() {
+        return map.toStrongRef();
+    }
+    
+    /**
+     * Get the map the layer belongs to (const version)
+     *
+     * @return  the map the layer belongs to.
+     */
+    QSharedPointer<Map> const getMap() const {
+        return map.toStrongRef();
+    }
+    
+    /**
      * Gets the layer holding any texts on the map.
      *
      * @return  a layer with text information on the map.
@@ -147,7 +181,6 @@ public:
     QSharedPointer<TextLayer> & getTextLayer() {
         return textLayer;
     }
-    
     
     /**
      * Gets the layer holding any texts on the map.
@@ -177,6 +210,32 @@ public:
     std::list<QSharedPointer<TileLayer>> const & getTileLayers() const {
         return tileLayers;
     }
+    
+    /**
+     * Sets a new parent map.
+     *
+     * @parant  map     the new parent map.
+     */
+    void setMap(QSharedPointer<Map> map);
+
+private:
+    
+    /**
+     * Extracts the info for the Base Layers.
+     *
+     * @param   json        The JSON object which maybe hold some information.
+     * @return  always true (TODO: why? kick this! Unnecessary)
+     */
+    bool applyJSONBaseLayers(QJsonArray const & jsonArray);
+    
+    /**
+     * Extracts the info for the Tile Layers.
+     *
+     * @param   json        The JSON object which maybe hold some information.
+     * @return  always true (TODO: why? kick this! Unnecessary)
+     */
+    bool applyJSONTileLayers(QJsonArray const & jsonArray);
+    
 };
 
 

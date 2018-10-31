@@ -26,8 +26,8 @@ void SetMapBackgroundRendering::execute() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    oldRendering = map->getBackgroundLayer()->getRendering();
-    map->getBackgroundLayer()->setRendering(newRendering);
+    oldRendering = map->getLayers().getBackgroundLayer()->getRendering();
+    map->getLayers().getBackgroundLayer()->setRendering(newRendering);
 }
 
 
@@ -42,5 +42,5 @@ void SetMapBackgroundRendering::undo() {
     if (!map->isValid()) {
         throw rpgmapper::model::exception::invalid_map();
     }
-    map->getBackgroundLayer()->setRendering(oldRendering);
+    map->getLayers().getBackgroundLayer()->setRendering(oldRendering);
 }

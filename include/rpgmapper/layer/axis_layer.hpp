@@ -31,10 +31,9 @@ public:
     /**
      * Constructs a new AxisLayer.
      *
-     * @param   map         the Map instance the layer belongs to.
-     * @param   parent      QObject parent.
+     * @param   map     the map this layer belongs to.
      */
-    explicit AxisLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
+    explicit AxisLayer(QSharedPointer<Map> map);
 
     /**
      * Destructs the AxisLayer.

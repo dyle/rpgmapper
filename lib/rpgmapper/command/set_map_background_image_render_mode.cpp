@@ -27,8 +27,8 @@ void SetMapBackgroundImageRenderMode::execute() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    oldMode = map->getBackgroundLayer()->getImageRenderMode();
-    map->getBackgroundLayer()->setImageRenderMode(newMode);
+    oldMode = map->getLayers().getBackgroundLayer()->getImageRenderMode();
+    map->getLayers().getBackgroundLayer()->setImageRenderMode(newMode);
 }
 
 
@@ -44,5 +44,5 @@ void SetMapBackgroundImageRenderMode::undo() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    map->getBackgroundLayer()->setImageRenderMode(oldMode);
+    map->getLayers().getBackgroundLayer()->setImageRenderMode(oldMode);
 }

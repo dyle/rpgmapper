@@ -26,8 +26,8 @@ void SetMapGridColor::execute() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    oldColor = map->getGridLayer()->getColor();
-    map->getGridLayer()->setColor(newColor);
+    oldColor = map->getLayers().getGridLayer()->getColor();
+    map->getLayers().getGridLayer()->setColor(newColor);
 }
 
 
@@ -42,5 +42,5 @@ void SetMapGridColor::undo() {
     if (!map->isValid()) {
         throw rpgmapper::model::exception::invalid_map();
     }
-    map->getGridLayer()->setColor(oldColor);
+    map->getLayers().getGridLayer()->setColor(oldColor);
 }

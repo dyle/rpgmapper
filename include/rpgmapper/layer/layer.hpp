@@ -36,12 +36,9 @@ class Map;
 class Layer : public QObject, public rpgmapper::model::json::JSONIO {
 
     Q_OBJECT
-
-    class Impl;                                 /**< Implementation class. */
-    std::shared_ptr<Impl> impl;                 /**< Pimpl C++ idiom. */
-
+    
 public:
-
+    
     /**
      * A Layer instance may have an arbitrary set of additional attributes as key-value pairs.
      *
@@ -49,16 +46,22 @@ public:
      *      "visible" -> "true"
      */
     using Attributes = std::map<QString, QString>;
+    
+private:
+    
+    Attributes attributes;          /**< The attributes of the current Layer. */
+    bool visible = true;            /**< Visbility flag of the layer. */
+    QWeakPointer<Map> map;          /**< The map this layer belongs to. */
+
+public:
+
 
     /**
      * Constructs a new Layer.
      *
-     * TODO: turn map to smart pointer
-     *
-     * @param   map         the Map instance the layer belongs to.
-     * @param   parent      QObject parent.
+     * @param   map     the map this layer belongs to.
      */
-    explicit Layer(rpgmapper::model::Map * map, QObject * parent = nullptr);
+    explicit Layer(QSharedPointer<Map> map);
 
     /**
      * Destructs the object.
@@ -84,12 +87,16 @@ public:
     /**
      * Gets the additional attributes of this layer.
      */
-    Attributes & getAttributes();
+    Attributes & getAttributes() {
+        return attributes;
+    }
 
     /**
      * Gets the additional attributes of this layer (const version).
      */
-    Attributes const & getAttributes() const;
+    Attributes const & getAttributes() const {
+        return attributes;
+    }
 
     /**
      * Extracts the layer as JSON object.
@@ -97,7 +104,25 @@ public:
      * @return  a JSON object holding the layer data.
      */
     QJsonObject getJSON() const override;
-
+    
+    /**
+     * Get the map the layer belongs to.
+     *
+     * @return  the map the layer belongs to.
+     */
+    QSharedPointer<Map> getMap() {
+        return map.toStrongRef();
+    }
+    
+    /**
+     * Get the map the layer belongs to (const version)
+     *
+     * @return  the map the layer belongs to.
+     */
+    QSharedPointer<Map> const getMap() const {
+        return map.toStrongRef();
+    }
+    
     /**
      * Disables draw/visiblity on next repaint.
      */
@@ -117,32 +142,23 @@ public:
      *
      * @return  true, if the layer will be drawn next time.
      */
-    bool isVisible() const;
-
+    bool isVisible() const {
+        return visible;
+    }
+    
+    /**
+     * Sets a new parent map.
+     *
+     * @parant  map     the new parent map.
+     */
+    void setMap(QSharedPointer<Map> map) {
+        this->map = map;
+    }
+    
     /**
      * Enables draw/visibility on next repaint.
      */
     void show();
-
-protected:
-
-    /**
-     * Returns the parent map this layer belongs to.
-     *
-     * TODO; turn map to smart pointer
-     *
-     * @return  the map this layer belongs to.
-     */
-    Map * getMap();
-
-    /**
-     * Returns the parent map this layer belongs to (const version).
-     *
-     * TODO; turn map to smart pointer
-     *
-     * @return  the map this layer belongs to.
-     */
-    Map const * getMap() const;
 
 signals:
 
@@ -164,7 +180,7 @@ public:
      * Constructs an invalid layer.
      */
     InvalidLayer()
-        : Layer{nullptr, nullptr} {
+        : Layer{nullptr} {
     }
 
     /**

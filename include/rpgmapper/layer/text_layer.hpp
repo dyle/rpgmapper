@@ -26,10 +26,9 @@ public:
     /**
      * Constructs a new TextLayer.
      *
-     * @param   map         the Map instance the layer belongs to.
-     * @param   parent      QObject parent.
+     * @param   map     the map this layer belongs to.
      */
-    explicit TextLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
+    explicit TextLayer(QSharedPointer<Map> map);
 
     /**
      * Destructs the TextLayer.

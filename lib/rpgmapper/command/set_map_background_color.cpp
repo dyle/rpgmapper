@@ -26,8 +26,8 @@ void SetMapBackgroundColor::execute() {
         throw rpgmapper::model::exception::invalid_map();
     }
 
-    oldColor = map->getBackgroundLayer()->getColor();
-    map->getBackgroundLayer()->setColor(newColor);
+    oldColor = map->getLayers().getBackgroundLayer()->getColor();
+    map->getLayers().getBackgroundLayer()->setColor(newColor);
 }
 
 
@@ -42,5 +42,5 @@ void SetMapBackgroundColor::undo() {
     if (!map->isValid()) {
         throw rpgmapper::model::exception::invalid_map();
     }
-    map->getBackgroundLayer()->setColor(oldColor);
+    map->getLayers().getBackgroundLayer()->setColor(oldColor);
 }

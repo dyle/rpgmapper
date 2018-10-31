@@ -36,10 +36,9 @@ public:
     /**
      * Constructs a new BackgroundLayer.
      *
-     * @param   map         the Map instance the layer belongs to.
-     * @param   parent      QObject parent.
+     * @param   map     the map this layer belongs to.
      */
-    explicit BackgroundLayer(rpgmapper::model::Map * map, QObject * parent = nullptr);
+    explicit BackgroundLayer(QSharedPointer<Map> map);
 
     /**
      * Destructs the BackgroundLayer.

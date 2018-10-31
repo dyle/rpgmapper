@@ -26,8 +26,8 @@ void SetMapAxisFontColor::execute() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    oldColor = map->getAxisLayer()->getColor();
-    map->getAxisLayer()->setColor(newColor);
+    oldColor = map->getLayers().getAxisLayer()->getColor();
+    map->getLayers().getAxisLayer()->setColor(newColor);
 }
 
 
@@ -42,5 +42,5 @@ void SetMapAxisFontColor::undo() {
     if (!map->isValid()) {
         throw rpgmapper::model::exception::invalid_map();
     }
-    map->getAxisLayer()->setColor(oldColor);
+    map->getLayers().getAxisLayer()->setColor(oldColor);
 }

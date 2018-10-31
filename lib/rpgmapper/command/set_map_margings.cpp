@@ -26,8 +26,8 @@ void SetMapMargins::execute() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    oldMargins = map->getBackgroundLayer()->getMargins();
-    map->getBackgroundLayer()->setMargins(newMargins);
+    oldMargins = map->getLayers().getBackgroundLayer()->getMargins();
+    map->getLayers().getBackgroundLayer()->setMargins(newMargins);
 }
 
 
@@ -42,5 +42,5 @@ void SetMapMargins::undo() {
     if (!map->isValid()) {
         throw rpgmapper::model::exception::invalid_map();
     }
-    map->getBackgroundLayer()->setMargins(oldMargins);
+    map->getLayers().getBackgroundLayer()->setMargins(oldMargins);
 }

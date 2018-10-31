@@ -54,7 +54,6 @@ set(RPGMAPPER_LIB_SRC
     layer/grid_layer.cpp
     layer/image_render_mode.cpp
     layer/layer.cpp
-    layer/layer_impl.cpp
     layer/layer_stack.cpp
     layer/text_layer.cpp
     layer/tile_layer.cpp

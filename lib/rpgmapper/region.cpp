@@ -5,132 +5,48 @@
  */
 
 
-#include <rpgmapper/atlas.hpp>
-#include "region_impl.hpp"
+#include <rpgmapper/exception/invalid_mapname.hpp>
+#include <rpgmapper/exception/invalid_regionname.hpp>
+#include <rpgmapper/region.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 
 
-Region::Region(QString const & name, Atlas * atlas) : QObject{atlas} {
-    impl = std::make_shared<Region::Impl>(atlas, this);
-    impl->setName(name);
+Region::Region(QString name) : Nameable{} {
+    setName(name);
 }
 
-bool Region::addMap(QSharedPointer<rpgmapper::model::Map> & map) {
 
+void Region::addMap(QString name) {
+    
+    if (maps.find(name) != maps.end()) {
+        return;
+    }
+    
+    auto map = Session::getCurrentSession()->findMap(name);
     if (!map->isValid()) {
-        return false;
-    }
-    if (findMap(map->getName())->isValid()) {
-        return false;
+        throw rpgmapper::model::exception::invalid_mapname();
     }
 
-    auto added = impl->addMap(map);
-    connectMapSignals(map);
-    emit mapAdded(getName(), map->getName());
-    return added;
+    emit mapAdded(name);
 }
 
 
 bool Region::applyJSON(QJsonObject const & json) {
-    return impl->applyJSON(json);
+    // TODO
+    return true;
 }
 
 
-void Region::changedMapName(QString nameBefore, QString nameAfter) {
-    auto map = findMap(nameBefore);
-    if (!map->isValid()) {
-        return;
-    }
-    impl->removeMap(nameBefore);
-    impl->addMap(map);
-    emit mapNameChanged(getName(), nameBefore, std::move(nameAfter));
+QString Region::createRegionName() {
+
 }
 
 
-void Region::changedNumeralForAxis(QString mapName) {
-    emit mapNumeralForAxisChanged(getName(), mapName);
-}
-
-
-void Region::connectMapSignals(QSharedPointer<rpgmapper::model::Map> & map) {
-    if (!map->isValid()) {
-        return;
-    }
-    connect(map.data(), &Map::nameChanged, this, &Region::changedMapName);
-    connect(map.data(), &Map::numeralForAxisChanged, this, &Region::changedNumeralForAxis);
-    connect(map.data(), &Map::resized, this, &Region::resizedMap);
-}
-
-
-QSharedPointer<rpgmapper::model::Map> & Region::createMap(QString const & mapName) {
-    auto & map = impl->createMap(mapName);
-    if (map->isValid()) {
-        connectMapSignals(map);
-        emit mapCreated(getName(), mapName);
-    }
-    return map;
-}
-
-
-void Region::disconnectMapSignals(QSharedPointer<rpgmapper::model::Map> & map) {
-    if (!map->isValid()) {
-        return;
-    }
-    disconnect(map.data());
-}
-
-
-Atlas * Region::getAtlas() {
-    return impl->getAtlas();
-}
-
-
-Atlas const * Region::getAtlas() const {
-    return impl->getAtlas();
-}
-
-
-QSharedPointer<rpgmapper::model::Map> & Region::findMap(QString const & mapName) {
-    return impl->findMap(mapName);
-}
-
-
-QString Region::getInvalidCharactersInName() {
-    return Region::Impl::getInvalidCharactersInName();
-}
-
-
-QJsonObject Region::getJSON(rpgmapper::model::io::Content & content) const {
-    return impl->getJSON(content);
-}
-
-Maps const & Region::getMaps() const {
-    return impl->getMaps();
-}
-
-
-std::set<QString> Region::getMapNames() const {
-    return impl->getMapNames();
-}
-
-
-QString const & Region::getName() const {
-    return impl->getName();
-}
-
-
-ResourceDBPointer & Region::getResourceDB() {
-    return getAtlas()->getResourceDB();
-}
-
-
-ResourceDBPointer const & Region::getResourceDB() const {
-    return getAtlas()->getResourceDB();
-}
-
-bool Region::isNameValid(QString name) {
-    return Region::Impl::isNameValid(name);
+QJsonObject Region::getJSON() const {
+    // TODO
+    return QJsonObject();
 }
 
 
@@ -140,27 +56,29 @@ QSharedPointer<rpgmapper::model::Region> const & Region::null() {
 }
 
 
-void Region::resizedMap(QString mapName) {
-    emit mapResized(getName(), mapName);
+void Region::removeMap(QString mapName) {
+    
+    auto map = maps.find(mapName);
+    
+    if (map != maps.end()) {
+        return;
+    }
+    
+    maps.erase(map);
+    emit mapRemoved(mapName);
 }
 
 
-void Region::removeMap(QString const & mapName) {
-    auto map = findMap(mapName);
-    if (!map->isValid()) {
+void Region::setName(QString name) {
+    
+    if (name == getName()) {
         return;
     }
-    impl->removeMap(mapName);
-    disconnectMapSignals(map);
-    emit mapRemoved(getName(), mapName);
-}
-
-
-void Region::setName(QString const & name) {
-    auto nameBefore = impl->getName();
-    if (name == nameBefore) {
-        return;
+    
+    auto region = Session::getCurrentSession()->findRegion();
+    if (region->isValid()) {
+        throw rpgmapper::model::exception::invalid_regionname();
     }
-    impl->setName(name);
-    emit nameChanged(nameBefore, name);
+    
+    Nameable::setName(name);
 }

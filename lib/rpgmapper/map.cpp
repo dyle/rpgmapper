@@ -70,7 +70,7 @@ QSharedPointer<rpgmapper::model::Map> const & Map::null() {
 }
 
 
-void Map::setName(QString const & name) {
+void Map::setName(QString name) {
     
     if (getName() != name) {
         if (Session::getCurrentSession()->findMap(name)->isValid()) {

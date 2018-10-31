@@ -23,13 +23,15 @@ namespace model {
 template<typename T> class Average {
 
 public:
+    
+    using Clock = std::chrono::steady_clock;
 
     /**
      * Type of a single element.
      */
     using Element = struct {
-        T value;                                                /**< The value. */
-        std::chrono::system_clock::time_point timeStamp;        /**< The insertion time into the average. */
+        T value;                            /**< The value. */
+        Clock::time_point timeStamp;        /**< The insertion time into the average. */
     };
 
     using Container = std::list<Element>;                       /**< This type contains all elements. */
@@ -53,7 +55,7 @@ public:
      * @return  *this
      */
     Average & add(T value) {
-        container.push_back({value, std::chrono::system_clock::now()});
+        container.push_back({value, Clock::now()});
         currentSum += value;
         return *this;
     }
@@ -138,6 +140,7 @@ template<typename T> class AverageOverTime : public Average<T> {
 
     std::chrono::milliseconds maxDuration;          /**< maximum lifetime of a value in milliseconds. */
 
+    using Average<T>::Clock;
     using Average<T>::container;
     using Average<T>::currentSum;
 
@@ -157,7 +160,7 @@ private:
      * Cuts off values too old.
      */
     void trim() const override {
-        auto oldest = std::chrono::system_clock::now() - maxDuration;
+        auto oldest = Clock::now() - maxDuration;
         auto header = std::begin(container);
         while ((header != std::end(container)) && ((*header).timeStamp < oldest)) {
             currentSum -= (*header).value;

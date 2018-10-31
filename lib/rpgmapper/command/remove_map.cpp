@@ -14,29 +14,29 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-RemoveMap::RemoveMap(QString regionName, QString mapName)
-        : mapName{std::move(mapName)},
-          regionName{std::move(regionName)} {
+RemoveMap::RemoveMap(QString mapName) {
+    
+    map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_mapname();
+    }
+    
+    regionName = map->getRegionName();
 }
 
 
 void RemoveMap::execute() {
-    auto session = Session::getCurrentSession();
-    auto region = session->findRegion(regionName);
-    if (region->isValid()) {
-        region->removeMap(mapName);
-    }
+    Session::getCurrentSession()->deleteMap(map->getName());
 }
 
 
 QString RemoveMap::getDescription() const {
-    return QString{"Remove map %1 from region %2."}.arg(mapName).arg(regionName);
+    return QString{"Remove map %1 from region %2."}.arg(map->getName()).arg(regionName);
 }
 
 
 void RemoveMap::undo() {
-    auto region = Session::getCurrentSession()->findRegion(regionName);
-    if (region->isValid()) {
-        region->addMap(mapName);
-    }
+    auto session = Session::getCurrentSession();
+    session->insertMap(map);
+    session->findRegion(regionName)->addMap(map->getName());
 }

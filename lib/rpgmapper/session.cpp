@@ -5,6 +5,7 @@
  */
 
 #include <rpgmapper/exception/invalid_mapname.hpp>
+#include <rpgmapper/exception/invalid_region.hpp>
 #include <rpgmapper/exception/invalid_regionname.hpp>
 #include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/session.hpp>
@@ -65,6 +66,40 @@ QSharedPointer<rpgmapper::model::Region> & Session::createRegion(QString name) {
     regions.emplace(QSharedPointer<rpgmapper::model::Region>(new Region(name)));
     emit regionCreated(name);
     return regions[name];
+}
+
+
+void Session::deleteMap(QString mapName) {
+    
+    auto map = findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_mapname();
+    }
+    
+    auto region = findRegion(map->getRegionName());
+    if (!region->isValid()) {
+        throw rpgmapper::model::exception::invalid_region();
+    }
+    
+    region->removeMap(mapName);
+    maps.erase(mapName);
+    emit mapDeleted(mapName);
+}
+
+
+void Session::deleteRegion(QString regionName) {
+    
+    auto region = findRegion(regionName);
+    if (!region->isValid()) {
+        throw rpgmapper::model::exception::invalid_regionname();
+    }
+    
+    for (auto mapName : region->getMapNames()) {
+        region->removeMap(mapName);
+    }
+    
+    regions.erase(regionName);
+    emit regionDeleted(regionName);
 }
 
 

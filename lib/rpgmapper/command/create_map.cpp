@@ -34,8 +34,5 @@ QString CreateMap::getDescription() const {
 
 void CreateMap::undo() {
     auto session = Session::getCurrentSession();
-    auto region = session->findRegion(regionName);
-    if (region->isValid()) {
-        region->removeMap(mapName);
-    }
+    session->deleteMap(mapName);
 }

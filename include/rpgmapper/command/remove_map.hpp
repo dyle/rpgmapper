@@ -7,7 +7,10 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_REMOVE_MAP_HPP
 #define RPGMAPPER_MODEL_COMMAND_REMOVE_MAP_HPP
 
+#include <QSharedPointer>
+
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -20,7 +23,7 @@ namespace command {
  */
 class RemoveMap : public Command {
 
-    QString mapName;                /**< The map to remove. */
+    QSharedPointer<Map> map;        /**< The map removed. */
     QString regionName;             /**< The region from which the map is removed. */
 
 public:
@@ -28,10 +31,9 @@ public:
     /**
      * Constructor.
      *
-     * @param   regionName      the region of the map.
      * @param   mapName         the map to remove.
      */
-    RemoveMap(QString regionName, QString mapName);
+    RemoveMap(QString mapName);
     
     /**
      * Destructor.

@@ -269,6 +269,15 @@ public:
      */
     static QSharedPointer<Session> init();
     
+    
+    /**
+     * Inserts an existing map into the set of known maps.
+     *
+     * @param   map     the map to insert.
+     */
+    void insertMap(QSharedPointer<Map> map);
+    
+    
     /**
      * Loads a session from an atlas file fromm disk.
      *
@@ -322,15 +331,6 @@ signals:
      * @param   mapName     the name of the map deleted.
      */
     void mapDeleted(QString mapName);
-    
-    /**
-     * A map changed a region.
-     *
-     * @param   mapName             the map moved.
-     * @param   regionNameFrom      the region where the map has been.
-     * @param   regionNameTo        the region where the map is now.
-     */
-    void mapMoved(QString mapName, QString regionNameFrom, QString regionNameTo);
     
     /**
      * A new map has been selected.

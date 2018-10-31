@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/set_atlas_name.hpp>
+#include <rpgmapper/exception/invalid_atlas.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -18,18 +19,14 @@ SetAtlasName::SetAtlasName(QString name) : newName{std::move(name)} {
 
 
 void SetAtlasName::execute() {
-/**
- * TODO
- *
-
-    if (!Atlas::isNameValid(newName)) {
-        throw std::runtime_error("Atlas name is invalid.");
+    
+    auto atlas = Session::getCurrentSession()->getAtlas();
+    if (!atlas->isValid()) {
+        throw rpgmapper::model::exception::invalid_atlas();
     }
-
-    auto atlas = getAtlas();
+    
     oldName = atlas->getName();
     atlas->setName(newName);
-*/
 }
 
 
@@ -39,11 +36,10 @@ QString SetAtlasName::getDescription() const {
 
 
 void SetAtlasName::undo() {
-/**
- * TODO
- *
-
-    auto atlas = getAtlas();
+    
+    auto atlas = Session::getCurrentSession()->getAtlas();
+    if (!atlas->isValid()) {
+        throw rpgmapper::model::exception::invalid_atlas();
+    }
     atlas->setName(oldName);
-*/
 }

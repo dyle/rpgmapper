@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/resize_map.hpp>
+#include <rpgmapper/exception/invalid_mapname.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -18,17 +19,14 @@ ResizeMap::ResizeMap(QString mapName, QSize newSize) : mapName{std::move(mapName
 
 
 void ResizeMap::execute() {
-/**
- * TODO
- *
-
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        oldSize = map->getCoordinateSystem()->getSize();
-        map->getCoordinateSystem()->resize(newSize);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_mapname();
     }
-*/
+    
+    oldSize = map->getCoordinateSystem()->getSize();
+    map->getCoordinateSystem()->resize(newSize);
 }
 
 
@@ -38,13 +36,11 @@ QString ResizeMap::getDescription() const {
 
 
 void ResizeMap::undo() {
-/**
- * TODO
- *
-    auto atlas = getAtlas();
-    auto map = atlas->findMap(mapName);
-    if (map->isValid()) {
-        map->getCoordinateSystem()->resize(oldSize);
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_mapname();
     }
-*/
+    
+    map->getCoordinateSystem()->resize(oldSize);
 }

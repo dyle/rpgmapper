@@ -4,29 +4,23 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <gtest/gtest.h>
 
 #include <rpgmapper/map.hpp>
+#include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/region.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 
 
 TEST(MapTest, CreateMapIsValid) {
+    
+    Session::setCurrentSession(Session::init());
+    Session::getCurrentSession()->createRegion("region-1");
+    auto map = Session::getCurrentSession()->createMap("foo", "region-1");
 
-    Map map{"foo"};
-
-    ASSERT_TRUE(map.isValid());
-}
-
-
-TEST(MapTest, CreateMapPointerIsValid) {
-
-    MapPointer map{new Map{"foo"}};
-
-    EXPECT_NE(map.data(), nullptr);
-    EXPECT_TRUE(map->isValid());
+    ASSERT_TRUE(map->isValid());
 }
 
 
@@ -35,61 +29,52 @@ TEST(MapTest, CreateInvalidMapIsNotValid) {
 }
 
 
-TEST(MapTest, CreateInvalidMapPointerIsNotValid) {
-
-    MapPointer map{new InvalidMap{}};
-
-    EXPECT_NE(map.data(), nullptr);
-    EXPECT_FALSE(map->isValid());
-}
-
 
 TEST(MapTest, MapGetAndSetName) {
+    
+    Session::setCurrentSession(Session::init());
+    Session::getCurrentSession()->createRegion("region-1");
+    
+    auto map = Session::getCurrentSession()->createMap("foo", "region-1");
 
-    Map map{"foo"};
-    EXPECT_EQ(map.getName().toStdString(), "foo");
-
-    map.setName("bar");
-    EXPECT_EQ(map.getName().toStdString(), "bar");
+    EXPECT_EQ(map->getName().toStdString(), "foo");
+    map->setName("bar");
+    EXPECT_EQ(map->getName().toStdString(), "bar");
 }
 
 
 TEST(MapTest, GetRegionNameOfMap) {
-
-    Region region{"foo"};
-    region.createMap("bar");
-    auto map = region.findMap("bar");
+    
+    Session::setCurrentSession(Session::init());
+    Session::getCurrentSession()->createRegion("region-1");
+    Session::getCurrentSession()->createMap("foo", "region-1");
+    
+    auto map = Session::getCurrentSession()->findMap("foo");
 
     ASSERT_TRUE(map->isValid());
-
     auto regionName = map->getRegionName();
-    EXPECT_EQ(regionName.toStdString(), "foo");
-}
-
-
-TEST(MapTest, GetNameOfMapWithInavlidRegion) {
-
-    Map map{"foo"};
-    auto regionName = map.getRegionName();
-
-    EXPECT_EQ(regionName, QString::null);
+    EXPECT_EQ(regionName.toStdString(), "region-1");
 }
 
 
 TEST(MapTest, GetBackgroundLayer) {
+    
+    Session::setCurrentSession(Session::init());
+    Session::getCurrentSession()->createRegion("region-1");
+    auto map = Session::getCurrentSession()->createMap("foo", "region-1");
 
-    Map map{"foo"};
-    auto layer = map.getBackgroundLayer();
-
+    auto layer = map->getLayers().getBackgroundLayer();
     EXPECT_TRUE(layer->isValid());
 }
 
 
 TEST(MapTest, GetBaseLayers) {
+    
+    Session::setCurrentSession(Session::init());
+    Session::getCurrentSession()->createRegion("region-1");
+    auto map = Session::getCurrentSession()->createMap("foo", "region-1");
 
-    Map map{"foo"};
-    auto layers = map.getBaseLayers();
-
+    auto layers = map->getLayers().getBaseLayers();
     EXPECT_GT(layers.size(), 0);
     for (auto const & layer : layers) {
         EXPECT_TRUE(layer->isValid());
@@ -98,19 +83,23 @@ TEST(MapTest, GetBaseLayers) {
 
 
 TEST(MapTest, GetGridLayer) {
+    
+    Session::setCurrentSession(Session::init());
+    Session::getCurrentSession()->createRegion("region-1");
+    auto map = Session::getCurrentSession()->createMap("foo", "region-1");
 
-    Map map{"foo"};
-    auto layer = map.getGridLayer();
-
+    auto layer = map->getLayers().getGridLayer();
     EXPECT_TRUE(layer->isValid());
 }
 
 
 TEST(MapTest, GetTileLayers) {
+    
+    Session::setCurrentSession(Session::init());
+    Session::getCurrentSession()->createRegion("region-1");
+    auto map = Session::getCurrentSession()->createMap("foo", "region-1");
 
-    Map map{"foo"};
-    auto layers = map.getTileLayers();
-
+    auto layers = map->getLayers().getTileLayers();
     EXPECT_GT(layers.size(), 0);
     for (auto const & layer : layers) {
         EXPECT_TRUE(layer->isValid());
@@ -119,21 +108,23 @@ TEST(MapTest, GetTileLayers) {
 
 
 TEST(MapTest, GetTextLayer) {
+    
+    Session::setCurrentSession(Session::init());
+    Session::getCurrentSession()->createRegion("region-1");
+    auto map = Session::getCurrentSession()->createMap("foo", "region-1");
 
-    Map map{"foo"};
-    auto layer = map.getTextLayer();
-
+    auto layer = map->getLayers().getTextLayer();
     EXPECT_TRUE(layer->isValid());
 }
 
 
 TEST(MapTest, ValidNames) {
 
-    EXPECT_TRUE(Map::isNameValid("Middleearth"));
-    EXPECT_TRUE(Map::isNameValid("A land far far away"));
-    EXPECT_TRUE(Map::isNameValid("Asgard!"));
-    EXPECT_FALSE(Map::isNameValid("This is: invalid"));
-    EXPECT_FALSE(Map::isNameValid("This is also \\ invalid"));
-    EXPECT_FALSE(Map::isNameValid("This is invalid * as well"));
-    EXPECT_FALSE(Map::isNameValid("And this ? is also invalid"));
+    EXPECT_TRUE(MapNameValidator::isValid("Middleearth"));
+    EXPECT_TRUE(MapNameValidator::isValid("A land far far away"));
+    EXPECT_TRUE(MapNameValidator::isValid("Asgard!"));
+    EXPECT_FALSE(MapNameValidator::isValid("This is: invalid"));
+    EXPECT_FALSE(MapNameValidator::isValid("This is also \\ invalid"));
+    EXPECT_FALSE(MapNameValidator::isValid("This is invalid * as well"));
+    EXPECT_FALSE(MapNameValidator::isValid("And this ? is also invalid"));
 }

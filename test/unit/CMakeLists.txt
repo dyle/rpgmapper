@@ -2,7 +2,6 @@
 # See the LICENSE file for the software license.
 # (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
 
-
 include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR})
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data  DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

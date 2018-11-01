@@ -4,13 +4,12 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <gtest/gtest.h>
 
-#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/command/create_map.hpp>
 #include <rpgmapper/command/create_region.hpp>
 #include <rpgmapper/command/nop.hpp>
+#include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/command/remove_map.hpp>
 #include <rpgmapper/command/remove_region.hpp>
 #include <rpgmapper/command/resize_map.hpp>
@@ -22,6 +21,7 @@
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
 #include <rpgmapper/command/set_map_origin.hpp>
 #include <rpgmapper/command/set_region_name.hpp>
+#include <rpgmapper/atlas.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
@@ -33,7 +33,7 @@ TEST(ProzessorTest, DoNopCommand) {
 
     EXPECT_EQ(prozessor.modifications(), 0);
     EXPECT_TRUE(prozessor.getHistory().empty());
-    prozessor.execute(CommandPointer{new Nop});
+    prozessor.execute(QSharedPointer<rpgmapper::model::command::Command>{new Nop});
     EXPECT_NE(prozessor.modifications(), 0);
 
     EXPECT_EQ(prozessor.getHistory().size(), 1);
@@ -46,12 +46,16 @@ TEST(ProzessorTest, DoNopCommand) {
 }
 
 
+/*
+ * TODO
+ *
+
 TEST(ProzessorTest, AtlasChanged) {
 
     AtlasPointer atlas{new Atlas};
     EXPECT_FALSE(atlas->isModified());
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new SetAtlasName{atlas, "foo"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new SetAtlasName{atlas, "foo"}});
     EXPECT_TRUE(atlas->isModified());
 
     atlas->getCommandProzessor()->undo();
@@ -67,7 +71,7 @@ TEST(ProzessorTest, SetAtlasName) {
     AtlasPointer atlas{new Atlas};
     atlas->setName("foo");
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new SetAtlasName{atlas, "bar"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new SetAtlasName{atlas, "bar"}});
     EXPECT_EQ(atlas->getName().toStdString(), "bar");
     EXPECT_EQ(atlas->getCommandProzessor()->getHistory().size(), 1);
     EXPECT_EQ(atlas->getCommandProzessor()->getHistory().front()->getDescription().toStdString(),
@@ -103,14 +107,14 @@ TEST(ProzessorTest, NewCommandResetsUndoneList) {
     AtlasPointer atlas{new Atlas};
     atlas->setName("foo");
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new SetAtlasName{atlas, "bar"}});
-    atlas->getCommandProzessor()->execute(CommandPointer{new SetAtlasName{atlas, "baz"}});
-    atlas->getCommandProzessor()->execute(CommandPointer{new SetAtlasName{atlas, "bam"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new SetAtlasName{atlas, "bar"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new SetAtlasName{atlas, "baz"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new SetAtlasName{atlas, "bam"}});
     atlas->getCommandProzessor()->undo();
     atlas->getCommandProzessor()->undo();
     EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 2);
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new SetAtlasName{atlas, "bag"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new SetAtlasName{atlas, "bag"}});
     EXPECT_EQ(atlas->getCommandProzessor()->getUndone().size(), 0);
 }
 
@@ -119,7 +123,7 @@ TEST(ProzessorTest, CreateRegion) {
 
     AtlasPointer atlas{new Atlas};
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new CreateRegion{atlas, "foo"}});
 
     auto regionNames = atlas->getAllRegionNames();
     EXPECT_NE(regionNames.find("foo"), regionNames.end());
@@ -141,8 +145,8 @@ TEST(ProzessorTest, CreateMap) {
 
     AtlasPointer atlas{new Atlas};
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
-    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new CreateRegion{atlas, "foo"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new CreateMap{atlas, "foo", "bar"}});
 
     auto regionNames = atlas->getAllRegionNames();
     EXPECT_NE(regionNames.find("foo"), regionNames.end());
@@ -170,13 +174,13 @@ TEST(ProzessorTest, RemoveMap) {
 
     AtlasPointer atlas{new Atlas};
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
-    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new CreateRegion{atlas, "foo"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new CreateMap{atlas, "foo", "bar"}});
 
     auto mapNames = atlas->getAllMapNames();
     EXPECT_NE(mapNames.find("bar"), mapNames.end());
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new RemoveMap{atlas, "foo", "bar"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new RemoveMap{atlas, "foo", "bar"}});
 
     mapNames = atlas->getAllMapNames();
     EXPECT_EQ(mapNames.find("bar"), mapNames.end());
@@ -191,21 +195,21 @@ TEST(ProzessorTest, RemoveRegion) {
 
     AtlasPointer atlas{new Atlas};
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new CreateRegion{atlas, "foo"}});
 
     auto regionNames = atlas->getAllRegionNames();
     EXPECT_NE(regionNames.find("foo"), regionNames.end());
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
-    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "baz"}});
-    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "bam"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new CreateMap{atlas, "foo", "bar"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new CreateMap{atlas, "foo", "baz"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new CreateMap{atlas, "foo", "bam"}});
 
     auto mapNames = atlas->getAllMapNames();
     EXPECT_NE(mapNames.find("bar"), mapNames.end());
     EXPECT_NE(mapNames.find("baz"), mapNames.end());
     EXPECT_NE(mapNames.find("bam"), mapNames.end());
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new RemoveRegion{atlas, "foo"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new RemoveRegion{atlas, "foo"}});
 
     regionNames = atlas->getAllRegionNames();
     EXPECT_EQ(regionNames.find("foo"), regionNames.end());
@@ -228,12 +232,14 @@ TEST(ProzessorTest, RemoveRegion) {
 TEST(ProzessorTest, SetRegionName) {
 
     AtlasPointer atlas{new Atlas};
-    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new CreateRegion{atlas, "foo"}});
     auto region = atlas->findRegion("foo");
     EXPECT_TRUE(region->isValid());
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new SetRegionName{atlas, "foo", "bar"}});
+    atlas->getCommandProzessor()->execute(QSharedPointer<rpgmapper::model::command::Command>{new SetRegionName{atlas, "foo", "bar"}});
     region = atlas->findRegion("bar");
     ASSERT_TRUE(region->isValid());
     EXPECT_EQ(region->getName().toStdString(), "bar");
 }
+
+ */

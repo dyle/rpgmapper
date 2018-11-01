@@ -7,7 +7,6 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_PROZESSOR_HPP
 #define RPGMAPPER_MODEL_COMMAND_PROZESSOR_HPP
 
-
 #include <memory>
 
 #include <QObject>
@@ -53,7 +52,7 @@ public:
      *
      * @param   command     the command to execute.
      */
-    void execute(QSharedPointer<rpgmapper::model::command::Command> & command);
+    void execute(QSharedPointer<rpgmapper::model::command::Command> command);
 
     /**
      * Returns the list of commands executed so far.

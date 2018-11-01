@@ -16,7 +16,9 @@ using namespace rpgmapper::model;
 
 // TODO: remove when done
 #if defined(__GNUC__) || defined(__GNUCPP__)
-#   define UNUSED   __attribute__((unused))
+#   ifndef UNUSED
+#       define UNUSED   __attribute__((unused))
+#   endif
 #else
 #   define UNUSED
 #endif

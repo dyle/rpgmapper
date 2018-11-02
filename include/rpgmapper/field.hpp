@@ -33,18 +33,12 @@ using Tile = std::map<QString, QString>;
 
 
 /**
- * Tiles is a list (vector) of Tiles (aka key-value pairs).
- */
-using Tiles = std::vector<Tile>;
-
-
-/**
  * A Field class has a position and a list of tiles placed on it.
  */
 class Field {
 
-    QPoint position;            /**< The fields position. */
-    Tiles tiles;                /**< All the tiles placed on the field. */
+    QPoint position;                /**< The fields position. */
+    std::vector<Tile> tiles;        /**< All the tiles placed on the field. */
 
 public:
 
@@ -89,6 +83,24 @@ public:
      */
     static int getIndex(QPoint const & point) {
         return getIndex(point.x(), point.y());
+    }
+
+    /**
+     * Gets the tiles attached to this field.
+     *
+     * @return  the tiles of this field.
+     */
+    std::vector<Tile> & getTiles() {
+        return tiles;
+    }
+
+    /**
+     * Gets the tiles attached to this field (const version).
+     *
+     * @return  the tiles of this field.
+     */
+    std::vector<Tile> const & getTiles() const {
+        return tiles;
     }
 
     /**

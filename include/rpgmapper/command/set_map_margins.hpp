@@ -7,7 +7,6 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_MAP_MARGINS_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_MARGINS_HPP
 
-
 #include <QMargins>
 
 #include <rpgmapper/command/command.hpp>

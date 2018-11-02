@@ -7,7 +7,6 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_MAP_AXIS_COLOR_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_AXIS_COLOR_HPP
 
-
 #include <QColor>
 
 #include <rpgmapper/command/command.hpp>

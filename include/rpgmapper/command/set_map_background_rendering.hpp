@@ -4,10 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_MAP_BACKGROUND_RENDERING_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_BACKGROUND_RENDERING_HPP
-
 
 #include <QColor>
 

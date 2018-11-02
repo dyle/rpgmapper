@@ -1,4 +1,3 @@
-
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.

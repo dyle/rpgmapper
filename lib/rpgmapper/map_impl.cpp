@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <QJsonArray>
 
 #include <rpgmapper/layer/background_layer.hpp>

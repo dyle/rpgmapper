@@ -25,8 +25,8 @@ namespace rpgmapper {
 namespace model {
 
 
-// TODO: why?
-class Region;
+// fwd
+class Session;
 
 
 /**
@@ -35,10 +35,14 @@ class Region;
  * This is the heart of the rpgmapper. A map is a collection of layers,
  * which in turn define tiles, background, texts, etc. it has a name and
  * a coordinate system attached.
+ *
+ * Maps may be only created via a Session object.
  */
 class Map : public Nameable {
     
     Q_OBJECT
+
+    friend class rpgmapper::model::Session;
 
     // TODO: turn to smart pointer
     CoordinateSystem * coordinateSystem;            /**< the coordinate system of the map */
@@ -48,17 +52,9 @@ class Map : public Nameable {
 public:
 
     /**
-     * Creates a map with a given name inside a region.
-     *
-     * @param   mapName         the new name of the map.
-     * @param   regionName      the region to which the map belongs to.
-     */
-    explicit Map(QString mapName, QString regionName);
-
-    /**
      * Destructor.
      */
-    ~Map();
+    ~Map() override;
     
     /**
      * Applies a JSON to this instance.
@@ -166,7 +162,17 @@ public:
      * @return  the new region of the map.
      */
     void setRegionName(QString regionName);
-    
+
+protected:
+
+    /**
+     * Creates a map with a given name inside a region.
+     *
+     * @param   mapName         the new name of the map.
+     * @param   regionName      the region to which the map belongs to.
+     */
+    explicit Map(QString mapName, QString regionName);
+
 signals:
     
     /**

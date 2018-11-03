@@ -10,6 +10,8 @@
 #include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/session.hpp>
+#include <rpgmapper/exception/invalid_regionname.hpp>
+#include <rpgmapper/exception/invalid_mapname.hpp>
 
 using namespace rpgmapper::model;
 
@@ -29,17 +31,27 @@ TEST(MapTest, CreateInvalidMapIsNotValid) {
 }
 
 
+TEST(MapTest, CreateMapWithInvalidRegion) {
+
+    Session::setCurrentSession(Session::init());
+    ASSERT_THROW(Session::getCurrentSession()->createMap("foo", "NOT-EXISTING"),
+            rpgmapper::model::exception::invalid_regionname);
+}
+
 
 TEST(MapTest, MapGetAndSetName) {
     
     Session::setCurrentSession(Session::init());
-    Session::getCurrentSession()->createRegion("region-1");
-    
+    auto region = Session::getCurrentSession()->createRegion("region-1");
     auto map = Session::getCurrentSession()->createMap("foo", "region-1");
 
     EXPECT_EQ(map->getName().toStdString(), "foo");
+    ASSERT_EQ(region->getMapNames().size(), 1);
+    EXPECT_EQ(*(region->getMapNames().begin()), "foo");
     map->setName("bar");
     EXPECT_EQ(map->getName().toStdString(), "bar");
+    ASSERT_EQ(region->getMapNames().size(), 1);
+    EXPECT_EQ(*(region->getMapNames().begin()), "bar");
 }
 
 
@@ -158,6 +170,14 @@ TEST(MapTest, DeleteMap) {
     EXPECT_EQ(session->getAllRegionNames().size(), 2);
     EXPECT_EQ(region1->getMapNames().size(), 0);
     ASSERT_EQ(session->getAllMapNames().size(), 1);
+}
+
+
+TEST(MapTest, DeleteInvalidMap) {
+
+    Session::setCurrentSession(Session::init());
+    ASSERT_THROW(Session::getCurrentSession()->deleteMap("foo"),
+            rpgmapper::model::exception::invalid_mapname);
 }
 
 

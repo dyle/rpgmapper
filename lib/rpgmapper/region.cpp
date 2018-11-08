@@ -70,6 +70,11 @@ void Region::changeMapName(QString oldName, QString newName) {
 }
 
 
+bool Region::containsMap(QString map) const {
+    return maps.find(map) != maps.end();
+}
+
+
 QString Region::createRegionName() {
     
     auto allRegionNames = Session::getCurrentSession()->getAllRegionNames();

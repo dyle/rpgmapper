@@ -4,13 +4,12 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <gtest/gtest.h>
 
-#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/command/create_map.hpp>
 #include <rpgmapper/command/create_region.hpp>
 #include <rpgmapper/command/nop.hpp>
+#include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/command/remove_map.hpp>
 #include <rpgmapper/command/remove_region.hpp>
 #include <rpgmapper/command/resize_map.hpp>
@@ -26,24 +25,32 @@
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
 #include <rpgmapper/command/set_map_origin.hpp>
 #include <rpgmapper/command/set_region_name.hpp>
+#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
 TEST(MapCommand, SetMapName) {
-
-    AtlasPointer atlas{new Atlas};
-    atlas->getCommandProzessor()->execute(CommandPointer{new CreateRegion{atlas, "foo"}});
+    
+    Session::setCurrentSession(Session::init());
+    auto session = Session::getCurrentSession();
+    auto processor = session->getCommandProzessor();
+    
+    using CommandPointer = QSharedPointer<rpgmapper::model::command::Command>;
+    
+    processor->execute(CommandPointer{new CreateRegion{"foo"}});
+    
     auto region = atlas->findRegion("foo");
     EXPECT_TRUE(region->isValid());
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{atlas, "foo", "bar"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new CreateMap{"foo", "bar"}});
     auto map = atlas->findMap("bar");
     ASSERT_TRUE(map->isValid());
     EXPECT_EQ(map->getName().toStdString(), "bar");
 
-    atlas->getCommandProzessor()->execute(CommandPointer{new SetMapName{atlas, "bar", "baz"}});
+    atlas->getCommandProzessor()->execute(CommandPointer{new SetMapName{"bar", "baz"}});
     map = atlas->findMap("baz");
     ASSERT_TRUE(map->isValid());
     EXPECT_EQ(map->getName().toStdString(), "baz");

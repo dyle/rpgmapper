@@ -69,6 +69,14 @@ public:
     void changeMapName(QString oldName, QString newName);
     
     /**
+     * Checks if the given map name is part of this region.
+     *
+     * @param   map     the nam eof the mpa to check.
+     * @return  returns true, if the given map belongs to this region.
+     */
+    bool containsMap(QString map) const;
+    
+    /**
      * Suggests a new region name.
      *
      * @return  a new proper name of a region.

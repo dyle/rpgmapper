@@ -11,6 +11,38 @@
 using namespace rpgmapper::model;
 
 
+TEST(FieldTest, ValidField) {
+    EXPECT_TRUE(Field(0, 0).isValid());
+}
+
+
+TEST(FieldTest, InvalidField) {
+    EXPECT_FALSE(Field::nullField().isValid());
+}
+
+
+TEST(FieldTest, FieldIndexInstances) {
+
+    EXPECT_EQ(Field(0, 0).getIndex(), 0);
+    EXPECT_EQ(Field(10, 0).getIndex(), 10);
+    EXPECT_EQ(Field(999, 0).getIndex(), 999);
+    EXPECT_EQ(Field(0, 1).getIndex(), 1000);
+    EXPECT_EQ(Field(1, 1).getIndex(), 1001);
+    EXPECT_EQ(Field(10, 10).getIndex(), 10010);
+}
+
+
+TEST(FieldTest, FieldIndexPoints) {
+
+    EXPECT_EQ(Field::getIndex(QPoint(0, 0)), 0);
+    EXPECT_EQ(Field::getIndex(QPoint(10, 0)), 10);
+    EXPECT_EQ(Field::getIndex(QPoint(999, 0)), 999);
+    EXPECT_EQ(Field::getIndex(QPoint(0, 1)), 1000);
+    EXPECT_EQ(Field::getIndex(QPoint(1, 1)), 1001);
+    EXPECT_EQ(Field::getIndex(QPoint(10, 10)), 10010);
+}
+
+
 TEST(FieldTest, FieldIndexValues) {
 
     EXPECT_EQ(Field::getIndex(0, 0), 0);
@@ -20,3 +52,11 @@ TEST(FieldTest, FieldIndexValues) {
     EXPECT_EQ(Field::getIndex(1, 1), 1001);
     EXPECT_EQ(Field::getIndex(10, 10), 10010);
 }
+
+
+TEST(FieldTest, GetTiles) {
+
+    auto field = Field(1, 1);
+    EXPECT_EQ(field.getTiles().size(), 0);
+}
+

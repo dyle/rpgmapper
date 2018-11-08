@@ -10,6 +10,8 @@
 #include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/session.hpp>
+#include <rpgmapper/exception/invalid_regionname.hpp>
+#include <rpgmapper/exception/invalid_mapname.hpp>
 
 using namespace rpgmapper::model;
 
@@ -29,17 +31,27 @@ TEST(MapTest, CreateInvalidMapIsNotValid) {
 }
 
 
+TEST(MapTest, CreateMapWithInvalidRegion) {
+
+    Session::setCurrentSession(Session::init());
+    ASSERT_THROW(Session::getCurrentSession()->createMap("foo", "NOT-EXISTING"),
+            rpgmapper::model::exception::invalid_regionname);
+}
+
 
 TEST(MapTest, MapGetAndSetName) {
     
     Session::setCurrentSession(Session::init());
-    Session::getCurrentSession()->createRegion("region-1");
-    
+    auto region = Session::getCurrentSession()->createRegion("region-1");
     auto map = Session::getCurrentSession()->createMap("foo", "region-1");
 
     EXPECT_EQ(map->getName().toStdString(), "foo");
+    ASSERT_EQ(region->getMapNames().size(), 1);
+    EXPECT_EQ(*(region->getMapNames().begin()), "foo");
     map->setName("bar");
     EXPECT_EQ(map->getName().toStdString(), "bar");
+    ASSERT_EQ(region->getMapNames().size(), 1);
+    EXPECT_EQ(*(region->getMapNames().begin()), "bar");
 }
 
 
@@ -54,6 +66,17 @@ TEST(MapTest, GetRegionNameOfMap) {
     ASSERT_TRUE(map->isValid());
     auto regionName = map->getRegionName();
     EXPECT_EQ(regionName.toStdString(), "region-1");
+}
+
+
+TEST(MapTest, GetAxisLayer) {
+
+    Session::setCurrentSession(Session::init());
+    Session::getCurrentSession()->createRegion("region-1");
+    auto map = Session::getCurrentSession()->createMap("foo", "region-1");
+
+    auto layer = map->getLayers().getAxisLayer();
+    EXPECT_TRUE(layer->isValid());
 }
 
 
@@ -127,4 +150,53 @@ TEST(MapTest, ValidNames) {
     EXPECT_FALSE(MapNameValidator::isValid("This is also \\ invalid"));
     EXPECT_FALSE(MapNameValidator::isValid("This is invalid * as well"));
     EXPECT_FALSE(MapNameValidator::isValid("And this ? is also invalid"));
+}
+
+
+TEST(MapTest, DeleteMap) {
+
+    Session::setCurrentSession(Session::init());
+    auto session = Session::getCurrentSession();
+    auto region1 = session->createRegion("region-1");
+    auto map = session->createMap("foo", "region-1");
+
+    EXPECT_EQ(session->getAllRegionNames().size(), 2);
+    EXPECT_EQ(region1->getMapNames().size(), 1);
+    ASSERT_EQ(session->getAllMapNames().size(), 2);
+    EXPECT_EQ(*(session->getAllMapNames().begin()), "foo");
+
+    session->deleteMap("foo");
+
+    EXPECT_EQ(session->getAllRegionNames().size(), 2);
+    EXPECT_EQ(region1->getMapNames().size(), 0);
+    ASSERT_EQ(session->getAllMapNames().size(), 1);
+}
+
+
+TEST(MapTest, DeleteInvalidMap) {
+
+    Session::setCurrentSession(Session::init());
+    ASSERT_THROW(Session::getCurrentSession()->deleteMap("foo"),
+            rpgmapper::model::exception::invalid_mapname);
+}
+
+
+TEST(MapTest, MoveMapToOtherRegion) {
+
+    Session::setCurrentSession(Session::init());
+    auto region1 = Session::getCurrentSession()->createRegion("region-1");
+    auto region2 = Session::getCurrentSession()->createRegion("region-2");
+    auto map = Session::getCurrentSession()->createMap("foo", "region-1");
+
+    ASSERT_EQ(region1->getMapNames().size(), 1);
+    EXPECT_EQ(*(region1->getMapNames().begin()), "foo");
+    ASSERT_EQ(region2->getMapNames().size(), 0);
+    EXPECT_EQ(map->getRegionName(), "region-1");
+
+    map->setRegionName("region-2");
+
+    ASSERT_EQ(region1->getMapNames().size(), 0);
+    ASSERT_EQ(region2->getMapNames().size(), 1);
+    EXPECT_EQ(*(region2->getMapNames().begin()), "foo");
+    EXPECT_EQ(map->getRegionName(), "region-2");
 }

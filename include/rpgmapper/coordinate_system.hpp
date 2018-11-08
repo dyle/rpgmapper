@@ -24,7 +24,7 @@ namespace model {
 
 
 /**
- * These are the different positions we can place to origin on a coordinatesystem.
+ * These are the different positions we can place to origin on a CoordinateSystem.
  */
 enum class CoordinatesOrigin { topLeft, topRight, bottomLeft, bottomRight };
 
@@ -55,7 +55,7 @@ class CoordinateSystem : public QObject, public rpgmapper::model::json::JSONIO {
     Q_OBJECT
 
     CoordinatesOrigin origin = CoordinatesOrigin::bottomLeft;       /**< Position of the origin. */
-    QSize size{10, 10};                                             /**< Size of the coordniate system/map. */
+    QSize size{10, 10};                                             /**< Size of the coordinate system/map. */
     QSharedPointer<NumeralConverter> numeralXAxis;                  /**< Numerals used for the X-Axis. */
     QSharedPointer<NumeralConverter> numeralYAxis;                  /**< Numerals used for the Y-Axis. */
     QPointF offset{0.0, 0.0};                                       /**< Offset of the origin. */

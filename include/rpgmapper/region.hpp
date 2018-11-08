@@ -23,28 +23,29 @@ namespace rpgmapper {
 namespace model {
 
 
+// fwd
+class Session;
+
+
 /**
  * A Region is a collection of Maps.
+ *
+ * A region may only be created by Session object.
  */
 class Region : public Nameable {
 
     Q_OBJECT
+
+    friend class rpgmapper::model::Session;
     
     std::set<QString> maps;             /**< All maps known to this region. */
 
 public:
 
     /**
-     * Constructor
-     *
-     * @param   name        name of the new region.
-     */
-    explicit Region(QString name);
-
-    /**
      * Destructor.
      */
-    ~Region() = default;
+    ~Region() override = default;
 
     /**
      * Adds an existing map to this region.
@@ -132,9 +133,17 @@ public:
      */
     void setName(QString name) override;
 
+protected:
+
+    /**
+     * Constructor
+     *
+     * @param   name        name of the new region.
+     */
+    explicit Region(QString name);
 
 private:
-    
+
     /**
      * Applies a JSON Map info to this instance.
      *

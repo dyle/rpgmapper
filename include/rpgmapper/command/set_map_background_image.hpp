@@ -7,7 +7,6 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_MAP_BACKGROUND_IMAGE_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_BACKGROUND_IMAGE_HPP
 
-
 #include <QImage>
 
 #include <rpgmapper/command/command.hpp>

@@ -6,7 +6,9 @@ project(rpgmapper C CXX)
 cmake_minimum_required(VERSION 3.9.1)
 
 cmake_policy(SET CMP0057 NEW)
-cmake_policy(SET CMP0075 NEW)
+if (CMAKE_VERSION VERSION_EQUAL "3.12.0" OR CMAKE_VERSION VERSION_GREATER "3.12.0")
+    cmake_policy(SET CMP0075 NEW)
+endif (CMAKE_VERSION VERSION_EQUAL "3.12.0" OR CMAKE_VERSION VERSION_GREATER "3.12.0")
 
 enable_testing()
 

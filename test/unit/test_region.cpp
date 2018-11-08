@@ -22,6 +22,24 @@ TEST(RegionTest, CreateRegionIsValid) {
 }
 
 
+TEST(RegionTest, DeleteRegionAndMap) {
+
+    Session::setCurrentSession(Session::init());
+    auto session = Session::getCurrentSession();
+    EXPECT_EQ(session->getAllRegionNames().size(), 1);
+    EXPECT_EQ(session->getAllMapNames().size(), 1);
+
+    session->createRegion("foo");
+    session->createMap("bar", "foo");
+
+    EXPECT_EQ(session->getAllRegionNames().size(), 2);
+    EXPECT_EQ(session->getAllMapNames().size(), 2);
+    session->deleteRegion("foo");
+    EXPECT_EQ(session->getAllRegionNames().size(), 1);
+    EXPECT_EQ(session->getAllMapNames().size(), 1);
+}
+
+
 TEST(RegionTest, RegionGetAndSetName) {
     
     Session::setCurrentSession(Session::init());

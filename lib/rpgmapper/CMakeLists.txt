@@ -2,7 +2,6 @@
 # See the LICENSE file for the software license.
 # (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
 
-
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 set(RPGMAPPER_LIB_MOC

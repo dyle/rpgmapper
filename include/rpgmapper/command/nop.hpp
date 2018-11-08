@@ -7,7 +7,6 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_NOP_HPP
 #define RPGMAPPER_MODEL_COMMAND_NOP_HPP
 
-
 #include <memory>
 
 #include <QString>

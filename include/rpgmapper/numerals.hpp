@@ -95,7 +95,7 @@ protected:
 
 
 /**
- * This class represents the inavlid numeral converter.
+ * This class represents the invalid numeral converter.
  */
 class InvalidNumeralConverter final : public NumeralConverter {
 

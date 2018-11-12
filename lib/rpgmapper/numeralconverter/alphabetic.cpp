@@ -21,10 +21,10 @@ QString rpgmapper::model::convertToAlphabetic(int value, bool bigCaps) {
     int nQuotient = value / 26;
     int nRemainder = value % 26;
 
-    auto sChar = QString(static_cast<char>(nRemainder + (bigCaps ? 'A' : 'a')));
+    auto literal = QString(static_cast<char>(nRemainder + (bigCaps ? 'A' : 'a')));
     if (nQuotient == 0) {
-        return sChar;
+        return literal;
     }
 
-    return convertToAlphabetic(nQuotient - 1, bigCaps) + sChar;
+    return convertToAlphabetic(nQuotient - 1, bigCaps) + literal;
 }

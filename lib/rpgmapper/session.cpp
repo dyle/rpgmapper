@@ -227,6 +227,11 @@ void Session::insertRegion(QSharedPointer<Region> region) {
 }
 
 
+bool Session::isModified() const {
+    return getCommandProcessor()->modifications() != 0;
+}
+
+
 bool Session::load(UNUSED QSharedPointer<Session> & session, UNUSED QFile & file, UNUSED QStringList & log) {
     // TODO:
     return false;

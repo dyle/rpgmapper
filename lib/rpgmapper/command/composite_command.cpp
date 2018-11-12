@@ -9,7 +9,7 @@
 using namespace rpgmapper::model::command;
 
 
-void CompositeCommand::addCommand(QSharedPointer<rpgmapper::model::command::Command> command) {
+void CompositeCommand::addCommand(CommandPointer command) {
     commands.push_back(command);
 }
 

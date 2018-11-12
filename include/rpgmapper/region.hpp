@@ -64,6 +64,7 @@ public:
     
     /**
      * Change the name of a map known to this region.
+     *
      * @param   oldName     old name of the map
      * @param   newName     new name of the map
      */
@@ -152,16 +153,6 @@ private:
      */
     bool applyJSONMaps(QJsonArray const & jsonArray);
     
-private slots:
-
-    /**
-     * A map of us has changed its name.
-     *
-     * @param   nameBefore      name of the map as we know it
-     * @param   nameAfter       name of the map afterwards.
-     */
-    void changedMapName(QString nameBefore, QString nameAfter);
-
 signals:
 
     /**

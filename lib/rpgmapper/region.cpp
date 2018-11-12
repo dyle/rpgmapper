@@ -63,10 +63,11 @@ bool Region::applyJSONMaps(QJsonArray const & jsonArray) {
 }
 
 
-
 void Region::changeMapName(QString oldName, QString newName) {
-    maps.erase(oldName);
-    maps.insert(newName);
+    if (maps.find(oldName) != maps.end()) {
+        maps.erase(oldName);
+        maps.insert(newName);
+    }
 }
 
 
@@ -96,7 +97,7 @@ QJsonObject Region::getJSON() const {
     QJsonObject json = Nameable::getJSON();
     
     QJsonArray jsonMaps;
-    for (auto mapName: getMapNames()) {
+    for (auto const & mapName: getMapNames()) {
         jsonMaps.append(mapName);
     }
     json["maps"] = jsonMaps;

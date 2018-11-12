@@ -189,7 +189,7 @@ public:
      *
      * @return  the command processor of this session.
      */
-    QSharedPointer<rpgmapper::model::command::Processor> & getCommandProzessor() {
+    QSharedPointer<rpgmapper::model::command::Processor> & getCommandProcessor() {
         return commandProcessor;
     }
     
@@ -198,7 +198,7 @@ public:
      *
      * @return  the command processor of this session.
      */
-    QSharedPointer<rpgmapper::model::command::Processor> const & getCommandProzessor() const {
+    QSharedPointer<rpgmapper::model::command::Processor> const & getCommandProcessor() const {
         return commandProcessor;
     }
     

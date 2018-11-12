@@ -13,6 +13,7 @@
 #include <QSharedPointer>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/command/commands.hpp>
 
 
 namespace rpgmapper {
@@ -47,7 +48,7 @@ public:
      *
      * @param   command     the next sub-command to be executes.
      */
-    void addCommand(QSharedPointer<rpgmapper::model::command::Command> command);
+    void addCommand(CommandPointer command);
 
     /**
      * Returns the number of commnands so far collected.

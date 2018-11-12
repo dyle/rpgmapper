@@ -14,6 +14,7 @@
 #include <QSharedPointer>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/command/commands.hpp>
 
 
 namespace rpgmapper {
@@ -52,7 +53,7 @@ public:
      *
      * @param   command     the command to execute.
      */
-    void execute(QSharedPointer<rpgmapper::model::command::Command> command);
+    void execute(CommandPointer command);
 
     /**
      * Returns the list of commands executed so far.

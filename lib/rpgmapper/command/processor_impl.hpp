@@ -23,12 +23,12 @@ class Processor::Impl final {
     /**
      * This is the list of commands executed so far.
      */
-    std::list<QSharedPointer<rpgmapper::model::command::Command>> history;
+    std::list<CommandPointer> history;
     
     /**
      * This is the list of commands we have undone recently.
      */
-    std::list<QSharedPointer<rpgmapper::model::command::Command>> redoList;
+    std::list<CommandPointer> redoList;
     
     /**
      * This field holds the number of introduced changes to the world.
@@ -42,21 +42,21 @@ public:
      *
      * @param   command     the command to execute.
      */
-    void execute(QSharedPointer<rpgmapper::model::command::Command> & command);
+    void execute(CommandPointer & command);
     
     /**
      * Returns the history of all commands executed.
      *
      * @return  a list of all commands executed. Oldest first.
      */
-    std::list<QSharedPointer<rpgmapper::model::command::Command>> const & getHistory() const;
+    std::list<CommandPointer> const & getHistory() const;
 
     /**
      * Returns the list of all commands recently undone.
      *
      * @return  the list of all undone commands.
      */
-    std::list<QSharedPointer<rpgmapper::model::command::Command>> const & getUndone() const;
+    std::list<CommandPointer> const & getUndone() const;
 
     /**
      * Tells the number of changes applied to the world.
@@ -91,7 +91,7 @@ private:
      *
      * @param   command     the command to execute.
      */
-    void runCommand(QSharedPointer<rpgmapper::model::command::Command> & command);
+    void runCommand(CommandPointer & command);
 };
 
 

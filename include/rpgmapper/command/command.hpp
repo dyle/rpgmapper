@@ -51,12 +51,6 @@ public:
 };
 
 
-/**
- * A series of Command instances.
- */
-using Commands = std::list<QSharedPointer<Command>>;
-
-
 }
 }
 }

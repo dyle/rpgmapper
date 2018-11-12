@@ -9,18 +9,18 @@
 using namespace rpgmapper::model::command;
 
 
-void Processor::Impl::execute(QSharedPointer<rpgmapper::model::command::Command> & command) {
+void Processor::Impl::execute(CommandPointer & command) {
     redoList.clear();
     runCommand(command);
 }
 
 
-std::list<QSharedPointer<rpgmapper::model::command::Command>> const & Processor::Impl::getHistory() const {
+std::list<CommandPointer> const & Processor::Impl::getHistory() const {
     return history;
 }
 
 
-std::list<QSharedPointer<rpgmapper::model::command::Command>> const & Processor::Impl::getUndone() const {
+std::list<CommandPointer> const & Processor::Impl::getUndone() const {
     return redoList;
 }
 
@@ -35,7 +35,7 @@ void Processor::Impl::redo() {
 }
 
 
-void Processor::Impl::runCommand(QSharedPointer<rpgmapper::model::command::Command> & command) {
+void Processor::Impl::runCommand(CommandPointer & command) {
     history.push_back(command);
     changes++;
     command->execute();

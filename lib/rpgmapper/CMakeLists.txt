@@ -77,6 +77,7 @@ set(RPGMAPPER_LIB_SRC
     resource.cpp
     resource_db.cpp
     session.cpp
+    session_object.cpp
     zip.cpp
 )
 

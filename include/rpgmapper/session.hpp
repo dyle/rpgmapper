@@ -24,7 +24,7 @@ namespace model {
 
 
 /**
- * A Session object holds everything for a current system snapshot session of a user.
+ * A Session holds everything for a current system snapshot session of a user.
  */
 class Session : public QObject {
 

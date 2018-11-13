@@ -8,6 +8,7 @@
 
 #include <rpgmapper/exception/invalid_mapname.hpp>
 #include <rpgmapper/exception/invalid_regionname.hpp>
+#include <rpgmapper/exception/invalid_session.hpp>
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
@@ -18,12 +19,14 @@
 using namespace rpgmapper::model;
 
 
-Map::Map(QString mapName, QString regionName) : Nameable{} {
+Map::Map(QString mapName, QString regionName, Session * session) 
+        : Nameable{}, 
+          SessionObject{session} {
     
     setName(std::move(mapName));
     setRegionName(std::move(regionName));
     coordinateSystem = QSharedPointer<CoordinateSystem>(new CoordinateSystem);
-    layerStack.setMap(QSharedPointer<Map>(this));
+    layerStack.setMap(this);
 }
 
 
@@ -32,22 +35,6 @@ bool Map::applyJSON(QJsonObject const & json) {
     auto appliedLayerStack = getLayers().applyJSON(json);
     auto appliedCoordinateSystem = coordinateSystem->applyJSON(json);
     return appliedName && appliedLayerStack && appliedCoordinateSystem;
-}
-
-
-QString Map::createNewMapName() {
-    
-    auto allMapNames = Session::getCurrentSession()->getAllMapNames();
-    int i = 1;
-    QString candidate = QString("New Map %1").arg(QString::number(i));
-    
-    auto iter = allMapNames.find(candidate);
-    while (iter != allMapNames.end()) {
-        candidate = QString("New Map %1").arg(QString::number(++i));
-        iter = allMapNames.find(candidate);
-    }
-    
-    return candidate;
 }
 
 
@@ -79,7 +66,11 @@ void Map::setName(QString name) {
         throw rpgmapper::model::exception::invalid_mapname();
     }
     
-    auto session = Session::getCurrentSession();
+    auto session = getSession();
+    if (!session) {
+        throw exception::invalid_session();
+    }
+
     if (session->findMap(name)->isValid()) {
         throw rpgmapper::model::exception::invalid_mapname();
     }
@@ -96,10 +87,16 @@ void Map::setRegionName(QString regionName) {
         return;
     }
     
-    if (!Session::getCurrentSession()->findRegion(regionName)->isValid()) {
+    auto session = getSession();
+    if (!session) {
+        throw exception::invalid_session();
+    }
+
+    if (!session->findRegion(regionName)->isValid()) {
         throw rpgmapper::model::exception::invalid_regionname();
     }
     
     this->regionName = regionName;
     emit changedRegion();
 }
+

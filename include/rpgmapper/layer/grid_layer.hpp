@@ -31,7 +31,7 @@ public:
      *
      * @param   map     the map this layer belongs to.
      */
-    explicit GridLayer(QSharedPointer<Map> map);
+    explicit GridLayer(Map * map);
 
     /**
      * Destructs the GridLayer.

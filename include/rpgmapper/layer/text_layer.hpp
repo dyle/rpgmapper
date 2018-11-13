@@ -28,7 +28,7 @@ public:
      *
      * @param   map     the map this layer belongs to.
      */
-    explicit TextLayer(QSharedPointer<Map> map);
+    explicit TextLayer(Map * map);
 
     /**
      * Destructs the TextLayer.

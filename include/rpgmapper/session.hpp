@@ -73,7 +73,6 @@ public:
      */
     ~Session() override = default;
     
-    
     /**
      * Change (move) the lookup name of a map from one to another.
      *
@@ -81,7 +80,6 @@ public:
      * @param   newName     the new lookup name of the map.
      */
     void changeMapLookup(QString oldName, QString newName);
-    
     
     /**
      * Change (move) the lookup name of a region from one to another.
@@ -91,14 +89,28 @@ public:
      */
     void changeRegionLookup(QString oldName, QString newName);
     
-    
     /**
      * Creates a new map.
+     *
      * @param   mapName         Name of the new map.
      * @param   regionName      Name of the region to create map in.
      * @return  the newly created map.
      */
     MapPointer createMap(QString mapName, QString regionName);
+
+    /**
+     * Suggests a new map name.
+     *
+     * @return  a name suitable for a new map.
+     */
+    QString createNewMapName() const;
+
+    /**
+     * Suggests a new region name.
+     *
+     * @return  a name suitable for a new region.
+     */
+    QString createNewRegionName() const;
 
     /**
      * Creates a new region.

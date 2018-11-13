@@ -29,7 +29,7 @@ using namespace rpgmapper::model;
 static char const * BACKGROUND_COLOR_DEFAULT = "#fafaff";
 
 
-BackgroundLayer::BackgroundLayer(QSharedPointer<Map> map) : Layer{map} {
+BackgroundLayer::BackgroundLayer(Map * map) : Layer{map} {
     getAttributes()["color"] = BACKGROUND_COLOR_DEFAULT;
     getAttributes()["margins"] = R"raw({"top":0,"left":0,"right":0,"bottom":0})raw";
     getAttributes()["rendering"] = "color";

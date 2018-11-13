@@ -16,7 +16,7 @@ using namespace rpgmapper::model;
 static char const * DEFAULT_AXIS_COLOR = "#000000";
 
 
-AxisLayer::AxisLayer(QSharedPointer<Map> map) : Layer{map} {
+AxisLayer::AxisLayer(Map * map) : Layer{map} {
 
     getAttributes()["color"] = DEFAULT_AXIS_COLOR;
     QFont cDefaultFont{"Monospace", 10};

@@ -33,7 +33,7 @@ public:
      *
      * @param   map     the map this layer belongs to.
      */
-    explicit AxisLayer(QSharedPointer<Map> map);
+    explicit AxisLayer(Map * map);
 
     /**
      * Destructs the AxisLayer.

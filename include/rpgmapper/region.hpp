@@ -15,14 +15,11 @@
 #include <QSharedPointer>
 
 #include <rpgmapper/nameable.hpp>
+#include <rpgmapper/session_object.hpp>
 
 
 namespace rpgmapper {
 namespace model {
-
-
-// fwd
-class Session;
 
 
 /**
@@ -30,15 +27,20 @@ class Session;
  *
  * A region may only be created by Session object.
  */
-class Region : public Nameable {
+class Region : public Nameable, public SessionObject {
 
     Q_OBJECT
 
-    friend class rpgmapper::model::Session;
-    
     std::set<QString> maps;             /**< All maps known to this region. */
 
 public:
+
+    /**
+     * Constructor
+     *
+     * @param   name        name of the new region.
+     */
+    explicit Region(QString name, Session * session);
 
     /**
      * Destructor.
@@ -75,13 +77,6 @@ public:
      * @return  returns true, if the given map belongs to this region.
      */
     bool containsMap(QString map) const;
-    
-    /**
-     * Suggests a new region name.
-     *
-     * @return  a new proper name of a region.
-     */
-    static QString createRegionName();
     
     /**
      * Create a JSON structure from oourselves.
@@ -132,24 +127,14 @@ public:
      */
     void setName(QString name) override;
 
-protected:
-
-    /**
-     * Constructor
-     *
-     * @param   name        name of the new region.
-     */
-    explicit Region(QString name);
-
 private:
 
     /**
-     * Applies a JSON Map info to this instance.
+     * Adds the maps defined in the given JSON array.
      *
-     * @param   json    the JSON.
-     * @return  true, if the found values in the JSON data has been applied.
+     * @param   jsonArray       the array of maps
      */
-    bool applyJSONMaps(QJsonArray const & jsonArray);
+    bool applyJSONMaps(QJsonArray const & jsonArray); 
     
 signals:
 
@@ -179,8 +164,7 @@ public:
     /**
      * Constructor.
      */
-    InvalidRegion()
-        : Region{QString::Null{}} {
+    InvalidRegion() : Region{QString::Null{}, nullptr} {
     }
     
     /**

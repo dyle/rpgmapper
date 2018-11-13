@@ -16,7 +16,7 @@ using namespace rpgmapper::model;
 #endif
 
 
-TileLayer::TileLayer(QSharedPointer<Map> map) : Layer{map} {
+TileLayer::TileLayer(Map * map) : Layer{map} {
 }
 
 

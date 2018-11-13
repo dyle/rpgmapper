@@ -18,6 +18,10 @@ using namespace rpgmapper::model;
 #endif
 
 
+Atlas::Atlas(Session * session) : Nameable{}, SessionObject{session} {
+}
+
+
 bool Atlas::applyJSON(QJsonObject const & json) {
     
     if (!Nameable::applyJSON(json)) {

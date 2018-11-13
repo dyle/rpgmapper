@@ -16,7 +16,7 @@ using namespace rpgmapper::model;
 static char const * DEFAULT_GRID_COLOR = "#0022ff";
 
 
-GridLayer::GridLayer(QSharedPointer<Map> map) : Layer{map} {
+GridLayer::GridLayer(Map * map) : Layer{map} {
     getAttributes()["color"] = DEFAULT_GRID_COLOR;
 }
 

@@ -7,9 +7,6 @@
 #ifndef RPGMAPPER_MODEL_SESSION_OBJECT_HPP
 #define RPGMAPPER_MODEL_SESSION_OBJECT_HPP
 
-#include <QSharedPointer>
-#include <QWeakPointer>
-
 
 namespace rpgmapper {
 namespace model {
@@ -24,7 +21,7 @@ class Session;
  */
 class SessionObject {
 
-    QWeakPointer<Session> session;
+    Session * session;
 
 public:
 
@@ -33,17 +30,26 @@ public:
      *
      * @param   session         the parent session
      */
-    SessionObject(QSharedPointer<Session> session);
+    SessionObject(Session * session);
 
     /**
      * Get the session this object belongs to.
      *
      * @return  the session the layer belongs to.
      */
-    QSharedPointer<Session> getSession() {
-        return session.toStrongRef();
+    Session * getSession() {
+        return session;
     }
- };
+
+    /**
+     * Get the session this object belongs to (const version).
+     *
+     * @return  the session the layer belongs to.
+     */
+    Session const * getSession() const {
+        return session;
+    }
+};
     
 
 }

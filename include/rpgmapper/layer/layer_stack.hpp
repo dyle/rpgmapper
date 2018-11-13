@@ -26,6 +26,7 @@ namespace model {
 // Forward
 class Map;
 
+
 /**
  * This class aggregates all known layers into a single object.
  *
@@ -35,7 +36,7 @@ class Map;
  */
 class LayerStack {
     
-    QWeakPointer<Map> map;                                  /**< The map this LayerStack belongs to. */
+    Map * map;                                              /**< The map this LayerStack belongs to. */
     
     QSharedPointer<AxisLayer> axisLayer;                    /**< The axis layer */
     QSharedPointer<BackgroundLayer> backgroundLayer;        /**< The background layer. */
@@ -51,7 +52,7 @@ public:
      *
      * @param   map     the map this layer stack belongs to.
      */
-    explicit LayerStack(QSharedPointer<Map> map = nullptr);
+    explicit LayerStack(Map * map = nullptr);
     
     
     /**
@@ -159,8 +160,8 @@ public:
      *
      * @return  the map the layer belongs to.
      */
-    QSharedPointer<Map> getMap() {
-        return map.toStrongRef();
+    Map * getMap() {
+        return map;
     }
     
     /**
@@ -168,8 +169,8 @@ public:
      *
      * @return  the map the layer belongs to.
      */
-    QSharedPointer<Map> const getMap() const {
-        return map.toStrongRef();
+    Map const * getMap() const {
+        return map;
     }
     
     /**
@@ -215,7 +216,7 @@ public:
      *
      * @parant  map     the new parent map.
      */
-    void setMap(QSharedPointer<Map> map);
+    void setMap(Map * map);
 
 private:
     

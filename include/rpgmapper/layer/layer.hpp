@@ -12,7 +12,6 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QPainter>
-#include <QSharedPointer>
 
 #include <rpgmapper/json/json_io.hpp>
 #include <rpgmapper/field.hpp>
@@ -33,7 +32,7 @@ class Map;
  * A Layer has a specific purpose: there are base (ground) layers, wall layers, etc.
  * Layers are stacked in a Z-order. The lowest layer will be rendered first.
  */
-class Layer : public QObject, public rpgmapper::model::json::JSONIO {
+class Layer : public QObject, public json::JSONIO {
 
     Q_OBJECT
     
@@ -51,7 +50,7 @@ private:
     
     Attributes attributes;          /**< The attributes of the current Layer. */
     bool visible = true;            /**< Visbility flag of the layer. */
-    QWeakPointer<Map> map;          /**< The map this layer belongs to. */
+    Map * map;                      /**< The map this layer belongs to. */
 
 public:
 
@@ -61,7 +60,7 @@ public:
      *
      * @param   map     the map this layer belongs to.
      */
-    explicit Layer(QSharedPointer<Map> map);
+    explicit Layer(Map * map);
 
     /**
      * Destructs the object.
@@ -110,8 +109,8 @@ public:
      *
      * @return  the map the layer belongs to.
      */
-    QSharedPointer<Map> getMap() {
-        return map.toStrongRef();
+    Map * getMap() {
+        return map;
     }
     
     /**
@@ -119,8 +118,8 @@ public:
      *
      * @return  the map the layer belongs to.
      */
-    QSharedPointer<Map> const getMap() const {
-        return map.toStrongRef();
+    Map const * getMap() const {
+        return map;
     }
     
     /**
@@ -151,10 +150,8 @@ public:
      *
      * @parant  map     the new parent map.
      */
-    void setMap(QSharedPointer<Map> map) {
-        this->map = map;
-    }
-    
+    void setMap(Map * map);    
+
     /**
      * Enables draw/visibility on next repaint.
      */
@@ -179,8 +176,7 @@ public:
     /**
      * Constructs an invalid layer.
      */
-    InvalidLayer()
-        : Layer{nullptr} {
+    InvalidLayer() : Layer{nullptr} {
     }
 
     /**

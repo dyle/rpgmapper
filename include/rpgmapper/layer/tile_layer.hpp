@@ -30,7 +30,7 @@ public:
      *
      * @param   map     the map this layer belongs to.
      */
-    explicit TileLayer(QSharedPointer<Map> map);
+    explicit TileLayer(Map * map);
 
     /**
      * Destructs the TileLayer.

@@ -12,6 +12,7 @@
 #include <QSharedPointer>
 
 #include <rpgmapper/nameable.hpp>
+#include <rpgmapper/session_object.hpp>
 
 
 namespace rpgmapper {
@@ -23,11 +24,19 @@ namespace model {
  *
  * An atlas as a set of regions, each with a set of maps.
  */
-class Atlas : public Nameable {
+class Atlas : public Nameable, public SessionObject {
 
     Q_OBJECT
 
 public:
+
+    /**
+     * Constructor
+     *
+     * @param   session         the parent session
+     */
+    explicit Atlas(Session * session);
+
 
     /**
      * Applies a JSON to this instance.
@@ -92,8 +101,7 @@ public:
     /**
      * Constructor.
      */
-    InvalidAtlas()
-            : Atlas{} {
+    InvalidAtlas() : Atlas{nullptr} {
     }
     
     /**

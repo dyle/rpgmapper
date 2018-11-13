@@ -38,7 +38,7 @@ public:
      *
      * @param   map     the map this layer belongs to.
      */
-    explicit BackgroundLayer(QSharedPointer<Map> map);
+    explicit BackgroundLayer(Map * map);
 
     /**
      * Destructs the BackgroundLayer.

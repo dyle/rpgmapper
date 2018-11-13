@@ -10,6 +10,7 @@
 
 #include <rpgmapper/exception/invalid_mapname.hpp>
 #include <rpgmapper/exception/invalid_regionname.hpp>
+#include <rpgmapper/exception/invalid_session.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/region_name_validator.hpp>
@@ -18,7 +19,7 @@
 using namespace rpgmapper::model;
 
 
-Region::Region(QString name) : Nameable{} {
+Region::Region(QString name, Session * session) : Nameable{}, SessionObject{session} {
     setName(std::move(name));
 }
 
@@ -29,11 +30,17 @@ void Region::addMap(QString name) {
         return;
     }
     
-    auto map = Session::getCurrentSession()->findMap(name);
+    auto session = getSession();
+    if (!session) {
+        throw exception::invalid_session();
+    }
+
+    auto map = session->findMap(name);
     if (!map->isValid()) {
         throw rpgmapper::model::exception::invalid_mapname();
     }
     
+    maps.insert(name);
     map->setRegionName(getName());
     emit mapAdded(name);
 }
@@ -77,22 +84,6 @@ bool Region::containsMap(QString map) const {
 }
 
 
-QString Region::createRegionName() {
-    
-    auto allRegionNames = Session::getCurrentSession()->getAllRegionNames();
-    int i = 1;
-    QString candidate = QString("New Region %1").arg(QString::number(i));
-    
-    auto iter = allRegionNames.find(candidate);
-    while (iter != allRegionNames.end()) {
-        candidate = QString("New Region %1").arg(QString::number(++i));
-        iter = allRegionNames.find(candidate);
-    }
-    
-    return candidate;
-}
-
-
 QJsonObject Region::getJSON() const {
     
     QJsonObject json = Nameable::getJSON();
@@ -108,7 +99,7 @@ QJsonObject Region::getJSON() const {
 
 
 QSharedPointer<rpgmapper::model::Region> const & Region::null() {
-    static QSharedPointer<rpgmapper::model::Region> nullRegion{new InvalidRegion};
+    static RegionPointer nullRegion{new InvalidRegion};
     return nullRegion;
 }
 
@@ -120,8 +111,13 @@ void Region::removeMap(QString mapName) {
         return;
     }
     
+    auto session = getSession();
+    if (!session) {
+        throw exception::invalid_session();
+    }
+
     maps.erase(map);
-    Session::getCurrentSession()->findMap(mapName)->setRegionName(QString::null);
+    session->findMap(mapName)->setRegionName(QString::null);
     emit mapRemoved(mapName);
 }
 
@@ -135,7 +131,11 @@ void Region::setName(QString name) {
         throw rpgmapper::model::exception::invalid_regionname();
     }
     
-    auto session = Session::getCurrentSession();
+    auto session = getSession();
+    if (!session) {
+        throw exception::invalid_session();
+    }
+
     auto region = session->findRegion(name);
     if (region->isValid()) {
         throw rpgmapper::model::exception::invalid_regionname();
@@ -147,3 +147,4 @@ void Region::setName(QString name) {
         session->findMap(mapName)->setRegionName(name);
     }
 }
+

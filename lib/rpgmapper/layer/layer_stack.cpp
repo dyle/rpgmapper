@@ -9,7 +9,8 @@
 using namespace rpgmapper::model;
 
 
-LayerStack::LayerStack(QSharedPointer<Map> map) : map{map} {
+LayerStack::LayerStack(Map * map) : map{nullptr} {
+    setMap(map);
 }
 
 
@@ -130,7 +131,7 @@ QJsonObject LayerStack::getJSON() const {
 }
 
 
-void LayerStack::setMap(QSharedPointer<Map> map) {
+void LayerStack::setMap(Map * map) {
     
     this->map = map;
     
@@ -145,3 +146,4 @@ void LayerStack::setMap(QSharedPointer<Map> map) {
     }
     textLayer->setMap(map);
 }
+

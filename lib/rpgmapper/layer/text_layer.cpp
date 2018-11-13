@@ -16,7 +16,7 @@ using namespace rpgmapper::model;
 #endif
 
 
-TextLayer::TextLayer(QSharedPointer<Map> map) : Layer{map} {
+TextLayer::TextLayer(Map * map) : Layer{map} {
 }
 
 

@@ -33,7 +33,7 @@ static QSharedPointer<Session> currentSession;
 
 
 Session::Session() : QObject() {
-    atlas = QSharedPointer<Atlas>(new Atlas);
+    atlas = QSharedPointer<Atlas>(new Atlas{this});
 }
 
 
@@ -83,9 +83,41 @@ MapPointer Session::createMap(QString mapName, QString regionName) {
         throw rpgmapper::model::exception::invalid_regionname();
     }
 
-    maps.emplace(mapName, MapPointer(new Map(mapName, regionName)));
+    maps.emplace(mapName, MapPointer(new Map(mapName, regionName, this)));
     emit mapCreated(mapName);
     return maps[mapName];
+}
+
+
+QString Session::createNewMapName() const {
+    
+    auto allMapNames = getAllMapNames();
+    int i = 1;
+    QString candidate = QString("New Map %1").arg(QString::number(i));
+    
+    auto iter = allMapNames.find(candidate);
+    while (iter != allMapNames.end()) {
+        candidate = QString("New Map %1").arg(QString::number(++i));
+        iter = allMapNames.find(candidate);
+    }
+    
+    return candidate;
+}
+
+
+QString Session::createNewRegionName() const {
+    
+    auto allRegionNames = getAllRegionNames();
+    int i = 1;
+    QString candidate = QString("New Region %1").arg(QString::number(i));
+    
+    auto iter = allRegionNames.find(candidate);
+    while (iter != allRegionNames.end()) {
+        candidate = QString("New Region %1").arg(QString::number(++i));
+        iter = allRegionNames.find(candidate);
+    }
+    
+    return candidate;
 }
 
 
@@ -96,7 +128,7 @@ RegionPointer Session::createRegion(QString name) {
         throw rpgmapper::model::exception::invalid_regionname();
     }
     
-    regions.emplace(name, RegionPointer(new Region(name)));
+    regions.emplace(name, RegionPointer(new Region(name, this)));
     emit regionCreated(name);
     return regions[name];
 }
@@ -267,3 +299,4 @@ void Session::setCurrentSession(QSharedPointer<Session> session) {
     }
     currentSession = session;
 }
+

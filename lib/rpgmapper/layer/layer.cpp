@@ -4,13 +4,16 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/layer/layer.hpp>
 
 using namespace rpgmapper::model;
 
 
-Layer::Layer(QSharedPointer<Map> map)
-        : map{map} {
+Layer::Layer(Map * map) : map{map} {
+    if (!map) {
+        throw exception::invalid_map();
+    }
 }
 
 
@@ -40,6 +43,14 @@ void Layer::hide() {
         visible = false;
         emit visibilityChanged();
     }
+}
+
+
+void Layer::setMap(Map * map) {
+    if (!map) {
+        throw exception::invalid_map();
+    }
+    this->map = map;
 }
 
 

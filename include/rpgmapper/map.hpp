@@ -10,7 +10,6 @@
 #include <memory>
 
 #include <QObject>
-#include <QSize>
 #include <QSharedPointer>
 #include <QString>
 
@@ -18,6 +17,7 @@
 #include <rpgmapper/layer/layer_stack.hpp>
 #include <rpgmapper/nameable.hpp>
 #include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/session_object.hpp>
 
 
 namespace rpgmapper {
@@ -26,7 +26,6 @@ namespace model {
 
 // fwd
 class CoordinateSystem;
-class Session;
 
 
 /**
@@ -38,11 +37,9 @@ class Session;
  *
  * Maps may be only created via a Session object.
  */
-class Map : public Nameable {
+class Map : public Nameable, public SessionObject {
     
     Q_OBJECT
-
-    friend class Session;
 
     QSharedPointer<CoordinateSystem> coordinateSystem;      /**< the coordinate system of the map */
     QString regionName;                                     /**< The region the map is placed in. */
@@ -51,19 +48,21 @@ class Map : public Nameable {
 public:
 
     /**
+     * Creates a map with a given name inside a region.
+     *
+     * @param   mapName         the new name of the map.
+     * @param   regionName      the region to which the map belongs to.
+     * @param   session         session this object belongs to.
+     */
+    explicit Map(QString mapName, QString regionName, Session * session);
+
+    /**
      * Applies a JSON to this instance.
      *
      * @param   json    the JSON.
      * @return  true, if the found values in the JSON data has been applied.
      */
     bool applyJSON(QJsonObject const & json) override;
-    
-    /**
-     * Suggests a new map name.
-     *
-     * @return  a name suitable for a new map.
-     */
-    static QString createNewMapName();
     
     /**
      * Gets the coordinate system of the map.
@@ -157,16 +156,6 @@ public:
      */
     void setRegionName(QString regionName);
 
-protected:
-
-    /**
-     * Creates a map with a given name inside a region.
-     *
-     * @param   mapName         the new name of the map.
-     * @param   regionName      the region to which the map belongs to.
-     */
-    explicit Map(QString mapName, QString regionName);
-
 signals:
     
     /**
@@ -186,8 +175,7 @@ public:
     /**
      * Constructor.
      */
-    InvalidMap()
-        : Map{QString::Null{}, nullptr} {
+    InvalidMap() : Map{QString::Null{}, QString::Null{}, nullptr} {
     }
 
     /**
@@ -206,3 +194,4 @@ public:
 
 
 #endif
+

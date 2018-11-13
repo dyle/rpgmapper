@@ -78,7 +78,7 @@ set(RPGMAPPER_LIB_SRC
     resource_db.cpp
     session.cpp
     session_object.cpp
-    zip.cpp
+    # zip.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

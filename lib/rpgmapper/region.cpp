@@ -10,6 +10,7 @@
 
 #include <rpgmapper/exception/invalid_mapname.hpp>
 #include <rpgmapper/exception/invalid_regionname.hpp>
+#include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/region_name_validator.hpp>
 #include <rpgmapper/session.hpp>

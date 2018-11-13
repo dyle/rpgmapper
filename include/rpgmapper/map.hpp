@@ -16,7 +16,6 @@
 
 #include <rpgmapper/json/json_io.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
-#include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/nameable.hpp>
 #include <rpgmapper/resource_db.hpp>
 
@@ -26,6 +25,7 @@ namespace model {
 
 
 // fwd
+class CoordinateSystem;
 class Session;
 
 
@@ -42,20 +42,14 @@ class Map : public Nameable {
     
     Q_OBJECT
 
-    friend class rpgmapper::model::Session;
+    friend class Session;
 
-    // TODO: turn to smart pointer
-    CoordinateSystem * coordinateSystem;            /**< the coordinate system of the map */
-    QString regionName;                             /**< The region the map is placed in. */
-    LayerStack layerStack;                          /**< The layer stack of this map. */
+    QSharedPointer<CoordinateSystem> coordinateSystem;      /**< the coordinate system of the map */
+    QString regionName;                                     /**< The region the map is placed in. */
+    LayerStack layerStack;                                  /**< The layer stack of this map. */
 
 public:
 
-    /**
-     * Destructor.
-     */
-    ~Map() override;
-    
     /**
      * Applies a JSON to this instance.
      *
@@ -76,7 +70,7 @@ public:
      *
      * @return  the coordinate system of the map.
      */
-    CoordinateSystem * getCoordinateSystem() {
+    QSharedPointer<CoordinateSystem> getCoordinateSystem() {
         return coordinateSystem;
     }
     
@@ -85,7 +79,7 @@ public:
      *
      * @return  the coordinate system of the map.
      */
-    CoordinateSystem const * getCoordinateSystem() const {
+    QSharedPointer<CoordinateSystem> const getCoordinateSystem() const {
         return coordinateSystem;
     }
     

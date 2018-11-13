@@ -7,13 +7,15 @@
 #ifndef RPGMAPPER_MODEL_SESSION_HPP
 #define RPGMAPPER_MODEL_SESSION_HPP
 
+#include <set>
+
 #include <QFile>
 #include <QSharedPointer>
 
-#include <rpgmapper/command/processor.hpp>
-#include <rpgmapper/atlas.hpp>
-#include <rpgmapper/map.hpp>
-#include <rpgmapper/region.hpp>
+#include <rpgmapper/command/processor_pointer.hpp>
+#include <rpgmapper/atlas_pointer.hpp>
+#include <rpgmapper/map_pointer.hpp>
+#include <rpgmapper/region_pointer.hpp>
 #include <rpgmapper/resource_db.hpp>
 
 
@@ -38,9 +40,9 @@ public:
     
 private:
     
-    QSharedPointer<rpgmapper::model::Atlas> atlas;                          /**< The atlas of the session. */
-    std::map<QString, QSharedPointer<rpgmapper::model::Map>> maps;          /**< All maps on the atlas. */
-    std::map<QString, QSharedPointer<rpgmapper::model::Region>> regions;    /**< All regions on the atlas. */
+    AtlasPointer atlas;                              /**< The atlas of the session. */
+    std::map<QString, MapPointer> maps;              /**< All maps on the atlas. */
+    std::map<QString, RegionPointer> regions;        /**< All regions on the atlas. */
     
     QString currentMapName;            /**< Current selected map. */
     QString currentRegionName;         /**< Current selected region. */
@@ -60,7 +62,7 @@ private:
     /**
      * This instance operates changes on the atlas.
      */
-    QSharedPointer<rpgmapper::model::command::Processor> commandProcessor;
+    command::ProcessorPointer commandProcessor;
     
     QString fileName;               /**< Filename of the atlas loaded or recently saved. */
 
@@ -96,7 +98,7 @@ public:
      * @param   regionName      Name of the region to create map in.
      * @return  the newly created map.
      */
-    QSharedPointer<rpgmapper::model::Map> & createMap(QString mapName, QString regionName);
+    MapPointer createMap(QString mapName, QString regionName);
 
     /**
      * Creates a new region.
@@ -104,7 +106,7 @@ public:
      * @param   name        The name of the new region.
      * @return  the new region.
      */
-    QSharedPointer<rpgmapper::model::Region> & createRegion(QString name);
+    RegionPointer createRegion(QString name);
     
     /**
      * Deletes a map.
@@ -126,7 +128,7 @@ public:
      * @param   name        name of the map to search.
      * @return  the found map (maybe invalid map).
      */
-    QSharedPointer<rpgmapper::model::Map> findMap(QString name);
+    MapPointer findMap(QString name);
     
     /**
      * Finds a specific map by name (convenient method) (const version).
@@ -134,7 +136,7 @@ public:
      * @param   name        name of the map to search.
      * @return  the found map (maybe invalid map).
      */
-    QSharedPointer<rpgmapper::model::Map> const findMap(QString name) const;
+    MapPointer const findMap(QString name) const;
     
     /**
      * Finds a specific region by name (convenient method).
@@ -142,7 +144,7 @@ public:
      * @param   name        name of the region to search.
      * @return  the found region (maybe invalid region).
      */
-    QSharedPointer<rpgmapper::model::Region> findRegion(QString name);
+    RegionPointer findRegion(QString name);
     
     /**
      * Finds a specific region by name (convenient method) (const version).
@@ -150,7 +152,7 @@ public:
      * @param   name        name of the region to search.
      * @return  the found region (maybe invalid region).
      */
-    QSharedPointer<rpgmapper::model::Region> const findRegion(QString name) const;
+    RegionPointer const findRegion(QString name) const;
     
     /**
      * Collects all map names (conventient method).
@@ -171,7 +173,7 @@ public:
      *
      * @return  the atlas of the session.
      */
-    QSharedPointer<rpgmapper::model::Atlas> & getAtlas() {
+    AtlasPointer & getAtlas() {
         return atlas;
     }
     
@@ -180,7 +182,7 @@ public:
      *
      * @return  the atlas of the session.
      */
-    QSharedPointer<rpgmapper::model::Atlas> const & getAtlas() const {
+    AtlasPointer const & getAtlas() const {
         return atlas;
     }
     
@@ -189,7 +191,7 @@ public:
      *
      * @return  the command processor of this session.
      */
-    QSharedPointer<rpgmapper::model::command::Processor> & getCommandProcessor() {
+    command::ProcessorPointer & getCommandProcessor() {
         return commandProcessor;
     }
     
@@ -198,7 +200,7 @@ public:
      *
      * @return  the command processor of this session.
      */
-    QSharedPointer<rpgmapper::model::command::Processor> const & getCommandProcessor() const {
+    command::ProcessorPointer const & getCommandProcessor() const {
         return commandProcessor;
     }
     
@@ -241,7 +243,7 @@ public:
      *
      * @return  all maps of the atlas.
      */
-    std::map<QString, QSharedPointer<rpgmapper::model::Map>> const & getMaps() const {
+    std::map<QString, MapPointer> const & getMaps() const {
         return maps;
     }
     
@@ -250,7 +252,7 @@ public:
      *
      * @return  all regions of the atlas.
      */
-    std::map<QString, QSharedPointer<rpgmapper::model::Region>> const & getRegions() const {
+    std::map<QString, RegionPointer> const & getRegions() const {
         return regions;
     }
     
@@ -294,7 +296,7 @@ public:
      *
      * @param   map     the map to insert.
      */
-    void insertMap(QSharedPointer<Map> map);
+    void insertMap(MapPointer map);
     
     
     /**
@@ -302,7 +304,7 @@ public:
      *
      * @param   region  the region to insert.
      */
-    void insertRegion(QSharedPointer<Region> region);
+    void insertRegion(RegionPointer region);
     
     
     /**

@@ -6,6 +6,7 @@
 
 #include <utility>
 
+#include <rpgmapper/resource.hpp>
 #include <rpgmapper/resource_db.hpp>
 
 using namespace rpgmapper::model;

@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/create_map.hpp>
+#include <rpgmapper/region.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;

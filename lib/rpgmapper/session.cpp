@@ -4,11 +4,14 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/exception/invalid_mapname.hpp>
 #include <rpgmapper/exception/invalid_region.hpp>
 #include <rpgmapper/exception/invalid_regionname.hpp>
 #include <rpgmapper/exception/invalid_session.hpp>
+#include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
+#include <rpgmapper/region.hpp>
 #include <rpgmapper/session.hpp>
 
 #include "zip.hpp"
@@ -29,9 +32,8 @@ using namespace rpgmapper::model;
 static QSharedPointer<Session> currentSession;
 
 
-Session::Session()
-        : QObject() {
-    
+Session::Session() : QObject() {
+    atlas = QSharedPointer<Atlas>(new Atlas);
 }
 
 
@@ -65,7 +67,7 @@ void Session::changeRegionLookup(QString oldName, QString newName) {
 }
 
 
-QSharedPointer<rpgmapper::model::Map> & Session::createMap(QString mapName, QString regionName) {
+MapPointer Session::createMap(QString mapName, QString regionName) {
     
     if (!MapNameValidator::isValid(mapName)) {
         throw rpgmapper::model::exception::invalid_mapname();
@@ -81,20 +83,20 @@ QSharedPointer<rpgmapper::model::Map> & Session::createMap(QString mapName, QStr
         throw rpgmapper::model::exception::invalid_regionname();
     }
 
-    maps.emplace(mapName, QSharedPointer<rpgmapper::model::Map>(new Map(mapName, regionName)));
+    maps.emplace(mapName, MapPointer(new Map(mapName, regionName)));
     emit mapCreated(mapName);
     return maps[mapName];
 }
 
 
-QSharedPointer<rpgmapper::model::Region> & Session::createRegion(QString name) {
+RegionPointer Session::createRegion(QString name) {
     
     auto region = findRegion(name);
     if (region->isValid()) {
         throw rpgmapper::model::exception::invalid_regionname();
     }
     
-    regions.emplace(name, QSharedPointer<rpgmapper::model::Region>(new Region(name)));
+    regions.emplace(name, RegionPointer(new Region(name)));
     emit regionCreated(name);
     return regions[name];
 }

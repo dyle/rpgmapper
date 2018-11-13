@@ -11,7 +11,7 @@
 
 
 namespace rpgmapper {
-    namespace model {
+namespace model {
 
 
 /**

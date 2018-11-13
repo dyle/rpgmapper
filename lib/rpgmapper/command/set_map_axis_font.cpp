@@ -8,6 +8,7 @@
 
 #include <rpgmapper/command/set_map_axis_font.hpp>
 #include <rpgmapper/exception/invalid_map.hpp>
+#include <rpgmapper/map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;

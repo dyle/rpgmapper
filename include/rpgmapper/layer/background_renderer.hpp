@@ -26,7 +26,7 @@ class BackgroundRenderer {
     /**
      * The current render mode: how the background is multiplied across the maps background.
      */
-    rpgmapper::model::ImageRenderMode renderMode = rpgmapper::model::ImageRenderMode::plain;
+    ImageRenderMode renderMode = ImageRenderMode::plain;
 
 public:
 

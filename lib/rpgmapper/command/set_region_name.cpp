@@ -6,6 +6,7 @@
 
 #include <rpgmapper/command/set_region_name.hpp>
 #include <rpgmapper/exception/invalid_regionname.hpp>
+#include <rpgmapper/region.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;

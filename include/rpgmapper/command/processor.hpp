@@ -13,7 +13,7 @@
 #include <QString>
 #include <QSharedPointer>
 
-#include <rpgmapper/command/command.hpp>
+#include <rpgmapper/command/command_pointer.hpp>
 #include <rpgmapper/command/commands.hpp>
 
 

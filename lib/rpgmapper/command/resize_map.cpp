@@ -8,6 +8,8 @@
 
 #include <rpgmapper/command/resize_map.hpp>
 #include <rpgmapper/exception/invalid_mapname.hpp>
+#include <rpgmapper/coordinate_system.hpp>
+#include <rpgmapper/map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;

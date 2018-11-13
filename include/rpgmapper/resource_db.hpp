@@ -9,7 +9,7 @@
 
 #include <map>
 
-#include <rpgmapper/resource.hpp>
+#include <rpgmapper/resource_pointer.hpp>
 
 
 namespace rpgmapper {
@@ -24,7 +24,7 @@ class ResourceDB {
     /**
      * The resources an object of this class manages.
      */
-    std::map<QString, QSharedPointer<Resource>> resources;
+    std::map<QString, ResourcePointer> resources;
 
 public:
 
@@ -72,14 +72,14 @@ public:
      * @param   hash        the hash value.
      * @return  The BLOB as registered with this hash value.
      */
-    QSharedPointer<Resource> const & getResource(QString hash) const;
+    ResourcePointer const & getResource(QString hash) const;
     
     /**
      * Gets all known resources.
      *
      * @return  all resources we know in this database.
      */
-    std::map<QString, QSharedPointer<Resource>> const & getResources() const {
+    std::map<QString, ResourcePointer> const & getResources() const {
         return resources;
     }
 };

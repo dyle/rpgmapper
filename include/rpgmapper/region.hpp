@@ -14,9 +14,7 @@
 #include <QObject>
 #include <QSharedPointer>
 
-#include <rpgmapper/map.hpp>
 #include <rpgmapper/nameable.hpp>
-#include <rpgmapper/resource_db.hpp>
 
 
 namespace rpgmapper {

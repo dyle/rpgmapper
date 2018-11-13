@@ -4,6 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <rpgmapper/command/command.hpp>
+
 #include "processor_impl.hpp"
 
 using namespace rpgmapper::model::command;

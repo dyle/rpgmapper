@@ -17,7 +17,7 @@ namespace model {
 
 
 /**
- * A resouce is a named BLOB.
+ * A resource is a named BLOB.
  */
 class Resource {
 

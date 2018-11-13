@@ -9,8 +9,10 @@
 #include <QJsonDocument>
 
 #include <rpgmapper/atlas.hpp>
+#include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
+#include <rpgmapper/resource.hpp>
 
 using namespace rpgmapper::model;
 

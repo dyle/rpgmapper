@@ -8,6 +8,7 @@
 
 #include <rpgmapper/exception/invalid_mapname.hpp>
 #include <rpgmapper/exception/invalid_regionname.hpp>
+#include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/region.hpp>
@@ -21,13 +22,8 @@ Map::Map(QString mapName, QString regionName) : Nameable{} {
     
     setName(std::move(mapName));
     setRegionName(std::move(regionName));
-    coordinateSystem = new CoordinateSystem;
+    coordinateSystem = QSharedPointer<CoordinateSystem>(new CoordinateSystem);
     layerStack.setMap(QSharedPointer<Map>(this));
-}
-
-
-Map::~Map() {
-    delete coordinateSystem;
 }
 
 

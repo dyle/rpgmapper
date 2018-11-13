@@ -50,7 +50,7 @@ CoordinatesOrigin stringToCoordinatesOrigin(QString const & string);
 /**
  * A coordinate system manages translation and naming of axis and points on a map.
  */
-class CoordinateSystem : public QObject, public rpgmapper::model::json::JSONIO {
+class CoordinateSystem : public QObject, public json::JSONIO {
     
     Q_OBJECT
 

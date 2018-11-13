@@ -7,29 +7,17 @@
 #ifndef RPGMAPPER_MODEL_FIELD_HPP
 #define RPGMAPPER_MODEL_FIELD_HPP
 
-#include <map>
 #include <vector>
 
 #include <QPoint>
 #include <QSharedPointer>
 #include <QString>
 
+#include <rpgmapper/tile.hpp>
+
 
 namespace rpgmapper {
 namespace model {
-
-
-/**
- * A single tile on a field holds key-value pairs.
- *
- * A tile may be:
- *  - "river" - "south-west"
- *  - "wall" - "east"
- *  - "special" - "trapdoor"
- *
- * TODO: subject for redesign.
- */
-using Tile = std::map<QString, QString>;
 
 
 /**

@@ -8,6 +8,7 @@
 
 #include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/exception/invalid_atlas.hpp>
+#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;

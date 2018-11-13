@@ -8,6 +8,7 @@
 
 #include <rpgmapper/command/set_map_background_image_render_mode.hpp>
 #include <rpgmapper/exception/invalid_map.hpp>
+#include <rpgmapper/map.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;

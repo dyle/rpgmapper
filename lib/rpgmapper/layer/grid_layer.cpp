@@ -4,6 +4,7 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 
 using namespace rpgmapper::model;

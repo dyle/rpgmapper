@@ -30,9 +30,11 @@ public:
 
     /**
      * Constructor.
+     *
+     * @param   name        the name of the object.
      */
-    Nameable() = default;
-
+    explicit Nameable(QString name = QString::null);
+    
     /**
      * Applies a JSON to this instance.
      *
@@ -69,13 +71,15 @@ public:
      */
     virtual void setName(QString name);
     
-    
 signals:
     
     /**
      * The name of the instance has changed.
+     *
+     * @param   oldName     the old name
+     * param    newName     the new name
      */
-    void nameChanged();
+    void nameChanged(QString oldName, QString newName);
 };
 
 

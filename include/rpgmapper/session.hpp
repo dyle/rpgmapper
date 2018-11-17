@@ -7,6 +7,7 @@
 #ifndef RPGMAPPER_MODEL_SESSION_HPP
 #define RPGMAPPER_MODEL_SESSION_HPP
 
+#include <map>
 #include <set>
 
 #include <QFile>
@@ -40,9 +41,7 @@ public:
     
 private:
     
-    AtlasPointer atlas;                              /**< The atlas of the session. */
-    std::map<QString, MapPointer> maps;              /**< All maps on the atlas. */
-    std::map<QString, RegionPointer> regions;        /**< All regions on the atlas. */
+    AtlasPointer atlas;                /**< The atlas of the session. */
     
     QString currentMapName;            /**< Current selected map. */
     QString currentRegionName;         /**< Current selected region. */
@@ -74,31 +73,6 @@ public:
     ~Session() override = default;
     
     /**
-     * Change (move) the lookup name of a map from one to another.
-     *
-     * @param   oldName     the old name of the map .
-     * @param   newName     the new lookup name of the map.
-     */
-    void changeMapLookup(QString oldName, QString newName);
-    
-    /**
-     * Change (move) the lookup name of a region from one to another.
-     *
-     * @param   oldName     the old name of the region .
-     * @param   newName     the new lookup name of the region.
-     */
-    void changeRegionLookup(QString oldName, QString newName);
-    
-    /**
-     * Creates a new map.
-     *
-     * @param   mapName         Name of the new map.
-     * @param   regionName      Name of the region to create map in.
-     * @return  the newly created map.
-     */
-    MapPointer createMap(QString mapName, QString regionName);
-
-    /**
      * Suggests a new map name.
      *
      * @return  a name suitable for a new map.
@@ -112,28 +86,6 @@ public:
      */
     QString createNewRegionName() const;
 
-    /**
-     * Creates a new region.
-     *
-     * @param   name        The name of the new region.
-     * @return  the new region.
-     */
-    RegionPointer createRegion(QString name);
-    
-    /**
-     * Deletes a map.
-     *
-     * @param   mapName     The map to delete.
-     */
-    void deleteMap(QString mapName);
-    
-    /**
-     * Deletes a region.
-     *
-     * @param   regionName  The region to delete.
-     */
-    void deleteRegion(QString regionName);
-    
     /**
      * Finds a specific map by name (convenient method).
      *
@@ -167,18 +119,18 @@ public:
     RegionPointer const findRegion(QString name) const;
     
     /**
-     * Collects all map names (conventient method).
+     * Collects all map names (convenient method).
      *
-     * @return  all known map names.
+     * @return  all known map names with their regions.
      */
-    std::set<QString> getAllMapNames() const;
+    std::map<QString, QString> getAllMapNames() const;
     
     /**
      * Collects all regions names (conventient method).
      *
-     * @return  all known regions names.
+     * @return  all known regions names with their maps.
      */
-    std::set<QString> getAllRegionNames() const;
+    std::map<QString, std::set<QString>> getAllRegionNames() const;
     
     /**
      * Gets the atlas of the current session.
@@ -251,24 +203,6 @@ public:
     }
 
     /**
-     * Returns all known maps.
-     *
-     * @return  all maps of the atlas.
-     */
-    std::map<QString, MapPointer> const & getMaps() const {
-        return maps;
-    }
-    
-    /**
-     * Returns all known regions.
-     *
-     * @return  all regions of the atlas.
-     */
-    std::map<QString, RegionPointer> const & getRegions() const {
-        return regions;
-    }
-    
-    /**
      * Gets the resources known by the session.
      *
      * @return  all the resources known by the system.
@@ -301,23 +235,6 @@ public:
      * @return  a new initial session.
      */
     static QSharedPointer<Session> init();
-    
-    
-    /**
-     * Inserts an existing map into the set of known maps.
-     *
-     * @param   map     the map to insert.
-     */
-    void insertMap(MapPointer map);
-    
-    
-    /**
-     * Inserts an existing region into the set of known region.
-     *
-     * @param   region  the region to insert.
-     */
-    void insertRegion(RegionPointer region);
-    
     
     /**
      * Loads a session from an atlas file fromm disk.
@@ -357,55 +274,6 @@ public:
      * @param   session     the new current session
      */
     static void setCurrentSession(QSharedPointer<Session> session);
-    
-signals:
-    
-    /**
-     * A command has been executed by the processor.
-     */
-    void commandExecuted();
-
-    /**
-     * A new map has been created.
-     *
-     * @param   mapName     the name of the map created.
-     */
-    void mapCreated(QString mapName);
-    
-    /**
-     * A map has been deleted.
-     *
-     * @param   mapName     the name of the map deleted.
-     */
-    void mapDeleted(QString mapName);
-    
-    /**
-     * A new map has been selected.
-     *
-     * @param   mapName     the name of the new map selected.
-     */
-    void mapSelected(QString mapName);
-    
-    /**
-     * A new region has been created.
-     *
-     * @param   regionName     the name of the region created.
-     */
-    void regionCreated(QString regionName);
-    
-    /**
-     * A region has been deleted.
-     *
-     * @param   regionName     the name of the region deleted.
-     */
-    void regionDeleted(QString regionName);
-    
-    /**
-     * A new region has been selected.
-     *
-     * @param   regionName  the name of the new region selected.
-     */
-    void regionSelected(QString regionName);
     
 private:
     

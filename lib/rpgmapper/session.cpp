@@ -9,6 +9,7 @@
 #include <rpgmapper/exception/invalid_region.hpp>
 #include <rpgmapper/exception/invalid_regionname.hpp>
 #include <rpgmapper/exception/invalid_session.hpp>
+#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/region.hpp>
@@ -33,59 +34,7 @@ static QSharedPointer<Session> currentSession;
 
 
 Session::Session() : QObject() {
-    atlas = QSharedPointer<Atlas>(new Atlas{this});
-}
-
-
-void Session::changeMapLookup(QString oldName, QString newName) {
-    
-    auto map = findMap(oldName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_mapname();
-    }
-    if (findMap(newName)->isValid()) {
-        throw rpgmapper::model::exception::invalid_mapname();
-    }
-    
-    maps[newName] = map;
-    maps.erase(oldName);
-}
-
-
-void Session::changeRegionLookup(QString oldName, QString newName) {
-    
-    auto region = findRegion(oldName);
-    if (!region->isValid()) {
-        throw rpgmapper::model::exception::invalid_regionname();
-    }
-    if (findRegion(newName)->isValid()) {
-        throw rpgmapper::model::exception::invalid_regionname();
-    }
-    
-    regions[newName] = region;
-    regions.erase(oldName);
-}
-
-
-MapPointer Session::createMap(QString mapName, QString regionName) {
-    
-    if (!MapNameValidator::isValid(mapName)) {
-        throw rpgmapper::model::exception::invalid_mapname();
-    }
-    
-    auto map = findMap(mapName);
-    if (map->isValid()) {
-        throw rpgmapper::model::exception::invalid_mapname();
-    }
-    
-    auto region = findRegion(regionName);
-    if (!region->isValid()) {
-        throw rpgmapper::model::exception::invalid_regionname();
-    }
-
-    maps.emplace(mapName, MapPointer(new Map(mapName, regionName, this)));
-    emit mapCreated(mapName);
-    return maps[mapName];
+    atlas = QSharedPointer<Atlas>(new Atlas{});
 }
 
 
@@ -121,111 +70,102 @@ QString Session::createNewRegionName() const {
 }
 
 
-RegionPointer Session::createRegion(QString name) {
+MapPointer Session::findMap(QString name) {
     
-    auto region = findRegion(name);
-    if (region->isValid()) {
-        throw rpgmapper::model::exception::invalid_regionname();
+    static MapPointer invalidMap{new InvalidMap};
+    
+    auto const & regions = getAtlas()->getRegions();
+    for (auto const & iterRegion : regions) {
+        auto region = iterRegion.second;
+        auto iterMap = region->getMaps().find(name);
+        if (iterMap != region->getMaps().end()) {
+            return getAtlas()->getRegion(region->getName())->getMap(name);
+        }
     }
     
-    regions.emplace(name, RegionPointer(new Region(name, this)));
-    emit regionCreated(name);
-    return regions[name];
+    return invalidMap;
 }
 
 
-void Session::deleteMap(QString mapName) {
+MapPointer const Session::findMap(QString name) const {
     
-    auto map = findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_mapname();
+    static MapPointer invalidMap{new InvalidMap};
+    
+    auto const & regions = getAtlas()->getRegions();
+    for (auto const & iterRegion : regions) {
+        auto region = iterRegion.second;
+        auto iterMap = region->getMaps().find(name);
+        if (iterMap != region->getMaps().end()) {
+            return getAtlas()->getRegion(region->getName())->getMap(name);
+        }
     }
     
-    auto region = findRegion(map->getRegionName());
-    if (!region->isValid()) {
-        throw rpgmapper::model::exception::invalid_region();
-    }
-    
-    region->removeMap(mapName);
-    maps.erase(mapName);
-    emit mapDeleted(mapName);
+    return invalidMap;
 }
 
 
-void Session::deleteRegion(QString regionName) {
+RegionPointer Session::findRegion(QString name) {
     
-    auto region = findRegion(regionName);
-    if (!region->isValid()) {
-        throw rpgmapper::model::exception::invalid_regionname();
-    }
+    static RegionPointer invalidRegion{new InvalidRegion};
     
-    for (auto mapName : region->getMapNames()) {
-        region->removeMap(mapName);
-    }
-    
-    regions.erase(regionName);
-    emit regionDeleted(regionName);
-}
-
-
-QSharedPointer<rpgmapper::model::Map> Session::findMap(QString name) {
-    
-    static QSharedPointer<rpgmapper::model::Map> invalidMap{new InvalidMap};
-    
-    auto iter = maps.find(name);
-    if (iter == maps.end()) {
-        return invalidMap;
-    }
-    return (*iter).second;
-}
-
-
-QSharedPointer<rpgmapper::model::Map> const Session::findMap(QString name) const {
-    
-    static QSharedPointer<rpgmapper::model::Map> invalidMap{new InvalidMap};
-    
-    auto iter = maps.find(name);
-    if (iter == maps.end()) {
-        return invalidMap;
-    }
-    return (*iter).second;
-}
-
-
-QSharedPointer<rpgmapper::model::Region> Session::findRegion(QString name) {
-    
-    static QSharedPointer<rpgmapper::model::Region> invalidRegion{new InvalidRegion};
-    
+    auto const & regions = getAtlas()->getRegions();
     auto iter = regions.find(name);
     if (iter == regions.end()) {
         return invalidRegion;
     }
-    return (*iter).second;
+    
+    return getAtlas()->getRegion(name);
 }
 
 
-QSharedPointer<rpgmapper::model::Region> const Session::findRegion(QString name) const {
+RegionPointer const Session::findRegion(QString name) const {
     
-    static QSharedPointer<rpgmapper::model::Region> invalidRegion{new InvalidRegion};
+    
+    static RegionPointer invalidRegion{new InvalidRegion};
+    
+    auto const & regions = getAtlas()->getRegions();
     auto iter = regions.find(name);
     if (iter == regions.end()) {
         return invalidRegion;
     }
-    return (*iter).second;
+    
+    return getAtlas()->getRegion(name);
 }
 
 
-std::set<QString> Session::getAllMapNames() const {
-    std::set<QString> names;
-    for (auto const & iter : maps) { names.insert(iter.first); }
-    return names;
+std::map<QString, QString> Session::getAllMapNames() const {
+    
+    std::map<QString, QString> mapNames;
+    
+    auto const & regions = getAtlas()->getRegions();
+    for (auto const & iterRegion : regions) {
+        auto region = iterRegion.second;
+        auto regionName = region->getName();
+        for (auto const & iterMap : region->getMaps()) {
+            auto mapName = iterMap.second->getName();
+            mapNames[mapName] = regionName;
+        }
+    }
+    
+    return mapNames;
 }
 
 
-std::set<QString> Session::getAllRegionNames() const {
-    std::set<QString> names;
-    for (auto const & iter : regions) { names.insert(iter.first); }
-    return names;
+std::map<QString, std::set<QString>> Session::getAllRegionNames() const {
+    
+    std::map<QString, std::set<QString>> regionNames;
+    
+    auto const & regions = getAtlas()->getRegions();
+    for (auto const & iterRegion : regions) {
+        auto regionName = iterRegion.second->getName();
+        regionNames[regionName] = {};
+        for (auto const & iterMap : iterRegion.second->getMaps()) {
+            auto mapName = iterMap.second->getName();
+            regionNames[regionName].insert(mapName);
+        }
+    }
+    
+    return regionNames;
 }
 
 
@@ -237,27 +177,22 @@ QSharedPointer<Session> Session::getCurrentSession() {
 QSharedPointer<Session> Session::init() {
     
     auto session = QSharedPointer<Session>(new Session);
-    session->atlas->setName(QObject::tr("New Atlas"));
+    auto atlas = session->getAtlas();
+    
+    auto atlasName = QObject::tr("New Atlas");
+    atlas->setName(atlasName);
     
     auto regionName = QObject::tr("New Region 1");
-    auto mapName = QObject::tr("New Map 1");
+    auto region = RegionPointer{new Region{regionName}};
+    atlas->addRegion(region);
     
-    session->createRegion(regionName);
-    session->createMap(mapName, regionName);
+    auto mapName = QObject::tr("New Map 1");
+    auto map = MapPointer{new Map{mapName}};
+    region->addMap(map);
+
+    // TODO: add connectors
     
     return session;
-}
-
-
-void Session::insertMap(QSharedPointer<Map> map) {
-    maps[map->getName()] = map;
-    emit mapCreated(map->getName());
-}
-
-
-void Session::insertRegion(QSharedPointer<Region> region) {
-    regions[region->getName()] = region;
-    emit regionCreated(region->getName());
 }
 
 
@@ -299,4 +234,3 @@ void Session::setCurrentSession(QSharedPointer<Session> session) {
     }
     currentSession = session;
 }
-

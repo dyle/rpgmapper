@@ -4,9 +4,13 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#include <rpgmapper/exception/invalid_atlasname.hpp>
+#include <utility>
+
+#include <rpgmapper/exception/invalid_region.hpp>
+#include <rpgmapper/exception/invalid_regionname.hpp>
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/atlas_name_validator.hpp>
+#include <rpgmapper/region.hpp>
 
 using namespace rpgmapper::model;
 
@@ -18,7 +22,7 @@ using namespace rpgmapper::model;
 #endif
 
 
-Atlas::Atlas(Session * session) : Nameable{}, SessionObject{session} {
+Atlas::Atlas(QString name) : Nameable{std::move(name)} {
 }
 
 
@@ -56,6 +60,21 @@ bool Atlas::applyJSONRegionsArray(UNUSED QJsonArray const & jsonRegions) {
 }
 
 
+void Atlas::addRegion(RegionPointer region) {
+    
+    if (!region->isValid()) {
+        throw exception::invalid_region{};
+    }
+    
+    if (regions.find(region->getName()) != regions.end()) {
+        return;
+    }
+    
+    this->regions[region->getName()] = region;
+    // TODO: add region connector: delete, name change
+}
+
+
 QJsonObject Atlas::getJSON() const {
     
     auto json = Nameable::getJSON();
@@ -73,20 +92,25 @@ QJsonObject Atlas::getJSON() const {
 }
 
 
-QSharedPointer<Atlas> const & Atlas::null() {
-    static QSharedPointer<Atlas> nullAtlas{new InvalidAtlas};
-    return nullAtlas;
+RegionPointer Atlas::getRegion(QString name) {
+    auto iter = regions.find(name);
+    if (iter == regions.end()) {
+        throw exception::invalid_regionname{};
+    }
+    return (*iter).second;
 }
 
 
-void Atlas::setName(QString name) {
-    
-    if (getName() == name) {
-        return;
+RegionPointer const Atlas::getRegion(QString name) const {
+    auto iter = regions.find(name);
+    if (iter == regions.end()) {
+        throw exception::invalid_regionname{};
     }
-    if (!AtlasNameValidator::isValid(name)) {
-        throw rpgmapper::model::exception::invalid_atlasname();
-    }
-    
-    Nameable::setName(name);
+    return (*iter).second;
+}
+
+
+QSharedPointer<Atlas> const & Atlas::null() {
+    static QSharedPointer<Atlas> nullAtlas{new InvalidAtlas};
+    return nullAtlas;
 }

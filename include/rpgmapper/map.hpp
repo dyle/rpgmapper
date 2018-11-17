@@ -15,9 +15,9 @@
 
 #include <rpgmapper/json/json_io.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
+#include <rpgmapper/map_pointer.hpp>
 #include <rpgmapper/nameable.hpp>
 #include <rpgmapper/resource_db.hpp>
-#include <rpgmapper/session_object.hpp>
 
 
 namespace rpgmapper {
@@ -37,12 +37,11 @@ class CoordinateSystem;
  *
  * Maps may be only created via a Session object.
  */
-class Map : public Nameable, public SessionObject {
+class Map : public Nameable {
     
     Q_OBJECT
 
     QSharedPointer<CoordinateSystem> coordinateSystem;      /**< the coordinate system of the map */
-    QString regionName;                                     /**< The region the map is placed in. */
     LayerStack layerStack;                                  /**< The layer stack of this map. */
 
 public:
@@ -51,10 +50,8 @@ public:
      * Creates a map with a given name inside a region.
      *
      * @param   mapName         the new name of the map.
-     * @param   regionName      the region to which the map belongs to.
-     * @param   session         session this object belongs to.
      */
-    explicit Map(QString mapName, QString regionName, Session * session);
+    explicit Map(QString mapName);
 
     /**
      * Applies a JSON to this instance.
@@ -108,23 +105,6 @@ public:
     }
     
     /**
-     * Gets the name of the region the map belongs to.
-     *
-     * @return  the region name the map belongs to.
-     */
-    QString getRegionName() const {
-        return regionName;
-    }
-    
-    /**
-     * Checks if the given name is valid.
-     *
-     * @param   name        a potential name of a map.
-     * @return  true, if the name can be used for a map.
-     */
-    static bool isNameValid(QString name);
-
-    /**
      * Checks if this is a valid map.
      *
      * @return  returns true, if this is a valid map.
@@ -140,28 +120,7 @@ public:
      *
      * @return  an invalid null map.
      */
-    static QSharedPointer<Map> const & null();
-    
-    /**
-     * Sets a new name for the map.
-     *
-     * @param   name    a new name of this map.
-     */
-    void setName(QString name) override;
-    
-    /**
-     * Sets a new region this map belongs to.
-     *
-     * @return  the new region of the map.
-     */
-    void setRegionName(QString regionName);
-
-signals:
-    
-    /**
-     * The map changed the region.
-     */
-    void changedRegion();
+    static MapPointer const & null();
 };
 
 
@@ -175,7 +134,7 @@ public:
     /**
      * Constructor.
      */
-    InvalidMap() : Map{QString::Null{}, QString::Null{}, nullptr} {
+    InvalidMap() : Map{QString::Null{}} {
     }
 
     /**
@@ -194,4 +153,3 @@ public:
 
 
 #endif
-

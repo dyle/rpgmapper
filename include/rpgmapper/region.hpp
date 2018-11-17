@@ -15,7 +15,8 @@
 #include <QSharedPointer>
 
 #include <rpgmapper/nameable.hpp>
-#include <rpgmapper/session_object.hpp>
+#include <rpgmapper/maps.hpp>
+#include <rpgmapper/region_pointer.hpp>
 
 
 namespace rpgmapper {
@@ -27,11 +28,11 @@ namespace model {
  *
  * A region may only be created by Session object.
  */
-class Region : public Nameable, public SessionObject {
+class Region : public Nameable {
 
     Q_OBJECT
 
-    std::set<QString> maps;             /**< All maps known to this region. */
+    Maps maps;            /**< All maps known to this region. */
 
 public:
 
@@ -40,7 +41,7 @@ public:
      *
      * @param   name        name of the new region.
      */
-    explicit Region(QString name, Session * session);
+    explicit Region(QString name);
 
     /**
      * Destructor.
@@ -50,9 +51,9 @@ public:
     /**
      * Adds an existing map to this region.
      *
-     * @param   name        name of the map to add.
+     * @param   map         the map to add.
      */
-    void addMap(QString name);
+    void addMap(MapPointer map);
     
     /**
      * Applies a JSON to this instance.
@@ -63,34 +64,34 @@ public:
     bool applyJSON(QJsonObject const & json);
     
     /**
-     * Change the name of a map known to this region.
-     *
-     * @param   oldName     old name of the map
-     * @param   newName     new name of the map
-     */
-    void changeMapName(QString oldName, QString newName);
-    
-    /**
-     * Checks if the given map name is part of this region.
-     *
-     * @param   map     the nam eof the mpa to check.
-     * @return  returns true, if the given map belongs to this region.
-     */
-    bool containsMap(QString map) const;
-    
-    /**
      * Create a JSON structure from oourselves.
      *
      * @return      a valid JSON  structure from ooourselves.
      */
     QJsonObject getJSON() const;
-
+    
+    /**
+     * Gets a known map.
+     *
+     * @param   name        the map name.
+     * @return  the map of this region with that name.
+     */
+    MapPointer getMap(QString name);
+    
+    /**
+     * Gets a known map.
+     *
+     * @param   name        the map name.
+     * @return  the map of this region with that name.
+     */
+    MapPointer const getMap(QString name) const;
+    
     /**
      * Gets all maps known to this region.
      *
      * @return  all maps known to this region.
      */
-    std::set<QString> const & getMapNames() const {
+    Maps const & getMaps() const {
         return maps;
     }
     
@@ -110,7 +111,7 @@ public:
      *
      * @return  an invalid null region.
      */
-    static QSharedPointer<rpgmapper::model::Region> const & null();
+    static RegionPointer const & null();
 
     /**
      * Removes a map from this region.
@@ -118,14 +119,6 @@ public:
      * @param   name        name of the map to remove.
      */
     void removeMap(QString name);
-
-    
-    /**
-     * Sets a new name for this region.
-     *
-     * @param   name        the new name of this region.
-     */
-    void setName(QString name) override;
 
 private:
 
@@ -164,7 +157,7 @@ public:
     /**
      * Constructor.
      */
-    InvalidRegion() : Region{QString::Null{}, nullptr} {
+    InvalidRegion() : Region{QString::Null{}} {
     }
     
     /**

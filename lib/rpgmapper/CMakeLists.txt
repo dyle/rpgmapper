@@ -24,6 +24,21 @@ qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
 
 set(RPGMAPPER_LIB_SRC
 
+    atlas.cpp
+    atlas_name_validator.cpp
+    coordinate_system.cpp
+    field.cpp
+    filesystem.cpp
+    map.cpp
+    map_name_validator.cpp
+    nameable.cpp
+    region.cpp
+    region_name_validator.cpp
+    resource.cpp
+    resource_db.cpp
+    session.cpp
+    # zip.cpp
+
     command/composite_command.cpp
     command/create_map.cpp
     command/create_region.cpp
@@ -63,22 +78,6 @@ set(RPGMAPPER_LIB_SRC
     numeralconverter/numerals.cpp
     numeralconverter/numeric.cpp
     numeralconverter/roman.cpp
-
-    atlas.cpp
-    atlas_name_validator.cpp
-    coordinate_system.cpp
-    field.cpp
-    filesystem.cpp
-    map.cpp
-    map_name_validator.cpp
-    nameable.cpp
-    region.cpp
-    region_name_validator.cpp
-    resource.cpp
-    resource_db.cpp
-    session.cpp
-    session_object.cpp
-    # zip.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

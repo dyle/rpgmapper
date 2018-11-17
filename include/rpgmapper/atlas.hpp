@@ -12,7 +12,7 @@
 #include <QSharedPointer>
 
 #include <rpgmapper/nameable.hpp>
-#include <rpgmapper/session_object.hpp>
+#include <rpgmapper/regions.hpp>
 
 
 namespace rpgmapper {
@@ -24,19 +24,27 @@ namespace model {
  *
  * An atlas as a set of regions, each with a set of maps.
  */
-class Atlas : public Nameable, public SessionObject {
+class Atlas : public Nameable {
 
     Q_OBJECT
+    
+    Regions regions;            /**< The regions of the atlas. */
 
 public:
 
     /**
      * Constructor
      *
-     * @param   session         the parent session
+     * @param   name        the name of the atlas.
      */
-    explicit Atlas(Session * session);
-
+    explicit Atlas(QString name = QString::null);
+    
+    /**
+     * Adds an existing region to the atlas.
+     *
+     * @param   region      the region to add.
+     */
+    void addRegion(RegionPointer region);
 
     /**
      * Applies a JSON to this instance.
@@ -52,7 +60,32 @@ public:
      * @return      a valid JSON  structure from ooourselves.
      */
     QJsonObject getJSON() const override;
-
+    
+    /**
+     * Gets a known region.
+     *
+     * @param   name        the region name.
+     * @return  the region of this region with that name.
+     */
+    RegionPointer getRegion(QString name);
+    
+    /**
+     * Gets a known region.
+     *
+     * @param   name        the region name.
+     * @return  the region of this region with that name.
+     */
+    RegionPointer const getRegion(QString name) const;
+    
+    /**
+     * Gets all regions known to this region.
+     *
+     * @return  all regions known to this region.
+     */
+    Regions const & getRegions() const {
+        return regions;
+    }
+    
     /**
      * Checks if this is a valid atlas.
      *
@@ -72,12 +105,12 @@ public:
     static QSharedPointer<Atlas> const & null();
     
     /**
-     * Sets a new name for the atlas.
+     * Removes a region from this region.
      *
-     * @param   name    a new name for the atlas.
+     * @param   name        name of the region to remove.
      */
-    void setName(QString name) override;
-
+    void removeRegion(QString name);
+    
 private:
     
     /**

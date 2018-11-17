@@ -8,6 +8,7 @@
 
 #include <rpgmapper/command/remove_map.hpp>
 #include <rpgmapper/exception/invalid_mapname.hpp>
+#include <rpgmapper/exception/invalid_region.hpp>
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/session.hpp>
 
@@ -17,17 +18,25 @@ using namespace rpgmapper::model::command;
 
 RemoveMap::RemoveMap(QString mapName) {
     
-    map = Session::getCurrentSession()->findMap(std::move(mapName));
+    auto session = Session::getCurrentSession();
+    map = session->findMap(mapName);
     if (!map->isValid()) {
         throw rpgmapper::model::exception::invalid_mapname();
     }
     
-    regionName = map->getRegionName();
+    regionName = session->getAllMapNames()[mapName];
 }
 
 
 void RemoveMap::execute() {
-    Session::getCurrentSession()->deleteMap(map->getName());
+    
+    auto session = Session::getCurrentSession();
+    auto region = session->findRegion(regionName);
+    if (!region->isValid()) {
+        throw exception::invalid_region;
+    }
+    
+    region->removeMap(map->getName());
 }
 
 

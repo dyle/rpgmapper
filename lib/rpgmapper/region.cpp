@@ -8,41 +8,33 @@
 
 #include <QJsonArray>
 
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/exception/invalid_mapname.hpp>
-#include <rpgmapper/exception/invalid_regionname.hpp>
 #include <rpgmapper/exception/invalid_session.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/region_name_validator.hpp>
-#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 
 
-Region::Region(QString name, Session * session) : Nameable{}, SessionObject{session} {
-    setName(std::move(name));
+Region::Region(QString name) : Nameable{std::move(name)} {
 }
 
 
-void Region::addMap(QString name) {
+void Region::addMap(MapPointer map) {
     
-    if (maps.find(name) != maps.end()) {
+    if (!map->isValid()) {
+        throw exception::invalid_map{};
+    }
+    
+    if (maps.find(map->getName()) != maps.end()) {
         return;
     }
     
-    auto session = getSession();
-    if (!session) {
-        throw exception::invalid_session();
-    }
-
-    auto map = session->findMap(name);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_mapname();
-    }
-    
-    maps.insert(name);
-    map->setRegionName(getName());
-    emit mapAdded(name);
+    this->maps[map->getName()] = map;
+    // TODO: add map connector: delete, name change
+    emit mapAdded(map->getName());
 }
 
 
@@ -63,7 +55,7 @@ bool Region::applyJSONMaps(QJsonArray const & jsonArray) {
     maps.clear();
     for (auto && json : jsonArray) {
         if (json.isString()) {
-            maps.insert(json.toString());
+            // TODO: maps.insert(json.toString());
         }
     }
     
@@ -71,16 +63,21 @@ bool Region::applyJSONMaps(QJsonArray const & jsonArray) {
 }
 
 
-void Region::changeMapName(QString oldName, QString newName) {
-    if (maps.find(oldName) != maps.end()) {
-        maps.erase(oldName);
-        maps.insert(newName);
+MapPointer Region::getMap(QString name) {
+    auto iter = maps.find(name);
+    if (iter == maps.end()) {
+        throw exception::invalid_mapname{};
     }
+    return (*iter).second;
 }
 
 
-bool Region::containsMap(QString map) const {
-    return maps.find(map) != maps.end();
+MapPointer const Region::getMap(QString name) const {
+    auto iter = maps.find(name);
+    if (iter == maps.end()) {
+        throw exception::invalid_mapname{};
+    }
+    return (*iter).second;
 }
 
 
@@ -89,8 +86,8 @@ QJsonObject Region::getJSON() const {
     QJsonObject json = Nameable::getJSON();
     
     QJsonArray jsonMaps;
-    for (auto const & mapName: getMapNames()) {
-        jsonMaps.append(mapName);
+    for (auto const & iter : getMaps()) {
+        jsonMaps.append(iter.second->getName());
     }
     json["maps"] = jsonMaps;
     
@@ -98,7 +95,7 @@ QJsonObject Region::getJSON() const {
 }
 
 
-QSharedPointer<rpgmapper::model::Region> const & Region::null() {
+RegionPointer const & Region::null() {
     static RegionPointer nullRegion{new InvalidRegion};
     return nullRegion;
 }
@@ -106,45 +103,11 @@ QSharedPointer<rpgmapper::model::Region> const & Region::null() {
 
 void Region::removeMap(QString mapName) {
     
-    auto map = maps.find(mapName);
-    if (map != maps.end()) {
-        return;
+    auto iter = maps.find(mapName);
+    if (iter == maps.end()) {
+        throw exception::invalid_mapname{};
     }
     
-    auto session = getSession();
-    if (!session) {
-        throw exception::invalid_session();
-    }
-
-    maps.erase(map);
-    session->findMap(mapName)->setRegionName(QString::null);
+    maps.erase(iter);
     emit mapRemoved(mapName);
 }
-
-
-void Region::setName(QString name) {
-    
-    if (name == getName()) {
-        return;
-    }
-    if (!RegionNameValidator::isValid(name)) {
-        throw rpgmapper::model::exception::invalid_regionname();
-    }
-    
-    auto session = getSession();
-    if (!session) {
-        throw exception::invalid_session();
-    }
-
-    auto region = session->findRegion(name);
-    if (region->isValid()) {
-        throw rpgmapper::model::exception::invalid_regionname();
-    }
-    
-    session->changeRegionLookup(getName(), name);
-    Nameable::setName(name);
-    for (auto const & mapName : getMapNames()) {
-        session->findMap(mapName)->setRegionName(name);
-    }
-}
-

@@ -4,9 +4,15 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <utility>
+
 #include <rpgmapper/nameable.hpp>
 
 using namespace rpgmapper::model;
+
+
+Nameable::Nameable(QString name) : name{std::move(name)} {
+}
 
 
 bool Nameable::applyJSON(QJsonObject const & json) {
@@ -21,8 +27,9 @@ bool Nameable::applyJSON(QJsonObject const & json) {
 
 
 void Nameable::clear() {
+    auto oldName = name;
     name.clear();
-    emit nameChanged();
+    emit nameChanged(oldName, name);
 }
 
 
@@ -38,7 +45,7 @@ void Nameable::setName(QString name) {
     if (name == this->name) {
         return;
     }
-    
+    auto oldName = this->name;
     this->name = name;
-    emit nameChanged();
+    emit nameChanged(oldName, this->name);
 }

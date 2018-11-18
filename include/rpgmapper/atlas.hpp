@@ -20,9 +20,7 @@ namespace model {
 
 
 /**
- * This is the main class.
- *
- * An atlas as a set of regions, each with a set of maps.
+ * This is an atlas as a set of regions, each with a set of maps.
  */
 class Atlas : public Nameable {
 

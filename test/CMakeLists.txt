@@ -17,8 +17,7 @@ set(TEST_UNITS_SRC
     test_map.cpp
     test_region.cpp
     test_atlas.cpp
-    # TODO
-    # test_session.cpp
+    test_session.cpp
     test_commands.cpp
     test_map_commands.cpp
 )

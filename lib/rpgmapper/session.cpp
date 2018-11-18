@@ -34,7 +34,7 @@ static QSharedPointer<Session> currentSession;
 
 
 Session::Session() : QObject() {
-    atlas = QSharedPointer<Atlas>(new Atlas{});
+    atlas = QSharedPointer<Atlas>(new Atlas{QString{"New Atlas"}});
     commandProcessor = command::ProcessorPointer{new command::Processor{}};
 }
 
@@ -43,11 +43,11 @@ QString Session::createNewMapName() const {
     
     auto allMapNames = getAllMapNames();
     int i = 1;
-    QString candidate = QString("New Map %1").arg(QString::number(i));
+    QString candidate = QString{"New Map %1"}.arg(QString::number(i));
     
     auto iter = allMapNames.find(candidate);
     while (iter != allMapNames.end()) {
-        candidate = QString("New Map %1").arg(QString::number(++i));
+        candidate = QString{"New Map %1"}.arg(QString::number(++i));
         iter = allMapNames.find(candidate);
     }
     
@@ -59,11 +59,11 @@ QString Session::createNewRegionName() const {
     
     auto allRegionNames = getAllRegionNames();
     int i = 1;
-    QString candidate = QString("New Region %1").arg(QString::number(i));
+    QString candidate = QString{"New Region %1"}.arg(QString::number(i));
     
     auto iter = allRegionNames.find(candidate);
     while (iter != allRegionNames.end()) {
-        candidate = QString("New Region %1").arg(QString::number(++i));
+        candidate = QString{"New Region %1"}.arg(QString::number(++i));
         iter = allRegionNames.find(candidate);
     }
     
@@ -226,6 +226,48 @@ bool Session::save(UNUSED QFile & file, QStringList & log) {
     }
 */
     return written;
+}
+
+
+void Session::selectMap(QString name) {
+    
+    if (name == QString::null) {
+        currentMapName = QString::null;
+        emit selectedMap(QString::null);
+        return;
+    }
+    if (!findMap(name)->isValid()) {
+        throw exception::invalid_mapname{};
+    }
+    if (currentMapName == name) {
+        return;
+    }
+    
+    auto allMapNames = getAllMapNames();
+    selectRegion(allMapNames[name]);
+    currentMapName = name;
+    emit selectedMap(name);
+}
+
+
+void Session::selectRegion(QString name) {
+    
+    if (name == QString::null) {
+        selectMap(QString::null);
+        currentRegionName = QString::null;
+        emit selectedRegion(QString::null);
+        return;
+    }
+    if (!findRegion(name)->isValid()) {
+        throw exception::invalid_regionname{};
+    }
+    if (currentRegionName == name) {
+        return;
+    }
+    
+    selectMap(QString::null);
+    currentRegionName = name;
+    emit selectedRegion(name);
 }
 
 

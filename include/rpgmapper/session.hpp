@@ -18,6 +18,7 @@
 #include <rpgmapper/map_pointer.hpp>
 #include <rpgmapper/region_pointer.hpp>
 #include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/session_pointer.hpp>
 
 
 namespace rpgmapper {
@@ -191,7 +192,7 @@ public:
      *
      * @return  The current session.
      */
-    static QSharedPointer<Session> getCurrentSession();
+    static SessionPointer getCurrentSession();
     
     /**
      * Gets the file name of the atlas file loaded (or saved recently).
@@ -234,7 +235,7 @@ public:
      *
      * @return  a new initial session.
      */
-    static QSharedPointer<Session> init();
+    static SessionPointer init();
     
     /**
      * Loads a session from an atlas file fromm disk.
@@ -244,7 +245,7 @@ public:
      * @param   log         Protocol of operations.
      * @return  true, if successfully loaded.
      */
-    static bool load(QSharedPointer<Session> & session, QFile & file, QStringList & log);
+    static bool load(SessionPointer & session, QFile & file, QStringList & log);
     
     /**
      * Saves the current session to an atlas file on disk.
@@ -274,6 +275,22 @@ public:
      * @param   session     the new current session
      */
     static void setCurrentSession(QSharedPointer<Session> session);
+    
+signals:
+    
+    /**
+     * A new map has been selected.
+     *
+     * @param   name        name of the new selected map.
+     */
+    void selectedMap(QString name);
+    
+    /**
+     * A new region has been selected.
+     *
+     * @param   name        name of the new selected region.
+     */
+    void selectedRegion(QString name);
     
 private:
     

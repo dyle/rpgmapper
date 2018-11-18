@@ -76,9 +76,9 @@ public:
     bool applyJSON(QJsonObject const & json) override;
     
     /**
-     * Create a JSON structure from oourselves.
+     * Create a JSON structure from ourselves.
      *
-     * @return      a valid JSON  structure from ooourselves.
+     * @return      a valid JSON  structure from ourselves.
      */
     QJsonObject getJSON() const override;
 
@@ -142,19 +142,10 @@ public:
      *
      * @return  the offset values for the origin.
      */
-    QPoint getOffset() const {
-        return QPoint{static_cast<int>(offset.x()), static_cast<int>(offset.y())};
-    }
-    
-    /**
-     * Returns the offset of the origin (float version).
-     *
-     * @return  the offset values for the origin.
-     */
-    QPointF getOffsetF() const {
+    QPointF getOffset() const {
         return offset;
     }
-
+    
     /**
      * Gets the position of the origin on the map.
      *
@@ -172,6 +163,14 @@ public:
     QSize getSize() const {
         return size;
     }
+    
+    /**
+     * Checks if the given size is a valid one, suitable for a map.
+     *
+     * @param   size        a size to check.
+     * @return  true, if this size can be used as a map size.
+     */
+    static bool isValidSize(QSize size);
 
     /**
      * Applies a new numeral converter to the X-Axis.
@@ -193,7 +192,7 @@ public:
      * @param   offset      the new offset values for the origin.
      */
     void setOffset(QPoint offset) {
-        this->offset = offset;
+        setOffset(QPointF{offset});
     }
     
     /**
@@ -201,18 +200,14 @@ public:
      *
      * @param   offset      the new offset values for the origin.
      */
-    void setOffsetF(QPointF offset) {
-        this->offset = offset;
-    }
+    void setOffset(QPointF offset);
 
     /**
      * Places the origin anew.
      *
      * @param   origin      the new position for the origin.
      */
-    void setOrigin(CoordinatesOrigin origin) {
-        this->origin = origin;
-    }
+    void setOrigin(CoordinatesOrigin origin);
     
     /**
      * Returns a x-axis numeral.
@@ -237,39 +232,12 @@ public:
     /**
      * Transposes the given point to map coordinates respecting the origin position.
      *
-     * @param   position        position having top-left as 0,0 (screen coordinates)
-     * @return  position within the maps coordination space.
-     */
-    QPoint transposeToMapCoordinates(QPoint position) const;
-    
-    /**
-     * Transposes the given point to map coordinates respecting the origin position.
-     *
      * @param   x       the X value of the position.
      * @param   y       the Y value of the position.
      * @return  position within the maps coordination space.
      */
-    QPoint transposeToMapCoordinates(int x, int y) const {
-        return transposeToMapCoordinates(QPoint{x, y});
-    }
-    
-    /**
-     * Transposes the given point to map coordinates respecting the origin position.
-     *
-     * @param   position        position having top-left as 0,0 (screen coordinates)
-     * @return  position within the maps coordination space.
-     */
-    QPointF transposeToMapCoordinates(QPointF position) const;
-    
-    /**
-     * Transposes the given point to map coordinates respecting the origin position.
-     *
-     * @param   x       the X value of the position.
-     * @param   y       the Y value of the position.
-     * @return  position within the maps coordination space.
-     */
-    QPointF transposeToMapCoordinates(float x, float y) const {
-        return transposeToMapCoordinates(QPointF{x, y});
+    QPointF transposeToMapCoordinates(int x, int y) const {
+        return transposeToMapCoordinates(QPointF{static_cast<double>(x), static_cast<double>(y)});
     }
     
     /**
@@ -284,12 +252,12 @@ public:
     }
     
     /**
-     * Transposes the given point to screen coordinates respecting the origin position.
+     * Transposes the given point to map coordinates respecting the origin position.
      *
-     * @param   position        position on the map.
-     * @return  screen coordinate position (top-left as 0,0).
+     * @param   position        position having top-left as 0,0 (screen coordinates)
+     * @return  position within the maps coordination space.
      */
-    QPoint transposeToScreenCoordinates(QPoint position) const;
+    QPointF transposeToMapCoordinates(QPointF position) const;
     
     /**
      * Transposes the given point to screen coordinates respecting the origin position.
@@ -298,27 +266,8 @@ public:
      * @param   y       the Y value of the position.
      * @return  screen coordinate position (top-left as 0,0).
      */
-    QPoint transposeToScreenCoordinates(int x, int y) const {
-        return transposeToScreenCoordinates(QPoint{x, y});
-    }
-    
-    /**
-     * Transposes the given point to screen coordinates respecting the origin position.
-     *
-     * @param   position        position on the map.
-     * @return  screen coordinate position (top-left as 0,0).
-     */
-    QPointF transposeToScreenCoordinates(QPointF position) const;
-    
-    /**
-     * Transposes the given point to screen coordinates respecting the origin position.
-     *
-     * @param   x       the X value of the position.
-     * @param   y       the Y value of the position.
-     * @return  screen coordinate position (top-left as 0,0).
-     */
-    QPointF transposeToScreenCoordinates(float x, float y) const {
-        return transposeToScreenCoordinates(QPointF{x, y});
+    QPointF transposeToScreenCoordinates(int x, int y) const {
+        return transposeToScreenCoordinates(QPointF{static_cast<double>(x), static_cast<double>(y)});
     }
     
     /**
@@ -331,13 +280,21 @@ public:
     QPointF transposeToScreenCoordinates(double x, double y) const {
         return transposeToScreenCoordinates(QPointF{x, y});
     }
-
+    
+    /**
+     * Transposes the given point to screen coordinates respecting the origin position.
+     *
+     * @param   position        position on the map.
+     * @return  screen coordinate position (top-left as 0,0).
+     */
+    QPointF transposeToScreenCoordinates(QPointF position) const;
+    
     /**
      * Resizes the map.
      *
      * @param   size        the new size of the map.
      */
-    void resize(QSize const & size);
+    void resize(QSize size);
     
     
     /**
@@ -350,7 +307,6 @@ public:
         resize(QSize{width, height});
     }
 
-    
 signals:
     
     /**
@@ -364,19 +320,25 @@ signals:
     void numeralYAxisChanged();
 
     /**
-     * The positon of the origin changed.
+     * The offset of the origin changed.
+     *
+     * @param   offset      the new offset.
      */
-    void originChanged();
+    void offsetChanged(QPointF offset);
     
     /**
-     * The offset of the origin changed.
+     * The position of the origin changed.
+     *
+     * @param   origin      the new origin.
      */
-    void offsetChanged();
+    void originChanged(CoordinatesOrigin origin);
     
     /**
      * The size of the map changed.
+     *
+     * @param   size        the new size of the map.
      */
-    void sizeChanged();
+    void sizeChanged(QSize size);
     
 private:
 
@@ -405,15 +367,7 @@ private:
     bool applyJSONSize(QJsonObject const & json);
     
     /**
-     * Transposes a positon.
-     *
-     * @param   position        the position to transpose..
-     * @return  the transposed point..
-     */
-    QPoint transpose(QPoint const & position) const;
-    
-    /**
-     * Transposes a positon (float version).
+     * Transposes a position.
      *
      * @param   position        the position to transpose..
      * @return  the transposed point..

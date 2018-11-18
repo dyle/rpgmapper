@@ -21,7 +21,12 @@ TileLayer::TileLayer(Map * map) : Layer{map} {
 
 
 void TileLayer::addField(Field const & field) {
+    
+    int index = field.getIndex();
+    removeField(index);
+    
     fields[field.getIndex()] = QSharedPointer<Field>{new Field{field}};
+    emit fieldAdded(field.getPosition());
 }
 
 
@@ -42,4 +47,14 @@ void TileLayer::draw(UNUSED QPainter & painter, UNUSED int tileSize) const {
 QJsonObject TileLayer::getJSON() const {
     QJsonObject jsonObject = Layer::getJSON();
     return jsonObject;
+}
+
+
+void TileLayer::removeField(int index) {
+    
+    auto iter = fields.find(index);
+    if (iter != fields.end()) {
+        fields.erase(iter);
+        emit fieldRemoved(Field::getPositionFromIndex(index));
+    }
 }

@@ -24,9 +24,9 @@ public:
     
     
     /**
-     * Create a JSON structure from oourselves.
+     * Create a JSON structure from ourselves.
      *
-     * @return      a valid JSON  structure from ooourselves.
+     * @return      a valid JSON  structure from ourselves.
      */
     virtual QJsonObject getJSON() const = 0;
 };

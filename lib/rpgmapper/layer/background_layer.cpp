@@ -192,7 +192,7 @@ bool BackgroundLayer::isImageRendered() const {
 }
 
 
-bool BackgroundLayer::isValidRendering(QString const & rendering) {
+bool BackgroundLayer::isValidRendering(QString rendering) {
     static std::map<QString, bool> const renderingValues{
         {"color", true},
         {"image", true}
@@ -202,13 +202,21 @@ bool BackgroundLayer::isValidRendering(QString const & rendering) {
 
 
 void BackgroundLayer::setColor(QColor color) {
-    getAttributes()["color"] = color.name(QColor::HexArgb);
+    
+    if (getColor() != color) {
+        getAttributes()["color"] = color.name(QColor::HexArgb);
+        emit backgroundColorChanged(color);
+    }
 }
 
 
 void BackgroundLayer::setImage(QImage image) {
+    
+    if (this->image == image) {
+        return;
+    }
 
-    this->image = std::move(image);
+    this->image = image;
 
     QByteArray data;
     QBuffer buf(&data);
@@ -224,24 +232,41 @@ void BackgroundLayer::setImage(QImage image) {
     auto backgroundResource = ResourcePointer{new Resource{imageResourcePath, data}};
     getResourceDB()->addResource(backgroundResource);
      */
+    
+    emit backgroundImageChanged(image);
 }
 
 
 void BackgroundLayer::setImageRenderMode(ImageRenderMode mode) {
-    getAttributes()["renderImageMode"] = imageRenderModeToString(mode);
-}
-
-
-void BackgroundLayer::setMargins(QMargins const & margins) {
-    auto json = QString(R"raw({"top":%1,"left":%2,"right":%3,"bottom":%4})raw")
-        .arg(margins.top()).arg(margins.left()).arg(margins.right()).arg(margins.bottom());
-    getAttributes()["margins"] = json;
-}
-
-
-void BackgroundLayer::setRendering(QString const & rendering) {
-    if (!isValidRendering(rendering)) {
-        throw std::runtime_error("Invalid background rendering value.");
+    if (getImageRenderMode() != mode) {
+        getAttributes()["renderImageMode"] = imageRenderModeToString(mode);
+        emit backgroundImageRenderModeChanged(mode);
     }
-    getAttributes()["rendering"] = rendering;
+}
+
+
+void BackgroundLayer::setMargins(QMargins margins) {
+    
+    if (getMargins() != margins) {
+    
+        auto json = QString(R"raw({"top":%1,"left":%2,"right":%3,"bottom":%4})raw")
+                .arg(margins.top()).arg(margins.left()).arg(margins.right()).arg(margins.bottom());
+        getAttributes()["margins"] = json;
+    
+        emit backgroundMarginsChanged(margins);
+    }
+}
+
+
+void BackgroundLayer::setRendering(QString rendering) {
+    
+    if (getRendering() != rendering) {
+    
+        if (!isValidRendering(rendering)) {
+            throw std::runtime_error("Invalid background rendering value.");
+        }
+        getAttributes()["rendering"] = rendering;
+        
+        emit backgroundRenderingChanged(rendering);
+    }
 }

@@ -7,6 +7,8 @@
 #ifndef RPGMAPPER_MODEL_LAYER_TILE_LAYER_HPP
 #define RPGMAPPER_MODEL_LAYER_TILE_LAYER_HPP
 
+#include <QPoint>
+
 #include <rpgmapper/layer/layer.hpp>
 
 
@@ -74,16 +76,16 @@ public:
     QSharedPointer<Field> const getField(int x, int y) const {
         return getField(Field::getIndex(x, y));
     }
-
+    
     /**
      * Gets a field from the map.
      *
      * If the field is not found, an invalid field is returned.
      *
-     * @param   point   point holding the field's position.
+     * @param   position        position holding the field's position.
      */
-    QSharedPointer<Field> const getField(QPoint const & point) const {
-        return getField(point.x(), point.y());
+    QSharedPointer<Field> const getField(QPoint position) const {
+        return getField(position.x(), position.y());
     }
 
     /**
@@ -92,6 +94,47 @@ public:
      * @return  a JSON object holding the layer data.
      */
     QJsonObject getJSON() const override;
+    
+    /**
+     * Removes a field from the layer
+     *
+     * @param   index       the field index.
+     */
+    void removeField(int index);
+    
+    /**
+     * Removes a field from the layer
+     *
+     * @param   x       x-coordinate of field.
+     * @param   y       y-coordinate of field.
+     */
+    void removeField(int x, int y) {
+        removeField(Field::getIndex(x, y));
+    }
+    
+    /**
+     * Removes a field from the layer
+     *
+     * @param   position    point holding the field's position.
+     */
+    void removeField(QPoint position) {
+        removeField(Field::getIndex(position.x(), position.y()));
+    }
+
+signals:
+    
+    /**
+     * A field has been added.
+     *
+     * @param   position        position of the added field.
+     */
+    void fieldAdded(QPoint position);
+    
+    /**
+     * A field has been removed.
+     * @param   position        position of the field removed.
+     */
+    void fieldRemoved(QPoint position);
 
 };
 

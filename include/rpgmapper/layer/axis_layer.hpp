@@ -83,6 +83,22 @@ public:
      */
     void setFont(QFont font);
 
+signals:
+    
+    /**
+     * The color or the axis has changed.
+     *
+     * @param   color       the new axis color.
+     */
+    void axisColorChanged(QColor color);
+    
+    /**
+     * The font of the axis has changed.
+     *
+     * @param   font        the new axis font.
+     */
+    void axisFontChanged(QFont font);
+    
 private:
 
     /**

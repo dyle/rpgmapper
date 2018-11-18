@@ -100,5 +100,8 @@ QJsonObject GridLayer::getJSON() const {
 
 
 void GridLayer::setColor(QColor color) {
-    getAttributes()["color"] = color.name(QColor::HexArgb);
+    if (getColor() != color) {
+        getAttributes()["color"] = color.name(QColor::HexArgb);
+        emit gridColorChanged(color);
+    }
 }

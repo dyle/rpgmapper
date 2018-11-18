@@ -126,7 +126,7 @@ public:
     std::map<QString, QString> getAllMapNames() const;
     
     /**
-     * Collects all regions names (conventient method).
+     * Collects all regions names (convenient method).
      *
      * @return  all known regions names with their maps.
      */
@@ -198,7 +198,7 @@ public:
      *
      * @return  the file name associated with the current atlas.
      */
-    QString getFileName() {
+    QString getFileName() const {
         return fileName;
     }
 

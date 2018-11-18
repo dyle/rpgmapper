@@ -75,19 +75,17 @@ TEST(CoordinateSystemTest, TransposeCoordinatesToMap) {
 
     CoordinateSystem coordinateSystem;
     coordinateSystem.resize(10, 10);
-    QPoint position;
-    QPointF positionF;
-    QPoint point;
-    QPointF pointF;
+    QPointF position;
+    QPointF point;
 
     coordinateSystem.setOrigin(CoordinatesOrigin::bottomLeft);
     position = coordinateSystem.transposeToMapCoordinates(2, 7);
-    point = QPoint{2, 2};
+    point = QPointF{2, 2};
     EXPECT_EQ(position, point);
 
-    positionF = coordinateSystem.transposeToMapCoordinates(2.0, 7.0);
-    pointF = QPointF{2.0, 2.0};
-    EXPECT_EQ(positionF, pointF);
+    position = coordinateSystem.transposeToMapCoordinates(2.0, 7.0);
+    point = QPointF{2.0, 2.0};
+    EXPECT_EQ(position, point);
 
     coordinateSystem.setOffset(QPoint{2, 1});
     position = coordinateSystem.transposeToMapCoordinates(2, 7);
@@ -100,27 +98,27 @@ TEST(CoordinateSystemTest, TransposeCoordinatesToMap) {
     point = QPoint{6, 5};
     EXPECT_EQ(position, point);
 
-    positionF = coordinateSystem.transposeToMapCoordinates(3.0, 4.0);
-    pointF = QPointF{6.0, 5.0};
-    EXPECT_EQ(positionF, pointF);
+    position = coordinateSystem.transposeToMapCoordinates(3.0, 4.0);
+    point = QPointF{6.0, 5.0};
+    EXPECT_EQ(position, point);
 
     coordinateSystem.setOrigin(CoordinatesOrigin::topLeft);
     position = coordinateSystem.transposeToMapCoordinates(0, 8);
-    point = QPoint{0, 8};
+    point = QPointF{0, 8};
     EXPECT_EQ(position, point);
 
-    positionF = coordinateSystem.transposeToMapCoordinates(0.0, 8.0);
-    pointF = QPointF{0.0, 8.0};
-    EXPECT_EQ(positionF, pointF);
+    position = coordinateSystem.transposeToMapCoordinates(0.0, 8.0);
+    point = QPointF{0.0, 8.0};
+    EXPECT_EQ(position, point);
 
     coordinateSystem.setOrigin(CoordinatesOrigin::topRight);
     position = coordinateSystem.transposeToMapCoordinates(9, 2);
-    point = QPoint{0, 2};
+    point = QPointF{0, 2};
     EXPECT_EQ(position, point);
 
-    positionF = coordinateSystem.transposeToMapCoordinates(9.0, 2.0);
-    pointF = QPointF{0.0, 2.0};
-    EXPECT_EQ(positionF, pointF);
+    position = coordinateSystem.transposeToMapCoordinates(9.0, 2.0);
+    point = QPointF{0.0, 2.0};
+    EXPECT_EQ(position, point);
 }
 
 
@@ -128,52 +126,50 @@ TEST(CoordinateSystemTest, TransposeCoordinatesToScreen) {
 
     CoordinateSystem coordinateSystem;
     coordinateSystem.resize(10, 10);
-    QPoint position;
-    QPointF positionF;
-    QPoint point;
-    QPointF pointF;
+    QPointF position;
+    QPointF point;
 
     coordinateSystem.setOrigin(CoordinatesOrigin::bottomLeft);
     position = coordinateSystem.transposeToScreenCoordinates(2, 7);
-    point = QPoint{2, 2};
+    point = QPointF{2, 2};
     EXPECT_EQ(position, point);
 
-    positionF = coordinateSystem.transposeToScreenCoordinates(2.0, 7.0);
-    pointF = QPointF{2.0, 2.0};
-    EXPECT_EQ(positionF, pointF);
+    position = coordinateSystem.transposeToScreenCoordinates(2.0, 7.0);
+    point = QPointF{2.0, 2.0};
+    EXPECT_EQ(position, point);
 
     coordinateSystem.setOffset(QPoint{2, 1});
     position = coordinateSystem.transposeToScreenCoordinates(2, 7);
-    point = QPoint{0, 1};
+    point = QPointF{0, 1};
     EXPECT_EQ(position, point);
 
     coordinateSystem.setOrigin(CoordinatesOrigin::bottomRight);
     coordinateSystem.setOffset(QPoint{0, 0});
     position = coordinateSystem.transposeToScreenCoordinates(3, 4);
-    point = QPoint{6, 5};
+    point = QPointF{6, 5};
     EXPECT_EQ(position, point);
 
-    positionF = coordinateSystem.transposeToScreenCoordinates(3.0, 4.0);
-    pointF = QPointF{6.0, 5.0};
-    EXPECT_EQ(positionF, pointF);
+    position = coordinateSystem.transposeToScreenCoordinates(3.0, 4.0);
+    point = QPointF{6.0, 5.0};
+    EXPECT_EQ(position, point);
 
     coordinateSystem.setOrigin(CoordinatesOrigin::topLeft);
     position = coordinateSystem.transposeToScreenCoordinates(0, 8);
-    point = QPoint{0, 8};
+    point = QPointF{0, 8};
     EXPECT_EQ(position, point);
 
-    positionF = coordinateSystem.transposeToScreenCoordinates(0.0, 8.0);
-    pointF = QPointF{0.0, 8.0};
-    EXPECT_EQ(positionF, pointF);
+    position = coordinateSystem.transposeToScreenCoordinates(0.0, 8.0);
+    point = QPointF{0.0, 8.0};
+    EXPECT_EQ(position, point);
 
     coordinateSystem.setOrigin(CoordinatesOrigin::topRight);
     position = coordinateSystem.transposeToScreenCoordinates(9, 2);
-    point = QPoint{0, 2};
+    point = QPointF{0, 2};
     EXPECT_EQ(position, point);
 
-    positionF = coordinateSystem.transposeToScreenCoordinates(9.0, 2.0);
-    pointF = QPointF{0.0, 2.0};
-    EXPECT_EQ(positionF, pointF);
+    position = coordinateSystem.transposeToScreenCoordinates(9.0, 2.0);
+    point = QPointF{0.0, 2.0};
+    EXPECT_EQ(position, point);
 }
 
 

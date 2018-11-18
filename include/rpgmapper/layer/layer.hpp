@@ -123,7 +123,7 @@ public:
     }
     
     /**
-     * Disables draw/visiblity on next repaint.
+     * Disables draw/visibility on next repaint.
      */
     void hide();
 

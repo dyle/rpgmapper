@@ -28,8 +28,8 @@ void SetMapNumeralOffset::execute() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    oldOffset = map->getCoordinateSystem()->getOffsetF();
-    map->getCoordinateSystem()->setOffsetF(newOffset);
+    oldOffset = map->getCoordinateSystem()->getOffset();
+    map->getCoordinateSystem()->setOffset(newOffset);
 }
 
 
@@ -45,5 +45,5 @@ void SetMapNumeralOffset::undo() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    map->getCoordinateSystem()->setOffsetF(oldOffset);
+    map->getCoordinateSystem()->setOffset(oldOffset);
 }

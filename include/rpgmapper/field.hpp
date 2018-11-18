@@ -72,7 +72,24 @@ public:
     static int getIndex(QPoint const & point) {
         return getIndex(point.x(), point.y());
     }
+    
+    /**
+     * Returns the position of the field.
+     *
+     * @return  the position of this field on a map.
+     */
+    QPoint getPosition() const {
+        return position;
+    }
 
+    /**
+     * Convert an index to a position.
+     *
+     * @param   index       a field index.
+     * @return  the position representing this index.
+     */
+    static QPoint getPositionFromIndex(int index);
+    
     /**
      * Gets the tiles attached to this field.
      *

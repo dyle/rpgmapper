@@ -67,6 +67,15 @@ public:
      */
     void setColor(QColor color);
 
+signals:
+    
+    /**
+     * The grid color has changed.
+     *
+     * @param   color       the new grid color.
+     */
+    void gridColorChanged(QColor color);
+    
 private:
 
     /**

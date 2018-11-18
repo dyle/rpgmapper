@@ -150,7 +150,7 @@ public:
      * @param   a string value indicating the rendering style of the background.
      * @return  true, if this is indeed a known rendering style.
      */
-    static bool isValidRendering(QString const & rendering);
+    static bool isValidRendering(QString rendering);
 
     /**
      * Applies a new background color.
@@ -178,15 +178,52 @@ public:
      *
      * @param   margins     new margins for the background.
      */
-    void setMargins(QMargins const & margins);
+    void setMargins(QMargins margins);
 
     /**
      * Sets a new rendering theme: "color" or "image".
      *
      * @param   rendering       either "color" or "image".
      */
-    void setRendering(QString const & rendering);
+    void setRendering(QString rendering);
 
+signals:
+    
+    /**
+     * The background color has changed.
+     *
+     * @param   color       the new background color.
+     */
+    void backgroundColorChanged(QColor color);
+    
+    /**
+     * The background image changed.
+     *
+     * @param   image       the new background image.
+     */
+    void backgroundImageChanged(QImage image);
+    
+    /**
+     * The background image render mode changed.
+     *
+     * @param   mode        the new background image render mode.
+     */
+    void backgroundImageRenderModeChanged(ImageRenderMode mode);
+    
+    /**
+     * The background margins have changed.
+     *
+     * @param   margins     the new background margins.
+     */
+    void backgroundMarginsChanged(QMargins margins);
+    
+    /**
+     * The background rendering has changed.
+     *
+     * @param   rendering   the new background rendering.
+     */
+    void backgroundRenderingChanged(QString rendering);
+    
 private:
 
     /**

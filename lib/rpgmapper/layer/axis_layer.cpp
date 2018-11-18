@@ -113,10 +113,18 @@ QJsonObject AxisLayer::getJSON() const {
 
 
 void AxisLayer::setColor(QColor color) {
-    getAttributes()["color"] = color.name(QColor::HexArgb);
+    
+    if (getColor() != color) {
+        getAttributes()["color"] = color.name(QColor::HexArgb);
+        emit axisColorChanged(color);
+    }
 }
 
 
 void AxisLayer::setFont(QFont font) {
-    getAttributes()["font"] = font.toString();
+    
+    if (getFont() != font) {
+        getAttributes()["font"] = font.toString();
+        emit axisFontChanged(font);
+    }
 }

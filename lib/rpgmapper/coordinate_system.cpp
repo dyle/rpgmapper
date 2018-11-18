@@ -168,10 +168,24 @@ NumeralCoordinates CoordinateSystem::getNumeralCoordinates(QPoint position) cons
 }
 
 
+bool CoordinateSystem::isValidSize(QSize size) {
+    
+    if ((size.width() < getMinimumSize().width()) || (size.height() < getMinimumSize().height())) {
+        return false;
+    }
+    if ((size.width() > getMaximumSize().width()) || (size.height() > getMaximumSize().height())) {
+        return false;
+    }
+    
+    return true;
+}
+
+
 void CoordinateSystem::setNumeralXAxis(QString numeral) {
     auto const & numeralConverter = NumeralConverter::create(std::move(numeral));
     if (numeralConverter->isValid()) {
         numeralXAxis = numeralConverter;
+        emit numeralXAxisChanged();
     }
 }
 
@@ -180,34 +194,24 @@ void CoordinateSystem::setNumeralYAxis(QString numeral) {
     auto const & numeralConverter = NumeralConverter::create(std::move(numeral));
     if (numeralConverter->isValid()) {
         numeralYAxis = numeralConverter;
+        emit numeralYAxisChanged();
+    }
+}
+
+void CoordinateSystem::setOffset(QPointF offset) {
+    
+    if (this->offset != offset) {
+        this->offset = offset;
+        emit offsetChanged(offset);
     }
 }
 
 
-QPoint CoordinateSystem::transpose(QPoint const & position) const {
-
-    QPoint coordinate;
-
-    switch (getOrigin()) {
-
-        case CoordinatesOrigin::bottomLeft:
-            coordinate = QPoint{position.x(), getSize().height() - position.y() - 1};
-            break;
-
-        case CoordinatesOrigin::bottomRight:
-            coordinate = QPoint{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
-            break;
-
-        case CoordinatesOrigin::topLeft:
-            coordinate = position;
-            break;
-
-        case CoordinatesOrigin::topRight:
-            coordinate = QPoint{getSize().width() - position.x() - 1, position.y()};
-            break;
+void CoordinateSystem::setOrigin(CoordinatesOrigin origin) {
+    if (this->origin != origin) {
+        this->origin = origin;
+        emit originChanged(origin);
     }
-
-    return coordinate;
 }
 
 
@@ -238,32 +242,19 @@ QPointF CoordinateSystem::transpose(QPointF const & position) const {
 }
 
 
-QPoint CoordinateSystem::transposeToMapCoordinates(QPoint position) const {
+QPointF CoordinateSystem::transposeToMapCoordinates(QPointF position) const{
     return transpose(position) + getOffset();
 }
 
 
-QPointF CoordinateSystem::transposeToMapCoordinates(QPointF position) const{
-    return transpose(position) + getOffsetF();
-}
-
-
-QPoint CoordinateSystem::transposeToScreenCoordinates(QPoint position) const {
+QPointF CoordinateSystem::transposeToScreenCoordinates(QPointF position) const{
     return transpose(position) - getOffset();
 }
 
 
-QPointF CoordinateSystem::transposeToScreenCoordinates(QPointF position) const{
-    return transpose(position) - getOffsetF();
-}
-
-
-void CoordinateSystem::resize(QSize const & size) {
-    if ((size.width() < getMinimumSize().width()) || (size.height() < getMinimumSize().height())) {
-        return;
+void CoordinateSystem::resize(QSize size) {
+    if (isValidSize(size)) {
+        this->size = size;
+        emit sizeChanged(size);
     }
-    if ((size.width() > getMaximumSize().width()) || (size.height() > getMaximumSize().height())) {
-        return;
-    }
-    this->size = size;
 }

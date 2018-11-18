@@ -54,6 +54,16 @@ TEST(FieldTest, FieldIndexValues) {
 }
 
 
+TEST(FieldTest, GetPositionFromIndex) {
+    
+    EXPECT_EQ(Field::getPositionFromIndex(0), QPoint(0, 0));
+    EXPECT_EQ(Field::getPositionFromIndex(1), QPoint(0, 1));
+    EXPECT_EQ(Field::getPositionFromIndex(1000), QPoint(1, 0));
+    EXPECT_EQ(Field::getPositionFromIndex(1001), QPoint(1, 1));
+    EXPECT_EQ(Field::getPositionFromIndex(10010), QPoint(10, 10));
+}
+
+
 TEST(FieldTest, GetTiles) {
 
     auto field = Field(1, 1);

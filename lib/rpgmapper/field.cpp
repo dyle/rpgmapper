@@ -23,6 +23,12 @@ int Field::getIndex(int x, int y) {
 }
 
 
+QPoint Field::getPositionFromIndex(int index) {
+    return QPoint(index / CoordinateSystem::getMaximumSize().width(),
+                  index % CoordinateSystem::getMaximumSize().width());
+}
+
+
 Field const & Field::nullField() {
     static InvalidField nullField;
     return nullField;

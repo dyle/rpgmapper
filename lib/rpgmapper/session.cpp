@@ -35,6 +35,7 @@ static QSharedPointer<Session> currentSession;
 
 Session::Session() : QObject() {
     atlas = QSharedPointer<Atlas>(new Atlas{});
+    commandProcessor = command::ProcessorPointer{new command::Processor{}};
 }
 
 

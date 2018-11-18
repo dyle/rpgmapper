@@ -71,6 +71,7 @@ void Atlas::addRegion(RegionPointer region) {
     
     auto regionName = region->getName();
     this->regions[regionName] = region;
+    connect(region.data(), &Nameable::nameChanged, this, &Atlas::regionNameChanged);
     // TODO: add region connector: delete, name change
     emit regionAdded(regionName);
 }
@@ -111,6 +112,23 @@ RegionPointer const Atlas::getRegion(QString name) const {
 }
 
 
+void Atlas::regionNameChanged(QString oldName, QString newName) {
+    
+    auto iterOld = regions.find(oldName);
+    if (iterOld == regions.end()) {
+        return;
+    }
+    auto iterNew = regions.find(newName);
+    if (iterNew != regions.end()) {
+        throw exception::invalid_regionname{};
+    }
+    
+    auto region = (*iterOld).second;
+    regions.erase(iterOld);
+    regions.emplace(newName, region);
+}
+
+
 QSharedPointer<Atlas> const & Atlas::null() {
     static QSharedPointer<Atlas> nullAtlas{new InvalidAtlas};
     return nullAtlas;
@@ -123,7 +141,9 @@ void Atlas::removeRegion(QString name) {
     if (iter == regions.end()) {
         throw exception::invalid_regionname{};
     }
-    
+
+    auto region = (*iter).second;
+    disconnect(region.data(), &Nameable::nameChanged, this, &Atlas::regionNameChanged);
     regions.erase(iter);
     emit regionRemoved(name);
 }

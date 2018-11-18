@@ -119,6 +119,16 @@ private:
      */
     bool applyJSONRegionsArray(QJsonArray const & jsonRegions);
 
+private slots:
+    
+    /**
+     * The name of a region changed.
+     *
+     * @param   oldName     the old name
+     * param    newName     the new name
+     */
+    void regionNameChanged(QString oldName, QString newName);
+    
 signals:
     
     /**

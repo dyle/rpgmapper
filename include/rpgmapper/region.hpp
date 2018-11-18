@@ -134,7 +134,17 @@ private:
      *
      * @param   jsonArray       the array of maps
      */
-    bool applyJSONMaps(QJsonArray const & jsonArray); 
+    bool applyJSONMaps(QJsonArray const & jsonArray);
+    
+private slots:
+    
+    /**
+     * The name of a map of the region changed.
+     *
+     * @param   oldName     the old name
+     * param    newName     the new name
+     */
+    void mapNameChanged(QString oldName, QString newName);
     
 signals:
 

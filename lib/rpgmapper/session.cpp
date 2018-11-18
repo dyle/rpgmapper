@@ -121,7 +121,6 @@ RegionPointer Session::findRegion(QString name) {
 
 RegionPointer const Session::findRegion(QString name) const {
     
-    
     static RegionPointer invalidRegion{new InvalidRegion};
     
     auto const & regions = getAtlas()->getRegions();

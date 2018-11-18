@@ -34,7 +34,7 @@ void Region::addMap(MapPointer map) {
     
     auto mapName = map->getName();
     this->maps[mapName] = map;
-    // TODO: add map connector: delete, name change
+    connect(map.data(), &Nameable::nameChanged, this, &Region::mapNameChanged);
     emit mapAdded(mapName);
 }
 
@@ -106,6 +106,23 @@ std::set<QString> Region::getMapNames() const {
 }
 
 
+void Region::mapNameChanged(QString oldName, QString newName) {
+    
+    auto iterOld = maps.find(oldName);
+    if (iterOld == maps.end()) {
+        return;
+    }
+    auto iterNew = maps.find(newName);
+    if (iterNew != maps.end()) {
+        throw exception::invalid_mapname{};
+    }
+    
+    auto map = (*iterOld).second;
+    maps.erase(iterOld);
+    maps.emplace(newName, map);
+}
+
+
 RegionPointer const & Region::null() {
     static RegionPointer nullRegion{new InvalidRegion};
     return nullRegion;
@@ -119,6 +136,8 @@ void Region::removeMap(QString mapName) {
         throw exception::invalid_mapname{};
     }
     
+    auto map = (*iter).second;
+    disconnect(map.data(), &Nameable::nameChanged, this, &Region::mapNameChanged);
     maps.erase(iter);
     emit mapRemoved(mapName);
 }

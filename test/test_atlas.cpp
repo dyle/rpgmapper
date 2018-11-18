@@ -9,25 +9,22 @@
 #include <gtest/gtest.h>
 
 #include <rpgmapper/atlas.hpp>
-#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 
 
 TEST(AtlasTest, CreateAtlasIsValid) {
     
-    Session::setCurrentSession(Session::init());
-    auto atlas = Session::getCurrentSession()->getAtlas();
-    
-    ASSERT_TRUE(atlas->isValid());
+    Atlas atlas;
+    ASSERT_TRUE(atlas.isValid());
 }
 
 
 TEST(AtlasTest, AtlasNameSet) {
     
-    Session::setCurrentSession(Session::init());
-    auto atlas = Session::getCurrentSession()->getAtlas();
-
-    atlas->setName("foo");
-    EXPECT_EQ(atlas->getName().toStdString(), "foo");
+    Atlas atlas{"foo"};
+    EXPECT_EQ(atlas.getName().toStdString(), "foo");
+    
+    atlas.setName("bar");
+    EXPECT_EQ(atlas.getName().toStdString(), "bar");
 }

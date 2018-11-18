@@ -33,7 +33,7 @@ void RemoveMap::execute() {
     auto session = Session::getCurrentSession();
     auto region = session->findRegion(regionName);
     if (!region->isValid()) {
-        throw exception::invalid_region;
+        throw exception::invalid_region{};
     }
     
     region->removeMap(map->getName());
@@ -46,7 +46,12 @@ QString RemoveMap::getDescription() const {
 
 
 void RemoveMap::undo() {
+    
     auto session = Session::getCurrentSession();
-    session->insertMap(map);
-    session->findRegion(regionName)->addMap(map->getName());
+    auto region = session->findRegion(regionName);
+    if (!region->isValid()) {
+        throw exception::invalid_region{};
+    }
+    
+    region->addMap(map);
 }

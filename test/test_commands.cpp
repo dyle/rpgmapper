@@ -146,7 +146,7 @@ TEST(ProcessorTest, CreateMap) {
     
     auto region = session->findRegion("foo");
     EXPECT_TRUE(region->isValid());
-    EXPECT_TRUE(region->containsMap("bar"));
+    EXPECT_NE(region->getMapNames().find("bar"), region->getMapNames().end());
 
     processor->undo();
 

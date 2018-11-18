@@ -32,9 +32,10 @@ void Region::addMap(MapPointer map) {
         return;
     }
     
-    this->maps[map->getName()] = map;
+    auto mapName = map->getName();
+    this->maps[mapName] = map;
     // TODO: add map connector: delete, name change
-    emit mapAdded(map->getName());
+    emit mapAdded(mapName);
 }
 
 
@@ -92,6 +93,16 @@ QJsonObject Region::getJSON() const {
     json["maps"] = jsonMaps;
     
     return json;
+}
+
+
+std::set<QString> Region::getMapNames() const {
+    
+    std::set<QString> names;
+    for (auto const & pair : maps) {
+        names.insert(pair.second->getName());
+    }
+    return names;
 }
 
 

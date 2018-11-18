@@ -8,19 +8,14 @@
 
 #include <rpgmapper/layer/layer.hpp>
 #include <rpgmapper/map.hpp>
-#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 
 
 TEST(LayerTest, BackgroundLayerHasColor) {
     
-    Session::setCurrentSession(Session::init());
-    Session::getCurrentSession()->createRegion("bar");
-    auto map = Session::getCurrentSession()->createMap("foo", "bar");
-    
-    auto const & layer = map->getLayers().getBackgroundLayer();
-
+    Map map{"foo"};
+    auto const & layer = map.getLayers().getBackgroundLayer();
     auto pair = layer->getAttributes().find("color");
     EXPECT_NE(pair, layer->getAttributes().end());
 }
@@ -28,11 +23,9 @@ TEST(LayerTest, BackgroundLayerHasColor) {
 
 TEST(LayerTest, BaseLayerInvalidField) {
     
-    Session::setCurrentSession(Session::init());
-    Session::getCurrentSession()->createRegion("bar");
-    auto map = Session::getCurrentSession()->createMap("foo", "bar");
+    Map map{"foo"};
     
-    auto & layers = map->getLayers().getBaseLayers();
+    auto & layers = map.getLayers().getBaseLayers();
     ASSERT_GE(layers.size(), 1);
 
     auto field = layers.front()->getField(10, 10);
@@ -43,11 +36,9 @@ TEST(LayerTest, BaseLayerInvalidField) {
 
 TEST(LayerTest, BaseLayerAddFields) {
     
-    Session::setCurrentSession(Session::init());
-    Session::getCurrentSession()->createRegion("bar");
-    auto map = Session::getCurrentSession()->createMap("foo", "bar");
+    Map map{"foo"};
     
-    auto & layers = map->getLayers().getBaseLayers();
+    auto & layers = map.getLayers().getBaseLayers();
     ASSERT_GE(layers.size(), 1);
 
     int index = Field::getIndex(10, 10);
@@ -74,11 +65,9 @@ TEST(LayerTest, BaseLayerAddFields) {
 
 TEST(LayerTest, TileLayerInvalidField) {
     
-    Session::setCurrentSession(Session::init());
-    Session::getCurrentSession()->createRegion("bar");
-    auto map = Session::getCurrentSession()->createMap("foo", "bar");
+    Map map{"foo"};
     
-    auto & layers = map->getLayers().getTileLayers();
+    auto & layers = map.getLayers().getTileLayers();
     ASSERT_GE(layers.size(), 1);
 
     auto field = layers.front()->getField(10, 10);
@@ -89,11 +78,9 @@ TEST(LayerTest, TileLayerInvalidField) {
 
 TEST(LayerTest, TileLayerAddFields) {
     
-    Session::setCurrentSession(Session::init());
-    Session::getCurrentSession()->createRegion("bar");
-    auto map = Session::getCurrentSession()->createMap("foo", "bar");
+    Map map{"foo"};
     
-    auto & layers = map->getLayers().getTileLayers();
+    auto & layers = map.getLayers().getTileLayers();
     ASSERT_GE(layers.size(), 1);
 
     int index = Field::getIndex(10, 10);

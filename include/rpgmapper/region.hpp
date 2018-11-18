@@ -87,6 +87,13 @@ public:
     MapPointer const getMap(QString name) const;
     
     /**
+     * Gets all map names.
+     *
+     * @return  all map names known to this region.
+     */
+    std::set<QString> getMapNames() const;
+    
+    /**
      * Gets all maps known to this region.
      *
      * @return  all maps known to this region.

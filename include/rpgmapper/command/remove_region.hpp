@@ -27,7 +27,6 @@ namespace command {
 class RemoveRegion : public Command {
 
     QSharedPointer<Region> region;              /**< The region removed. */
-    std::set<QSharedPointer<Map>> maps;         /**< The maps of the region removed. */
 
 public:
     

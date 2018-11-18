@@ -55,9 +55,9 @@ public:
     bool applyJSON(QJsonObject const & json) override;
     
     /**
-     * Create a JSON structure from oourselves.
+     * Create a JSON structure from ourselves.
      *
-     * @return      a valid JSON  structure from ooourselves.
+     * @return      a valid JSON  structure from ourselves.
      */
     QJsonObject getJSON() const override;
     
@@ -121,6 +121,21 @@ private:
      */
     bool applyJSONRegionsArray(QJsonArray const & jsonRegions);
 
+signals:
+    
+    /**
+     * Added a region to the atlas.
+     *
+     * @param   name        name of the region added.
+     */
+    void regionAdded(QString name);
+    
+    /**
+     * Removed a region from the atlas.
+     *
+     * @param   name        name of the region removed.
+     */
+    void regionRemoved(QString name);
 };
 
 

@@ -65,13 +65,14 @@ void Atlas::addRegion(RegionPointer region) {
     if (!region->isValid()) {
         throw exception::invalid_region{};
     }
-    
     if (regions.find(region->getName()) != regions.end()) {
-        return;
+        throw exception::invalid_region{};
     }
     
-    this->regions[region->getName()] = region;
+    auto regionName = region->getName();
+    this->regions[regionName] = region;
     // TODO: add region connector: delete, name change
+    emit regionAdded(regionName);
 }
 
 
@@ -113,4 +114,16 @@ RegionPointer const Atlas::getRegion(QString name) const {
 QSharedPointer<Atlas> const & Atlas::null() {
     static QSharedPointer<Atlas> nullAtlas{new InvalidAtlas};
     return nullAtlas;
+}
+
+
+void Atlas::removeRegion(QString name) {
+    
+    auto iter = regions.find(name);
+    if (iter == regions.end()) {
+        throw exception::invalid_regionname{};
+    }
+    
+    regions.erase(iter);
+    emit regionRemoved(name);
 }

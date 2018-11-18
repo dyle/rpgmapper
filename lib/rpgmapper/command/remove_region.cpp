@@ -8,6 +8,7 @@
 
 #include <rpgmapper/command/remove_region.hpp>
 #include <rpgmapper/exception/invalid_regionname.hpp>
+#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
@@ -25,11 +26,8 @@ RemoveRegion::RemoveRegion(QString name) {
 void RemoveRegion::execute() {
 
     auto session = Session::getCurrentSession();
-    for (auto const & mapName : region->getMapNames()) {
-        maps.insert(session->findMap(mapName));
-    }
-
-    session->deleteRegion(region->getName());
+    auto atlas = session->getAtlas();
+    atlas->removeRegion(region->getName());
 }
 
 
@@ -41,9 +39,6 @@ QString RemoveRegion::getDescription() const {
 void RemoveRegion::undo() {
     
     auto session = Session::getCurrentSession();
-    session->insertRegion(region);
-    for (auto const & map : maps) {
-        session->insertMap(map);
-        map->setRegionName(region->getName());
-    }
+    auto atlas = session->getAtlas();
+    atlas->addRegion(region);
 }

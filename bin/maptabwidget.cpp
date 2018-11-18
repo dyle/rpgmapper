@@ -4,17 +4,13 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <QPixmapCache>
 #include <QScrollArea>
 
-#include "maptabwidget.hpp"
+#include <rpgmapper/map.hpp>
+#include <rpgmapper/session.hpp>
 
-#if defined(__GNUC__) || defined(__GNUCPP__)
-#   define UNUSED   __attribute__((unused))
-#else
-#   define UNUSED
-#endif
+#include "maptabwidget.hpp"
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::view;
@@ -25,42 +21,32 @@ MapTabWidget::MapTabWidget(QWidget * parent) : QTabWidget{parent} {
 }
 
 
-void MapTabWidget::changedMapName(UNUSED QString regionName, QString nameBefore, QString nameAfter) {
-
-    auto iter = mapScrollAreas.find(nameBefore);
-    if (iter == mapScrollAreas.end()) {
-        return;
-    }
-
-    mapScrollAreas[nameAfter] = (*iter).second;
-    mapScrollAreas.erase(iter);
-    auto tabIndex = indexOf((*iter).second);
-    if (tabIndex == -1) {
-        return;
-    }
-    setTabText(tabIndex, nameAfter);
-}
-
-
 void MapTabWidget::closeCurrentMap() {
     removeTab(currentIndex());
 }
 
 
-void MapTabWidget::connectSelectionSignals() {
-    if (selection == nullptr) {
-        return;
+void MapTabWidget::mapCloseRequested(int index) {
+    if (index != -1) {
+        removeTab(index);
     }
-    connect(selection->getAtlas().data(), &Atlas::mapNameChanged, this, &MapTabWidget::changedMapName);
-    connect(selection->getAtlas().data(), &Atlas::mapRemoved, this, &MapTabWidget::removedMap);
-    connect(selection.data(), &Selection::mapSelected, this, &MapTabWidget::selectedMap);
 }
 
 
-void MapTabWidget::mapCloseRequested(int nIndex) {
-    if (nIndex != -1) {
-        removeTab(nIndex);
+void MapTabWidget::mapNameChanged(QString oldName, QString newName) {
+    
+    auto iter = mapScrollAreas.find(oldName);
+    if (iter == mapScrollAreas.end()) {
+        return;
     }
+    
+    mapScrollAreas[newName] = (*iter).second;
+    mapScrollAreas.erase(iter);
+    auto tabIndex = indexOf((*iter).second);
+    if (tabIndex == -1) {
+        return;
+    }
+    setTabText(tabIndex, newName);
 }
 
 
@@ -73,21 +59,30 @@ void MapTabWidget::redrawCurrentMap() {
 }
 
 
-void MapTabWidget::removedAllMaps() {
+void MapTabWidget::removeAllMaps() {
+    
     for (auto & pair : mapScrollAreas) {
         int tabIndex = indexOf(pair.second);
         if (tabIndex != -1) {
             removeTab(tabIndex);
         }
     }
+    
     mapScrollAreas.clear();
 }
 
 
-void MapTabWidget::removedMap(UNUSED QString regionName, QString mapName) {
+void MapTabWidget::removeMap(QString mapName) {
 
     auto pair = mapScrollAreas.find(mapName);
     if (pair != mapScrollAreas.end()) {
+    
+        auto map = Session::getCurrentSession()->findMap(mapName);
+        if (!map->isValid()) {
+            throw std::runtime_error{"Invalid map to select in tab."};
+        }
+        disconnect(map.data(), &Nameable::nameChanged, this, &MapTabWidget::mapNameChanged);
+        
         int tabIndex = indexOf((*pair).second);
         mapScrollAreas.erase(pair);
         if (tabIndex != -1) {
@@ -97,7 +92,7 @@ void MapTabWidget::removedMap(UNUSED QString regionName, QString mapName) {
 }
 
 
-void MapTabWidget::selectedMap(QString mapName) {
+void MapTabWidget::selectMap(QString mapName) {
 
     if (mapName.isEmpty()) {
         return;
@@ -108,12 +103,17 @@ void MapTabWidget::selectedMap(QString mapName) {
         QPixmapCache::find("map", &pixmap);
     }
 
-    auto map = selection->getAtlas()->findMap(mapName);
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error{"Invalid map to select in tab."};
+    }
+    connect(map.data(), &Nameable::nameChanged, this, &MapTabWidget::mapNameChanged);
+    
     auto iter = mapScrollAreas.find(mapName);
     if (iter == mapScrollAreas.end()) {
 
         auto mapWidget = new MapWidget{this};
-        mapWidget->setMap(map);
+        mapWidget->setMap(mapName);
         connect(mapWidget, &MapWidget::hoverCoordinates, this, &MapTabWidget::hoverCoordinates);
 
         auto mapView = new MapScrollArea{this, mapWidget};
@@ -129,10 +129,4 @@ void MapTabWidget::selectedMap(QString mapName) {
         }
         setCurrentWidget((*iter).second);
     }
-}
-
-
-void MapTabWidget::setSelection(rpgmapper::model::SelectionPointer & selection) {
-    this->selection = selection;
-    connectSelectionSignals();
 }

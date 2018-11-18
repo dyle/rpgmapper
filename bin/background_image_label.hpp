@@ -4,10 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_VIEW_BACKGROUND_IMAGE_LABEL_HPP
 #define RPGMAPPER_VIEW_BACKGROUND_IMAGE_LABEL_HPP
-
 
 #include <QLabel>
 
@@ -18,6 +16,9 @@ namespace rpgmapper {
 namespace view {
 
 
+/**
+ * TODO: What is this?
+ */
 class BackgroundImageLabel : public QLabel, public rpgmapper::model::BackgroundRenderer {
 
     Q_OBJECT

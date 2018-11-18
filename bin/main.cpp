@@ -23,6 +23,14 @@ Licenseed under the GNU General Public License 3\n\
 See: http://www.gnu.org/licenses/ for details."
 
 
+/**
+ * Parses the command line arguments.
+ *
+ * @param   programOptions      this will hold the parsed result.
+ * @param   argc                argc as passed on by main().
+ * @param   argv                argv as passed on by main().
+ * @return  return true, if the command line arguments have been parsed successfully.
+ */
 bool parseCommandLine(boost::program_options::variables_map & programOptions, int argc, char ** argv);
 
 
@@ -40,16 +48,16 @@ int main(int argc, char ** argv) {
                   << std::endl;
     }
 
-    QApplication application{argc, argv};
-    application.setOrganizationName("Oliver Maurhart <dyle71@gmail.com>");
-    application.setOrganizationDomain("");
-    application.setApplicationName("RPGMapper");
-    application.setApplicationVersion(VERSION);
+    QApplication::setOrganizationName("Oliver Maurhart <dyle71@gmail.com>");
+    QApplication::setOrganizationDomain("");
+    QApplication::setApplicationName("RPGMapper");
+    QApplication::setApplicationVersion(VERSION);
 
     QPixmapCache::insert("atlas", QPixmap(":/icons/gfx/atlas.png"));
     QPixmapCache::insert("region", QPixmap(":/icons/gfx/region.png"));
     QPixmapCache::insert("map", QPixmap(":/icons/gfx/map.png"));
-
+    
+    QApplication application{argc, argv};
     rpgmapper::view::MainWindow mainWindow;
     mainWindow.show();
 

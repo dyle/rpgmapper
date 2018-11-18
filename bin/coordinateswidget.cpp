@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include "coordinateswidget.hpp"
 #include "ui_coordinateswidget.h"
 
@@ -32,7 +31,7 @@ void CoordinatesWidget::clear() {
 }
 
 
-void CoordinatesWidget::showCoordinates(NumeralCoordinates const & coordinates) {
+void CoordinatesWidget::showCoordinates(NumeralCoordinates coordinates) {
     ui->xValueLabel->setText(coordinates.x);
     ui->yValueLabel->setText(coordinates.y);
 }

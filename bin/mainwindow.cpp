@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <QApplication>
 #include <QCloseEvent>
 #include <QDesktopWidget>
@@ -14,11 +13,16 @@
 
 #include <rpgmapper/command/create_map.hpp>
 #include <rpgmapper/command/create_region.hpp>
+#include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/command/remove_map.hpp>
 #include <rpgmapper/command/remove_region.hpp>
 #include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/command/set_region_name.hpp>
-#include <rpgmapper/io/atlas_io.hpp>
+#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/atlas_name_validator.hpp>
+#include <rpgmapper/region_name_validator.hpp>
+#include <rpgmapper/session.hpp>
+
 #include "mainwindow.hpp"
 #include "visibility_action_filter.hpp"
 #include "ui_mainwindow.h"
@@ -31,7 +35,6 @@
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
-using namespace rpgmapper::model::io;
 using namespace rpgmapper::view;
 
 
@@ -45,15 +48,8 @@ MainWindow::MainWindow() : QMainWindow{} {
     statusBar()->setSizeGripEnabled(false);
     statusBar()->setVisible(true);
 
-    selection = SelectionPointer(new rpgmapper::model::Selection{this});
-    selection->setAtlas(AtlasPointer{new Atlas});
-    selection->getAtlas()->init();
-
-    ui->atlasTreeWidget->setSelection(selection);
-    ui->mapTabWidget->setSelection(selection);
-
     ui->mapTabWidget->clear();
-    ui->atlasTreeWidget->selectFirstMap();
+    // TODO: ui->atlasTreeWidget->selectFirstMap();
     ui->atlasTreeNewMapToolButton->setDefaultAction(ui->actionCreateNewMap);
     ui->atlasTreeNewRegionToolButton->setDefaultAction(ui->actionCreateNewRegion);
     ui->atlasTreeDeleteMapToolButton->setDefaultAction(ui->actionDeleteMap);
@@ -61,7 +57,7 @@ MainWindow::MainWindow() : QMainWindow{} {
 
     setupDialogs();
     connectActions();
-    connectModelSignals();
+    // TODO: connectModelSignals();
     loadSettings();
     setApplicationWindowTitle();
 }
@@ -147,14 +143,14 @@ void MainWindow::connectActions() {
     addUnusedActions();
 
     connect(ui->actionClearRecentList, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
-    connect(ui->actionCloseMap, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::closeCurrentMap);
+    // TODO: connect(ui->actionCloseMap, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::closeCurrentMap);
     connect(ui->actionCreateNewMap, &QAction::triggered, this, &MainWindow::createNewMap);
     connect(ui->actionCreateNewRegion, &QAction::triggered, this, &MainWindow::createNewRegion);
     connect(ui->actionDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
     connect(ui->actionDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->actionOpenAtlasFile, &QAction::triggered, this, &MainWindow::load);
-    connect(ui->actionRedraw, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::redrawCurrentMap);
+    // TODO: connect(ui->actionRedraw, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::redrawCurrentMap);
     connect(ui->actionShowAboutDialog, &QAction::triggered, this, &MainWindow::showAboutDialog);
     connect(ui->actionShowAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
     connect(ui->actionShowMapProperties, &QAction::triggered, this, &MainWindow::editMapProperties);
@@ -171,25 +167,30 @@ void MainWindow::connectActions() {
     new VisibiltyActionFiler(ui->tilesDockWidget, ui->actionViewTilesDock, this);
     new VisibiltyActionFiler(ui->colorPickerDockWidget, ui->actionViewColorPicker, this);
 
+    /*
+     * TODO
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedAtlas,
             ui->actionShowAtlasProperties, &QAction::trigger);
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedMap,
             ui->actionShowMapProperties, &QAction::trigger);
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedRegion,
             ui->actionShowRegionProperties, &QAction::trigger);
+     */
 
     connect(ui->mapTabWidget, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
 }
 
 
+/*
 void MainWindow::connectModelSignals() {
     connect(selection->getAtlas().data(), &Atlas::commandExecuted, this, &MainWindow::executedCommand);
     connect(selection->getAtlas().data(), &Atlas::regionNameChanged, this, &MainWindow::setApplicationWindowTitle);
 }
-
+*/
 
 void MainWindow::createNewMap() {
-
+/*
+ * TODO
     auto region = selection->getRegion();
     if (!region->isValid()) {
         return;
@@ -199,13 +200,17 @@ void MainWindow::createNewMap() {
                                                 region->getName(),
                                                 selection->createNewMapName()}};
     selection->getAtlas()->getCommandProzessor()->execute(command);
+ */
 }
 
 
 void MainWindow::createNewRegion() {
+/*
+ * TODO
     auto command = CommandPointer{new CreateRegion{selection->getAtlas(),
                                                    selection->createNewRegionName()}};
     selection->getAtlas()->getCommandProzessor()->execute(command);
+ */
 }
 
 
@@ -232,6 +237,8 @@ void MainWindow::createRecentFileActions() {
 
 void MainWindow::deleteMap() {
 
+/*
+ * TODO
     auto map = selection->getMap();
     if (!map->isValid()) {
         return;
@@ -241,11 +248,14 @@ void MainWindow::deleteMap() {
                                                 map->getRegionName(),
                                                 map->getName()}};
     selection->getAtlas()->getCommandProzessor()->execute(command);
+ */
 }
 
 
 void MainWindow::deleteRegion() {
 
+/*
+ * TODO
     auto region = selection->getRegion();
     if (!region->isValid()) {
         return;
@@ -262,13 +272,17 @@ void MainWindow::deleteRegion() {
     auto command = CommandPointer{new RemoveRegion{selection->getAtlas(),
                                                    region->getName()}};
     selection->getAtlas()->getCommandProzessor()->execute(command);
+ */
 }
 
 
 void MainWindow::editAtlasProperties() {
 
-    QString message = tr("Choose new name of atlas.\n"
-                         "Name must not include these characters: \"%1\"").arg(Atlas::getInvalidCharactersInName());
+    QString message = tr("Choose new name of atlas.");
+    
+    auto session = Session::getCurrentSession();
+    auto atlas = session->getAtlas();
+    auto processor = session->getCommandProcessor();
 
     bool abortLoop = false;
     do {
@@ -278,78 +292,79 @@ void MainWindow::editAtlasProperties() {
                                                tr("Atlas Properties"),
                                                message,
                                                QLineEdit::Normal,
-                                               selection->getAtlas()->getName(),
+                                               atlas->getName(),
                                                &ok);
         if (!ok) {
             abortLoop = true;
         }
         else {
-            if (!Atlas::isNameValid(atlasName)) {
+            if (!AtlasNameValidator::isValid(atlasName)) {
                 QMessageBox::critical(this,
                                       tr("Refused to change name of atlas"),
                                       tr("Name is empty or contains invalid characters."));
             }
             else {
-                auto command = CommandPointer{new SetAtlasName{selection->getAtlas(), atlasName}};
-                selection->getAtlas()->getCommandProzessor()->execute(command);
+                auto command = CommandPointer{new SetAtlasName{atlasName}};
+                processor->execute(command);
                 abortLoop = true;
             }
         }
+        
     } while (!abortLoop);
 }
 
 
 void MainWindow::editMapProperties() {
-
-    auto map = selection->getMap();
-    if (!map->isValid()) {
-        return;
+    
+    auto session = Session::getCurrentSession();
+    auto mapName = session->getCurrentMapName();
+    
+    if (!mapName.isEmpty()) {
+        mapPropertiesDialog->setMap(mapName);
+        mapPropertiesDialog->exec();
     }
-
-    mapPropertiesDialog->setMap(selection->getAtlas(), map);
-    mapPropertiesDialog->exec();
 }
 
 
 void MainWindow::editRegionProperties() {
 
-    auto region = selection->getRegion();
-    if (!region->isValid()) {
+    QString message = tr("Choose new name of region.");
+    
+    auto session = Session::getCurrentSession();
+    auto regionName = session->getCurrentRegionName();
+    if (regionName.isEmpty()) {
         return;
     }
-
-    QString message = tr("Choose new name of region.\n"
-                         "Name must not include these characters: \"%1\"").arg(Region::getInvalidCharactersInName());
-
-
+    auto processor = session->getCommandProcessor();
+    
     bool abortLoop = false;
     do {
 
         bool ok = false;
-        auto regionName = QInputDialog::getText(this,
-                                                tr("Region Properties"),
-                                                message,
-                                                QLineEdit::Normal,
-                                                selection->getRegion()->getName(),
-                                                &ok);
+        auto newRegionName = QInputDialog::getText(this,
+                                                   tr("Region Properties"),
+                                                   message,
+                                                   QLineEdit::Normal,
+                                                   regionName,
+                                                   &ok);
         if (!ok) {
             abortLoop = true;
         }
         else {
-            if (!Region::isNameValid(regionName)) {
+            if (!RegionNameValidator::isValid(newRegionName)) {
                 QMessageBox::critical(this,
                                       tr("Refused to change name of region"),
                                       tr("Name is empty or contains invalid characters."));
             }
             else
-            if (selection->getAtlas()->findRegion(regionName)->isValid()) {
+            if (session->findRegion(newRegionName)->isValid()) {
                 QMessageBox::critical(this,
                                       tr("Refused to change name of region"),
                                       tr("A region with this name already exists."));
             }
             else {
-                auto command = CommandPointer{new SetRegionName{selection->getAtlas(), region->getName(), regionName}};
-                selection->getAtlas()->getCommandProzessor()->execute(command);
+                auto command = CommandPointer{new SetRegionName{regionName, newRegionName}};
+                processor->execute(command);
                 abortLoop = true;
             }
         }

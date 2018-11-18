@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include "mapscrollarea.hpp"
 
 using namespace rpgmapper::view;

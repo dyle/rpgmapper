@@ -4,15 +4,17 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <QColorDialog>
+#include <QComboBox>
 #include <QFileDialog>
 #include <QFontDialog>
 #include <QMessageBox>
+#include <QPushButton>
+#include <QSpinBox>
+#include <QToolButton>
 
-#include <rpgmapper/atlas.hpp>
-#include <rpgmapper/filesystem.hpp>
 #include <rpgmapper/command/composite_command.hpp>
+#include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/command/resize_map.hpp>
 #include <rpgmapper/command/set_map_axis_font.hpp>
 #include <rpgmapper/command/set_map_axis_font_color.hpp>
@@ -26,6 +28,12 @@
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
 #include <rpgmapper/command/set_map_numeral_offset.hpp>
 #include <rpgmapper/command/set_map_origin.hpp>
+#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/filesystem.hpp>
+#include <rpgmapper/map.hpp>
+#include <rpgmapper/map_name_validator.hpp>
+#include <rpgmapper/session.hpp>
+
 #include "mappropertiesdialog.hpp"
 #include "ui_mappropertiesdialog.h"
 
@@ -114,136 +122,133 @@ void MapPropertiesDialog::addBackgroundImageFromFile(QFileInfo const & fileInfo)
 
 void MapPropertiesDialog::applyAxisValuesToMap(CompositeCommand * & commands) {
 
-    auto atlas = this->atlas.toStrongRef();
-    if (atlas == nullptr) {
-        throw std::runtime_error("Atlas instance in properties vanished (nullptr).");
+    if (!commands) {
+        throw std::invalid_argument{"Commands argument must not be nullptr."};
     }
-
-    auto map = this->map.toStrongRef();
-    if (map == nullptr) {
-        throw std::runtime_error("Internal map lost when applying values of property dialog (map == nullptr).");
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Internal map lost when applying values of property dialog.");
     }
+    auto coordinateSystem = map->getCoordinateSystem();
 
     auto xNumeric = getSelectedXAxisNumeral();
-    if (!xNumeric.isEmpty() && (xNumeric != map->getNumeralXAxis()->getName())) {
-        commands->addCommand(CommandPointer{new SetMapNumeralAxis{atlas, map->getName(), true, xNumeric}});
+    if (!xNumeric.isEmpty() && (xNumeric != coordinateSystem->getNumeralXAxis()->getName())) {
+        commands->addCommand(CommandPointer{new SetMapNumeralAxis{map->getName(), true, xNumeric}});
     }
 
     auto yNumeric = getSelectedYAxisNumeral();
-    if (!yNumeric.isEmpty() && (yNumeric != map->getNumeralYAxis()->getName())) {
-        commands->addCommand(CommandPointer{new SetMapNumeralAxis{atlas, map->getName(), false, yNumeric}});
+    if (!yNumeric.isEmpty() && (yNumeric != coordinateSystem->getNumeralYAxis()->getName())) {
+        commands->addCommand(CommandPointer{new SetMapNumeralAxis{map->getName(), false, yNumeric}});
     }
 
     auto offset = QPoint{ui->xStartValueSpinBox->value(), ui->yStartValueSpinBox->value()};
-    if (offset != map->getCoordinateSystem().getOffset()) {
-        commands->addCommand(CommandPointer{new SetMapNumeralOffset{atlas, map->getName(), offset}});
+    if (offset != coordinateSystem->getOffset()) {
+        commands->addCommand(CommandPointer{new SetMapNumeralOffset{map->getName(), offset}});
     }
 
+    auto layers = map->getLayers();
     auto axisPalette = ui->axisColorFrame->palette();
     auto axisColor = axisPalette.window().color();
-    if (map->getAxisLayer()->getColor() != axisColor) {
-        commands->addCommand(CommandPointer{new SetMapAxisFontColor{atlas, map->getName(), axisColor}});
+    if (layers.getAxisLayer()->getColor() != axisColor) {
+        commands->addCommand(CommandPointer{new SetMapAxisFontColor{map->getName(), axisColor}});
     }
 
     QFont axisFont;
     axisFont.fromString(ui->axisFontLineEdit->text());
-    if (map->getAxisLayer()->getFont().toString() != axisFont.toString()) {
-        commands->addCommand(CommandPointer{new SetMapAxisFont{atlas, map->getName(), axisFont}});
+    if (layers.getAxisLayer()->getFont().toString() != axisFont.toString()) {
+        commands->addCommand(CommandPointer{new SetMapAxisFont{map->getName(), axisFont}});
     }
 
     auto gridPalette = ui->gridColorFrame->palette();
     auto gridColor = gridPalette.window().color();
-    if (map->getGridLayer()->getColor() != gridColor) {
-        commands->addCommand(CommandPointer{new SetMapGridColor{atlas, map->getName(), gridColor}});
+    if (layers.getGridLayer()->getColor() != gridColor) {
+        commands->addCommand(CommandPointer{new SetMapGridColor{map->getName(), gridColor}});
     }
 }
 
 
 void MapPropertiesDialog::applyBackgroundValuesToMap(CompositeCommand * & commands) {
-
-    auto atlas = this->atlas.toStrongRef();
-    if (atlas == nullptr) {
-        throw std::runtime_error("Atlas instance in properties vanished (nullptr).");
+    
+    if (!commands) {
+        throw std::invalid_argument{"Commands argument must not be nullptr."};
     }
-
-    auto map = this->map.toStrongRef();
-    if (map == nullptr) {
-        throw std::runtime_error("Internal map lost when applying values of property dialog (map == nullptr).");
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Internal map lost when applying values of property dialog.");
     }
-
+    
+    auto layers = map->getLayers();
+    auto backgroundLayer = layers.getBackgroundLayer();
+    
     auto backgroundPalette = ui->backgroundColorFrame->palette();
     auto backgroundColor = backgroundPalette.window().color();
-    if (map->getBackgroundLayer()->getColor() != backgroundColor) {
-        commands->addCommand(CommandPointer{new SetMapBackgroundColor{atlas, map->getName(), backgroundColor}});
+    
+    if (backgroundLayer->getColor() != backgroundColor) {
+        commands->addCommand(CommandPointer{new SetMapBackgroundColor{map->getName(), backgroundColor}});
     }
 
-    if (ui->backgroundColorRadioButton->isChecked() && !map->getBackgroundLayer()->isColorRendered()) {
-        commands->addCommand(CommandPointer{new SetMapBackgroundRendering{atlas, map->getName(), "color"}});
+    if (ui->backgroundColorRadioButton->isChecked() && !backgroundLayer->isColorRendered()) {
+        commands->addCommand(CommandPointer{new SetMapBackgroundRendering{map->getName(), "color"}});
     }
 
-    if (ui->backgroundImageRadioButton->isChecked() && !map->getBackgroundLayer()->isImageRendered()) {
-        commands->addCommand(CommandPointer{new SetMapBackgroundRendering{atlas, map->getName(), "image"}});
+    if (ui->backgroundImageRadioButton->isChecked() && !backgroundLayer->isImageRendered()) {
+        commands->addCommand(CommandPointer{new SetMapBackgroundRendering{map->getName(), "image"}});
     }
 
     auto selectedImage = ui->backgroundImageFileComboBox->currentText();
     if (selectedImage != tr("<applied on map>") && ui->backgroundImageRadioButton->isChecked()) {
         auto image = backgroundImages[selectedImage];
-        commands->addCommand(CommandPointer{new SetMapBackgroundImage{atlas, map->getName(), image}});
+        commands->addCommand(CommandPointer{new SetMapBackgroundImage{map->getName(), image}});
     }
 
     auto mode = getSelectedImageRenderMode();
-    if (map->getBackgroundLayer()->getImageRenderMode() != mode) {
-        commands->addCommand(CommandPointer{new SetMapBackgroundImageRenderMode{atlas, map->getName(), mode}});
+    if (backgroundLayer->getImageRenderMode() != mode) {
+        commands->addCommand(CommandPointer{new SetMapBackgroundImageRenderMode{map->getName(), mode}});
     }
 
     auto margins = getSelectedMargins();
-    if (margins != map->getBackgroundLayer()->getMargins()) {
-        commands->addCommand(CommandPointer{new SetMapMargins{atlas, map->getName(), margins}});
+    if (margins != backgroundLayer->getMargins()) {
+        commands->addCommand(CommandPointer{new SetMapMargins{map->getName(), margins}});
     }
 }
 
 
 void MapPropertiesDialog::applyDimensionValuesToMap(CompositeCommand * & commands) {
-
-    auto atlas = this->atlas.toStrongRef();
-    if (atlas == nullptr) {
-        throw std::runtime_error("Atlas instance in properties vanished (nullptr).");
+    
+    if (!commands) {
+        throw std::invalid_argument{"Commands argument must not be nullptr."};
     }
-
-    auto map = this->map.toStrongRef();
-    if (map == nullptr) {
-        throw std::runtime_error("Internal map lost when applying values of property dialog (map == nullptr).");
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Internal map lost when applying values of property dialog.");
     }
-
+    
+    auto coordinateSystem = map->getCoordinateSystem();
+    
     auto newWidth = ui->widthSpinBox->value();
     auto newHeight = ui->heightSpinBox->value();
-    auto mapSize = map->getSize();
+    auto mapSize = coordinateSystem->getSize();
     if ((mapSize.width() != newWidth) || (mapSize.height() != newHeight)) {
-        commands->addCommand(CommandPointer{new ResizeMap{atlas, map->getName(), QSize{newWidth, newHeight}}});
+        commands->addCommand(CommandPointer{new ResizeMap{map->getName(), QSize{newWidth, newHeight}}});
     }
 
     auto origin = ui->coordinatesOriginWidget->getOrigin();
-    if (origin != map->getCoordinateSystem().getOrigin()) {
-        commands->addCommand(CommandPointer{new SetMapOrigin{atlas, map->getName(), origin}});
+    if (origin != coordinateSystem->getOrigin()) {
+        commands->addCommand(CommandPointer{new SetMapOrigin{map->getName(), origin}});
     }
 }
 
 
 void MapPropertiesDialog::applyValuesToMap() {
-
-    auto atlas = this->atlas.toStrongRef();
-    if (atlas == nullptr) {
-        throw std::runtime_error("Atlas instance in properties vanished (nullptr).");
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Internal map lost when applying values of property dialog.");
     }
 
-    auto map = this->map.toStrongRef();
-    if (map == nullptr) {
-        throw std::runtime_error("Map instance in properties vanished (nullptr).");
-    }
-
-    auto commands = new CompositeCommand{atlas};
+    auto commands = new CompositeCommand{};
     if (ui->nameEdit->text() != map->getName()) {
-        commands->addCommand(CommandPointer{new SetMapName(atlas, map->getName(), ui->nameEdit->text())});
+        commands->addCommand(CommandPointer{new SetMapName(map->getName(), ui->nameEdit->text())});
     }
 
     applyDimensionValuesToMap(commands);
@@ -251,7 +256,9 @@ void MapPropertiesDialog::applyValuesToMap() {
     applyBackgroundValuesToMap(commands);
 
     if (commands->size() > 0) {
-        atlas->getCommandProzessor()->execute(CommandPointer{commands});
+        auto session = Session::getCurrentSession();
+        auto processor = session->getCommandProcessor();
+        processor->execute(CommandPointer{commands});
     }
     else {
         delete commands;
@@ -259,7 +266,7 @@ void MapPropertiesDialog::applyValuesToMap() {
 }
 
 
-void MapPropertiesDialog::backgroundImageSelected(QString const & backgroundImage) {
+void MapPropertiesDialog::backgroundImageSelected(QString backgroundImage) {
 
     if (backgroundImage.isEmpty()) {
         backgroundPreviewLabel->setPixmap(QPixmap{});
@@ -268,14 +275,17 @@ void MapPropertiesDialog::backgroundImageSelected(QString const & backgroundImag
     else {
 
         if (backgroundImage == tr("<applied on map>")) {
-
-            auto map = this->map.toStrongRef();
-            if (map == nullptr) {
-                throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    
+            auto map = Session::getCurrentSession()->findMap(mapName);
+            if (!map->isValid()) {
+                throw std::runtime_error("Internal map lost when applying values of property dialog.");
             }
+            
+            auto layers = map->getLayers();
+            auto backgroundLayer = layers.getBackgroundLayer();
 
             QPixmap pixmap;
-            pixmap.convertFromImage(map->getBackgroundLayer()->getImage());
+            pixmap.convertFromImage(backgroundLayer->getImage());
             backgroundPreviewLabel->setPixmap(pixmap);
             backgroundPreviewLabel->update();
         }
@@ -457,27 +467,22 @@ void MapPropertiesDialog::initNumeralConverters() {
 
 bool MapPropertiesDialog::isUserInputValid() {
 
-    static QString invalidNameMessage{
-        tr("Map name is empty or contains invalid characters (any of \"%1\").").arg(Map::getInvalidCharactersInName())};
+    static QString invalidNameMessage{tr("Map name is empty or contains invalid characters.")};
+    static QString alreayExistingMessage{tr("Map name is already used by another map.")};
 
-    if (!Map::isNameValid(ui->nameEdit->text())) {
+    if (!MapNameValidator::isValid(ui->nameEdit->text())) {
         ui->nameEdit->selectAll();
         ui->nameEdit->setFocus();
         QMessageBox::critical(this, tr("Refused to change name of map"), invalidNameMessage);
         return false;
     }
-
-    auto atlas = this->atlas.toStrongRef();
-    if (atlas == nullptr) {
-        throw std::runtime_error("Atlas instance in properties vanished (nullptr).");
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Internal map lost when applying values of property dialog.");
     }
 
-    static QString alreayExistingMessage{tr("Map name is already used by another map.")};
-    auto map = this->map.toStrongRef();
-    if (map == nullptr) {
-        throw std::runtime_error("Map instance in properties vanished (nullptr).");
-    }
-    auto otherMap = atlas->findMap(ui->nameEdit->text());
+    auto otherMap = Session::getCurrentSession()->findMap(ui->nameEdit->text());
     if (otherMap->isValid() && (otherMap.data() != map.data())) {
         ui->nameEdit->selectAll();
         ui->nameEdit->setFocus();
@@ -561,19 +566,20 @@ void MapPropertiesDialog::setAxisUiFromMap() {
 
     setXAxisUiFromMap();
     setYAxisUiFromMap();
-
-    auto map = this->map.toStrongRef();
-    if (map == nullptr) {
-        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Internal map lost when applying values of property dialog.");
     }
+    auto layers = map->getLayers();
 
-    ui->axisFontLineEdit->setText(map->getAxisLayer()->getFont().toString());
+    ui->axisFontLineEdit->setText(layers.getAxisLayer()->getFont().toString());
     auto axisPalette = ui->axisColorFrame->palette();
-    axisPalette.setColor(QPalette::Window, map->getAxisLayer()->getColor());
+    axisPalette.setColor(QPalette::Window, layers.getAxisLayer()->getColor());
     ui->axisColorFrame->setPalette(axisPalette);
 
     auto gridPalette = ui->gridColorFrame->palette();
-    gridPalette.setColor(QPalette::Window, map->getGridLayer()->getColor());
+    gridPalette.setColor(QPalette::Window, layers.getGridLayer()->getColor());
     ui->gridColorFrame->setPalette(gridPalette);
 
     showSampleXAxis();
@@ -599,14 +605,16 @@ void MapPropertiesDialog::setBackgroundImageRenderMode() {
 
 
 void MapPropertiesDialog::setBackgroundUiFromMap() {
-
-    auto map = this->map.toStrongRef();
-    if (map == nullptr) {
-        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Internal map lost when applying values of property dialog.");
     }
+    auto layers = map->getLayers();
+    auto backgroundLayer = layers.getBackgroundLayer();
 
     ui->backgroundImageFileComboBox->clear();
-    auto backgroundImage = map->getBackgroundLayer()->getImage();
+    auto backgroundImage = backgroundLayer->getImage();
     if (!backgroundImage.isNull()) {
         QPixmap pixmap;
         pixmap.convertFromImage(backgroundImage);
@@ -616,8 +624,8 @@ void MapPropertiesDialog::setBackgroundUiFromMap() {
     }
     collectBackgroundImages();
 
-    bool coloredBackground = map->getBackgroundLayer()->isColorRendered();
-    bool imageBackground = map->getBackgroundLayer()->isImageRendered();
+    bool coloredBackground = backgroundLayer->isColorRendered();
+    bool imageBackground = backgroundLayer->isImageRendered();
     if (coloredBackground && imageBackground) {
         throw std::runtime_error("Color and image background both set on map. These are mutual exclusive.");
     }
@@ -625,12 +633,12 @@ void MapPropertiesDialog::setBackgroundUiFromMap() {
     ui->backgroundColorRadioButton->setChecked(coloredBackground);
     ui->backgroundImageRadioButton->setChecked(imageBackground);
 
-    ui->backgroundImagePlainRadioButton->setChecked(map->getBackgroundLayer()->isImageRenderedPlain());
-    ui->backgroundImageScaledRadioButton->setChecked(map->getBackgroundLayer()->isImageRenderedScaled());
-    ui->backgroundImageTiledRadioButton->setChecked(map->getBackgroundLayer()->isImageRenderedTiled());
+    ui->backgroundImagePlainRadioButton->setChecked(backgroundLayer->isImageRenderedPlain());
+    ui->backgroundImageScaledRadioButton->setChecked(backgroundLayer->isImageRenderedScaled());
+    ui->backgroundImageTiledRadioButton->setChecked(backgroundLayer->isImageRenderedTiled());
 
     auto backgroundFramePalette = ui->backgroundColorFrame->palette();
-    backgroundFramePalette.setColor(QPalette::Window, map->getBackgroundLayer()->getColor());
+    backgroundFramePalette.setColor(QPalette::Window, backgroundLayer->getColor());
     ui->backgroundColorFrame->setPalette(backgroundFramePalette);
 
     setBackgroundImageRenderMode();
@@ -639,25 +647,27 @@ void MapPropertiesDialog::setBackgroundUiFromMap() {
 
 
 void MapPropertiesDialog::setDimensionUiFromMap() {
-
-    auto map = this->map.toStrongRef();
-    if (map == nullptr) {
-        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Internal map lost when applying values of property dialog.");
     }
+    auto coordinateSystem = map->getCoordinateSystem();
 
-    ui->widthSpinBox->setValue(map->isValid() ? map->getSize().width() : 0);
-    ui->heightSpinBox->setValue(map->isValid() ? map->getSize().height() : 0);
-    ui->coordinatesOriginWidget->setOrigin(map->isValid() ? map->getCoordinateSystem().getOrigin()
+    ui->widthSpinBox->setValue(map->isValid() ? coordinateSystem->getSize().width() : 0);
+    ui->heightSpinBox->setValue(map->isValid() ? coordinateSystem->getSize().height() : 0);
+    ui->coordinatesOriginWidget->setOrigin(map->isValid() ? coordinateSystem->getOrigin()
                                                           : CoordinatesOrigin::bottomLeft);
 }
 
 
-void MapPropertiesDialog::setMap(AtlasPointer & atlas, MapPointer & map) {
+void MapPropertiesDialog::setMap(QString mapName) {
 
-    Map * oldMap = this->map.data();
-
-    this->atlas = atlas;
-    this->map = map;
+    this->mapName = mapName;
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Invalid map to set.");
+    }
 
     setWindowTitle(tr("Change properties of map '%1'").arg(map->getName()));
 
@@ -666,22 +676,23 @@ void MapPropertiesDialog::setMap(AtlasPointer & atlas, MapPointer & map) {
     setAxisUiFromMap();
     setBackgroundUiFromMap();
 
-    if (oldMap != this->map.data()) {
-        ui->propertiesTabWidget->setCurrentWidget(ui->dimensionsWidget);
-        ui->nameEdit->selectAll();
-        ui->nameEdit->setFocus();
-    }
+    ui->propertiesTabWidget->setCurrentWidget(ui->dimensionsWidget);
+    ui->nameEdit->selectAll();
+    ui->nameEdit->setFocus();
 }
 
 
 void MapPropertiesDialog::setMargins() {
-
-    auto map = this->map.toStrongRef();
-    if (map == nullptr) {
-        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    
+    this->mapName = mapName;
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Invalid map to set.");
     }
+    auto layers = map->getLayers();
+    auto backgroundLayer = layers.getBackgroundLayer();
 
-    auto margins = map->getBackgroundLayer()->getMargins();
+    auto margins = backgroundLayer->getMargins();
     ui->leftMarginSpinBox->setValue(margins.left());
     ui->topMarginSpinBox->setValue(margins.top());
     ui->rightMarginSpinBox->setValue(margins.right());
@@ -690,11 +701,13 @@ void MapPropertiesDialog::setMargins() {
 
 
 void MapPropertiesDialog::setXAxisUiFromMap() {
-
-    auto map = this->map.toStrongRef();
-    if (map == nullptr) {
-        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    
+    this->mapName = mapName;
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Invalid map to set.");
     }
+    auto coordinateSystem = map->getCoordinateSystem();
 
     for (auto radioButton : xAxisNumeralButtons) {
         radioButton->setChecked(false);
@@ -708,7 +721,7 @@ void MapPropertiesDialog::setXAxisUiFromMap() {
         {"roman", ui->xRomanRadioButton}
     };
 
-    auto xAxisIter = xAxisNumericalRadioButtons.find(map->getNumeralXAxis()->getName());
+    auto xAxisIter = xAxisNumericalRadioButtons.find(coordinateSystem->getNumeralXAxis()->getName());
     if (xAxisIter == xAxisNumericalRadioButtons.end()) {
         throw std::runtime_error("Unknown setting for map x axis numeric.");
     }
@@ -718,11 +731,13 @@ void MapPropertiesDialog::setXAxisUiFromMap() {
 
 
 void MapPropertiesDialog::setYAxisUiFromMap() {
-
-    auto map = this->map.toStrongRef();
-    if (map == nullptr) {
-        throw std::runtime_error("Map instance in properties vanished (nullptr).");
+    
+    this->mapName = mapName;
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Invalid map to set.");
     }
+    auto coordinateSystem = map->getCoordinateSystem();
 
     for (auto radioButton : yAxisNumeralButtons) {
         radioButton->setChecked(false);
@@ -736,7 +751,7 @@ void MapPropertiesDialog::setYAxisUiFromMap() {
         {"roman", ui->yRomanRadioButton}
     };
 
-    auto yAxisIter = yAxisNumericalRadioButtons.find(map->getNumeralYAxis()->getName());
+    auto yAxisIter = yAxisNumericalRadioButtons.find(coordinateSystem->getNumeralYAxis()->getName());
     if (yAxisIter == yAxisNumericalRadioButtons.end()) {
         throw std::runtime_error("Unknown setting for map y axis numeric.");
     }

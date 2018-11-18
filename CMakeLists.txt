@@ -94,7 +94,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DI
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QUAZIP_INCLUDE})
 
 add_subdirectory(lib)
-#add_subdirectory(bin)
+add_subdirectory(bin)
 add_subdirectory(test)
 
 

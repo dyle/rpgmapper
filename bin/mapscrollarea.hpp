@@ -4,10 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_VIEW_MAPSCROLLAREA_HPP
 #define RPGMAPPER_VIEW_MAPSCROLLAREA_HPP
-
 
 #include <QScrollArea>
 
@@ -17,18 +15,33 @@
 namespace rpgmapper {
 namespace view {
 
+
+/**
+ * This scroll area contains a mapwidget and acts as a viewport onto a map.
+ */
 class MapScrollArea : public QScrollArea {
 
     Q_OBJECT
 
 public:
 
+    /**
+     * Constructor
+     * @param   parent          Parent QWidget instance.
+     * @param   mapWidget       The map widget contained.
+     */
     explicit MapScrollArea(QWidget * parent, MapWidget * mapWidget);
 
+    /**
+     * Gets the contained map widget rendered.
+     *
+     * @return  the contained map widget rendering a map.
+     */
     MapWidget * mapWidget() {
         return dynamic_cast<MapWidget *>(widget());
     }
 };
+
 
 }
 }

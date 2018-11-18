@@ -4,16 +4,13 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_VIEW_MAPTABWIDGET_HPP
 #define RPGMAPPER_VIEW_MAPTABWIDGET_HPP
-
 
 #include <memory>
 
 #include <QTabWidget>
 
-#include <rpgmapper/selection.hpp>
 #include "mapscrollarea.hpp"
 
 
@@ -21,44 +18,83 @@ namespace rpgmapper {
 namespace view {
 
 
+/**
+ * The Tabs of rendered maps.
+ */
 class MapTabWidget : public QTabWidget {
-
 
     Q_OBJECT
 
-    rpgmapper::model::SelectionPointer selection;
+    /**
+     * All current rendered maps referenced by map name.
+     */
     std::map<QString, MapScrollArea *> mapScrollAreas;
 
 public:
 
+    /**
+     * Constructor.
+     *
+     * @param   parent      Parent QWidget instance.
+     */
     explicit MapTabWidget(QWidget * parent = nullptr);
-
-    void setSelection(rpgmapper::model::SelectionPointer & selection);
 
 public slots:
 
-    void changedMapName(QString regionName, QString nameBefore, QString nameAfter);
-
+    /**
+     * Closes (hides) the current map.
+     */
     void closeCurrentMap();
-
+    
+    /**
+     * A maps name has changed.
+     *
+     * @param   oldName     old name of the map.
+     * @param   newName     new name of the map.
+     */
+    void mapNameChanged(QString oldName, QString newName);
+    
+    /**
+     * Redraws the current selected map.
+     */
     void redrawCurrentMap();
 
-    void removedAllMaps();
+    /**
+     * Removes (Hides) all maps of this tab widget.
+     */
+    void removeAllMaps();
 
-    void removedMap(QString regionName, QString mapName);
-
-    void selectedMap(QString mapName);
-
-private:
-
-    void connectSelectionSignals();
+    /**
+     * Removes a map from the tab widgets.
+     *
+     * @param   mapName     the map to remove.
+     */
+    void removeMap(QString mapName);
+    
+    /**
+     * Select a map to display.
+     *
+     * @param   mapName     the map to display.
+     */
+    void selectMap(QString mapName);
 
 private slots:
 
-    void mapCloseRequested(int nIndex);
+    /**
+     * The user wants to close a tab widget.
+     *
+     * @param   index       number of the widget to close.
+     */
+    void mapCloseRequested(int index);
 
 signals:
 
+    /**
+     * The user hovers with the mouse over coordinates.
+     *
+     * @param   x       map x-coordinate.
+     * @param   y       map y-coordinate.
+     */
     void hoverCoordinates(int x, int y);
 
 };

@@ -4,18 +4,21 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <QMouseEvent>
 #include <QPainter>
 
 #include <rpgmapper/layer/layer.hpp>
+#include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
-#include "mapwidget.hpp"
+#include <rpgmapper/session.hpp>
 
-#define STANDARD_TILE_SIZE      48
+#include "mapwidget.hpp"
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::view;
+
+
+#define STANDARD_TILE_SIZE      48
 
 
 MapWidget::MapWidget(QWidget * parent) : QWidget{parent} {
@@ -23,15 +26,8 @@ MapWidget::MapWidget(QWidget * parent) : QWidget{parent} {
 }
 
 
-void MapWidget::mapChanged() {
-
-    auto map = this->map.toStrongRef();
-    if (map.data() == nullptr) {
-        throw std::runtime_error("map of MapWidget no longer valid (nullptr).");
-    }
-
-    QSize size{(map->getSize().width() + 2) * STANDARD_TILE_SIZE, (map->getSize().height() + 2) * STANDARD_TILE_SIZE};
-    resize(size);
+void MapWidget::mapSizeChanged(QSize size) {
+    resize(QSize{(size.width() + 2) * STANDARD_TILE_SIZE, (size.height() + 2) * STANDARD_TILE_SIZE});
 }
 
 
@@ -40,16 +36,17 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
     QWidget::mouseMoveEvent(event);
     int x = event->pos().x() / STANDARD_TILE_SIZE - 1;
     int y = event->pos().y() / STANDARD_TILE_SIZE - 1;
-
-    auto map = this->map.toStrongRef();
-    if (map.data() == nullptr) {
-        throw std::runtime_error("map of MapWidget no longer valid (nullptr).");
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Invalid map to render.");
     }
+    auto coordinateSystem = map->getCoordinateSystem();
 
-    auto size = map->getSize();
+    auto size = coordinateSystem->getSize();
     if ((x >= 0) && (x < size.width()) && (y >= 0) && (y < size.height())) {
-        auto mapPosition = map->getCoordinateSystem().transposeToMapCoordinates(x, y);
-        emit hoverCoordinates(mapPosition.x(), mapPosition.y());
+        auto mapPosition = map->getCoordinateSystem()->transposeToMapCoordinates(x, y);
+        emit hoverCoordinates(static_cast<int>(mapPosition.x()), static_cast<int>(mapPosition.y()));
     }
 }
 
@@ -64,13 +61,13 @@ void MapWidget::paintEvent(QPaintEvent * event) {
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setTransform(QTransform::fromTranslate(STANDARD_TILE_SIZE, STANDARD_TILE_SIZE));
     painter.setViewTransformEnabled(true);
-
-    auto map = this->map.toStrongRef();
-    if (map.data() == nullptr) {
-        throw std::runtime_error("map of MapWidget no longer valid (nullptr).");
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Invalid map to render.");
     }
 
-    for (auto layer : map->collectVisibleLayers()) {
+    for (auto layer : map->getLayers().collectVisibleLayers()) {
         layer->draw(painter, STANDARD_TILE_SIZE);
     }
 
@@ -80,15 +77,18 @@ void MapWidget::paintEvent(QPaintEvent * event) {
 }
 
 
-void MapWidget::setMap(rpgmapper::model::MapPointer & map) {
-    this->map = map;
-    connect(map.data(), &Map::changed, this, &MapWidget::update);
-    connect(map.data(), &Map::resized, this, &MapWidget::mapChanged);
-    mapChanged();
-    update();
-}
-
-
-void MapWidget::update() {
-    QWidget::update();
+void MapWidget::setMap(QString mapName) {
+    
+    if (this->mapName == mapName) {
+        return;
+    }
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Invalid map to render.");
+    }
+    this->mapName = mapName;
+    auto coordinateSystem = map->getCoordinateSystem();
+    
+    connect(coordinateSystem.data(), &CoordinateSystem::sizeChanged, this, &MapWidget::mapSizeChanged);
 }

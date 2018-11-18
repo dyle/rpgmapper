@@ -4,99 +4,137 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_VIEW_STRUCTURALTREEWIDGET_HPP
 #define RPGMAPPER_VIEW_STRUCTURALTREEWIDGET_HPP
 
-
 #include <QTreeWidget>
 
-#include <rpgmapper/selection.hpp>
+#include <rpgmapper/map_pointer.hpp>
+#include <rpgmapper/region_pointer.hpp>
 
 
 namespace rpgmapper {
 namespace view {
 
-class MainWindow;
 
+// fwd
+// TODO: class MainWindow;
+
+/**
+ * This widget shows the organisational structure of the current atlas.
+ */
 class StructuralTreeWidget : public QTreeWidget {
 
     Q_OBJECT
 
-    QWeakPointer<rpgmapper::model::Selection> selection;
-
-    enum class ItemType { atlas, map, region };
-
-    struct ItemInfo {
-        ItemType itemType = ItemType::atlas;
-        QString name;
-        bool valid = false;
-    };
-
 public:
 
+    /**
+     * Constructor.
+     *
+     * @param   parent      Parent QWidget instance.
+     */
     explicit StructuralTreeWidget(QWidget * parent = nullptr);
 
 public slots:
 
-    void addedMap(QString regionName, QString mapName);
+    //void changedAtlasName(QString oldName, QString newName);
 
-    void changedAtlasName(QString name);
+    //void changedMapName(QString regionName, QString nameBefore, QString nameAfter);
 
-    void changedMapName(QString regionName, QString nameBefore, QString nameAfter);
+    //void changedRegionName(QString nameBefore, QString nameAfter);
 
-    void changedRegionName(QString nameBefore, QString nameAfter);
+    //void createdMap(QString regionName, QString mapName);
 
-    void createdMap(QString regionName, QString mapName);
+    //void createdRegion(QString name);
 
-    void createdRegion(QString name);
+    //void removedMap(QString regionName, QString mapName);
 
-    void removedMap(QString regionName, QString mapName);
+    //void removedRegion(QString name);
 
-    void removedRegion(QString name);
+    //void selectFirstMap();
 
-    void selectFirstMap();
-
-    void setSelection(rpgmapper::model::SelectionPointer & selection);
-
-    void resetStructure();
+    //void resetStructure();
 
 private:
 
-    void addAtlas();
+    //void addAtlas();
 
-    QTreeWidgetItem * addMap(QTreeWidgetItem * regionItem, rpgmapper::model::MapPointer const & map);
+    //QTreeWidgetItem * addMap(QTreeWidgetItem * regionItem, rpgmapper::model::MapPointer const & map);
 
-    QTreeWidgetItem * addRegion(QTreeWidgetItem * atlasItem, rpgmapper::model::RegionPointer const & region);
+    //QTreeWidgetItem * addRegion(QTreeWidgetItem * atlasItem, rpgmapper::model::RegionPointer const & region);
 
-    void connectSelectionSignals();
+    //void connectSelectionSignals();
 
-    ItemInfo getItemInfo(QTreeWidgetItem * item) const;
+    //ItemInfo getItemInfo(QTreeWidgetItem * item) const;
 
-    QTreeWidgetItem * searchItem(ItemType type, QString const & name) const;
+    //QTreeWidgetItem * searchItem(ItemType type, QString const & name) const;
 
-    QTreeWidgetItem * searchItem(QTreeWidgetItem * parentItem, ItemType type, QString const & name) const;
+    //QTreeWidgetItem * searchItem(QTreeWidgetItem * parentItem, ItemType type, QString const & name) const;
 
 private slots:
 
+    /**
+     * Adopts the standard signal for changed items of the QTabWidget for special handling.
+     *
+     * @param   current     the current tab widget item changed.
+     */
     void changedCurrentItem(QTreeWidgetItem * current);
-
+    
+    /**
+     * Adopts the standard signal for double clicked items of the QTabWidget for special handling.
+     *
+     * @param   item            the item double clicked.
+     * @param   column          the column inside the item double clicked.
+     */
     void doubleClickedItem(QTreeWidgetItem * item, int column);
-
+    
+    /**
+     * Adopts the standard signal for single clicked items of the QTabWidget for special handling.
+     *
+     * @param   item            the item single clicked.
+     * @param   column          the column inside the item single clicked.
+     */
     void singleClickedItem(QTreeWidgetItem * item, int column);
 
 signals:
 
+    /**
+     * The user double clicked the atlas.
+     */
     void doubleClickedAtlas();
 
+    /**
+     * The user double clicked a map.
+     *
+     * @param   mapName         the map name double clicked.
+     */
     void doubleClickedMap(QString mapName);
 
+    /**
+     * The user double clicked a region.
+     *
+     * @param   regionName      the region name double clicked.
+     */
     void doubleClickedRegion(QString regionName);
 
+    /**
+     * The user selected the atlas.
+     */
     void selectedAtlas();
 
+    /**
+     * The user selected a map.
+     *
+     * @param   mapName         the map selected.
+     */
     void selectedMap(QString mapName);
 
+    /**
+     * The user selected a region.
+     *
+     * @param   regionName      the region selected.
+     */
     void selectedRegion(QString regionName);
 };
 

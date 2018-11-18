@@ -4,10 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #ifndef RPGMAPPER_MAINWINDOW_HPP
 #define RPGMAPPER_MAINWINDOW_HPP
-
 
 #include <memory>
 
@@ -15,13 +13,13 @@
 #include <QMainWindow>
 #include <QSettings>
 
-#include <rpgmapper/selection.hpp>
 #include "aboutdialog.hpp"
 #include "coordinateswidget.hpp"
 #include "logdialog.hpp"
 #include "mappropertiesdialog.hpp"
 
 
+// fwd
 class Ui_mainwindow;
 
 
@@ -29,34 +27,34 @@ namespace rpgmapper {
 namespace view {
 
 
+/**
+ * This is the rpgmapper main window, holding the whole application in place.
+ */
 class MainWindow : public QMainWindow {
 
     Q_OBJECT
 
-    std::shared_ptr<Ui_mainwindow> ui;
+    std::shared_ptr<Ui_mainwindow> ui;                          /**< The User Interface as created by the uic. */
 
-    rpgmapper::model::SelectionPointer selection;
+    AboutDialog * aboutDialog = nullptr;                        /**< Pre-created about dialog. */
+    QFileDialog * loadAtlasDialog = nullptr;                    /**< Pre-created load dialog. */
+    LogDialog * logDialog = nullptr;                            /**< Pre-created log dialog. */
+    MapPropertiesDialog * mapPropertiesDialog = nullptr;        /**< Pre-created map properties dialog. */
+    QFileDialog * saveAtlasDialog = nullptr;                    /**< Pre-created save dialog. */
 
-    AboutDialog * aboutDialog = nullptr;
-    QFileDialog * loadAtlasDialog = nullptr;
-    LogDialog * logDialog = nullptr;
-    MapPropertiesDialog * mapPropertiesDialog = nullptr;
-    QFileDialog * saveAtlasDialog = nullptr;
+    QStringList recentAtlasFileNames;                           /**< List of recent loaded/saved atlas files. */
+    QString recentAtlasFolderName;                              /**< The last folder to load/save an atlas file. */
+    int maximumRecentAtlasFiles = 10;                           /**< Maximum number of entries in the recent list. */
+    QList<QAction *> recentFileLoadActions;                     /**< Menu-actions to load the atlas files. */
 
-    QStringList recentAtlasFileNames;
-    QString recentAtlasFolderName;
-    int maximumRecentAtlasFiles = 10;
-    QList<QAction *> recentFileLoadActions;
-
-    CoordinatesWidget * coordinatesWidget = nullptr;
+    CoordinatesWidget * coordinatesWidget = nullptr;            /**< Pre-created coordinate widgets. */
 
 public:
 
+    /**
+     * Constructor.
+     */
     MainWindow();
-
-    rpgmapper::model::AtlasPointer & getAtlas();
-
-    rpgmapper::model::AtlasPointer const & getAtlas() const;
 
 public slots:
 
@@ -96,7 +94,7 @@ private:
 
     void connectActions();
 
-    void connectModelSignals();
+    // TODO: void connectModelSignals();
 
     void clearRecentFileActions();
 

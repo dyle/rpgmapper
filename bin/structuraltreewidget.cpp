@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-
 #include <QPixmapCache>
 
 #include "mainwindow.hpp"
@@ -21,12 +20,15 @@ using namespace rpgmapper::view;
 
 
 StructuralTreeWidget::StructuralTreeWidget(QWidget * parent) : QTreeWidget{parent} {
+/*
     connect(this, &QTreeWidget::currentItemChanged, this, &StructuralTreeWidget::changedCurrentItem);
     connect(this, &QTreeWidget::itemDoubleClicked, this, &StructuralTreeWidget::doubleClickedItem);
     connect(this, &QTreeWidget::itemClicked, this, &StructuralTreeWidget::singleClickedItem);
+*/
 }
 
 
+/*
 void StructuralTreeWidget::addAtlas() {
 
     static QPixmap atlasPixmap;
@@ -53,13 +55,9 @@ void StructuralTreeWidget::addAtlas() {
 
     atlasItem->setExpanded(true);
 }
+*/
 
-
-void StructuralTreeWidget::addedMap(UNUSED QString regionName, UNUSED QString mapName) {
-    throw std::runtime_error("StructuralTreeWidget::addedMap not implemented.");
-}
-
-
+/*
 QTreeWidgetItem * StructuralTreeWidget::addMap(QTreeWidgetItem * regionItem, MapPointer const & map) {
 
     static QPixmap mapPixmap;
@@ -74,8 +72,9 @@ QTreeWidgetItem * StructuralTreeWidget::addMap(QTreeWidgetItem * regionItem, Map
 
     return mapItem;
 }
+*/
 
-
+/*
 QTreeWidgetItem * StructuralTreeWidget::addRegion(QTreeWidgetItem * atlasItem, RegionPointer const & region) {
 
     static QPixmap regionPixmap;
@@ -95,14 +94,16 @@ QTreeWidgetItem * StructuralTreeWidget::addRegion(QTreeWidgetItem * atlasItem, R
 
     return regionItem;
 }
+*/
 
-
-void StructuralTreeWidget::changedAtlasName(QString name) {
+/*
+void StructuralTreeWidget::changedAtlasName(UNUSED QString oldName, QString newName){
     auto item = topLevelItem(0);
-    item->setText(0, name);
+    item->setText(0, newName);
 }
+*/
 
-
+/*
 void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * current) {
 
     auto itemInfo = getItemInfo(current);
@@ -132,8 +133,9 @@ void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * current) {
             break;
     }
 }
+*/
 
-
+/*
 void StructuralTreeWidget::changedMapName(UNUSED QString regionName, QString nameBefore, QString nameAfter) {
 
     auto item = searchItem(ItemType::map, nameBefore);
@@ -142,8 +144,9 @@ void StructuralTreeWidget::changedMapName(UNUSED QString regionName, QString nam
     }
     item->setText(0, nameAfter);
 }
+*/
 
-
+/*
 void StructuralTreeWidget::changedRegionName(QString nameBefore, QString nameAfter) {
 
     auto item = searchItem(ItemType::region, nameBefore);
@@ -152,8 +155,9 @@ void StructuralTreeWidget::changedRegionName(QString nameBefore, QString nameAft
     }
     item->setText(0, nameAfter);
 }
+*/
 
-
+/*
 void StructuralTreeWidget::connectSelectionSignals() {
 
     auto selection = this->selection.toStrongRef();
@@ -164,7 +168,7 @@ void StructuralTreeWidget::connectSelectionSignals() {
     connect(selection.data(), &Selection::newAtlas, this, &StructuralTreeWidget::resetStructure);
 
     connect(selection->getAtlas().data(), &Atlas::mapAdded,
-            this, &StructuralTreeWidget::addedMap);
+            this, &StructuralTreeWidget::mapAdded);
     connect(selection->getAtlas().data(), &Atlas::mapCreated,
             this, &StructuralTreeWidget::createdMap);
     connect(selection->getAtlas().data(), &Atlas::mapNameChanged,
@@ -181,8 +185,9 @@ void StructuralTreeWidget::connectSelectionSignals() {
             this, &StructuralTreeWidget::removedRegion);
 
 }
+*/
 
-
+/*
 void StructuralTreeWidget::createdMap(QString regionName, QString mapName) {
 
     auto selection = this->selection.toStrongRef();
@@ -206,8 +211,9 @@ void StructuralTreeWidget::createdMap(QString regionName, QString mapName) {
         setCurrentItem(mapItem);
     }
 }
+*/
 
-
+/*
 void StructuralTreeWidget::createdRegion(QString name) {
 
     auto selection = this->selection.toStrongRef();
@@ -231,8 +237,8 @@ void StructuralTreeWidget::createdRegion(QString name) {
         setCurrentItem(regionItem);
     }
 }
-
-
+*/
+/*
 void StructuralTreeWidget::doubleClickedItem(QTreeWidgetItem * item, UNUSED int column) {
 
     auto itemInfo = getItemInfo(item);
@@ -262,8 +268,8 @@ void StructuralTreeWidget::doubleClickedItem(QTreeWidgetItem * item, UNUSED int 
             break;
     }
 }
-
-
+*/
+/*
 StructuralTreeWidget::ItemInfo StructuralTreeWidget::getItemInfo(QTreeWidgetItem * item) const {
 
     ItemInfo itemInfo{ItemType::atlas, QString::null, false};
@@ -285,8 +291,8 @@ StructuralTreeWidget::ItemInfo StructuralTreeWidget::getItemInfo(QTreeWidgetItem
 
     return itemInfo;
 }
-
-
+*/
+/*
 void StructuralTreeWidget::removedMap(UNUSED QString regionName, QString mapName) {
 
     auto item = searchItem(ItemType::map, mapName);
@@ -296,8 +302,8 @@ void StructuralTreeWidget::removedMap(UNUSED QString regionName, QString mapName
     topLevelItem(0)->removeChild(item);
     delete item;
 }
-
-
+*/
+/*
 void StructuralTreeWidget::removedRegion(QString name) {
 
     auto item = searchItem(ItemType::region, name);
@@ -307,21 +313,23 @@ void StructuralTreeWidget::removedRegion(QString name) {
     topLevelItem(0)->removeChild(item);
     delete item;
 }
+*/
 
-
+/*
 void StructuralTreeWidget::resetStructure() {
     clear();
     addAtlas();
     sortByColumn(1, Qt::AscendingOrder);
     setSortingEnabled(true);
 }
+*/
 
-
+/*
 QTreeWidgetItem * StructuralTreeWidget::searchItem(ItemType type, QString const & name) const {
     return searchItem(nullptr, type, name);
 }
-
-
+*/
+/*
 QTreeWidgetItem * StructuralTreeWidget::searchItem(QTreeWidgetItem * parentItem,
                                                    ItemType type,
                                                    QString const & name) const {
@@ -346,8 +354,8 @@ QTreeWidgetItem * StructuralTreeWidget::searchItem(QTreeWidgetItem * parentItem,
 
     return item;
 }
-
-
+*/
+/*
 void StructuralTreeWidget::selectFirstMap() {
 
     auto atlasItem = topLevelItem(0);
@@ -376,15 +384,9 @@ void StructuralTreeWidget::selectFirstMap() {
         }
     }
 }
+*/
 
-
-void StructuralTreeWidget::setSelection(rpgmapper::model::SelectionPointer & selection) {
-    this->selection = selection;
-    connectSelectionSignals();
-    resetStructure();
-}
-
-
+/*
 void StructuralTreeWidget::singleClickedItem(QTreeWidgetItem * item, UNUSED int column) {
 
     auto itemInfo = getItemInfo(item);
@@ -411,3 +413,5 @@ void StructuralTreeWidget::singleClickedItem(QTreeWidgetItem * item, UNUSED int 
             break;
     }
 }
+*/
+

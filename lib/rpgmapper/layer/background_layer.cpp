@@ -8,6 +8,7 @@
 #include <QColor>
 #include <QJsonDocument>
 
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
@@ -83,7 +84,13 @@ bool BackgroundLayer::applyJSON(QJsonObject const & json) {
 
 
 void BackgroundLayer::draw(QPainter & painter, int tileSize) const {
-    QSize size = getMap()->getCoordinateSystem()->getSize() * tileSize;
+    
+    auto map = getMap();
+    if (!map) {
+        throw exception::invalid_map{};
+    }
+    
+    QSize size = map->getCoordinateSystem()->getSize() * tileSize;
     QColor backgroundColor = getColor();
     painter.fillRect(QRect{QPoint{0, 0}, size}, backgroundColor);
 }

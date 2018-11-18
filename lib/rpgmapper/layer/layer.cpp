@@ -11,9 +11,6 @@ using namespace rpgmapper::model;
 
 
 Layer::Layer(Map * map) : map{map} {
-    if (!map) {
-        throw exception::invalid_map();
-    }
 }
 
 
@@ -47,9 +44,6 @@ void Layer::hide() {
 
 
 void Layer::setMap(Map * map) {
-    if (!map) {
-        throw exception::invalid_map();
-    }
     this->map = map;
 }
 

@@ -4,6 +4,7 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 
@@ -34,14 +35,19 @@ void AxisLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
 
     painter.setPen(getColor());
     painter.setFont(getFont());
-
-    QSize cSize = getMap()->getCoordinateSystem()->getSize();
+    
+    auto map = getMap();
+    if (!map) {
+        throw exception::invalid_map{};
+    }
+    
+    QSize cSize = map->getCoordinateSystem()->getSize();
     int nBottom = cSize.height() * tileSize;
 
     for (int x = 0; x < cSize.width(); ++x) {
 
-        auto mapPosition = getMap()->getCoordinateSystem()->transposeToMapCoordinates(x, 0);
-        QString sX = getMap()->getCoordinateSystem()->tanslateToNumeralOnX(mapPosition.x());
+        auto mapPosition = map->getCoordinateSystem()->transposeToMapCoordinates(x, 0);
+        QString sX = map->getCoordinateSystem()->tanslateToNumeralOnX(mapPosition.x());
 
         QRect cUpperRect{x * tileSize, -tileSize, tileSize, tileSize};
         painter.drawText(cUpperRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
@@ -55,14 +61,19 @@ void AxisLayer::drawYAnnotation(QPainter & painter, int tileSize) const {
 
     painter.setPen(getColor());
     painter.setFont(getFont());
-
-    QSize cSize = getMap()->getCoordinateSystem()->getSize();
+    
+    auto map = getMap();
+    if (!map) {
+        throw exception::invalid_map{};
+    }
+    
+    QSize cSize = map->getCoordinateSystem()->getSize();
     int nRight = cSize.width() * tileSize;
 
     for (int y = 0; y < cSize.height(); ++y) {
 
-        auto mapPosition = getMap()->getCoordinateSystem()->transposeToMapCoordinates(0, y);
-        QString sY = getMap()->getCoordinateSystem()->tanslateToNumeralOnY(mapPosition.y());
+        auto mapPosition = map->getCoordinateSystem()->transposeToMapCoordinates(0, y);
+        QString sY = map->getCoordinateSystem()->tanslateToNumeralOnY(mapPosition.y());
 
         QRect cLeftRect{-tileSize, y * tileSize, tileSize, tileSize};
         painter.drawText(cLeftRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);

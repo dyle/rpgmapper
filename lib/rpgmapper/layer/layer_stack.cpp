@@ -10,6 +10,14 @@ using namespace rpgmapper::model;
 
 
 LayerStack::LayerStack(Map * map) : map{nullptr} {
+    
+    axisLayer = QSharedPointer<AxisLayer>{new AxisLayer{map}};
+    backgroundLayer = QSharedPointer<BackgroundLayer>{new BackgroundLayer{map}};
+    baseLayers.push_back(QSharedPointer<TileLayer>{new TileLayer{map}});
+    gridLayer = QSharedPointer<GridLayer>{new GridLayer{map}};
+    tileLayers.push_back(QSharedPointer<TileLayer>{new TileLayer{map}});
+    textLayer = QSharedPointer<TextLayer>{new TextLayer{map}};
+    
     setMap(map);
 }
 
@@ -146,4 +154,3 @@ void LayerStack::setMap(Map * map) {
     }
     textLayer->setMap(map);
 }
-

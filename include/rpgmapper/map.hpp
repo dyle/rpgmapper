@@ -34,8 +34,6 @@ class CoordinateSystem;
  * This is the heart of the rpgmapper. A map is a collection of layers,
  * which in turn define tiles, background, texts, etc. it has a name and
  * a coordinate system attached.
- *
- * Maps may be only created via a Session object.
  */
 class Map : public Nameable {
     

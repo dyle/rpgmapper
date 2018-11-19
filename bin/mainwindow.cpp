@@ -383,16 +383,6 @@ void MainWindow::executedCommand() {
 }
 
 
-rpgmapper::model::AtlasPointer & MainWindow::getAtlas() {
-    return selection->getAtlas();
-}
-
-
-rpgmapper::model::AtlasPointer const & MainWindow::getAtlas() const {
-    return selection->getAtlas();
-}
-
-
 void MainWindow::load() {
 
     auto nAnswer = loadAtlasDialog->exec();
@@ -403,8 +393,9 @@ void MainWindow::load() {
 }
 
 
-void MainWindow::loadAtlas(QString const & fileName) {
+void MainWindow::loadAtlas(UNUSED QString fileName) {
 
+/*
     QFile file{fileName};
     AtlasIO atlasIO;
     auto result = atlasIO.read(file);
@@ -424,6 +415,7 @@ void MainWindow::loadAtlas(QString const & fileName) {
         connectModelSignals();
         setApplicationWindowTitle();
     }
+*/
 }
 
 
@@ -471,12 +463,13 @@ void MainWindow::loadSettings() {
 
 
 void MainWindow::save() {
-
+/*
     if (getAtlas()->getFileName().isEmpty()) {
         saveAs();
         return;
     }
     saveAtlas(getAtlas()->getFileName());
+*/
 }
 
 
@@ -490,8 +483,8 @@ void MainWindow::saveAs() {
 }
 
 
-void MainWindow::saveAtlas(QString const & fileName) {
-
+void MainWindow::saveAtlas(UNUSED QString fileName) {
+/*
     QFile file{fileName};
     AtlasIO atlasIO;
     auto result = atlasIO.write(getAtlas(), file);
@@ -508,6 +501,7 @@ void MainWindow::saveAtlas(QString const & fileName) {
         getAtlas()->getCommandProzessor()->resetModifications();
         setApplicationWindowTitle();
     }
+*/
 }
 
 
@@ -541,8 +535,12 @@ void MainWindow::saveSettingsWindow(QSettings & settings) {
 
 
 void MainWindow::setApplicationWindowTitle() {
-    auto atlas = selection->getAtlas();
-    auto changed = atlas->getCommandProzessor()->modifications() == 0 ? "" : " * ";
+    
+    auto session = Session::getCurrentSession();
+    auto atlas = session->getAtlas();
+    auto processor = session->getCommandProcessor();
+    
+    auto changed = processor->modifications() == 0 ? "" : " * ";
     auto title = QString("%1%2 - %3").arg(atlas->getName()).arg(changed).arg(qApp->applicationName());
     setWindowTitle(title);
 }
@@ -581,14 +579,20 @@ void MainWindow::showAboutDialog() {
 }
 
 
-void MainWindow::showCoordinates(int mapX, int mapY) {
-
-    if (selection->getMap()->isValid()) {
-        auto const & coordinateSystem = selection->getMap()->getCoordinateSystem();
-        coordinatesWidget->showCoordinates(coordinateSystem.getNumeralCoordinates(mapX, mapY));
-    }
-    else {
-        coordinatesWidget->clear();
+void MainWindow::showCoordinates(int x, int y) {
+    
+    auto session = Session::getCurrentSession();
+    auto mapName = session->getCurrentMapName();
+    
+    if (!mapName.isEmpty()) {
+        auto map = session->findMap(mapName);
+        if (map->isValid()) {
+            auto coordinateSystem = map->getCoordinateSystem();
+            coordinatesWidget->showCoordinates(coordinateSystem->getNumeralCoordinates(x, y));
+        }
+        else {
+            coordinatesWidget->clear();
+        }
     }
 }
 

@@ -25,9 +25,7 @@ namespace model {
 
 /**
  * A Region is a collection of Maps.
- *
- * A region may only be created by Session object.
- */
+s */
 class Region : public Nameable {
 
     Q_OBJECT

@@ -103,9 +103,9 @@ void StructuralTreeWidget::changedAtlasName(UNUSED QString oldName, QString newN
 }
 */
 
-/*
-void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * current) {
 
+void StructuralTreeWidget::changedCurrentItem(UNUSED QTreeWidgetItem * current) {
+/*
     auto itemInfo = getItemInfo(current);
     if (!itemInfo.valid) {
         return;
@@ -132,8 +132,8 @@ void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * current) {
             emit selectedRegion(itemInfo.name);
             break;
     }
-}
 */
+}
 
 /*
 void StructuralTreeWidget::changedMapName(UNUSED QString regionName, QString nameBefore, QString nameAfter) {
@@ -238,8 +238,9 @@ void StructuralTreeWidget::createdRegion(QString name) {
     }
 }
 */
+
+void StructuralTreeWidget::doubleClickedItem(UNUSED QTreeWidgetItem * item, UNUSED int column) {
 /*
-void StructuralTreeWidget::doubleClickedItem(QTreeWidgetItem * item, UNUSED int column) {
 
     auto itemInfo = getItemInfo(item);
     if (!itemInfo.valid) {
@@ -267,8 +268,9 @@ void StructuralTreeWidget::doubleClickedItem(QTreeWidgetItem * item, UNUSED int 
             emit doubleClickedRegion(itemInfo.name);
             break;
     }
-}
 */
+}
+
 /*
 StructuralTreeWidget::ItemInfo StructuralTreeWidget::getItemInfo(QTreeWidgetItem * item) const {
 
@@ -386,8 +388,9 @@ void StructuralTreeWidget::selectFirstMap() {
 }
 */
 
+
+void StructuralTreeWidget::singleClickedItem(UNUSED QTreeWidgetItem * item, UNUSED int column) {
 /*
-void StructuralTreeWidget::singleClickedItem(QTreeWidgetItem * item, UNUSED int column) {
 
     auto itemInfo = getItemInfo(item);
     if (!itemInfo.valid) {
@@ -412,6 +415,5 @@ void StructuralTreeWidget::singleClickedItem(QTreeWidgetItem * item, UNUSED int 
             selection->selectRegion(itemInfo.name);
             break;
     }
-}
 */
-
+}

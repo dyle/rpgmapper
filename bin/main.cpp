@@ -12,7 +12,11 @@
 #include <QApplication>
 #include <QPixmapCache>
 
+#include <rpgmapper/session.hpp>
+
 #include "mainwindow.hpp"
+
+using namespace rpgmapper::model;
 
 
 #define PROGRAM_DESCRIPTION "\
@@ -47,7 +51,8 @@ int main(int argc, char ** argv) {
                   << programOptions["ATLAS-FILE"].as<std::string>()
                   << std::endl;
     }
-
+    
+    QApplication application{argc, argv};
     QApplication::setOrganizationName("Oliver Maurhart <dyle71@gmail.com>");
     QApplication::setOrganizationDomain("");
     QApplication::setApplicationName("RPGMapper");
@@ -57,7 +62,8 @@ int main(int argc, char ** argv) {
     QPixmapCache::insert("region", QPixmap(":/icons/gfx/region.png"));
     QPixmapCache::insert("map", QPixmap(":/icons/gfx/map.png"));
     
-    QApplication application{argc, argv};
+    Session::setCurrentSession(Session::init());
+    
     rpgmapper::view::MainWindow mainWindow;
     mainWindow.show();
 

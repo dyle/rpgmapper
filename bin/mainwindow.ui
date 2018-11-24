@@ -110,6 +110,7 @@
      <string>&amp;View</string>
     </property>
     <addaction name="actionViewMap"/>
+    <addaction name="actionCloseMap"/>
     <addaction name="separator"/>
     <addaction name="actionViewMinimap"/>
     <addaction name="actionViewTilesDock"/>

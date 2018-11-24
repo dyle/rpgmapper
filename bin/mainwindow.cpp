@@ -144,7 +144,7 @@ void MainWindow::connectActions() {
     addUnusedActions();
 
     connect(ui->actionClearRecentList, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
-    // TODO: connect(ui->actionCloseMap, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::closeCurrentMap);
+    connect(ui->actionCloseMap, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::closeCurrentMap);
     connect(ui->actionCreateNewMap, &QAction::triggered, this, &MainWindow::createNewMap);
     connect(ui->actionCreateNewRegion, &QAction::triggered, this, &MainWindow::createNewRegion);
     connect(ui->actionDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
@@ -177,6 +177,7 @@ void MainWindow::connectActions() {
             ui->actionShowRegionProperties, &QAction::trigger);
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::selectedMap, ui->mapTabWidget, &MapTabWidget::selectMap);
 
+    connect(ui->mapTabWidget, &QTabWidget::currentChanged, this, &MainWindow::enableActions);
     connect(ui->mapTabWidget, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
 }
 
@@ -384,14 +385,14 @@ void MainWindow::enableActions() {
     auto currentMapName = session->getCurrentMapName();
     auto currentRegionName = session->getCurrentRegionName();
     
+    ui->actionClearRecentList->setEnabled(!recentAtlasFileNames.empty());
+    ui->actionCloseMap->setEnabled(ui->mapTabWidget->currentWidget() != nullptr);
     ui->actionCreateNewMap->setEnabled(!currentRegionName.isEmpty());
     ui->actionDeleteMap->setEnabled(!currentMapName.isEmpty());
     ui->actionDeleteRegion->setEnabled(!currentRegionName.isEmpty());
     ui->actionShowMapProperties->setEnabled(!currentMapName.isEmpty());
     ui->actionShowRegionProperties->setEnabled(!currentRegionName.isEmpty());
     ui->actionViewMap->setEnabled(!currentMapName.isEmpty());
-    
-    ui->actionClearRecentList->setEnabled(!recentAtlasFileNames.empty());
 }
 
 

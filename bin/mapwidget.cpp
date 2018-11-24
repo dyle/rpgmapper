@@ -17,12 +17,22 @@
 using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   define UNUSED   __attribute__((unused))
+#else
+#   define UNUSED
+#endif
 
 #define STANDARD_TILE_SIZE      48
 
 
 MapWidget::MapWidget(QWidget * parent) : QWidget{parent} {
     setMouseTracking(true);
+}
+
+
+void MapWidget::mapNameChanged(UNUSED QString oldName, QString newName) {
+    mapName = newName;
 }
 
 
@@ -87,6 +97,7 @@ void MapWidget::setMap(QString mapName) {
         throw std::runtime_error("Invalid map to render.");
     }
     this->mapName = mapName;
+    connect(map.data(), &Nameable::nameChanged, this, &MapWidget::mapNameChanged);
     
     mapSizeChanged(map->getCoordinateSystem()->getSize());
     auto coordinateSystem = map->getCoordinateSystem();

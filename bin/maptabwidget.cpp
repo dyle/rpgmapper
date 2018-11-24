@@ -17,12 +17,30 @@ using namespace rpgmapper::view;
 
 
 MapTabWidget::MapTabWidget(QWidget * parent) : QTabWidget{parent} {
+    connect(this, &QTabWidget::currentChanged, this, &MapTabWidget::currentChanged);
     connect(this, &QTabWidget::tabCloseRequested, this, &MapTabWidget::mapCloseRequested);
 }
 
 
 void MapTabWidget::closeCurrentMap() {
     removeTab(currentIndex());
+}
+
+
+void MapTabWidget::currentChanged(int index) {
+    
+    auto mapScrollArea = dynamic_cast<MapScrollArea *>(widget(index));
+    if (!mapScrollArea) {
+        return;
+    }
+    
+    auto mapWidget = dynamic_cast<MapWidget *>(mapScrollArea->widget());
+    if (!mapWidget) {
+        return;
+    }
+    
+    auto session = Session::getCurrentSession();
+    session->selectMap(mapWidget->getMapName());
 }
 
 

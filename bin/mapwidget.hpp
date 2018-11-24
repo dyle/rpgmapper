@@ -82,6 +82,16 @@ protected:
      */
     void paintEvent(QPaintEvent * event) override;
 
+private slots:
+    
+    /**
+     * The name of the map has changed.
+     *
+     * @param   oldName     the old name
+     * param    newName     the new name
+     */
+    void mapNameChanged(QString oldName, QString newName);
+
 signals:
 
     /**

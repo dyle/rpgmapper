@@ -79,7 +79,14 @@ public slots:
     void selectMap(QString mapName);
 
 private slots:
-
+    
+    /**
+     * The current map index changed.
+     *
+     * @param   index       index of the current map.
+     */
+    void currentChanged(int index);
+    
     /**
      * The user wants to close a tab widget.
      *

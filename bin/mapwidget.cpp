@@ -50,7 +50,6 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
     }
 }
 
-
 void MapWidget::paintEvent(QPaintEvent * event) {
 
     auto start = std::chrono::system_clock::now();
@@ -88,6 +87,8 @@ void MapWidget::setMap(QString mapName) {
         throw std::runtime_error("Invalid map to render.");
     }
     this->mapName = mapName;
+    
+    mapSizeChanged(map->getCoordinateSystem()->getSize());
     auto coordinateSystem = map->getCoordinateSystem();
     
     connect(coordinateSystem.data(), &CoordinateSystem::sizeChanged, this, &MapWidget::mapSizeChanged);

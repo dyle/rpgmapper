@@ -151,7 +151,7 @@ void MainWindow::connectActions() {
     connect(ui->actionDeleteRegion, &QAction::triggered, this, &MainWindow::deleteRegion);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->actionOpenAtlasFile, &QAction::triggered, this, &MainWindow::load);
-    // TODO: connect(ui->actionRedraw, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::redrawCurrentMap);
+    connect(ui->actionRedraw, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::redrawCurrentMap);
     connect(ui->actionShowAboutDialog, &QAction::triggered, this, &MainWindow::showAboutDialog);
     connect(ui->actionShowAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
     connect(ui->actionShowMapProperties, &QAction::triggered, this, &MainWindow::editMapProperties);

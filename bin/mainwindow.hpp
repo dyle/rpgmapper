@@ -159,7 +159,10 @@ private:
      */
     void connectActions();
 
-    // TODO: void connectModelSignals();
+    /**
+     * Connect the relevant signals of the model instance.
+     */
+    void connectModelSignals();
 
     /**
      * Clear the actions of the recent files.

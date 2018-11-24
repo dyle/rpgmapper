@@ -57,7 +57,7 @@ MainWindow::MainWindow() : QMainWindow{} {
 
     setupDialogs();
     connectActions();
-    // TODO: connectModelSignals();
+    connectModelSignals();
     loadSettings();
     setApplicationWindowTitle();
 }
@@ -167,26 +167,27 @@ void MainWindow::connectActions() {
     new VisibiltyActionFiler(ui->tilesDockWidget, ui->actionViewTilesDock, this);
     new VisibiltyActionFiler(ui->colorPickerDockWidget, ui->actionViewColorPicker, this);
 
-    /*
-     * TODO
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedAtlas,
             ui->actionShowAtlasProperties, &QAction::trigger);
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedMap,
             ui->actionShowMapProperties, &QAction::trigger);
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedRegion,
             ui->actionShowRegionProperties, &QAction::trigger);
-     */
 
     connect(ui->mapTabWidget, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
 }
 
 
-/*
 void MainWindow::connectModelSignals() {
-    connect(selection->getAtlas().data(), &Atlas::commandExecuted, this, &MainWindow::executedCommand);
-    connect(selection->getAtlas().data(), &Atlas::regionNameChanged, this, &MainWindow::setApplicationWindowTitle);
+    
+    auto session = Session::getCurrentSession();
+    auto atlas = session->getAtlas();
+    auto processor = session->getCommandProcessor();
+    
+    connect(processor.data(), &Processor::commandExecuted, this, &MainWindow::executedCommand);
+    connect(atlas.data(), &Nameable::nameChanged, this, &MainWindow::setApplicationWindowTitle);
 }
-*/
+
 
 void MainWindow::createNewMap() {
 /*

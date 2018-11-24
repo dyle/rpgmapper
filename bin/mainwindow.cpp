@@ -186,6 +186,10 @@ void MainWindow::connectModelSignals() {
     
     connect(processor.data(), &Processor::commandExecuted, this, &MainWindow::executedCommand);
     connect(atlas.data(), &Nameable::nameChanged, this, &MainWindow::setApplicationWindowTitle);
+    
+    connect(session.data(), &Session::selectedAtlas, this, &MainWindow::enableActions);
+    connect(session.data(), &Session::selectedMap, this, &MainWindow::enableActions);
+    connect(session.data(), &Session::selectedRegion, this, &MainWindow::enableActions);
 }
 
 
@@ -370,6 +374,17 @@ void MainWindow::editRegionProperties() {
 
 
 void MainWindow::enableActions() {
+    
+    auto session = Session::getCurrentSession();
+    auto currentMapName = session->getCurrentMapName();
+    auto currentRegionName = session->getCurrentRegionName();
+    
+    ui->actionCreateNewMap->setEnabled(!currentRegionName.isEmpty());
+    ui->actionDeleteMap->setEnabled(!currentMapName.isEmpty());
+    ui->actionDeleteRegion->setEnabled(!currentRegionName.isEmpty());
+    ui->actionShowMapProperties->setEnabled(!currentMapName.isEmpty());
+    ui->actionShowRegionProperties->setEnabled(!currentRegionName.isEmpty());
+    
     ui->actionClearRecentList->setEnabled(!recentAtlasFileNames.empty());
 }
 

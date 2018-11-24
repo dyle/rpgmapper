@@ -243,7 +243,8 @@ bool Session::save(UNUSED QFile & file, QStringList & log) {
 
 
 void Session::selectAtlas() {
-    selectedRegion(QString::null);
+    selectRegion(QString::null);
+    emit selectedAtlas();
 }
 
 
@@ -254,9 +255,11 @@ void Session::selectMap(QString name) {
         emit selectedMap(QString::null);
         return;
     }
+    
     if (!findMap(name)->isValid()) {
         throw exception::invalid_mapname{};
     }
+    
     if (currentMapName == name) {
         return;
     }
@@ -270,20 +273,21 @@ void Session::selectMap(QString name) {
 
 void Session::selectRegion(QString name) {
     
+    selectMap(QString::null);
     if (name == QString::null) {
-        selectMap(QString::null);
         currentRegionName = QString::null;
         emit selectedRegion(QString::null);
         return;
     }
+    
     if (!findRegion(name)->isValid()) {
         throw exception::invalid_regionname{};
     }
+    
     if (currentRegionName == name) {
         return;
     }
     
-    selectMap(QString::null);
     currentRegionName = name;
     emit selectedRegion(name);
 }

@@ -294,6 +294,11 @@ public:
 signals:
     
     /**
+     * The atlas has been selected (and thus no region nor map).
+     */
+    void selectedAtlas();
+    
+    /**
      * A new map has been selected.
      *
      * @param   name        name of the new selected map.

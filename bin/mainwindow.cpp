@@ -206,12 +206,10 @@ void MainWindow::createNewMap() {
 
 
 void MainWindow::createNewRegion() {
-/*
- * TODO
-    auto command = CommandPointer{new CreateRegion{selection->getAtlas(),
-                                                   selection->createNewRegionName()}};
-    selection->getAtlas()->getCommandProzessor()->execute(command);
- */
+    auto session = Session::getCurrentSession();
+    auto processor = session->getCommandProcessor();
+    auto command = CommandPointer{new CreateRegion{session->createNewRegionName()}};
+    processor->execute(command);
 }
 
 

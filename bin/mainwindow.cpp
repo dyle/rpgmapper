@@ -434,14 +434,13 @@ void MainWindow::loadAtlas(QString fileName) {
     }
     else {
     
-        addRecentFileName(fileName);
-        ui->atlasTreeWidget->clear();
-        ui->mapTabWidget->removeAllMaps();
-        
         Session::setCurrentSession(newSession);
+        ui->mapTabWidget->removeAllMaps();
         ui->atlasTreeWidget->resetStructure();
         connectModelSignals();
         setApplicationWindowTitle();
+        
+        addRecentFileName(fileName);
     }
 }
 

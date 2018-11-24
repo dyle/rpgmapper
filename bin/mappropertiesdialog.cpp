@@ -246,21 +246,26 @@ void MapPropertiesDialog::applyValuesToMap() {
         throw std::runtime_error("Internal map lost when applying values of property dialog.");
     }
 
-    auto mapName = map->getName();
+    auto newMapName = map->getName();
     auto commands = new CompositeCommand{};
     if (ui->nameEdit->text() != map->getName()) {
         commands->addCommand(CommandPointer{new SetMapName(map->getName(), ui->nameEdit->text())});
-        mapName = ui->nameEdit->text();
+        newMapName = ui->nameEdit->text();
     }
 
-    applyDimensionValuesToMap(commands, mapName);
-    applyAxisValuesToMap(commands, mapName);
-    applyBackgroundValuesToMap(commands, mapName);
+    applyDimensionValuesToMap(commands, newMapName);
+    applyAxisValuesToMap(commands, newMapName);
+    applyBackgroundValuesToMap(commands, newMapName);
 
     if (commands->size() > 0) {
         auto session = Session::getCurrentSession();
         auto processor = session->getCommandProcessor();
         processor->execute(CommandPointer{commands});
+        
+        if (mapName != newMapName) {
+            mapName = newMapName;
+            session->selectMap(newMapName);
+        }
     }
     else {
         delete commands;

@@ -187,6 +187,9 @@ void MainWindow::connectModelSignals() {
     auto atlas = session->getAtlas();
     auto processor = session->getCommandProcessor();
     
+    connect(session.data(), &Session::selectedMap, ui->atlasTreeWidget, &StructuralTreeWidget::selectMap);
+    connect(session.data(), &Session::selectedRegion, ui->atlasTreeWidget, &StructuralTreeWidget::selectRegion);
+    
     connect(processor.data(), &Processor::commandExecuted, this, &MainWindow::executedCommand);
     connect(atlas.data(), &Nameable::nameChanged, this, &MainWindow::setApplicationWindowTitle);
     

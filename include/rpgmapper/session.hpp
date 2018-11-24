@@ -291,6 +291,7 @@ public:
      */
     static void setCurrentSession(QSharedPointer<Session> session);
     
+    
 signals:
     
     /**

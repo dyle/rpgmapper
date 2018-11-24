@@ -149,7 +149,6 @@ void StructuralTreeWidget::atlasNameChanged(UNUSED QString oldName, QString newN
     item->setText(0, newName);
 }
 
-
 void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * current) {
     
     auto itemInfo = getItemInfo(current);
@@ -327,6 +326,38 @@ void StructuralTreeWidget::selectFirstMap() {
 }
 
 
+void StructuralTreeWidget::selectMap(QString name) {
+    
+    auto session = Session::getCurrentSession();
+    auto map = session->findMap(name);
+    if (!map->isValid()) {
+        return;
+    }
+    
+    auto mapItem = searchItem(this, ItemType::map, name);
+    if (mapItem && (mapItem != currentItem())) {
+        scrollToItem(mapItem);
+        setCurrentItem(mapItem);
+    }
+}
+
+
+void StructuralTreeWidget::selectRegion(QString name) {
+    
+    auto session = Session::getCurrentSession();
+    auto region = session->findRegion(name);
+    if (!region->isValid()) {
+        return;
+    }
+    
+    auto regionItem = searchItem(this, ItemType::region, name);
+    if (regionItem && (regionItem != currentItem())) {
+        scrollToItem(regionItem);
+        setCurrentItem(regionItem);
+    }
+}
+
+
 void StructuralTreeWidget::singleClickedItem(QTreeWidgetItem * item, UNUSED int column) {
     
     auto itemInfo = getItemInfo(item);
@@ -393,7 +424,7 @@ QTreeWidgetItem * searchItem(QTreeWidget * treeWidget, ItemType type, QString co
             item = (regionItem->text(0) == name) ? regionItem : nullptr;
         }
         else {
-            for (int j = 0; (j < regionItem->columnCount()) && !item; ++j) {
+            for (int j = 0; (j < regionItem->childCount()) && !item; ++j) {
                 auto mapItem = regionItem->child(j);
                 item = (mapItem->text(0) == name) ? mapItem : nullptr;
             }

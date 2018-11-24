@@ -96,6 +96,20 @@ public slots:
     void selectFirstMap();
 
     /**
+     * Select and show a map.
+     *
+     * @param   name        the map to show.
+     */
+    void selectMap(QString name);
+    
+    /**
+     * Select and show a region.
+     *
+     * @param   name        the region to show.
+     */
+    void selectRegion(QString name);
+    
+    /**
      * Clears everything and grabs the current session atlas and refresh the whole displayed structure.
      */
     void resetStructure();
@@ -124,15 +138,6 @@ private:
      * @return  the new tree widget item holding the region.
      */
     QTreeWidgetItem * addRegion(QTreeWidgetItem * atlasItem, rpgmapper::model::RegionPointer const & region);
-
-    /**
-     * Connects all signals emitted by model instances of the current session.
-     */
-    //void connectModelSignals();
-
-    //QTreeWidgetItem * searchItem(ItemType type, QString const & name) const;
-
-    //QTreeWidgetItem * searchItem(QTreeWidgetItem * parentItem, ItemType type, QString const & name) const;
 
 private slots:
 

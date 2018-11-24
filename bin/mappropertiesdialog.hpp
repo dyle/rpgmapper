@@ -87,22 +87,25 @@ private:
      * Creates a composite command reflecting all changes to apply to the map in regard to the axis.
      *
      * @param   commands        commands needed to modify the map.
+     * @param   newMapName      the (maybe new) name of the map
      */
-    void applyAxisValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
+    void applyAxisValuesToMap(rpgmapper::model::command::CompositeCommand * & commands, QString newMapName);
     
     /**
      * Creates a composite command reflecting all changes to apply to the map in regard to the background.
      *
      * @param   commands        commands needed to modify the map.
+     * @param   newMapName      the (maybe new) name of the map
      */
-    void applyBackgroundValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
+    void applyBackgroundValuesToMap(rpgmapper::model::command::CompositeCommand * & commands, QString newMapName);
     
     /**
      * Creates a composite command reflecting all changes to apply to the map in regard to the dimension.
      *
      * @param   commands        commands needed to modify the map.
+     * @param   newMapName      the (maybe new) name of the map
      */
-    void applyDimensionValuesToMap(rpgmapper::model::command::CompositeCommand * & commands);
+    void applyDimensionValuesToMap(rpgmapper::model::command::CompositeCommand * & commands, QString newMapName);
 
     /**
      * Applies all user changes to the selected map.

@@ -243,58 +243,51 @@ bool Session::save(UNUSED QFile & file, QStringList & log) {
 
 
 void Session::selectAtlas() {
+    selectMap(QString::null);
     selectRegion(QString::null);
     emit selectedAtlas();
 }
 
 
-#include <iostream>
 void Session::selectMap(QString name) {
-    
-    if (name == QString::null) {
-        if (!currentMapName.isEmpty()) {
-            currentMapName = QString::null;
-            emit selectedMap(QString::null);
-        }
-        return;
-    }
-    
-    if (!findMap(name)->isValid()) {
+
+    if ((name != QString::null) && !findMap(name)->isValid()) {
         throw exception::invalid_mapname{};
     }
     
-    if (currentMapName == name) {
-        return;
-    }
+    if (name != currentMapName) {
+        
+        QString oldRegionName = currentRegionName;
+        if (name == QString::null) {
+            currentRegionName = getRegionOfMap(currentMapName);
+        }
+        else {
+            currentRegionName = getRegionOfMap(name);
+        }
     
-    auto allMapNames = getAllMapNames();
-    selectRegion(allMapNames[name]);
-    currentMapName = name;
-    emit selectedMap(name);
+        currentMapName = name;
+        emit selectedRegion(currentRegionName);
+        emit selectedMap(currentMapName);
+    }
 }
 
 
 void Session::selectRegion(QString name) {
     
-    selectMap(QString::null);
-    if (name == QString::null) {
-        if (!currentRegionName.isEmpty()) {
-            currentRegionName = QString::null;
-            emit selectedRegion(QString::null);
-        }
-        return;
-    }
-    
-    if (!findRegion(name)->isValid()) {
+    if ((name != QString::null) &&  !findRegion(name)->isValid()) {
         throw exception::invalid_regionname{};
     }
     
-    if (currentRegionName == name) {
-        return;
-    }
+    if (name != currentRegionName) {
     
-    currentRegionName = name;
-    emit selectedRegion(name);
+        currentRegionName = name;
+        emit selectedRegion(currentRegionName);
+        
+        if (!currentMapName.isEmpty()) {
+            currentMapName = QString::null;
+            emit selectedMap(currentMapName);
+        }
+    }
 }
 
 

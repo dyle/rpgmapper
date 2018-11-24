@@ -149,6 +149,7 @@ void StructuralTreeWidget::atlasNameChanged(UNUSED QString oldName, QString newN
     item->setText(0, newName);
 }
 
+
 void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * current) {
     
     auto itemInfo = getItemInfo(current);

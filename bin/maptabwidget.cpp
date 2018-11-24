@@ -26,7 +26,6 @@ void MapTabWidget::closeCurrentMap() {
     removeTab(currentIndex());
 }
 
-
 void MapTabWidget::currentChanged(int index) {
     
     auto session = Session::getCurrentSession();

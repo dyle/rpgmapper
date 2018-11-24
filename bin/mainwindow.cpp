@@ -419,29 +419,30 @@ void MainWindow::load() {
 }
 
 
-void MainWindow::loadAtlas(UNUSED QString fileName) {
+void MainWindow::loadAtlas(QString fileName) {
 
-/*
     QFile file{fileName};
-    AtlasIO atlasIO;
-    auto result = atlasIO.read(file);
-
-    if (!result.hasSuccess()) {
+    QStringList log;
+    
+    SessionPointer newSession;
+    if (!Session::load(newSession, file, log)) {
         logDialog->setWindowTitle(tr("Load atlas failure"));
         logDialog->clear();
         logDialog->setMessage(tr("Failed to load atlas file."));
-        logDialog->setLog(result.getLog());
+        logDialog->setLog(log);
         logDialog->exec();
     }
     else {
+    
         addRecentFileName(fileName);
         ui->atlasTreeWidget->clear();
-        ui->mapTabWidget->removedAllMaps();
-        selection->setAtlas(result.getAtlas());
+        ui->mapTabWidget->removeAllMaps();
+        
+        Session::setCurrentSession(newSession);
+        ui->atlasTreeWidget->resetStructure();
         connectModelSignals();
         setApplicationWindowTitle();
     }
-*/
 }
 
 

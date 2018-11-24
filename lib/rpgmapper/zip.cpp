@@ -168,7 +168,7 @@ void closeZip(QuaZip & zip, QStringList & log) {
 
 bool createAtlas(AtlasPointer & atlas, Content const & content, QStringList & log) {
     
-    bool res = true;
+    bool res;
     
     if (content.find("atlas.json") == content.end()) {
         res = false;
@@ -197,7 +197,6 @@ bool createAtlasFromJSON(AtlasPointer & atlas, QJsonDocument const & json, QStri
     }
     else {
         
-        atlas = QSharedPointer<rpgmapper::model::Atlas>{new Atlas};
         atlas->applyJSON(json.object());
         if (atlas->isValid()) {
             log.append("Loaded atlas.");
@@ -239,7 +238,7 @@ bool extractContent(QuaZip & zip, Content & content, QStringList & log) {
         
         QuaZipFile zf(&zip);
         res = zf.open(QIODevice::ReadOnly);
-        if (res) {
+        if (!res) {
             log.append("Failed to open current sub file.");
         }
         else {
@@ -247,8 +246,10 @@ bool extractContent(QuaZip & zip, Content & content, QStringList & log) {
             QByteArray blob;
             blob.resize(zfi.uncompressedSize);
             zf.read(blob.data(), zfi.uncompressedSize);
-        
-            content.insert(std::make_pair(zf.getActualFileName(), blob));
+            
+            auto filenameInZip = zf.getActualFileName();
+            content.insert(std::make_pair(filenameInZip, blob));
+            log.append("Found: " + filenameInZip);
         }
     }
     
@@ -325,10 +326,12 @@ bool rpgmapper::model::writeAtlas(AtlasPointer const & atlas, QFile & file, QStr
         Content content;
         auto metaJson = createMetaInformation();
         content["meta.json"] = metaJson.toJson(QJsonDocument::Compact);
+        log.append("Added: meta.json");
         
         QJsonDocument json;
         json.setObject(atlas->getJSON());
         content["atlas.json"] = json.toJson(QJsonDocument::Compact);
+        log.append("Added: atlas.json");
         
         res = appendContent(content, zip, log);
         closeZip(zip, log);

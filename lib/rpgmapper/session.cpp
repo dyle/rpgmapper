@@ -30,11 +30,11 @@ using namespace rpgmapper::model;
 /**
  * The one and only current session.
  */
-static QSharedPointer<Session> currentSession;
+static SessionPointer currentSession;
 
 
 Session::Session() : QObject() {
-    atlas = QSharedPointer<Atlas>(new Atlas{QString{"New Atlas"}});
+    atlas = AtlasPointer(new Atlas{QString{"New Atlas"}});
     commandProcessor = command::ProcessorPointer{new command::Processor{}};
 }
 
@@ -169,7 +169,7 @@ std::map<QString, std::set<QString>> Session::getAllRegionNames() const {
 }
 
 
-QSharedPointer<Session> Session::getCurrentSession() {
+SessionPointer Session::getCurrentSession() {
     return currentSession;
 }
 
@@ -188,9 +188,9 @@ QString Session::getRegionOfMap(QString mapName) const {
 }
 
 
-QSharedPointer<Session> Session::init() {
+SessionPointer Session::init() {
     
-    auto session = QSharedPointer<Session>(new Session);
+    auto session = SessionPointer(new Session);
     auto atlas = session->getAtlas();
     
     auto atlasName = QObject::tr("New Atlas");
@@ -215,24 +215,26 @@ bool Session::isModified() const {
 }
 
 
-bool Session::load(UNUSED QSharedPointer<Session> & session, UNUSED QFile & file, UNUSED QStringList & log) {
-    // TODO:
-    return false;
+bool Session::load(SessionPointer & session, QFile & file, QStringList & log) {
+    log.clear();
+    session = SessionPointer(new Session);
+    auto atlas = session->getAtlas();
+    return readAtlas(atlas, file, log);
 }
 
 
 bool Session::save(QFile & file, QStringList & log) {
     
-    fileName = file.fileName();
     log.clear();
-    
-    bool written;
+    bool written = false;
     if (!atlas->isValid()) {
-        written = false;
         log.append("Atlas not valid, refusing to save.");
     }
     else {
         written = writeAtlas(atlas, file, log);
+        if (written) {
+            fileName = file.fileName();
+        }
     }
     
     return written;
@@ -288,7 +290,7 @@ void Session::selectRegion(QString name) {
 }
 
 
-void Session::setCurrentSession(QSharedPointer<Session> session) {
+void Session::setCurrentSession(SessionPointer session) {
     if (!session) {
         throw rpgmapper::model::exception::invalid_session();
     }

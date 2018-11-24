@@ -289,7 +289,7 @@ public:
      * Sets a new current session.
      * @param   session     the new current session
      */
-    static void setCurrentSession(QSharedPointer<Session> session);
+    static void setCurrentSession(SessionPointer session);
     
     
 signals:

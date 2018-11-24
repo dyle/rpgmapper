@@ -215,8 +215,10 @@ void MainWindow::createNewRegion() {
     
     auto session = Session::getCurrentSession();
     auto processor = session->getCommandProcessor();
-    auto command = CommandPointer{new CreateRegion{session->createNewRegionName()}};
+    auto newRegionName = session->createNewRegionName();
+    auto command = CommandPointer{new CreateRegion{newRegionName}};
     processor->execute(command);
+    session->selectRegion(newRegionName);
 }
 
 

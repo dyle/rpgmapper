@@ -252,7 +252,7 @@ void Session::selectAtlas() {
 void Session::selectMap(QString name) {
 
     if ((name != QString::null) && !findMap(name)->isValid()) {
-        throw exception::invalid_mapname{};
+        return;
     }
     
     if (name != currentMapName) {
@@ -275,7 +275,7 @@ void Session::selectMap(QString name) {
 void Session::selectRegion(QString name) {
     
     if ((name != QString::null) &&  !findRegion(name)->isValid()) {
-        throw exception::invalid_regionname{};
+        return;
     }
     
     if (name != currentRegionName) {

@@ -245,7 +245,6 @@ void MainWindow::deleteMap() {
     
     auto session = Session::getCurrentSession();
     auto mapName = session->getCurrentMapName();
-    
     if (!session->findMap(mapName)->isValid()) {
         throw std::runtime_error{"Current selected map vanished while tyring to delete it."};
     }
@@ -259,26 +258,32 @@ void MainWindow::deleteMap() {
 
 
 void MainWindow::deleteRegion() {
-
-/*
- * TODO
-    auto region = selection->getRegion();
+    
+    auto session = Session::getCurrentSession();
+    auto regionName = session->getCurrentRegionName();
+    auto region = session->findRegion(regionName);
     if (!region->isValid()) {
-        return;
+        throw std::runtime_error{"Current selected region vanished while tyring to delete it."};
     }
-
-    if (!region->getMaps().empty()) {
-        auto question = tr("Region '%1' has maps.\nRemove them as well?").arg(region->getName());
+    
+    auto mapNamesOfRegion = region->getMapNames();
+    if (!mapNamesOfRegion.empty()) {
+        auto question = tr("Region '%1' has maps.\nThis will remove them all too. Continue?").arg(region->getName());
         auto answer = QMessageBox::question(this, tr("Delete region and all maps in it?"), question);
         if (answer != QMessageBox::Yes) {
             return;
         }
     }
-
-    auto command = CommandPointer{new RemoveRegion{selection->getAtlas(),
-                                                   region->getName()}};
-    selection->getAtlas()->getCommandProzessor()->execute(command);
- */
+    
+    auto command = CommandPointer{new RemoveRegion{region->getName()}};
+    auto processor = session->getCommandProcessor();
+    processor->execute(command);
+    
+    for (auto map : mapNamesOfRegion) {
+        ui->mapTabWidget->removeMap(map);
+    }
+    
+    session->selectAtlas();
 }
 
 

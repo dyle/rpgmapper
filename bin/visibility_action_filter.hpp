@@ -18,19 +18,35 @@ namespace rpgmapper {
 namespace view {
 
 
-class VisibiltyActionFiler : public QObject {
+/**
+ * This event filter triggers the show/hide event of dock windows to make actions check/uncheck.
+ */
+class VisibilityActionFiler : public QObject {
 
     Q_OBJECT
 
-    QWidget * widget = nullptr;
-    QAction * action = nullptr;
+    QWidget * widget = nullptr;         /**< The widget which will be shown/hidden */
+    QAction * action = nullptr;         /**< The action which will be checked/unchecked accordingly */
 
 public:
 
-    VisibiltyActionFiler(QWidget * widget, QAction * action, QObject * parent = nullptr);
+    /**
+     * Constructor
+     * @param   widget          widget to be displayed (or not).
+     * @param   action          action instance which will be checked on show and unchecked on hide.
+     * @param   parent          parent Qt object for this filter.
+     */
+    VisibilityActionFiler(QWidget * widget, QAction * action, QObject * parent = nullptr);
 
 protected:
 
+    /**
+     * Process events on the widget object.
+     *
+     * @param   object      the object involved.
+     * @param   event       the event to check.
+     * @return  true, if event was consumed.
+     */
     bool eventFilter(QObject * object, QEvent * event);
 };
 

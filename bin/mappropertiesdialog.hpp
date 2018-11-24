@@ -41,7 +41,7 @@ class MapPropertiesDialog : public QDialog {
     BackgroundImageLabel * backgroundPreviewLabel;              /**< The background image preview widget. */
 
     /**
-     * This struct holds all known numeral converters.
+     * This structure holds all known numeral converters.
      */
     struct {
         QSharedPointer<rpgmapper::model::NumeralConverter> alphabeticalBigCaps;

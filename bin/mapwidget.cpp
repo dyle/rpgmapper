@@ -60,6 +60,7 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
     }
 }
 
+
 void MapWidget::paintEvent(QPaintEvent * event) {
 
     auto start = std::chrono::system_clock::now();

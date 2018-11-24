@@ -607,6 +607,7 @@ void MapPropertiesDialog::setBackgroundImageRenderMode() {
     if (ui->backgroundImageTiledRadioButton->isChecked()) {
         backgroundPreviewLabel->setImageRenderMode(ImageRenderMode::tiled);
     }
+    
     backgroundPreviewLabel->update();
 }
 
@@ -691,7 +692,6 @@ void MapPropertiesDialog::setMap(QString mapName) {
 
 void MapPropertiesDialog::setMargins() {
     
-    this->mapName = mapName;
     auto map = Session::getCurrentSession()->findMap(mapName);
     if (!map->isValid()) {
         throw std::runtime_error("Invalid map to set.");
@@ -709,7 +709,6 @@ void MapPropertiesDialog::setMargins() {
 
 void MapPropertiesDialog::setXAxisUiFromMap() {
     
-    this->mapName = mapName;
     auto map = Session::getCurrentSession()->findMap(mapName);
     if (!map->isValid()) {
         throw std::runtime_error("Invalid map to set.");
@@ -739,7 +738,6 @@ void MapPropertiesDialog::setXAxisUiFromMap() {
 
 void MapPropertiesDialog::setYAxisUiFromMap() {
     
-    this->mapName = mapName;
     auto map = Session::getCurrentSession()->findMap(mapName);
     if (!map->isValid()) {
         throw std::runtime_error("Invalid map to set.");

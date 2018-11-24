@@ -10,7 +10,7 @@
 using namespace rpgmapper::view;
 
 
-VisibiltyActionFiler::VisibiltyActionFiler(QWidget * widget, QAction * action, QObject * parent)
+VisibilityActionFiler::VisibilityActionFiler(QWidget * widget, QAction * action, QObject * parent)
         : QObject(parent), widget(widget), action(action) {
 
     if (widget == nullptr) {
@@ -24,7 +24,7 @@ VisibiltyActionFiler::VisibiltyActionFiler(QWidget * widget, QAction * action, Q
 }
 
 
-bool VisibiltyActionFiler::eventFilter(QObject * object, QEvent * event) {
+bool VisibilityActionFiler::eventFilter(QObject * object, QEvent * event) {
 
     if (object == widget) {
 

@@ -99,12 +99,6 @@ void MapTabWidget::removeMap(QString mapName) {
 
     auto pair = mapScrollAreas.find(mapName);
     if (pair != mapScrollAreas.end()) {
-    
-        auto map = Session::getCurrentSession()->findMap(mapName);
-        if (!map->isValid()) {
-            throw std::runtime_error{"Invalid map to select in tab."};
-        }
-        disconnect(map.data(), &Nameable::nameChanged, this, &MapTabWidget::mapNameChanged);
         
         int tabIndex = indexOf((*pair).second);
         mapScrollAreas.erase(pair);

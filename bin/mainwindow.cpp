@@ -242,19 +242,19 @@ void MainWindow::createRecentFileActions() {
 
 
 void MainWindow::deleteMap() {
-
-/*
- * TODO
-    auto map = selection->getMap();
-    if (!map->isValid()) {
-        return;
+    
+    auto session = Session::getCurrentSession();
+    auto mapName = session->getCurrentMapName();
+    
+    if (!session->findMap(mapName)->isValid()) {
+        throw std::runtime_error{"Current selected map vanished while tyring to delete it."};
     }
-
-    auto command = CommandPointer{new RemoveMap{selection->getAtlas(),
-                                                map->getRegionName(),
-                                                map->getName()}};
-    selection->getAtlas()->getCommandProzessor()->execute(command);
- */
+    
+    auto command = CommandPointer{new RemoveMap{mapName}};
+    auto processor = session->getCommandProcessor();
+    processor->execute(command);
+    
+    ui->mapTabWidget->removeMap(mapName);
 }
 
 

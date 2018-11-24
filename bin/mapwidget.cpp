@@ -98,8 +98,9 @@ void MapWidget::setMap(QString mapName) {
         throw std::runtime_error("Invalid map to render.");
     }
     this->mapName = mapName;
-    connect(map.data(), &Nameable::nameChanged, this, &MapWidget::mapNameChanged);
     
+    connect(map.data(), &Nameable::nameChanged, this, &MapWidget::mapNameChanged);
+   
     mapSizeChanged(map->getCoordinateSystem()->getSize());
     auto coordinateSystem = map->getCoordinateSystem();
     

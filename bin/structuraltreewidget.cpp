@@ -6,6 +6,11 @@
 
 #include <QPixmapCache>
 
+#include <rpgmapper/atlas.hpp>
+#include <rpgmapper/map.hpp>
+#include <rpgmapper/region.hpp>
+#include <rpgmapper/session.hpp>
+
 #include "mainwindow.hpp"
 #include "structuraltreewidget.hpp"
 
@@ -19,16 +24,54 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 
 
+/**
+ * This enumerates the different tree item types we support here.
+ */
+enum class ItemType {
+    atlas,
+    region,
+    map
+};
+
+
+/**
+ * A helper structure to qualify a tree widget item.
+ */
+struct ItemInfo {
+    ItemType type;          /**< What the current widget item is representing. */
+    QString name;           /**< The name (id) of the item current represented model item. */
+    bool valid;             /**< true, if we this is a valid item here. */
+};
+
+
+/**
+ * Extracts the item info of a given treeWidgetItem.
+ *
+ * @param treeWidgetItem
+ * @return
+ */
+ItemInfo getItemInfo(QTreeWidgetItem const * treeWidgetItem);
+
+
+/**
+ * Searches for a specific item in the tree widget.
+ *
+ * @param treeWidgetItem
+ * @return
+ */
+QTreeWidgetItem * searchItem(QTreeWidget * treeWidget, ItemType type, QString const & name);
+
+
 StructuralTreeWidget::StructuralTreeWidget(QWidget * parent) : QTreeWidget{parent} {
-/*
+    
     connect(this, &QTreeWidget::currentItemChanged, this, &StructuralTreeWidget::changedCurrentItem);
     connect(this, &QTreeWidget::itemDoubleClicked, this, &StructuralTreeWidget::doubleClickedItem);
     connect(this, &QTreeWidget::itemClicked, this, &StructuralTreeWidget::singleClickedItem);
-*/
+    
+    resetStructure();
 }
 
 
-/*
 void StructuralTreeWidget::addAtlas() {
 
     static QPixmap atlasPixmap;
@@ -36,28 +79,29 @@ void StructuralTreeWidget::addAtlas() {
         QPixmapCache::find("atlas", &atlasPixmap);
     }
 
-    auto selection = this->selection.toStrongRef();
-    if (selection.data() == nullptr) {
-        throw std::runtime_error("Selection instance is invalid (nullptr).");
-    }
+    auto session = Session::getCurrentSession();
+    auto atlas = session->getAtlas();
 
     QStringList columns;
-    columns << selection->getAtlas()->getName() << "atlas" << "0";
+    columns << atlas->getName() << "atlas" << "0";
 
     auto atlasItem = new QTreeWidgetItem{columns};
     atlasItem->setIcon(0, atlasPixmap);
     insertTopLevelItem(0, atlasItem);
 
-    for (auto const & cRegion: selection->getAtlas()->getRegions()) {
-        auto cTWRegion = addRegion(atlasItem, cRegion.second);
+    for (auto const & region: atlas->getRegions()) {
+        auto cTWRegion = addRegion(atlasItem, region.second);
         cTWRegion->setExpanded(true);
     }
 
     atlasItem->setExpanded(true);
+    
+    connect(atlas.data(), &Nameable::nameChanged, this, &StructuralTreeWidget::atlasNameChanged);
+    connect(atlas.data(), &Atlas::regionAdded, this, &StructuralTreeWidget::regionAdded);
+    connect(atlas.data(), &Atlas::regionRemoved, this, &StructuralTreeWidget::regionRemoved);
 }
-*/
 
-/*
+
 QTreeWidgetItem * StructuralTreeWidget::addMap(QTreeWidgetItem * regionItem, MapPointer const & map) {
 
     static QPixmap mapPixmap;
@@ -69,12 +113,13 @@ QTreeWidgetItem * StructuralTreeWidget::addMap(QTreeWidgetItem * regionItem, Map
     columns << map->getName() << "map" << "0";
     auto mapItem = new QTreeWidgetItem{regionItem, columns};
     mapItem->setIcon(0, mapPixmap);
-
+    
+    connect(map.data(), &Nameable::nameChanged, this, &StructuralTreeWidget::mapNameChanged);
+    
     return mapItem;
 }
-*/
 
-/*
+
 QTreeWidgetItem * StructuralTreeWidget::addRegion(QTreeWidgetItem * atlasItem, RegionPointer const & region) {
 
     static QPixmap regionPixmap;
@@ -87,277 +132,172 @@ QTreeWidgetItem * StructuralTreeWidget::addRegion(QTreeWidgetItem * atlasItem, R
     auto regionItem = new QTreeWidgetItem{atlasItem, columns};
     regionItem->setIcon(0, regionPixmap);
 
-    for (auto const & cMap: region->getMaps()) {
-        auto mapItem = addMap(regionItem, cMap.second);
+    for (auto const & map: region->getMaps()) {
+        auto mapItem = addMap(regionItem, map.second);
         mapItem->setExpanded(true);
     }
+    
+    connect(region.data(), &Nameable::nameChanged, this, &StructuralTreeWidget::regionNameChanged);
+    connect(region.data(), &Region::mapAdded, this, &StructuralTreeWidget::mapAdded);
+    connect(region.data(), &Region::mapRemoved, this, &StructuralTreeWidget::mapRemoved);
 
     return regionItem;
 }
-*/
 
-/*
-void StructuralTreeWidget::changedAtlasName(UNUSED QString oldName, QString newName){
+
+void StructuralTreeWidget::atlasNameChanged(UNUSED QString oldName, QString newName){
     auto item = topLevelItem(0);
     item->setText(0, newName);
 }
-*/
 
 
-void StructuralTreeWidget::changedCurrentItem(UNUSED QTreeWidgetItem * current) {
-/*
+void StructuralTreeWidget::changedCurrentItem(QTreeWidgetItem * current) {
+    
     auto itemInfo = getItemInfo(current);
     if (!itemInfo.valid) {
         return;
     }
 
-    auto selection = this->selection.toStrongRef();
-    if (selection.data() == nullptr) {
-        throw std::runtime_error("Selection instance is invalid (nullptr).");
-    }
-
-    switch (itemInfo.itemType) {
+    auto session = Session::getCurrentSession();
+    switch (itemInfo.type) {
 
         case ItemType::atlas:
+            session->selectAtlas();
             emit selectedAtlas();
             break;
 
         case ItemType::map:
-            selection->selectMap(itemInfo.name);
+            session->selectMap(itemInfo.name);
             emit selectedMap(itemInfo.name);
             break;
 
         case ItemType::region:
-            selection->selectRegion(itemInfo.name);
+            session->selectRegion(itemInfo.name);
             emit selectedRegion(itemInfo.name);
             break;
     }
-*/
 }
 
-/*
-void StructuralTreeWidget::changedMapName(UNUSED QString regionName, QString nameBefore, QString nameAfter) {
 
-    auto item = searchItem(ItemType::map, nameBefore);
-    if (item == nullptr) {
-        return;
-    }
-    item->setText(0, nameAfter);
-}
-*/
-
-/*
-void StructuralTreeWidget::changedRegionName(QString nameBefore, QString nameAfter) {
-
-    auto item = searchItem(ItemType::region, nameBefore);
-    if (item == nullptr) {
-        return;
-    }
-    item->setText(0, nameAfter);
-}
-*/
-
-/*
-void StructuralTreeWidget::connectSelectionSignals() {
-
-    auto selection = this->selection.toStrongRef();
-    if (selection.data() == nullptr) {
-        return;
-    }
-
-    connect(selection.data(), &Selection::newAtlas, this, &StructuralTreeWidget::resetStructure);
-
-    connect(selection->getAtlas().data(), &Atlas::mapAdded,
-            this, &StructuralTreeWidget::mapAdded);
-    connect(selection->getAtlas().data(), &Atlas::mapCreated,
-            this, &StructuralTreeWidget::createdMap);
-    connect(selection->getAtlas().data(), &Atlas::mapNameChanged,
-            this, &StructuralTreeWidget::changedMapName);
-    connect(selection->getAtlas().data(), &Atlas::mapRemoved,
-            this, &StructuralTreeWidget::removedMap);
-    connect(selection->getAtlas().data(), &Atlas::nameChanged,
-            this, &StructuralTreeWidget::changedAtlasName);
-    connect(selection->getAtlas().data(), &Atlas::regionNameChanged,
-            this, &StructuralTreeWidget::changedRegionName);
-    connect(selection->getAtlas().data(), &Atlas::regionCreated,
-            this, &StructuralTreeWidget::createdRegion);
-    connect(selection->getAtlas().data(), &Atlas::regionRemoved,
-            this, &StructuralTreeWidget::removedRegion);
-
-}
-*/
-
-/*
-void StructuralTreeWidget::createdMap(QString regionName, QString mapName) {
-
-    auto selection = this->selection.toStrongRef();
-    if (selection.data() == nullptr) {
-        throw std::runtime_error("Selection instance is invalid (nullptr).");
-    }
-
-    auto map = selection->getAtlas()->findMap(mapName);
-    if (!map->isValid()) {
-        return;
-    }
-
-    auto parentItem = searchItem(ItemType::region, regionName);
-    if (parentItem == nullptr) {
-        return;
-    }
-
-    auto mapItem = addMap(parentItem, map);
-    if (mapItem) {
-        scrollToItem(mapItem, QAbstractItemView::EnsureVisible);
-        setCurrentItem(mapItem);
-    }
-}
-*/
-
-/*
-void StructuralTreeWidget::createdRegion(QString name) {
-
-    auto selection = this->selection.toStrongRef();
-    if (selection.data() == nullptr) {
-        throw std::runtime_error("Selection instance is invalid (nullptr).");
-    }
-
-    auto region = selection->getAtlas()->findRegion(name);
-    if (!region->isValid()) {
-        return;
-    }
-
-    auto parentItem = searchItem(ItemType::atlas, QString::null);
-    if (parentItem == nullptr) {
-        return;
-    }
-
-    auto regionItem = addRegion(parentItem, region);
-    if (regionItem) {
-        scrollToItem(regionItem, QAbstractItemView::EnsureVisible);
-        setCurrentItem(regionItem);
-    }
-}
-*/
-
-void StructuralTreeWidget::doubleClickedItem(UNUSED QTreeWidgetItem * item, UNUSED int column) {
-/*
-
+void StructuralTreeWidget::doubleClickedItem(QTreeWidgetItem * item, UNUSED int column) {
+    
     auto itemInfo = getItemInfo(item);
     if (!itemInfo.valid) {
         return;
     }
-
-    auto selection = this->selection.toStrongRef();
-    if (selection.data() == nullptr) {
-        throw std::runtime_error("Selection instance is invalid (nullptr).");
-    }
-
-    switch (itemInfo.itemType) {
+    
+    auto session = Session::getCurrentSession();
+    switch (itemInfo.type) {
 
         case ItemType::atlas:
+            session->selectAtlas();
             emit doubleClickedAtlas();
             break;
 
         case ItemType::map:
-            selection->selectMap(itemInfo.name);
+            session->selectMap(itemInfo.name);
             emit doubleClickedMap(itemInfo.name);
             break;
 
         case ItemType::region:
-            selection->selectRegion(itemInfo.name);
+            session->selectRegion(itemInfo.name);
             emit doubleClickedRegion(itemInfo.name);
             break;
     }
-*/
 }
 
-/*
-StructuralTreeWidget::ItemInfo StructuralTreeWidget::getItemInfo(QTreeWidgetItem * item) const {
 
-    ItemInfo itemInfo{ItemType::atlas, QString::null, false};
-
-    if ((item != nullptr) && (item->columnCount() > 1)) {
-
-        if (item->text(1) == "atlas") {
-            itemInfo = { ItemType::atlas, item->text(0), true};
+void StructuralTreeWidget::mapAdded(QString name) {
+    
+    auto session = Session::getCurrentSession();
+    auto regionName = session->getRegionOfMap(name);
+    if (!regionName.isEmpty()) {
+        
+        auto regionItem = ::searchItem(this, ItemType::region, regionName);
+        if (!regionItem) {
+            throw std::runtime_error{"Try to add map to region in structure widget, but region is not present."};
         }
-        else
-        if (item->text(1) == "region") {
-            itemInfo = { ItemType::region, item->text(0), true};
-        }
-        else
-        if (item->text(1) == "map") {
-            itemInfo = { ItemType::map, item->text(0), true};
+    
+        auto mapItem = addMap(regionItem, session->findMap(name));
+        if (mapItem) {
+            scrollToItem(mapItem, QAbstractItemView::EnsureVisible);
+            setCurrentItem(mapItem);
         }
     }
-
-    return itemInfo;
 }
-*/
-/*
-void StructuralTreeWidget::removedMap(UNUSED QString regionName, QString mapName) {
 
-    auto item = searchItem(ItemType::map, mapName);
-    if (item == nullptr) {
-        return;
+
+void StructuralTreeWidget::mapNameChanged(QString oldName, QString newName) {
+    auto item = ::searchItem(this, ItemType::map, oldName);
+    if (item) {
+        item->setText(0, newName);
     }
-    topLevelItem(0)->removeChild(item);
-    delete item;
 }
-*/
-/*
-void StructuralTreeWidget::removedRegion(QString name) {
 
-    auto item = searchItem(ItemType::region, name);
-    if (item == nullptr) {
-        return;
+
+void StructuralTreeWidget::mapRemoved(QString name) {
+
+    auto item = ::searchItem(this, ItemType::map, name);
+    if (item) {
+        
+        if (item->isSelected()) {
+            auto session = Session::getCurrentSession();
+            auto regionName = session->getRegionOfMap(name);
+            session->selectRegion(regionName);
+        }
+        
+        topLevelItem(0)->removeChild(item);
+        delete item;
     }
-    topLevelItem(0)->removeChild(item);
-    delete item;
 }
-*/
 
-/*
+
 void StructuralTreeWidget::resetStructure() {
     clear();
     addAtlas();
     sortByColumn(1, Qt::AscendingOrder);
     setSortingEnabled(true);
 }
-*/
 
-/*
-QTreeWidgetItem * StructuralTreeWidget::searchItem(ItemType type, QString const & name) const {
-    return searchItem(nullptr, type, name);
+
+void StructuralTreeWidget::regionAdded(QString name) {
+
+    auto session = Session::getCurrentSession();
+    auto region = session->findRegion(std::move(name));
+    if (region->isValid()) {
+        
+        auto itemInfo = searchItem(this, ItemType::region, region->getName());
+        if (!itemInfo) {
+            addRegion(topLevelItem(0), region);
+        }
+    }
 }
-*/
-/*
-QTreeWidgetItem * StructuralTreeWidget::searchItem(QTreeWidgetItem * parentItem,
-                                                   ItemType type,
-                                                   QString const & name) const {
 
-    if (type == ItemType::atlas) {
-        return topLevelItem(0);
+
+void StructuralTreeWidget::regionNameChanged(QString oldName, QString newName) {
+    auto item = ::searchItem(this, ItemType::region, oldName);
+    if (item) {
+        item->setText(0, newName);
     }
-
-    if (parentItem == nullptr) {
-        parentItem = topLevelItem(0);
-    }
-
-    auto itemInfo = getItemInfo(parentItem);
-    if ((itemInfo.itemType == type) && (itemInfo.name == name)) {
-        return parentItem;
-    }
-
-    QTreeWidgetItem * item = nullptr;
-    for (int i = 0; (i < parentItem->childCount()) && (item == nullptr); ++i) {
-        item = searchItem(parentItem->child(i), type, name);
-    }
-
-    return item;
 }
-*/
-/*
+
+
+void StructuralTreeWidget::regionRemoved(QString name) {
+    
+    auto item = ::searchItem(this, ItemType::region, name);
+    if (item) {
+        
+        if (item->isSelected()) {
+            auto session = Session::getCurrentSession();
+            session->selectAtlas();
+        }
+        
+        topLevelItem(0)->removeChild(item);
+        delete item;
+    }
+}
+
+
 void StructuralTreeWidget::selectFirstMap() {
 
     auto atlasItem = topLevelItem(0);
@@ -386,34 +326,80 @@ void StructuralTreeWidget::selectFirstMap() {
         }
     }
 }
-*/
 
 
-void StructuralTreeWidget::singleClickedItem(UNUSED QTreeWidgetItem * item, UNUSED int column) {
-/*
-
+void StructuralTreeWidget::singleClickedItem(QTreeWidgetItem * item, UNUSED int column) {
+    
     auto itemInfo = getItemInfo(item);
     if (!itemInfo.valid) {
         return;
     }
 
-    auto selection = this->selection.toStrongRef();
-    if (selection.data() == nullptr) {
-        throw std::runtime_error("Selection instance is invalid (nullptr).");
-    }
-
-    switch (itemInfo.itemType) {
+    auto session = Session::getCurrentSession();
+    switch (itemInfo.type) {
 
         case ItemType::atlas:
+            session->selectAtlas();
             break;
 
         case ItemType::map:
-            selection->selectMap(itemInfo.name);
+            session->selectMap(itemInfo.name);
             break;
 
         case ItemType::region:
-            selection->selectRegion(itemInfo.name);
+            session->selectRegion(itemInfo.name);
             break;
     }
-*/
+}
+
+
+ItemInfo getItemInfo(QTreeWidgetItem const * treeWidgetItem) {
+    
+    ItemInfo itemInfo = {ItemType::atlas, QString::null, false};
+    
+    if ((treeWidgetItem) && (treeWidgetItem->columnCount() > 1)) {
+    
+        if (treeWidgetItem->text(1) == "atlas") {
+            itemInfo = {ItemType::atlas, treeWidgetItem->text(0), true};
+        }
+        else
+        if (treeWidgetItem->text(1) == "region") {
+            itemInfo = {ItemType::region, treeWidgetItem->text(0), true};
+        }
+        else
+        if (treeWidgetItem->text(1) == "map") {
+            itemInfo = {ItemType::map, treeWidgetItem->text(0), true};
+        }
+    }
+    
+    return itemInfo;
+}
+
+
+QTreeWidgetItem * searchItem(QTreeWidget * treeWidget, ItemType type, QString const & name) {
+    
+    ItemInfo itemInfo = {ItemType::atlas, QString::null, false};
+    
+    auto atlasItem = treeWidget->topLevelItem(0);
+    if (type == ItemType::atlas) {
+        return atlasItem;
+    }
+    
+    QTreeWidgetItem * item = nullptr;
+    
+    for (int i = 0; (i < atlasItem->childCount()) && !item; ++i) {
+        
+        auto regionItem = atlasItem->child(i);
+        if (type == ItemType::region) {
+            item = (regionItem->text(0) == name) ? regionItem : nullptr;
+        }
+        else {
+            for (int j = 0; (j < regionItem->columnCount()) && !item; ++j) {
+                auto mapItem = regionItem->child(j);
+                item = (mapItem->text(0) == name) ? mapItem : nullptr;
+            }
+        }
+    }
+    
+    return item;
 }

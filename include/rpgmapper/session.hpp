@@ -202,6 +202,14 @@ public:
     QString getFileName() const {
         return fileName;
     }
+    
+    /**
+     * Gets the region name of a given map.
+     *
+     * @param   mapName     the name of the map.
+     * @return  the name of the region the map belongs to (or QString::null).
+     */
+    QString getRegionOfMap(QString mapName) const;
 
     /**
      * Gets the resources known by the session.
@@ -255,6 +263,13 @@ public:
      * @return  true, if successfully saved.
      */
     bool save(QFile & file, QStringList & log);
+    
+    /**
+     * Selects the atlas.
+     *
+     * This effectively deselects any region or map.
+     */
+    void selectAtlas();
     
     /**
      * Selects a new current map.

@@ -174,6 +174,20 @@ QSharedPointer<Session> Session::getCurrentSession() {
 }
 
 
+QString Session::getRegionOfMap(QString mapName) const {
+    
+    QString regionName = QString::null;
+    
+    auto allMaps = getAllMapNames();
+    auto iter = allMaps.find(mapName);
+    if (iter != allMaps.end()) {
+        regionName = (*iter).second;
+    }
+
+    return regionName;
+}
+
+
 QSharedPointer<Session> Session::init() {
     
     auto session = QSharedPointer<Session>(new Session);
@@ -225,6 +239,11 @@ bool Session::save(UNUSED QFile & file, QStringList & log) {
     }
 */
     return written;
+}
+
+
+void Session::selectAtlas() {
+    selectedRegion(QString::null);
 }
 
 

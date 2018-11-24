@@ -49,7 +49,7 @@ MainWindow::MainWindow() : QMainWindow{} {
     statusBar()->setVisible(true);
 
     ui->mapTabWidget->clear();
-    // TODO: ui->atlasTreeWidget->selectFirstMap();
+    ui->atlasTreeWidget->selectFirstMap();
     ui->atlasTreeNewMapToolButton->setDefaultAction(ui->actionCreateNewMap);
     ui->atlasTreeNewRegionToolButton->setDefaultAction(ui->actionCreateNewRegion);
     ui->atlasTreeDeleteMapToolButton->setDefaultAction(ui->actionDeleteMap);

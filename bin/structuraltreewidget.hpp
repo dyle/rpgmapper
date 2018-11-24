@@ -38,35 +38,97 @@ public:
 
 public slots:
 
-    //void changedAtlasName(QString oldName, QString newName);
+    /**
+     * The atlas changed its name.
+     *
+     * @param   oldName     old name of the atlas.
+     * @param   newName     new name of the atlas.
+     */
+    void atlasNameChanged(QString oldName, QString newName);
 
-    //void changedMapName(QString regionName, QString nameBefore, QString nameAfter);
+    /**
+     * A map has been added to the structure.
+     *
+     * @param   name        the name of the map added.
+     */
+    void mapAdded(QString name);
+    
+    /**
+     * A map changed its name.
+     *
+     * @param   oldName     old name of the map.
+     * @param   newName     new name of the map.
+     */
+    void mapNameChanged(QString oldName, QString newName);
+    
+    /**
+     * A map has been removed from the structure.
+     *
+     * @param   name        the name of the map removed.
+     */
+    void mapRemoved(QString name);
+    
+    /**
+     * A region has been added.
+     *
+     * @param   name        name of the region added.
+     */
+    void regionAdded(QString name);
+    
+    /**
+     * A region changed its name.
+     *
+     * @param   oldName         old name of the region.
+     * @param   newName         new name of the region.
+     */
+    void regionNameChanged(QString oldName, QString newName);
+    
+    /**
+     * A region has been removed.
+     *
+     * @param   name        name of the region removed.
+     */
+    void regionRemoved(QString name);
+    
+    /**
+     * Selects the very first map in the structure.
+     */
+    void selectFirstMap();
 
-    //void changedRegionName(QString nameBefore, QString nameAfter);
-
-    //void createdMap(QString regionName, QString mapName);
-
-    //void createdRegion(QString name);
-
-    //void removedMap(QString regionName, QString mapName);
-
-    //void removedRegion(QString name);
-
-    //void selectFirstMap();
-
-    //void resetStructure();
+    /**
+     * Clears everything and grabs the current session atlas and refresh the whole displayed structure.
+     */
+    void resetStructure();
 
 private:
 
-    //void addAtlas();
+    /**
+     * Adds the current session atlas to the structure.
+     */
+    void addAtlas();
 
-    //QTreeWidgetItem * addMap(QTreeWidgetItem * regionItem, rpgmapper::model::MapPointer const & map);
+    /**
+     * Adds a map to a region.
+     *
+     * @param   regionItem      the tree widget item holding the region.
+     * @param   map             the map to add.
+     * @return  the new tree widget item holding the map.
+     */
+    QTreeWidgetItem * addMap(QTreeWidgetItem * regionItem, rpgmapper::model::MapPointer const & map);
 
-    //QTreeWidgetItem * addRegion(QTreeWidgetItem * atlasItem, rpgmapper::model::RegionPointer const & region);
+    /**
+     * Adds a region to the structure.
+     *
+     * @param   atlasItem   the tree widget item holding the atlas.
+     * @param   region      the region to add.
+     * @return  the new tree widget item holding the region.
+     */
+    QTreeWidgetItem * addRegion(QTreeWidgetItem * atlasItem, rpgmapper::model::RegionPointer const & region);
 
-    //void connectSelectionSignals();
-
-    //ItemInfo getItemInfo(QTreeWidgetItem * item) const;
+    /**
+     * Connects all signals emitted by model instances of the current session.
+     */
+    //void connectModelSignals();
 
     //QTreeWidgetItem * searchItem(ItemType type, QString const & name) const;
 

@@ -113,9 +113,9 @@ public slots:
     void visibleStructure(bool visible);
 
     /**
-     * Show/hide tile choser.
+     * Show/hide tile chooser.
      *
-     * @param   visible     show/hide tile choser.
+     * @param   visible     show/hide tile chooser.
      */
     void visibleTiles(bool visible);
 
@@ -261,12 +261,12 @@ private slots:
     void loadRecentFile();
     
     /**
-     * Save action.
+     * Save atlas action.
      */
     void save();
 
     /**
-     * Save with a name action.
+     * Save atlas with a name action.
      */
     void saveAs();
 };

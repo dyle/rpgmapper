@@ -29,6 +29,12 @@ void MapTabWidget::closeCurrentMap() {
 
 void MapTabWidget::currentChanged(int index) {
     
+    auto session = Session::getCurrentSession();
+    if (index == -1) {
+        session->selectMap(QString::null);
+        return;
+    }
+    
     auto mapScrollArea = dynamic_cast<MapScrollArea *>(widget(index));
     if (!mapScrollArea) {
         return;
@@ -39,7 +45,6 @@ void MapTabWidget::currentChanged(int index) {
         return;
     }
     
-    auto session = Session::getCurrentSession();
     session->selectMap(mapWidget->getMapName());
 }
 

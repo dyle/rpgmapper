@@ -248,11 +248,14 @@ void Session::selectAtlas() {
 }
 
 
+#include <iostream>
 void Session::selectMap(QString name) {
     
     if (name == QString::null) {
-        currentMapName = QString::null;
-        emit selectedMap(QString::null);
+        if (!currentMapName.isEmpty()) {
+            currentMapName = QString::null;
+            emit selectedMap(QString::null);
+        }
         return;
     }
     
@@ -275,8 +278,10 @@ void Session::selectRegion(QString name) {
     
     selectMap(QString::null);
     if (name == QString::null) {
-        currentRegionName = QString::null;
-        emit selectedRegion(QString::null);
+        if (!currentRegionName.isEmpty()) {
+            currentRegionName = QString::null;
+            emit selectedRegion(QString::null);
+        }
         return;
     }
     

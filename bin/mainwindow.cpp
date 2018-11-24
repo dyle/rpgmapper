@@ -376,6 +376,7 @@ void MainWindow::editRegionProperties() {
             else {
                 auto command = CommandPointer{new SetRegionName{regionName, newRegionName}};
                 processor->execute(command);
+                session->selectRegion(newRegionName);
                 abortLoop = true;
             }
         }

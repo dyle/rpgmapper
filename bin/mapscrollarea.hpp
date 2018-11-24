@@ -17,7 +17,7 @@ namespace view {
 
 
 /**
- * This scroll area contains a mapwidget and acts as a viewport onto a map.
+ * This scroll area contains a MapWidget and acts as a viewport onto a map.
  */
 class MapScrollArea : public QScrollArea {
 

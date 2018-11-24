@@ -272,6 +272,11 @@ private slots:
      * Save atlas with a name action.
      */
     void saveAs();
+    
+    /**
+     * View the current map.
+     */
+    void viewCurrentMap();
 };
 
 

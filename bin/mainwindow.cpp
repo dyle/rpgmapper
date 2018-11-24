@@ -49,7 +49,6 @@ MainWindow::MainWindow() : QMainWindow{} {
     statusBar()->setVisible(true);
 
     ui->mapTabWidget->clear();
-    ui->atlasTreeWidget->selectFirstMap();
     ui->atlasTreeNewMapToolButton->setDefaultAction(ui->actionCreateNewMap);
     ui->atlasTreeNewRegionToolButton->setDefaultAction(ui->actionCreateNewRegion);
     ui->atlasTreeDeleteMapToolButton->setDefaultAction(ui->actionDeleteMap);
@@ -60,6 +59,8 @@ MainWindow::MainWindow() : QMainWindow{} {
     connectModelSignals();
     loadSettings();
     setApplicationWindowTitle();
+    
+    ui->atlasTreeWidget->selectFirstMap();
 }
 
 
@@ -158,6 +159,7 @@ void MainWindow::connectActions() {
     connect(ui->actionSaveAtlasFile, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionSaveAtlasFileAs, &QAction::triggered, this, &MainWindow::saveAs);
 
+    connect(ui->actionViewMap, &QAction::triggered, this, &MainWindow::viewCurrentMap);
     connect(ui->actionViewColorPicker, &QAction::triggered, this, &MainWindow::visibleColorPicker);
     connect(ui->actionViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
     connect(ui->actionViewStructureTree, &QAction::triggered, this, &MainWindow::visibleStructure);
@@ -173,6 +175,7 @@ void MainWindow::connectActions() {
             ui->actionShowMapProperties, &QAction::trigger);
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedRegion,
             ui->actionShowRegionProperties, &QAction::trigger);
+    connect(ui->atlasTreeWidget, &StructuralTreeWidget::selectedMap, ui->mapTabWidget, &MapTabWidget::selectMap);
 
     connect(ui->mapTabWidget, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
 }
@@ -384,6 +387,7 @@ void MainWindow::enableActions() {
     ui->actionDeleteRegion->setEnabled(!currentRegionName.isEmpty());
     ui->actionShowMapProperties->setEnabled(!currentMapName.isEmpty());
     ui->actionShowRegionProperties->setEnabled(!currentRegionName.isEmpty());
+    ui->actionViewMap->setEnabled(!currentMapName.isEmpty());
     
     ui->actionClearRecentList->setEnabled(!recentAtlasFileNames.empty());
 }
@@ -622,6 +626,15 @@ void MainWindow::showEvent(QShowEvent * cEvent) {
         ui->actionViewStructureTree->setChecked(ui->atlasStructureDockWidget->isVisible());
         ui->actionViewTilesDock->setChecked(ui->tilesDockWidget->isVisible());
         bFirstTime = false;
+    }
+}
+
+
+void MainWindow::viewCurrentMap() {
+    auto session = Session::getCurrentSession();
+    auto currentMapName = session->getCurrentMapName();
+    if (!currentMapName.isEmpty()) {
+        ui->mapTabWidget->selectMap(currentMapName);
     }
 }
 

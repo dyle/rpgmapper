@@ -11,7 +11,6 @@
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/session.hpp>
 
-#include "mainwindow.hpp"
 #include "structuraltreewidget.hpp"
 
 #if defined(__GNUC__) || defined(__GNUCPP__)

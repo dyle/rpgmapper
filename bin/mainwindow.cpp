@@ -190,22 +190,19 @@ void MainWindow::connectModelSignals() {
 
 
 void MainWindow::createNewMap() {
-/*
- * TODO
-    auto region = selection->getRegion();
-    if (!region->isValid()) {
-        return;
+    
+    auto session = Session::getCurrentSession();
+    auto regionName = session->getCurrentRegionName();
+    if (!regionName.isEmpty()) {
+        auto processor = session->getCommandProcessor();
+        auto command = CommandPointer{new CreateMap{regionName, session->createNewMapName()}};
+        processor->execute(command);
     }
-
-    auto command = CommandPointer{new CreateMap{selection->getAtlas(),
-                                                region->getName(),
-                                                selection->createNewMapName()}};
-    selection->getAtlas()->getCommandProzessor()->execute(command);
- */
 }
 
 
 void MainWindow::createNewRegion() {
+    
     auto session = Session::getCurrentSession();
     auto processor = session->getCommandProcessor();
     auto command = CommandPointer{new CreateRegion{session->createNewRegionName()}};

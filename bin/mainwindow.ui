@@ -78,6 +78,7 @@
      </property>
      <addaction name="actionClearRecentList"/>
     </widget>
+    <addaction name="actionCreateNew"/>
     <addaction name="actionOpenAtlasFile"/>
     <addaction name="openRecentMenu"/>
     <addaction name="actionShowAtlasProperties"/>
@@ -583,7 +584,7 @@
   </action>
   <action name="actionCloseMap">
    <property name="text">
-    <string>Close Map</string>
+    <string>C&amp;lose Map</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+F4</string>

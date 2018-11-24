@@ -145,6 +145,7 @@ void MainWindow::connectActions() {
 
     connect(ui->actionClearRecentList, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
     connect(ui->actionCloseMap, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::closeCurrentMap);
+    connect(ui->actionCreateNew, &QAction::triggered, this, &MainWindow::createNewAtlas);
     connect(ui->actionCreateNewMap, &QAction::triggered, this, &MainWindow::createNewMap);
     connect(ui->actionCreateNewRegion, &QAction::triggered, this, &MainWindow::createNewRegion);
     connect(ui->actionDeleteMap, &QAction::triggered, this, &MainWindow::deleteMap);
@@ -196,6 +197,35 @@ void MainWindow::connectModelSignals() {
     connect(session.data(), &Session::selectedMap, ui->atlasTreeWidget, &StructuralTreeWidget::selectMap);
     connect(session.data(), &Session::selectedRegion, this, &MainWindow::enableActions);
     connect(session.data(), &Session::selectedRegion, ui->atlasTreeWidget, &StructuralTreeWidget::selectRegion);
+}
+
+
+void MainWindow::createNewAtlas() {
+    
+    auto session = Session::getCurrentSession();
+    bool createNew = !session->isModified();
+    
+    if (session->isModified()) {
+        
+        auto answer = QMessageBox::question(this, tr("Save Atlas"), tr("The current atlas has modifications. Save?"));
+        if (answer == QMessageBox::Yes) {
+            createNew = save();
+        }
+        else
+        if (answer == QMessageBox::No) {
+            createNew = true;
+        }
+    }
+    
+    if (createNew) {
+    
+        Session::setCurrentSession(Session::init());
+        ui->mapTabWidget->removeAllMaps();
+        ui->atlasTreeWidget->resetStructure();
+        connectModelSignals();
+        setApplicationWindowTitle();
+        ui->atlasTreeWidget->selectFirstMap();
+    }
 }
 
 
@@ -488,32 +518,32 @@ void MainWindow::loadSettings() {
 }
 
 
-void MainWindow::save() {
+bool MainWindow::save() {
     
     auto session = Session::getCurrentSession();
     if (session->getFileName().isEmpty()) {
-        saveAs();
-        return;
+        return saveAs();
     }
-    saveAtlas(session->getFileName());
-
+    return saveAtlas(session->getFileName());
 }
 
 
-void MainWindow::saveAs() {
+bool MainWindow::saveAs() {
 
     auto answer = saveAtlasDialog->exec();
     if ((answer == 0) || saveAtlasDialog->selectedFiles().empty()) {
-        return;
+        return false;
     }
-    saveAtlas(saveAtlasDialog->selectedFiles().first());
+    return saveAtlas(saveAtlasDialog->selectedFiles().first());
 }
 
 
-void MainWindow::saveAtlas(QString fileName) {
+bool MainWindow::saveAtlas(QString fileName) {
     
     QFile file{fileName};
     QStringList log;
+
+    bool saved = false;
     
     auto session = Session::getCurrentSession();
     if (!session->save(file, log)) {
@@ -527,7 +557,10 @@ void MainWindow::saveAtlas(QString fileName) {
         addRecentFileName(session->getFileName());
         session->getCommandProcessor()->resetModifications();
         setApplicationWindowTitle();
+        saved = true;
     }
+    
+    return saved;
 }
 
 

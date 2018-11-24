@@ -191,11 +191,12 @@ private:
     void showAboutDialog();
 
     /**
-     * Saves the current atals to disk.
+     * Saves the current atlas to disk.
      *
      * @param   fileName        file to save the atlas to.
+     * @return  true, if successfully saved
      */
-    void saveAtlas(QString fileName);
+    bool saveAtlas(QString fileName);
 
     /**
      * Saves the current application settings to disk.
@@ -227,7 +228,12 @@ private slots:
      * Clears the list of recently used files.
      */
     void clearListOfRecentFiles();
-
+    
+    /**
+     * The user wants to create a totally new atlas.
+     */
+    void createNewAtlas();
+    
     /**
      * A new map has been created.
      */
@@ -265,13 +271,17 @@ private slots:
     
     /**
      * Save atlas action.
+     *
+     * @return  true, if successfully saved
      */
-    void save();
+    bool save();
 
     /**
      * Save atlas with a name action.
+     *
+     * @return  true, if successfully saved
      */
-    void saveAs();
+    bool saveAs();
     
     /**
      * View the current map.

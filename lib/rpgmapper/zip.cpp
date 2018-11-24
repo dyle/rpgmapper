@@ -7,9 +7,12 @@
 #include <quazip/quazip.h>
 #include <quazip/quazipfile.h>
 
+#include <QDateTime>
 #include <QJsonDocument>
 
-#include <rpgmapper/io/content.hpp>
+#include <rpgmapper/atlas.hpp>
+
+#include "content.hpp"
 #include "zip.hpp"
 
 using namespace rpgmapper::model;
@@ -22,11 +25,6 @@ using namespace rpgmapper::model;
 #else
 #   define UNUSED
 #endif
-
-
-namespace rpgmapper {
-namespace model {
-namespace io {
 
 
 /**
@@ -69,7 +67,7 @@ static void closeZip(QuaZip & zip, QStringList & log);
  * @param   log             the protocol.
  * @return  true, for a successful loaded atlas.
  */
-static bool createAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas, Content const & content, QStringList & log);
+static bool createAtlas(AtlasPointer & atlas, Content const & content, QStringList & log);
 
 
 /**
@@ -80,9 +78,15 @@ static bool createAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas, Content
  * @param   log             the protocol.
  * @return  true, for a successful loaded atlas.
  */
-static bool createAtlasFromJSON(QSharedPointer<rpgmapper::model::Atlas> & atlas,
-        QJsonDocument const & json,
-        QStringList & log);
+static bool createAtlasFromJSON(AtlasPointer & atlas, QJsonDocument const & json, QStringList & log);
+
+
+/**
+ * Creates some meta information to be added to the atlas file.
+ *
+ * @return  JSON document holding the meta information.
+ */
+static QJsonDocument createMetaInformation();
 
 
 /**
@@ -118,12 +122,7 @@ static bool openZipForReading(QuaZip & zip, QFile & file, QStringList & log);
 static bool openZipForWriting(QuaZip & zip, QFile & file, QStringList & log);
 
 
-}
-}
-}
-
-
-bool rpgmapper::model::io::appendContent(Content const & content, QuaZip & zip, QStringList & log) {
+bool appendContent(Content const & content, QuaZip & zip, QStringList & log) {
     
     bool res = true;
     for (auto const & pair : content) {
@@ -137,7 +136,7 @@ bool rpgmapper::model::io::appendContent(Content const & content, QuaZip & zip, 
 }
 
 
-bool rpgmapper::model::io::appendFile(QString const & name, QByteArray const & blob, QuaZip & zip, QStringList & log) {
+bool appendFile(QString const & name, QByteArray const & blob, QuaZip & zip, QStringList & log) {
     
     QuaZipFile zf(&zip);
     QuaZipNewInfo zfi(name);
@@ -161,15 +160,13 @@ bool rpgmapper::model::io::appendFile(QString const & name, QByteArray const & b
 }
 
 
-void rpgmapper::model::io::closeZip(QuaZip & zip, QStringList & log) {
+void closeZip(QuaZip & zip, QStringList & log) {
     zip.close();
     log.append("Closed.");
 }
 
 
-bool rpgmapper::model::io::createAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas,
-        Content const & content,
-        QStringList & log) {
+bool createAtlas(AtlasPointer & atlas, Content const & content, QStringList & log) {
     
     bool res = true;
     
@@ -185,9 +182,7 @@ bool rpgmapper::model::io::createAtlas(QSharedPointer<rpgmapper::model::Atlas> &
 }
 
 
-bool rpgmapper::model::io::createAtlasFromJSON(QSharedPointer<rpgmapper::model::Atlas> & atlas,
-        QJsonDocument const & json,
-        QStringList & log) {
+bool createAtlasFromJSON(AtlasPointer & atlas, QJsonDocument const & json, QStringList & log) {
     
     bool res = true;
     
@@ -213,7 +208,27 @@ bool rpgmapper::model::io::createAtlasFromJSON(QSharedPointer<rpgmapper::model::
 }
 
 
-bool rpgmapper::model::io::extractContent(QuaZip & zip, Content & content, QStringList & log) {
+static QJsonDocument createMetaInformation() {
+    
+    QJsonObject json;
+    json["version"] = VERSION;
+    
+    QString user = qgetenv("USER");
+    if (user.isEmpty()) {
+        user = qgetenv("USERNAME");
+    }
+    json["user"] = user;
+    
+    auto currentTime = QDateTime::currentDateTime();
+    json["datetime"] = currentTime.toString(Qt::ISODate);
+    
+    QJsonDocument jsonDocument;
+    jsonDocument.setObject(json);
+    return jsonDocument;
+}
+
+
+bool extractContent(QuaZip & zip, Content & content, QStringList & log) {
     
     QuaZipFileInfo zfi;
     bool res = zip.getCurrentFileInfo(&zfi);
@@ -241,7 +256,7 @@ bool rpgmapper::model::io::extractContent(QuaZip & zip, Content & content, QStri
 }
 
 
-bool rpgmapper::model::io::openZipForReading(QuaZip & zip, QFile & file, QStringList & log) {
+bool openZipForReading(QuaZip & zip, QFile & file, QStringList & log) {
     
     bool res = true;
     
@@ -259,7 +274,7 @@ bool rpgmapper::model::io::openZipForReading(QuaZip & zip, QFile & file, QString
 }
 
 
-bool rpgmapper::model::io::openZipForWriting(QuaZip & zip, QFile & file, QStringList & log) {
+bool openZipForWriting(QuaZip & zip, QFile & file, QStringList & log) {
     
     bool res = true;
     
@@ -278,10 +293,7 @@ bool rpgmapper::model::io::openZipForWriting(QuaZip & zip, QFile & file, QString
 }
 
 
-
-bool rpgmapper::model::io::readAtlas(QSharedPointer<rpgmapper::model::Atlas> & atlas,
-        QFile & file,
-        QStringList & log) {
+bool rpgmapper::model::readAtlas(AtlasPointer & atlas, QFile & file, QStringList & log) {
     
     QuaZip zip;
     bool res = openZipForReading(zip, file, log);
@@ -303,25 +315,22 @@ bool rpgmapper::model::io::readAtlas(QSharedPointer<rpgmapper::model::Atlas> & a
 }
 
 
-bool rpgmapper::model::io::writeAtlas(UNUSED QSharedPointer<rpgmapper::model::Atlas> const & atlas,
-        QFile & file,
-        QStringList & log) {
+bool rpgmapper::model::writeAtlas(AtlasPointer const & atlas, QFile & file, QStringList & log) {
     
     QuaZip zip;
-    bool res = openZipForWriting(zip, file, log);
     
+    bool res = openZipForWriting(zip, file, log);
     if (res) {
     
-        UNUSED Content content;
-        /*
-         * TODO:
-        atlas->collectIOContent(content);
+        Content content;
+        auto metaJson = createMetaInformation();
+        content["meta.json"] = metaJson.toJson(QJsonDocument::Compact);
+        
+        QJsonDocument json;
+        json.setObject(atlas->getJSON());
+        content["atlas.json"] = json.toJson(QJsonDocument::Compact);
+        
         res = appendContent(content, zip, log);
-        if (res) {
-            atlas->resetChanged();
-        }
-         */
-    
         closeZip(zip, log);
     }
     

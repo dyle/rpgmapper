@@ -81,14 +81,11 @@ QJsonObject Atlas::getJSON() const {
     
     auto json = Nameable::getJSON();
     
-    
-    /* TODO:
     QJsonArray jsonRegions;
     std::for_each(std::begin(regions),
                   std::end(regions),
-                  [&] (auto const & pair) { jsonRegions.append(pair.second->getJSON(content)); });
+                  [&] (auto const & pair) { jsonRegions.append(pair.second->getJSON()); });
     json["regions"] = jsonRegions;
-    */
     
     return json;
 }

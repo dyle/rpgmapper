@@ -37,7 +37,7 @@ set(RPGMAPPER_LIB_SRC
     resource.cpp
     resource_db.cpp
     session.cpp
-    # zip.cpp
+    zip.cpp
 
     command/composite_command.cpp
     command/create_map.cpp

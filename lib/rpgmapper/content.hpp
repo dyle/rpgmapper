@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_MODEL_IO_CONTENT_HPP
-#define RPGMAPPER_MODEL_IO_CONTENT_HPP
+#ifndef RPGMAPPER_MODEL_CONTENT_HPP
+#define RPGMAPPER_MODEL_CONTENT_HPP
 
 #include <map>
 
@@ -15,7 +15,6 @@
 
 namespace rpgmapper {
 namespace model {
-namespace io {
 
 
 /**
@@ -24,7 +23,6 @@ namespace io {
 using Content = std::map<QString, QByteArray>;
 
 
-}
 }
 }
 

@@ -279,7 +279,7 @@ void MainWindow::deleteRegion() {
     auto processor = session->getCommandProcessor();
     processor->execute(command);
     
-    for (auto map : mapNamesOfRegion) {
+    for (const auto & map : mapNamesOfRegion) {
         ui->mapTabWidget->removeMap(map);
     }
     
@@ -486,13 +486,14 @@ void MainWindow::loadSettings() {
 
 
 void MainWindow::save() {
-/*
-    if (getAtlas()->getFileName().isEmpty()) {
+    
+    auto session = Session::getCurrentSession();
+    if (session->getFileName().isEmpty()) {
         saveAs();
         return;
     }
-    saveAtlas(getAtlas()->getFileName());
-*/
+    saveAtlas(session->getFileName());
+
 }
 
 
@@ -506,25 +507,24 @@ void MainWindow::saveAs() {
 }
 
 
-void MainWindow::saveAtlas(UNUSED QString fileName) {
-/*
+void MainWindow::saveAtlas(QString fileName) {
+    
     QFile file{fileName};
-    AtlasIO atlasIO;
-    auto result = atlasIO.write(getAtlas(), file);
-
-    if (!result.hasSuccess()) {
+    QStringList log;
+    
+    auto session = Session::getCurrentSession();
+    if (!session->save(file, log)) {
         logDialog->setWindowTitle(tr("Save atlas failure"));
         logDialog->clear();
         logDialog->setMessage(tr("Failed to save atlas file."));
-        logDialog->setLog(result.getLog());
+        logDialog->setLog(log);
         logDialog->exec();
     }
     else {
-        addRecentFileName(getAtlas()->getFileName());
-        getAtlas()->getCommandProzessor()->resetModifications();
+        addRecentFileName(session->getFileName());
+        session->getCommandProcessor()->resetModifications();
         setApplicationWindowTitle();
     }
-*/
 }
 
 

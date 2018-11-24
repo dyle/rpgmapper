@@ -221,23 +221,20 @@ bool Session::load(UNUSED QSharedPointer<Session> & session, UNUSED QFile & file
 }
 
 
-bool Session::save(UNUSED QFile & file, QStringList & log) {
+bool Session::save(QFile & file, QStringList & log) {
     
-    bool written = false;
+    fileName = file.fileName();
+    log.clear();
+    
+    bool written;
     if (!atlas->isValid()) {
         written = false;
         log.append("Atlas not valid, refusing to save.");
     }
-/**
- * TODO
- *
     else {
         written = writeAtlas(atlas, file, log);
-        if (written) {
-            atlas->setFileName(file.fileName());
-        }
     }
-*/
+    
     return written;
 }
 

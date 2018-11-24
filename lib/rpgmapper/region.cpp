@@ -87,8 +87,8 @@ QJsonObject Region::getJSON() const {
     QJsonObject json = Nameable::getJSON();
     
     QJsonArray jsonMaps;
-    for (auto const & iter : getMaps()) {
-        jsonMaps.append(iter.second->getName());
+    for (auto const & iter : maps) {
+        jsonMaps.append(iter.second->getJSON());
     }
     json["maps"] = jsonMaps;
     

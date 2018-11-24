@@ -14,6 +14,8 @@ namespace rpgmapper {
 namespace model {
 
 
+// TODO: switch to QStandardPaths
+
 /**
  * This is the system path of all installed shared files of the rpgmapper.
  *

@@ -26,7 +26,7 @@ bool LayerStack::applyJSON(QJsonObject const & json) {
     
     bool applied = true;
     
-    if (applied && json.contains("background") && json["background"].isObject()) {
+    if (json.contains("background") && json["background"].isObject()) {
         applied = getBackgroundLayer()->applyJSON(json["background"].toObject());
     }
     if (applied && json.contains("base") && json["base"].isArray()) {
@@ -46,7 +46,6 @@ bool LayerStack::applyJSON(QJsonObject const & json) {
     }
     
     return applied;
-    
 }
 
 

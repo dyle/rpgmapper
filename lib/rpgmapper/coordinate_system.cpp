@@ -104,7 +104,6 @@ bool CoordinateSystem::applyJSONNumerals(QJsonObject const & json) {
 
 bool CoordinateSystem::applyJSONOffset(QJsonObject const & json) {
     
-    QPointF offset;
     if (json.contains("x") && json["x"].isDouble()) {
         offset.setX(json["x"].toDouble());
     }

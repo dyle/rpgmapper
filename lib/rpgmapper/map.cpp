@@ -23,17 +23,27 @@ Map::Map(QString mapName) : Nameable{std::move(mapName)} {
 
 
 bool Map::applyJSON(QJsonObject const & json) {
+    
     auto appliedName = Nameable::applyJSON(json);
-    auto appliedLayerStack = getLayers().applyJSON(json);
-    auto appliedCoordinateSystem = coordinateSystem->applyJSON(json);
+    
+    auto appliedCoordinateSystem = false;
+    if (json.contains("coordinate_system") && json["coordinate_system"].isObject()) {
+        appliedCoordinateSystem = coordinateSystem->applyJSON(json["coordinate_system"].toObject());
+    }
+    
+    auto appliedLayerStack = false;
+    if (json.contains("layers") && json["layers"].isObject()) {
+        appliedLayerStack = getLayers().applyJSON(json["layers"].toObject());
+    }
+    
     return appliedName && appliedLayerStack && appliedCoordinateSystem;
 }
 
 
 QJsonObject Map::getJSON() const {
     auto json = Nameable::getJSON();
-    json["layers"] = getLayers().getJSON();
     json["coordinate_system"] = coordinateSystem->getJSON();
+    json["layers"] = getLayers().getJSON();
     return json;
 }
 

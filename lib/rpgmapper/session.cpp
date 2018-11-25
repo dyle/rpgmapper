@@ -216,10 +216,17 @@ bool Session::isModified() const {
 
 
 bool Session::load(SessionPointer & session, QFile & file, QStringList & log) {
+    
     log.clear();
     session = SessionPointer(new Session);
     auto atlas = session->getAtlas();
-    return readAtlas(atlas, file, log);
+    
+    bool loaded = readAtlas(atlas, file, log);
+    if (loaded) {
+        session->fileName = file.fileName();
+    }
+    
+    return loaded;
 }
 
 

@@ -43,19 +43,18 @@ bool Atlas::applyJSON(QJsonObject const & json) {
 }
 
 
-bool Atlas::applyJSONRegionsArray(UNUSED QJsonArray const & jsonRegions) {
+bool Atlas::applyJSONRegionsArray(QJsonArray const & jsonRegions) {
 
-/* TODO:
     for (auto && jsonRegion : jsonRegions) {
-        
         if (jsonRegion.toObject().contains("name") && jsonRegion.toObject()["name"].isString()) {
-            auto region = createRegion(jsonRegion.toObject()["name"].toString());
+            auto region = RegionPointer{new Region{jsonRegion.toObject()["name"].toString()}};
             if (!region->applyJSON(jsonRegion.toObject())) {
                 return false;
             }
+            addRegion(region);
         }
     }
-*/
+    
     return true;
 }
 
@@ -72,7 +71,6 @@ void Atlas::addRegion(RegionPointer region) {
     auto regionName = region->getName();
     this->regions[regionName] = region;
     connect(region.data(), &Nameable::nameChanged, this, &Atlas::regionNameChanged);
-    // TODO: add region connector: delete, name change
     emit regionAdded(regionName);
 }
 

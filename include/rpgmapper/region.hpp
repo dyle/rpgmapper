@@ -59,14 +59,14 @@ public:
      * @param   json    the JSON.
      * @return  true, if the found values in the JSON data has been applied.
      */
-    bool applyJSON(QJsonObject const & json);
+    bool applyJSON(QJsonObject const & json) override;
     
     /**
      * Create a JSON structure from ourselves.
      *
      * @return      a valid JSON  structure from ourselves.
      */
-    QJsonObject getJSON() const;
+    QJsonObject getJSON() const override;
     
     /**
      * Gets a known map.
@@ -130,9 +130,9 @@ private:
     /**
      * Adds the maps defined in the given JSON array.
      *
-     * @param   jsonArray       the array of maps
+     * @param   jsonMaps            the array of maps
      */
-    bool applyJSONMaps(QJsonArray const & jsonArray);
+    bool applyJSONMaps(QJsonArray const & jsonMaps);
     
 private slots:
     

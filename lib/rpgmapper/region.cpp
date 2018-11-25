@@ -50,17 +50,19 @@ bool Region::applyJSON(QJsonObject const & json) {
 }
 
 
-bool Region::applyJSONMaps(QJsonArray const & jsonArray) {
+bool Region::applyJSONMaps(QJsonArray const & jsonMaps) {
     
-    bool applied = true;
-    maps.clear();
-    for (auto && json : jsonArray) {
-        if (json.isString()) {
-            // TODO: maps.insert(json.toString());
+    for (auto && jsonMap : jsonMaps) {
+        if (jsonMap.toObject().contains("name") && jsonMap.toObject()["name"].isString()) {
+            auto map = MapPointer{new Map{jsonMap.toObject()["name"].toString()}};
+            if (!map->applyJSON(jsonMap.toObject())) {
+                return false;
+            }
+            addMap(map);
         }
     }
-    
-    return applied;
+
+    return true;
 }
 
 

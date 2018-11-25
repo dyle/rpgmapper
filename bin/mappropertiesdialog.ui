@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>635</width>
+    <width>500</width>
     <height>580</height>
    </rect>
   </property>
@@ -59,124 +59,97 @@
       </attribute>
       <layout class="QHBoxLayout" name="dimensionsLayout">
        <item>
-        <widget class="QGroupBox" name="sizeGroupBox">
-         <property name="title">
-          <string>Size</string>
-         </property>
-         <layout class="QGridLayout" name="sizeLayout" rowstretch="0,0,0" columnstretch="1">
+        <widget class="QWidget" name="resizeValuesWidget" native="true">
+         <layout class="QGridLayout" name="resizeValuesLayout" columnstretch="0,1,0">
           <property name="leftMargin">
-           <number>6</number>
+           <number>0</number>
           </property>
           <property name="topMargin">
-           <number>6</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>6</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>6</number>
+           <number>0</number>
           </property>
-          <item row="0" column="0" rowspan="2">
-           <widget class="QWidget" name="resizeValuesWidget" native="true">
-            <layout class="QGridLayout" name="resizeValuesLayout" columnstretch="0,1,0">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item row="1" column="0">
-              <widget class="QLabel" name="heightTitleLabel">
-               <property name="text">
-                <string>Height:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QSpinBox" name="heightSpinBox">
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="maximum">
-                <number>1000</number>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="2" rowspan="2">
-              <widget class="QToolButton" name="linkWidthHeightToolButton">
-               <property name="text">
-                <string>...</string>
-               </property>
-               <property name="icon">
-                <iconset resource="rpgmapper.qrc">
-                 <normaloff>:/icons/gfx/link.png</normaloff>:/icons/gfx/link.png</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>12</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="checkable">
-                <bool>true</bool>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-               <property name="autoRaise">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="widthTitleLabel">
-               <property name="text">
-                <string>Width:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QSpinBox" name="widthSpinBox">
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="maximum">
-                <number>1000</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
+          <item row="1" column="0">
+           <widget class="QLabel" name="heightTitleLabel">
+            <property name="text">
+             <string>Height:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="heightSpinBox">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>1000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="widthSpinBox">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>1000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" rowspan="2">
+           <widget class="QToolButton" name="linkWidthHeightToolButton">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="rpgmapper.qrc">
+              <normaloff>:/icons/gfx/link.png</normaloff>:/icons/gfx/link.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>12</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <property name="autoRaise">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="widthTitleLabel">
+            <property name="text">
+             <string>Width:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
            </widget>
           </item>
           <item row="2" column="0">
-           <spacer name="sizeSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+           <widget class="QLabel" name="originLabel">
+            <property name="text">
+             <string>Origin:</string>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
-           </spacer>
+           </widget>
           </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="coordinatesOriginGroupBox">
-         <property name="title">
-          <string>Origin</string>
-         </property>
-         <layout class="QVBoxLayout" name="coordinatesOriginLayout">
-          <item>
+          <item row="2" column="1">
            <widget class="rpgmapper::view::CoordinatesOriginWidget" name="coordinatesOriginWidget" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -198,8 +171,8 @@
             </property>
            </widget>
           </item>
-          <item>
-           <spacer name="coordinatesOriginSpacer">
+          <item row="3" column="0" colspan="3">
+           <spacer name="verticalSpacerDimension">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -619,8 +592,8 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>20</width>
-           <height>40</height>
+           <width>0</width>
+           <height>0</height>
           </size>
          </property>
         </spacer>
@@ -633,45 +606,98 @@
       </attribute>
       <layout class="QHBoxLayout" name="backgroundLayout">
        <item>
-        <widget class="QGroupBox" name="backgroundGroupBox">
-         <property name="minimumSize">
+        <widget class="QWidget" name="imageAndColorWidget" native="true">
+         <property name="maximumSize">
           <size>
-           <width>100</width>
-           <height>100</height>
+           <width>300</width>
+           <height>16777215</height>
           </size>
          </property>
-         <property name="title">
-          <string>Background</string>
-         </property>
-         <layout class="QHBoxLayout" name="imageAndColorLayout" stretch="0,1">
-          <item>
-           <widget class="QWidget" name="imageAndColorWidget" native="true">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
+         <layout class="QGridLayout" name="backgroundColorAndImageLayout" columnstretch="0,0">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <item row="3" column="0" colspan="2">
+           <widget class="QGroupBox" name="backgroundMarginsGroupBox">
+            <property name="title">
+             <string>Margins</string>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>300</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <layout class="QGridLayout" name="backgroundColorAndImageLayout" columnstretch="0,1">
-             <property name="leftMargin">
-              <number>6</number>
-             </property>
+            <layout class="QGridLayout" name="gridLayout" columnstretch="0,1">
+             <item row="2" column="1">
+              <widget class="QSpinBox" name="topMarginSpinBox">
+               <property name="maximum">
+                <number>1024</number>
+               </property>
+              </widget>
+             </item>
              <item row="0" column="0">
-              <widget class="QRadioButton" name="backgroundColorRadioButton">
+              <widget class="QLabel" name="leftMarginLabel">
                <property name="text">
-                <string>Co&amp;lor</string>
+                <string>Left:</string>
                </property>
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QWidget" name="backgroundColorWidget" native="true">
-               <layout class="QHBoxLayout" name="backgroundColorLayout">
+              <widget class="QSpinBox" name="leftMarginSpinBox">
+               <property name="maximum">
+                <number>1024</number>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QSpinBox" name="rightMarginSpinBox">
+               <property name="maximum">
+                <number>1024</number>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QSpinBox" name="bottomMarginSpinBox">
+               <property name="maximum">
+                <number>1024</number>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="rightMarginLabel">
+               <property name="text">
+                <string>Right:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="topMarginLabel">
+               <property name="text">
+                <string>Top:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="bottomMarginLabel">
+               <property name="text">
+                <string>Bottom:</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QRadioButton" name="backgroundImageRadioButton">
+            <property name="text">
+             <string>Ima&amp;ge</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <widget class="QWidget" name="backgroundImageWidget" native="true">
+            <layout class="QVBoxLayout" name="backgroundImageLayout">
+             <property name="leftMargin">
+              <number>24</number>
+             </property>
+             <item>
+              <widget class="QWidget" name="backgroundImageFileWidget" native="true">
+               <layout class="QHBoxLayout" name="backgroundImageFileLayout">
                 <property name="leftMargin">
                  <number>0</number>
                 </property>
@@ -685,26 +711,20 @@
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QFrame" name="backgroundColorFrame">
-                  <property name="minimumSize">
+                 <widget class="QComboBox" name="backgroundImageFileComboBox">
+                  <property name="maximumSize">
                    <size>
-                    <width>100</width>
-                    <height>0</height>
+                    <width>16777215</width>
+                    <height>16777215</height>
                    </size>
                   </property>
-                  <property name="autoFillBackground">
-                   <bool>true</bool>
-                  </property>
-                  <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                  <property name="insertPolicy">
+                   <enum>QComboBox::InsertAtTop</enum>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QToolButton" name="backgroundColorToolButton">
+                 <widget class="QToolButton" name="backgroundImageFileToolButton">
                   <property name="maximumSize">
                    <size>
                     <width>22</width>
@@ -719,189 +739,121 @@
                </layout>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QRadioButton" name="backgroundImageRadioButton">
+             <item>
+              <widget class="QRadioButton" name="backgroundImagePlainRadioButton">
                <property name="text">
-                <string>Ima&amp;ge</string>
+                <string>Plain</string>
                </property>
               </widget>
              </item>
-             <item row="4" column="0" colspan="2">
-              <spacer name="verticalSpacer">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
+             <item>
+              <widget class="QRadioButton" name="backgroundImageScaledRadioButton">
+               <property name="text">
+                <string>Scaled</string>
                </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="2" column="0" colspan="2">
-              <widget class="QWidget" name="backgroundImageWidget" native="true">
-               <layout class="QVBoxLayout" name="backgroundImageLayout">
-                <property name="leftMargin">
-                 <number>24</number>
-                </property>
-                <item>
-                 <widget class="QWidget" name="backgroundImageFileWidget" native="true">
-                  <layout class="QHBoxLayout" name="backgroundImageFileLayout">
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="QComboBox" name="backgroundImageFileComboBox">
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="insertPolicy">
-                      <enum>QComboBox::InsertAtTop</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QToolButton" name="backgroundImageFileToolButton">
-                     <property name="maximumSize">
-                      <size>
-                       <width>22</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>...</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="backgroundImagePlainRadioButton">
-                  <property name="text">
-                   <string>Plain</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="backgroundImageScaledRadioButton">
-                  <property name="text">
-                   <string>Scaled</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="backgroundImageTiledRadioButton">
-                  <property name="text">
-                   <string>&amp;Tiled</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
               </widget>
              </item>
-             <item row="3" column="0" colspan="2">
-              <widget class="QGroupBox" name="backgroundMarginsGroupBox">
-               <property name="title">
-                <string>Margins</string>
+             <item>
+              <widget class="QRadioButton" name="backgroundImageTiledRadioButton">
+               <property name="text">
+                <string>&amp;Tiled</string>
                </property>
-               <layout class="QGridLayout" name="gridLayout" columnstretch="0,1">
-                <item row="2" column="1">
-                 <widget class="QSpinBox" name="topMarginSpinBox">
-                  <property name="maximum">
-                   <number>1024</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="leftMarginLabel">
-                  <property name="text">
-                   <string>Left:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QSpinBox" name="leftMarginSpinBox">
-                  <property name="maximum">
-                   <number>1024</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QSpinBox" name="rightMarginSpinBox">
-                  <property name="maximum">
-                   <number>1024</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QSpinBox" name="bottomMarginSpinBox">
-                  <property name="maximum">
-                   <number>1024</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="rightMarginLabel">
-                  <property name="text">
-                   <string>Right:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="topMarginLabel">
-                  <property name="text">
-                   <string>Top:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="bottomMarginLabel">
-                  <property name="text">
-                   <string>Bottom:</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
               </widget>
              </item>
             </layout>
            </widget>
           </item>
-          <item>
-           <widget class="QScrollArea" name="backgroundImageScrollArea">
-            <property name="sizeAdjustPolicy">
-             <enum>QAbstractScrollArea::AdjustToContents</enum>
-            </property>
-            <property name="widgetResizable">
-             <bool>true</bool>
-            </property>
-            <widget class="QWidget" name="backgroundImageContentWidget">
-             <property name="geometry">
-              <rect>
-               <x>0</x>
-               <y>0</y>
-               <width>366</width>
-               <height>400</height>
-              </rect>
+          <item row="0" column="1">
+           <widget class="QWidget" name="backgroundColorWidget" native="true">
+            <layout class="QHBoxLayout" name="backgroundColorLayout">
+             <property name="leftMargin">
+              <number>0</number>
              </property>
-            </widget>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QFrame" name="backgroundColorFrame">
+               <property name="minimumSize">
+                <size>
+                 <width>100</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="autoFillBackground">
+                <bool>true</bool>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="backgroundColorToolButton">
+               <property name="maximumSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>...</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="backgroundColorRadioButton">
+            <property name="text">
+             <string>Co&amp;lor</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="2">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QScrollArea" name="backgroundImageScrollArea">
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustToContents</enum>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="backgroundImageContentWidget">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>247</width>
+            <height>441</height>
+           </rect>
+          </property>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -1003,7 +955,6 @@
   <tabstop>rightMarginSpinBox</tabstop>
   <tabstop>topMarginSpinBox</tabstop>
   <tabstop>bottomMarginSpinBox</tabstop>
-  <tabstop>backgroundImageScrollArea</tabstop>
   <tabstop>okButton</tabstop>
   <tabstop>cancelButton</tabstop>
  </tabstops>

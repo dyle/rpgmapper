@@ -204,8 +204,6 @@ SessionPointer Session::init() {
     auto map = MapPointer{new Map{mapName}};
     region->addMap(map);
 
-    // TODO: add connectors
-    
     return session;
 }
 
@@ -285,14 +283,13 @@ void Session::selectRegion(QString name) {
     }
     
     if (name != currentRegionName) {
-    
         currentRegionName = name;
         emit selectedRegion(currentRegionName);
-        
-        if (!currentMapName.isEmpty()) {
-            currentMapName = QString::null;
-            emit selectedMap(currentMapName);
-        }
+    }
+    
+    if (!currentMapName.isEmpty()) {
+        currentMapName = QString::null;
+        emit selectedMap(currentMapName);
     }
 }
 

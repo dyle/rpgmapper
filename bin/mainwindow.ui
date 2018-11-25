@@ -81,9 +81,10 @@
     <addaction name="actionCreateNew"/>
     <addaction name="actionOpenAtlasFile"/>
     <addaction name="openRecentMenu"/>
-    <addaction name="actionShowAtlasProperties"/>
     <addaction name="actionSaveAtlasFile"/>
     <addaction name="actionSaveAtlasFileAs"/>
+    <addaction name="separator"/>
+    <addaction name="actionShowAtlasProperties"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>

@@ -4,6 +4,9 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <QDir>
+#include <QStandardPaths>
+
 #include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/exception/invalid_mapname.hpp>
 #include <rpgmapper/exception/invalid_region.hpp>
@@ -28,12 +31,29 @@ using namespace rpgmapper::model;
 
 
 /**
+ * Load all found resources under a folder recursively into the database.
+ *
+ * @param   folder      the root folder of resources.
+ * @param   db          the database to fill.
+ */
+static void loadResources(QDir folder, ResourceDBPointer db);
+
+
+/**
  * The one and only current session.
  */
 static SessionPointer currentSession;
 
 
+ResourceDBPointer Session::systemResources;          /**< Static class instance. */
+ResourceDBPointer Session::userResources;            /**< Static class instance. */
+
+
 Session::Session() : QObject() {
+    
+    loadSystemResourceDB();
+    loadUserResourceDB();
+    
     atlas = AtlasPointer(new Atlas{QString{"New Atlas"}});
     commandProcessor = command::ProcessorPointer{new command::Processor{}};
 }
@@ -228,6 +248,34 @@ bool Session::load(SessionPointer & session, QFile & file, QStringList & log) {
 }
 
 
+void Session::loadSystemResourceDB() {
+    
+    static bool loaded = false;
+    if (loaded) {
+        return;
+    }
+    
+    auto locations = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
+    for (auto & location : locations) {
+        loadResources(location, systemResources);
+    }
+}
+
+
+void Session::loadUserResourceDB() {
+    
+    static bool loaded = false;
+    if (loaded) {
+        return;
+    }
+    
+    auto locations = QStandardPaths::standardLocations(QStandardPaths::DataLocation);
+    for (auto & location : locations) {
+        loadResources(location, userResources);
+    }
+}
+
+
 bool Session::save(QFile & file, QStringList & log) {
     
     log.clear();
@@ -299,4 +347,9 @@ void Session::setCurrentSession(SessionPointer session) {
         throw rpgmapper::model::exception::invalid_session();
     }
     currentSession = session;
+}
+
+
+void loadResources(UNUSED QDir folder, UNUSED ResourceDBPointer db) {
+    // TODO
 }

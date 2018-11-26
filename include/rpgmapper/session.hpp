@@ -17,7 +17,7 @@
 #include <rpgmapper/atlas_pointer.hpp>
 #include <rpgmapper/map_pointer.hpp>
 #include <rpgmapper/region_pointer.hpp>
-#include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/resource_db_pointer.hpp>
 #include <rpgmapper/session_pointer.hpp>
 
 
@@ -34,10 +34,10 @@ class Session : public QObject {
     
 public:
     
-    struct resources_t {
-        QSharedPointer<rpgmapper::model::ResourceDB> local;       /**< Atlas own resources. */
-        QSharedPointer<rpgmapper::model::ResourceDB> system;      /**< Resources loaded from system files. */
-        QSharedPointer<rpgmapper::model::ResourceDB> user;        /**< User specific Resources. */
+    struct ResourceCollection {
+        ResourceDBPointer local;        /**< Atlas own resources. */
+        ResourceDBPointer system;       /**< Resources loaded from system files. */
+        ResourceDBPointer user;         /**< User specific Resources. */
     };
     
 private:
@@ -47,17 +47,17 @@ private:
     QString currentMapName;            /**< Current selected map. */
     QString currentRegionName;         /**< Current selected region. */
     
-    resources_t resources;             /**< All resources. */
+    ResourceCollection resources;      /**< All resources. */
     
     /**
      * All loaded resources loaded from system files.
      */
-    static QSharedPointer<rpgmapper::model::ResourceDB> systemResources;
+    static ResourceDBPointer systemResources;
     
     /**
      * All loaded resources loaded from user files.
      */
-    static QSharedPointer<rpgmapper::model::ResourceDB> userResources;
+    static ResourceDBPointer userResources;
 
     /**
      * This instance operates changes on the atlas.
@@ -216,7 +216,7 @@ public:
      *
      * @return  all the resources known by the system.
      */
-    resources_t & getResources() {
+    ResourceCollection & getResources() {
         return resources;
     }
     
@@ -225,7 +225,7 @@ public:
      *
      * @return  all the resources known by the system.
      */
-    resources_t const & getResources() const {
+    ResourceCollection const & getResources() const {
         return resources;
     }
     
@@ -319,6 +319,16 @@ private:
      * Constructor
      */
     Session();
+    
+    /**
+     * Loads all system resources into the system resource DB.
+     */
+    static void loadSystemResourceDB();
+    
+    /**
+     * Loads all user defined resources into the user resource DB.
+     */
+    static void loadUserResourceDB();
 };
     
 

@@ -18,6 +18,7 @@ set(RPGMAPPER_LIB_MOC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/nameable.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/resource_loader.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/session.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
@@ -36,6 +37,7 @@ set(RPGMAPPER_LIB_SRC
     region_name_validator.cpp
     resource.cpp
     resource_db.cpp
+    resource_loader.cpp
     session.cpp
     zip.cpp
 

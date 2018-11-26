@@ -24,6 +24,8 @@ namespace command {
  * Pattern: Command (https://en.wikipedia.org/wiki/Command_pattern)
  *
  * This is an pure abstract class. Derived classes to implement concrete command actions.
+ *
+ * TODO: switch to QUndoCommand
  */
 class Command {
 

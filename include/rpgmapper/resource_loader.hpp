@@ -22,6 +22,8 @@ namespace model {
 class ResourceLoader : public QObject {
 
     Q_OBJECT
+    
+    bool success = false;           /**< Success of loading the resources flag. */
 
 public:
     
@@ -40,6 +42,15 @@ public:
      * @param   parent      Parent QObject
      */
     ResourceLoader(QObject * parent);
+    
+    /**
+     * Checks if the loading of the resources has been successful.
+     *
+     * @return  success of resource loading.
+     */
+    bool isSuccess() const {
+        return success;
+    }
 
     /**
      * Starts loading resources.

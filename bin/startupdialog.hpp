@@ -10,9 +10,11 @@
 #include <memory>
 
 #include <QDialog>
+#include <QStringList>
+
+#include <rpgmapper/resource_loader.hpp>
 
 #include "mainwindow.hpp"
-
 
 // fwd
 class Ui_startupDialog;
@@ -29,17 +31,26 @@ class StartupDialog : public QDialog {
 
     Q_OBJECT
     
-    std::shared_ptr<Ui_startupDialog> ui;         /**< The User Interface as created by the uic. */
-    MainWindow * mainWindow = nullptr;
+    std::shared_ptr<Ui_startupDialog> ui;        /**< The User Interface as created by the uic. */
+    MainWindow * mainWindow;                     /**< The mainwindow to show, when we are done. */
+    QStringList log;                             /**< The log of action doing startup. */
+    rpgmapper::model::ResourceLoader * loader;   /**< The resource loader used. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   parent      Parent QWidget instance.
+     * @param   mainWindow      the mainwindow to show once we've finished
      */
     explicit StartupDialog(MainWindow * mainWindow);
+    
+    /**
+     * Gets the log done, while starting up.
+     */
+    QStringList const & getLog() const {
+        return log;
+    }
     
 private slots:
     
@@ -54,10 +65,21 @@ private slots:
     void doneFailed();
     
     /**
+     * We are currently loading a specific resource.
+     *
+     * @param   loadingEvent        the loading event.
+     */
+    void loadingResource(rpgmapper::model::ResourceLoader::ResourceLoadingEvent const & loadingEvent);
+    
+    /**
      * Does the startup phase.
      */
     void startup();
     
+    /**
+     * Called when the resources have been loaded.
+     */
+    void resourceLoaded();
 };
 
 

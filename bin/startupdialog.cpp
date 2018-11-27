@@ -27,6 +27,10 @@ StartupDialog::StartupDialog(MainWindow * mainWindow)
     ui->labelWork->setText(tr("Loading RPGMapper resources..."));
     ui->loadingProgress->setValue(0);
     
+    loader = new ResourceLoader{this};
+    connect(loader, &ResourceLoader::loading, this, &StartupDialog::loadingResource);
+    connect(loader, &ResourceLoader::done, this, &StartupDialog::resourceLoaded);
+    
     QTimer::singleShot(0, this, &StartupDialog::startup);
 }
 
@@ -43,6 +47,23 @@ void StartupDialog::doneFailed() {
 }
 
 
+void StartupDialog::loadingResource(ResourceLoader::ResourceLoadingEvent const & loadingEvent) {
+    ui->labelWork->setText(tr("Loading: %1...").arg(loadingEvent.resourceFile));
+    int progressValue = loadingEvent.maxSteps != 0 ? (loadingEvent.step * 100) / loadingEvent.maxSteps : 0;
+    ui->loadingProgress->setValue(progressValue);
+}
+
+
+void StartupDialog::resourceLoaded() {
+    if (loader->isSuccess()) {
+        doneGood();
+    }
+    else {
+        doneFailed();
+    }
+}
+
+
 void StartupDialog::startup() {
-    QTimer::singleShot(2000, this, &StartupDialog::doneGood);
+    loader->load(log);
 }

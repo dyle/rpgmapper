@@ -53,9 +53,8 @@ int main(int argc, char ** argv) {
     }
     
     QApplication application{argc, argv};
-    QApplication::setOrganizationName("Oliver Maurhart <dyle71@gmail.com>");
-    QApplication::setOrganizationDomain("");
-    QApplication::setApplicationName("RPGMapper");
+    QApplication::setApplicationName("rpgmapper");
+    QApplication::setApplicationDisplayName("RPGMapper");
     QApplication::setApplicationVersion(VERSION);
 
     QPixmapCache::insert("atlas", QPixmap(":/icons/gfx/atlas.png"));

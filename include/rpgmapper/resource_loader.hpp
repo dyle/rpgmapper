@@ -23,6 +23,7 @@ class ResourceLoader : public QObject {
 
     Q_OBJECT
     
+    QStringList userFolders;        /**< List of paths where user resources are may located. */
     bool success = false;           /**< Success of loading the resources flag. */
 
 public:
@@ -41,7 +42,16 @@ public:
      *
      * @param   parent      Parent QObject
      */
-    ResourceLoader(QObject * parent);
+    explicit ResourceLoader(QObject * parent);
+    
+    /**
+     * Returns the list of user folders.
+     *
+     * @return  the list of user folders searched.
+     */
+    QStringList const & getUserFolders() const {
+        return userFolders;
+    }
     
     /**
      * Checks if the loading of the resources has been successful.
@@ -58,6 +68,15 @@ public:
      * @param   log         a list of log entries to be filled.
      */
     void load(QStringList & log);
+
+    /**
+     * Sets the list of user folders to search.
+     *
+     * @param   folders     the list where we expect user defined resources
+     */
+    void setUserFolders(QStringList const & folders) {
+        userFolders = folders;
+    }
     
 signals:
     

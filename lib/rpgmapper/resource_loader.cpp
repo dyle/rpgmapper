@@ -13,7 +13,6 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 #include <QStringList>
-#include <QTimer>
 
 #include <rpgmapper/resource_loader.hpp>
 

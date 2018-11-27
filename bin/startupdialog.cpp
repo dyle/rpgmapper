@@ -4,9 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#include <chrono>
-#include <thread>
-
 #include <QApplication>
 #include <QMessageBox>
 #include <QTimer>
@@ -67,12 +64,7 @@ void StartupDialog::loadingResource(ResourceLoader::ResourceLoadingEvent const &
 
 
 void StartupDialog::resourceLoaded() {
-    if (loader->isSuccess()) {
-        doneGood();
-    }
-    else {
-        doneFailed();
-    }
+    loader->isSuccess() ? doneGood() : doneFailed();
 }
 
 

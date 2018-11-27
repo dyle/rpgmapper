@@ -8,6 +8,9 @@
 
 #include <QApplication>
 #include <QDateTime>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
 #include <QStandardPaths>
 #include <QStringList>
 #include <QTimer>
@@ -27,6 +30,18 @@ static void appendLog(QStringList & log, QString entry);
 
 
 /**
+ * Adds found file to the list of files.
+ *
+ * If the given fileInfo points to a folder this we add
+ * the files found in the folder recursively.
+ *
+ * @param   files       the list of found files.
+ * @param   fileInfo    the current file.
+ */
+static void collectResources(QStringList & files, QFileInfo fileInfo);
+
+
+/**
  * Grabs a list of system resources to load.
  *
  * @return  the list of files to load from the system.
@@ -43,6 +58,12 @@ static QStringList collectSystemResources();
 static QStringList collectUserResources(QStringList const & userFolders);
 
 
+/**
+ * Subfolder, which should hold any resources.
+ */
+static QString const resourcesFolder = "resources";
+
+
 ResourceLoader::ResourceLoader(QObject * parent) : QObject{parent} {
 }
 
@@ -54,13 +75,14 @@ void ResourceLoader::load(QStringList & log) {
     ResourceLoadingEvent event = {"Collecting system resources...", 0, 0};
     emit loading(event);
     QApplication::processEvents();
-    
     auto systemResourcesFiles = collectSystemResources();
+    appendLog(log, QString{"Found %1 system resources."}.arg(systemResourcesFiles.size()));
     
-    event = {"Collecting system resources...", 0, 0};
+    event = {"Collecting user resources...", 0, 0};
     emit loading(event);
     QApplication::processEvents();
     auto userResourcesFiles = collectUserResources(userFolders);
+    appendLog(log, QString{"Found %1 user resources."}.arg(userResourcesFiles.size()));
     
     emit done();
 }
@@ -72,23 +94,35 @@ void appendLog(QStringList & log, QString entry) {
 }
 
 
+void collectResources(QStringList & files, QFileInfo fileInfo) {
+    
+    if (fileInfo.isDir()) {
+        auto directory = QDir{fileInfo.absoluteFilePath()};
+        for (auto fileInfoInDirectory : directory.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot)) {
+            collectResources(files, fileInfoInDirectory);
+        }
+    }
+    else if (fileInfo.isFile()) {
+        files.append(fileInfo.absoluteFilePath());
+    }
+}
+
+
 QStringList collectSystemResources() {
     
     QStringList files;
-    
-    for (auto const & path : QStandardPaths::standardLocations(QStandardPaths::AppDataLocation)) {
+    for (auto const & location : QStandardPaths::standardLocations(QStandardPaths::AppDataLocation)) {
+        collectResources(files, QFileInfo{location});
     }
-
     return files;
 }
 
 
 QStringList collectUserResources(QStringList const & userFolders) {
     
-    
     QStringList files;
-    
-    for (auto const & path : userFolders) {
+    for (auto const & location : userFolders) {
+        collectResources(files, QFileInfo{location});
     }
     return files;
 }

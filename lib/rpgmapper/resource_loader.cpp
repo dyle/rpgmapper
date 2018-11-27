@@ -62,7 +62,7 @@ void ResourceLoader::load(QStringList & log) {
     QApplication::processEvents();
     auto userResourcesFiles = collectUserResources(userFolders);
     
-    QTimer::singleShot(2000, this, &ResourceLoader::done);
+    emit done();
 }
 
 

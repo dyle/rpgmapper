@@ -21,6 +21,7 @@
     <file>gfx/shift-right.png</file>
   </qresource>
   <qresource prefix="images">
+    <file>gfx/startup-image.png</file>
     <file>gfx/red-arrow-down.png</file>
     <file>gfx/red-arrow-left.png</file>
     <file>gfx/red-arrow-right.png</file>

@@ -14,6 +14,7 @@
 #include <rpgmapper/session.hpp>
 
 #include "mainwindow.hpp"
+#include "startupdialog.hpp"
 
 using namespace rpgmapper::model;
 
@@ -64,8 +65,10 @@ int main(int argc, char ** argv) {
     Session::setCurrentSession(Session::init());
     
     rpgmapper::view::MainWindow mainWindow;
-    mainWindow.show();
-
+    rpgmapper::view::StartupDialog startupDialog{&mainWindow};
+    startupDialog.show();
+    
+    application.setQuitOnLastWindowClosed(true);
     return application.exec();
 }
 

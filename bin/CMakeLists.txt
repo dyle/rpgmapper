@@ -18,6 +18,7 @@ set(RPGMAPPER_UI
     logdialog.ui
     mainwindow.ui
     mappropertiesdialog.ui
+    startupdialog.ui
 )
 qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
 
@@ -33,6 +34,7 @@ set(RPGMAPPER_MOC
     mapscrollarea.hpp
     maptabwidget.hpp
     mapwidget.hpp
+    startupdialog.hpp
     structuraltreewidget.hpp
     visibility_action_filter.hpp
 )
@@ -51,6 +53,7 @@ set(RPGMAPPER_SRC
     mapscrollarea.cpp
     maptabwidget.cpp
     mapwidget.cpp
+    startupdialog.cpp
     structuraltreewidget.cpp
     visibility_action_filter.cpp
 )

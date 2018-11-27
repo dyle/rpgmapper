@@ -8,8 +8,10 @@
 #include <thread>
 
 #include <QApplication>
+#include <QMessageBox>
 #include <QTimer>
 
+#include "logdialog.hpp"
 #include "startupdialog.hpp"
 #include "ui_startupdialog.h"
 
@@ -42,6 +44,16 @@ void StartupDialog::doneGood() {
 
 
 void StartupDialog::doneFailed() {
+    
+    auto question = tr("RPGMapper could not start.\nDo you want to see the log?");
+    auto answer = QMessageBox::question(this, tr("Startup failure"), question);
+    if (answer == QMessageBox::Yes) {
+        LogDialog logDialog{this};
+        logDialog.setMessage(tr("Failed to start RPGMapper"));
+        logDialog.setLog(log);
+        logDialog.exec();
+    }
+    
     close();
     QApplication::exit(1);
 }

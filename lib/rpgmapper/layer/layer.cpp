@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/layer/layer.hpp>
 
 using namespace rpgmapper::model;
@@ -17,12 +16,7 @@ Layer::Layer(Map * map) : map{map} {
 bool Layer::applyJSON(QJsonObject const & json) {
 
     if (json.contains("visible") && json["visible"].isBool()) {
-        if (json["visible"].toBool()) {
-            show();
-        }
-        else {
-            hide();
-        }
+        json["visible"].toBool() ? show() : hide();
     }
     return true;
 }

@@ -31,8 +31,7 @@ class Map;
  * This class aggregates all known layers into a single object.
  *
  * With respect to the collectVisibleLayers method this class is
- * an interface for a stack of named layers. This serves as the base
- * class for the Map class later on.
+ * an interface for a stack of named layers.
  */
 class LayerStack {
     

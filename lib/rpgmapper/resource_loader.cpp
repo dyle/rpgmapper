@@ -61,6 +61,9 @@ static QStringList collectUserResources(QStringList const & userFolders, QString
 
 
 ResourceLoader::ResourceLoader(QObject * parent) : QObject{parent} {
+#ifdef SOURCE_PATH
+    userFolders.append(QString{SOURCE_PATH} + "/share/rpgmapper");
+#endif
 }
 
 
@@ -92,7 +95,7 @@ void appendLog(QStringList & log, QString const & entry) {
 
 void collectResources(QStringList & files, QFileInfo const & fileInfo, QStringList & log) {
     
-    appendLog(log, "Searching folder: " + fileInfo.absoluteFilePath());
+    appendLog(log, "Searching: " + fileInfo.absoluteFilePath());
     if (!fileInfo.exists()) {
         return;
     }

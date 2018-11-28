@@ -21,6 +21,7 @@ include(FindPkgConfig)
 set(VERSION "0.1")
 add_definitions(-DVERSION=\"${VERSION}\")
 add_definitions(-D_DEFAULT_SOURCE)
+add_definitions(-DSOURCE_PATH=\"${CMAKE_SOURCE_DIR}\")
 
 if (CMAKE_BUILD_TYPE STREQUAL "")
     set(CMAKE_BUILD_TYPE "Debug")

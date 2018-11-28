@@ -14,6 +14,7 @@
 #include <QStandardPaths>
 #include <QStringList>
 
+#include <rpgmapper/resource_db.hpp>
 #include <rpgmapper/resource_loader.hpp>
 
 using namespace rpgmapper::model;
@@ -34,30 +35,36 @@ static void appendLog(QStringList & log, QString const & entry);
  * If the given fileInfo points to a folder this we add
  * the files found in the folder recursively.
  *
- * @param   files       the list of found files.
- * @param   fileInfo    the current file.
- * @param   log         the log for capturing progress messages
+ * @param   fileCollection               the list of found files.
+ * @param   resourceFolder      parent resource folder.
+ * @param   fileInfo            the current file.
+ * @param   log                 the log for capturing progress messages
  */
-static void collectResources(QStringList & files, QFileInfo const & fileInfo, QStringList & log);
+static void collectResources(ResourceLoader::FileCollection & fileCollection,
+        QString const & resourceFolder,
+        QFileInfo const & fileInfo,
+        QStringList & log);
 
 
 /**
  * Grabs a list of system resources to load.
  *
+ * @param   fileCollection       the files found
  * @param   log         the log for capturing progress messages
- * @return  the list of files to load from the system.
  */
-static QStringList collectSystemResources(QStringList & log);
+static void collectSystemResources(ResourceLoader::FileCollection & fileCollection, QStringList & log);
 
 
 /**
  * Grabs a list of user resources to load.
  *
+ * @param   files           the files found
  * @param   userFolders     the list of user defined folders to search.
- * @param   log         the log for capturing progress messages
- * @return  the list of files to load from the user.
+ * @param   log             the log for capturing progress messages
  */
-static QStringList collectUserResources(QStringList const & userFolders, QStringList & log);
+static void collectUserResources(ResourceLoader::FileCollection & files,
+        QStringList const & userFolders,
+        QStringList & log);
 
 
 ResourceLoader::ResourceLoader(QObject * parent) : QObject{parent} {
@@ -69,21 +76,59 @@ ResourceLoader::ResourceLoader(QObject * parent) : QObject{parent} {
 
 void ResourceLoader::load(QStringList & log) {
     
-    appendLog(log, "Loading Resources...");
+    appendLog(log, "Collecting Resources...");
     
-    ResourceLoadingEvent event = {"Collecting system resources...", 0, 0};
+    LoadingEvent event = {"Collecting system resources...", 0, 0};
     emit loading(event);
     QApplication::processEvents();
-    auto systemResourcesFiles = collectSystemResources(log);
+    FileCollection systemResourcesFiles;
+    collectSystemResources(systemResourcesFiles, log);
     appendLog(log, QString{"Found %1 system resources."}.arg(systemResourcesFiles.size()));
     
     event = {"Collecting user resources...", 0, 0};
     emit loading(event);
     QApplication::processEvents();
-    auto userResourcesFiles = collectUserResources(userFolders, log);
+    FileCollection userResourcesFiles;
+    collectUserResources(userResourcesFiles, userFolders, log);
     appendLog(log, QString{"Found %1 user resources."}.arg(userResourcesFiles.size()));
     
+    appendLog(log, "Loading Resources...");
+    loadResources(systemResourcesFiles, log);
+    loadResources(userResourcesFiles, log);
+    
     emit done();
+}
+
+
+void ResourceLoader::loadResources(FileCollection const & fileCollection, QStringList & log) {
+    
+    int fileNumber = 1;
+    for (auto const & fileTuple : fileCollection) {
+        
+        auto fileName = std::get<1>(fileTuple);
+    
+        appendLog(log, QString{"Loading: %1..."}.arg(fileName));
+        LoadingEvent event = {fileName, fileNumber, static_cast<int>(fileCollection.size())};
+        emit loading(event);
+        QApplication::processEvents();
+        
+        QFile file{fileName};
+        if (!file.open(QIODevice::ReadOnly)) {
+            appendLog(log, QString{"Failed to open: %1"}.arg(fileName));
+        }
+        else {
+    
+            auto const & folder = std::get<0>(fileTuple);
+            auto resourceName = fileName.right(fileName.size() - folder.size());
+            auto byteArray = file.readAll();
+            
+            // TODO: insert bytearray and resourceName into a resourceDB.
+            
+            file.close();
+        }
+        
+        fileNumber++;
+    }
 }
 
 
@@ -93,7 +138,10 @@ void appendLog(QStringList & log, QString const & entry) {
 }
 
 
-void collectResources(QStringList & files, QFileInfo const & fileInfo, QStringList & log) {
+void collectResources(ResourceLoader::FileCollection & fileCollection,
+        QString const & resourceFolder,
+        QFileInfo const & fileInfo,
+        QStringList & log) {
     
     appendLog(log, "Searching: " + fileInfo.absoluteFilePath());
     if (!fileInfo.exists()) {
@@ -103,38 +151,39 @@ void collectResources(QStringList & files, QFileInfo const & fileInfo, QStringLi
     if (fileInfo.isDir()) {
         auto directory = QDir{fileInfo.absoluteFilePath()};
         for (auto const & fileInfoInDirectory : directory.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot)) {
-            collectResources(files, fileInfoInDirectory, log);
+            collectResources(fileCollection, resourceFolder, fileInfoInDirectory, log);
         }
     }
     else if (fileInfo.isFile()) {
-        files.append(fileInfo.absoluteFilePath());
+        fileCollection.push_back({resourceFolder, fileInfo.absoluteFilePath()});
     }
 }
 
 
-QStringList collectSystemResources(QStringList & log) {
+void collectSystemResources(ResourceLoader::FileCollection & fileCollection, QStringList & log) {
     
-    QStringList files;
     QStringList const resourceLocations = {"res", "resource", "resources"};
     
     for (auto const & location : QStandardPaths::standardLocations(QStandardPaths::AppDataLocation)) {
         for (auto const & resourceLocation : resourceLocations) {
-            collectResources(files, QFileInfo{location + "/" + resourceLocation}, log);
+            auto folder = location + "/" + resourceLocation;
+            collectResources(fileCollection, folder, QFileInfo{location + "/" + resourceLocation}, log);
         }
     }
-    return files;
 }
 
 
-QStringList collectUserResources(QStringList const & userFolders, QStringList & log) {
+void collectUserResources(ResourceLoader::FileCollection & fileCollection,
+        QStringList const & userFolders,
+        QStringList & log) {
     
-    QStringList files;
     QStringList const resourceLocations = {"res", "resource", "resources"};
     
     for (auto const & location : userFolders) {
         for (auto const & resourceLocation : resourceLocations) {
-            collectResources(files, QFileInfo{location + "/" + resourceLocation}, log);
+            auto folder = location + "/" + resourceLocation;
+            auto fo = qPrintable(folder);
+            collectResources(fileCollection, folder, QFileInfo{folder}, log);
         }
     }
-    return files;
 }

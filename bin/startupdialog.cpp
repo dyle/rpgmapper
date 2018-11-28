@@ -56,7 +56,7 @@ void StartupDialog::doneFailed() {
 }
 
 
-void StartupDialog::loadingResource(ResourceLoader::ResourceLoadingEvent const & loadingEvent) {
+void StartupDialog::loadingResource(ResourceLoader::LoadingEvent const & loadingEvent) {
     ui->labelWork->setText(tr("Loading: %1...").arg(loadingEvent.resourceFile));
     int progressValue = loadingEvent.maxSteps != 0 ? (loadingEvent.step * 100) / loadingEvent.maxSteps : 0;
     ui->loadingProgress->setValue(progressValue);

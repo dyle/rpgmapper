@@ -69,7 +69,7 @@ private slots:
      *
      * @param   loadingEvent        the loading event.
      */
-    void loadingResource(rpgmapper::model::ResourceLoader::ResourceLoadingEvent const & loadingEvent);
+    void loadingResource(rpgmapper::model::ResourceLoader::LoadingEvent const & loadingEvent);
     
     /**
      * Does the startup phase.

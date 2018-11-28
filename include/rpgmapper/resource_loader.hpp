@@ -7,6 +7,9 @@
 #ifndef RPGMAPPER_MODEL_RESOURCE_LOADER_HPP
 #define RPGMAPPER_MODEL_RESOURCE_LOADER_HPP
 
+#include <list>
+#include <tuple>
+
 #include <QObject>
 #include <QString>
 #include <QStringList>
@@ -29,9 +32,14 @@ class ResourceLoader : public QObject {
 public:
     
     /**
+     * A ResourceFileCollection holds (resourcefolder, resourcefile) tuples.
+     */
+    using FileCollection = std::list<std::tuple<QString, QString>>;
+    
+    /**
      * This structure defines the current loading step.
      */
-    struct ResourceLoadingEvent {
+    struct LoadingEvent {
         QString resourceFile;           /**< The current file which we are about to load. */
         int step = 0;                   /**< Current resource file step. */
         int maxSteps = 0;               /**< Maximum steps expected. */
@@ -78,6 +86,16 @@ public:
         userFolders = folders;
     }
     
+private:
+    
+    /**
+     * Loads the resources.
+     *
+     * @param   fileCollection        the list of found files to load.
+     * @param   log             the log of actions.
+     */
+    void loadResources(FileCollection const & fileCollection, QStringList & log);
+    
 signals:
     
     /**
@@ -90,7 +108,7 @@ signals:
      *
      * @param   loadingEvent        the loading we are attempting.
      */
-    void loading(ResourceLoadingEvent const & loadingEvent);
+    void loading(LoadingEvent const & loadingEvent);
 };
 
 

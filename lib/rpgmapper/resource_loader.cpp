@@ -16,6 +16,7 @@
 
 #include <rpgmapper/resource_db.hpp>
 #include <rpgmapper/resource_loader.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 
@@ -93,14 +94,14 @@ void ResourceLoader::load(QStringList & log) {
     appendLog(log, QString{"Found %1 user resources."}.arg(userResourcesFiles.size()));
     
     appendLog(log, "Loading Resources...");
-    loadResources(systemResourcesFiles, log);
-    loadResources(userResourcesFiles, log);
+    loadResources(systemResourcesFiles, Session::getSystemResourceDB(), log);
+    loadResources(userResourcesFiles, Session::getUserResourceDB(), log);
     
     emit done();
 }
 
 
-void ResourceLoader::loadResources(FileCollection const & fileCollection, QStringList & log) {
+void ResourceLoader::loadResources(FileCollection const & fileCollection, ResourceDBPointer db, QStringList & log) {
     
     int fileNumber = 1;
     for (auto const & fileTuple : fileCollection) {
@@ -121,10 +122,8 @@ void ResourceLoader::loadResources(FileCollection const & fileCollection, QStrin
             auto const & folder = std::get<0>(fileTuple);
             auto resourceName = fileName.right(fileName.size() - folder.size());
             auto byteArray = file.readAll();
-            
-            // TODO: insert bytearray and resourceName into a resourceDB.
-            
             file.close();
+            db->addResource(resourceName, byteArray);
         }
         
         fileNumber++;
@@ -182,7 +181,6 @@ void collectUserResources(ResourceLoader::FileCollection & fileCollection,
     for (auto const & location : userFolders) {
         for (auto const & resourceLocation : resourceLocations) {
             auto folder = location + "/" + resourceLocation;
-            auto fo = qPrintable(folder);
             collectResources(fileCollection, folder, QFileInfo{folder}, log);
         }
     }

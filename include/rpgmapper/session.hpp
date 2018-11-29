@@ -32,14 +32,6 @@ class Session : public QObject {
 
     Q_OBJECT
     
-public:
-    
-    struct ResourceCollection {
-        ResourceDBPointer local;        /**< Atlas own resources. */
-        ResourceDBPointer system;       /**< Resources loaded from system files. */
-        ResourceDBPointer user;         /**< User specific Resources. */
-    };
-    
 private:
     
     AtlasPointer atlas;                /**< The atlas of the session. */
@@ -47,7 +39,10 @@ private:
     QString currentMapName;            /**< Current selected map. */
     QString currentRegionName;         /**< Current selected region. */
     
-    ResourceCollection resources;      /**< All resources. */
+    /**
+     * All local, atlas resources loaded from a particular atlas.
+     */
+    ResourceDBPointer localResources;
     
     /**
      * All loaded resources loaded from system files.
@@ -204,30 +199,44 @@ public:
     }
     
     /**
+     * Gets the local, atlas resource (loaded from an atlas file)
+     *
+     * @return  the resources found in the atlas file.
+     */
+    ResourceDBPointer getLocalResourceDB() {
+        return localResources;
+    }
+    
+    /**
+     * Gets the local, atlas resource (loaded from an atlas file) (const version)
+     *
+     * @return  the resources found in the atlas file.
+     */
+    ResourceDBPointer const getLocalResourceDB() const {
+        return localResources;
+    }
+    
+    /**
      * Gets the region name of a given map.
      *
      * @param   mapName     the name of the map.
      * @return  the name of the region the map belongs to (or QString::null).
      */
     QString getRegionOfMap(QString mapName) const;
-
-    /**
-     * Gets the resources known by the session.
-     *
-     * @return  all the resources known by the system.
-     */
-    ResourceCollection & getResources() {
-        return resources;
-    }
     
     /**
-     * Gets the resources known by the session (const version).
+     * Gets the system resources.
      *
-     * @return  all the resources known by the system.
+     * @return  the resources found in the installation.
      */
-    ResourceCollection const & getResources() const {
-        return resources;
-    }
+    static ResourceDBPointer getSystemResourceDB();
+    
+    /**
+     * Gets the user defined resources.
+     *
+     * @return  the resources found in the user folder.
+     */
+    static ResourceDBPointer getUserResourceDB();
     
     /**
      * Returns true, of the atlas has changed since last save.
@@ -319,16 +328,6 @@ private:
      * Constructor
      */
     Session();
-    
-    /**
-     * Loads all system resources into the system resource DB.
-     */
-    static void loadSystemResourceDB();
-    
-    /**
-     * Loads all user defined resources into the user resource DB.
-     */
-    static void loadUserResourceDB();
 };
     
 

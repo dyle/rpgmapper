@@ -14,6 +14,8 @@
 #include <QString>
 #include <QStringList>
 
+#include <rpgmapper/resource_db_pointer.hpp>
+
 
 namespace rpgmapper {
 namespace model {
@@ -91,10 +93,11 @@ private:
     /**
      * Loads the resources.
      *
-     * @param   fileCollection        the list of found files to load.
-     * @param   log             the log of actions.
+     * @param   fileCollection      the list of found files to load.
+     * @param   db                  the database to fill
+     * @param   log                 the log of actions.
      */
-    void loadResources(FileCollection const & fileCollection, QStringList & log);
+    void loadResources(FileCollection const & fileCollection, ResourceDBPointer db, QStringList & log);
     
 signals:
     

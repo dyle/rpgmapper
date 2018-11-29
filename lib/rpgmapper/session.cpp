@@ -50,10 +50,7 @@ ResourceDBPointer Session::userResources;            /**< Static class instance.
 
 
 Session::Session() : QObject() {
-    
-    loadSystemResourceDB();
-    loadUserResourceDB();
-    
+    localResources = ResourceDBPointer{new ResourceDB};
     atlas = AtlasPointer(new Atlas{QString{"New Atlas"}});
     commandProcessor = command::ProcessorPointer{new command::Processor{}};
 }
@@ -208,6 +205,22 @@ QString Session::getRegionOfMap(QString mapName) const {
 }
 
 
+ResourceDBPointer Session::getSystemResourceDB() {
+    if (!systemResources) {
+        systemResources = ResourceDBPointer{new ResourceDB};
+    }
+    return systemResources;
+}
+
+
+ResourceDBPointer Session::getUserResourceDB() {
+    if (!userResources) {
+        userResources = ResourceDBPointer{new ResourceDB};
+    }
+    return userResources;
+}
+
+
 SessionPointer Session::init() {
     
     auto session = SessionPointer(new Session);
@@ -245,34 +258,6 @@ bool Session::load(SessionPointer & session, QFile & file, QStringList & log) {
     }
     
     return loaded;
-}
-
-
-void Session::loadSystemResourceDB() {
-    
-    static bool loaded = false;
-    if (loaded) {
-        return;
-    }
-    
-    auto locations = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
-    for (auto & location : locations) {
-        loadResources(location, systemResources);
-    }
-}
-
-
-void Session::loadUserResourceDB() {
-    
-    static bool loaded = false;
-    if (loaded) {
-        return;
-    }
-    
-    auto locations = QStandardPaths::standardLocations(QStandardPaths::DataLocation);
-    for (auto & location : locations) {
-        loadResources(location, userResources);
-    }
 }
 
 

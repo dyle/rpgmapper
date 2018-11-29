@@ -97,6 +97,7 @@ void ResourceLoader::load(QStringList & log) {
     loadResources(systemResourcesFiles, Session::getSystemResourceDB(), log);
     loadResources(userResourcesFiles, Session::getUserResourceDB(), log);
     
+    success = true;
     emit done();
 }
 
@@ -106,7 +107,7 @@ void ResourceLoader::loadResources(FileCollection const & fileCollection, Resour
     int fileNumber = 1;
     for (auto const & fileTuple : fileCollection) {
         
-        auto fileName = std::get<1>(fileTuple);
+        auto const & fileName = std::get<1>(fileTuple);
     
         appendLog(log, QString{"Loading: %1..."}.arg(fileName));
         LoadingEvent event = {fileName, fileNumber, static_cast<int>(fileCollection.size())};

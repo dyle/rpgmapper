@@ -31,12 +31,46 @@ using namespace rpgmapper::model;
 
 
 /**
- * Load all found resources under a folder recursively into the database.
+ * Collect all resources from a DB with a given prefix.
  *
- * @param   folder      the root folder of resources.
- * @param   db          the database to fill.
+ * @param   collection      the collection of found resources.
+ * @param   db              the database to search.
+ * @pram    prefix          the prefix to match.
  */
-static void loadResources(QDir folder, ResourceDBPointer db);
+static void collectResourcesWithPrefix(std::map<QString, ResourcePointer> & collection,
+        ResourceDBPointer & db,
+        QString const & prefix);
+
+
+/**
+ * Collect all resources from a DB with a given prefix.
+ *
+ * @param   collection      the collection of found resources.
+ * @param   db              the database to search.
+ * @pram    prefix          the prefix to match.
+ */
+static void collectResourcesWithPrefix(std::map<QString, ResourcePointer const> & collection,
+                                       ResourceDBPointer const & db,
+                                       QString const & prefix);
+
+/**
+ * Search for a resource with a given name.
+ *
+ * @param   db          the DB to search.
+ * @param   name        the name of the resource to search.
+ * @return  a found resource (maybe holding nullptr if not found).
+ */
+static ResourcePointer findResource(ResourceDBPointer & db, QString const & name);
+
+
+/**
+ * Search for a resource with a given name.
+ *
+ * @param   db          the DB to search.
+ * @param   name        the name of the resource to search.
+ * @return  a found resource (maybe holding nullptr if not found).
+ */
+static ResourcePointer const findResource(ResourceDBPointer const & db, QString const & name);
 
 
 /**
@@ -205,6 +239,44 @@ QString Session::getRegionOfMap(QString mapName) const {
 }
 
 
+ResourcePointer Session::getResource(QString name) {
+    
+    ResourcePointer resource = findResource(getLocalResourceDB(), name);
+    
+    if (!resource) {
+        resource = findResource(getUserResourceDB(), name);
+    }
+    if (!resource) {
+        resource = findResource(getSystemResourceDB(), name);
+    }
+    return resource;
+}
+
+
+ResourcePointer const Session::getResource(QString name) const {
+    
+    ResourcePointer resource = findResource(getLocalResourceDB(), name);
+    
+    if (!resource) {
+        resource = findResource(getUserResourceDB(), name);
+    }
+    if (!resource) {
+        resource = findResource(getSystemResourceDB(), name);
+    }
+    return resource;
+}
+
+
+std::list<ResourcePointer> Session::getResources(QString prefix) {
+    // TODO: call collectResourcesWithPrefix
+}
+
+
+std::list<ResourcePointer const> Session::getResources(QString prefix) const {
+    // TODO: call collectResourcesWithPrefix
+}
+
+
 ResourceDBPointer Session::getSystemResourceDB() {
     if (!systemResources) {
         systemResources = ResourceDBPointer{new ResourceDB};
@@ -335,6 +407,40 @@ void Session::setCurrentSession(SessionPointer session) {
 }
 
 
-void loadResources(UNUSED QDir folder, UNUSED ResourceDBPointer db) {
+void collectResourcesWithPrefix(std::map<QString, ResourcePointer> & collection,
+        ResourceDBPointer & db,
+        QString const & prefix) {
     // TODO
 }
+
+
+void collectResourcesWithPrefix(std::map<QString, ResourcePointer const> & collection,
+        ResourceDBPointer const & db,
+        QString const & prefix) {
+    // TODO
+}
+
+
+ResourcePointer findResource(ResourceDBPointer & db, QString const & name) {
+    
+    ResourcePointer resource;
+    auto & resources = db->getResources();
+    auto iter = resources.find(name);
+    if (iter != resources.end()) {
+        resource = (*iter).second;
+    }
+    return resource;
+}
+
+
+ResourcePointer const findResource(ResourceDBPointer const & db, QString const & name) {
+    
+    ResourcePointer resource;
+    auto & resources = db->getResources();
+    auto iter = resources.find(name);
+    if (iter != resources.end()) {
+        resource = (*iter).second;
+    }
+    return resource;
+}
+

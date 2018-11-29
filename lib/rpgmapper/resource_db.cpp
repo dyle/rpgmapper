@@ -21,23 +21,5 @@ void ResourceDB::addResource(QSharedPointer<Resource> resource) {
     if (resource->getData().isEmpty()) {
         throw std::runtime_error("Refused to add empty resource to resource DB.");
     }
-    resources[resource->getHash()] = resource;
-}
-
-
-QByteArray const & ResourceDB::getData(QString hash) const {
-    return getResource(std::move(hash))->getData();
-}
-
-
-QSharedPointer<Resource> const & ResourceDB::getResource(QString hash) const {
-    
-    static QSharedPointer<Resource> emptyResource{new Resource{QString::null, QByteArray{}}};
-    
-    auto pair = resources.find(hash);
-    if (pair == resources.end()) {
-        return emptyResource;
-    }
-    
-    return (*pair).second;
+    resources[resource->getName()] = resource;
 }

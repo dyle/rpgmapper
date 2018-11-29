@@ -59,22 +59,6 @@ public:
     void addResource(QSharedPointer<Resource> resource);
 
     /**
-     * Gets a BLOB based on a hash value.
-     *
-     * @param   hash        the hash value.
-     * @return  The BLOB as registered with this hash value.
-     */
-    QByteArray const & getData(QString hash) const;
-
-    /**
-     * Gets a BLOB based on a hash value (const version).
-     *
-     * @param   hash        the hash value.
-     * @return  The BLOB as registered with this hash value.
-     */
-    ResourcePointer const & getResource(QString hash) const;
-    
-    /**
      * Gets all known resources.
      *
      * @return  all resources we know in this database.

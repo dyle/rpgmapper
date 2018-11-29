@@ -18,6 +18,7 @@
 #include <rpgmapper/map_pointer.hpp>
 #include <rpgmapper/region_pointer.hpp>
 #include <rpgmapper/resource_db_pointer.hpp>
+#include <rpgmapper/resource_pointer.hpp>
 #include <rpgmapper/session_pointer.hpp>
 
 
@@ -223,6 +224,58 @@ public:
      * @return  the name of the region the map belongs to (or QString::null).
      */
     QString getRegionOfMap(QString mapName) const;
+    
+    /**
+     * Gets a specific resource with a certain name.
+     *
+     * This is the search order for the given named resource:
+     *  1. local, atlas files.
+     *  2. user files.
+     *  3. system files.
+     *
+     * @param   name        the name of the resource
+     * @return  a resource (maybe invalid if not found)
+     */
+    ResourcePointer getResource(QString name);
+    
+    /**
+     * Gets a specific resource with a certain name (const version).
+     *
+     * This is the search order for the given named resource:
+     *  1. local, atlas files.
+     *  2. user files.
+     *  3. system files.
+     *
+     * @param   name        the name of the resource
+     * @return  a resource (maybe invalid if not found)
+     */
+    ResourcePointer const getResource(QString name) const;
+    
+    /**
+     * Collects all resources having a certain name prefix.
+     *
+     * This is the search order for resources:
+     *  1. local, atlas files.
+     *  2. user files.
+     *  3. system files.
+     *
+     * @param   prefix      the prefix of the name (e.g. '/backgrounds')
+     * @return  a list of resources found.
+     */
+    std::list<ResourcePointer> getResources(QString prefix);
+    
+    /**
+     * Collects all resources having a certain name prefix.
+     *
+     * This is the search order for resources:
+     *  1. local, atlas files.
+     *  2. user files.
+     *  3. system files.
+     *
+     * @param   prefix      the prefix of the name (e.g. '/backgrounds')
+     * @return  a list of resources found.
+     */
+    std::list<ResourcePointer const> getResources(QString prefix) const;
     
     /**
      * Gets the system resources.

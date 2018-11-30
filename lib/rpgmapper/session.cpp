@@ -16,6 +16,7 @@
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/region.hpp>
+#include <rpgmapper/resource_collection.hpp>
 #include <rpgmapper/session.hpp>
 
 #include "zip.hpp"
@@ -38,7 +39,7 @@ using namespace rpgmapper::model;
  * @pram    prefix          the prefix to match.
  */
 static void collectResourcesWithPrefix(std::map<QString, ResourcePointer> & collection,
-        ResourceDBPointer & db,
+        ResourceCollectionPointer & db,
         QString const & prefix);
 
 
@@ -50,8 +51,8 @@ static void collectResourcesWithPrefix(std::map<QString, ResourcePointer> & coll
  * @pram    prefix          the prefix to match.
  */
 static void collectResourcesWithPrefix(std::map<QString, ResourcePointer const> & collection,
-                                       ResourceDBPointer const & db,
-                                       QString const & prefix);
+        ResourceCollectionPointer const & db,
+        QString const & prefix);
 
 /**
  * Search for a resource with a given name.
@@ -60,7 +61,7 @@ static void collectResourcesWithPrefix(std::map<QString, ResourcePointer const> 
  * @param   name        the name of the resource to search.
  * @return  a found resource (maybe holding nullptr if not found).
  */
-static ResourcePointer findResource(ResourceDBPointer & db, QString const & name);
+static ResourcePointer findResource(ResourceCollectionPointer & db, QString const & name);
 
 
 /**
@@ -70,7 +71,7 @@ static ResourcePointer findResource(ResourceDBPointer & db, QString const & name
  * @param   name        the name of the resource to search.
  * @return  a found resource (maybe holding nullptr if not found).
  */
-static ResourcePointer const findResource(ResourceDBPointer const & db, QString const & name);
+static ResourcePointer const findResource(ResourceCollectionPointer const & db, QString const & name);
 
 
 /**
@@ -79,12 +80,12 @@ static ResourcePointer const findResource(ResourceDBPointer const & db, QString 
 static SessionPointer currentSession;
 
 
-ResourceDBPointer Session::systemResources;          /**< Static class instance. */
-ResourceDBPointer Session::userResources;            /**< Static class instance. */
+ResourceCollectionPointer Session::systemResources;          /**< Static class instance. */
+ResourceCollectionPointer Session::userResources;            /**< Static class instance. */
 
 
 Session::Session() : QObject() {
-    localResources = ResourceDBPointer{new ResourceDB};
+    localResources = ResourceCollectionPointer{new ResourceCollection};
     atlas = AtlasPointer(new Atlas{QString{"New Atlas"}});
     commandProcessor = command::ProcessorPointer{new command::Processor{}};
 }
@@ -267,27 +268,23 @@ ResourcePointer const Session::getResource(QString name) const {
 }
 
 
-std::list<ResourcePointer> Session::getResources(QString prefix) {
+std::list<QString> Session::getResources(QString prefix) const {
     // TODO: call collectResourcesWithPrefix
+    return std::list<QString>{};
 }
 
 
-std::list<ResourcePointer const> Session::getResources(QString prefix) const {
-    // TODO: call collectResourcesWithPrefix
-}
-
-
-ResourceDBPointer Session::getSystemResourceDB() {
+ResourceCollectionPointer Session::getSystemResourceDB() {
     if (!systemResources) {
-        systemResources = ResourceDBPointer{new ResourceDB};
+        systemResources = ResourceCollectionPointer{new ResourceCollection};
     }
     return systemResources;
 }
 
 
-ResourceDBPointer Session::getUserResourceDB() {
+ResourceCollectionPointer Session::getUserResourceDB() {
     if (!userResources) {
-        userResources = ResourceDBPointer{new ResourceDB};
+        userResources = ResourceCollectionPointer{new ResourceCollection};
     }
     return userResources;
 }
@@ -408,20 +405,20 @@ void Session::setCurrentSession(SessionPointer session) {
 
 
 void collectResourcesWithPrefix(std::map<QString, ResourcePointer> & collection,
-        ResourceDBPointer & db,
+        ResourceCollectionPointer & db,
         QString const & prefix) {
     // TODO
 }
 
 
 void collectResourcesWithPrefix(std::map<QString, ResourcePointer const> & collection,
-        ResourceDBPointer const & db,
+        ResourceCollectionPointer const & db,
         QString const & prefix) {
     // TODO
 }
 
 
-ResourcePointer findResource(ResourceDBPointer & db, QString const & name) {
+ResourcePointer findResource(ResourceCollectionPointer & db, QString const & name) {
     
     ResourcePointer resource;
     auto & resources = db->getResources();
@@ -433,7 +430,7 @@ ResourcePointer findResource(ResourceDBPointer & db, QString const & name) {
 }
 
 
-ResourcePointer const findResource(ResourceDBPointer const & db, QString const & name) {
+ResourcePointer const findResource(ResourceCollectionPointer const & db, QString const & name) {
     
     ResourcePointer resource;
     auto & resources = db->getResources();
@@ -443,4 +440,3 @@ ResourcePointer const findResource(ResourceDBPointer const & db, QString const &
     }
     return resource;
 }
-

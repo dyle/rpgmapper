@@ -7,17 +7,17 @@
 #include <utility>
 
 #include <rpgmapper/resource.hpp>
-#include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/resource_collection.hpp>
 
 using namespace rpgmapper::model;
 
 
-void ResourceDB::addResource(QString name, QByteArray const & data) {
+void ResourceCollection::addResource(QString name, QByteArray const & data) {
     addResource(QSharedPointer<Resource>{new rpgmapper::model::Resource{std::move(name), data}});
 }
 
 
-void ResourceDB::addResource(QSharedPointer<Resource> resource) {
+void ResourceCollection::addResource(QSharedPointer<Resource> resource) {
     if (resource->getData().isEmpty()) {
         throw std::runtime_error("Refused to add empty resource to resource DB.");
     }

@@ -7,14 +7,14 @@
 #include <gtest/gtest.h>
 
 #include <rpgmapper/resource.hpp>
-#include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/resource_collection.hpp>
 
 using namespace rpgmapper::model;
 
 
 TEST(ResoucrceDB, InsertResource) {
 
-    auto resources = QSharedPointer<ResourceDB>{new ResourceDB};
+    auto resources = QSharedPointer<ResourceCollection>{new ResourceCollection};
 
     auto data = QByteArray::fromHex("0102030405060708090a0b0c0d0e0f10");
     resources->addResource("data", data);

@@ -14,7 +14,7 @@
 #include <QStandardPaths>
 #include <QStringList>
 
-#include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/resource_collection.hpp>
 #include <rpgmapper/resource_loader.hpp>
 #include <rpgmapper/session.hpp>
 
@@ -102,7 +102,7 @@ void ResourceLoader::load(QStringList & log) {
 }
 
 
-void ResourceLoader::loadResources(FileCollection const & fileCollection, ResourceDBPointer db, QStringList & log) {
+void ResourceLoader::loadResources(FileCollection const & fileCollection, ResourceCollectionPointer db, QStringList & log) {
     
     int fileNumber = 1;
     for (auto const & fileTuple : fileCollection) {

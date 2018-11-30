@@ -14,7 +14,7 @@
 #include <QString>
 #include <QStringList>
 
-#include <rpgmapper/resource_db_pointer.hpp>
+#include <rpgmapper/resource_collection_pointer.hpp>
 
 
 namespace rpgmapper {
@@ -97,7 +97,7 @@ private:
      * @param   db                  the database to fill
      * @param   log                 the log of actions.
      */
-    void loadResources(FileCollection const & fileCollection, ResourceDBPointer db, QStringList & log);
+    void loadResources(FileCollection const & fileCollection, ResourceCollectionPointer db, QStringList & log);
     
 signals:
     

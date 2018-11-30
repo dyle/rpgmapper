@@ -17,7 +17,7 @@
 #include <rpgmapper/atlas_pointer.hpp>
 #include <rpgmapper/map_pointer.hpp>
 #include <rpgmapper/region_pointer.hpp>
-#include <rpgmapper/resource_db_pointer.hpp>
+#include <rpgmapper/resource_collection_pointer.hpp>
 #include <rpgmapper/resource_pointer.hpp>
 #include <rpgmapper/session_pointer.hpp>
 
@@ -43,17 +43,17 @@ private:
     /**
      * All local, atlas resources loaded from a particular atlas.
      */
-    ResourceDBPointer localResources;
+    ResourceCollectionPointer localResources;
     
     /**
      * All loaded resources loaded from system files.
      */
-    static ResourceDBPointer systemResources;
+    static ResourceCollectionPointer systemResources;
     
     /**
      * All loaded resources loaded from user files.
      */
-    static ResourceDBPointer userResources;
+    static ResourceCollectionPointer userResources;
 
     /**
      * This instance operates changes on the atlas.
@@ -204,7 +204,7 @@ public:
      *
      * @return  the resources found in the atlas file.
      */
-    ResourceDBPointer getLocalResourceDB() {
+    ResourceCollectionPointer getLocalResourceDB() {
         return localResources;
     }
     
@@ -213,7 +213,7 @@ public:
      *
      * @return  the resources found in the atlas file.
      */
-    ResourceDBPointer const getLocalResourceDB() const {
+    ResourceCollectionPointer const getLocalResourceDB() const {
         return localResources;
     }
     
@@ -260,36 +260,23 @@ public:
      *  3. system files.
      *
      * @param   prefix      the prefix of the name (e.g. '/backgrounds')
-     * @return  a list of resources found.
+     * @return  a list of resources names found.
      */
-    std::list<ResourcePointer> getResources(QString prefix);
-    
-    /**
-     * Collects all resources having a certain name prefix.
-     *
-     * This is the search order for resources:
-     *  1. local, atlas files.
-     *  2. user files.
-     *  3. system files.
-     *
-     * @param   prefix      the prefix of the name (e.g. '/backgrounds')
-     * @return  a list of resources found.
-     */
-    std::list<ResourcePointer const> getResources(QString prefix) const;
+    std::list<QString> getResources(QString prefix) const;
     
     /**
      * Gets the system resources.
      *
      * @return  the resources found in the installation.
      */
-    static ResourceDBPointer getSystemResourceDB();
+    static ResourceCollectionPointer getSystemResourceDB();
     
     /**
      * Gets the user defined resources.
      *
      * @return  the resources found in the user folder.
      */
-    static ResourceDBPointer getUserResourceDB();
+    static ResourceCollectionPointer getUserResourceDB();
     
     /**
      * Returns true, of the atlas has changed since last save.

@@ -17,7 +17,6 @@
 #include <rpgmapper/layer/layer_stack.hpp>
 #include <rpgmapper/map_pointer.hpp>
 #include <rpgmapper/nameable.hpp>
-#include <rpgmapper/resource_db.hpp>
 
 
 namespace rpgmapper {

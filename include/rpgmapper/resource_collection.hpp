@@ -4,10 +4,12 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_RESOURCE_DB_HPP
-#define RPGMAPPER_RESOURCE_DB_HPP
+#ifndef RPGMAPPER_RESOURCE_COLLECTION_HPP
+#define RPGMAPPER_RESOURCE_COLLECTION_HPP
 
 #include <map>
+
+#include <QString>
 
 #include <rpgmapper/resource_pointer.hpp>
 
@@ -17,9 +19,9 @@ namespace model {
 
 
 /**
- * This class represents a resource database.
+ * This class represents a set of resources.
  */
-class ResourceDB {
+class ResourceCollection {
     
     /**
      * The resources an object of this class manages.
@@ -31,17 +33,17 @@ public:
     /**
      * Constructor.
      */
-    ResourceDB() = default;
+    ResourceCollection() = default;
 
     /**
      * Copy constructor.
      */
-    ResourceDB(ResourceDB const &) = delete;
+    ResourceCollection(ResourceCollection const &) = delete;
 
     /**
      * Destructor.
      */
-    ~ResourceDB() = default;
+    ~ResourceCollection() = default;
 
     /**
      * Adds a BLOB with a name to the resource database.

@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_MODEL_RESOURCE_DB_POINTER_HPP
-#define RPGMAPPER_MODEL_RESOURCE_DB_POINTER_HPP
+#ifndef RPGMAPPER_MODEL_RESOURCE_COLLECTION_POINTER_HPP
+#define RPGMAPPER_MODEL_RESOURCE_COLLECTION_POINTER_HPP
 
 #include <QSharedPointer>
 
@@ -15,13 +15,13 @@ namespace model {
 
 
 // fwd
-class ResourceDB;
+class ResourceCollection;
 
 
 /**
  * A smart pointer to a resource database.
  */
-using ResourceDBPointer = QSharedPointer<ResourceDB>;
+using ResourceCollectionPointer = QSharedPointer<ResourceCollection>;
 
 
 }

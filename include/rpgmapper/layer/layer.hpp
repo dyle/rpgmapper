@@ -15,7 +15,6 @@
 
 #include <rpgmapper/json/json_io.hpp>
 #include <rpgmapper/field.hpp>
-#include <rpgmapper/resource_db.hpp>
 
 
 namespace rpgmapper {

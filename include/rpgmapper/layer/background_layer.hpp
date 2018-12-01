@@ -9,8 +9,11 @@
 
 #include <QColor>
 #include <QMargins>
+#include <QPixmap>
+#include <QRect>
 #include <QString>
 
+#include <rpgmapper/layer/background_renderer.hpp>
 #include <rpgmapper/layer/image_render_mode.hpp>
 #include <rpgmapper/layer/layer.hpp>
 #include <rpgmapper/resource_pointer.hpp>
@@ -23,11 +26,11 @@ namespace model {
 /**
  * The BackgroundLayer class is responsible to draw the maps background.
  */
-class BackgroundLayer : public Layer {
+class BackgroundLayer : public Layer, public BackgroundRenderer {
 
     Q_OBJECT
-
-    QString imageResource;          /**< Background image resource used. */
+    
+    QPixmap backgroundPixmap;           /**< Pixmap used to draw the background. */
 
 public:
 
@@ -58,7 +61,14 @@ public:
      * @param   tileSize    the size of a single tile square side in pixels.
      */
     void draw(QPainter & painter, int tileSize) const override;
-
+    
+    /**
+     * Returns the pixmap (image) which is drawn on the map background.
+     *
+     * @return  the QPixmap to draw on the map.
+     */
+    QPixmap const * getBackgroundPixmap() const override;
+    
     /**
      * Gets the color of the background.
      *
@@ -66,13 +76,6 @@ public:
      */
     QColor getColor() const;
 
-    /**
-     * Returns the mode how to draw the image background.
-     *
-     * @return  an ImageRenderMode enumeration value.
-     */
-    ImageRenderMode getImageRenderMode() const;
-    
     /**
      * Gets the resource name used to draw the background.
      *
@@ -162,7 +165,7 @@ public:
      *
      * @param   mode    the new background image rendering style.
      */
-    void setImageRenderMode(ImageRenderMode mode);
+    void setImageRenderMode(ImageRenderMode mode) override;
     
     /**
      * Applies a new name for the background image resource.
@@ -231,6 +234,30 @@ private:
      * @return  always true (TODO: why? not needed! Unnecessary.)
      */
     bool applyJsonMargins(QJsonObject const & json);
+    
+    /**
+     * Calculate the background rectangle for a given tilesize.
+     *
+     * @param   tileSize        the current tilesize.
+     * @return  a rect holding the background including margins for the tilesize.
+     */
+    QRect backgroundRect(int tileSize) const;
+    
+    /**
+     * Draws the background of the map with a solid color
+     *
+     * @param   painter     the painter used for drawing.
+     * @param   tileSize    the size of a single tile square side in pixels.
+     */
+    void drawColor(QPainter & painter, int tileSize) const;
+    
+    /**
+     * Draws the background of the map with an image.
+     *
+     * @param   painter     the painter used for drawing.
+     * @param   tileSize    the size of a single tile square side in pixels.
+     */
+    void drawImage(QPainter & painter, int tileSize) const;
 };
 
 

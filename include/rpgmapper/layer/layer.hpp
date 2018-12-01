@@ -53,7 +53,6 @@ private:
 
 public:
 
-
     /**
      * Constructs a new Layer.
      *

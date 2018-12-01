@@ -14,6 +14,7 @@
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/resource.hpp>
+#include <rpgmapper/resource_db.hpp>
 
 using namespace rpgmapper::model;
 
@@ -61,7 +62,6 @@ bool BackgroundLayer::applyJsonMargins(QJsonObject const & json) {
 }
 
 
-
 bool BackgroundLayer::applyJSON(QJsonObject const & json) {
 
     Layer::applyJSON(json);
@@ -85,6 +85,19 @@ bool BackgroundLayer::applyJSON(QJsonObject const & json) {
     return true;
 }
 
+QRect BackgroundLayer::backgroundRect(int tileSize) const {
+    
+    QRect rect{0, 0, 0, 0};
+    
+    // +2 for the axis labels on each size
+    QSize mapSize = getMap()->getCoordinateSystem()->getSize();
+    auto margins = getMargins();
+    rect.setWidth(mapSize.width() * tileSize + margins.left() + margins.right());
+    rect.setHeight(mapSize.height() * tileSize + margins.top() + margins.top());
+    
+    return rect;
+}
+
 
 void BackgroundLayer::draw(QPainter & painter, int tileSize) const {
     
@@ -93,9 +106,28 @@ void BackgroundLayer::draw(QPainter & painter, int tileSize) const {
         throw exception::invalid_map{};
     }
     
-    QSize size = map->getCoordinateSystem()->getSize() * tileSize;
+    if (isColorRendered()) {
+        drawColor(painter, tileSize);
+    }
+    if (isImageRendered()) {
+        drawImage(painter, tileSize);
+    }
+}
+
+
+void BackgroundLayer::drawColor(QPainter & painter, int tileSize) const {
     QColor backgroundColor = getColor();
-    painter.fillRect(QRect{QPoint{0, 0}, size}, backgroundColor);
+    painter.fillRect(backgroundRect(tileSize), backgroundColor);
+}
+
+
+void BackgroundLayer::drawImage(QPainter & painter, int tileSize) const {
+    drawBackground(painter, backgroundRect(tileSize));
+}
+
+
+QPixmap const * BackgroundLayer::getBackgroundPixmap() const {
+    return &backgroundPixmap;
 }
 
 
@@ -105,23 +137,6 @@ QColor BackgroundLayer::getColor() const {
         return QColor{QString{BACKGROUND_COLOR_DEFAULT}};
     }
     return QColor{pair->second};
-}
-
-
-rpgmapper::model::ImageRenderMode BackgroundLayer::getImageRenderMode() const {
-
-    auto pair = getAttributes().find("renderImageMode");
-    if (pair == getAttributes().end()) {
-        return ImageRenderMode::plain;
-    }
-
-    auto mode = ImageRenderMode::plain;
-    try {
-        mode = stringToImageRenderMode((*pair).second);
-    }
-    catch (UNUSED std::out_of_range & ex) {}
-
-    return mode;
 }
 
 
@@ -206,16 +221,25 @@ void BackgroundLayer::setColor(QColor color) {
 
 
 void BackgroundLayer::setImageResource(QString name) {
+    
     if (getImageResource() != name) {
+        
         getAttributes()["renderImageName"] = name;
+        
+        auto resource = ResourceDB::getResource(name);
+        if (resource) {
+            backgroundPixmap = QPixmap::fromImage(QImage::fromData(resource->getData()));
+        }
+        
         emit backgroundImageChanged(name);
     }
 }
 
 
 void BackgroundLayer::setImageRenderMode(ImageRenderMode mode) {
+    
     if (getImageRenderMode() != mode) {
-        getAttributes()["renderImageMode"] = imageRenderModeToString(mode);
+        BackgroundRenderer::setImageRenderMode(mode);
         emit backgroundImageRenderModeChanged(mode);
     }
 }

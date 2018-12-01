@@ -15,7 +15,7 @@ using namespace rpgmapper::model;
 #endif
 
 
-void BackgroundRenderer::drawBackground(QPainter & painter, QRect const & rect) {
+void BackgroundRenderer::drawBackground(QPainter & painter, QRect const & rect) const {
 
     auto * const pixmap = getBackgroundPixmap();
     if ((pixmap == nullptr) || (pixmap->isNull())) {
@@ -39,16 +39,16 @@ void BackgroundRenderer::drawBackground(QPainter & painter, QRect const & rect) 
 }
 
 
-void BackgroundRenderer::drawPlainBackground(QPainter & painter, UNUSED QRect const & rect) {
+void BackgroundRenderer::drawPlainBackground(QPainter & painter, UNUSED QRect const & rect) const {
     painter.drawPixmap(0, 0, *getBackgroundPixmap());
 }
 
 
-void BackgroundRenderer::drawScaledBackground(QPainter & painter, QRect const & rect) {
+void BackgroundRenderer::drawScaledBackground(QPainter & painter, QRect const & rect) const {
     painter.drawPixmap(rect, *getBackgroundPixmap());
 }
 
 
-void BackgroundRenderer::drawTiledBackground(QPainter & painter, QRect const & rect) {
+void BackgroundRenderer::drawTiledBackground(QPainter & painter, QRect const & rect) const {
     painter.drawTiledPixmap(rect, *getBackgroundPixmap());
 }

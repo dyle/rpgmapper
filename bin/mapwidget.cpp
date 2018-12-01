@@ -26,7 +26,7 @@ using namespace rpgmapper::view;
 #define STANDARD_TILE_SIZE      48
 
 
-MapWidget::MapWidget(QWidget * parent) : QWidget{parent} {
+MapWidget::MapWidget(QWidget * parent) : QWidget{parent}, tileSize{STANDARD_TILE_SIZE} {
     setMouseTracking(true);
 }
 
@@ -36,16 +36,29 @@ void MapWidget::mapNameChanged(UNUSED QString oldName, QString newName) {
 }
 
 
-void MapWidget::mapSizeChanged(QSize size) {
-    resize(QSize{(size.width() + 2) * STANDARD_TILE_SIZE, (size.height() + 2) * STANDARD_TILE_SIZE});
+void MapWidget::mapSizeChanged() {
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Invalid map to render.");
+    }
+    
+    auto size = map->getCoordinateSystem()->getSize();
+    auto margins = map->getLayers().getBackgroundLayer()->getMargins();
+    
+    // +2 for the axis labels top and bottom, right and left
+    int width = margins.left() + margins.right() + (size.width() + 2) * getTileSize();
+    int height = margins.top() + margins.bottom() + (size.height() + 2) * getTileSize();
+    
+    resize(QSize{width, height});
 }
 
 
 void MapWidget::mouseMoveEvent(QMouseEvent * event) {
 
     QWidget::mouseMoveEvent(event);
-    int x = event->pos().x() / STANDARD_TILE_SIZE - 1;
-    int y = event->pos().y() / STANDARD_TILE_SIZE - 1;
+    int x = event->pos().x() / getTileSize() - 1;
+    int y = event->pos().y() / getTileSize() - 1;
     
     auto map = Session::getCurrentSession()->findMap(mapName);
     if (!map->isValid()) {
@@ -69,7 +82,7 @@ void MapWidget::paintEvent(QPaintEvent * event) {
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.setTransform(QTransform::fromTranslate(STANDARD_TILE_SIZE, STANDARD_TILE_SIZE));
+    painter.setTransform(QTransform::fromTranslate(getTileSize(), getTileSize()));
     painter.setViewTransformEnabled(true);
     
     auto map = Session::getCurrentSession()->findMap(mapName);
@@ -78,7 +91,7 @@ void MapWidget::paintEvent(QPaintEvent * event) {
     }
 
     for (auto layer : map->getLayers().collectVisibleLayers()) {
-        layer->draw(painter, STANDARD_TILE_SIZE);
+        layer->draw(painter, getTileSize());
     }
 
     auto end = std::chrono::system_clock::now();
@@ -101,8 +114,10 @@ void MapWidget::setMap(QString mapName) {
     
     connect(map.data(), &Nameable::nameChanged, this, &MapWidget::mapNameChanged);
    
-    mapSizeChanged(map->getCoordinateSystem()->getSize());
+    mapSizeChanged();
     auto coordinateSystem = map->getCoordinateSystem();
+    auto backgroundLayer = map->getLayers().getBackgroundLayer();
     
     connect(coordinateSystem.data(), &CoordinateSystem::sizeChanged, this, &MapWidget::mapSizeChanged);
+    connect(backgroundLayer.data(), &BackgroundLayer::backgroundMarginsChanged, this, &MapWidget::mapSizeChanged);
 }

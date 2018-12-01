@@ -26,7 +26,8 @@ class MapWidget : public QWidget {
 
     Q_OBJECT
 
-    QString mapName;                /**< The name of the map displayed. */
+    QString mapName;               /**< The name of the map displayed. */
+    int tileSize;                  /**< The current size of a single tile. */
     
     /**
      * This holds the average time of the time durations in milliseconds.
@@ -49,7 +50,16 @@ public:
     QString getMapName() const {
         return mapName;
     }
-
+    
+    /**
+     * Returns the current tile size in pixels.
+     *
+     * @return  the current size of a single tile.
+     */
+    int getTileSize() const {
+        return tileSize;
+    }
+    
     /**
      * Sets the map to display.
      *
@@ -61,10 +71,8 @@ public slots:
     
     /**
      * The size of the map changed.
-     *
-     * @param   size        the new size of the map.
      */
-    void mapSizeChanged(QSize size);
+    void mapSizeChanged();
     
 protected:
 

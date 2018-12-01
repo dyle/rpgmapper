@@ -868,8 +868,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>163</width>
-               <height>383</height>
+               <width>338</width>
+               <height>487</height>
               </rect>
              </property>
             </widget>
@@ -945,6 +945,39 @@
  </customwidgets>
  <tabstops>
   <tabstop>nameEdit</tabstop>
+  <tabstop>propertiesTabWidget</tabstop>
+  <tabstop>widthSpinBox</tabstop>
+  <tabstop>heightSpinBox</tabstop>
+  <tabstop>linkWidthHeightToolButton</tabstop>
+  <tabstop>xNumericalRadioButton</tabstop>
+  <tabstop>xAlphaSmallRadioButton</tabstop>
+  <tabstop>xAlphaBigRadioButton</tabstop>
+  <tabstop>xRomanRadioButton</tabstop>
+  <tabstop>xStartValueSpinBox</tabstop>
+  <tabstop>xAxisSampleLineEdit</tabstop>
+  <tabstop>yNumericalRadioButton</tabstop>
+  <tabstop>yAlphaSmallRadioButton</tabstop>
+  <tabstop>yAlphaBigRadioButton</tabstop>
+  <tabstop>yRomanRadioButton</tabstop>
+  <tabstop>yStartValueSpinBox</tabstop>
+  <tabstop>yAxisSampleLineEdit</tabstop>
+  <tabstop>axisFontLineEdit</tabstop>
+  <tabstop>axisFontToolButton</tabstop>
+  <tabstop>axisColorToolButton</tabstop>
+  <tabstop>gridColorToolButton</tabstop>
+  <tabstop>backgroundColorRadioButton</tabstop>
+  <tabstop>backgroundColorToolButton</tabstop>
+  <tabstop>backgroundImageScrollArea</tabstop>
+  <tabstop>backgroundImageRadioButton</tabstop>
+  <tabstop>backgroundImageFileComboBox</tabstop>
+  <tabstop>backgroundImageFileToolButton</tabstop>
+  <tabstop>backgroundImagePlainRadioButton</tabstop>
+  <tabstop>backgroundImageScaledRadioButton</tabstop>
+  <tabstop>backgroundImageTiledRadioButton</tabstop>
+  <tabstop>leftMarginSpinBox</tabstop>
+  <tabstop>rightMarginSpinBox</tabstop>
+  <tabstop>topMarginSpinBox</tabstop>
+  <tabstop>bottomMarginSpinBox</tabstop>
   <tabstop>okButton</tabstop>
   <tabstop>cancelButton</tabstop>
  </tabstops>

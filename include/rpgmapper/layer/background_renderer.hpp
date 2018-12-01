@@ -10,7 +10,6 @@
 #include <QPainter>
 #include <QPixmap>
 
-#include <rpgmapper/layer/background_layer.hpp>
 #include <rpgmapper/layer/image_render_mode.hpp>
 
 
@@ -56,7 +55,7 @@ public:
      *
      * @param   renderMode  the new mode specifying how to draw the map background.
      */
-    void setImageRenderMode(rpgmapper::model::ImageRenderMode renderMode) {
+    virtual void setImageRenderMode(rpgmapper::model::ImageRenderMode renderMode) {
         this->renderMode = renderMode;
     }
 
@@ -68,7 +67,7 @@ protected:
      * @param   painter     QPainter used for drawing.
      * @param   rect        area to draw.
      */
-    void drawBackground(QPainter & painter, QRect const & rect);
+    void drawBackground(QPainter & painter, QRect const & rect) const;
 
 private:
 
@@ -78,7 +77,7 @@ private:
      * @param   painter     QPainter used for drawing.
      * @param   rect        area to draw.
      */
-    void drawPlainBackground(QPainter & painter, QRect const & rect);
+    void drawPlainBackground(QPainter & painter, QRect const & rect) const;
     
     /**
      * Scales the background image to fit the maps dimensions.
@@ -86,7 +85,7 @@ private:
      * @param   painter     QPainter used for drawing.
      * @param   rect        area to draw.
      */
-    void drawScaledBackground(QPainter & painter, QRect const & rect);
+    void drawScaledBackground(QPainter & painter, QRect const & rect) const;
     
     /**
      * Repeats drawing of the background image over and over.
@@ -94,7 +93,7 @@ private:
      * @param   painter     QPainter used for drawing.
      * @param   rect        area to draw.
      */
-    void drawTiledBackground(QPainter & painter, QRect const & rect);
+    void drawTiledBackground(QPainter & painter, QRect const & rect) const;
 };
 
 

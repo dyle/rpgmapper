@@ -35,6 +35,7 @@ StartupDialog::StartupDialog(MainWindow * mainWindow)
 
 
 void StartupDialog::doneGood() {
+    mainWindow->applyResources();
     mainWindow->show();
     close();
 }

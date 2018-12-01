@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>580</height>
+    <width>884</width>
+    <height>689</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>500</width>
-    <height>580</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -51,7 +51,7 @@
    <item>
     <widget class="QTabWidget" name="propertiesTabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="dimensionsWidget">
       <attribute name="title">
@@ -849,8 +849,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>247</width>
-            <height>441</height>
+            <width>631</width>
+            <height>550</height>
            </rect>
           </property>
          </widget>

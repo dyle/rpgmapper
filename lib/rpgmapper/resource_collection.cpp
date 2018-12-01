@@ -23,3 +23,15 @@ void ResourceCollection::addResource(QSharedPointer<Resource> resource) {
     }
     resources[resource->getName()] = resource;
 }
+
+
+std::set<QString> ResourceCollection::getNames() const {
+    
+    std::set<QString> names;
+    
+    std::for_each(resources.begin(),
+                  resources.end(),
+                  [&] (auto p) { names.insert(p.first); });
+    
+    return names;
+}

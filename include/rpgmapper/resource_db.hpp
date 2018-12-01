@@ -7,6 +7,10 @@
 #ifndef RPGMAPPER_RESOURCE_DB_HPP
 #define RPGMAPPER_RESOURCE_DB_HPP
 
+#include <set>
+
+#include <QString>
+
 #include <rpgmapper/resource_collection_pointer.hpp>
 #include <rpgmapper/resource_pointer.hpp>
 
@@ -33,6 +37,13 @@ class ResourceDB {
 public:
     
     /**
+     * Well known locations of resources.
+     */
+    enum class Location {
+        background              /**< Where background stuff. */
+    };
+    
+    /**
      * Constructor
      */
     ResourceDB() = delete;
@@ -43,6 +54,14 @@ public:
      * @return  the resources found in the atlas file.
      */
     static ResourceCollectionPointer getLocalResources();
+    
+    /**
+     * Gets the resource prefix of well known location.
+     *
+     * @param   location        the well known location
+     * @return  the prefix for this kind of resources.
+     */
+    static QString getLocation(Location location);
     
     /**
      * Gets a specific resource with a certain name.
@@ -68,7 +87,7 @@ public:
      * @param   prefix      the prefix of the name (e.g. '/backgrounds')
      * @return  a list of resources names found.
      */
-    static std::list<QString> getResources(QString prefix);
+    static std::set<QString> getResources(QString prefix);
     
     /**
      * Gets the system resources.

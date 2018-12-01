@@ -57,6 +57,11 @@ public:
     MainWindow();
 
 public slots:
+    
+    /**
+     * The ResourceDB might have changed: apply set of new resources to all widgets.
+     */
+    void applyResources();
 
     /**
      * The user wants to edit the atlas properties.

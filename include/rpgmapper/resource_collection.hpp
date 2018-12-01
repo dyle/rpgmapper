@@ -8,6 +8,7 @@
 #define RPGMAPPER_RESOURCE_COLLECTION_HPP
 
 #include <map>
+#include <set>
 
 #include <QString>
 
@@ -59,6 +60,13 @@ public:
      * @param   resource    the resource to add.
      */
     void addResource(QSharedPointer<Resource> resource);
+    
+    /**
+     * Returns the names of all resources in this collection.
+     *
+     * @return  a ste of resource names.
+     */
+    std::set<QString> getNames() const;
 
     /**
      * Gets all known resources.

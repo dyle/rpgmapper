@@ -94,6 +94,11 @@ void MainWindow::addUnusedActions() {
 }
 
 
+void MainWindow::applyResources() {
+    mapPropertiesDialog->collectBackgroundImages();
+}
+
+
 void MainWindow::centerWindow() {
 
     auto desktop = dynamic_cast<QApplication *>(QApplication::instance())->desktop();
@@ -220,6 +225,8 @@ void MainWindow::createNewAtlas() {
     if (createNew) {
     
         Session::setCurrentSession(Session::init());
+        applyResources();
+        
         ui->mapTabWidget->removeAllMaps();
         ui->atlasTreeWidget->resetStructure();
         connectModelSignals();
@@ -465,6 +472,8 @@ void MainWindow::loadAtlas(QString fileName) {
     else {
     
         Session::setCurrentSession(newSession);
+        applyResources();
+        
         ui->mapTabWidget->removeAllMaps();
         ui->atlasTreeWidget->resetStructure();
         connectModelSignals();

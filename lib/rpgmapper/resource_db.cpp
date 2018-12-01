@@ -20,21 +20,9 @@ using namespace rpgmapper::model;
  * @param   db              the database to search.
  * @pram    prefix          the prefix to match.
  */
-static void collectResourcesWithPrefix(std::map<QString, ResourcePointer> & collection,
-                                       ResourceCollectionPointer & db,
-                                       QString const & prefix);
-
-
-/**
- * Collect all resources from a DB with a given prefix.
- *
- * @param   collection      the collection of found resources.
- * @param   db              the database to search.
- * @pram    prefix          the prefix to match.
- */
-static void collectResourcesWithPrefix(std::map<QString, ResourcePointer const> & collection,
-                                       ResourceCollectionPointer const & db,
-                                       QString const & prefix);
+static void collectResourcesWithPrefix(std::set<QString> & collection,
+        ResourceCollectionPointer const & db,
+        QString const & prefix);
 
 
 /**
@@ -44,21 +32,26 @@ static void collectResourcesWithPrefix(std::map<QString, ResourcePointer const> 
  * @param   name        the name of the resource to search.
  * @return  a found resource (maybe holding nullptr if not found).
  */
-static ResourcePointer findResource(ResourceCollectionPointer & db, QString const & name);
-
-
-/**
- * Search for a resource with a given name.
- *
- * @param   db          the DB to search.
- * @param   name        the name of the resource to search.
- * @return  a found resource (maybe holding nullptr if not found).
- */
-static ResourcePointer const findResource(ResourceCollectionPointer const & db, QString const & name);
+static ResourcePointer findResource(ResourceCollectionPointer db, QString const & name);
 
 
 ResourceCollectionPointer ResourceDB::getLocalResources() {
     return Session::getCurrentSession()->getAtlas()->getResources();
+}
+
+
+QString ResourceDB::getLocation(Location location) {
+    
+    QString prefix;
+    
+    switch (location) {
+    
+    case Location::background:
+        prefix = "/backgrounds";
+        break;
+    }
+    
+    return prefix;
 }
 
 
@@ -69,16 +62,24 @@ ResourcePointer ResourceDB::getResource(QString name) {
     if (!resource) {
         resource = findResource(getUserResources(), name);
     }
+    
     if (!resource) {
         resource = findResource(getSystemResources(), name);
     }
+    
     return resource;
 }
 
 
-std::list<QString> ResourceDB::getResources(QString prefix) {
-    // TODO: call collectResourcesWithPrefix
-    return std::list<QString>{};
+std::set<QString> ResourceDB::getResources(QString prefix) {
+    
+    std::set<QString> resources;
+    
+    collectResourcesWithPrefix(resources, getLocalResources(), prefix);
+    collectResourcesWithPrefix(resources, getUserResources(), prefix);
+    collectResourcesWithPrefix(resources, getSystemResources(), prefix);
+    
+    return resources;
 }
 
 
@@ -100,33 +101,20 @@ ResourceCollectionPointer ResourceDB::getUserResources() {
 }
 
 
-void collectResourcesWithPrefix(std::map<QString, ResourcePointer> & collection,
-                                ResourceCollectionPointer & db,
-                                QString const & prefix) {
-    // TODO
-}
-
-
-void collectResourcesWithPrefix(std::map<QString, ResourcePointer const> & collection,
-                                ResourceCollectionPointer const & db,
-                                QString const & prefix) {
-    // TODO
-}
-
-
-ResourcePointer findResource(ResourceCollectionPointer & db, QString const & name) {
+void collectResourcesWithPrefix(std::set<QString> & collection,
+        ResourceCollectionPointer const & db,
+        QString const & prefix) {
     
-    ResourcePointer resource;
-    auto & resources = db->getResources();
-    auto iter = resources.find(name);
-    if (iter != resources.end()) {
-        resource = (*iter).second;
+    auto names = db->getNames();
+    for (auto const & name : names) {
+        if (name.startsWith(prefix)) {
+            collection.insert(name);
+        }
     }
-    return resource;
 }
 
 
-ResourcePointer const findResource(ResourceCollectionPointer const & db, QString const & name) {
+ResourcePointer findResource(ResourceCollectionPointer db, QString const & name) {
     
     ResourcePointer resource;
     auto & resources = db->getResources();

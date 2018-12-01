@@ -31,6 +31,8 @@
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
+#include <rpgmapper/resource.hpp>
+#include <rpgmapper/resource_db.hpp>
 #include <rpgmapper/session.hpp>
 
 #include "mappropertiesdialog.hpp"
@@ -102,20 +104,7 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
                                                     ui->yAlphaBigRadioButton,
                                                     ui->yRomanRadioButton};
 
-}
-
-
-void MapPropertiesDialog::addBackgroundImageFromFile(QFileInfo const & fileInfo) {
-
-    if (!fileInfo.exists()) {
-        return;
-    }
-
-    QImage image(fileInfo.absoluteFilePath());
-    if (!image.isNull()) {
-        backgroundImages[fileInfo.absoluteFilePath()] = image;
-        ui->backgroundImageFileComboBox->addItem(fileInfo.absoluteFilePath());
-    }
+    collectBackgroundImages();
 }
 
 
@@ -320,33 +309,22 @@ void MapPropertiesDialog::clickedOk() {
 
 
 void MapPropertiesDialog::collectBackgroundImages() {
+    
     backgroundImages.clear();
-    collectBackgroundImagesFromUser();
-    collectBackgroundImagesFromSystem();
-}
-
-
-void MapPropertiesDialog::collectBackgroundImagesFromSystem() {
-    // TODO
-}
-
-
-void MapPropertiesDialog::collectBackgroundImagesFromUser() {
-    // TODO
-}
-
-
-void MapPropertiesDialog::collectBackgroundImagesInPath(QDir const & path) {
-
-    if (!path.exists()) {
-        return;
-    }
-
-    QStringList imageExtension;
-    imageExtension << "*.png" << "*.jpg";
-    auto filter = QDir::Files | QDir::Readable | QDir::NoDotAndDotDot;
-    for (auto const & fileInfo : path.entryInfoList(imageExtension, filter)) {
-        addBackgroundImageFromFile(fileInfo);
+    
+    auto backgroundResourcePrefix = ResourceDB::getLocation(ResourceDB::Location::background);
+    auto backgroundImageNames = ResourceDB::getResources(backgroundResourcePrefix);
+    
+    for (auto const & resourceName : backgroundImageNames) {
+    
+        auto resource = ResourceDB::getResource(resourceName);
+        if (resource) {
+            
+            QImage image;
+            image.loadFromData(resource->getData());
+            backgroundImages[resourceName] = image;
+            ui->backgroundImageFileComboBox->addItem(resourceName);
+        }
     }
 }
 
@@ -375,10 +353,10 @@ rpgmapper::model::ImageRenderMode MapPropertiesDialog::getSelectedImageRenderMod
 
 
 QMargins MapPropertiesDialog::getSelectedMargins() const {
-    return QMargins(ui->leftMarginSpinBox->value(),
-                    ui->topMarginSpinBox->value(),
-                    ui->rightMarginSpinBox->value(),
-                    ui->bottomMarginSpinBox->value());
+    return {ui->leftMarginSpinBox->value(),
+            ui->topMarginSpinBox->value(),
+            ui->rightMarginSpinBox->value(),
+            ui->bottomMarginSpinBox->value()};
 }
 
 
@@ -614,17 +592,8 @@ void MapPropertiesDialog::setBackgroundUiFromMap() {
     auto layers = map->getLayers();
     auto backgroundLayer = layers.getBackgroundLayer();
 
-    ui->backgroundImageFileComboBox->clear();
-    auto backgroundImage = backgroundLayer->getImage();
-    if (!backgroundImage.isNull()) {
-        QPixmap pixmap;
-        pixmap.convertFromImage(backgroundImage);
-        backgroundPreviewLabel->setPixmap(pixmap);
-        ui->backgroundImageFileComboBox->addItem(tr("<applied on map>"));
-        ui->backgroundImageFileComboBox->setCurrentIndex(0);
-    }
-    collectBackgroundImages();
-
+    // TODO: focus background image from layer in combobox
+    
     bool coloredBackground = backgroundLayer->isColorRendered();
     bool imageBackground = backgroundLayer->isImageRendered();
     if (coloredBackground && imageBackground) {

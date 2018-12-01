@@ -10,8 +10,6 @@
 #include <memory>
 
 #include <QDialog>
-#include <QFile>
-#include <QFileInfo>
 #include <QLabel>
 #include <QRadioButton>
 
@@ -66,7 +64,7 @@ public:
      * @param   parent      Parent QWidget instance.
      */
     explicit MapPropertiesDialog(QWidget * parent);
-
+    
     /**
      * Selects a new map to display.
      *
@@ -74,14 +72,14 @@ public:
      */
     void setMap(QString mapName);
 
-private:
-
+public slots:
+    
     /**
-     * Loads a file as background image and adds it as a possible selection for the background image.
-     *
-     * @param   fileInfo        Structure defining the file to load.
+     * Collects all available background images.
      */
-    void addBackgroundImageFromFile(QFileInfo const & fileInfo);
+    void collectBackgroundImages();
+
+private:
 
     /**
      * Creates a composite command reflecting all changes to apply to the map in regard to the axis.
@@ -111,26 +109,6 @@ private:
      * Applies all user changes to the selected map.
      */
     void applyValuesToMap();
-
-    /**
-     * Collects all available background images.
-     */
-    void collectBackgroundImages();
-    
-    /**
-     * Collects all available background images from the installed system sources.
-     */
-    void collectBackgroundImagesFromSystem();
-    
-    /**
-     * Collects all available background images from user provided sources.
-     */
-    void collectBackgroundImagesFromUser();
-    
-    /**
-     * Load all background images in a folder and below.
-     */
-    void collectBackgroundImagesInPath(QDir const & path);
 
     /**
      * Gets the selected image render mode as set by the user.

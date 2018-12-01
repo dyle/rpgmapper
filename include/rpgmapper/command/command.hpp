@@ -7,9 +7,6 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_COMMAND_HPP
 #define RPGMAPPER_MODEL_COMMAND_COMMAND_HPP
 
-#include <list>
-
-#include <QSharedPointer>
 #include <QString>
 
 

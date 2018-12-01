@@ -10,7 +10,6 @@
 #include <vector>
 
 #include <QPoint>
-#include <QSharedPointer>
 #include <QString>
 
 #include <rpgmapper/tile.hpp>

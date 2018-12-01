@@ -7,7 +7,7 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_MAP_BACKGROUND_RENDERING_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_BACKGROUND_RENDERING_HPP
 
-#include <QColor>
+#include <QString>
 
 #include <rpgmapper/command/command.hpp>
 

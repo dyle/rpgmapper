@@ -7,12 +7,9 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_REMOVE_REGION_HPP
 #define RPGMAPPER_MODEL_COMMAND_REMOVE_REGION_HPP
 
-#include <set>
-
 #include <QSharedPointer>
 
 #include <rpgmapper/command/command.hpp>
-#include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
 
 

@@ -8,6 +8,7 @@
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_BACKGROUND_IMAGE_RENDER_MODE_HPP
 
 #include <QColor>
+#include <QString>
 
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/layer/image_render_mode.hpp>

@@ -8,6 +8,7 @@
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_MARGINS_HPP
 
 #include <QMargins>
+#include <QString>
 
 #include <rpgmapper/command/command.hpp>
 

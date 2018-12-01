@@ -7,8 +7,6 @@
 #ifndef RPGMAPPER_MODEL_MAP_HPP
 #define RPGMAPPER_MODEL_MAP_HPP
 
-#include <memory>
-
 #include <QObject>
 #include <QSharedPointer>
 #include <QString>

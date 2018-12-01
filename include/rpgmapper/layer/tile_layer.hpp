@@ -7,8 +7,6 @@
 #ifndef RPGMAPPER_MODEL_LAYER_TILE_LAYER_HPP
 #define RPGMAPPER_MODEL_LAYER_TILE_LAYER_HPP
 
-#include <QPoint>
-
 #include <rpgmapper/layer/layer.hpp>
 
 

@@ -7,10 +7,7 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_COMPOSITE_COMMAND_HPP
 #define RPGMAPPER_MODEL_COMMAND_COMPOSITE_COMMAND_HPP
 
-#include <memory>
-
 #include <QString>
-#include <QSharedPointer>
 
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/command/commands.hpp>

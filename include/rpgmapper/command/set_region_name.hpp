@@ -7,6 +7,8 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_REGION_NAME_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_REGION_NAME_HPP
 
+#include <QString>
+
 #include <rpgmapper/command/command.hpp>
 
 

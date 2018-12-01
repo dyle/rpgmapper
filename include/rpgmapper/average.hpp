@@ -18,7 +18,7 @@ namespace model {
 /**
  * This template defines a basic moving average.
  *
- * @tparam T    type of the values to claculate the average.
+ * @tparam  T       type of the values to calculate the average.
  */
 template<typename T> class Average {
 

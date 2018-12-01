@@ -8,6 +8,7 @@
 #define RPGMAPPER_MODEL_COMMAND_REMOVE_MAP_HPP
 
 #include <QSharedPointer>
+#include <QString>
 
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/map.hpp>

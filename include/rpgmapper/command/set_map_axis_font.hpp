@@ -8,6 +8,7 @@
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_AXIS_FONT_HPP
 
 #include <QFont>
+#include <QString>
 
 #include <rpgmapper/command/command.hpp>
 

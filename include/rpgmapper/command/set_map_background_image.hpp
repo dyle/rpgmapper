@@ -8,6 +8,7 @@
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_BACKGROUND_IMAGE_HPP
 
 #include <QImage>
+#include <QString>
 
 #include <rpgmapper/command/command.hpp>
 

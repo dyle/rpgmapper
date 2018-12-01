@@ -9,7 +9,6 @@
 
 #include <QJsonArray>
 #include <QJsonObject>
-#include <QSharedPointer>
 
 #include <rpgmapper/nameable.hpp>
 #include <rpgmapper/regions.hpp>

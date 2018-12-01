@@ -9,8 +9,6 @@
 
 #include <list>
 
-#include <QSharedPointer>
-
 #include <rpgmapper/command/command_pointer.hpp>
 
 

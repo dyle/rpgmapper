@@ -11,6 +11,7 @@
 
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QSharedPointer>
 
 #include <rpgmapper/layer/axis_layer.hpp>
 #include <rpgmapper/layer/background_layer.hpp>

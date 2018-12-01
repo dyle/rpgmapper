@@ -8,6 +8,7 @@
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_GRID_COLOR_HPP
 
 #include <QColor>
+#include <QString>
 
 #include <rpgmapper/command/command.hpp>
 

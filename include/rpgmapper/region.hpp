@@ -7,12 +7,11 @@
 #ifndef RPGMAPPER_MODEL_REGION_HPP
 #define RPGMAPPER_MODEL_REGION_HPP
 
-#include <map>
-#include <memory>
 #include <set>
 
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QObject>
-#include <QSharedPointer>
 
 #include <rpgmapper/nameable.hpp>
 #include <rpgmapper/maps.hpp>

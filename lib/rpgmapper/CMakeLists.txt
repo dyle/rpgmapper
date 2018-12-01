@@ -29,7 +29,6 @@ set(RPGMAPPER_LIB_SRC
     atlas_name_validator.cpp
     coordinate_system.cpp
     field.cpp
-    filesystem.cpp
     map.cpp
     map_name_validator.cpp
     nameable.cpp

@@ -8,6 +8,8 @@
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_NUMERAL_OFFSET_HPP
 
 #include <QPointF>
+#include <QString>
+
 
 #include <rpgmapper/command/command.hpp>
 

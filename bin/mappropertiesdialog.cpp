@@ -32,6 +32,7 @@
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/resource.hpp>
+#include <rpgmapper/resource_collection.hpp>
 #include <rpgmapper/resource_db.hpp>
 #include <rpgmapper/session.hpp>
 
@@ -185,8 +186,7 @@ void MapPropertiesDialog::applyBackgroundValuesToMap(CompositeCommand * & comman
 
     auto selectedImage = ui->backgroundImageFileComboBox->currentText();
     if (selectedImage != tr("<applied on map>") && ui->backgroundImageRadioButton->isChecked()) {
-        auto image = backgroundImages[selectedImage];
-        commands->addCommand(CommandPointer{new SetMapBackgroundImage{newMapName, image}});
+        commands->addCommand(CommandPointer{new SetMapBackgroundImage{newMapName, selectedImage}});
     }
 
     auto mode = getSelectedImageRenderMode();
@@ -268,34 +268,17 @@ void MapPropertiesDialog::backgroundImageSelected(QString backgroundImage) {
         backgroundPreviewLabel->update();
     }
     else {
-
-        if (backgroundImage == tr("<applied on map>")) {
-    
-            auto map = Session::getCurrentSession()->findMap(mapName);
-            if (!map->isValid()) {
-                throw std::runtime_error("Internal map lost when applying values of property dialog.");
-            }
-            
-            auto layers = map->getLayers();
-            auto backgroundLayer = layers.getBackgroundLayer();
-
-            QPixmap pixmap;
-            pixmap.convertFromImage(backgroundLayer->getImage());
-            backgroundPreviewLabel->setPixmap(pixmap);
-            backgroundPreviewLabel->update();
+        
+        auto resource = ResourceDB::getResource(backgroundImage);
+        if (!resource) {
+            auto errorText = "Unknown resource: " + backgroundImage.toStdString();
+            throw std::runtime_error{errorText};
         }
-        else {
-
-            auto pair = backgroundImages.find(backgroundImage);
-            if (pair == backgroundImages.end()) {
-                throw std::runtime_error("Unable to locate image selected background image.");
-            }
-
-            QPixmap pixmap;
-            pixmap.convertFromImage((*pair).second);
-            backgroundPreviewLabel->setPixmap(pixmap);
-            backgroundPreviewLabel->update();
-        }
+        
+        QPixmap pixmap;
+        pixmap.convertFromImage(QImage::fromData(resource->getData()));
+        backgroundPreviewLabel->setPixmap(pixmap);
+        backgroundPreviewLabel->update();
     }
 }
 
@@ -310,8 +293,6 @@ void MapPropertiesDialog::clickedOk() {
 
 void MapPropertiesDialog::collectBackgroundImages() {
     
-    backgroundImages.clear();
-    
     auto backgroundResourcePrefix = ResourceDB::getLocation(ResourceDB::Location::background);
     auto backgroundImageNames = ResourceDB::getResources(backgroundResourcePrefix);
     
@@ -319,10 +300,6 @@ void MapPropertiesDialog::collectBackgroundImages() {
     
         auto resource = ResourceDB::getResource(resourceName);
         if (resource) {
-            
-            QImage image;
-            image.loadFromData(resource->getData());
-            backgroundImages[resourceName] = image;
             ui->backgroundImageFileComboBox->addItem(resourceName);
         }
     }
@@ -510,21 +487,21 @@ void MapPropertiesDialog::selectBackgroundColor() {
 
 void MapPropertiesDialog::selectBackgroundImage() {
 
-    auto filename = QFileDialog::getOpenFileName(this, tr("Pick an image as map background"));
-    if (filename.isEmpty()) {
+    auto fileName = QFileDialog::getOpenFileName(this, tr("Pick an image as map background"));
+    if (fileName.isEmpty()) {
         return;
     }
-
-    QImage backgroundImage{filename};
-    if (backgroundImage.isNull()) {
-        QString message = QString{tr("Failed to load image '%1'\nIs this an image?")}.arg(filename);
-        QMessageBox::critical(this, tr("Failed to load image."), message);
-        return;
+    
+    QFile file{fileName};
+    if (file.open(QIODevice::ReadOnly)) {
+        
+        auto byteArray = file.readAll();
+        file.close();
+        ResourceDB::getLocalResources()->addResource(fileName, byteArray);
+        
+        ui->backgroundImageFileComboBox->addItem(fileName);
+        ui->backgroundImageFileComboBox->setCurrentText(fileName);
     }
-
-    backgroundImages[filename] = backgroundImage;
-    ui->backgroundImageFileComboBox->addItem(filename);
-    ui->backgroundImageFileComboBox->setCurrentText(filename);
 }
 
 
@@ -592,7 +569,8 @@ void MapPropertiesDialog::setBackgroundUiFromMap() {
     auto layers = map->getLayers();
     auto backgroundLayer = layers.getBackgroundLayer();
 
-    // TODO: focus background image from layer in combobox
+    auto backgroundImageResource = backgroundLayer->getImageResource();
+    ui->backgroundImageFileComboBox->setCurrentText(backgroundImageResource);
     
     bool coloredBackground = backgroundLayer->isColorRendered();
     bool imageBackground = backgroundLayer->isImageRendered();

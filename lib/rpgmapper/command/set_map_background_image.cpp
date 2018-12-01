@@ -15,7 +15,7 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapBackgroundImage::SetMapBackgroundImage(QString mapName, QImage newImage)
+SetMapBackgroundImage::SetMapBackgroundImage(QString mapName, QString newImage)
     : mapName{std::move(mapName)}, newImage{std::move(newImage)} {
 }
 
@@ -27,8 +27,8 @@ void SetMapBackgroundImage::execute() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    oldImage = map->getLayers().getBackgroundLayer()->getImage();
-    map->getLayers().getBackgroundLayer()->setImage(newImage);
+    oldImage = map->getLayers().getBackgroundLayer()->getImageResource();
+    map->getLayers().getBackgroundLayer()->setImageResource(newImage);
 }
 
 
@@ -43,5 +43,5 @@ void SetMapBackgroundImage::undo() {
     if (!map->isValid()) {
         throw rpgmapper::model::exception::invalid_map();
     }
-    map->getLayers().getBackgroundLayer()->setImage(oldImage);
+    map->getLayers().getBackgroundLayer()->setImageResource(oldImage);
 }

@@ -8,11 +8,12 @@
 #define RPGMAPPER_MODEL_LAYER_BACKGROUND_LAYER_HPP
 
 #include <QColor>
-#include <QImage>
 #include <QMargins>
+#include <QString>
 
 #include <rpgmapper/layer/image_render_mode.hpp>
 #include <rpgmapper/layer/layer.hpp>
+#include <rpgmapper/resource_pointer.hpp>
 
 
 namespace rpgmapper {
@@ -26,9 +27,7 @@ class BackgroundLayer : public Layer {
 
     Q_OBJECT
 
-    QImage image;                       /**< Background image */
-    QString imageResourceHash;          /**< Hash value of the image inside the resource database.
-                                             TODO: why not attribute? */
+    QString imageResource;          /**< Background image resource used. */
 
 public:
 
@@ -68,19 +67,19 @@ public:
     QColor getColor() const;
 
     /**
-     * Gets the image used to draw the background.
-     *
-     * @return  the image used to draw the background.
-     */
-    QImage const & getImage() const;
-
-    /**
      * Returns the mode how to draw the image background.
      *
      * @return  an ImageRenderMode enumeration value.
      */
     ImageRenderMode getImageRenderMode() const;
-
+    
+    /**
+     * Gets the resource name used to draw the background.
+     *
+     * @return  the resource name used to draw the background.
+     */
+    QString getImageResource() const;
+    
     /**
      * Extracts this layer as JSON object.
      *
@@ -159,19 +158,19 @@ public:
     void setColor(QColor color);
 
     /**
-     * Applies a new background image.
-     *
-     * @param   image   the new background image.
-     */
-    void setImage(QImage image);
-
-    /**
      * Sets a new image background rendering mode.
      *
      * @param   mode    the new background image rendering style.
      */
     void setImageRenderMode(ImageRenderMode mode);
-
+    
+    /**
+     * Applies a new name for the background image resource.
+     *
+     * @param    name       the name of the new image resource.
+     */
+    void setImageResource(QString name);
+    
     /**
      * Applies new margins to the background.
      *
@@ -198,9 +197,9 @@ signals:
     /**
      * The background image changed.
      *
-     * @param   image       the new background image.
+     * @param   name        the new background image.
      */
-    void backgroundImageChanged(QImage image);
+    void backgroundImageChanged(QString name);
     
     /**
      * The background image render mode changed.

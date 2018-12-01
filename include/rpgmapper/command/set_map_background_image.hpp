@@ -7,7 +7,6 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_MAP_BACKGROUND_IMAGE_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_BACKGROUND_IMAGE_HPP
 
-#include <QImage>
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
@@ -24,8 +23,8 @@ namespace command {
 class SetMapBackgroundImage : public Command {
 
     QString mapName;            /**< the map to modify. */
-    QImage newImage;            /**< the new background image. */
-    QImage oldImage;            /**< the old background image. */
+    QString newImage;           /**< the new background image. */
+    QString oldImage;           /**< the old background image. */
 
 public:
     
@@ -35,7 +34,7 @@ public:
      * @param   mapName         the name of the map to change the background image for.
      * @param   newImage        the new background image.
      */
-    SetMapBackgroundImage(QString mapName, QImage newImage);
+    SetMapBackgroundImage(QString mapName, QString newImage);
     
     /**
      * Destructor.

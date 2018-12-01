@@ -35,6 +35,7 @@ BackgroundLayer::BackgroundLayer(Map * map) : Layer{map} {
     getAttributes()["margins"] = R"raw({"top":0,"left":0,"right":0,"bottom":0})raw";
     getAttributes()["rendering"] = "color";
     getAttributes()["renderImageMode"] = "plain";
+    getAttributes()["renderImageName"] = QString::null;
 }
 
 
@@ -71,6 +72,9 @@ bool BackgroundLayer::applyJSON(QJsonObject const & json) {
     if (json.contains("renderImageMode") && json["renderImageMode"].isString()) {
         setImageRenderMode(stringToImageRenderMode(json["renderImageMode"].toString()));
     }
+    if (json.contains("renderImageName") && json["renderImageName"].isString()) {
+        setImageResource(json["renderImageName"].toString());
+    }
     if (json.contains("rendering") && json["rendering"].isString()) {
         setRendering(json["rendering"].toString());
     }
@@ -78,7 +82,6 @@ bool BackgroundLayer::applyJSON(QJsonObject const & json) {
         applyJsonMargins(json["margins"].toObject());
     }
 
-    // TODO: load image
     return true;
 }
 
@@ -105,11 +108,6 @@ QColor BackgroundLayer::getColor() const {
 }
 
 
-QImage const & BackgroundLayer::getImage() const {
-    return image;
-}
-
-
 rpgmapper::model::ImageRenderMode BackgroundLayer::getImageRenderMode() const {
 
     auto pair = getAttributes().find("renderImageMode");
@@ -127,12 +125,22 @@ rpgmapper::model::ImageRenderMode BackgroundLayer::getImageRenderMode() const {
 }
 
 
+QString BackgroundLayer::getImageResource() const {
+    auto pair = getAttributes().find("renderImageName");
+    if (pair == getAttributes().end()) {
+        return QString::null;
+    }
+    return pair->second;
+}
+
+
 QJsonObject BackgroundLayer::getJSON() const {
 
     QJsonObject jsonObject = Layer::getJSON();
 
     jsonObject["color"] = getColor().name(QColor::HexArgb);
     jsonObject["renderImageMode"] = rpgmapper::model::imageRenderModeToString(getImageRenderMode());
+    jsonObject["renderImageName"] = getImageResource();
     jsonObject["rendering"] = getRendering();
 
     QJsonObject jsonMargins;
@@ -142,19 +150,6 @@ QJsonObject BackgroundLayer::getJSON() const {
     jsonMargins["right"] = margins.right();
     jsonMargins["bottom"] = margins.bottom();
     jsonObject["margins"] = jsonMargins;
-
-    /*
-     * TODO: add resources
-     *
-    if (!imageResourceHash.isEmpty()) {
-        auto imageResource = getResourceDB()->getResource(imageResourceHash);
-        if (imageResource->isEmpty()) {
-            throw std::logic_error("Unable to find background image resource though a hash is available.");
-        }
-        jsonObject["image"] = imageResource->getName();
-        content[imageResource->getName()] = imageResource->getData();
-    }
-    */
     
     return jsonObject;
 }
@@ -210,30 +205,11 @@ void BackgroundLayer::setColor(QColor color) {
 }
 
 
-void BackgroundLayer::setImage(QImage image) {
-    
-    if (this->image == image) {
-        return;
+void BackgroundLayer::setImageResource(QString name) {
+    if (getImageResource() != name) {
+        getAttributes()["renderImageName"] = name;
+        emit backgroundImageChanged(name);
     }
-
-    this->image = image;
-
-    QByteArray data;
-    QBuffer buf(&data);
-    buf.open(QIODevice::WriteOnly);
-    this->image.save(&buf, "PNG");
-
-    imageResourceHash = Resource::getHash(data);
-    auto imageResourcePath = QString("images/background/%1.png").arg(imageResourceHash);
-    
-    /*
-     * TODO: set resources
-     *
-    auto backgroundResource = ResourcePointer{new Resource{imageResourcePath, data}};
-    getResourceDB()->addResource(backgroundResource);
-     */
-    
-    emit backgroundImageChanged(image);
 }
 
 

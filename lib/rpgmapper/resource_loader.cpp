@@ -15,8 +15,8 @@
 #include <QStringList>
 
 #include <rpgmapper/resource_collection.hpp>
+#include <rpgmapper/resource_db.hpp>
 #include <rpgmapper/resource_loader.hpp>
-#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
 
@@ -94,8 +94,8 @@ void ResourceLoader::load(QStringList & log) {
     appendLog(log, QString{"Found %1 user resources."}.arg(userResourcesFiles.size()));
     
     appendLog(log, "Loading Resources...");
-    loadResources(systemResourcesFiles, Session::getSystemResourceDB(), log);
-    loadResources(userResourcesFiles, Session::getUserResourceDB(), log);
+    loadResources(systemResourcesFiles, ResourceDB::getSystemResources(), log);
+    loadResources(userResourcesFiles, ResourceDB::getUserResources(), log);
     
     success = true;
     emit done();

@@ -29,7 +29,6 @@
 #include <rpgmapper/command/set_map_numeral_offset.hpp>
 #include <rpgmapper/command/set_map_origin.hpp>
 #include <rpgmapper/atlas.hpp>
-#include <rpgmapper/filesystem.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/session.hpp>
@@ -328,18 +327,12 @@ void MapPropertiesDialog::collectBackgroundImages() {
 
 
 void MapPropertiesDialog::collectBackgroundImagesFromSystem() {
-    auto systemDataPath = rpgmapper::model::getApplicationDataSystemPath();
-    if (systemDataPath.cd("backgrounds")) {
-        collectBackgroundImagesInPath(systemDataPath);
-    }
+    // TODO
 }
 
 
 void MapPropertiesDialog::collectBackgroundImagesFromUser() {
-    auto userDataPath = rpgmapper::model::getApplicationDataUserPath();
-    if (userDataPath.cd("backgrounds")) {
-        collectBackgroundImagesInPath(userDataPath);
-    }
+    // TODO
 }
 
 

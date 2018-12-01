@@ -17,8 +17,6 @@
 #include <rpgmapper/atlas_pointer.hpp>
 #include <rpgmapper/map_pointer.hpp>
 #include <rpgmapper/region_pointer.hpp>
-#include <rpgmapper/resource_collection_pointer.hpp>
-#include <rpgmapper/resource_pointer.hpp>
 #include <rpgmapper/session_pointer.hpp>
 
 
@@ -40,21 +38,6 @@ private:
     QString currentMapName;            /**< Current selected map. */
     QString currentRegionName;         /**< Current selected region. */
     
-    /**
-     * All local, atlas resources loaded from a particular atlas.
-     */
-    ResourceCollectionPointer localResources;
-    
-    /**
-     * All loaded resources loaded from system files.
-     */
-    static ResourceCollectionPointer systemResources;
-    
-    /**
-     * All loaded resources loaded from user files.
-     */
-    static ResourceCollectionPointer userResources;
-
     /**
      * This instance operates changes on the atlas.
      */
@@ -200,83 +183,12 @@ public:
     }
     
     /**
-     * Gets the local, atlas resource (loaded from an atlas file)
-     *
-     * @return  the resources found in the atlas file.
-     */
-    ResourceCollectionPointer getLocalResourceDB() {
-        return localResources;
-    }
-    
-    /**
-     * Gets the local, atlas resource (loaded from an atlas file) (const version)
-     *
-     * @return  the resources found in the atlas file.
-     */
-    ResourceCollectionPointer const getLocalResourceDB() const {
-        return localResources;
-    }
-    
-    /**
      * Gets the region name of a given map.
      *
      * @param   mapName     the name of the map.
      * @return  the name of the region the map belongs to (or QString::null).
      */
     QString getRegionOfMap(QString mapName) const;
-    
-    /**
-     * Gets a specific resource with a certain name.
-     *
-     * This is the search order for the given named resource:
-     *  1. local, atlas files.
-     *  2. user files.
-     *  3. system files.
-     *
-     * @param   name        the name of the resource
-     * @return  a resource (maybe invalid if not found)
-     */
-    ResourcePointer getResource(QString name);
-    
-    /**
-     * Gets a specific resource with a certain name (const version).
-     *
-     * This is the search order for the given named resource:
-     *  1. local, atlas files.
-     *  2. user files.
-     *  3. system files.
-     *
-     * @param   name        the name of the resource
-     * @return  a resource (maybe invalid if not found)
-     */
-    ResourcePointer const getResource(QString name) const;
-    
-    /**
-     * Collects all resources having a certain name prefix.
-     *
-     * This is the search order for resources:
-     *  1. local, atlas files.
-     *  2. user files.
-     *  3. system files.
-     *
-     * @param   prefix      the prefix of the name (e.g. '/backgrounds')
-     * @return  a list of resources names found.
-     */
-    std::list<QString> getResources(QString prefix) const;
-    
-    /**
-     * Gets the system resources.
-     *
-     * @return  the resources found in the installation.
-     */
-    static ResourceCollectionPointer getSystemResourceDB();
-    
-    /**
-     * Gets the user defined resources.
-     *
-     * @return  the resources found in the user folder.
-     */
-    static ResourceCollectionPointer getUserResourceDB();
     
     /**
      * Returns true, of the atlas has changed since last save.
@@ -339,7 +251,6 @@ public:
      * @param   session     the new current session
      */
     static void setCurrentSession(SessionPointer session);
-    
     
 signals:
     

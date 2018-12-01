@@ -12,6 +12,7 @@
 
 #include <rpgmapper/nameable.hpp>
 #include <rpgmapper/regions.hpp>
+#include <rpgmapper/resource_collection_pointer.hpp>
 
 
 namespace rpgmapper {
@@ -25,7 +26,8 @@ class Atlas : public Nameable {
 
     Q_OBJECT
     
-    Regions regions;            /**< The regions of the atlas. */
+    Regions regions;                            /**< The regions of the atlas. */
+    ResourceCollectionPointer resources;        /**< The local resources in this atlas. */
 
 public:
 
@@ -81,6 +83,24 @@ public:
      */
     Regions const & getRegions() const {
         return regions;
+    }
+    
+    /**
+     * Returns the resources local to this atlas.
+     *
+     * @return  the resources used in this atlas.
+     */
+    ResourceCollectionPointer & getResources() {
+        return resources;
+    }
+    
+    /**
+     * Returns the resources local to this atlas (const version).
+     *
+     * @return  the resources used in this atlas.
+     */
+    ResourceCollectionPointer const & getResources() const {
+        return resources;
     }
     
     /**

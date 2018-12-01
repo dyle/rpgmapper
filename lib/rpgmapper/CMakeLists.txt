@@ -36,6 +36,7 @@ set(RPGMAPPER_LIB_SRC
     region_name_validator.cpp
     resource.cpp
     resource_collection.cpp
+    resource_db.cpp
     resource_loader.cpp
     session.cpp
     zip.cpp

@@ -11,6 +11,7 @@
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/atlas_name_validator.hpp>
 #include <rpgmapper/region.hpp>
+#include <rpgmapper/resource_collection.hpp>
 
 using namespace rpgmapper::model;
 
@@ -23,6 +24,7 @@ using namespace rpgmapper::model;
 
 
 Atlas::Atlas(QString name) : Nameable{std::move(name)} {
+    resources = ResourceCollectionPointer{new ResourceCollection};
 }
 
 

@@ -21,11 +21,11 @@ namespace command {
 /**
  * This command changes the margin of a map.
  */
-class SetMapMargins : public Command {
+class SetMapMargin : public Command {
 
-    QString mapName;            /**< the map to modify. */
-    QMargins newMargins;        /**< the new margins of the map. */
-    QMargins oldMargins;        /**< the old margins of the map. */
+    QString mapName;             /**< the map to modify. */
+    float newMargin;             /**< the new margins of the map. */
+    float oldMargin;             /**< the old margins of the map. */
 
 public:
     
@@ -33,14 +33,14 @@ public:
      * Constructor.
      *
      * @param   mapName         the name of the map to change the margins for.
-     * @param   newColor        the new margins.
+     * @param   newMargin       the new margin  value
      */
-    SetMapMargins(QString mapName, QMargins newMargins);
+    SetMapMargin(QString mapName, float newMargin);
     
     /**
      * Destructor.
      */
-    ~SetMapMargins() override = default;
+    ~SetMapMargin() override = default;
     
     /**
      * Executes this command.

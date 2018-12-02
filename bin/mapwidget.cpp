@@ -6,6 +6,7 @@
 
 #include <QMouseEvent>
 #include <QPainter>
+#include <QRect>
 
 #include <rpgmapper/layer/layer.hpp>
 #include <rpgmapper/coordinate_system.hpp>
@@ -43,14 +44,8 @@ void MapWidget::mapSizeChanged() {
         throw std::runtime_error("Invalid map to render.");
     }
     
-    auto size = map->getCoordinateSystem()->getSize();
-    auto margins = map->getLayers().getBackgroundLayer()->getMargins();
-    
-    // +2 for the axis labels top and bottom, right and left
-    int width = margins.left() + margins.right() + (size.width() + 2) * getTileSize();
-    int height = margins.top() + margins.bottom() + (size.height() + 2) * getTileSize();
-    
-    resize(QSize{width, height});
+    auto rect = map->getCoordinateSystem()->getOuterRect(getTileSize());
+    resize(rect.size());
 }
 
 
@@ -119,5 +114,4 @@ void MapWidget::setMap(QString mapName) {
     auto backgroundLayer = map->getLayers().getBackgroundLayer();
     
     connect(coordinateSystem.data(), &CoordinateSystem::sizeChanged, this, &MapWidget::mapSizeChanged);
-    connect(backgroundLayer.data(), &BackgroundLayer::backgroundMarginsChanged, this, &MapWidget::mapSizeChanged);
 }

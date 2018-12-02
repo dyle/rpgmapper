@@ -20,7 +20,7 @@
 #include <rpgmapper/command/set_map_background_image_render_mode.hpp>
 #include <rpgmapper/command/set_map_background_rendering.hpp>
 #include <rpgmapper/command/set_map_grid_color.hpp>
-#include <rpgmapper/command/set_map_margins.hpp>
+#include <rpgmapper/command/set_map_margin.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
 #include <rpgmapper/command/set_map_origin.hpp>
@@ -340,24 +340,11 @@ TEST(MapCommand, SetMapMargins) {
     auto map = session->findMap("bar");
     ASSERT_TRUE(map->isValid());
 
-    processor->execute(CommandPointer{new SetMapMargins{"bar", QMargins{11, 22, 33, 44}}});
-    auto margins = map->getLayers().getBackgroundLayer()->getMargins();
-    EXPECT_EQ(margins.left(), 11);
-    EXPECT_EQ(margins.top(), 22);
-    EXPECT_EQ(margins.right(), 33);
-    EXPECT_EQ(margins.bottom(), 44);
-
-    processor->execute(CommandPointer{new SetMapMargins{"bar", QMargins{9, 8, 7, 6}}});
-    margins = map->getLayers().getBackgroundLayer()->getMargins();
-    EXPECT_EQ(margins.left(), 9);
-    EXPECT_EQ(margins.top(), 8);
-    EXPECT_EQ(margins.right(), 7);
-    EXPECT_EQ(margins.bottom(), 6);
-
-    processor->execute(CommandPointer{new SetMapMargins{"bar", QMargins{0, 0, 0, 0}}});
-    margins = map->getLayers().getBackgroundLayer()->getMargins();
-    EXPECT_EQ(margins.left(), 0);
-    EXPECT_EQ(margins.top(), 0);
-    EXPECT_EQ(margins.right(), 0);
-    EXPECT_EQ(margins.bottom(), 0);
+    processor->execute(CommandPointer{new SetMapMargin{"bar", 1.0}});
+    auto margin = map->getCoordinateSystem()->getMargin();
+    EXPECT_EQ(margin, 1.0);
+    
+    processor->execute(CommandPointer{new SetMapMargin{"bar", 0.0}});
+    margin = map->getCoordinateSystem()->getMargin();
+    EXPECT_EQ(margin, 0.0);
 }

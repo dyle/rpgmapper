@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>416</width>
-    <height>522</height>
+    <width>438</width>
+    <height>491</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -192,6 +192,60 @@
                 </size>
                </property>
               </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="marginWidget" native="true">
+            <layout class="QHBoxLayout" name="marginLayout" stretch="0,1,0">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="marginTitleLabel">
+               <property name="text">
+                <string>Margin:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="marginSlider">
+               <property name="maximum">
+                <number>100</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="marginValue">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -775,72 +829,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QGroupBox" name="backgroundMarginsGroupBox">
-               <property name="title">
-                <string>Margins</string>
-               </property>
-               <layout class="QGridLayout" name="gridLayout" columnstretch="0,1">
-                <item row="2" column="1">
-                 <widget class="QSpinBox" name="topMarginSpinBox">
-                  <property name="maximum">
-                   <number>1024</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="leftMarginLabel">
-                  <property name="text">
-                   <string>Left:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QSpinBox" name="leftMarginSpinBox">
-                  <property name="maximum">
-                   <number>1024</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QSpinBox" name="rightMarginSpinBox">
-                  <property name="maximum">
-                   <number>1024</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QSpinBox" name="bottomMarginSpinBox">
-                  <property name="maximum">
-                   <number>1024</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="rightMarginLabel">
-                  <property name="text">
-                   <string>Right:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="topMarginLabel">
-                  <property name="text">
-                   <string>Top:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="bottomMarginLabel">
-                  <property name="text">
-                   <string>Bottom:</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer">
+              <spacer name="backgroundSpace">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -868,8 +857,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>338</width>
-               <height>487</height>
+               <width>182</width>
+               <height>350</height>
               </rect>
              </property>
             </widget>
@@ -949,6 +938,7 @@
   <tabstop>widthSpinBox</tabstop>
   <tabstop>heightSpinBox</tabstop>
   <tabstop>linkWidthHeightToolButton</tabstop>
+  <tabstop>marginSlider</tabstop>
   <tabstop>xNumericalRadioButton</tabstop>
   <tabstop>xAlphaSmallRadioButton</tabstop>
   <tabstop>xAlphaBigRadioButton</tabstop>
@@ -965,19 +955,15 @@
   <tabstop>axisFontToolButton</tabstop>
   <tabstop>axisColorToolButton</tabstop>
   <tabstop>gridColorToolButton</tabstop>
-  <tabstop>backgroundColorRadioButton</tabstop>
+  <tabstop>backgroundImageRadioButton</tabstop>
   <tabstop>backgroundColorToolButton</tabstop>
   <tabstop>backgroundImageScrollArea</tabstop>
-  <tabstop>backgroundImageRadioButton</tabstop>
+  <tabstop>backgroundColorRadioButton</tabstop>
   <tabstop>backgroundImageFileComboBox</tabstop>
   <tabstop>backgroundImageFileToolButton</tabstop>
   <tabstop>backgroundImagePlainRadioButton</tabstop>
   <tabstop>backgroundImageScaledRadioButton</tabstop>
   <tabstop>backgroundImageTiledRadioButton</tabstop>
-  <tabstop>leftMarginSpinBox</tabstop>
-  <tabstop>rightMarginSpinBox</tabstop>
-  <tabstop>topMarginSpinBox</tabstop>
-  <tabstop>bottomMarginSpinBox</tabstop>
   <tabstop>okButton</tabstop>
   <tabstop>cancelButton</tabstop>
  </tabstops>

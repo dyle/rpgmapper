@@ -13,6 +13,7 @@
 #include <QPoint>
 #include <QPointF>
 #include <QObject>
+#include <QRect>
 #include <QSize>
 
 #include <rpgmapper/json/json_io.hpp>
@@ -59,6 +60,7 @@ class CoordinateSystem : public QObject, public json::JSONIO {
     QSharedPointer<NumeralConverter> numeralXAxis;                  /**< Numerals used for the X-Axis. */
     QSharedPointer<NumeralConverter> numeralYAxis;                  /**< Numerals used for the Y-Axis. */
     QPointF offset{0.0, 0.0};                                       /**< Offset of the origin. */
+    float margin{0.0};                                              /**< Margin in tile size steps. */
 
 public:
 
@@ -76,11 +78,30 @@ public:
     bool applyJSON(QJsonObject const & json) override;
     
     /**
+     * Gets the inner rect of the map.
+     *
+     * The inner rect of the map respects the margin an the axis labels (1 tile size unit)
+     *
+     * @param   tileSize        size of a single tile
+     * @return  a rectangle holding  the outer dimension information
+     */
+    QRect getInnerRect(int tileSize) const;
+    
+    /**
      * Create a JSON structure from ourselves.
      *
      * @return      a valid JSON  structure from ourselves.
      */
     QJsonObject getJSON() const override;
+    
+    /**
+     * Returns the margin as a factor of tile size.
+     *
+     * @return  the margin for the map.
+     */
+    float getMargin() const {
+        return margin;
+    }
 
     /**
      * Gets the maximum dimension of a map.
@@ -156,6 +177,16 @@ public:
     }
 
     /**
+     * Gets the outer rect of the map.
+     *
+     * The outer rect of the map respects the margin an the axis labels (1 tile size unit)
+     *
+     * @param   tileSize        size of a single tile
+     * @return  a rectangle holding  the outer dimension information
+     */
+    QRect getOuterRect(int tileSize) const;
+    
+    /**
      * Returns the current dimension of the map.
      *
      * @return  the current size of the map.
@@ -171,6 +202,13 @@ public:
      * @return  true, if this size can be used as a map size.
      */
     static bool isValidSize(QSize size);
+    
+    /**
+     * Applies a new margin to the map.
+     *
+     * @param   newMargin       the new margin in units of tile size.
+     */
+    void setMargin(float newMargin);
 
     /**
      * Applies a new numeral converter to the X-Axis.
@@ -308,6 +346,11 @@ public:
     }
 
 signals:
+
+    /**
+     * The margin value changed.
+     */
+    void marginChanged();
     
     /**
      * The X-Axis numeral converter has changed.

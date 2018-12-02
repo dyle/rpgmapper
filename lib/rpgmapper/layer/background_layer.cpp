@@ -33,7 +33,6 @@ static char const * BACKGROUND_COLOR_DEFAULT = "#fafaff";
 
 BackgroundLayer::BackgroundLayer(Map * map) : Layer{map}, backgroundPixmap{nullptr} {
     getAttributes()["color"] = BACKGROUND_COLOR_DEFAULT;
-    getAttributes()["margins"] = R"raw({"top":0,"left":0,"right":0,"bottom":0})raw";
     getAttributes()["rendering"] = "color";
     getAttributes()["renderImageMode"] = "plain";
     getAttributes()["renderImageName"] = QString::null;
@@ -44,28 +43,6 @@ BackgroundLayer::~BackgroundLayer() {
     if (backgroundPixmap) {
         delete backgroundPixmap;
     }
-}
-
-
-bool BackgroundLayer::applyJsonMargins(QJsonObject const & json) {
-
-    auto margins = getMargins();
-
-    if (json.contains("left") && json["left"].isDouble()) {
-        margins.setLeft(static_cast<int>(json["left"].toDouble()));
-    }
-    if (json.contains("top") && json["top"].isDouble()) {
-        margins.setTop(static_cast<int>(json["top"].toDouble()));
-    }
-    if (json.contains("right") && json["right"].isDouble()) {
-        margins.setRight(static_cast<int>(json["right"].toDouble()));
-    }
-    if (json.contains("bottom") && json["bottom"].isDouble()) {
-        margins.setBottom(static_cast<int>(json["bottom"].toDouble()));
-    }
-
-    setMargins(margins);
-    return true;
 }
 
 
@@ -85,26 +62,9 @@ bool BackgroundLayer::applyJSON(QJsonObject const & json) {
     if (json.contains("rendering") && json["rendering"].isString()) {
         setRendering(json["rendering"].toString());
     }
-    if (json.contains("margins") && json["margins"].isObject()) {
-        applyJsonMargins(json["margins"].toObject());
-    }
 
     return true;
 }
-
-QRect BackgroundLayer::backgroundRect(int tileSize) const {
-    
-    QRect rect{0, 0, 0, 0};
-    
-    // +2 for the axis labels on each size
-    QSize mapSize = getMap()->getCoordinateSystem()->getSize();
-    auto margins = getMargins();
-    rect.setWidth(mapSize.width() * tileSize + margins.left() + margins.right());
-    rect.setHeight(mapSize.height() * tileSize + margins.top() + margins.top());
-    
-    return rect;
-}
-
 
 void BackgroundLayer::draw(QPainter & painter, int tileSize) const {
     
@@ -123,13 +83,15 @@ void BackgroundLayer::draw(QPainter & painter, int tileSize) const {
 
 
 void BackgroundLayer::drawColor(QPainter & painter, int tileSize) const {
+    auto rect = getMap()->getCoordinateSystem()->getInnerRect(tileSize);
     QColor backgroundColor = getColor();
-    painter.fillRect(backgroundRect(tileSize), backgroundColor);
+    painter.fillRect(rect, backgroundColor);
 }
 
 
 void BackgroundLayer::drawImage(QPainter & painter, int tileSize) const {
-    drawBackground(painter, backgroundRect(tileSize));
+    auto rect = getMap()->getCoordinateSystem()->getOuterRect(tileSize);
+    drawBackground(painter, rect);
 }
 
 
@@ -165,28 +127,7 @@ QJsonObject BackgroundLayer::getJSON() const {
     jsonObject["renderImageName"] = getImageResource();
     jsonObject["rendering"] = getRendering();
 
-    QJsonObject jsonMargins;
-    auto margins = getMargins();
-    jsonMargins["left"] = margins.left();
-    jsonMargins["top"] = margins.top();
-    jsonMargins["right"] = margins.right();
-    jsonMargins["bottom"] = margins.bottom();
-    jsonObject["margins"] = jsonMargins;
-    
     return jsonObject;
-}
-
-
-QMargins BackgroundLayer::getMargins() const {
-
-    auto json = QJsonDocument::fromJson(getAttributes().at("margins").toUtf8()).object();
-
-    int left = json.contains("left") ? static_cast<int>(json["left"].toDouble(0.0)) : 0;
-    int top = json.contains("top") ? static_cast<int>(json["top"].toDouble(0.0)) : 0;
-    int right = json.contains("right") ? static_cast<int>(json["right"].toDouble(0.0)) : 0;
-    int bottom = json.contains("bottom") ? static_cast<int>(json["bottom"].toDouble(0.0)) : 0;
-
-    return {left, top, right, bottom};
 }
 
 
@@ -251,19 +192,6 @@ void BackgroundLayer::setImageRenderMode(ImageRenderMode mode) {
     if (getImageRenderMode() != mode) {
         BackgroundRenderer::setImageRenderMode(mode);
         emit backgroundImageRenderModeChanged(mode);
-    }
-}
-
-
-void BackgroundLayer::setMargins(QMargins margins) {
-    
-    if (getMargins() != margins) {
-    
-        auto json = QString(R"raw({"top":%1,"left":%2,"right":%3,"bottom":%4})raw")
-                .arg(margins.top()).arg(margins.left()).arg(margins.right()).arg(margins.bottom());
-        getAttributes()["margins"] = json;
-    
-        emit backgroundMarginsChanged(margins);
     }
 }
 

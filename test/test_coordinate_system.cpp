@@ -251,3 +251,43 @@ TEST(CoordinateSystemTest, NumeralsRoman) {
     EXPECT_EQ(coordinates.x.toStdString(), "VII");
     EXPECT_EQ(coordinates.y.toStdString(), "V");
 }
+
+
+TEST(CoordinateSystemTest, OuterRect) {
+    
+    CoordinateSystem coordinateSystem;
+    coordinateSystem.resize(QSize{10, 10});
+    
+    coordinateSystem.setMargin(0.0);
+    EXPECT_EQ(coordinateSystem.getMargin(), 0.0);
+    
+    auto outerRect = coordinateSystem.getOuterRect(48);
+    EXPECT_EQ(outerRect.x(), 0);
+    EXPECT_EQ(outerRect.y(), 0);
+    EXPECT_EQ(outerRect.width(), 48 * 12 + 48 * 0.0 * 2);
+    EXPECT_EQ(outerRect.width(), 48 * 12 + 48 * 0.0 * 2);
+    
+    outerRect = coordinateSystem.getOuterRect(32);
+    EXPECT_EQ(outerRect.x(), 0);
+    EXPECT_EQ(outerRect.y(), 0);
+    EXPECT_EQ(outerRect.width(), 32 * 12 + 32 * 0.0 * 2);
+    EXPECT_EQ(outerRect.width(), 32 * 12 + 32 * 0.0 * 2);
+    
+    coordinateSystem.setMargin(1.0);
+    EXPECT_EQ(coordinateSystem.getMargin(), 1.0);
+    
+    outerRect = coordinateSystem.getOuterRect(32);
+    EXPECT_EQ(outerRect.x(), 0);
+    EXPECT_EQ(outerRect.y(), 0);
+    EXPECT_EQ(outerRect.width(), 32 * 12 + 32 * 1.0 * 2);
+    EXPECT_EQ(outerRect.width(), 32 * 12 + 32 * 1.0 * 2);
+    
+    coordinateSystem.setMargin(2.5);
+    EXPECT_EQ(coordinateSystem.getMargin(), 2.5);
+    
+    outerRect = coordinateSystem.getOuterRect(48);
+    EXPECT_EQ(outerRect.x(), 0);
+    EXPECT_EQ(outerRect.y(), 0);
+    EXPECT_EQ(outerRect.width(), 48 * 12 + 48 * 2.5 * 2);
+    EXPECT_EQ(outerRect.width(), 48 * 12 + 48 * 2.5 * 2);
+}

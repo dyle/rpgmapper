@@ -120,9 +120,9 @@ private:
     /**
      * Returns the margin the user has set for the map.
      *
-     * @return  the margins as the user has defined them.
+     * @return  the margin as the user has defined them.
      */
-    QMargins getSelectedMargins() const;
+    float getSelectedMargin() const;
 
     /**
      * Returns the numeral converter for the X-Axis the user has set for the map.
@@ -195,6 +195,13 @@ private slots:
      * @param   value       the new map height value.
      */
     void heightChanged(int value);
+    
+    /**
+     * The value of the margin slider changed.
+     *
+     * @param   value       the new margin slider value
+     */
+    void marginSliderValueChange(int value);
 
     /**
      * The user has selected a new axis color.

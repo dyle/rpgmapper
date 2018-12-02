@@ -91,13 +91,6 @@ public:
     QJsonObject getJSON() const override;
 
     /**
-     * Gets the margins used for rendering the background.
-     *
-     * @return  margins (top, left, right, bottom) in pixel of the map.
-     */
-    QMargins getMargins() const;
-
-    /**
      * Gets the image rendering mode setting as string.
      *
      * @return  the image rendering mode settings as string.
@@ -175,13 +168,6 @@ public:
     void setImageResource(QString name);
     
     /**
-     * Applies new margins to the background.
-     *
-     * @param   margins     new margins for the background.
-     */
-    void setMargins(QMargins margins);
-
-    /**
      * Sets a new rendering theme: "color" or "image".
      *
      * @param   rendering       either "color" or "image".
@@ -212,13 +198,6 @@ signals:
     void backgroundImageRenderModeChanged(ImageRenderMode mode);
     
     /**
-     * The background margins have changed.
-     *
-     * @param   margins     the new background margins.
-     */
-    void backgroundMarginsChanged(QMargins margins);
-    
-    /**
      * The background rendering has changed.
      *
      * @param   rendering   the new background rendering.
@@ -227,22 +206,6 @@ signals:
     
 private:
 
-    /**
-     * Applies the JSON margins settings to this background layer.
-     *
-     * @param   json        the JSON object holding the margin information.
-     * @return  always true (TODO: why? not needed! Unnecessary.)
-     */
-    bool applyJsonMargins(QJsonObject const & json);
-    
-    /**
-     * Calculate the background rectangle for a given tilesize.
-     *
-     * @param   tileSize        the current tilesize.
-     * @return  a rect holding the background including margins for the tilesize.
-     */
-    QRect backgroundRect(int tileSize) const;
-    
     /**
      * Draws the background of the map with a solid color
      *

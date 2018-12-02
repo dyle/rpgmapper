@@ -69,6 +69,13 @@ bool CoordinateSystem::applyJSON(QJsonObject const & json) {
         return false;
     }
     
+    if (json.contains("margin") && json["margin"].isDouble()) {
+        auto newMargin = static_cast<float>(json["margin"].toDouble());
+        if (newMargin >= 0.0) {
+            margin = newMargin;
+        }
+    }
+
     if (json.contains("offset") && json["offset"].isObject() && !applyJSONOffset(json["offset"].toObject())) {
         return false;
     }
@@ -138,6 +145,25 @@ bool CoordinateSystem::applyJSONSize(QJsonObject const & json) {
 }
 
 
+QRect CoordinateSystem::getInnerRect(int tileSize) const {
+    
+    QRect rect{0, 0, 0, 0};
+    QSize size = getSize();
+    
+    int axisLabelHeight = tileSize;
+    int marginHeight = static_cast<int>(getMargin() * tileSize);
+    int axisLabelWidth = tileSize;
+    int marginWidth = static_cast<int>(getMargin() * tileSize);
+    
+    rect.setX(axisLabelWidth + marginWidth);
+    rect.setY(axisLabelHeight + marginHeight);
+    rect.setHeight(size.height() * tileSize);
+    rect.setWidth(size.width() * tileSize);
+    
+    return rect;
+}
+
+
 QJsonObject CoordinateSystem::getJSON() const {
 
     QJsonObject json;
@@ -147,6 +173,8 @@ QJsonObject CoordinateSystem::getJSON() const {
     jsonSize["width"] = size.width();
     jsonSize["height"] = size.height();
     json["size"] = jsonSize;
+    
+    json["margin"] = margin;
 
     QJsonObject jsonOffset;
     jsonOffset["x"] = offset.x();
@@ -167,6 +195,23 @@ NumeralCoordinates CoordinateSystem::getNumeralCoordinates(QPoint position) cons
 }
 
 
+QRect CoordinateSystem::getOuterRect(int tileSize) const {
+    
+    QRect rect{0, 0, 0, 0};
+    QSize size = getSize();
+    
+    int axisLabelHeight = tileSize;
+    int marginHeight = static_cast<int>(getMargin() * tileSize);
+    int axisLabelWidth = tileSize;
+    int marginWidth = static_cast<int>(getMargin() * tileSize);
+    
+    rect.setHeight(size.height() * tileSize + axisLabelHeight * 2 + marginHeight * 2);
+    rect.setWidth(size.width() * tileSize + axisLabelWidth * 2 + marginWidth * 2);
+    
+    return rect;
+}
+
+
 bool CoordinateSystem::isValidSize(QSize size) {
     
     if ((size.width() < getMinimumSize().width()) || (size.height() < getMinimumSize().height())) {
@@ -177,6 +222,14 @@ bool CoordinateSystem::isValidSize(QSize size) {
     }
     
     return true;
+}
+
+
+void CoordinateSystem::setMargin(float newMargin) {
+    if ((newMargin >= 0.0) && (newMargin != margin)) {
+        margin = newMargin;
+        emit marginChanged();
+    }
 }
 
 

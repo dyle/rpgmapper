@@ -10,6 +10,7 @@
 #include <QFontDialog>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QSlider>
 #include <QSpinBox>
 #include <QToolButton>
 
@@ -23,7 +24,7 @@
 #include <rpgmapper/command/set_map_background_image_render_mode.hpp>
 #include <rpgmapper/command/set_map_background_rendering.hpp>
 #include <rpgmapper/command/set_map_grid_color.hpp>
-#include <rpgmapper/command/set_map_margins.hpp>
+#include <rpgmapper/command/set_map_margin.hpp>
 #include <rpgmapper/command/set_map_name.hpp>
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
 #include <rpgmapper/command/set_map_numeral_offset.hpp>
@@ -61,6 +62,8 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
             this, &MapPropertiesDialog::widthChanged);
     connect(ui->heightSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &MapPropertiesDialog::heightChanged);
+    connect(ui->marginSlider, static_cast<void (QSlider::*)(int)>(&QSlider::valueChanged),
+            this, &MapPropertiesDialog::marginSliderValueChange);
 
     connect(ui->xAlphaBigRadioButton, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleXAxis);
     connect(ui->xAlphaSmallRadioButton, &QRadioButton::clicked, this, &MapPropertiesDialog::showSampleXAxis);
@@ -193,11 +196,6 @@ void MapPropertiesDialog::applyBackgroundValuesToMap(CompositeCommand * & comman
     if (backgroundLayer->getImageRenderMode() != mode) {
         commands->addCommand(CommandPointer{new SetMapBackgroundImageRenderMode{newMapName, mode}});
     }
-
-    auto margins = getSelectedMargins();
-    if (margins != backgroundLayer->getMargins()) {
-        commands->addCommand(CommandPointer{new SetMapMargins{newMapName, margins}});
-    }
 }
 
 
@@ -223,6 +221,11 @@ void MapPropertiesDialog::applyDimensionValuesToMap(CompositeCommand * & command
     auto origin = ui->coordinatesOriginWidget->getOrigin();
     if (origin != coordinateSystem->getOrigin()) {
         commands->addCommand(CommandPointer{new SetMapOrigin{newMapName, origin}});
+    }
+    
+    auto margin = getSelectedMargin();
+    if (margin != coordinateSystem->getMargin()) {
+        commands->addCommand(CommandPointer{new SetMapMargin{newMapName, margin}});
     }
 }
 
@@ -329,11 +332,8 @@ rpgmapper::model::ImageRenderMode MapPropertiesDialog::getSelectedImageRenderMod
 }
 
 
-QMargins MapPropertiesDialog::getSelectedMargins() const {
-    return {ui->leftMarginSpinBox->value(),
-            ui->topMarginSpinBox->value(),
-            ui->rightMarginSpinBox->value(),
-            ui->bottomMarginSpinBox->value()};
+float MapPropertiesDialog::getSelectedMargin() const {
+    return static_cast<float>(ui->marginSlider->value()) / 10.0;
 }
 
 
@@ -446,6 +446,12 @@ bool MapPropertiesDialog::isUserInputValid() {
     }
 
     return true;
+}
+
+
+void MapPropertiesDialog::marginSliderValueChange(int value) {
+    float margin = static_cast<float>(value) / 10.0f;
+    ui->marginValue->setText(QString::number(margin, 'f', 1));
 }
 
 
@@ -606,6 +612,8 @@ void MapPropertiesDialog::setDimensionUiFromMap() {
     ui->heightSpinBox->setValue(map->isValid() ? coordinateSystem->getSize().height() : 0);
     ui->coordinatesOriginWidget->setOrigin(map->isValid() ? coordinateSystem->getOrigin()
                                                           : CoordinatesOrigin::bottomLeft);
+    ui->marginSlider->setValue(static_cast<int>(coordinateSystem->getMargin() * 10.0));
+    marginSliderValueChange(ui->marginSlider->value());
 }
 
 
@@ -636,14 +644,9 @@ void MapPropertiesDialog::setMargins() {
     if (!map->isValid()) {
         throw std::runtime_error("Invalid map to set.");
     }
-    auto layers = map->getLayers();
-    auto backgroundLayer = layers.getBackgroundLayer();
-
-    auto margins = backgroundLayer->getMargins();
-    ui->leftMarginSpinBox->setValue(margins.left());
-    ui->topMarginSpinBox->setValue(margins.top());
-    ui->rightMarginSpinBox->setValue(margins.right());
-    ui->bottomMarginSpinBox->setValue(margins.bottom());
+    
+    auto margin = map->getCoordinateSystem()->getMargin();
+    ui->marginSlider->setValue(static_cast<int>(margin) *10);
 }
 
 

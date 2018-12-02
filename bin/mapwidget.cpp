@@ -52,16 +52,19 @@ void MapWidget::mapSizeChanged() {
 void MapWidget::mouseMoveEvent(QMouseEvent * event) {
 
     QWidget::mouseMoveEvent(event);
-    int x = event->pos().x() / getTileSize() - 1;
-    int y = event->pos().y() / getTileSize() - 1;
     
     auto map = Session::getCurrentSession()->findMap(mapName);
     if (!map->isValid()) {
         throw std::runtime_error("Invalid map to render.");
     }
+    
     auto coordinateSystem = map->getCoordinateSystem();
-
     auto size = coordinateSystem->getSize();
+    auto rect = coordinateSystem->getInnerRect(getTileSize());
+    
+    int x = (event->pos().x() - rect.x()) / getTileSize() - 1;
+    int y = (event->pos().y() - rect.y()) / getTileSize() - 1;
+
     if ((x >= 0) && (x < size.width()) && (y >= 0) && (y < size.height())) {
         auto mapPosition = map->getCoordinateSystem()->transposeToMapCoordinates(x, y);
         emit hoverCoordinates(static_cast<int>(mapPosition.x()), static_cast<int>(mapPosition.y()));
@@ -77,8 +80,6 @@ void MapWidget::paintEvent(QPaintEvent * event) {
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.setTransform(QTransform::fromTranslate(getTileSize(), getTileSize()));
-    painter.setViewTransformEnabled(true);
     
     auto map = Session::getCurrentSession()->findMap(mapName);
     if (!map->isValid()) {
@@ -114,4 +115,5 @@ void MapWidget::setMap(QString mapName) {
     auto backgroundLayer = map->getLayers().getBackgroundLayer();
     
     connect(coordinateSystem.data(), &CoordinateSystem::sizeChanged, this, &MapWidget::mapSizeChanged);
+    connect(coordinateSystem.data(), &CoordinateSystem::marginChanged, this, &MapWidget::mapSizeChanged);
 }

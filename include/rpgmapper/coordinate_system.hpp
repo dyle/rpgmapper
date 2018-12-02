@@ -80,7 +80,7 @@ public:
     /**
      * Gets the inner rect of the map.
      *
-     * The inner rect of the map respects the margin an the axis labels (1 tile size unit)
+     * The inner rect of the map respects the margin and the axis labels (1 tile size unit)
      *
      * @param   tileSize        size of a single tile
      * @return  a rectangle holding  the outer dimension information
@@ -102,7 +102,7 @@ public:
     float getMargin() const {
         return margin;
     }
-
+    
     /**
      * Gets the maximum dimension of a map.
      *

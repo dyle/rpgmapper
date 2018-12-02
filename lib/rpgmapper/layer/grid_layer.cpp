@@ -36,19 +36,18 @@ void GridLayer::drawBorder(QPainter & painter, int tileSize) const {
         throw exception::invalid_map{};
     }
     
-    QSize size = map->getCoordinateSystem()->getSize() * tileSize;
-
+    auto rect = map->getCoordinateSystem()->getInnerRect(tileSize);
     painter.setPen(QPen(getColor(), 1, Qt::SolidLine, Qt::FlatCap));
-    painter.drawRect(0, 0, size.width(), size.height());
+    painter.drawRect(rect);
 
     auto nOuterTickLength = tileSize / 4;
-    for (int x = 0; x <= size.width(); x += tileSize) {
-        painter.drawLine(x, -nOuterTickLength, x, 0);
-        painter.drawLine(x, size.height(), x, size.height() + nOuterTickLength);
+    for (int x = 0; x <= rect.width(); x += tileSize) {
+        painter.drawLine(rect.x() + x, rect.y() - nOuterTickLength, rect.x() + x, rect.y());
+        painter.drawLine(rect.x() + x, rect.bottom(), rect.x() + x, rect.bottom() + nOuterTickLength);
     }
-    for (int y = 0; y <= size.height(); y += tileSize) {
-        painter.drawLine(-nOuterTickLength, y, 0, y);
-        painter.drawLine(size.width(), y, size.width() + nOuterTickLength, y);
+    for (int y = 0; y <= rect.height(); y += tileSize) {
+        painter.drawLine(rect.x() - nOuterTickLength, rect.y() + y, rect.x(), rect.y() + y);
+        painter.drawLine(rect.right(), rect.y() + y, rect.right() + nOuterTickLength, rect.y() + y);
     }
 }
 
@@ -60,10 +59,10 @@ void GridLayer::drawXAxis(QPainter & painter, int tileSize) const {
         throw exception::invalid_map{};
     }
     
-    QSize cSize = map->getCoordinateSystem()->getSize() * tileSize;
+    auto rect = map->getCoordinateSystem()->getInnerRect(tileSize);
     painter.setPen(QPen(getColor(), 1, Qt::DotLine, Qt::FlatCap));
-    for (int x = tileSize; x <= cSize.width() - tileSize; x += tileSize) {
-        painter.drawLine(x, 0, x, cSize.height());
+    for (int x = tileSize; x <= rect.width() - tileSize; x += tileSize) {
+        painter.drawLine(rect.x() + x, rect.y(), rect.x() + x, rect.y() + rect.height());
     }
 }
 
@@ -75,10 +74,10 @@ void GridLayer::drawYAxis(QPainter & painter, int tileSize) const {
         throw exception::invalid_map{};
     }
     
-    QSize cSize = map->getCoordinateSystem()->getSize() * tileSize;
+    auto rect = map->getCoordinateSystem()->getInnerRect(tileSize);
     painter.setPen(QPen(getColor(), 1, Qt::DotLine, Qt::FlatCap));
-    for (int y = tileSize; y <= cSize.height() - tileSize; y += tileSize) {
-        painter.drawLine(0, y, cSize.height(), y);
+    for (int y = tileSize; y <= rect.height() - tileSize; y += tileSize) {
+        painter.drawLine(rect.x(), rect.y() + y, rect.x() + rect.height(), rect.y() + y);
     }
 }
 

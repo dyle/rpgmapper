@@ -41,18 +41,17 @@ void AxisLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
         throw exception::invalid_map{};
     }
     
-    QSize cSize = map->getCoordinateSystem()->getSize();
-    int nBottom = cSize.height() * tileSize;
-
-    for (int x = 0; x < cSize.width(); ++x) {
+    auto rect = map->getCoordinateSystem()->getInnerRect(tileSize);
+    QSize size = map->getCoordinateSystem()->getSize();
+    for (int x = 0; x < size.width(); ++x) {
 
         auto mapPosition = map->getCoordinateSystem()->transposeToMapCoordinates(x, 0);
         QString sX = map->getCoordinateSystem()->tanslateToNumeralOnX(mapPosition.x());
 
-        QRect cUpperRect{x * tileSize, -tileSize, tileSize, tileSize};
-        painter.drawText(cUpperRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
-        QRect cLowerRect{x * tileSize, nBottom, tileSize, tileSize};
-        painter.drawText(cLowerRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
+        QRect upperRect{rect.x() + x * tileSize, rect.y() + -tileSize, tileSize, tileSize};
+        painter.drawText(upperRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
+        QRect lowerRect{rect.x() + x * tileSize, rect.bottom(), tileSize, tileSize};
+        painter.drawText(lowerRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
     }
 }
 
@@ -67,18 +66,17 @@ void AxisLayer::drawYAnnotation(QPainter & painter, int tileSize) const {
         throw exception::invalid_map{};
     }
     
+    auto rect = map->getCoordinateSystem()->getInnerRect(tileSize);
     QSize cSize = map->getCoordinateSystem()->getSize();
-    int nRight = cSize.width() * tileSize;
-
     for (int y = 0; y < cSize.height(); ++y) {
 
         auto mapPosition = map->getCoordinateSystem()->transposeToMapCoordinates(0, y);
         QString sY = map->getCoordinateSystem()->tanslateToNumeralOnY(mapPosition.y());
 
-        QRect cLeftRect{-tileSize, y * tileSize, tileSize, tileSize};
-        painter.drawText(cLeftRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
-        QRect cRightRect{nRight, y * tileSize, tileSize, tileSize};
-        painter.drawText(cRightRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
+        QRect leftRect{rect.x() + -tileSize, rect.y() + y * tileSize, tileSize, tileSize};
+        painter.drawText(leftRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
+        QRect rightRect{rect.right(), rect.y() + y * tileSize, tileSize, tileSize};
+        painter.drawText(rightRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
     }
 }
 

@@ -6,6 +6,8 @@
 
 #include <gtest/gtest.h>
 
+#include <QApplication>
+
 #include <rpgmapper/layer/layer.hpp>
 #include <rpgmapper/map.hpp>
 

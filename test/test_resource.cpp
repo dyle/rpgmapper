@@ -21,11 +21,11 @@ TEST(ResoucrceDB, InsertResource) {
 
     EXPECT_EQ(resources->getResources().size(), 1);
 
-    auto pair = resources->getResources().find("data");
+    auto pair = resources->getResources().find("xxx");
     bool found = (pair != resources->getResources().end());
     EXPECT_FALSE(found);
 
-    pair = resources->getResources().find(Resource::getHash(data));
+    pair = resources->getResources().find("data");
     found = (pair != resources->getResources().end());
     EXPECT_TRUE(found);
     EXPECT_EQ((*pair).second->getName().toStdString(), "data");

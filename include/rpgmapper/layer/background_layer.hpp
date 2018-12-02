@@ -30,7 +30,7 @@ class BackgroundLayer : public Layer, public BackgroundRenderer {
 
     Q_OBJECT
     
-    QPixmap backgroundPixmap;           /**< Pixmap used to draw the background. */
+    QPixmap * backgroundPixmap;            /**< Pixmap used to draw the background. */
 
 public:
 
@@ -44,7 +44,7 @@ public:
     /**
      * Destructs the BackgroundLayer.
      */
-    ~BackgroundLayer() override = default;
+    ~BackgroundLayer() override;
 
     /**
      * Extract the layer information in the given JSON object and apply it to this layer.

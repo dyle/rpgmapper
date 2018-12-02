@@ -31,12 +31,19 @@ using namespace rpgmapper::model;
 static char const * BACKGROUND_COLOR_DEFAULT = "#fafaff";
 
 
-BackgroundLayer::BackgroundLayer(Map * map) : Layer{map} {
+BackgroundLayer::BackgroundLayer(Map * map) : Layer{map}, backgroundPixmap{nullptr} {
     getAttributes()["color"] = BACKGROUND_COLOR_DEFAULT;
     getAttributes()["margins"] = R"raw({"top":0,"left":0,"right":0,"bottom":0})raw";
     getAttributes()["rendering"] = "color";
     getAttributes()["renderImageMode"] = "plain";
     getAttributes()["renderImageName"] = QString::null;
+}
+
+
+BackgroundLayer::~BackgroundLayer() {
+    if (backgroundPixmap) {
+        delete backgroundPixmap;
+    }
 }
 
 
@@ -127,7 +134,7 @@ void BackgroundLayer::drawImage(QPainter & painter, int tileSize) const {
 
 
 QPixmap const * BackgroundLayer::getBackgroundPixmap() const {
-    return &backgroundPixmap;
+    return backgroundPixmap;
 }
 
 
@@ -228,7 +235,10 @@ void BackgroundLayer::setImageResource(QString name) {
         
         auto resource = ResourceDB::getResource(name);
         if (resource) {
-            backgroundPixmap = QPixmap::fromImage(QImage::fromData(resource->getData()));
+            if (backgroundPixmap) {
+                delete backgroundPixmap;
+            }
+            backgroundPixmap = new QPixmap{QPixmap::fromImage(QImage::fromData(resource->getData()))};
         }
         
         emit backgroundImageChanged(name);

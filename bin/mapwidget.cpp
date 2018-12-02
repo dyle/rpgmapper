@@ -62,6 +62,8 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
     auto size = coordinateSystem->getSize();
     auto rect = coordinateSystem->getInnerRect(getTileSize());
     
+    // TODO: not working, buggy
+    
     int x = (event->pos().x() - rect.x()) / getTileSize() - 1;
     int y = (event->pos().y() - rect.y()) / getTileSize() - 1;
 

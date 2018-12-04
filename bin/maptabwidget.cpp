@@ -39,7 +39,7 @@ void MapTabWidget::currentChanged(int index) {
     if (!mapScrollArea) {
         return;
     }
-    
+
     auto mapWidget = dynamic_cast<MapWidget *>(mapScrollArea->widget());
     if (!mapWidget) {
         return;

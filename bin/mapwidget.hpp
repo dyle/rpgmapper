@@ -33,7 +33,7 @@ class MapWidget : public QWidget {
      * This holds the average time of the time durations in milliseconds.
      */
     rpgmapper::model::AverageOverSize<float> averagePaintDuration;
-
+    
 public:
 
     /**

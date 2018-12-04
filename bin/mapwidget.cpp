@@ -6,7 +6,6 @@
 
 #include <QMouseEvent>
 #include <QPainter>
-#include <QRect>
 
 #include <rpgmapper/layer/layer.hpp>
 #include <rpgmapper/coordinate_system.hpp>
@@ -62,11 +61,8 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
     auto size = coordinateSystem->getSize();
     auto rect = coordinateSystem->getInnerRect(getTileSize());
     
-    // TODO: not working, buggy
-    
-    int x = (event->pos().x() - rect.x()) / getTileSize() - 1;
-    int y = (event->pos().y() - rect.y()) / getTileSize() - 1;
-
+    int x = (event->pos().x() - rect.x()) / getTileSize();
+    int y = (event->pos().y() - rect.y()) / getTileSize();
     if ((x >= 0) && (x < size.width()) && (y >= 0) && (y < size.height())) {
         auto mapPosition = map->getCoordinateSystem()->transposeToMapCoordinates(x, y);
         emit hoverCoordinates(static_cast<int>(mapPosition.x()), static_cast<int>(mapPosition.y()));

@@ -288,9 +288,6 @@ void Session::selectRegion(QString name) {
     if (name != currentRegionName) {
         currentRegionName = name;
         emit selectedRegion(currentRegionName);
-    }
-    
-    if (!currentMapName.isEmpty()) {
         currentMapName = QString::null;
         emit selectedMap(currentMapName);
     }

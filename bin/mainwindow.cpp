@@ -25,6 +25,8 @@
 
 #include "mainwindow.hpp"
 #include "visibility_action_filter.hpp"
+#include "zoomslider.hpp"
+
 #include "ui_mainwindow.h"
 
 #if defined(__GNUC__) || defined(__GNUCPP__)
@@ -42,6 +44,9 @@ MainWindow::MainWindow() : QMainWindow{} {
 
     ui = std::make_shared<Ui_mainwindow>();
     ui->setupUi(this);
+    
+    zoomSlider = new ZoomSlider{this};
+    ui->mainToolBar->insertWidget(ui->actionShowAxis, zoomSlider);
 
     coordinatesWidget = new CoordinatesWidget{this};
     statusBar()->addPermanentWidget(coordinatesWidget);
@@ -188,6 +193,8 @@ void MainWindow::connectActions() {
 
     connect(ui->mapTabWidget, &QTabWidget::currentChanged, this, &MainWindow::enableActions);
     connect(ui->mapTabWidget, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
+    
+    connect(zoomSlider, &ZoomSlider::zoomChanged, this, &MainWindow::zoomChanged);
 }
 
 
@@ -446,6 +453,7 @@ void MainWindow::enableActions() {
     ui->actionShowAxis->setEnabled(mapWidget);
     ui->actionShowGrid->setEnabled(mapWidget);
     if (mapWidget) {
+        zoomSlider->setTileSize(mapWidget->getTileSize());
         ui->actionShowAxis->setChecked(mapWidget->isAxisVisible());
         ui->actionShowGrid->setChecked(mapWidget->isGridVisible());
     }
@@ -741,4 +749,12 @@ void MainWindow::visibleStructure(bool visible) {
 
 void MainWindow::visibleTiles(bool visible) {
     ui->tilesDockWidget->setVisible(visible);
+}
+
+
+void MainWindow::zoomChanged() {
+    auto mapWidget = getCurrentMapWidget();
+    if (mapWidget) {
+        mapWidget->setTileSize(zoomSlider->getTileSize());
+    }
 }

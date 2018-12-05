@@ -18,6 +18,7 @@
 #include "logdialog.hpp"
 #include "mappropertiesdialog.hpp"
 #include "mapwidget.hpp"
+#include "zoomslider.hpp"
 
 
 // fwd
@@ -49,6 +50,8 @@ class MainWindow : public QMainWindow {
     QList<QAction *> recentFileLoadActions;                     /**< Menu-actions to load the atlas files. */
 
     CoordinatesWidget * coordinatesWidget = nullptr;            /**< Pre-created coordinate widgets. */
+    
+    ZoomSlider * zoomSlider = nullptr;                          /**< Map Widget Zoom Slider */
 
 public:
 
@@ -312,6 +315,11 @@ private slots:
      * View the current map.
      */
     void viewCurrentMap();
+    
+    /*+
+     * Zoom of the active map changed.
+     */
+    void zoomChanged();
 };
 
 

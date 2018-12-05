@@ -111,6 +111,13 @@ public slots:
      */
     void mapSizeChanged();
     
+    /**
+     * Applies a new tile size to show.
+     *
+     * @param   tileSize        the new tile size.
+     */
+    void setTileSize(int tileSize);
+
 protected:
 
     /**

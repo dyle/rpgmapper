@@ -19,6 +19,7 @@ set(RPGMAPPER_UI
     mainwindow.ui
     mappropertiesdialog.ui
     startupdialog.ui
+    zoomslider.ui
 )
 qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
 
@@ -37,6 +38,7 @@ set(RPGMAPPER_MOC
     startupdialog.hpp
     structuraltreewidget.hpp
     visibility_action_filter.hpp
+    zoomslider.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
 
@@ -56,6 +58,7 @@ set(RPGMAPPER_SRC
     startupdialog.cpp
     structuraltreewidget.cpp
     visibility_action_filter.cpp
+    zoomslider.cpp
 )
 
 

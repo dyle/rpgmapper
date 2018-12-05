@@ -169,3 +169,19 @@ void MapWidget::setMap(QString mapName) {
     connect(coordinateSystem.data(), &CoordinateSystem::sizeChanged, this, &MapWidget::mapSizeChanged);
     connect(coordinateSystem.data(), &CoordinateSystem::marginChanged, this, &MapWidget::mapSizeChanged);
 }
+
+
+void MapWidget::setTileSize(int tileSize) {
+    
+    if (tileSize == getTileSize()) {
+        return;
+    }
+    
+    if (tileSize < 0) {
+        throw std::runtime_error{"Tile size of map is negative."};
+    }
+    
+    this->tileSize = tileSize;
+    mapSizeChanged();
+    update();
+}

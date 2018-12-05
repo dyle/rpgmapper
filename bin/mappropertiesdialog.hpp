@@ -35,7 +35,6 @@ class MapPropertiesDialog : public QDialog {
 
     std::shared_ptr<Ui_mapPropertiesDialog> ui;                 /**< The User Interface as created by the uic. */
 
-    //std::map<QString, QImage> backgroundImages;                 /**< All known background images. */
     BackgroundImageLabel * backgroundPreviewLabel;              /**< The background image preview widget. */
 
     /**

@@ -8,43 +8,30 @@
 
 using namespace rpgmapper::model;
 
+#if defined(__GNUC__) || defined(__GNUCPP__)
+#   ifndef UNUSED
+#       define UNUSED   __attribute__((unused))
+#   endif
+#else
+#   define UNUSED
+#endif
+
 
 Layer::Layer(Map * map) : map{map} {
 }
 
 
-bool Layer::applyJSON(QJsonObject const & json) {
-
-    if (json.contains("visible") && json["visible"].isBool()) {
-        json["visible"].toBool() ? show() : hide();
-    }
+bool Layer::applyJSON(UNUSED QJsonObject const & json) {
     return true;
 }
 
 
 QJsonObject Layer::getJSON() const {
     QJsonObject jsonObject;
-    jsonObject["visible"] = isVisible();
     return jsonObject;
-}
-
-
-void Layer::hide() {
-    if (isVisible()) {
-        visible = false;
-        emit visibilityChanged();
-    }
 }
 
 
 void Layer::setMap(Map * map) {
     this->map = map;
-}
-
-
-void Layer::show() {
-    if (!isVisible()) {
-        visible = true;
-        emit visibilityChanged();
-    }
 }

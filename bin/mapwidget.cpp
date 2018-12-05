@@ -26,8 +26,46 @@ using namespace rpgmapper::view;
 #define STANDARD_TILE_SIZE      48
 
 
-MapWidget::MapWidget(QWidget * parent) : QWidget{parent}, tileSize{STANDARD_TILE_SIZE} {
+MapWidget::MapWidget(QWidget * parent)
+        : QWidget{parent},
+          tileSize{STANDARD_TILE_SIZE},
+          axisVisible{true},
+          gridVisible{true} {
     setMouseTracking(true);
+}
+
+
+std::list<rpgmapper::model::Layer const *> MapWidget::collectVisibleLayers() const {
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Invalid map to render.");
+    }
+
+    auto const & layerStack = map->getLayers();
+    
+    std::list<Layer const *> layers;
+    
+    layers.push_back(layerStack.getBackgroundLayer().data());
+    
+    for (auto & baseLayer : layerStack.getBaseLayers()) {
+        layers.push_back(baseLayer.data());
+    }
+    
+    if (isGridVisible()) {
+        layers.push_back(layerStack.getGridLayer().data());
+    }
+    
+    if (isAxisVisible()) {
+        layers.push_back(layerStack.getAxisLayer().data());
+    }
+    
+    for (auto & tileLayer : layerStack.getTileLayers()) {
+        layers.push_back(tileLayer.data());
+    }
+    layers.push_back(layerStack.getTextLayer().data());
+    
+    return layers;
 }
 
 
@@ -84,13 +122,29 @@ void MapWidget::paintEvent(QPaintEvent * event) {
         throw std::runtime_error("Invalid map to render.");
     }
 
-    for (auto layer : map->getLayers().collectVisibleLayers()) {
+    for (auto layer : collectVisibleLayers()) {
         layer->draw(painter, getTileSize());
     }
 
     auto end = std::chrono::system_clock::now();
     auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     averagePaintDuration << milliseconds;
+}
+
+
+void MapWidget::setAxisVisible(bool visible) {
+    if (isAxisVisible() != visible) {
+        axisVisible = visible;
+        update();
+    }
+}
+
+
+void MapWidget::setGridVisible(bool visible) {
+    if (isGridVisible() != visible) {
+        gridVisible = visible;
+        update();
+    }
 }
 
 

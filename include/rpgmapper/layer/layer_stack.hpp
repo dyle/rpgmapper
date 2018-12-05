@@ -7,8 +7,6 @@
 #ifndef RPGMAPPER_MODEL_LAYER_STACK_HPP
 #define RPGMAPPER_MODEL_LAYER_STACK_HPP
 
-#include <list>
-
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QSharedPointer>
@@ -62,19 +60,6 @@ public:
      * @return  always true (TODO: why? kick this! Unnecessary)
      */
     bool applyJSON(QJsonObject const & json);
-    
-    /**
-     * Collects all layers, which are currently visible, in proper order.
-     *
-     * The order is:
-     *      [0] - background
-     *      [1] - base layers (maybe more than 1)
-     *      [2] - grid
-     *      [3] - axis
-     *      [4] - tile layers (maybe more than 1)
-     *      [5] - text
-     */
-    std::list<rpgmapper::model::Layer const *> collectVisibleLayers() const;
     
     /**
      * Gets the axis layer.

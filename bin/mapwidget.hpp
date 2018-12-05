@@ -7,12 +7,14 @@
 #ifndef RPGMAPPER_VIEW_MAPWIDGET_HPP
 #define RPGMAPPER_VIEW_MAPWIDGET_HPP
 
+#include <list>
 #include <memory>
 
 #include <QString>
 #include <QWidget>
 
 #include <rpgmapper/average.hpp>
+#include <rpgmapper/layer/layer.hpp>
 
 
 namespace rpgmapper {
@@ -28,6 +30,9 @@ class MapWidget : public QWidget {
 
     QString mapName;               /**< The name of the map displayed. */
     int tileSize;                  /**< The current size of a single tile. */
+    
+    bool axisVisible;              /**< Visibility flag for the current axis. */
+    bool gridVisible;              /**< Visibility flag for the current grid. */
     
     /**
      * This holds the average time of the time durations in milliseconds.
@@ -61,6 +66,38 @@ public:
     }
     
     /**
+     * Checks if the axis is currently visible on this map widget.
+     *
+     * @return  true, if an axis should be shown.
+     */
+    bool isAxisVisible() const {
+        return axisVisible;
+    }
+    
+    /**
+     * Checks if the grid is currently visible on this map widget.
+     *
+     * @return  true, if an grid should be shown.
+     */
+    bool isGridVisible() const {
+        return gridVisible;
+    }
+    
+    /**
+     * Shows/hides the axis.
+     *
+     * @param   visible         the new axis visibility.
+     */
+    void setAxisVisible(bool visible);
+    
+    /**
+     * Shows/hides the grid.
+     *
+     * @param   visible         the new grid visibility.
+     */
+    void setGridVisible(bool visible);
+    
+    /**
      * Sets the map to display.
      *
      * @param   mapName     the map to render.
@@ -89,6 +126,21 @@ protected:
      * @param   event       the paint event.
      */
     void paintEvent(QPaintEvent * event) override;
+    
+private:
+    
+    /**
+     * Collects all layers, which are currently visible, in proper order.
+     *
+     * The order is:
+     *      [0] - background
+     *      [1] - base layers (maybe more than 1)
+     *      [2] - grid
+     *      [3] - axis
+     *      [4] - tile layers (maybe more than 1)
+     *      [5] - text
+     */
+    std::list<rpgmapper::model::Layer const *> collectVisibleLayers() const;
 
 private slots:
     

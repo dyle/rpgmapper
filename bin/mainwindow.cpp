@@ -174,6 +174,9 @@ void MainWindow::connectActions() {
     new VisibilityActionFiler(ui->atlasStructureDockWidget, ui->actionViewStructureTree, this);
     new VisibilityActionFiler(ui->tilesDockWidget, ui->actionViewTilesDock, this);
     new VisibilityActionFiler(ui->colorPickerDockWidget, ui->actionViewColorPicker, this);
+    
+    connect(ui->actionShowAxis, &QAction::toggled, this, &MainWindow::toogleCurrentAxisVisibility);
+    connect(ui->actionShowGrid, &QAction::toggled, this, &MainWindow::toogleCurrentGridVisibility);
 
     connect(ui->atlasTreeWidget, &StructuralTreeWidget::doubleClickedAtlas,
             ui->actionShowAtlasProperties, &QAction::trigger);
@@ -438,6 +441,14 @@ void MainWindow::enableActions() {
     ui->actionShowMapProperties->setEnabled(!currentMapName.isEmpty());
     ui->actionShowRegionProperties->setEnabled(!currentRegionName.isEmpty());
     ui->actionViewMap->setEnabled(!currentMapName.isEmpty());
+    
+    auto mapWidget = getCurrentMapWidget();
+    ui->actionShowAxis->setEnabled(mapWidget);
+    ui->actionShowGrid->setEnabled(mapWidget);
+    if (mapWidget) {
+        ui->actionShowAxis->setChecked(mapWidget->isAxisVisible());
+        ui->actionShowGrid->setChecked(mapWidget->isGridVisible());
+    }
 }
 
 
@@ -445,6 +456,11 @@ void MainWindow::executedCommand() {
     setApplicationWindowTitle();
 }
 
+
+MapWidget * MainWindow::getCurrentMapWidget() {
+    auto * mapScrollArea = dynamic_cast<MapScrollArea *>(ui->mapTabWidget->currentWidget());
+    return mapScrollArea ? dynamic_cast<MapWidget *>(mapScrollArea->widget()) : nullptr;
+}
 
 void MainWindow::load() {
 
@@ -679,6 +695,22 @@ void MainWindow::showEvent(QShowEvent * cEvent) {
         ui->actionViewStructureTree->setChecked(ui->atlasStructureDockWidget->isVisible());
         ui->actionViewTilesDock->setChecked(ui->tilesDockWidget->isVisible());
         bFirstTime = false;
+    }
+}
+
+
+void MainWindow::toogleCurrentAxisVisibility() {
+    auto mapWidget = getCurrentMapWidget();
+    if (mapWidget) {
+        mapWidget->setAxisVisible(ui->actionShowAxis->isChecked());
+    }
+}
+
+
+void MainWindow::toogleCurrentGridVisibility() {
+    auto mapWidget = getCurrentMapWidget();
+    if (mapWidget) {
+        mapWidget->setGridVisible(ui->actionShowGrid->isChecked());
     }
 }
 

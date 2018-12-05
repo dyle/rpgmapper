@@ -48,7 +48,6 @@ public:
 private:
     
     Attributes attributes;          /**< The attributes of the current Layer. */
-    bool visible = true;            /**< Visbility flag of the layer. */
     Map * map;                      /**< The map this layer belongs to. */
 
 public:
@@ -121,11 +120,6 @@ public:
     }
     
     /**
-     * Disables draw/visibility on next repaint.
-     */
-    void hide();
-
-    /**
      * Checks the validity of this layer object ("Null object pattern").
      *
      * @return  true, if this is a valid layer.
@@ -135,32 +129,11 @@ public:
     }
 
     /**
-     * Checks if the layer would be draw/visible on next repaint.
-     *
-     * @return  true, if the layer will be drawn next time.
-     */
-    bool isVisible() const {
-        return visible;
-    }
-    
-    /**
      * Sets a new parent map.
      *
      * @parant  map     the new parent map.
      */
     void setMap(Map * map);    
-
-    /**
-     * Enables draw/visibility on next repaint.
-     */
-    void show();
-
-signals:
-
-    /**
-     * A change of the layer's visibility.
-     */
-    void visibilityChanged();
 };
 
 

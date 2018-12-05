@@ -65,7 +65,7 @@
      <x>0</x>
      <y>0</y>
      <width>904</width>
-     <height>29</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
@@ -112,6 +112,8 @@
      <string>&amp;View</string>
     </property>
     <addaction name="actionViewMap"/>
+    <addaction name="actionShowAxis"/>
+    <addaction name="actionShowGrid"/>
     <addaction name="actionCloseMap"/>
     <addaction name="separator"/>
     <addaction name="actionViewMinimap"/>
@@ -140,6 +142,9 @@
    <addaction name="separator"/>
    <addaction name="actionCreateNewMap"/>
    <addaction name="actionDeleteMap"/>
+   <addaction name="separator"/>
+   <addaction name="actionShowAxis"/>
+   <addaction name="actionShowGrid"/>
   </widget>
   <widget class="QDockWidget" name="miniMapDockWidget">
    <property name="windowTitle">
@@ -189,8 +194,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>96</width>
-          <height>26</height>
+          <width>80</width>
+          <height>342</height>
          </rect>
         </property>
         <attribute name="label">
@@ -202,8 +207,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>80</width>
-          <height>344</height>
+          <width>203</width>
+          <height>342</height>
          </rect>
         </property>
         <attribute name="label">
@@ -616,6 +621,36 @@
    </property>
    <property name="toolTip">
     <string>Shows the map</string>
+   </property>
+  </action>
+  <action name="actionShowAxis">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/axis.png</normaloff>:/icons/gfx/axis.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show Axis</string>
+   </property>
+   <property name="toolTip">
+    <string>Show/hide axis on map</string>
+   </property>
+  </action>
+  <action name="actionShowGrid">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/grid.png</normaloff>:/icons/gfx/grid.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show Grid</string>
+   </property>
+   <property name="toolTip">
+    <string>Show/hide grid on map</string>
    </property>
   </action>
  </widget>

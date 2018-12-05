@@ -17,6 +17,7 @@
 #include "coordinateswidget.hpp"
 #include "logdialog.hpp"
 #include "mappropertiesdialog.hpp"
+#include "mapwidget.hpp"
 
 
 // fwd
@@ -95,7 +96,17 @@ public slots:
      * @param   y       Y-Coordinate
      */
     void showCoordinates(int x, int y);
-
+    
+    /**
+     * Switches the visibility of the axis of the current map widget
+     */
+    void toogleCurrentAxisVisibility();
+    
+    /**
+     * Switches the visibility of the grid of the current map widget
+     */
+    void toogleCurrentGridVisibility();
+    
     /**
      * Shoe/hide the color picker widget.
      *
@@ -227,6 +238,15 @@ private:
      */
     void setupDialogs();
 
+private:
+    
+    /**
+     * Gets the current map widget shown.
+     *
+     * @return  the current map widget in the center.
+     */
+    MapWidget * getCurrentMapWidget();
+    
 private slots:
 
     /**

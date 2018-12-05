@@ -51,7 +51,7 @@ public:
     /**
      * Sets the current zoomed tile size.
      *
-     * @
+     * @param   tileSize        thew new tile size
      */
     void setTileSize(int tileSize);
 

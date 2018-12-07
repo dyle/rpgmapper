@@ -7,8 +7,11 @@
 #ifndef RPGMAPPER_VIEW_COLORCHOOSERWIDGET_HPP
 #define RPGMAPPER_VIEW_COLORCHOOSERWIDGET_HPP
 
+#include <array>
+#include <map>
 #include <memory>
 
+#include <QColor>
 #include <QWidget>
 
 
@@ -27,8 +30,11 @@ class ColorChooserWidget : public QWidget {
 
     Q_OBJECT
     
-    std::shared_ptr<Ui_ColorChooserWidget> ui;        /**< The User Interface as created by the uic. */
-
+    std::shared_ptr<Ui_ColorChooserWidget> ui;                  /**< The User Interface as created by the uic. */
+    
+    using Palette = std::array<std::array<QColor, 16>, 16>;     /**< A color palette is a 16x16 color matrix. */
+    std::map<QString, Palette> palettes;                        /**< Known palettes. */
+    
 public:
     
     /**
@@ -38,6 +44,23 @@ public:
      */
     explicit ColorChooserWidget(QWidget * parent = nullptr);
     
+public slots:
+    
+    /**
+     * Loads the color palettes form the resources.
+     */
+    void loadPalettes();
+    
+private:
+    
+    /**
+     * Loads a reosurce as color palette.
+     *
+     * @param   palette             the color palette to be filled.
+     * @param   resourceName        the name of the resource to load.
+     * @return  if the color palette has been loaded.
+     */
+    bool loadPalette(Palette & palette, QString const & resourceName) const;
 };
 
 

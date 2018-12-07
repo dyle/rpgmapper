@@ -40,7 +40,8 @@ public:
      * Well known locations of resources.
      */
     enum class Location {
-        background              /**< Where background stuff. */
+        background,             /**< Where background stuff. */
+        colorpalettes           /**< Location of colorpalettes. */
     };
     
     /**
@@ -72,7 +73,7 @@ public:
      *  3. system files.
      *
      * @param   name        the name of the resource
-     * @return  a resource (maybe invalid if not found)
+     * @return  a resource (maybe nullptr if not found)
      */
     static ResourcePointer getResource(QString name);
     

@@ -58,6 +58,7 @@ MainWindow::MainWindow() : QMainWindow{} {
     ui->atlasTreeNewRegionToolButton->setDefaultAction(ui->actionCreateNewRegion);
     ui->atlasTreeDeleteMapToolButton->setDefaultAction(ui->actionDeleteMap);
     ui->atlasTreeDeleteRegionToolButton->setDefaultAction(ui->actionDeleteRegion);
+    ui->colorPickerDockWidgetContents->loadPalettes();
 
     setupDialogs();
     connectActions();

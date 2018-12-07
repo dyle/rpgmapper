@@ -49,6 +49,10 @@ QString ResourceDB::getLocation(Location location) {
     case Location::background:
         prefix = "/backgrounds";
         break;
+        
+    case Location::colorpalettes:
+        prefix = "/colorpalettes";
+        break;
     }
     
     return prefix;

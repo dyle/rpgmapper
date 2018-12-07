@@ -1,0 +1,18 @@
+[
+    "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffff00", "#ffff00", "#ff00ff", "#ff00ff", "#00ffff", "#00ffff", "#ff0000", "#00ff00", "#0000ff", "#ffffff", "#ffffff", "#ffffff",
+    "#eeeeee", "#ffeeee", "#eeffee", "#eeeeff", "#ffee00", "#eeff00", "#ff00ee", "#ee00ff", "#00ffee", "#00eeff", "#ee0000", "#00ee00", "#0000ee", "#ffffff", "#ffffff", "#ffffff",
+    "#dddddd", "#ffdddd", "#ddffdd", "#ddddff", "#ffdd00", "#ddff00", "#ff00dd", "#dd00ff", "#00ffdd", "#00ddff", "#dd0000", "#00dd00", "#0000dd", "#ffffff", "#ffffff", "#ffffff",
+    "#cccccc", "#ffcccc", "#ccffcc", "#ccccff", "#ffcc00", "#ccff00", "#ff00cc", "#cc00ff", "#00ffcc", "#00ccff", "#cc0000", "#00cc00", "#0000cc", "#ffffff", "#ffffff", "#ffffff",
+    "#bbbbbb", "#ffbbbb", "#bbffbb", "#bbbbff", "#ffbb00", "#bbff00", "#ff00bb", "#bb00ff", "#00ffbb", "#00bbff", "#bb0000", "#00bb00", "#0000bb", "#ffffff", "#ffffff", "#ffffff",
+    "#aaaaaa", "#ffaaaa", "#aaffaa", "#aaaaff", "#ffaa00", "#aaff00", "#ff00aa", "#aa00ff", "#00ffaa", "#00aaff", "#aa0000", "#00aa00", "#0000aa", "#ffffff", "#ffffff", "#ffffff",
+    "#999999", "#ff9999", "#99ff99", "#9999ff", "#ff9900", "#99ff00", "#ff0099", "#9900ff", "#00ff99", "#0099ff", "#990000", "#009900", "#000099", "#ffffff", "#ffffff", "#ffffff",
+    "#888888", "#ff8888", "#88ff88", "#8888ff", "#ff8800", "#88ff00", "#ff0088", "#8800ff", "#00ff88", "#0088ff", "#880000", "#008800", "#000088", "#ffffff", "#ffffff", "#ffffff",
+    "#777777", "#ff7777", "#77ff77", "#7777ff", "#ff7700", "#77ff00", "#ff0077", "#7700ff", "#00ff77", "#0077ff", "#770000", "#007700", "#000077", "#ffffff", "#ffffff", "#ffffff",
+    "#666666", "#ff6666", "#66ff66", "#6666ff", "#ff6600", "#66ff00", "#ff0066", "#6600ff", "#00ff66", "#0066ff", "#660000", "#006600", "#000066", "#ffffff", "#ffffff", "#ffffff",
+    "#555555", "#ff5555", "#55ff55", "#5555ff", "#ff5500", "#55ff00", "#ff0055", "#5500ff", "#00ff55", "#0055ff", "#550000", "#005500", "#000055", "#ffffff", "#ffffff", "#ffffff",
+    "#444444", "#ff4444", "#44ff44", "#4444ff", "#ff4400", "#44ff00", "#ff0044", "#4400ff", "#00ff44", "#0044ff", "#440000", "#004400", "#000044", "#ffffff", "#ffffff", "#ffffff",
+    "#333333", "#ff3333", "#33ff33", "#3333ff", "#ff3300", "#33ff00", "#ff0033", "#3300ff", "#00ff33", "#0033ff", "#330000", "#003300", "#000033", "#ffffff", "#ffffff", "#ffffff",
+    "#222222", "#ff2222", "#22ff22", "#2222ff", "#ff2200", "#22ff00", "#ff0022", "#2200ff", "#00ff22", "#0022ff", "#220000", "#002200", "#000022", "#ffffff", "#ffffff", "#ffffff",
+    "#111111", "#ff1111", "#11ff11", "#1111ff", "#ff1100", "#11ff00", "#ff0011", "#1100ff", "#00ff11", "#0011ff", "#110000", "#001100", "#000011", "#ffffff", "#ffffff", "#ffffff",
+    "#000000", "#ff0000", "#00ff00", "#0000ff", "#ff0000", "#00ff00", "#ff0000", "#0000ff", "#00ff00", "#0000ff", "#000000", "#000000", "#000000", "#ffffff", "#ffffff", "#ffffff"
+]

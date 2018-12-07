@@ -108,7 +108,6 @@ void ResourceLoader::loadResources(FileCollection const & fileCollection, Resour
     for (auto const & fileTuple : fileCollection) {
         
         auto const & fileName = std::get<1>(fileTuple);
-    
         appendLog(log, QString{"Loading: %1..."}.arg(fileName));
         LoadingEvent event = {fileName, fileNumber, static_cast<int>(fileCollection.size())};
         emit loading(event);

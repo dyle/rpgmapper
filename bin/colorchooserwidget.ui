@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ColorChooserWidget</class>
+ <widget class="QWidget" name="ColorChooserWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>305</width>
+    <height>208</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0">
+   <property name="leftMargin">
+    <number>6</number>
+   </property>
+   <property name="topMargin">
+    <number>6</number>
+   </property>
+   <property name="rightMargin">
+    <number>6</number>
+   </property>
+   <property name="bottomMargin">
+    <number>6</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="paletteLayout">
+     <item>
+      <widget class="QComboBox" name="paletteBox"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="loadButton">
+       <property name="maximumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="rpgmapper.qrc">
+         <normaloff>:/icons/gfx/atlas-open.png</normaloff>:/icons/gfx/atlas-open.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="saveButton">
+       <property name="maximumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="rpgmapper.qrc">
+         <normaloff>:/icons/gfx/atlas-save.png</normaloff>:/icons/gfx/atlas-save.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="rpgmapper::view::ColorPaletteWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>289</width>
+        <height>121</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="rpgmapper::view::RecentColorsWidget" name="recentColorsWidget" native="true"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="colorPipetteButton">
+       <property name="maximumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="rpgmapper.qrc">
+         <normaloff>:/icons/gfx/pipette.png</normaloff>:/icons/gfx/pipette.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>rpgmapper::view::ColorPaletteWidget</class>
+   <extends>QWidget</extends>
+   <header>colorpalettewidget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>rpgmapper::view::RecentColorsWidget</class>
+   <extends>QWidget</extends>
+   <header>recentcolorswidget.hpp</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="rpgmapper.qrc"/>
+ </resources>
+ <connections/>
+</ui>

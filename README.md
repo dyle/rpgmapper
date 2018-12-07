@@ -26,6 +26,16 @@ Some more notes:
 * [CMake](https://cmake.org)
 * and [GoogleTest](https://github.com/google/googletest)
 
+
+## Images
+
+I'm still in desperate need of someone with a graphic skill to help me out drawing
+icons and other images needed for the application. The icons and images I use here
+are free. Some picked by KDE Plasma stock Breeze icon set other from Open Cliparts
+and other from other various places, like: 
+
+* https://www.freepik.com used under Creative Commons BY 3.0
+
 ## Edit 1
 
 Aaaarrrgghhh! I cannot stand it to _not_ comment my work. After some months of inactivity 

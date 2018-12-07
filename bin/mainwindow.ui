@@ -65,7 +65,7 @@
      <x>0</x>
      <y>0</y>
      <width>904</width>
-     <height>30</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
@@ -194,8 +194,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>80</width>
-          <height>342</height>
+          <width>177</width>
+          <height>344</height>
          </rect>
         </property>
         <attribute name="label">
@@ -207,8 +207,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>203</width>
-          <height>342</height>
+          <width>177</width>
+          <height>344</height>
          </rect>
         </property>
         <attribute name="label">
@@ -386,7 +386,7 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="QWidget" name="colorPickerDockWidgetContents"/>
+   <widget class="rpgmapper::view::ColorChooserWidget" name="colorPickerDockWidgetContents"/>
   </widget>
   <action name="actionCreateNew">
    <property name="icon">
@@ -632,7 +632,7 @@
      <normaloff>:/icons/gfx/axis.png</normaloff>:/icons/gfx/axis.png</iconset>
    </property>
    <property name="text">
-    <string>Show Axis</string>
+    <string>Sh&amp;ow Axis</string>
    </property>
    <property name="toolTip">
     <string>Show/hide axis on map</string>
@@ -647,7 +647,7 @@
      <normaloff>:/icons/gfx/grid.png</normaloff>:/icons/gfx/grid.png</iconset>
    </property>
    <property name="text">
-    <string>Show Grid</string>
+    <string>Show &amp;Grid</string>
    </property>
    <property name="toolTip">
     <string>Show/hide grid on map</string>
@@ -664,6 +664,12 @@
    <class>rpgmapper::view::MapTabWidget</class>
    <extends>QTabWidget</extends>
    <header>maptabwidget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>rpgmapper::view::ColorChooserWidget</class>
+   <extends>QWidget</extends>
+   <header>colorchooserwidget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

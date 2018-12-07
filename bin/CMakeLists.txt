@@ -13,6 +13,7 @@ qt5_add_resources(RPGMAPPER_RES ${RPGMAPPER_RCC})
 
 set(RPGMAPPER_UI
     aboutdialog.ui
+    colorchooserwidget.ui
     coordinatesoriginwidget.ui
     coordinateswidget.ui
     logdialog.ui
@@ -27,6 +28,8 @@ qt5_wrap_ui(RPGMAPPER_UI_H ${RPGMAPPER_UI})
 set(RPGMAPPER_MOC
     aboutdialog.hpp
     background_image_label.hpp
+    colorchooserwidget.hpp
+    colorpalettewidget.hpp
     coordinatesoriginwidget.hpp
     coordinateswidget.hpp
     logdialog.hpp
@@ -35,6 +38,7 @@ set(RPGMAPPER_MOC
     mapscrollarea.hpp
     maptabwidget.hpp
     mapwidget.hpp
+        recentcolorswidget.hpp
     startupdialog.hpp
     structuraltreewidget.hpp
     visibility_action_filter.hpp
@@ -46,6 +50,8 @@ qt5_wrap_cpp(RPGMAPPER_MOC_CPP ${RPGMAPPER_MOC})
 set(RPGMAPPER_SRC
     aboutdialog.cpp
     background_image_label.cpp
+    colorchooserwidget.cpp
+    colorpalettewidget.cpp
     coordinatesoriginwidget.cpp
     coordinateswidget.cpp
     logdialog.cpp
@@ -55,6 +61,7 @@ set(RPGMAPPER_SRC
     mapscrollarea.cpp
     maptabwidget.cpp
     mapwidget.cpp
+    recentcolorswidget.cpp
     startupdialog.cpp
     structuraltreewidget.cpp
     visibility_action_filter.cpp

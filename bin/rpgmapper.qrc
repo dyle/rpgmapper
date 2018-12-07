@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>gfx/pipette.png</file>
     <file>gfx/grid.png</file>
     <file>gfx/axis.png</file>
     <file>gfx/atlas-new.png</file>

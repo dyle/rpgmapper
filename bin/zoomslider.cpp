@@ -13,7 +13,7 @@
 using namespace rpgmapper::view;
 
 
-std::vector<int> const ZoomSlider::zoomTable = {8, 16, 24, 32, 48, 64, 96, 128};
+std::vector<int> const ZoomSlider::zoomTable = {16, 24, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192};
 
 
 std::map<int, int> ZoomSlider::sizeTable;

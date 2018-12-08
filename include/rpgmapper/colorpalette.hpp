@@ -19,9 +19,9 @@ namespace model {
 
 
 /**
- * A color palette is a 16x16 color matrix.
- * */
-using Palette = std::array<std::array<QColor, 16>, 16>;
+ * A color palette is has 256 colors.
+ */
+using Palette = std::array<QColor, 16 *16>;
 
 
 /**

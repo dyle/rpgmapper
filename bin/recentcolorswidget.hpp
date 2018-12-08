@@ -28,7 +28,7 @@ class RecentColorsWidget : public QWidget {
     /**
      * The color widgets showing the recent colors.
      */
-    std::array<std::array<rpgmapper::view::ColorWidget *, 2>, 8> colorWidgets;
+    std::array<rpgmapper::view::ColorWidget *, 2 * 8> colorWidgets;
     
     int selectedIndex = -1;                     /**< Current selected color. */
 

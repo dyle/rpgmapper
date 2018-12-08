@@ -25,7 +25,7 @@ ColorPalette ColorPalette::load(QByteArray const & data) {
     for (int i = 0; i < std::min(jsonArray.size(), 16*16); ++i) {
         if (jsonArray.at(i).isString()) {
             auto colorString = jsonArray.at(i).toString();
-            colorPalette.palette[i / 16][i % 16] = QColor{colorString};
+            colorPalette.palette[i] = QColor{colorString};
         }
     }
     colorPalette.valid = true;

@@ -31,7 +31,7 @@ class ColorPaletteWidget : public QWidget {
     /**
      * The color widgets showing the palette.
      */
-    std::array<std::array<rpgmapper::view::ColorWidget *, 16>, 16> colorWidgets;
+    std::array<rpgmapper::view::ColorWidget *, 16 * 16> colorWidgets;
     
     int selectedIndex = -1;                     /**< Current selected color. */
     

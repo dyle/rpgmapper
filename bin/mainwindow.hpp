@@ -111,11 +111,18 @@ public slots:
     void toogleCurrentGridVisibility();
     
     /**
-     * Shoe/hide the color picker widget.
+     * Show/hide the color picker widget.
      *
      * @param   visible     show/hide flag for widget.
      */
     void visibleColorPicker(bool visible);
+    
+    /**
+     * Show/hide the current tile dock.
+     *
+     * @param   visible     show/hide flog for the current tile dock.
+     */
+    void visibleCurrentTile(bool visible);
 
     /**
      * Show/hide the minimap.

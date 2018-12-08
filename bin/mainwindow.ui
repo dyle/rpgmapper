@@ -120,6 +120,7 @@
     <addaction name="actionViewTilesDock"/>
     <addaction name="actionViewStructureTree"/>
     <addaction name="actionViewColorPicker"/>
+    <addaction name="actionViewCurrentTile"/>
    </widget>
    <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
@@ -194,8 +195,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>177</width>
-          <height>344</height>
+          <width>80</width>
+          <height>265</height>
          </rect>
         </property>
         <attribute name="label">
@@ -207,8 +208,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>177</width>
-          <height>344</height>
+          <width>240</width>
+          <height>265</height>
          </rect>
         </property>
         <attribute name="label">
@@ -387,6 +388,15 @@
     <number>2</number>
    </attribute>
    <widget class="rpgmapper::view::ColorChooserWidget" name="colorPickerDockWidgetContents"/>
+  </widget>
+  <widget class="QDockWidget" name="currentTileWidget">
+   <property name="windowTitle">
+    <string>Curre&amp;nt Tile:</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents"/>
   </widget>
   <action name="actionCreateNew">
    <property name="icon">
@@ -574,7 +584,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>&amp;Tile</string>
+    <string>&amp;Tiles Dock</string>
    </property>
   </action>
   <action name="actionViewStructureTree">
@@ -651,6 +661,17 @@
    </property>
    <property name="toolTip">
     <string>Show/hide grid on map</string>
+   </property>
+  </action>
+  <action name="actionViewCurrentTile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Current Tile Dock</string>
    </property>
   </action>
  </widget>

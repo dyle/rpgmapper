@@ -176,10 +176,12 @@ void MainWindow::connectActions() {
     connect(ui->actionViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
     connect(ui->actionViewStructureTree, &QAction::triggered, this, &MainWindow::visibleStructure);
     connect(ui->actionViewTilesDock, &QAction::triggered, this, &MainWindow::visibleTiles);
+    connect(ui->actionViewCurrentTile, &QAction::triggered, this, &MainWindow::visibleCurrentTile);
     new VisibilityActionFiler(ui->miniMapDockWidget, ui->actionViewMinimap, this);
     new VisibilityActionFiler(ui->atlasStructureDockWidget, ui->actionViewStructureTree, this);
     new VisibilityActionFiler(ui->tilesDockWidget, ui->actionViewTilesDock, this);
     new VisibilityActionFiler(ui->colorPickerDockWidget, ui->actionViewColorPicker, this);
+    new VisibilityActionFiler(ui->currentTileWidget, ui->actionViewCurrentTile, this);
     
     connect(ui->actionShowAxis, &QAction::toggled, this, &MainWindow::toogleCurrentAxisVisibility);
     connect(ui->actionShowGrid, &QAction::toggled, this, &MainWindow::toogleCurrentGridVisibility);
@@ -735,6 +737,11 @@ void MainWindow::viewCurrentMap() {
 
 void MainWindow::visibleColorPicker(bool visible) {
     ui->colorPickerDockWidget->setVisible(visible);
+}
+
+
+void MainWindow::visibleCurrentTile(bool visible) {
+    ui->currentTileWidget->setVisible(visible);
 }
 
 

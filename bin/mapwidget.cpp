@@ -5,7 +5,6 @@
  */
 
 #include <QMouseEvent>
-#include <QPainter>
 
 #include <rpgmapper/layer/layer.hpp>
 #include <rpgmapper/coordinate_system.hpp>
@@ -30,7 +29,8 @@ MapWidget::MapWidget(QWidget * parent)
         : QWidget{parent},
           tileSize{STANDARD_TILE_SIZE},
           axisVisible{true},
-          gridVisible{true} {
+          gridVisible{true},
+          hoveredTilePosition{-1, -1} {
     setMouseTracking(true);
 }
 
@@ -69,6 +69,32 @@ std::list<rpgmapper::model::Layer const *> MapWidget::collectVisibleLayers() con
 }
 
 
+void MapWidget::drawHoveredTile(QPainter & painter) {
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        return;
+    }
+
+    auto mapRect = map->getCoordinateSystem()->getRect();
+    if (mapRect.contains(hoveredTilePosition.x(), hoveredTilePosition.y())) {
+
+        auto pointOnWidget = map->getCoordinateSystem()->transposeToScreenCoordinates(hoveredTilePosition);
+        int tileSize = getTileSize();
+        QRect rect{static_cast<int>(pointOnWidget.x() * tileSize),
+                   static_cast<int>(pointOnWidget.y() * tileSize),
+                   tileSize,
+                   tileSize};
+        auto innerRect = map->getCoordinateSystem()->getInnerRect(tileSize);
+        rect.adjust(innerRect.x(), innerRect.y(), innerRect.x(), innerRect.y());
+        
+        QPalette systemPalette;
+        painter.setPen(systemPalette.color(QPalette::Highlight));
+        painter.drawRect(rect);
+    };
+}
+
+
 void MapWidget::mapNameChanged(UNUSED QString oldName, QString newName) {
     mapName = newName;
 }
@@ -103,7 +129,9 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
     int y = (event->pos().y() - rect.y()) / getTileSize();
     if ((x >= 0) && (x < size.width()) && (y >= 0) && (y < size.height())) {
         auto mapPosition = map->getCoordinateSystem()->transposeToMapCoordinates(x, y);
-        emit hoverCoordinates(static_cast<int>(mapPosition.x()), static_cast<int>(mapPosition.y()));
+        hoveredTilePosition = QPoint{static_cast<int>(mapPosition.x()), static_cast<int>(mapPosition.y())};
+        update();
+        emit hoverCoordinates(hoveredTilePosition.x(), hoveredTilePosition.y());
     }
 }
 
@@ -125,6 +153,8 @@ void MapWidget::paintEvent(QPaintEvent * event) {
     for (auto layer : collectVisibleLayers()) {
         layer->draw(painter, getTileSize());
     }
+    
+    drawHoveredTile(painter);
 
     auto end = std::chrono::system_clock::now();
     auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();

@@ -187,6 +187,15 @@ public:
     QRect getOuterRect(int tileSize) const;
     
     /**
+     * Gets a rect of the map size.
+     *
+     * @return  the map size as rectangle.
+     */
+    QRect getRect() const {
+        return QRect{0, 0, size.width(), size.height()};
+    }
+    
+    /**
      * Returns the current dimension of the map.
      *
      * @return  the current size of the map.

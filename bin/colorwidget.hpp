@@ -23,9 +23,10 @@ class ColorWidget : public QWidget {
     Q_OBJECT
     
     QColor color;                   /**< color to show. */
+    QColor hoverColor = Qt::red;    /**< Color used to show hovering rectangle. */
     bool selected = false;          /**< selected flag. */
     
-    QColor hoverColor = Qt::red;    /**< Color used to show hovering rectangle. */
+    int id = 0;                     /**< the ID of this widget, when used in an array. */
 
 public:
     
@@ -33,9 +34,10 @@ public:
      * Constructor.
      *
      * @param   color       The color to display.
+     * @param   id          The id of this widget.
      * @param   parent      The parent QWidget instance.
      */
-    explicit ColorWidget(QColor color, QWidget * parent = nullptr);
+    explicit ColorWidget(QColor color, int id = 0, QWidget * parent = nullptr);
     
     /**
      * Gets the color this widget displays.
@@ -101,6 +103,13 @@ protected:
     void leaveEvent(QEvent * event) override;
     
     /**
+     * The user released the mouse over this widget.
+     *
+     * @param   event       the mouse release event.
+     */
+    void mouseReleaseEvent(QMouseEvent * event);
+    
+    /**
      * Draws this widget.
      *
      * @param   event       the paint event involved.
@@ -111,8 +120,11 @@ signals:
     
     /**
      * Tells that this widget has been selected.
+     *
+     * @param   id              the id of this widget
+     * @param   selected        the selection flag
      */
-    void selectedChanged();
+    void selectedChanged(int id, bool selected);
 };
 
 

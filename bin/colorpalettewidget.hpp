@@ -33,6 +33,8 @@ class ColorPaletteWidget : public QWidget {
      */
     std::array<std::array<rpgmapper::view::ColorWidget *, 16>, 16> colorWidgets;
     
+    int selectedIndex = -1;                     /**< Current selected color. */
+    
 public:
     
     /**
@@ -49,6 +51,16 @@ public:
      * @param   palette     the new palette to show.
      */
     void setPalette(rpgmapper::model::ColorPalette const & palette);
+    
+private slots:
+    
+    /**
+     * The selection of a single color has changed.
+     *
+     * @param   id              id of the color in the grid.
+     * @param   selected        selected flag
+     */
+    void colorSelectedChange(int id, bool selected);
 };
 
 

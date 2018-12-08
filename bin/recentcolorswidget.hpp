@@ -30,6 +30,8 @@ class RecentColorsWidget : public QWidget {
      */
     std::array<std::array<rpgmapper::view::ColorWidget *, 2>, 8> colorWidgets;
     
+    int selectedIndex = -1;                     /**< Current selected color. */
+
 public:
     
     /**
@@ -38,7 +40,16 @@ public:
      * @param   parent      The parent QWidget instance.
      */
     explicit RecentColorsWidget(QWidget * parent = nullptr);
+
+private slots:
     
+    /**
+     * The selection of a single color has changed.
+     *
+     * @param   id              id of the color in the grid.
+     * @param   selected        selected flag
+     */
+    void colorSelectedChange(int id, bool selected);
 };
 
 

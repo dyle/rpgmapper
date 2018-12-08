@@ -4,6 +4,7 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <QMouseEvent>
 #include <QPainter>
 #include <QPalette>
 
@@ -18,7 +19,7 @@ using namespace rpgmapper::view;
 #endif
 
 
-ColorWidget::ColorWidget(QColor color, QWidget * parent) : QWidget{parent} , color{color} {
+ColorWidget::ColorWidget(QColor color, int id, QWidget * parent) : QWidget{parent}, color{color}, id{id} {
     setMinimumSize(8, 8);
 }
 
@@ -32,6 +33,12 @@ void ColorWidget::leaveEvent(UNUSED QEvent * event) {
     update();
 }
 
+
+void ColorWidget::mouseReleaseEvent(QMouseEvent * event) {
+    if ((event->button() == Qt::LeftButton) && !isSelected()) {
+        setSelected(true);
+    }
+}
 
 void ColorWidget::paintEvent(UNUSED QPaintEvent * event) {
     
@@ -74,8 +81,10 @@ void ColorWidget::setHoveringColor(QColor color) {
 
 
 void ColorWidget::setSelected(bool selected) {
+    
     if (this->selected != selected) {
         this->selected = selected;
-        emit selectedChanged();
+        emit selectedChanged(id, selected);
+        update();
     }
 }

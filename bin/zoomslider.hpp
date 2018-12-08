@@ -55,6 +55,18 @@ public:
      */
     void setTileSize(int tileSize);
 
+public slots:
+    
+    /**
+     * Decreases the zoom level.
+     */
+    void decrease();
+    
+    /**
+     * Increases the zoom level.
+     */
+    void increase();
+    
 private:
     
     /**

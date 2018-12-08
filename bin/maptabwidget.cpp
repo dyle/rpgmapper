@@ -134,9 +134,11 @@ void MapTabWidget::selectMap(QString mapName) {
         connect(mapWidget, &MapWidget::hoverCoordinates, this, &MapTabWidget::hoverCoordinates);
 
         auto mapScrollArea = new MapScrollArea{this, mapWidget};
+        connect(mapScrollArea, &MapScrollArea::decreaseZoom, this, &MapTabWidget::decreaseZoom);
+        connect(mapScrollArea, &MapScrollArea::increaseZoom, this, &MapTabWidget::increaseZoom);
+        
         mapScrollAreas.emplace(mapName, mapScrollArea);
         addTab(mapScrollArea, pixmap, map->getName());
-
         setCurrentWidget(mapScrollArea);
     }
     else {

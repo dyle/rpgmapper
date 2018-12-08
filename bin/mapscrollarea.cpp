@@ -6,6 +6,7 @@
 
 #include <QMouseEvent>
 #include <QScrollBar>
+#include <QWheelEvent>
 
 #include "mapscrollarea.hpp"
 
@@ -54,4 +55,16 @@ void MapScrollArea::mouseReleaseEvent(QMouseEvent * event) {
         mouseButtonDown = false;
         event->accept();
     }
+}
+
+
+void MapScrollArea::wheelEvent(QWheelEvent * event) {
+    
+    if (event->angleDelta().y() > 0) {
+        emit increaseZoom();
+    }
+    if (event->angleDelta().y() < 0) {
+        emit decreaseZoom();
+    }
+    event->accept();
 }

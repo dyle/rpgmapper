@@ -37,8 +37,23 @@ ZoomSlider::ZoomSlider(QWidget *parent) : QWidget{parent} {
 }
 
 
+void ZoomSlider::decrease() {
+    int currentZoom = ui->zoomSlider->value();
+    if (currentZoom > 0) {
+        setTileSize(zoomTable[currentZoom - 1]);
+    }
+}
+
+
 int ZoomSlider::getTileSize() const {
     return zoomTable.at(ui->zoomSlider->value());
+}
+
+void ZoomSlider::increase() {
+    int currentZoom = ui->zoomSlider->value();
+    if (static_cast<unsigned int>(currentZoom) < (zoomTable.size() - 1)) {
+        setTileSize(zoomTable[currentZoom + 1]);
+    }
 }
 
 

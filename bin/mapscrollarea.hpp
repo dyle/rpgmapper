@@ -67,6 +67,24 @@ protected:
      */
     void mouseReleaseEvent(QMouseEvent * event) override;
     
+    /**
+     * Mouse wheel event happend.
+     *
+     * @param   event       the user triggerd a mouse wheel event.
+     */
+    void wheelEvent(QWheelEvent * event) override;
+    
+signals:
+
+    /**
+     * Requests to decrease the map zoom level.
+     */
+    void decreaseZoom();
+    
+    /**
+     * Requests to increase the map zoom level.
+     */
+    void increaseZoom();
 };
 
 

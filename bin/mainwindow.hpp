@@ -66,7 +66,7 @@ public slots:
      * The ResourceDB might have changed: apply set of new resources to all widgets.
      */
     void applyResources();
-
+    
     /**
      * The user wants to edit the atlas properties.
      */
@@ -86,7 +86,7 @@ public slots:
      * Check which action can currently be enabled and which disabled.
      */
     void enableActions();
-
+    
     /**
      * Adjust the window title.
      */
@@ -199,7 +199,14 @@ private:
      * Create the QActions for the recent files.
      */
     void createRecentFileActions();
-
+    
+    /**
+     * Gets the current map widget shown.
+     *
+     * @return  the current map widget in the center.
+     */
+    MapWidget * getCurrentMapWidget();
+    
     /**
      * Loads an atlas.
      * @param   fileName        the filename to load
@@ -248,15 +255,6 @@ private:
      */
     void setupDialogs();
 
-private:
-    
-    /**
-     * Gets the current map widget shown.
-     *
-     * @return  the current map widget in the center.
-     */
-    MapWidget * getCurrentMapWidget();
-    
 private slots:
 
     /**
@@ -293,7 +291,7 @@ private slots:
      * A command has been executed.
      */
     void executedCommand();
-
+    
     /**
      * Load action.
      */

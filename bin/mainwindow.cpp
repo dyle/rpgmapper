@@ -196,6 +196,8 @@ void MainWindow::connectActions() {
 
     connect(ui->mapTabWidget, &QTabWidget::currentChanged, this, &MainWindow::enableActions);
     connect(ui->mapTabWidget, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
+    connect(ui->mapTabWidget, &MapTabWidget::decreaseZoom, zoomSlider, &ZoomSlider::decrease);
+    connect(ui->mapTabWidget, &MapTabWidget::increaseZoom, zoomSlider, &ZoomSlider::increase);
     
     connect(zoomSlider, &ZoomSlider::zoomChanged, this, &MainWindow::zoomChanged);
 }

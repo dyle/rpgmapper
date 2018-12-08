@@ -95,7 +95,12 @@ private slots:
     void mapCloseRequested(int index);
 
 signals:
-
+    
+    /**
+     * Requests to decrease the map zoom level.
+     */
+    void decreaseZoom();
+    
     /**
      * The user hovers with the mouse over coordinates.
      *
@@ -103,7 +108,11 @@ signals:
      * @param   y       map y-coordinate.
      */
     void hoverCoordinates(int x, int y);
-
+    
+    /**
+     * Requests to increase the map zoom level.
+     */
+    void increaseZoom();
 };
 
 

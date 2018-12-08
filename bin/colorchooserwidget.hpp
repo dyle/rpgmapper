@@ -11,8 +11,9 @@
 #include <map>
 #include <memory>
 
-#include <QColor>
 #include <QWidget>
+
+#include <rpgmapper/colorpalette.hpp>
 
 
 // fwd
@@ -30,10 +31,9 @@ class ColorChooserWidget : public QWidget {
 
     Q_OBJECT
     
-    std::shared_ptr<Ui_ColorChooserWidget> ui;                  /**< The User Interface as created by the uic. */
+    std::shared_ptr<Ui_ColorChooserWidget> ui;                      /**< The User Interface as created by the uic. */
     
-    using Palette = std::array<std::array<QColor, 16>, 16>;     /**< A color palette is a 16x16 color matrix. */
-    std::map<QString, Palette> palettes;                        /**< Known palettes. */
+    std::map<QString, rpgmapper::model::ColorPalette> palettes;     /**< Known palettes. */
     
 public:
     
@@ -60,7 +60,7 @@ private:
      * @param   resourceName        the name of the resource to load.
      * @return  if the color palette has been loaded.
      */
-    bool loadPalette(Palette & palette, QString const & resourceName) const;
+    bool loadPalette(rpgmapper::model::ColorPalette & palette, QString const & resourceName) const;
 };
 
 

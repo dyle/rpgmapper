@@ -27,6 +27,7 @@ set(RPGMAPPER_LIB_SRC
 
     atlas.cpp
     atlas_name_validator.cpp
+    colorpalette.cpp
     coordinate_system.cpp
     field.cpp
     map.cpp

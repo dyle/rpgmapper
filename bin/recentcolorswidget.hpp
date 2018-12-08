@@ -7,7 +7,11 @@
 #ifndef RPGMAPPER_VIEW_RECENTCOLORSWIDGET_HPP
 #define RPGMAPPER_VIEW_RECENTCOLORSWIDGET_HPP
 
+#include <array>
+
 #include <QWidget>
+
+#include "colorwidget.hpp"
 
 
 namespace rpgmapper {
@@ -20,7 +24,12 @@ namespace view {
 class RecentColorsWidget : public QWidget {
 
     Q_OBJECT
-
+    
+    /**
+     * The color widgets showing the recent colors.
+     */
+    std::array<std::array<rpgmapper::view::ColorWidget *, 2>, 8> colorWidgets;
+    
 public:
     
     /**

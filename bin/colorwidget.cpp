@@ -43,8 +43,7 @@ void ColorWidget::paintEvent(UNUSED QPaintEvent * event) {
     painter.fillRect(rect, systemPalette.color(QPalette::Window));
     
     if (underMouse()) {
-        QColor highlghted = Qt::red;
-        painter.setPen(highlghted);
+        painter.setPen(hoverColor);
         painter.drawRect(rect);
     }
     
@@ -61,6 +60,14 @@ void ColorWidget::paintEvent(UNUSED QPaintEvent * event) {
 void ColorWidget::setColor(QColor color) {
     if (this->color != color) {
         this->color = color;
+        update();
+    }
+}
+
+
+void ColorWidget::setHoveringColor(QColor color) {
+    if (hoverColor != color) {
+        hoverColor = color;
         update();
     }
 }

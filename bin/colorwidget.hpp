@@ -24,6 +24,8 @@ class ColorWidget : public QWidget {
     
     QColor color;                   /**< color to show. */
     bool selected = false;          /**< selected flag. */
+    
+    QColor hoverColor = Qt::red;    /**< Color used to show hovering rectangle. */
 
 public:
     
@@ -45,6 +47,15 @@ public:
     }
     
     /**
+     * Gets the color used for drawing the hovering rectangle.
+     *
+     * @return  the hovering rectangle color.
+     */
+    QColor getHoverColor() const {
+        return hoverColor;
+    }
+    
+    /**
      * Checks if this widget is selected.
      *
      * @return  returns selected flag of this widget.
@@ -59,6 +70,13 @@ public:
      * @param   color       the new color to display.
      */
     void setColor(QColor color);
+    
+    /**
+     * Sets the color used for the hovering rectangle.
+     *
+     * @param   color   the color used for the hovering rectangle.
+     */
+    void setHoveringColor(QColor color);
     
     /**
      * Sets a new selected flag.

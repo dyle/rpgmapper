@@ -51,16 +51,13 @@ public slots:
      */
     void loadPalettes();
     
-private:
+private slots:
     
     /**
-     * Loads a reosurce as color palette.
-     *
-     * @param   palette             the color palette to be filled.
-     * @param   resourceName        the name of the resource to load.
-     * @return  if the color palette has been loaded.
+     * The user selected a new palette.
      */
-    bool loadPalette(rpgmapper::model::ColorPalette & palette, QString const & resourceName) const;
+    void selectedPaletteChanged();
+    
 };
 
 

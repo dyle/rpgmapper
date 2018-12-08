@@ -30,6 +30,7 @@ set(RPGMAPPER_MOC
     background_image_label.hpp
     colorchooserwidget.hpp
     colorpalettewidget.hpp
+    colorwidget.hpp
     coordinatesoriginwidget.hpp
     coordinateswidget.hpp
     logdialog.hpp
@@ -38,7 +39,7 @@ set(RPGMAPPER_MOC
     mapscrollarea.hpp
     maptabwidget.hpp
     mapwidget.hpp
-        recentcolorswidget.hpp
+    recentcolorswidget.hpp
     startupdialog.hpp
     structuraltreewidget.hpp
     visibility_action_filter.hpp
@@ -52,6 +53,7 @@ set(RPGMAPPER_SRC
     background_image_label.cpp
     colorchooserwidget.cpp
     colorpalettewidget.cpp
+    colorwidget.cpp
     coordinatesoriginwidget.cpp
     coordinateswidget.cpp
     logdialog.cpp

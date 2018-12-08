@@ -7,7 +7,12 @@
 #ifndef RPGMAPPER_VIEW_COLORPALETTEWIDGET_HPP
 #define RPGMAPPER_VIEW_COLORPALETTEWIDGET_HPP
 
+#include <array>
+
 #include <QWidget>
+
+#include <rpgmapper/colorpalette.hpp>
+#include "colorwidget.hpp"
 
 
 namespace rpgmapper {
@@ -20,6 +25,13 @@ namespace view {
 class ColorPaletteWidget : public QWidget {
 
     Q_OBJECT
+
+    rpgmapper::model::ColorPalette palette;     /**< The current palette loaded. */
+    
+    /**
+     * The color widgets showing the palette.
+     */
+    std::array<std::array<rpgmapper::view::ColorWidget *, 16>, 16> colorWidgets;
     
 public:
     
@@ -30,6 +42,13 @@ public:
      */
     explicit ColorPaletteWidget(QWidget * parent = nullptr);
     
+    
+    /**
+     * Sets a new color palette.
+     *
+     * @param   palette     the new palette to show.
+     */
+    void setPalette(rpgmapper::model::ColorPalette const & palette);
 };
 
 

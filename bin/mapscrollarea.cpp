@@ -4,6 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <QApplication>
+#include <QCursor>
 #include <QMouseEvent>
 #include <QScrollBar>
 #include <QWheelEvent>
@@ -43,6 +45,7 @@ void MapScrollArea::mouseMoveEvent(QMouseEvent * event) {
 void MapScrollArea::mousePressEvent(QMouseEvent * event) {
     
     if (event->button() == Qt::RightButton) {
+        QApplication::setOverrideCursor(QCursor(Qt::ClosedHandCursor));
         mouseButtonDown = true;
         mousePosition = event->pos();
         event->accept();
@@ -52,6 +55,7 @@ void MapScrollArea::mousePressEvent(QMouseEvent * event) {
 void MapScrollArea::mouseReleaseEvent(QMouseEvent * event) {
     
     if (event->button() == Qt::RightButton) {
+        QApplication::restoreOverrideCursor();
         mouseButtonDown = false;
         event->accept();
     }

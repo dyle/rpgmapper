@@ -22,6 +22,9 @@ namespace view {
 class MapScrollArea : public QScrollArea {
 
     Q_OBJECT
+    
+    QPoint mousePosition;               /**< The position where the user pressed the right mouse on the map. */
+    bool mouseButtonDown = false;       /**< The user has pressed the right mouse button. */
 
 public:
 
@@ -40,6 +43,30 @@ public:
     MapWidget * mapWidget() {
         return dynamic_cast<MapWidget *>(widget());
     }
+
+protected:
+    
+    /**
+     * Special handling of mouse move events.
+     *
+     * @param   event       the mouse move event.
+     */
+    void mouseMoveEvent(QMouseEvent * event) override;
+    
+    /**
+     * The user pressed a mouse button on the map.
+     *
+     * @param   event       the mouse press event.
+     */
+    void mousePressEvent(QMouseEvent * event) override;
+    
+    /**
+     * The user release a mouse button on the map.
+     *
+     * @param   event       the mouse press event.
+     */
+    void mouseReleaseEvent(QMouseEvent * event) override;
+    
 };
 
 

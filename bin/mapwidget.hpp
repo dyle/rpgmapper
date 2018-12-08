@@ -167,7 +167,7 @@ private:
      * @param   painter     painter used to draw.
      */
     void drawHoveredTile(QPainter & painter);
-
+    
 private slots:
     
     /**

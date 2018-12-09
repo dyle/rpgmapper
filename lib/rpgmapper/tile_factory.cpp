@@ -10,7 +10,7 @@
 using namespace rpgmapper::model;
 
 
-TilePointer TileFactory::create(TileType tileType, rpgmapper::model::Tile::Attributes & attributes) {
+TilePointer TileFactory::create(TileType tileType, rpgmapper::model::Tile::Attributes attributes) {
     
     switch (tileType) {
     

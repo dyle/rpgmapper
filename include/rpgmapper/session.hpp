@@ -18,6 +18,7 @@
 #include <rpgmapper/map_pointer.hpp>
 #include <rpgmapper/region_pointer.hpp>
 #include <rpgmapper/session_pointer.hpp>
+#include <rpgmapper/tile_pointer.hpp>
 
 
 namespace rpgmapper {
@@ -44,6 +45,8 @@ private:
     command::ProcessorPointer commandProcessor;
     
     QString fileName;               /**< Filename of the atlas loaded or recently saved. */
+    
+    TilePointer currentTile;        /**< Current selected tile. */
 
 public:
     
@@ -174,6 +177,24 @@ public:
     static SessionPointer getCurrentSession();
     
     /**
+     * Returns the currently selected tile.
+     *
+     * @return  the current selected tile.
+     */
+    TilePointer getCurrentTile() {
+        return currentTile;
+    }
+    
+    /**
+     * Returns the currently selected tile (const version).
+     *
+     * @return  the current selected tile.
+     */
+    TilePointer const getCurrentTile() const {
+        return currentTile;
+    }
+    
+    /**
      * Gets the file name of the atlas file loaded (or saved recently).
      *
      * @return  the file name associated with the current atlas.
@@ -252,6 +273,13 @@ public:
      */
     static void setCurrentSession(SessionPointer session);
     
+    /**
+     * Sets a new current tile.
+     *
+     * @param   tile        the new current tile.
+     */
+    void setCurrentTile(TilePointer & tile);
+    
 signals:
     
     /**
@@ -272,6 +300,11 @@ signals:
      * @param   name        name of the new selected region.
      */
     void selectedRegion(QString name);
+    
+    /**
+     * A new tile has been selected as new current tile.
+     */
+    void selectedTile();
     
 private:
     

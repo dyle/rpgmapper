@@ -16,6 +16,18 @@ using namespace rpgmapper::model::tiles;
 #endif
 
 
-void ColorTile::draw(QPainter & painter, UNUSED int tileSize) {
+QColor ColorTile::getColor() const {
+    
+    auto const & attributes = getAttributes();
+    auto iter = attributes.find("color");
+    if (iter == attributes.end()) {
+        return QColor{Qt::black};
+    }
+    return QColor{(*iter).second};
+}
 
+
+void ColorTile::draw(QPainter & painter, int tileSize) {
+    QRect rect{0, 0, tileSize, tileSize};
+    painter.fillRect(rect, getColor());
 }

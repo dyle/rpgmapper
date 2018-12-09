@@ -9,6 +9,7 @@
 
 #include <array>
 
+#include <QColor>
 #include <QWidget>
 
 #include <rpgmapper/colorpalette.hpp>
@@ -61,6 +62,15 @@ private slots:
      * @param   selected        selected flag
      */
     void colorSelectedChange(int id, bool selected);
+    
+signals:
+    
+    /**
+     * A color has been selected by the user.
+     *
+     * @param   color       the color selected.
+     */
+    void colorSelected(QColor color);
 };
 
 

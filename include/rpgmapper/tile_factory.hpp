@@ -37,7 +37,7 @@ public:
      * @param   attributes      The initial set of attributes for the tile.
      * @return  A pointer to a tile (or nullptr if failed).
      */
-    static TilePointer create(TileType tileType, Tile::Attributes & attributes);
+    static TilePointer create(TileType tileType, Tile::Attributes attributes);
 };
 
 

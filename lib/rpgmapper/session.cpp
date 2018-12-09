@@ -300,3 +300,9 @@ void Session::setCurrentSession(SessionPointer session) {
     }
     currentSession = session;
 }
+
+
+void Session::setCurrentTile(rpgmapper::model::TilePointer & tile) {
+    currentTile = tile;
+    emit selectedTile();
+}

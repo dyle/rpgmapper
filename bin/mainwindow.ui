@@ -389,14 +389,14 @@
    </attribute>
    <widget class="rpgmapper::view::ColorChooserWidget" name="colorPickerDockWidgetContents"/>
   </widget>
-  <widget class="QDockWidget" name="currentTileWidget">
+  <widget class="QDockWidget" name="currentTileDockWidget">
    <property name="windowTitle">
     <string>Curre&amp;nt Tile:</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="rpgmapper::view::CurrentTileWidget" name="dockWidgetContents"/>
+   <widget class="rpgmapper::view::CurrentTileWidget" name="currentTileWidget"/>
   </widget>
   <action name="actionCreateNew">
    <property name="icon">

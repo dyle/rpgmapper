@@ -32,6 +32,13 @@ public:
     explicit ColorTile(Attributes & attributes) : Tile{attributes} {}
     
     /**
+     * Retrieves the color in this color tile.
+     *
+     * @return  the color within this color tile.
+     */
+    QColor getColor() const;
+    
+    /**
      * Draws the tile.
      *
      * @param   painter         painter used for drawing

@@ -11,6 +11,7 @@
 #include <map>
 #include <memory>
 
+#include <QColor>
 #include <QWidget>
 
 #include <rpgmapper/colorpalette.hpp>
@@ -57,7 +58,15 @@ private slots:
      * The user selected a new palette.
      */
     void selectedPaletteChanged();
+
+signals:
     
+    /**
+     * A color has been selected by the user.
+     *
+     * @param   color       the color selected.
+     */
+    void colorSelected(QColor color);
 };
 
 

@@ -22,6 +22,7 @@
 #include <rpgmapper/atlas_name_validator.hpp>
 #include <rpgmapper/region_name_validator.hpp>
 #include <rpgmapper/session.hpp>
+#include <rpgmapper/tile_factory.hpp>
 
 #include "mainwindow.hpp"
 #include "visibility_action_filter.hpp"
@@ -150,6 +151,13 @@ void MainWindow::closeEvent(QCloseEvent * event) {
 }
 
 
+void MainWindow::colorSelected(QColor color) {
+    auto tile = TileFactory::create(TileType::color, {{"color", color.name()}});
+    auto session = Session::getCurrentSession();
+    session->setCurrentTile(tile);
+}
+
+
 void MainWindow::connectActions() {
 
     addUnusedActions();
@@ -199,6 +207,8 @@ void MainWindow::connectActions() {
     connect(ui->mapTabWidget, &MapTabWidget::decreaseZoom, zoomSlider, &ZoomSlider::decrease);
     connect(ui->mapTabWidget, &MapTabWidget::increaseZoom, zoomSlider, &ZoomSlider::increase);
     
+    connect(ui->colorPickerDockWidgetContents, &ColorChooserWidget::colorSelected, this, &MainWindow::colorSelected);
+    
     connect(zoomSlider, &ZoomSlider::zoomChanged, this, &MainWindow::zoomChanged);
 }
 
@@ -217,6 +227,7 @@ void MainWindow::connectModelSignals() {
     connect(session.data(), &Session::selectedMap, ui->atlasTreeWidget, &StructuralTreeWidget::selectMap);
     connect(session.data(), &Session::selectedRegion, this, &MainWindow::enableActions);
     connect(session.data(), &Session::selectedRegion, ui->atlasTreeWidget, &StructuralTreeWidget::selectRegion);
+    connect(session.data(), &Session::selectedTile, this, &MainWindow::selectedTile);
 }
 
 
@@ -628,6 +639,13 @@ void MainWindow::saveSettingsRecentFiles(QSettings & settings) {
 void MainWindow::saveSettingsWindow(QSettings & settings) {
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
+}
+
+
+void MainWindow::selectedTile() {
+    auto session = Session::getCurrentSession();
+    auto tile = session->getCurrentTile();
+    ui->currentTileWidget->setCurrentTile(tile);
 }
 
 

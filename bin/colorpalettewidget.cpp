@@ -40,6 +40,7 @@ void ColorPaletteWidget::colorSelectedChange(int id, bool selected) {
     
     if (selected) {
         selectedIndex = id;
+        emit colorSelected(colorWidgets[selectedIndex]->getColor());
     }
 }
 

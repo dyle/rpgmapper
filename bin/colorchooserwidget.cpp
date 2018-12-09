@@ -22,6 +22,7 @@ ColorChooserWidget::ColorChooserWidget(QWidget * parent) : QWidget{parent} {
     ui->setupUi(this);
     
     connect(ui->paletteBox, SIGNAL(activated(int)), this, SLOT(selectedPaletteChanged()));
+    connect(ui->scrollAreaWidgetContents, SIGNAL(colorSelected(QColor)), this, SIGNAL(colorSelected(QColor)));
 }
 
 

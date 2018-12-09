@@ -276,7 +276,14 @@ private slots:
      * A new region has been created.
      */
     void createNewRegion();
-
+    
+    /**
+     * The user selected a color.
+     *
+     * @param   color       the color the user selected.
+     */
+    void colorSelected(QColor color);
+    
     /**
      * A map has been deleted.
      */
@@ -315,6 +322,11 @@ private slots:
      * @return  true, if successfully saved
      */
     bool saveAs();
+    
+    /**
+     * The user selected a new tile.
+     */
+    void selectedTile();
     
     /**
      * View the current map.

@@ -9,6 +9,8 @@
 
 #include <QWidget>
 
+#include <rpgmapper/tile_pointer.hpp>
+
 
 namespace rpgmapper {
 namespace view {
@@ -21,6 +23,8 @@ class CurrentTileWidget : public QWidget {
 
     Q_OBJECT
     
+    rpgmapper::model::TilePointer currentTile;            /**< The current tile. */
+    
 public:
     
     /**
@@ -29,6 +33,40 @@ public:
      * @param   parent      Parent QWidget instance.
      */
     explicit CurrentTileWidget(QWidget * parent = nullptr);
+    
+    /**
+     * Returns the current tile.
+     *
+     * @return  the current tile.
+     */
+    rpgmapper::model::TilePointer getCurrentTile() {
+        return currentTile;
+    }
+    
+    /**
+     * Returns the current tile.
+     *
+     * @return  the current tile.
+     */
+    rpgmapper::model::TilePointer const getCurrentTile() const {
+        return currentTile;
+    }
+    
+    /**
+     * Sets a new current tile.
+     *
+     * @param   tile        the new current tile.
+     */
+    void setCurrentTile(rpgmapper::model::TilePointer tile);
+
+protected:
+    
+    /**
+     * Draws this widget.
+     *
+     * @param   event       the paint event involved.
+     */
+    void paintEvent(QPaintEvent * event) override;
 };
 
 

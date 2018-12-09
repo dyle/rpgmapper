@@ -40,6 +40,8 @@ set(RPGMAPPER_LIB_SRC
     resource_db.cpp
     resource_loader.cpp
     session.cpp
+    tile.cpp
+    tile_factory.cpp
     zip.cpp
 
     command/composite_command.cpp
@@ -81,6 +83,8 @@ set(RPGMAPPER_LIB_SRC
     numeralconverter/numerals.cpp
     numeralconverter/numeric.cpp
     numeralconverter/roman.cpp
+
+    tiles/color_tile.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

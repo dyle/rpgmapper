@@ -195,8 +195,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>80</width>
-          <height>265</height>
+          <width>96</width>
+          <height>26</height>
          </rect>
         </property>
         <attribute name="label">
@@ -208,7 +208,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>240</width>
+          <width>80</width>
           <height>265</height>
          </rect>
         </property>
@@ -396,7 +396,7 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents"/>
+   <widget class="rpgmapper::view::CurrentTileWidget" name="dockWidgetContents"/>
   </widget>
   <action name="actionCreateNew">
    <property name="icon">
@@ -671,7 +671,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>&amp;Current Tile Dock</string>
+    <string>Current Tile &amp;Dock</string>
    </property>
   </action>
  </widget>
@@ -691,6 +691,12 @@
    <class>rpgmapper::view::ColorChooserWidget</class>
    <extends>QWidget</extends>
    <header>colorchooserwidget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>rpgmapper::view::CurrentTileWidget</class>
+   <extends>QWidget</extends>
+   <header>currenttilewidget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -9,6 +9,7 @@
 
 #include <map>
 
+#include <QPainter>
 #include <QString>
 
 
@@ -17,16 +18,61 @@ namespace model {
 
 
 /**
- * A single tile on a field holds key-value pairs.
+ * A single tile on a field holds key-value pairs and knows how to draw itself.
  *
  * A tile may be:
  *  - "river" - "south-west"
  *  - "wall" - "east"
  *  - "special" - "trapdoor"
- *
- * TODO: subject for redesign.
  */
-using Tile = std::map<QString, QString>;
+class Tile {
+
+public:
+    
+    using Attributes = std::map<QString, QString>;
+    
+private:
+    
+     Attributes attributes;
+
+public:
+    
+    /**
+     * Constructor.
+     */
+    Tile() = default;
+    
+    /**
+     * Constructor.
+     */
+    explicit Tile(Attributes & attributes);
+    
+    /**
+     * Returns the tile attributes.
+     *
+     * @return  the tile attributes.
+     */
+    Attributes & getAttributes() {
+        return attributes;
+    }
+    
+    /**
+     * Returns the tile attributes (const version).
+     *
+     * @return  the tile attributes.
+     */
+    Attributes const & getAttributes() const {
+        return attributes;
+    }
+    
+    /**
+     * Draws the tile.
+     *
+     * @param   painter     the painter used to draw the tile.
+     * @param   tileSize    size of the tile.
+     */
+    virtual void draw(QPainter & painter, int tileSize) = 0;
+};
 
 
 }

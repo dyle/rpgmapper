@@ -33,6 +33,7 @@ set(RPGMAPPER_MOC
     colorwidget.hpp
     coordinatesoriginwidget.hpp
     coordinateswidget.hpp
+    currenttilewidget.hpp
     logdialog.hpp
     mainwindow.hpp
     mappropertiesdialog.hpp
@@ -56,6 +57,7 @@ set(RPGMAPPER_SRC
     colorwidget.cpp
     coordinatesoriginwidget.cpp
     coordinateswidget.cpp
+    currenttilewidget.cpp
     logdialog.cpp
     main.cpp
     mainwindow.cpp

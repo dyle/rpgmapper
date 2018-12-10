@@ -32,7 +32,7 @@ void AxisLayer::draw(QPainter & painter, int tileSize) const {
 
 
 void AxisLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
-
+    
     painter.setPen(getColor());
     painter.setFont(getFont());
     
@@ -41,17 +41,22 @@ void AxisLayer::drawXAnnotation(QPainter & painter, int tileSize) const {
         throw exception::invalid_map{};
     }
     
-    auto rect = map->getCoordinateSystem()->getInnerRect(tileSize);
-    QSize size = map->getCoordinateSystem()->getSize();
-    for (int x = 0; x < size.width(); ++x) {
-
-        auto mapPosition = map->getCoordinateSystem()->transposeToMapCoordinates(x, 0);
-        QString sX = map->getCoordinateSystem()->tanslateToNumeralOnX(mapPosition.x());
-
-        QRect upperRect{rect.x() + x * tileSize, rect.y() + -tileSize, tileSize, tileSize};
+    auto coordinateSystem = map->getCoordinateSystem();
+    auto rect = coordinateSystem->getInnerRect(tileSize);
+    QSize size = coordinateSystem->getSize();
+    
+    int x = coordinateSystem->isAxisLeftToRight() ? 0 : size.width() - 1;
+    x += static_cast<int>(coordinateSystem->getOffset().x());
+    int increment = coordinateSystem->isAxisLeftToRight() ? 1 : -1;
+    for (int i = 0; i < size.width(); ++i) {
+        
+        QString sX = map->getCoordinateSystem()->tanslateToNumeralOnX(x);
+        QRect upperRect{rect.x() + i * tileSize, rect.y() + -tileSize, tileSize, tileSize};
         painter.drawText(upperRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
-        QRect lowerRect{rect.x() + x * tileSize, rect.bottom(), tileSize, tileSize};
+        QRect lowerRect{rect.x() + i * tileSize, rect.bottom(), tileSize, tileSize};
         painter.drawText(lowerRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sX);
+        
+        x += increment;
     }
 }
 
@@ -66,17 +71,23 @@ void AxisLayer::drawYAnnotation(QPainter & painter, int tileSize) const {
         throw exception::invalid_map{};
     }
     
-    auto rect = map->getCoordinateSystem()->getInnerRect(tileSize);
-    QSize cSize = map->getCoordinateSystem()->getSize();
-    for (int y = 0; y < cSize.height(); ++y) {
+    auto coordinateSystem = map->getCoordinateSystem();
+    auto rect = coordinateSystem->getInnerRect(tileSize);
+    QSize size = coordinateSystem->getSize();
+    
+    int y = coordinateSystem->isAxisTopToDown() ? 0 : size.height() - 1;
+    y += static_cast<int>(coordinateSystem->getOffset().y());
+    int increment = coordinateSystem->isAxisTopToDown() ? 1 : -1;
+    for (int i = 0; i < size.height(); ++i) {
+        
+        QString sY = coordinateSystem->tanslateToNumeralOnY(y);
 
-        auto mapPosition = map->getCoordinateSystem()->transposeToMapCoordinates(0, y);
-        QString sY = map->getCoordinateSystem()->tanslateToNumeralOnY(mapPosition.y());
-
-        QRect leftRect{rect.x() + -tileSize, rect.y() + y * tileSize, tileSize, tileSize};
+        QRect leftRect{rect.x() + -tileSize, rect.y() + i * tileSize, tileSize, tileSize};
         painter.drawText(leftRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
-        QRect rightRect{rect.right(), rect.y() + y * tileSize, tileSize, tileSize};
+        QRect rightRect{rect.right(), rect.y() + i * tileSize, tileSize, tileSize};
         painter.drawText(rightRect, Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextSingleLine, sY);
+        
+        y += increment;
     }
 }
 

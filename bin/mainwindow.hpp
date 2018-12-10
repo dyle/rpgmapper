@@ -95,8 +95,8 @@ public slots:
     /**
      * Make some map coordinates visible.
      *
-     * @param   x       X-Coordinate
-     * @param   y       Y-Coordinate
+     * @param   x       X-Coordinate as for top/left.
+     * @param   y       Y-Coordinate as for top/left.
      */
     void showCoordinates(int x, int y);
     

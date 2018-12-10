@@ -212,6 +212,23 @@ QRect CoordinateSystem::getOuterRect(int tileSize) const {
 }
 
 
+QRect CoordinateSystem::getRect() const {
+    auto offset = getOffset();
+    auto size = getSize();
+    return QRect{static_cast<int>(offset.x()), static_cast<int>(offset.y()), size.width(), size.height()};
+}
+
+
+bool CoordinateSystem::isAxisLeftToRight() const {
+    return getOrigin() == CoordinatesOrigin::topLeft || getOrigin() == CoordinatesOrigin::bottomLeft;
+}
+
+
+bool CoordinateSystem::isAxisTopToDown() const {
+    return getOrigin() == CoordinatesOrigin::topLeft || getOrigin() == CoordinatesOrigin::topRight;
+}
+
+
 bool CoordinateSystem::isValidSize(QSize size) {
     
     if ((size.width() < getMinimumSize().width()) || (size.height() < getMinimumSize().height())) {
@@ -222,6 +239,14 @@ bool CoordinateSystem::isValidSize(QSize size) {
     }
     
     return true;
+}
+
+
+void CoordinateSystem::resize(QSize size) {
+    if (isValidSize(size)) {
+        this->size = size;
+        emit sizeChanged(size);
+    }
 }
 
 
@@ -267,61 +292,22 @@ void CoordinateSystem::setOrigin(CoordinatesOrigin origin) {
 }
 
 
-QPointF CoordinateSystem::transposeToMapCoordinates(QPointF position) const{
+QPoint CoordinateSystem::translateToMap(QPoint point) const {
     
-    auto coordinate = position + getOffset();
-    switch (getOrigin()) {
-        
-        case CoordinatesOrigin::bottomLeft:
-            coordinate = QPointF{position.x(), getSize().height() - position.y()};
-            break;
-        
-        case CoordinatesOrigin::bottomRight:
-            coordinate = QPointF{getSize().width() - position.x(), getSize().height() - position.y()};
-            break;
-        
-        case CoordinatesOrigin::topLeft:
-            coordinate = position;
-            break;
-        
-        case CoordinatesOrigin::topRight:
-            coordinate = QPointF{getSize().width() - position.x(), position.y()};
-            break;
+    int x = point.x();
+    int y = point.y();
+    auto size = getSize();
+    
+    if (!isAxisLeftToRight()) {
+        x = size.width() - 1 - x;
+    }
+    if (!isAxisTopToDown()) {
+        y = size.height() - 1 - y;
     }
     
-    return coordinate;
-}
-
-
-QPointF CoordinateSystem::transposeToScreenCoordinates(QPointF position) const{
+    auto offset = getOffset();
+    x += static_cast<int>(offset.x());
+    y += static_cast<int>(offset.y());
     
-    auto coordinate = position - getOffset();
-    switch (getOrigin()) {
-        
-        case CoordinatesOrigin::bottomLeft:
-            coordinate = QPointF{position.x(), getSize().height() - position.y()};
-            break;
-        
-        case CoordinatesOrigin::bottomRight:
-            coordinate = QPointF{getSize().width() - position.x(), getSize().height() - position.y()};
-            break;
-        
-        case CoordinatesOrigin::topLeft:
-            coordinate = position;
-            break;
-        
-        case CoordinatesOrigin::topRight:
-            coordinate = QPointF{getSize().width() - position.x(), position.y()};
-            break;
-    }
-    
-    return coordinate;
-}
-
-
-void CoordinateSystem::resize(QSize size) {
-    if (isValidSize(size)) {
-        this->size = size;
-        emit sizeChanged(size);
-    }
+    return QPoint{x, y};
 }

@@ -187,13 +187,11 @@ public:
     QRect getOuterRect(int tileSize) const;
     
     /**
-     * Gets a rect of the map size.
+     * Gets a rect of the map size including the offset.
      *
      * @return  the map size as rectangle.
      */
-    QRect getRect() const {
-        return QRect{0, 0, size.width(), size.height()};
-    }
+    QRect getRect() const;
     
     /**
      * Returns the current dimension of the map.
@@ -203,6 +201,20 @@ public:
     QSize getSize() const {
         return size;
     }
+    
+    /**
+     * Checks if the X-axis is increasing left to right.
+     *
+     * @return  Returns true, if the X-Axis is increased left to right.
+     */
+    bool isAxisLeftToRight() const;
+    
+    /**
+     * Checks if the Y-axis is increasing top to down.
+     *
+     * @return  Returns true, if the Y-Axis is increased top to down.
+     */
+    bool isAxisTopToDown() const;
     
     /**
      * Checks if the given size is a valid one, suitable for a map.
@@ -256,6 +268,15 @@ public:
      */
     void setOrigin(CoordinatesOrigin origin);
     
+    
+    /**
+     * Translate a point to map coordinates respecting the origin.
+     *
+     * @param   point       the point measured from top/left.
+     * @return  a point as for map coordinates.
+     */
+    QPoint translateToMap(QPoint point) const;
+    
     /**
      * Returns a x-axis numeral.
      *
@@ -275,66 +296,6 @@ public:
     QString tanslateToNumeralOnY(int y) const {
         return getNumeralYAxis()->convert(y);
     }
-    
-    /**
-     * Transposes the given point to map coordinates respecting the origin position.
-     *
-     * @param   x       the X value of the position.
-     * @param   y       the Y value of the position.
-     * @return  position within the maps coordination space.
-     */
-    QPointF transposeToMapCoordinates(int x, int y) const {
-        return transposeToMapCoordinates(QPointF{static_cast<double>(x), static_cast<double>(y)});
-    }
-    
-    /**
-     * Transposes the given point to map coordinates respecting the origin position.
-     *
-     * @param   x       the X value of the position.
-     * @param   y       the Y value of the position.
-     * @return  position within the maps coordination space.
-     */
-    QPointF transposeToMapCoordinates(double x, double y) const {
-        return transposeToMapCoordinates(QPointF{x, y});
-    }
-    
-    /**
-     * Transposes the given point to map coordinates respecting the origin position.
-     *
-     * @param   position        position having top-left as 0,0 (screen coordinates)
-     * @return  position within the maps coordination space.
-     */
-    QPointF transposeToMapCoordinates(QPointF position) const;
-    
-    /**
-     * Transposes the given point to screen coordinates respecting the origin position.
-     *
-     * @param   x       the X value of the position.
-     * @param   y       the Y value of the position.
-     * @return  screen coordinate position (top-left as 0,0).
-     */
-    QPointF transposeToScreenCoordinates(int x, int y) const {
-        return transposeToScreenCoordinates(QPointF{static_cast<double>(x), static_cast<double>(y)});
-    }
-    
-    /**
-     * Transposes the given point to screen coordinates respecting the origin position.
-     *
-     * @param   x       the X value of the position.
-     * @param   y       the Y value of the position.
-     * @return  screen coordinate position (top-left as 0,0).
-     */
-    QPointF transposeToScreenCoordinates(double x, double y) const {
-        return transposeToScreenCoordinates(QPointF{x, y});
-    }
-    
-    /**
-     * Transposes the given point to screen coordinates respecting the origin position.
-     *
-     * @param   position        position on the map.
-     * @return  screen coordinate position (top-left as 0,0).
-     */
-    QPointF transposeToScreenCoordinates(QPointF position) const;
     
     /**
      * Resizes the map.

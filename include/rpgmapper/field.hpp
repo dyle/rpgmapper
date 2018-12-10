@@ -32,8 +32,8 @@ public:
     /**
      * Create a Field instance at the given position.
      *
-     * @param   x   X coordinate.
-     * @param   y   Y coordinate.
+     * @param   x   X coordinate measured from top/left.
+     * @param   y   Y coordinate measured from top/left.
      */
     explicit Field(int x = 0, int y = 0);
 
@@ -73,9 +73,9 @@ public:
     }
     
     /**
-     * Returns the position of the field.
+     * Returns the position of the field measured from top/left.
      *
-     * @return  the position of this field on a map.
+     * @return  the position of this field on a map measured from top/left.
      */
     QPoint getPosition() const {
         return position;

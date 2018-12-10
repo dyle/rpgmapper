@@ -702,8 +702,10 @@ void MainWindow::showCoordinates(int x, int y) {
     if (!mapName.isEmpty()) {
         auto map = session->findMap(mapName);
         if (map->isValid()) {
+            
             auto coordinateSystem = map->getCoordinateSystem();
-            coordinatesWidget->showCoordinates(coordinateSystem->getNumeralCoordinates(x, y));
+            auto mapPoint = coordinateSystem->translateToMap(QPoint{x, y});
+            coordinatesWidget->showCoordinates(coordinateSystem->getNumeralCoordinates(mapPoint.x(), mapPoint.y()));
         }
         else {
             coordinatesWidget->clear();

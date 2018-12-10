@@ -75,17 +75,15 @@ void MapWidget::drawHoveredTile(QPainter & painter) {
     if (!map->isValid()) {
         return;
     }
-
-    auto mapRect = map->getCoordinateSystem()->getRect();
+    
+    auto coordinateSystem = map->getCoordinateSystem();
+    auto mapSize = coordinateSystem->getSize();
+    auto mapRect = QRect{0, 0, mapSize.width(), mapSize.height()};
     if (mapRect.contains(hoveredTilePosition.x(), hoveredTilePosition.y())) {
-
-        auto pointOnWidget = map->getCoordinateSystem()->transposeToScreenCoordinates(hoveredTilePosition);
+        
         int tileSize = getTileSize();
-        QRect rect{static_cast<int>(pointOnWidget.x() * tileSize),
-                   static_cast<int>(pointOnWidget.y() * tileSize),
-                   tileSize,
-                   tileSize};
-        auto innerRect = map->getCoordinateSystem()->getInnerRect(tileSize);
+        QRect rect{hoveredTilePosition.x() * tileSize, hoveredTilePosition.y() * tileSize, tileSize, tileSize};
+        auto innerRect = coordinateSystem->getInnerRect(tileSize);
         rect.adjust(innerRect.x(), innerRect.y(), innerRect.x(), innerRect.y());
         
         QPalette systemPalette;
@@ -111,19 +109,19 @@ void MapWidget::mapSizeChanged() {
     resize(rect.size());
 }
 
-#include <iostream>
+
 void MapWidget::mouseMoveEvent(QMouseEvent * event) {
 
     QWidget::mouseMoveEvent(event);
     
     auto pointInfo = widgetToMapCoordinates(event->x(), event->y());
     if (std::get<1>(pointInfo)) {
-        auto mapPosition = std::get<0>(pointInfo);
         
+        auto mapPosition = std::get<0>(pointInfo);
         auto newHoveredTilePosition = QPoint{static_cast<int>(mapPosition.x()), static_cast<int>(mapPosition.y())};
         if (newHoveredTilePosition != hoveredTilePosition) {
+            
             hoveredTilePosition = newHoveredTilePosition;
-            std::cerr << "hovered: " << hoveredTilePosition.x() << "/" << hoveredTilePosition.y() << std::endl;
             update();
             emit hoverCoordinates(hoveredTilePosition.x(), hoveredTilePosition.y());
         }
@@ -229,10 +227,9 @@ void MapWidget::setTileSize(int tileSize) {
     update();
 }
 
-#include <iostream>
+
 std::tuple<QPointF, bool> MapWidget::widgetToMapCoordinates(float x, float y) const {
     
-    std::cerr << "map " << x << "/" << y << std::endl;
     auto map = Session::getCurrentSession()->findMap(mapName);
     if (!map->isValid()) {
         throw std::runtime_error("Invalid map to render.");
@@ -240,15 +237,12 @@ std::tuple<QPointF, bool> MapWidget::widgetToMapCoordinates(float x, float y) co
     
     auto coordinateSystem = map->getCoordinateSystem();
     auto rect = coordinateSystem->getInnerRect(getTileSize());
-    std::cerr << "innerRect: " << rect.x() << "/" << rect.y() << " " << rect.width() << "x" << rect.height() << std::endl;
     
     auto mapX = (x - rect.x()) / static_cast<float >(getTileSize());
     auto mapY = (y - rect.y()) / static_cast<float >(getTileSize());
+    
     auto size = coordinateSystem->getSize();
     auto inside = (mapX >= 0) && (mapX < size.width()) && (mapY >= 0) && (mapY < size.height());
-    std::cerr << "mapX/Y: " << mapX << "/" << mapY << std::endl;
-    auto mapPoint = map->getCoordinateSystem()->transposeToMapCoordinates(mapX, mapY);
-    std::cerr << "mapPoint: " << mapPoint.x() << "/" << mapPoint.y() << std::endl;
     
-    return {mapPoint, inside};
+    return {QPointF{mapX, mapY}, inside};
 }

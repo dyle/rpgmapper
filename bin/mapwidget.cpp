@@ -130,11 +130,12 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
 
 
 void MapWidget::mousePressEvent(QMouseEvent * event) {
-    
     if (event->button() == Qt::LeftButton) {
-        
         leftMouseButtonDown = true;
         event->accept();
+    }
+    else {
+        QWidget::mousePressEvent(event);
     }
 }
 
@@ -143,6 +144,9 @@ void MapWidget::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         leftMouseButtonDown = false;
         event->accept();
+    }
+    else {
+        QWidget::mouseReleaseEvent(event);
     }
 }
 

@@ -417,14 +417,6 @@ private:
      * @return  true, if the found JSON values have been applies.
      */
     bool applyJSONSize(QJsonObject const & json);
-    
-    /**
-     * Transposes a position.
-     *
-     * @param   position        the position to transpose..
-     * @return  the transposed point..
-     */
-    QPointF transpose(QPointF const & position) const;
 };
 
 

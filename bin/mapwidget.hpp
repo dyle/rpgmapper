@@ -42,6 +42,8 @@ class MapWidget : public QWidget {
      */
     rpgmapper::model::AverageOverSize<float> averagePaintDuration;
     
+    bool leftMouseButtonDown = false;       /**< left mouse button down flag. */
+    
 public:
 
     /**
@@ -138,7 +140,21 @@ protected:
      * @param   event       the mouse move event.
      */
     void mouseMoveEvent(QMouseEvent * event) override;
-
+    
+    /**
+     * The user pressed a mouse button on the map.
+     *
+     * @param   event       the mouse press event.
+     */
+    void mousePressEvent(QMouseEvent * event) override;
+    
+    /**
+     * The user release a mouse button on the map.
+     *
+     * @param   event       the mouse press event.
+     */
+    void mouseReleaseEvent(QMouseEvent * event) override;
+    
     /**
      * Special painting.
      *
@@ -167,6 +183,15 @@ private:
      * @param   painter     painter used to draw.
      */
     void drawHoveredTile(QPainter & painter);
+    
+    /**
+     * Get the map coordinates by x and y as screen/widget coordinates.
+     *
+     * @param   x       x in the screen/widget area.
+     * @param   y       y in the screen/widget area.
+     * @return  the point as map coordinates and if it inside the map or not.
+     */
+    std::tuple<QPointF, bool> widgetToMapCoordinates(float x, float y) const;
     
 private slots:
     

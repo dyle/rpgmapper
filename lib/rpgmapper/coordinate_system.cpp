@@ -267,40 +267,55 @@ void CoordinateSystem::setOrigin(CoordinatesOrigin origin) {
 }
 
 
-QPointF CoordinateSystem::transpose(QPointF const & position) const {
-
-    QPointF coordinate;
-
+QPointF CoordinateSystem::transposeToMapCoordinates(QPointF position) const{
+    
+    auto coordinate = position + getOffset();
     switch (getOrigin()) {
-
+        
         case CoordinatesOrigin::bottomLeft:
-            coordinate = QPointF{position.x(), getSize().height() - position.y() - 1};
+            coordinate = QPointF{position.x(), getSize().height() - position.y()};
             break;
-
+        
         case CoordinatesOrigin::bottomRight:
-            coordinate = QPointF{getSize().width() - position.x() - 1, getSize().height() - position.y() - 1};
+            coordinate = QPointF{getSize().width() - position.x(), getSize().height() - position.y()};
             break;
-
+        
         case CoordinatesOrigin::topLeft:
             coordinate = position;
             break;
-
+        
         case CoordinatesOrigin::topRight:
-            coordinate = QPointF{getSize().width() - position.x() - 1, position.y()};
+            coordinate = QPointF{getSize().width() - position.x(), position.y()};
             break;
     }
-
+    
     return coordinate;
 }
 
 
-QPointF CoordinateSystem::transposeToMapCoordinates(QPointF position) const{
-    return transpose(position) + getOffset();
-}
-
-
 QPointF CoordinateSystem::transposeToScreenCoordinates(QPointF position) const{
-    return transpose(position) - getOffset();
+    
+    auto coordinate = position - getOffset();
+    switch (getOrigin()) {
+        
+        case CoordinatesOrigin::bottomLeft:
+            coordinate = QPointF{position.x(), getSize().height() - position.y()};
+            break;
+        
+        case CoordinatesOrigin::bottomRight:
+            coordinate = QPointF{getSize().width() - position.x(), getSize().height() - position.y()};
+            break;
+        
+        case CoordinatesOrigin::topLeft:
+            coordinate = position;
+            break;
+        
+        case CoordinatesOrigin::topRight:
+            coordinate = QPointF{getSize().width() - position.x(), position.y()};
+            break;
+    }
+    
+    return coordinate;
 }
 
 

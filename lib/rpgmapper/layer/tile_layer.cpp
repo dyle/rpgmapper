@@ -42,26 +42,22 @@ QSharedPointer<Field> const TileLayer::getField(int index) const {
     return (*iter).second;
 }
 
-
+#include <iostream>
 void TileLayer::draw(QPainter & painter, int tileSize) const {
     
     painter.save();
     
-    auto rect = getMap()->getCoordinateSystem()->getInnerRect(tileSize);
-    painter.setTransform(QTransform::fromTranslate(rect.right(), rect.top()));
-    
+    auto innerRect = getMap()->getCoordinateSystem()->getInnerRect(tileSize);
     for (auto const & pair : getFields()) {
         
-        painter.save();
         auto field = pair.second;
         auto position = field->getPosition();
-        painter.setTransform(QTransform::fromTranslate(position.x() * tileSize, position.y() * tileSize));
-        
+        QPoint moveBy{innerRect.left() + position.x() * tileSize, innerRect.top() + position.y() * tileSize};
+        painter.translate(moveBy);
         for (auto const & tile : field->getTiles()) {
             tile->draw(painter, tileSize);
         }
-        
-        painter.restore();
+        painter.resetTransform();
     }
     
     painter.restore();

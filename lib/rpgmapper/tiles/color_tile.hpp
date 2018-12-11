@@ -45,6 +45,15 @@ public:
      * @param   tileSize        the tile size.
      */
     void draw(QPainter & painter, int tileSize) override;
+    
+    /**
+     * Places this tile within the layer stack of a map.
+     *
+     * @param   x               X position to place the tile.
+     * @param   y               Y position to place the tile.
+     * @param   layerStack      the stack of layers of the map.
+     */
+    void place(int x, int y, LayerStack * layerStack) override;
 };
 
 

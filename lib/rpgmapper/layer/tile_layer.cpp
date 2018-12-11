@@ -5,6 +5,9 @@
  */
 
 #include <rpgmapper/layer/tile_layer.hpp>
+#include <rpgmapper/coordinate_system.hpp>
+#include <rpgmapper/map.hpp>
+#include <rpgmapper/tile.hpp>
 
 using namespace rpgmapper::model;
 
@@ -40,7 +43,28 @@ QSharedPointer<Field> const TileLayer::getField(int index) const {
 }
 
 
-void TileLayer::draw(UNUSED QPainter & painter, UNUSED int tileSize) const {
+void TileLayer::draw(QPainter & painter, int tileSize) const {
+    
+    painter.save();
+    
+    auto rect = getMap()->getCoordinateSystem()->getInnerRect(tileSize);
+    painter.setTransform(QTransform::fromTranslate(rect.right(), rect.top()));
+    
+    for (auto const & pair : getFields()) {
+        
+        painter.save();
+        auto field = pair.second;
+        auto position = field->getPosition();
+        painter.setTransform(QTransform::fromTranslate(position.x() * tileSize, position.y() * tileSize));
+        
+        for (auto const & tile : field->getTiles()) {
+            tile->draw(painter, tileSize);
+        }
+        
+        painter.restore();
+    }
+    
+    painter.restore();
 }
 
 

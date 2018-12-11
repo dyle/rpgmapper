@@ -17,6 +17,10 @@ namespace rpgmapper {
 namespace model {
 
 
+// fwd
+class LayerStack;
+
+
 /**
  * A single tile on a field holds key-value pairs and knows how to draw itself.
  *
@@ -41,6 +45,11 @@ public:
      * Constructor.
      */
     Tile() = default;
+    
+    /**
+     * Copy Constructor.
+     */
+    Tile(Tile const &) = default;
     
     /**
      * Constructor.
@@ -72,6 +81,15 @@ public:
      * @param   tileSize    size of the tile.
      */
     virtual void draw(QPainter & painter, int tileSize) = 0;
+
+    /**
+     * Places this tile within the layer stack of a map.
+     *
+     * @param   x               X position to place the tile.
+     * @param   y               Y position to place the tile.
+     * @param   layerStack      the stack of layers of the map.
+     */
+    virtual void place(int x, int y, LayerStack * layerStack) = 0;
 };
 
 

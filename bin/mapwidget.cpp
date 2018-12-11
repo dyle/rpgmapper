@@ -35,6 +35,24 @@ MapWidget::MapWidget(QWidget * parent)
 }
 
 
+void MapWidget::applyCurrentSelectedTile() {
+
+    auto session = Session::getCurrentSession();
+    auto tile = session->getCurrentTile();
+    if (!tile) {
+        return;
+    }
+    
+    auto map = session->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Invalid map to render.");
+    }
+    
+    map->place(hoveredTilePosition.x(), hoveredTilePosition.y(), tile);
+    update();
+}
+
+
 std::list<rpgmapper::model::Layer const *> MapWidget::collectVisibleLayers() const {
     
     auto map = Session::getCurrentSession()->findMap(mapName);
@@ -122,6 +140,10 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
         if (newHoveredTilePosition != hoveredTilePosition) {
             
             hoveredTilePosition = newHoveredTilePosition;
+            if (leftMouseButtonDown) {
+                applyCurrentSelectedTile();
+            }
+            
             update();
             emit hoverCoordinates(hoveredTilePosition.x(), hoveredTilePosition.y());
         }
@@ -132,6 +154,7 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
 void MapWidget::mousePressEvent(QMouseEvent * event) {
     if (event->button() == Qt::LeftButton) {
         leftMouseButtonDown = true;
+        applyCurrentSelectedTile();
         event->accept();
     }
     else {

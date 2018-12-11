@@ -116,6 +116,15 @@ public:
      * @return  an invalid null map.
      */
     static MapPointer const & null();
+    
+    /**
+     * Places the given tile on the specified position.
+     *
+     * @param   x           X position to place tile.
+     * @param   y           Y posiiton to place tile.
+     * @param   tile        The tile to place.
+     */
+    void place(int x, int y, TilePointer const & tile);
 };
 
 

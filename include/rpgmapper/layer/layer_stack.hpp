@@ -7,6 +7,8 @@
 #ifndef RPGMAPPER_MODEL_LAYER_STACK_HPP
 #define RPGMAPPER_MODEL_LAYER_STACK_HPP
 
+#include <vector>
+
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QSharedPointer>
@@ -38,10 +40,13 @@ class LayerStack {
     
     QSharedPointer<AxisLayer> axisLayer;                    /**< The axis layer */
     QSharedPointer<BackgroundLayer> backgroundLayer;        /**< The background layer. */
-    std::list<QSharedPointer<TileLayer>> baseLayers;        /**< The base layers. */
+    std::vector<QSharedPointer<TileLayer>> baseLayers;      /**< The base layers. */
     QSharedPointer<GridLayer> gridLayer;                    /**< The grid layer. */
     QSharedPointer<TextLayer> textLayer;                    /**< the text layer. */
-    std::list<QSharedPointer<TileLayer>> tileLayers;        /**< the tile layers. */
+    std::vector<QSharedPointer<TileLayer>> tileLayers;      /**< the tile layers. */
+    
+    int currentBaseLayer = 0;                               /**< Current base layer index. */
+    int currentTileLayer = 0;                               /**< Current tile layer index. */
 
 public:
     
@@ -102,7 +107,7 @@ public:
      *
      * @return  layers (maybe more than 1) holding tiles of the bases.
      */
-    std::list<QSharedPointer<TileLayer>> & getBaseLayers() {
+    std::vector<QSharedPointer<TileLayer>> & getBaseLayers() {
         return baseLayers;
     }
     
@@ -111,8 +116,44 @@ public:
      *
      * @return  layers (maybe more than 1) holding tiles of the bases.
      */
-    std::list<QSharedPointer<TileLayer>> const & getBaseLayers() const {
+    std::vector<QSharedPointer<TileLayer>> const & getBaseLayers() const {
         return baseLayers;
+    }
+    
+    /**
+     * Returns the current base layer.
+     *
+     * @return  The current base layer.
+     */
+    QSharedPointer<TileLayer> & getCurrentBaseLayer() {
+        return baseLayers.at(currentBaseLayer);
+    }
+    
+    /**
+     * Returns the current base layer.
+     *
+     * @return  The current base layer.
+     */
+    QSharedPointer<TileLayer> const & getCurrentBaseLayer() const {
+        return baseLayers.at(currentBaseLayer);
+    }
+    
+    /**
+     * Returns the current tile layer.
+     *
+     * @return  The current tile layer.
+     */
+    QSharedPointer<TileLayer> & getCurrentTileLayer() {
+        return tileLayers.at(currentTileLayer);
+    }
+    
+    /**
+     * Returns the current tile layer.
+     *
+     * @return  The current tile layer.
+     */
+    QSharedPointer<TileLayer> const & getCurrentTileLayer() const {
+        return tileLayers.at(currentTileLayer);
     }
     
     /**
@@ -182,7 +223,7 @@ public:
      * @return  the layers (maybe more than 1) of the tiles on the map.
      */
 
-    std::list<QSharedPointer<TileLayer>> & getTileLayers() {
+    std::vector<QSharedPointer<TileLayer>> & getTileLayers() {
         return tileLayers;
     }
     
@@ -192,7 +233,7 @@ public:
      * @return  the layers (maybe more than 1) of the tiles on the map.
      */
 
-    std::list<QSharedPointer<TileLayer>> const & getTileLayers() const {
+    std::vector<QSharedPointer<TileLayer>> const & getTileLayers() const {
         return tileLayers;
     }
     

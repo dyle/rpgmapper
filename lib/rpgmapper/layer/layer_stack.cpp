@@ -18,6 +18,9 @@ LayerStack::LayerStack(Map * map) : map{nullptr} {
     tileLayers.push_back(QSharedPointer<TileLayer>{new TileLayer{map}});
     textLayer = QSharedPointer<TextLayer>{new TextLayer{map}};
     
+    currentBaseLayer = 0;
+    currentTileLayer = 0;
+    
     setMap(map);
 }
 

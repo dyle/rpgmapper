@@ -11,6 +11,7 @@
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
+#include <rpgmapper/tile.hpp>
 
 
 using namespace rpgmapper::model;
@@ -51,4 +52,15 @@ QJsonObject Map::getJSON() const {
 MapPointer const & Map::null() {
     static MapPointer nullMap{new InvalidMap};
     return nullMap;
+}
+
+
+void Map::place(int x, int y, const rpgmapper::model::TilePointer & tile) {
+    
+    auto size = getCoordinateSystem()->getSize();
+    if (!(x >= 0) && (x < size.width()) && (y >= 0) && (y < size.height()) && tile) {
+        return;
+    }
+    
+    tile->place(x, y, &layerStack);
 }

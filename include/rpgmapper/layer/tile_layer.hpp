@@ -7,6 +7,8 @@
 #ifndef RPGMAPPER_MODEL_LAYER_TILE_LAYER_HPP
 #define RPGMAPPER_MODEL_LAYER_TILE_LAYER_HPP
 
+#include <QPoint>
+
 #include <rpgmapper/layer/layer.hpp>
 
 
@@ -21,7 +23,7 @@ class TileLayer : public Layer {
 
     Q_OBJECT
 
-    std::map<int, QSharedPointer<Field>> fields;        /**< All known fields of this layer. */
+    std::map<int, QSharedPointer<Field>> fields;            /**< All known fields of this layer. */
 
 public:
 
@@ -85,6 +87,15 @@ public:
     QSharedPointer<Field> const getField(QPoint position) const {
         return getField(position.x(), position.y());
     }
+    
+    /**
+     * Returns all known fields on this layer.
+     *
+     * @return  the fields of this layer.
+     */
+    std::map<int, QSharedPointer<Field>> const & getFields() const {
+        return fields;
+    }
 
     /**
      * Extracts this layer as JSON object.
@@ -92,6 +103,26 @@ public:
      * @return  a JSON object holding the layer data.
      */
     QJsonObject getJSON() const override;
+    
+    /**
+     * Checks if there is a field present at the given location.
+     *
+     * @param   x       the X coordinate.
+     * @param   y       the Y coordinate.
+     * @return  true, of there is a field already.
+     */
+    bool isFieldPresent(int x, int y) const {
+        return getField(Field::getIndex(x, y))->isValid();
+    }
+    
+    /**
+     * Checks if there is a field at the given position already present.
+     * @param   position    the position.
+     * @return  true, if there is a field at this position.
+     */
+    bool isFieldPresent(QPoint const & position) const {
+        return isFieldPresent(position.x(), position.y());
+    }
     
     /**
      * Removes a field from the layer

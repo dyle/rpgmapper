@@ -4,6 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <rpgmapper/layer/layer_stack.hpp>
+
 #include "color_tile.hpp"
 
 
@@ -30,4 +32,22 @@ QColor ColorTile::getColor() const {
 void ColorTile::draw(QPainter & painter, int tileSize) {
     QRect rect{0, 0, tileSize, tileSize};
     painter.fillRect(rect, getColor());
+}
+
+
+void ColorTile::place(int x, int y, rpgmapper::model::LayerStack * layerStack) {
+    
+    if (!layerStack) {
+        throw std::runtime_error{"LayerStack must not be nullptr when placing a tile."};
+    }
+    
+    QSharedPointer<Field> field;
+    auto layer = layerStack->getCurrentBaseLayer();
+    if (!layer->isFieldPresent(x, y)) {
+        layer->addField(Field{x, y});
+    }
+    field = layer->getField(x, y);
+    
+    field->getTiles().clear();
+    field->getTiles().push_back(QSharedPointer<Tile>(new ColorTile{*this}));
 }

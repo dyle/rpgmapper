@@ -42,7 +42,7 @@ QSharedPointer<Field> const TileLayer::getField(int index) const {
     return (*iter).second;
 }
 
-#include <iostream>
+
 void TileLayer::draw(QPainter & painter, int tileSize) const {
     
     painter.save();

@@ -48,6 +48,7 @@ void ColorTile::place(int x, int y, rpgmapper::model::LayerStack * layerStack) {
     }
     field = layer->getField(x, y);
     
+    // placing a color tile removes all other tiles.
     field->getTiles().clear();
     field->getTiles().push_back(QSharedPointer<Tile>(new ColorTile{*this}));
 }

@@ -9,6 +9,11 @@
 
 using namespace rpgmapper::model;
 
+/**
+ * The very maximum dimension value we support regardless of the maximum size of a map.
+ */
+static int MAX_DIMENSION_VALUE = 1000000;
+
 
 Field::Field(int x, int y) : Field{QPoint(x, y)} {
 }
@@ -19,13 +24,12 @@ Field::Field(QPoint const & position) : position(position) {
 
 
 int Field::getIndex(int x, int y) {
-    return y * CoordinateSystem::getMaximumSize().width() + x;
+    return y * MAX_DIMENSION_VALUE + x;
 }
 
 
 QPoint Field::getPositionFromIndex(int index) {
-    return QPoint(index / CoordinateSystem::getMaximumSize().width(),
-                  index % CoordinateSystem::getMaximumSize().width());
+    return {index / MAX_DIMENSION_VALUE, index % MAX_DIMENSION_VALUE};
 }
 
 

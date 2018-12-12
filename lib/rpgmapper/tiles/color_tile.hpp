@@ -24,12 +24,19 @@ public:
     /**
      * Constructor.
      */
-    explicit ColorTile() : Tile() {}
+    explicit ColorTile();
     
     /**
      * Constructor.
      */
-    explicit ColorTile(Attributes & attributes) : Tile{attributes} {}
+    explicit ColorTile(Attributes & attributes);
+    
+    /**
+     * Equality operator
+     * @param   rhs     right hand side
+     * @return  true if (*this) == rhs.
+     */
+    bool operator==(Tile const & rhs) const override;
     
     /**
      * Retrieves the color in this color tile.
@@ -52,8 +59,9 @@ public:
      * @param   x               X position to place the tile.
      * @param   y               Y position to place the tile.
      * @param   layerStack      the stack of layers of the map.
+     * @return  true, if the element has been newly placed.
      */
-    void place(int x, int y, LayerStack * layerStack) override;
+    bool place(int x, int y, LayerStack * layerStack) override;
 };
 
 

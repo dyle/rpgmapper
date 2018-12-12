@@ -47,14 +47,19 @@ public:
     Tile() = default;
     
     /**
+     * Constructor.
+     */
+    explicit Tile(Attributes & attributes);
+    
+    /**
      * Copy Constructor.
      */
     Tile(Tile const &) = default;
     
     /**
-     * Constructor.
+     * Equality operator.
      */
-    explicit Tile(Attributes & attributes);
+    virtual bool operator==(Tile const &) const = 0;
     
     /**
      * Returns the tile attributes.
@@ -85,11 +90,17 @@ public:
     /**
      * Places this tile within the layer stack of a map.
      *
+     * The method returns true, if the map has been changed.
+     * Mostly tiles are added and the method returns true.
+     * However, placing the very same tile twice might yield false
+     * the second time (depends on the type if tile).
+     *
      * @param   x               X position to place the tile.
      * @param   y               Y position to place the tile.
      * @param   layerStack      the stack of layers of the map.
+     * @return  true, if the element has been newly placed.
      */
-    virtual void place(int x, int y, LayerStack * layerStack) = 0;
+    virtual bool place(int x, int y, LayerStack * layerStack) = 0;
 };
 
 

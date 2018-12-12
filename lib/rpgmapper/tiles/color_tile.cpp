@@ -18,6 +18,21 @@ using namespace rpgmapper::model::tiles;
 #endif
 
 
+ColorTile::ColorTile() : Tile() {
+    getAttributes()["tile"] = "color";
+}
+
+
+ColorTile::ColorTile(rpgmapper::model::Tile::Attributes & attributes) : Tile{attributes} {
+    getAttributes()["tile"] = "color";
+}
+
+
+bool ColorTile::operator==(const rpgmapper::model::Tile & rhs) const {
+    return getAttributes() == rhs.getAttributes();
+}
+
+
 QColor ColorTile::getColor() const {
     
     auto const & attributes = getAttributes();
@@ -35,20 +50,25 @@ void ColorTile::draw(QPainter & painter, int tileSize) {
 }
 
 
-void ColorTile::place(int x, int y, rpgmapper::model::LayerStack * layerStack) {
+bool ColorTile::place(int x, int y, rpgmapper::model::LayerStack * layerStack) {
     
     if (!layerStack) {
         throw std::runtime_error{"LayerStack must not be nullptr when placing a tile."};
     }
     
-    QSharedPointer<Field> field;
-    auto layer = layerStack->getCurrentBaseLayer();
+    // ColorTiles always add to the lowest base layer.
+    auto layer = layerStack->getBaseLayers()[0];
     if (!layer->isFieldPresent(x, y)) {
         layer->addField(Field{x, y});
     }
-    field = layer->getField(x, y);
+    auto field = layer->getField(x, y);
     
-    // placing a color tile removes all other tiles.
+    if (!field->getTiles().empty() && ((*field->getTiles()[0].data()) == (*this))) {
+        return false;
+    }
+    
+    // placing a color tile removes all other tiles on the same layer.
     field->getTiles().clear();
     field->getTiles().push_back(QSharedPointer<Tile>(new ColorTile{*this}));
+    return true;
 }

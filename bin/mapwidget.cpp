@@ -48,8 +48,9 @@ void MapWidget::applyCurrentSelectedTile() {
         throw std::runtime_error("Invalid map to render.");
     }
     
-    map->place(hoveredTilePosition.x(), hoveredTilePosition.y(), tile);
-    update();
+    if (map->place(hoveredTilePosition.x(), hoveredTilePosition.y(), tile)) {
+        update();
+    }
 }
 
 

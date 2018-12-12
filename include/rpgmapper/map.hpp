@@ -123,8 +123,9 @@ public:
      * @param   x           X position to place tile.
      * @param   y           Y posiiton to place tile.
      * @param   tile        The tile to place.
+     * @return  true, if the map has changed.
      */
-    void place(int x, int y, TilePointer const & tile);
+    bool place(int x, int y, TilePointer const & tile);
 };
 
 

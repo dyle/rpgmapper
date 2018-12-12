@@ -26,6 +26,37 @@ Some more notes:
 * [CMake](https://cmake.org)
 * and [GoogleTest](https://github.com/google/googletest)
 
+## Building
+
+This is a CMake - Qt 5 - C++14 project. On a Ubuntu/Debian based operating 
+system you'll need at least these packages:
+* build-essential
+* qtbase5-dev
+* cmake
+
+Maybe I missed some, sorry. The `cmake` step will tell you. Next, clone this 
+repository as usual and then
+
+```bash
+$ mkdir build
+$ cd build
+$ cmake ..
+```
+
+You might check the output and install missing dependencies according to
+your operating system.
+
+Then:
+```bash
+$ make
+```
+
+If all went well, you'll find the rpgmapper executable:
+```bash
+$ bin/rpgmapper
+```
+within the `build` folder.
+
 
 ## Images
 

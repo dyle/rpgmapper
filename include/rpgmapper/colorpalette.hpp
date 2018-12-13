@@ -8,10 +8,10 @@
 #define RPGMAPPER_COLOR_PALETTE_HPP
 
 #include <array>
-#include <map>
 
 #include <QByteArray>
 #include <QColor>
+#include <QJsonDocument>
 
 
 namespace rpgmapper {
@@ -90,6 +90,13 @@ public:
         this->palette = palette;
         valid = true;
     }
+    
+    /**
+     * Converts this color palette to a JSON representation.
+     *
+     * @return  a JSON representation of this palette.
+     */
+    QJsonDocument toJSON() const;
 };
 
 

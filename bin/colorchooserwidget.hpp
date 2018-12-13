@@ -7,7 +7,6 @@
 #ifndef RPGMAPPER_VIEW_COLORCHOOSERWIDGET_HPP
 #define RPGMAPPER_VIEW_COLORCHOOSERWIDGET_HPP
 
-#include <array>
 #include <map>
 #include <memory>
 
@@ -52,7 +51,34 @@ public slots:
      */
     void loadPalettes();
     
+    /**
+     * Saves the current color palette to a file.
+     *
+     * @param   filename        the file name to save to.
+     */
+    void saveCurrentPaletteToFile(QString filename);
+    
 private slots:
+    
+    /**
+     * Lets the user edit the current palette.
+     */
+    void editPalette();
+    
+    /**
+     * Lets the user load a new palette.
+     */
+    void loadPalette();
+
+    /**
+     * Lets the user picksa color.
+     */
+    void pickColor();
+
+    /**
+     * Lets the user save current palette.
+     */
+    void savePalette();
     
     /**
      * The user selected a new palette.

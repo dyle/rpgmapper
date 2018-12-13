@@ -46,3 +46,18 @@ ColorPalette ColorPalette::load(QByteArray const & data) {
 void ColorPalette::setName(QString name) {
     this->name = name;
 }
+
+
+QJsonDocument ColorPalette::toJSON() const {
+    
+    QJsonObject json;
+    json["name"] = name;
+    
+    QJsonArray jsonColors;
+    for (auto const & color : getPalette()) {
+        jsonColors.append(color.name());
+    }
+    json["colors"] = jsonColors;
+    
+    return QJsonDocument{json};
+}

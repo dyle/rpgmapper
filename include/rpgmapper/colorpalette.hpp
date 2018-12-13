@@ -30,6 +30,7 @@ using Palette = std::array<QColor, 16 *16>;
 class ColorPalette {
     
     Palette palette;        /**< The color palette managed by this instance. */
+    QString name;           /**< The name of the palette. */
     bool valid = false;     /**< Validity flag. */
 
 public:
@@ -38,6 +39,15 @@ public:
      * Constructor.
      */
     ColorPalette() = default;
+    
+    /**
+     * Returns the name of the palette.
+     *
+     * @return  the name of the palette.
+     */
+    QString const & getName() const {
+        return name;
+    }
     
     /**
      * Gets the palette managed by this object.
@@ -63,6 +73,13 @@ public:
      * The Byte Array should contain a JSON 256 array of colors.
      */
     static ColorPalette load(QByteArray const & data);
+    
+    /**
+     * Sets the name of the palette.
+     *
+     * @param   name        the new name of the palette.
+     */
+    void setName(QString name);
     
     /**
      * Sets the palette of this object.

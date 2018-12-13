@@ -6,6 +6,7 @@
 
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonObject>
 
 #include <rpgmapper/colorpalette.hpp>
 
@@ -16,19 +17,32 @@ ColorPalette ColorPalette::load(QByteArray const & data) {
     
     ColorPalette colorPalette;
     
-    auto json = QJsonDocument::fromJson(data);
-    if (!json.isArray()) {
+    auto jsonDocument = QJsonDocument::fromJson(data);
+    if (!jsonDocument.isObject()) {
         return colorPalette;
     }
     
-    auto jsonArray = json.array();
-    for (int i = 0; i < std::min(jsonArray.size(), 16*16); ++i) {
-        if (jsonArray.at(i).isString()) {
-            auto colorString = jsonArray.at(i).toString();
-            colorPalette.palette[i] = QColor{colorString};
-        }
+    auto json = jsonDocument.object();
+    if (json.contains("name") && json["name"].isString()) {
+        colorPalette.name = json["name"].toString();
     }
-    colorPalette.valid = true;
+    
+    
+    if (json.contains("colors") && json["colors"].isArray()) {
+        auto jsonArray = json["colors"].toArray();
+        for (int i = 0; i < std::min(jsonArray.size(), 16 * 16); ++i) {
+            if (jsonArray.at(i).isString()) {
+                auto colorString = jsonArray.at(i).toString();
+                colorPalette.palette[i] = QColor{colorString};
+            }
+        }
+        colorPalette.valid = true;
+    }
     
     return colorPalette;
+}
+
+
+void ColorPalette::setName(QString name) {
+    this->name = name;
 }

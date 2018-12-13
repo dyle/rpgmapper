@@ -37,11 +37,10 @@ void ColorChooserWidget::loadPalettes() {
         auto res = ResourceDB::getResource(resourceName);
         if (res) {
     
-            auto paletteId = resourceName.right(resourceName.size() - colorPalettesResourcePrefix.size() - 1);
             auto palette = ColorPalette::load(res->getData());
-            if (palette.isValid() && !paletteId.isEmpty()) {
-                palettes.emplace(paletteId, palette);
-                ui->paletteBox->addItem(paletteId);
+            if (palette.isValid() && !palette.getName().isEmpty()) {
+                palettes.emplace(palette.getName(), palette);
+                ui->paletteBox->addItem(palette.getName());
             }
         }
     }

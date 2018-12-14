@@ -37,7 +37,19 @@ ColorChooserWidget::ColorChooserWidget(QWidget * parent) : QWidget{parent} {
     savePaletteDialog->setWindowTitle(tr("Save color palette"));
     
     connect(ui->paletteBox, SIGNAL(activated(int)), this, SLOT(selectedPaletteChanged()));
+    
     connect(ui->scrollAreaWidgetContents, SIGNAL(colorSelected(QColor)), this, SIGNAL(colorSelected(QColor)));
+    connect(ui->scrollAreaWidgetContents,
+            &ColorPaletteWidget::colorSelected,
+            this,
+            &ColorChooserWidget::colorSelectedInPalette);
+    
+    connect(ui->recentColorsWidget, SIGNAL(colorSelected(QColor)), this, SIGNAL(colorSelected(QColor)));
+    connect(ui->recentColorsWidget,
+            &RecentColorsWidget::colorSelected,
+            this,
+            &ColorChooserWidget::colorSelectedInRecentList);
+    
     connect(ui->editButton, SIGNAL(clicked(bool)), this, SLOT(editPalette()));
     connect(ui->copyButton, SIGNAL(clicked(bool)), this, SLOT(copyPalette()));
     connect(ui->loadButton, SIGNAL(clicked(bool)), this, SLOT(loadPalette()));
@@ -66,6 +78,24 @@ void ColorChooserWidget::changeName(QString const & oldName, QString const & new
     index = ui->paletteBox->findText(newName);
     ui->paletteBox->setCurrentIndex(index);
     selectedPaletteChanged();
+}
+
+
+void ColorChooserWidget::colorSelectedInPalette() {
+
+    auto selectedIndexInRecentList = ui->recentColorsWidget->getSelectedIndex();
+    if (selectedIndexInRecentList >= 0) {
+        ui->recentColorsWidget->colorSelectedChange(selectedIndexInRecentList, false);
+    }
+}
+
+
+void ColorChooserWidget::colorSelectedInRecentList() {
+    
+    auto selectedIndexInRecentList = ui->scrollAreaWidgetContents->getSelectedIndex();
+    if (selectedIndexInRecentList >= 0) {
+        ui->scrollAreaWidgetContents->colorSelectedChange(selectedIndexInRecentList, false);
+    }
 }
 
 

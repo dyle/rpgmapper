@@ -47,15 +47,18 @@ public:
      * @param color     the color to add.
      */
     void addColor(QColor color);
-
-private:
+    
     
     /**
-     * Moves the colors by 1 step.
+     * Gets the index of the selected color widget underneath.
+     *
+     * @return  the index of the selected widget underneath.
      */
-    void shiftColors();
-    
-private slots:
+    int getSelectedIndex() const {
+        return selectedIndex;
+    }
+
+public slots:
     
     /**
      * The selection of a single color has changed.
@@ -64,6 +67,22 @@ private slots:
      * @param   selected        selected flag
      */
     void colorSelectedChange(int id, bool selected);
+
+private:
+    
+    /**
+     * Moves the colors by 1 step.
+     */
+    void shiftColors();
+
+signals:
+    
+    /**
+     * A color has been selected by the user.
+     *
+     * @param   color       the color selected.
+     */
+    void colorSelected(QColor color);
 };
 
 

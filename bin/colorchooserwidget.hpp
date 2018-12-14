@@ -98,6 +98,16 @@ private:
 private slots:
     
     /**
+     * A color has been selected in the color palette.
+     */
+    void colorSelectedInPalette();
+    
+    /**
+     * A color has been selected in the list of recent colors.
+     */
+    void colorSelectedInRecentList();
+    
+    /**
      * Lets the user copy the current palette.
      */
     void copyPalette();

@@ -34,13 +34,20 @@ void ColorPaletteWidget::colorSelectedChange(int id, bool selected) {
         return;
     }
     
-    if ((selectedIndex != id) && selected && (selectedIndex != -1)) {
-        colorWidgets[selectedIndex]->setSelected(false);
+    if (!selected) {
+        
+        colorWidgets[id]->setSelected(false);
+        if (selectedIndex == id) {
+            selectedIndex = -1;
+        }
     }
-    
-    if (selected) {
-        selectedIndex = id;
-        emit colorSelected(colorWidgets[selectedIndex]->getColor());
+    else {
+        
+        colorWidgets[id]->setSelected(true);
+        if (selectedIndex != id) {
+            selectedIndex = id;
+            emit colorSelected(colorWidgets[selectedIndex]->getColor());
+        }
     }
 }
 

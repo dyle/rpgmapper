@@ -47,13 +47,22 @@ public:
     
     
     /**
+     * Gets the index of the selected color widget underneath.
+     *
+     * @return  the index of the selected widget underneath.
+     */
+    int getSelectedIndex() const {
+        return selectedIndex;
+    }
+    
+    /**
      * Sets a new color palette.
      *
      * @param   palette     the new palette to show.
      */
     void setPalette(rpgmapper::model::ColorPalette const & palette);
     
-private slots:
+public slots:
     
     /**
      * The selection of a single color has changed.

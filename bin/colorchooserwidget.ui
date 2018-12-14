@@ -29,7 +29,11 @@
    <item>
     <layout class="QHBoxLayout" name="paletteLayout">
      <item>
-      <widget class="QComboBox" name="paletteBox"/>
+      <widget class="QComboBox" name="paletteBox">
+       <property name="toolTip">
+        <string>Current color palettes available.</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QToolButton" name="editButton">
@@ -38,6 +42,9 @@
          <width>24</width>
          <height>24</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Edit current palette name.</string>
        </property>
        <property name="text">
         <string>...</string>
@@ -49,12 +56,35 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="copyButton">
+       <property name="maximumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Copy current color palette.</string>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="rpgmapper.qrc">
+         <normaloff>:/icons/gfx/copy.png</normaloff>:/icons/gfx/copy.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QToolButton" name="loadButton">
        <property name="maximumSize">
         <size>
          <width>24</width>
          <height>24</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Load a color palette from file.</string>
        </property>
        <property name="text">
         <string>...</string>
@@ -73,6 +103,9 @@
          <height>24</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Save a color palette to a file.</string>
+       </property>
        <property name="text">
         <string>...</string>
        </property>
@@ -86,6 +119,9 @@
    </item>
    <item>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="toolTip">
+      <string>Pick a color to draw on the map.</string>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -104,7 +140,11 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="rpgmapper::view::RecentColorsWidget" name="recentColorsWidget" native="true"/>
+      <widget class="rpgmapper::view::RecentColorsWidget" name="recentColorsWidget" native="true">
+       <property name="toolTip">
+        <string>Recently used colors.</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QToolButton" name="colorPipetteButton">
@@ -113,6 +153,9 @@
          <width>24</width>
          <height>24</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Pick a color.</string>
        </property>
        <property name="text">
         <string>...</string>

@@ -41,6 +41,13 @@ public:
     ColorPalette() = default;
     
     /**
+     * Creates a deep copy of this object.
+     *
+     * @return  a deep copy of *this.
+     */
+    ColorPalette clone() const;
+    
+    /**
      * Returns the name of the palette.
      *
      * @return  the name of the palette.

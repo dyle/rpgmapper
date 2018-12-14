@@ -13,6 +13,14 @@
 using namespace rpgmapper::model;
 
 
+ColorPalette ColorPalette::clone() const {
+    ColorPalette copy;
+    copy.palette = palette;
+    copy.name = name;
+    return copy;
+}
+
+
 ColorPalette ColorPalette::load(QByteArray const & data) {
     
     ColorPalette colorPalette;

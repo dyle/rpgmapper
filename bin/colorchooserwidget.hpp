@@ -51,6 +51,31 @@ public slots:
      */
     void loadPalettes();
     
+private:
+    
+    /**
+     * Changes the name of a color palette from an oldname to a new name.
+     *
+     * @param   oldName     old name of the color palette.
+     * @param   newName     new name of the color palette.
+     */
+    void changeName(QString const & oldName, QString const & newName);
+    
+    /**
+     * Checks if the given name is already assigned to a color palette.
+     *
+     * @param   name        the name queried.
+     * @return  true, if the given name already denotes a color palette.
+     */
+    bool isNameAssigned(QString const & name) const;
+    
+    /**
+     * Loads a color palette from a file and adds it to the atlas and this widget.
+     *
+     * @param   filename        name of the file to load.
+     */
+    void loadPaletteFromFile(QString filename);
+    
     /**
      * Saves the current color palette to a file.
      *
@@ -58,7 +83,20 @@ public slots:
      */
     void saveCurrentPaletteToFile(QString filename);
     
+    /**
+     * Suggests a new name which is not yet assigned to a color palette in this widget.
+     *
+     * @param   name        the name to base the new suggest on
+     * @return  a new name which is not yet assigned to any color palette known to this widhget.
+     */
+    QString suggestNewName(QString const & name) const;
+    
 private slots:
+    
+    /**
+     * Lets the user copy the current palette.
+     */
+    void copyPalette();
     
     /**
      * Lets the user edit the current palette.

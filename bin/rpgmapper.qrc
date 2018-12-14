@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="icons">
     <file>gfx/freehand-draw-pencil.png</file>
+    <file>gfx/copy.png</file>
     <file>gfx/magnifier.png</file>
     <file>gfx/magnifier-minus.png</file>
     <file>gfx/magnifier-plus.png</file>

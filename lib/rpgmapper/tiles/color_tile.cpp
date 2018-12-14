@@ -50,7 +50,7 @@ void ColorTile::draw(QPainter & painter, int tileSize) {
 }
 
 
-bool ColorTile::place(int x, int y, rpgmapper::model::LayerStack * layerStack) {
+bool ColorTile::place(float x, float y, rpgmapper::model::LayerStack * layerStack) {
     
     if (!layerStack) {
         throw std::runtime_error{"LayerStack must not be nullptr when placing a tile."};
@@ -58,10 +58,10 @@ bool ColorTile::place(int x, int y, rpgmapper::model::LayerStack * layerStack) {
     
     // ColorTiles always add to the lowest base layer.
     auto layer = layerStack->getBaseLayers()[0];
-    if (!layer->isFieldPresent(x, y)) {
-        layer->addField(Field{x, y});
+    if (!layer->isFieldPresent(static_cast<int>(x), static_cast<int>(y))) {
+        layer->addField(Field{static_cast<int>(x), static_cast<int>(y)});
     }
-    auto field = layer->getField(x, y);
+    auto field = layer->getField(static_cast<int>(x), static_cast<int>(y));
     
     if (!field->getTiles().empty() && ((*field->getTiles()[0].data()) == (*this))) {
         return false;

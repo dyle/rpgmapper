@@ -111,7 +111,7 @@ void MapWidget::drawHoveredTile(QPainter & painter) {
         QPalette systemPalette;
         painter.setPen(systemPalette.color(QPalette::Highlight));
         painter.drawRect(rect);
-    };
+    }
 }
 
 

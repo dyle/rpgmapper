@@ -61,7 +61,7 @@ public:
      * @param   layerStack      the stack of layers of the map.
      * @return  true, if the element has been newly placed.
      */
-    bool place(int x, int y, LayerStack * layerStack) override;
+    bool place(float x, float y, LayerStack * layerStack) override;
 };
 
 

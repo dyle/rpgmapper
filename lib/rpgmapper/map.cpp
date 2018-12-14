@@ -55,10 +55,10 @@ MapPointer const & Map::null() {
 }
 
 
-bool Map::place(int x, int y, const rpgmapper::model::TilePointer & tile) {
+bool Map::place(float x, float y, const rpgmapper::model::TilePointer & tile) {
     
     auto size = getCoordinateSystem()->getSize();
-    if (!(x >= 0) && (x < size.width()) && (y >= 0) && (y < size.height()) && tile) {
+    if (!(x >= 0.0f) && (x < size.width()) && (y >= 0.0f) && (y < size.height()) && tile) {
         return false;
     }
     

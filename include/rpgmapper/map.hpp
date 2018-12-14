@@ -125,7 +125,7 @@ public:
      * @param   tile        The tile to place.
      * @return  true, if the map has changed.
      */
-    bool place(int x, int y, TilePointer const & tile);
+    bool place(float x, float y, TilePointer const & tile);
 };
 
 

@@ -100,7 +100,7 @@ public:
      * @param   layerStack      the stack of layers of the map.
      * @return  true, if the element has been newly placed.
      */
-    virtual bool place(int x, int y, LayerStack * layerStack) = 0;
+    virtual bool place(float x, float y, LayerStack * layerStack) = 0;
 };
 
 

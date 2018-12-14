@@ -564,6 +564,9 @@ void MainWindow::loadSettings() {
         loadAtlasDialog->setDirectory(recentAtlasFolderName);
         saveAtlasDialog->setDirectory(recentAtlasFolderName);
     }
+    
+    auto lastColorPaletteFolder = settings.value("recent/lastColorPaletteFolder").toString();
+    ui->colorPickerDockWidgetContents->setLastFolderUsed(lastColorPaletteFolder);
 }
 
 
@@ -614,9 +617,13 @@ bool MainWindow::saveAtlas(QString fileName) {
 
 
 void MainWindow::saveSettings() {
+    
     QSettings settings{"rpgmapper", "rpgmapper"};
+    
     saveSettingsWindow(settings);
     saveSettingsRecentFiles(settings);
+    
+    settings.setValue("recent/lastColorPaletteFolder", ui->colorPickerDockWidgetContents->getLastUsedFolder());
 }
 
 

@@ -38,6 +38,7 @@ class ColorChooserWidget : public QWidget {
     
     QFileDialog * loadPaletteDialog = nullptr;                      /**< Load color palette dialog. */
     QFileDialog * savePaletteDialog = nullptr;                      /**< Save color palette dialog. */
+    QString lastFolderUsed;                                         /**< Last folder of load/save operation. */
     
 public:
     
@@ -48,6 +49,22 @@ public:
      */
     explicit ColorChooserWidget(QWidget * parent = nullptr);
     
+    /**
+     * Returns the last folder selected by the user for a load/save operation.
+     *
+     * @return  the last folder selected by the user.
+     */
+    QString getLastUsedFolder() const {
+        return lastFolderUsed;
+    }
+    
+    /**
+     * Selects the last folder used for a palette load/save action by the user.
+     *
+     * @param   folder      the folder to choose next for a load/save action.
+     */
+    void setLastFolderUsed(QString folder);
+
 public slots:
     
     /**

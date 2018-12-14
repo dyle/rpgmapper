@@ -1,8 +1,12 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
+
+#include <utility>
 
 #include <QMouseEvent>
 
@@ -48,7 +52,7 @@ void MapWidget::applyCurrentSelectedTile() {
         throw std::runtime_error("Invalid map to render.");
     }
     
-    if (map->place(hoveredTilePosition.x(), hoveredTilePosition.y(), tile)) {
+    if (map->place(static_cast<float>(hoveredTilePosition.x()), static_cast<float>(hoveredTilePosition.y()), tile)) {
         update();
     }
 }
@@ -101,10 +105,10 @@ void MapWidget::drawHoveredTile(QPainter & painter) {
     if (mapRect.contains(hoveredTilePosition.x(), hoveredTilePosition.y())) {
         
         int tileSize = getTileSize();
-        QRectF rect{hoveredTilePosition.x() * tileSize,
-                    hoveredTilePosition.y() * tileSize,
-                    static_cast<float>(tileSize),
-                    static_cast<float>(tileSize)};
+        QRect rect{static_cast<int>(hoveredTilePosition.x()) * tileSize,
+                   static_cast<int>(hoveredTilePosition.y()) * tileSize,
+                   tileSize,
+                   tileSize};
         auto innerRect = coordinateSystem->getInnerRect(tileSize);
         rect.adjust(innerRect.x(), innerRect.y(), innerRect.x(), innerRect.y());
         
@@ -116,7 +120,7 @@ void MapWidget::drawHoveredTile(QPainter & painter) {
 
 
 void MapWidget::mapNameChanged(UNUSED QString oldName, QString newName) {
-    mapName = newName;
+    mapName = std::move(newName);
 }
 
 
@@ -140,7 +144,7 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
     if (std::get<1>(pointInfo)) {
         
         auto mapPosition = std::get<0>(pointInfo);
-        auto newHoveredTilePosition = QPoint{static_cast<int>(mapPosition.x()), static_cast<int>(mapPosition.y())};
+        auto newHoveredTilePosition = QPointF{mapPosition.x(), mapPosition.y()};
         if (newHoveredTilePosition != hoveredTilePosition) {
             
             hoveredTilePosition = newHoveredTilePosition;
@@ -149,7 +153,8 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
             }
             
             update();
-            emit hoverCoordinates(hoveredTilePosition.x(), hoveredTilePosition.y());
+            emit hoverCoordinates(static_cast<int>(hoveredTilePosition.x()),
+                                  static_cast<int>(hoveredTilePosition.y()));
         }
     }
 }

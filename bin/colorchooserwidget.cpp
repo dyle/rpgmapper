@@ -7,6 +7,7 @@
 #include <QColorDialog>
 #include <QComboBox>
 #include <QFile>
+#include <QFileInfo>
 #include <QInputDialog>
 #include <QMessageBox>
 
@@ -194,6 +195,7 @@ void ColorChooserWidget::loadPaletteFromFile(QString filename) {
     
     auto data = file.readAll();
     file.close();
+    lastFolderUsed = QFileInfo{file}.dir().absolutePath();
     
     auto palette = ColorPalette::load(data);
     if (!palette.isValid()) {
@@ -278,6 +280,8 @@ void ColorChooserWidget::saveCurrentPaletteToFile(QString filename) {
     }
     file.write(json.toJson(QJsonDocument::Indented));
     file.close();
+    
+    lastFolderUsed = QFileInfo{file}.dir().absolutePath();
 }
 
 
@@ -303,6 +307,17 @@ void ColorChooserWidget::selectedPaletteChanged() {
         return;
     }
     ui->scrollAreaWidgetContents->setPalette((*iter).second);
+}
+
+
+void ColorChooserWidget::setLastFolderUsed(QString folder) {
+    
+    QFileInfo fileInfo{folder};
+    if (fileInfo.exists() && fileInfo.isDir()) {
+        lastFolderUsed = folder;
+        loadPaletteDialog->setDirectory(lastFolderUsed);
+        savePaletteDialog->setDirectory(lastFolderUsed);
+    }
 }
 
 

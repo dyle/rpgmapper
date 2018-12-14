@@ -263,6 +263,7 @@ void ColorChooserWidget::pickColor() {
         return;
     }
     ui->recentColorsWidget->addColor(color);
+    ui->recentColorsWidget->colorSelectedChange(0, true);
 }
 
 

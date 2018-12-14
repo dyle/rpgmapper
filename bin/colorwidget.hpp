@@ -90,6 +90,13 @@ public:
 protected:
     
     /**
+     * Mouse double clicked at the widget.
+     *
+     * @param   event       double click event.
+     */
+    void mouseDoubleClickEvent(QMouseEvent * event) override;
+    
+    /**
      * Mouse enters the widget.
      *
      * @param   event       the enter event.
@@ -117,6 +124,13 @@ protected:
     void paintEvent(QPaintEvent * event) override;
 
 signals:
+    
+    /**
+     * Tells that the color of this widget has changed.
+     *
+     * @param   id              the id of this widget.
+     */
+    void colorChanged(int id);
     
     /**
      * Tells that this widget has been selected.

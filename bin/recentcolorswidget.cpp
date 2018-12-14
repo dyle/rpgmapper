@@ -28,6 +28,21 @@ RecentColorsWidget::RecentColorsWidget(QWidget * parent) : QWidget{parent} {
 }
 
 
+void RecentColorsWidget::addColor(QColor color) {
+    
+    bool alreadyPresent = false;
+    for (unsigned int i = 0; (i < colorWidgets.size()) && !alreadyPresent; ++i) {
+        alreadyPresent = colorWidgets[i]->getColor() == color;
+    }
+    
+    if (!alreadyPresent) {
+        shiftColors();
+        colorWidgets[0]->setColor(color);
+        update();
+    }
+}
+
+
 void RecentColorsWidget::colorSelectedChange(int id, bool selected) {
     
     if ((id < 0) || (id >= 2 * 8)) {
@@ -44,3 +59,9 @@ void RecentColorsWidget::colorSelectedChange(int id, bool selected) {
 }
 
 
+void RecentColorsWidget::shiftColors() {
+    
+    for (unsigned int i = colorWidgets.size() - 1; i > 0; --i) {
+        colorWidgets[i]->setColor(colorWidgets[i - 1]->getColor());
+    }
+}

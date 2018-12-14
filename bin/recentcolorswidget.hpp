@@ -40,7 +40,21 @@ public:
      * @param   parent      The parent QWidget instance.
      */
     explicit RecentColorsWidget(QWidget * parent = nullptr);
+    
+    /**
+     * Adds a color to the list of recent colors.
+     *
+     * @param color     the color to add.
+     */
+    void addColor(QColor color);
 
+private:
+    
+    /**
+     * Moves the colors by 1 step.
+     */
+    void shiftColors();
+    
 private slots:
     
     /**

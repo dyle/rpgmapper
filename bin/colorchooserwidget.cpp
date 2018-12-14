@@ -4,9 +4,9 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <QColorDialog>
 #include <QComboBox>
 #include <QFile>
-#include <QFileDialog>
 #include <QInputDialog>
 #include <QMessageBox>
 
@@ -25,6 +25,16 @@ ColorChooserWidget::ColorChooserWidget(QWidget * parent) : QWidget{parent} {
     
     ui = std::make_shared<Ui_ColorChooserWidget>();
     ui->setupUi(this);
+    
+    loadPaletteDialog = new QFileDialog{this};
+    loadPaletteDialog->setFileMode(QFileDialog::ExistingFile);
+    loadPaletteDialog->setAcceptMode(QFileDialog::AcceptOpen);
+    loadPaletteDialog->setWindowTitle(tr("Load color palette"));
+    
+    savePaletteDialog = new QFileDialog{this};
+    savePaletteDialog->setFileMode(QFileDialog::AnyFile);
+    savePaletteDialog->setAcceptMode(QFileDialog::AcceptSave);
+    savePaletteDialog->setWindowTitle(tr("Save color palette"));
     
     connect(ui->paletteBox, SIGNAL(activated(int)), this, SLOT(selectedPaletteChanged()));
     connect(ui->scrollAreaWidgetContents, SIGNAL(colorSelected(QColor)), this, SIGNAL(colorSelected(QColor)));
@@ -133,17 +143,11 @@ bool ColorChooserWidget::isNameAssigned(QString const & name) const {
 
 void ColorChooserWidget::loadPalette() {
     
-    QFileDialog loadPaletteDialog(this);
-    loadPaletteDialog.setFileMode(QFileDialog::ExistingFile);
-    loadPaletteDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    loadPaletteDialog.setWindowTitle(tr("Load color palette"));
-    
-    auto answer = loadPaletteDialog.exec();
-    if ((answer == 0) || loadPaletteDialog.selectedFiles().empty()) {
+    auto answer = loadPaletteDialog->exec();
+    if ((answer == 0) || loadPaletteDialog->selectedFiles().empty()) {
         return;
     }
-    
-    loadPaletteFromFile(loadPaletteDialog.selectedFiles().first());
+    loadPaletteFromFile(loadPaletteDialog->selectedFiles().first());
 }
 
 
@@ -217,6 +221,11 @@ void ColorChooserWidget::loadPalettes() {
 
 void ColorChooserWidget::pickColor() {
 
+    auto color = QColorDialog::getColor(Qt::white, this);
+    if (!color.isValid()) {
+        return;
+    }
+    ui->recentColorsWidget->addColor(color);
 }
 
 
@@ -249,17 +258,11 @@ void ColorChooserWidget::savePalette() {
         return;
     }
     
-    QFileDialog savePaletteDialog(this);
-    savePaletteDialog.setFileMode(QFileDialog::AnyFile);
-    savePaletteDialog.setAcceptMode(QFileDialog::AcceptSave);
-    savePaletteDialog.setWindowTitle(tr("Save color palette"));
-    
-    auto answer = savePaletteDialog.exec();
-    if ((answer == 0) || savePaletteDialog.selectedFiles().empty()) {
+    auto answer = savePaletteDialog->exec();
+    if ((answer == 0) || savePaletteDialog->selectedFiles().empty()) {
         return;
     }
-    
-    saveCurrentPaletteToFile(savePaletteDialog.selectedFiles().first());
+    saveCurrentPaletteToFile(savePaletteDialog->selectedFiles().first());
 }
 
 

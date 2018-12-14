@@ -4,6 +4,7 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <QColorDialog>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPalette>
@@ -31,6 +32,17 @@ void ColorWidget::enterEvent(UNUSED QEvent * event) {
 
 void ColorWidget::leaveEvent(UNUSED QEvent * event) {
     update();
+}
+
+
+void ColorWidget::mouseDoubleClickEvent(QMouseEvent * event) {
+    
+    auto color = QColorDialog::getColor(getColor(), this);
+    if (!color.isValid()) {
+        return;
+    }
+    setColor(color);
+    emit colorChanged(id);
 }
 
 

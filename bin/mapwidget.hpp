@@ -35,7 +35,7 @@ class MapWidget : public QWidget {
     bool axisVisible;              /**< Visibility flag for the current axis. */
     bool gridVisible;              /**< Visibility flag for the current grid. */
     
-    QPoint hoveredTilePosition;    /**< Position of the currently hovered tile on the map (measured from top/left). */
+    QPointF hoveredTilePosition;   /**< Position of the currently hovered tile on the map (measured from top/left). */
     
     /**
      * This holds the average time of the time durations in milliseconds.
@@ -57,7 +57,7 @@ public:
      *
      * @return  the last known tile position hovered by the mouse.
      */
-    QPoint getHoveredTilePosition() const {
+    QPointF getHoveredTilePosition() const {
         return hoveredTilePosition;
     }
     

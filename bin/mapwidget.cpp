@@ -97,11 +97,14 @@ void MapWidget::drawHoveredTile(QPainter & painter) {
     
     auto coordinateSystem = map->getCoordinateSystem();
     auto mapSize = coordinateSystem->getSize();
-    auto mapRect = QRect{0, 0, mapSize.width(), mapSize.height()};
+    auto mapRect = QRectF{0, 0, static_cast<float>(mapSize.width()), static_cast<float>(mapSize.height())};
     if (mapRect.contains(hoveredTilePosition.x(), hoveredTilePosition.y())) {
         
         int tileSize = getTileSize();
-        QRect rect{hoveredTilePosition.x() * tileSize, hoveredTilePosition.y() * tileSize, tileSize, tileSize};
+        QRectF rect{hoveredTilePosition.x() * tileSize,
+                    hoveredTilePosition.y() * tileSize,
+                    static_cast<float>(tileSize),
+                    static_cast<float>(tileSize)};
         auto innerRect = coordinateSystem->getInnerRect(tileSize);
         rect.adjust(innerRect.x(), innerRect.y(), innerRect.x(), innerRect.y());
         

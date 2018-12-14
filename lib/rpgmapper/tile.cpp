@@ -11,3 +11,14 @@ using namespace rpgmapper::model;
 
 Tile::Tile(rpgmapper::model::Tile::Attributes & attributes) : attributes{attributes} {
 }
+
+
+QString Tile::getType() const {
+    
+    auto const & attributes = getAttributes();
+    auto iter = attributes.find("type");
+    if (iter == attributes.end()) {
+        return QString::null;
+    }
+    return (*iter).second;
+}

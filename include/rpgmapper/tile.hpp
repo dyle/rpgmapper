@@ -80,6 +80,13 @@ public:
     }
     
     /**
+     * Gets the type of the tile.
+     *
+     * @return  a string describing the type of tile.
+     */
+    QString getType() const;
+    
+    /**
      * Draws the tile.
      *
      * @param   painter     the painter used to draw the tile.

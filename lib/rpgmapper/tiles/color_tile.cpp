@@ -19,12 +19,12 @@ using namespace rpgmapper::model::tiles;
 
 
 ColorTile::ColorTile() : Tile() {
-    getAttributes()["tile"] = "color";
+    getAttributes()["type"] = "color";
 }
 
 
 ColorTile::ColorTile(rpgmapper::model::Tile::Attributes & attributes) : Tile{attributes} {
-    getAttributes()["tile"] = "color";
+    getAttributes()["type"] = "color";
 }
 
 

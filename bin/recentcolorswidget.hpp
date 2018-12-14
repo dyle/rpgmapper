@@ -61,6 +61,11 @@ public:
 public slots:
     
     /**
+     * The user applied a tile.
+     */
+    void appliedTile();
+    
+    /**
      * The selection of a single color has changed.
      *
      * @param   id              id of the color in the grid.

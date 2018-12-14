@@ -6,8 +6,12 @@
 
 #include <QGridLayout>
 
+#include <rpgmapper/session.hpp>
+#include <rpgmapper/tile.hpp>
+
 #include "recentcolorswidget.hpp"
 
+using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 
 
@@ -24,6 +28,20 @@ RecentColorsWidget::RecentColorsWidget(QWidget * parent) : QWidget{parent} {
             connect(colorWidgets[index], &ColorWidget::selectedChanged, this, &RecentColorsWidget::colorSelectedChange);
             layout->addWidget(colorWidgets[index], i, j);
         }
+    }
+}
+
+
+void RecentColorsWidget::appliedTile() {
+    
+    auto session = Session::getCurrentSession();
+    auto tile = session->getLastAppliedTile();
+    
+    if (tile->getType() == "color") {
+        
+        auto const & attributes = tile->getAttributes();
+        QColor color{attributes.at("color")};
+        addColor(color);
     }
 }
 
@@ -57,8 +75,15 @@ void RecentColorsWidget::colorSelectedChange(int id, bool selected) {
         }
     }
     else {
+    
+        for (int i = 0; i < static_cast<int>(colorWidgets.size()); ++i) {
+            if (i != id) {
+                colorWidgets[i]->setSelected(false);
+            }
+        }
         
         colorWidgets[id]->setSelected(true);
+        
         if (selectedIndex != id) {
             selectedIndex = id;
             emit colorSelected(colorWidgets[selectedIndex]->getColor());

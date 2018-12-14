@@ -68,6 +68,11 @@ public:
 public slots:
     
     /**
+     * The user applied a tile.
+     */
+    void appliedTile();
+    
+    /**
      * Loads the color palettes form the resources.
      */
     void loadPalettes();

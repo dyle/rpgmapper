@@ -44,9 +44,10 @@ private:
      */
     command::ProcessorPointer commandProcessor;
     
-    QString fileName;               /**< Filename of the atlas loaded or recently saved. */
+    QString fileName;                   /**< Filename of the atlas loaded or recently saved. */
     
-    TilePointer currentTile;        /**< Current selected tile. */
+    TilePointer currentTile;            /**< Current selected tile. */
+    TilePointer lastAppliedTile;        /**< The tile the user has just applied. */
 
 public:
     
@@ -204,6 +205,15 @@ public:
     }
     
     /**
+     * Returns the tile the user applied last.
+     *
+     * @return  the last tile the user applied.
+     */
+    TilePointer const getLastAppliedTile() const {
+        return lastAppliedTile;
+    }
+    
+    /**
      * Gets the region name of a given map.
      *
      * @param   mapName     the name of the map.
@@ -280,7 +290,19 @@ public:
      */
     void setCurrentTile(TilePointer & tile);
     
+    /**
+     * Sets the last applied tile.
+     *
+     * @param   tile        the last applied tile.
+     */
+    void setLastAppliedTile(TilePointer & tile);
+
 signals:
+    
+    /**
+     * The user applied just a tile to a map.
+     */
+    void newLastAppliedTile();
     
     /**
      * The atlas has been selected (and thus no region nor map).

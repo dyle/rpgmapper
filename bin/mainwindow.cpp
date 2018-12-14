@@ -222,6 +222,10 @@ void MainWindow::connectModelSignals() {
     connect(processor.data(), &Processor::commandExecuted, this, &MainWindow::executedCommand);
     connect(atlas.data(), &Nameable::nameChanged, this, &MainWindow::setApplicationWindowTitle);
     
+    connect(session.data(),
+            &Session::newLastAppliedTile,
+            ui->colorPickerDockWidgetContents,
+            &ColorChooserWidget::appliedTile);
     connect(session.data(), &Session::selectedAtlas, this, &MainWindow::enableActions);
     connect(session.data(), &Session::selectedMap, this, &MainWindow::enableActions);
     connect(session.data(), &Session::selectedMap, ui->atlasTreeWidget, &StructuralTreeWidget::selectMap);

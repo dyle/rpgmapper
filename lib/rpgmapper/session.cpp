@@ -306,3 +306,9 @@ void Session::setCurrentTile(rpgmapper::model::TilePointer & tile) {
     currentTile = tile;
     emit selectedTile();
 }
+
+
+void Session::setLastAppliedTile(rpgmapper::model::TilePointer & tile) {
+    lastAppliedTile = tile;
+    emit newLastAppliedTile();
+}

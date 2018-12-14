@@ -43,6 +43,12 @@ void ColorPaletteWidget::colorSelectedChange(int id, bool selected) {
     }
     else {
         
+        for (int i = 0; i < static_cast<int>(colorWidgets.size()); ++i) {
+            if (i != id) {
+                colorWidgets[i]->setSelected(false);
+            }
+        }
+        
         colorWidgets[id]->setSelected(true);
         if (selectedIndex != id) {
             selectedIndex = id;

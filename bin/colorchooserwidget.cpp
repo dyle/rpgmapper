@@ -59,6 +59,11 @@ ColorChooserWidget::ColorChooserWidget(QWidget * parent) : QWidget{parent} {
 }
 
 
+void ColorChooserWidget::appliedTile() {
+    ui->recentColorsWidget->appliedTile();
+}
+
+
 void ColorChooserWidget::changeName(QString const & oldName, QString const & newName) {
     
     auto iter = palettes.find(oldName);

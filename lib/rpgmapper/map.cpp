@@ -11,6 +11,7 @@
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
+#include <rpgmapper/session.hpp>
 #include <rpgmapper/tile.hpp>
 
 
@@ -55,12 +56,17 @@ MapPointer const & Map::null() {
 }
 
 
-bool Map::place(float x, float y, const rpgmapper::model::TilePointer & tile) {
+bool Map::place(float x, float y, rpgmapper::model::TilePointer tile) {
     
     auto size = getCoordinateSystem()->getSize();
     if (!(x >= 0.0f) && (x < size.width()) && (y >= 0.0f) && (y < size.height()) && tile) {
         return false;
     }
     
-    return tile->place(x, y, &layerStack);
+    auto placed = tile->place(x, y, &layerStack);
+    if (placed) {
+        auto session = Session::getCurrentSession();
+        session->setLastAppliedTile(tile);
+    }
+    return placed;
 }

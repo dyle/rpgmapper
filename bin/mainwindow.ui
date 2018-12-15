@@ -33,6 +33,9 @@
     </property>
     <item>
      <widget class="rpgmapper::view::MapTabWidget" name="mapTabWidget">
+      <property name="toolTip">
+       <string>Click to add a tile, drag with right mouse to move, mouse wheel to zoom.</string>
+      </property>
       <property name="autoFillBackground">
        <bool>false</bool>
       </property>
@@ -195,8 +198,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>96</width>
-          <height>26</height>
+          <width>80</width>
+          <height>265</height>
          </rect>
         </property>
         <attribute name="label">
@@ -240,6 +243,9 @@
       <widget class="rpgmapper::view::StructuralTreeWidget" name="atlasTreeWidget">
        <property name="contextMenuPolicy">
         <enum>Qt::CustomContextMenu</enum>
+       </property>
+       <property name="toolTip">
+        <string>Total structure of the atlas, double click to edit an item.</string>
        </property>
        <property name="alternatingRowColors">
         <bool>true</bool>

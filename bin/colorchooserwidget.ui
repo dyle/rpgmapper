@@ -120,7 +120,7 @@
    <item>
     <widget class="QScrollArea" name="scrollArea">
      <property name="toolTip">
-      <string>Pick a color to draw on the map.</string>
+      <string>Pick a color to draw on the map. Double click to edit.</string>
      </property>
      <property name="widgetResizable">
       <bool>true</bool>
@@ -142,7 +142,7 @@
      <item>
       <widget class="rpgmapper::view::RecentColorsWidget" name="recentColorsWidget" native="true">
        <property name="toolTip">
-        <string>Recently used colors.</string>
+        <string>Recently used colors. Double click to edit.</string>
        </property>
       </widget>
      </item>

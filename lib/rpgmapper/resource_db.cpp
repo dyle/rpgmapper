@@ -105,6 +105,26 @@ ResourceCollectionPointer ResourceDB::getUserResources() {
 }
 
 
+bool ResourceDB::isLocationKnown(QString path) {
+    
+    static std::set<QString> knownLocations;
+    if (knownLocations.empty()) {
+        knownLocations.insert(getLocation(Location::background));
+        knownLocations.insert(getLocation(Location::colorpalettes));
+    }
+    
+    bool known = false;
+    for (auto const & location : knownLocations) {
+        known = path.left(location.size()) == location;
+        if (known) {
+            break;
+        }
+    }
+    
+    return known;
+}
+
+
 void collectResourcesWithPrefix(std::set<QString> & collection,
         ResourceCollectionPointer const & db,
         QString const & prefix) {

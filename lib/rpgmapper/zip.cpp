@@ -11,6 +11,9 @@
 #include <QJsonDocument>
 
 #include <rpgmapper/atlas.hpp>
+#include <rpgmapper/resource.hpp>
+#include <rpgmapper/resource_collection.hpp>
+#include <rpgmapper/resource_db.hpp>
 
 #include "content.hpp"
 #include "zip.hpp"
@@ -28,6 +31,15 @@ using namespace rpgmapper::model;
 
 
 /**
+ * Adds all atlas local resources to the content.
+ *
+ * @param   content     the content to collect the local resources.
+ * @param   log         protocol of actions.
+ */
+static void addLocalResourcesToContent(Content & content, QStringList & log);
+
+
+/**
  * Appends some content to an opened zip.
  *
  * @param   content     the content to add.
@@ -35,7 +47,7 @@ using namespace rpgmapper::model;
  * @param   log         protocol of actions.
  * @return  true, if successfully added
  */
-UNUSED static bool appendContent(Content const & content, QuaZip & zip, QStringList & log);
+static bool appendContentToZip(Content const & content, QuaZip & zip, QStringList & log);
 
 
 /**
@@ -47,7 +59,7 @@ UNUSED static bool appendContent(Content const & content, QuaZip & zip, QStringL
  * @param   log         the protocol of actions.
  * @return  true, if successfully added
  */
-static bool appendFile(QString const & name, QByteArray const & blob, QuaZip & zip, QStringList & log);
+static bool appendFileToZip(QString const & name, QByteArray const & blob, QuaZip & zip, QStringList & log);
 
 
 /**
@@ -67,7 +79,7 @@ static void closeZip(QuaZip & zip, QStringList & log);
  * @param   log             the protocol.
  * @return  true, for a successful loaded atlas.
  */
-static bool createAtlas(AtlasPointer & atlas, Content const & content, QStringList & log);
+static bool createAtlasFromContent(AtlasPointer & atlas, Content const & content, QStringList & log);
 
 
 /**
@@ -97,8 +109,15 @@ static QJsonDocument createMetaInformation();
  * @param   log         protocol of actions.
  * @return  true, for success.
  */
-static bool extractContent(QuaZip & zip, Content & content, QStringList & log);
+static bool extractContentFromZip(QuaZip & zip, Content & content, QStringList & log);
 
+/**
+ * Loads the local resources from the content.
+ *
+ * @param   content     the content loaded.
+ * @param   log         protocol of actions
+ */
+static void loadLocalResources(Content const & content, QStringList & log);
 
 /**
  * Opens a zip file for reading.
@@ -122,11 +141,23 @@ static bool openZipForReading(QuaZip & zip, QFile & file, QStringList & log);
 static bool openZipForWriting(QuaZip & zip, QFile & file, QStringList & log);
 
 
-bool appendContent(Content const & content, QuaZip & zip, QStringList & log) {
+void addLocalResourcesToContent(Content & content, QStringList & log) {
+
+    log.append("Adding local resources.");
+    auto localResources = ResourceDB::getLocalResources();
+    for (auto const & pair : localResources->getResources()) {
+        auto resource = pair.second;
+        log.append(QString{"Adding: "} + resource->getName());
+        content[resource->getName()] = resource->getData();
+    }
+}
+
+
+bool appendContentToZip(Content const & content, QuaZip & zip, QStringList & log) {
     
     bool res = true;
     for (auto const & pair : content) {
-        res = appendFile(pair.first, pair.second, zip, log);
+        res = appendFileToZip(pair.first, pair.second, zip, log);
         if (!res) {
             break;
         }
@@ -136,7 +167,7 @@ bool appendContent(Content const & content, QuaZip & zip, QStringList & log) {
 }
 
 
-bool appendFile(QString const & name, QByteArray const & blob, QuaZip & zip, QStringList & log) {
+bool appendFileToZip(QString const & name, QByteArray const & blob, QuaZip & zip, QStringList & log) {
     
     QuaZipFile zf(&zip);
     QuaZipNewInfo zfi(name);
@@ -166,7 +197,7 @@ void closeZip(QuaZip & zip, QStringList & log) {
 }
 
 
-bool createAtlas(AtlasPointer & atlas, Content const & content, QStringList & log) {
+bool createAtlasFromContent(AtlasPointer & atlas, Content const & content, QStringList & log) {
     
     bool res;
     
@@ -227,7 +258,7 @@ static QJsonDocument createMetaInformation() {
 }
 
 
-bool extractContent(QuaZip & zip, Content & content, QStringList & log) {
+bool extractContentFromZip(QuaZip & zip, Content & content, QStringList & log) {
     
     QuaZipFileInfo zfi;
     bool res = zip.getCurrentFileInfo(&zfi);
@@ -254,6 +285,21 @@ bool extractContent(QuaZip & zip, Content & content, QStringList & log) {
     }
     
     return res;
+}
+
+
+void loadLocalResources(Content const & content, QStringList & log) {
+    
+    log.append("Loading local resources.");
+    for (auto const & pair : content) {
+        
+        QString const & name = pair.first;
+        if (ResourceDB::isLocationKnown(name)) {
+            QByteArray const &data = pair.second;
+            ResourceDB::getLocalResources()->addResource(name, data);
+            log.append(QString{"Added : "} + name);
+        }
+    }
 }
 
 
@@ -302,12 +348,14 @@ bool rpgmapper::model::readAtlas(AtlasPointer & atlas, QFile & file, QStringList
     
         Content content;
         for (auto filePresent = zip.goToFirstFile(); filePresent && res; filePresent = zip.goToNextFile()) {
-            res = extractContent(zip, content, log);
+            res = extractContentFromZip(zip, content, log);
         }
     
         if (res) {
-            res = createAtlas(atlas, content, log);
+            res = createAtlasFromContent(atlas, content, log);
         }
+        
+        loadLocalResources(content, log);
         
         closeZip(zip, log);
     }
@@ -326,14 +374,16 @@ bool rpgmapper::model::writeAtlas(AtlasPointer const & atlas, QFile & file, QStr
         Content content;
         auto metaJson = createMetaInformation();
         content["meta.json"] = metaJson.toJson(QJsonDocument::Compact);
-        log.append("Added: meta.json");
+        log.append("Added: meta.json.");
         
         QJsonDocument json;
         json.setObject(atlas->getJSON());
         content["atlas.json"] = json.toJson(QJsonDocument::Compact);
-        log.append("Added: atlas.json");
+        log.append("Added: atlas.json.");
         
-        res = appendContent(content, zip, log);
+        addLocalResourcesToContent(content, log);
+        
+        res = appendContentToZip(content, zip, log);
         closeZip(zip, log);
     }
     

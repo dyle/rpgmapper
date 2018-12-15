@@ -239,7 +239,8 @@ void ColorChooserWidget::loadPalettes() {
     ui->paletteBox->clear();
     
     auto colorPalettesResourcePrefix = ResourceDB::getLocation(ResourceDB::Location::colorpalettes);
-    for (auto const & resourceName : ResourceDB::getResources(colorPalettesResourcePrefix)) {
+    auto colorPaletteResourceNames = ResourceDB::getResources(colorPalettesResourcePrefix);
+    for (auto const & resourceName : colorPaletteResourceNames) {
     
         auto res = ResourceDB::getResource(resourceName);
         if (res) {

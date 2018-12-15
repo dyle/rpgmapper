@@ -40,7 +40,7 @@ public:
      * Well known locations of resources.
      */
     enum class Location {
-        background,             /**< Where background stuff. */
+        background,             /**< Location of the background stuff. */
         colorpalettes           /**< Location of colorpalettes. */
     };
     
@@ -103,6 +103,14 @@ public:
      * @return  the resources found in the user folder.
      */
     static ResourceCollectionPointer getUserResources();
+    
+    
+    /**
+     * Checks of the given path points to a known location.
+     * @param   path        a path to a resource.
+     * @return  true, if this denotes to known location.
+     */
+    static bool isLocationKnown(QString path);
 };
 
 

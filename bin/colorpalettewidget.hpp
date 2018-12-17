@@ -27,8 +27,6 @@ class ColorPaletteWidget : public QWidget {
 
     Q_OBJECT
 
-    rpgmapper::model::ColorPalettePointer palette;    /**< The current palette loaded. */
-    
     /**
      * The color widgets showing the palette.
      */
@@ -44,7 +42,6 @@ public:
      * @param   parent      The parent QWidget instance.
      */
     explicit ColorPaletteWidget(QWidget * parent = nullptr);
-    
     
     /**
      * Gets the index of the selected color widget underneath.
@@ -70,10 +67,27 @@ public slots:
      * @param   id              id of the color in the grid.
      * @param   selected        selected flag
      */
-    void colorSelectedChange(int id, bool selected);
+    void selectedColorChange(int id, bool selected);
+    
+private slots:
+    
+    /**
+     * A color widget changed its color.
+     *
+     * @param   id      id of the widget which has changed its color.
+     */
+    void colorChanged(int id);
     
 signals:
     
+    /**
+     * The element with the given id changed its color.
+     *
+     * @param   id          the element which changed the color.
+     * @param   color       the color selected.
+     */
+    void colorChangedInPalette(int id, QColor color);
+
     /**
      * A color has been selected by the user.
      *

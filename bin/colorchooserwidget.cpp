@@ -4,6 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <utility>
+
 #include <QColorDialog>
 #include <QComboBox>
 #include <QFile>
@@ -40,6 +42,10 @@ ColorChooserWidget::ColorChooserWidget(QWidget * parent) : QWidget{parent} {
     
     connect(ui->paletteBox, SIGNAL(activated(int)), this, SLOT(selectedPaletteChanged()));
     
+    connect(ui->scrollAreaWidgetContents,
+            SIGNAL(colorChangedInPalette(int, QColor)),
+            this,
+            SLOT(colorChanged(int, QColor)));
     connect(ui->scrollAreaWidgetContents, SIGNAL(colorSelected(QColor)), this, SIGNAL(colorSelected(QColor)));
     connect(ui->scrollAreaWidgetContents,
             &ColorPaletteWidget::colorSelected,
@@ -88,11 +94,28 @@ void ColorChooserWidget::changeName(QString const & oldName, QString const & new
 }
 
 
+void ColorChooserWidget::colorChanged(int id, QColor color) {
+    
+    auto iter = palettes.find(ui->paletteBox->currentText());
+    if (iter == palettes.end()) {
+        return;
+    }
+    
+    auto palette = (*iter).second;
+    if ((id < 0) || (id >= static_cast<int>(palette->getPalette().size()))) {
+        return;
+    }
+    
+    palette->getPalette()[id] = std::move(color);
+    palette->setData(palette->toJSON().toJson());
+}
+
+
 void ColorChooserWidget::colorSelectedInPalette() {
 
     auto selectedIndexInRecentList = ui->recentColorsWidget->getSelectedIndex();
     if (selectedIndexInRecentList >= 0) {
-        ui->recentColorsWidget->colorSelectedChange(selectedIndexInRecentList, false);
+        ui->recentColorsWidget->selectedColorChange(selectedIndexInRecentList, false);
     }
 }
 
@@ -101,7 +124,7 @@ void ColorChooserWidget::colorSelectedInRecentList() {
     
     auto selectedIndexInRecentList = ui->scrollAreaWidgetContents->getSelectedIndex();
     if (selectedIndexInRecentList >= 0) {
-        ui->scrollAreaWidgetContents->colorSelectedChange(selectedIndexInRecentList, false);
+        ui->scrollAreaWidgetContents->selectedColorChange(selectedIndexInRecentList, false);
     }
 }
 
@@ -114,10 +137,11 @@ void ColorChooserWidget::copyPalette() {
     }
     
     auto newName = suggestNewName(ui->paletteBox->currentText());
-    auto copy = ColorPalettePointer{new ColorPalette{newName, (*iter).second->toJSON().toBinaryData()}};
-    palettes.emplace(newName, copy);
+    auto resourceLocationName = ResourceDB::getLocation(ResourceDB::Location::colorpalettes) + "/" + newName + ".json";
+    auto copy = ColorPalettePointer{new ColorPalette{resourceLocationName, (*iter).second->getData()}};
+    copy->setName(newName);
     
-    auto resourceLocationName = ResourceDB::getLocation(ResourceDB::Location::colorpalettes) + "/" + newName;
+    palettes.emplace(newName, copy);
     auto localResources = ResourceDB::getLocalResources();
     localResources->addResource(copy);
     
@@ -202,8 +226,9 @@ void ColorChooserWidget::loadPaletteFromFile(QString filename) {
     file.close();
     lastFolderUsed = QFileInfo{file}.dir().absolutePath();
     
-    ColorPalettePointer palette{new ColorPalette{QString::null, QByteArray{}}};
-    if (!palette->fromJSON(data)) {
+    // TODO: get the right name
+    ColorPalettePointer palette{new ColorPalette{QString::null, data}};
+    if (!palette->isValid()) {
         QMessageBox::critical(this,
                               tr("Load color palette"),
                               tr("File seems not to contain a color palette. Unable to load."),
@@ -245,8 +270,8 @@ void ColorChooserWidget::loadPalettes() {
         auto res = ResourceDB::getResource(resourceName);
         if (res) {
     
-            ColorPalettePointer palette{new ColorPalette{QString::null, QByteArray{}}};
-            if (palette->fromJSON(res->getData()) && !palette->getName().isEmpty()) {
+            ColorPalettePointer palette{new ColorPalette{QString::null, res->getData()}};
+            if (palette->isValid() && !palette->getName().isEmpty()) {
                 palettes.emplace(palette->getName(), palette);
                 ui->paletteBox->addItem(palette->getName());
             }
@@ -264,7 +289,7 @@ void ColorChooserWidget::pickColor() {
         return;
     }
     ui->recentColorsWidget->addColor(color);
-    ui->recentColorsWidget->colorSelectedChange(0, true);
+    ui->recentColorsWidget->selectedColorChange(0, true);
 }
 
 

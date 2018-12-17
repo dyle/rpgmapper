@@ -10,6 +10,7 @@
 
 #include "colorpalettewidget.hpp"
 
+using namespace rpgmapper::model;
 using namespace rpgmapper::view;
 
 
@@ -21,16 +22,39 @@ ColorPaletteWidget::ColorPaletteWidget(QWidget * parent) : QWidget{parent} {
     
     for (int i = 0; i < 16; ++i) {
         for (int j = 0; j < 16; ++j) {
+            
             int index = i * 16 + j;
+            
             colorWidgets[index] = new ColorWidget{Qt::white, index, this};
-            connect(colorWidgets[index], &ColorWidget::selectedChanged, this, &ColorPaletteWidget::colorSelectedChange);
+            
+            connect(colorWidgets[index],
+                    &ColorWidget::colorChanged,
+                    this,
+                    &ColorPaletteWidget::colorChanged);
+            
+            connect(colorWidgets[index],
+                    &ColorWidget::selectedChanged,
+                    this,
+                    &ColorPaletteWidget::selectedColorChange);
+            
             layout->addWidget(colorWidgets[index], i, j);
         }
     }
 }
 
 
-void ColorPaletteWidget::colorSelectedChange(int id, bool selected) {
+void ColorPaletteWidget::colorChanged(int id) {
+    
+    if ((id < 0) || (id >= 16 * 16)) {
+        return;
+    }
+    
+    emit colorChangedInPalette(id, colorWidgets[id]->getColor());
+    selectedColorChange(id, true);
+}
+
+
+void ColorPaletteWidget::selectedColorChange(int id, bool selected) {
     
     if ((id < 0) || (id >= 16 * 16)) {
         return;
@@ -52,17 +76,13 @@ void ColorPaletteWidget::colorSelectedChange(int id, bool selected) {
         }
         
         colorWidgets[id]->setSelected(true);
-        if (selectedIndex != id) {
-            selectedIndex = id;
-            emit colorSelected(colorWidgets[selectedIndex]->getColor());
-        }
+        selectedIndex = id;
+        emit colorSelected(colorWidgets[selectedIndex]->getColor());
     }
 }
 
 
 void ColorPaletteWidget::setPalette(rpgmapper::model::ColorPalettePointer palette) {
-    
-    this->palette = palette;
     for (int i = 0; i < 16 * 16; ++i) {
         colorWidgets[i]->setColor(palette->getPalette()[i]);
     }

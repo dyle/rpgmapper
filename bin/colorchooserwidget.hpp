@@ -123,6 +123,14 @@ private:
 private slots:
     
     /**
+     * A color of an element has changed.
+     *
+     * @param   id      the id if the entry changed.
+     * @param   color   the new color
+     */
+    void colorChanged(int id, QColor color);
+    
+    /**
      * A color has been selected in the color palette.
      */
     void colorSelectedInPalette();

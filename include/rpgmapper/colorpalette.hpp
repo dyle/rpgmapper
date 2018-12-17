@@ -46,15 +46,6 @@ public:
     ColorPalette(QString name, QByteArray const & data);
     
     /**
-     * Loads a palette from a byte array.
-     *
-     * The Byte Array should contain a JSON 256 array of colors.
-     *
-     * @return  true, if successfully loaded.
-     */
-    bool fromJSON(QByteArray const & data);
-    
-    /**
      * Gets the palette managed by this object (const version)
      *
      * @return  the palette managed by this object.
@@ -82,11 +73,29 @@ public:
     }
     
     /**
+     * Sets a new data to this resource.
+     *
+     * @param   data        the new data.
+     */
+    void setData(QByteArray const & data) override;
+    
+    /**
      * Converts this color palette to a JSON representation.
      *
      * @return  a JSON representation of this palette.
      */
     QJsonDocument toJSON() const;
+    
+private:
+    
+    /**
+     * Loads a palette from the internal byte array data of the resource.
+     *
+     * The Byte Array should contain a JSON 256 array of colors.
+     * If the color palette could not be loaded the isValid() will return false,
+     * otherwise true.
+     */
+    void fromJSON();
 };
 
 

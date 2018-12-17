@@ -89,7 +89,7 @@ public:
      *
      * @param   data        the new data.
      */
-    void setData(QByteArray const & data);
+    virtual void setData(QByteArray const & data);
     
     /**
      * Sets a new name for this resource.

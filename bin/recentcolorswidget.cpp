@@ -25,7 +25,7 @@ RecentColorsWidget::RecentColorsWidget(QWidget * parent) : QWidget{parent} {
         for (int j = 0; j < 8; ++j) {
             auto index = i * 8 + j;
             colorWidgets[index] = new ColorWidget{Qt::white, index, this};
-            connect(colorWidgets[index], &ColorWidget::selectedChanged, this, &RecentColorsWidget::colorSelectedChange);
+            connect(colorWidgets[index], &ColorWidget::selectedChanged, this, &RecentColorsWidget::selectedColorChange);
             layout->addWidget(colorWidgets[index], i, j);
         }
     }
@@ -61,7 +61,7 @@ void RecentColorsWidget::addColor(QColor color) {
 }
 
 
-void RecentColorsWidget::colorSelectedChange(int id, bool selected) {
+void RecentColorsWidget::selectedColorChange(int id, bool selected) {
     
     if ((id < 0) || (id >= 2 * 8)) {
         return;

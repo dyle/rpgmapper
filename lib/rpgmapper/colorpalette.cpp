@@ -4,6 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <utility>
+
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -13,17 +15,17 @@
 using namespace rpgmapper::model;
 
 
-ColorPalette::ColorPalette(QString name, QByteArray const & data) : Resource{name, data} {
-    fromJSON(getData());
+ColorPalette::ColorPalette(QString name, QByteArray const & data) : Resource{std::move(name), data} {
+    fromJSON();
 }
 
 
-bool ColorPalette::fromJSON(QByteArray const & data) {
+void ColorPalette::fromJSON() {
     
     valid = false;
-    auto jsonDocument = QJsonDocument::fromJson(data);
+    auto jsonDocument = QJsonDocument::fromJson(getData());
     if (!jsonDocument.isObject()) {
-        return valid;
+        return;
     }
     
     auto json = jsonDocument.object();
@@ -39,11 +41,14 @@ bool ColorPalette::fromJSON(QByteArray const & data) {
                 palette[i] = QColor{colorString};
             }
         }
-        setData(data);
         valid = true;
     }
-    
-    return valid;
+}
+
+
+void ColorPalette::setData(QByteArray const & data) {
+    Resource::setData(data);
+    fromJSON();
 }
 
 

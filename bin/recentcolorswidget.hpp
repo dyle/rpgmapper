@@ -71,7 +71,7 @@ public slots:
      * @param   id              id of the color in the grid.
      * @param   selected        selected flag
      */
-    void colorSelectedChange(int id, bool selected);
+    void selectedColorChange(int id, bool selected);
 
 private:
     

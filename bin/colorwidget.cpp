@@ -35,7 +35,7 @@ void ColorWidget::leaveEvent(UNUSED QEvent * event) {
 }
 
 
-void ColorWidget::mouseDoubleClickEvent(QMouseEvent * event) {
+void ColorWidget::mouseDoubleClickEvent(UNUSED QMouseEvent * event) {
     
     auto color = QColorDialog::getColor(getColor(), this);
     if (!color.isValid()) {

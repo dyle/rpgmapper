@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="48" height="48">
+    <g inkscape:label="Base"
+    inkscape:groupmode="layer"
+    id="layer1"
+    transform="translate(0,-284.29999)">
+    <rect
+    id="wall"
+    width="13.229166"
+    height="1.3229166"
+    x="0"
+    y="295.67706"
+    style="fill:#552200;stroke-width:0.26458332"
+    inkscape:label="wall" />
+    </g>
+</svg>

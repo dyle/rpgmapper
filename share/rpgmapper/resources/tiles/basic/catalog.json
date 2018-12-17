@@ -1,0 +1,6 @@
+[
+    {"name": "Wall (north)", "file": "wall_N.svg"},
+    {"name": "Wall (east)", "file": "wall_E.svg"},
+    {"name": "Wall (south)", "file": "wall_S.svg"},
+    {"name": "Wall (west)", "file": "wall_W.svg"}
+] 

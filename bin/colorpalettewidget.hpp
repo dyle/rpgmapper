@@ -12,7 +12,7 @@
 #include <QColor>
 #include <QWidget>
 
-#include <rpgmapper/colorpalette.hpp>
+#include <rpgmapper/colorpalette_pointer.hpp>
 #include "colorwidget.hpp"
 
 
@@ -27,14 +27,14 @@ class ColorPaletteWidget : public QWidget {
 
     Q_OBJECT
 
-    rpgmapper::model::ColorPalette palette;     /**< The current palette loaded. */
+    rpgmapper::model::ColorPalettePointer palette;    /**< The current palette loaded. */
     
     /**
      * The color widgets showing the palette.
      */
     std::array<rpgmapper::view::ColorWidget *, 16 * 16> colorWidgets;
     
-    int selectedIndex = -1;                     /**< Current selected color. */
+    int selectedIndex = -1;                             /**< Current selected color. */
     
 public:
     
@@ -60,7 +60,7 @@ public:
      *
      * @param   palette     the new palette to show.
      */
-    void setPalette(rpgmapper::model::ColorPalette const & palette);
+    void setPalette(rpgmapper::model::ColorPalettePointer palette);
     
 public slots:
     

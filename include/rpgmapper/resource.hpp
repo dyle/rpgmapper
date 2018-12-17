@@ -32,7 +32,7 @@ public:
      * @param   name        name of the BLOB.
      * @param   data        the BLOB.
      */
-    explicit Resource(QString name, QByteArray const & data);
+    Resource(QString name, QByteArray const & data);
 
     /**
      * Copy constructor.
@@ -83,6 +83,20 @@ public:
      * @return  A string holding the SHA256 of the BLOB.
      */
     static QString getSHA256(QByteArray const & data);
+    
+    /**
+     * Sets a new data to this resource.
+     *
+     * @param   data        the new data.
+     */
+    void setData(QByteArray const & data);
+    
+    /**
+     * Sets a new name for this resource.
+     *
+     * @param   name        the new name.
+     */
+    void setName(QString name);
 };
 
 

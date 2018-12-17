@@ -18,3 +18,13 @@ Resource::Resource(QString name, QByteArray const & data) : data{data}, name{std
 QString Resource::getSHA256(QByteArray const & data) {
     return QString(QCryptographicHash::hash(data, QCryptographicHash::Sha256).toHex());
 }
+
+
+void Resource::setData(QByteArray const &data) {
+    this->data = data;
+}
+
+
+void Resource::setName(QString name) {
+    this->name = name;
+}

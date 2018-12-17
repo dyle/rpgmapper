@@ -13,53 +13,44 @@
 using namespace rpgmapper::model;
 
 
-ColorPalette ColorPalette::clone() const {
-    ColorPalette copy;
-    copy.palette = palette;
-    copy.name = name;
-    return copy;
+ColorPalette::ColorPalette(QString name, QByteArray const & data) : Resource{name, data} {
+    fromJSON(getData());
 }
 
 
-ColorPalette ColorPalette::load(QByteArray const & data) {
+bool ColorPalette::fromJSON(QByteArray const & data) {
     
-    ColorPalette colorPalette;
-    
+    valid = false;
     auto jsonDocument = QJsonDocument::fromJson(data);
     if (!jsonDocument.isObject()) {
-        return colorPalette;
+        return valid;
     }
     
     auto json = jsonDocument.object();
     if (json.contains("name") && json["name"].isString()) {
-        colorPalette.name = json["name"].toString();
+        setName(json["name"].toString());
     }
-    
     
     if (json.contains("colors") && json["colors"].isArray()) {
         auto jsonArray = json["colors"].toArray();
         for (int i = 0; i < std::min(jsonArray.size(), 16 * 16); ++i) {
             if (jsonArray.at(i).isString()) {
                 auto colorString = jsonArray.at(i).toString();
-                colorPalette.palette[i] = QColor{colorString};
+                palette[i] = QColor{colorString};
             }
         }
-        colorPalette.valid = true;
+        setData(data);
+        valid = true;
     }
     
-    return colorPalette;
-}
-
-
-void ColorPalette::setName(QString name) {
-    this->name = name;
+    return valid;
 }
 
 
 QJsonDocument ColorPalette::toJSON() const {
     
     QJsonObject json;
-    json["name"] = name;
+    json["name"] = getName();
     
     QJsonArray jsonColors;
     for (auto const & color : getPalette()) {

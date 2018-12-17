@@ -6,6 +6,8 @@
 
 #include <QGridLayout>
 
+#include <rpgmapper/colorpalette.hpp>
+
 #include "colorpalettewidget.hpp"
 
 using namespace rpgmapper::view;
@@ -58,10 +60,10 @@ void ColorPaletteWidget::colorSelectedChange(int id, bool selected) {
 }
 
 
-void ColorPaletteWidget::setPalette(rpgmapper::model::ColorPalette const & palette) {
+void ColorPaletteWidget::setPalette(rpgmapper::model::ColorPalettePointer palette) {
     
     this->palette = palette;
     for (int i = 0; i < 16 * 16; ++i) {
-        colorWidgets[i]->setColor(palette.getPalette()[i]);
+        colorWidgets[i]->setColor(palette->getPalette()[i]);
     }
 }

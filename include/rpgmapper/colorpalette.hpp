@@ -12,6 +12,9 @@
 #include <QByteArray>
 #include <QColor>
 #include <QJsonDocument>
+#include <QString>
+
+#include <rpgmapper/resource.hpp>
 
 
 namespace rpgmapper {
@@ -27,37 +30,41 @@ using Palette = std::array<QColor, 16 *16>;
 /**
  * This is the way colors are managed in a palette by rpgmapper.
  */
-class ColorPalette {
+class ColorPalette : public Resource {
     
     Palette palette;        /**< The color palette managed by this instance. */
-    QString name;           /**< The name of the palette. */
     bool valid = false;     /**< Validity flag. */
 
 public:
     
     /**
      * Constructor.
+     *
+     * @param   name        name of the color palette.
+     * @param   data        a JSON structure holding the palette.
      */
-    ColorPalette() = default;
+    ColorPalette(QString name, QByteArray const & data);
     
     /**
-     * Creates a deep copy of this object.
+     * Loads a palette from a byte array.
      *
-     * @return  a deep copy of *this.
+     * The Byte Array should contain a JSON 256 array of colors.
+     *
+     * @return  true, if successfully loaded.
      */
-    ColorPalette clone() const;
+    bool fromJSON(QByteArray const & data);
     
     /**
-     * Returns the name of the palette.
+     * Gets the palette managed by this object (const version)
      *
-     * @return  the name of the palette.
+     * @return  the palette managed by this object.
      */
-    QString const & getName() const {
-        return name;
+    Palette & getPalette() {
+        return palette;
     }
     
     /**
-     * Gets the palette managed by this object.
+     * Gets the palette managed by this object (const version)
      *
      * @return  the palette managed by this object.
      */
@@ -72,30 +79,6 @@ public:
      */
     bool isValid() const {
         return valid;
-    }
-    
-    /**
-     * Loads a palette form a byte array.
-     *
-     * The Byte Array should contain a JSON 256 array of colors.
-     */
-    static ColorPalette load(QByteArray const & data);
-    
-    /**
-     * Sets the name of the palette.
-     *
-     * @param   name        the new name of the palette.
-     */
-    void setName(QString name);
-    
-    /**
-     * Sets the palette of this object.
-     *
-     * @param   palette     the new palette of this object.
-     */
-    void setPalette(Palette & palette) {
-        this->palette = palette;
-        valid = true;
     }
     
     /**

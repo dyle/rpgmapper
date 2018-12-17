@@ -11,6 +11,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 
+#include <rpgmapper/colorpalette.hpp>
 #include <rpgmapper/resource.hpp>
 #include <rpgmapper/resource_collection.hpp>
 #include <rpgmapper/resource_db.hpp>
@@ -72,7 +73,7 @@ void ColorChooserWidget::changeName(QString const & oldName, QString const & new
     }
     
     auto palette = (*iter).second;
-    palette.setName(newName);
+    palette->setName(newName);
     palettes.erase(iter);
     palettes.emplace(newName, palette);
     
@@ -112,14 +113,13 @@ void ColorChooserWidget::copyPalette() {
         return;
     }
     
-    auto copy = (*iter).second.clone();
     auto newName = suggestNewName(ui->paletteBox->currentText());
-    copy.setName(newName);
+    auto copy = ColorPalettePointer{new ColorPalette{newName, (*iter).second->toJSON().toBinaryData()}};
     palettes.emplace(newName, copy);
     
     auto resourceLocationName = ResourceDB::getLocation(ResourceDB::Location::colorpalettes) + "/" + newName;
     auto localResources = ResourceDB::getLocalResources();
-    localResources->addResource(resourceLocationName, copy.toJSON().toBinaryData());
+    localResources->addResource(copy);
     
     ui->paletteBox->addItem(newName);
     int index = ui->paletteBox->findText(newName);
@@ -202,8 +202,8 @@ void ColorChooserWidget::loadPaletteFromFile(QString filename) {
     file.close();
     lastFolderUsed = QFileInfo{file}.dir().absolutePath();
     
-    auto palette = ColorPalette::load(data);
-    if (!palette.isValid()) {
+    ColorPalettePointer palette{new ColorPalette{QString::null, QByteArray{}}};
+    if (!palette->fromJSON(data)) {
         QMessageBox::critical(this,
                               tr("Load color palette"),
                               tr("File seems not to contain a color palette. Unable to load."),
@@ -211,7 +211,7 @@ void ColorChooserWidget::loadPaletteFromFile(QString filename) {
         return;
     }
     
-    auto paletteName = palette.getName();
+    auto paletteName = palette->getName();
     auto iter = palettes.find(paletteName);
     if (iter != palettes.end()) {
         palettes.erase(iter);
@@ -245,10 +245,10 @@ void ColorChooserWidget::loadPalettes() {
         auto res = ResourceDB::getResource(resourceName);
         if (res) {
     
-            auto palette = ColorPalette::load(res->getData());
-            if (palette.isValid() && !palette.getName().isEmpty()) {
-                palettes.emplace(palette.getName(), palette);
-                ui->paletteBox->addItem(palette.getName());
+            ColorPalettePointer palette{new ColorPalette{QString::null, QByteArray{}}};
+            if (palette->fromJSON(res->getData()) && !palette->getName().isEmpty()) {
+                palettes.emplace(palette->getName(), palette);
+                ui->paletteBox->addItem(palette->getName());
             }
         }
     }
@@ -275,7 +275,7 @@ void ColorChooserWidget::saveCurrentPaletteToFile(QString filename) {
         return;
     }
     auto colorPalette = (*iter).second;
-    auto json = colorPalette.toJSON();
+    auto json = colorPalette->toJSON();
     
     QFile file{filename};
     if (!file.open(QIODevice::WriteOnly)) {

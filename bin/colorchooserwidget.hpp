@@ -14,7 +14,7 @@
 #include <QFileDialog>
 #include <QWidget>
 
-#include <rpgmapper/colorpalette.hpp>
+#include <rpgmapper/colorpalette_pointer.hpp>
 
 
 // fwd
@@ -34,7 +34,10 @@ class ColorChooserWidget : public QWidget {
     
     std::shared_ptr<Ui_ColorChooserWidget> ui;                      /**< The User Interface as created by the uic. */
     
-    std::map<QString, rpgmapper::model::ColorPalette> palettes;     /**< Known palettes. */
+    /**
+     * Known palettes.
+     */
+    std::map<QString, rpgmapper::model::ColorPalettePointer > palettes;
     
     QFileDialog * loadPaletteDialog = nullptr;                      /**< Load color palette dialog. */
     QFileDialog * savePaletteDialog = nullptr;                      /**< Save color palette dialog. */

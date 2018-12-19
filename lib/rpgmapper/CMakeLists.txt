@@ -40,6 +40,7 @@ set(RPGMAPPER_LIB_SRC
     resource_db.cpp
     resource_loader.cpp
     session.cpp
+    shape.cpp
     tile.cpp
     tile_factory.cpp
     zip.cpp

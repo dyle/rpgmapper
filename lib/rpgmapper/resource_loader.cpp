@@ -102,7 +102,9 @@ void ResourceLoader::load(QStringList & log) {
 }
 
 
-void ResourceLoader::loadResources(FileCollection const & fileCollection, ResourceCollectionPointer db, QStringList & log) {
+void ResourceLoader::loadResources(FileCollection const & fileCollection,
+        ResourceCollectionPointer db,
+        QStringList & log) {
     
     int fileNumber = 1;
     for (auto const & fileTuple : fileCollection) {

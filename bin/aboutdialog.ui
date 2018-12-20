@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>About RPGMapper</string>
+   <string>RPGMapper - About</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>

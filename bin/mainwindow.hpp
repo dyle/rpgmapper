@@ -18,6 +18,7 @@
 #include "logdialog.hpp"
 #include "mappropertiesdialog.hpp"
 #include "mapwidget.hpp"
+#include "resourcesviewdialog.hpp"
 #include "zoomslider.hpp"
 
 
@@ -42,6 +43,7 @@ class MainWindow : public QMainWindow {
     QFileDialog * loadAtlasDialog = nullptr;                    /**< Pre-created load dialog. */
     LogDialog * logDialog = nullptr;                            /**< Pre-created log dialog. */
     MapPropertiesDialog * mapPropertiesDialog = nullptr;        /**< Pre-created map properties dialog. */
+    ResourcesViewDialog * resourcesViewDialog = nullptr;        /**< Pre-created resource view dialog. */
     QFileDialog * saveAtlasDialog = nullptr;                    /**< Pre-created save dialog. */
 
     QStringList recentAtlasFileNames;                           /**< List of recent loaded/saved atlas files. */
@@ -91,7 +93,12 @@ public slots:
      * Adjust the window title.
      */
     void setApplicationWindowTitle();
-
+    
+    /**
+     * Show the about dialog.
+     */
+    void showAboutDialog();
+    
     /**
      * Make some map coordinates visible.
      *
@@ -99,6 +106,11 @@ public slots:
      * @param   y       Y-Coordinate as for top/left.
      */
     void showCoordinates(int x, int y);
+    
+    /**
+     * Show the resources view dialog.
+     */
+    void showResourcesViewDialog();
     
     /**
      * Switches the visibility of the axis of the current map widget
@@ -217,11 +229,6 @@ private:
      * Load application settings.
      */
     void loadSettings();
-
-    /**
-     * Show the about dialog.
-     */
-    void showAboutDialog();
 
     /**
      * Saves the current atlas to disk.

@@ -178,6 +178,7 @@ void MainWindow::connectActions() {
     connect(ui->actionShowRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
     connect(ui->actionSaveAtlasFile, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionSaveAtlasFileAs, &QAction::triggered, this, &MainWindow::saveAs);
+    connect(ui->actionViewResources, &QAction::triggered, this, &MainWindow::showResourcesViewDialog);
 
     connect(ui->actionViewMap, &QAction::triggered, this, &MainWindow::viewCurrentMap);
     connect(ui->actionViewColorPicker, &QAction::triggered, this, &MainWindow::visibleColorPicker);
@@ -690,6 +691,8 @@ void MainWindow::setupDialogs() {
     logDialog = new LogDialog(this);
 
     mapPropertiesDialog = new MapPropertiesDialog(this);
+    
+    resourcesViewDialog = new ResourcesViewDialog(this);
 
     saveAtlasDialog = new QFileDialog(this);
     saveAtlasDialog->setFileMode(QFileDialog::AnyFile);
@@ -722,6 +725,11 @@ void MainWindow::showCoordinates(int x, int y) {
             coordinatesWidget->clear();
         }
     }
+}
+
+
+void MainWindow::showResourcesViewDialog() {
+    resourcesViewDialog->exec();
 }
 
 

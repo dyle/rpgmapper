@@ -68,7 +68,7 @@
      <x>0</x>
      <y>0</y>
      <width>904</width>
-     <height>29</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
@@ -124,6 +124,8 @@
     <addaction name="actionViewStructureTree"/>
     <addaction name="actionViewColorPicker"/>
     <addaction name="actionViewCurrentTile"/>
+    <addaction name="separator"/>
+    <addaction name="actionViewResources"/>
    </widget>
    <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
@@ -198,8 +200,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>80</width>
-          <height>265</height>
+          <width>96</width>
+          <height>26</height>
          </rect>
         </property>
         <attribute name="label">
@@ -212,7 +214,7 @@
           <x>0</x>
           <y>0</y>
           <width>80</width>
-          <height>265</height>
+          <height>264</height>
          </rect>
         </property>
         <attribute name="label">
@@ -678,6 +680,11 @@
    </property>
    <property name="text">
     <string>Current Tile &amp;Dock</string>
+   </property>
+  </action>
+  <action name="actionViewResources">
+   <property name="text">
+    <string>View Resources</string>
    </property>
   </action>
  </widget>

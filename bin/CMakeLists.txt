@@ -19,6 +19,7 @@ set(RPGMAPPER_UI
     logdialog.ui
     mainwindow.ui
     mappropertiesdialog.ui
+    resourcesviewdialog.ui
     startupdialog.ui
     zoomslider.ui
 )
@@ -41,6 +42,7 @@ set(RPGMAPPER_MOC
     maptabwidget.hpp
     mapwidget.hpp
     recentcolorswidget.hpp
+    resourcesviewdialog.hpp
     startupdialog.hpp
     structuraltreewidget.hpp
     visibility_action_filter.hpp
@@ -66,6 +68,7 @@ set(RPGMAPPER_SRC
     maptabwidget.cpp
     mapwidget.cpp
     recentcolorswidget.cpp
+    resourcesviewdialog.cpp
     startupdialog.cpp
     structuraltreewidget.cpp
     visibility_action_filter.cpp

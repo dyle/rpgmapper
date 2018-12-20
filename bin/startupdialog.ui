@@ -20,7 +20,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Starting RPGMapper</string>
+   <string>RPGMapper - Starting...</string>
   </property>
   <property name="windowIcon">
    <iconset resource="rpgmapper.qrc">

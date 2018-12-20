@@ -10,6 +10,7 @@
 #include <memory>
 
 #include <QDialog>
+#include <QIcon>
 #include <QTreeWidgetItem>
 
 #include <rpgmapper/resource_collection_pointer.hpp>
@@ -66,6 +67,14 @@ protected:
     void showEvent(QShowEvent * event) override;
     
 private:
+    
+    /**
+     * Retrieves the icon for a resource type.
+     *
+     * @param   type        the resource type.
+     * @return  the icon for this resource type.
+     */
+    QIcon getIconForResourceType(rpgmapper::model::ResourceType type) const;
     
     /**
      * Returns the category node under the root node (and create one if not existing).

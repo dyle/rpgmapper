@@ -45,9 +45,8 @@ QTreeWidgetItem* ResourcesViewDialog::ensureCategoryNode(QTreeWidgetItem * rootN
         rpgmapper::model::ResourceType type) {
     
     QTreeWidgetItem * categoryNode = nullptr;
-    
-    auto categoryPath = getResourcePrefixForType(type);
-    auto items = ui->resourceTreeWidget->findItems(categoryPath, Qt::MatchExactly, 0);
+    auto categoryName = getResourceTypeName(type, true);
+    auto items = ui->resourceTreeWidget->findItems(categoryName, Qt::MatchFixedString | Qt::MatchRecursive, 0);
     for (auto iter = items.begin(); (iter != items.end()) && !categoryNode; ++iter) {
         if ((*iter)->parent() == rootNode) {
             categoryNode = (*iter);
@@ -56,7 +55,8 @@ QTreeWidgetItem* ResourcesViewDialog::ensureCategoryNode(QTreeWidgetItem * rootN
     
     if (!categoryNode) {
         categoryNode = new QTreeWidgetItem{rootNode};
-        categoryNode->setText(0, getResourceTypeName(type, true));
+        categoryNode->setText(0, categoryName);
+        categoryNode->setIcon(0, getIconForResourceType(type));
     }
     
     categoryNode->setText(2, QString::number(updateCounter));
@@ -65,7 +65,7 @@ QTreeWidgetItem* ResourcesViewDialog::ensureCategoryNode(QTreeWidgetItem * rootN
 
 
 QTreeWidgetItem* ResourcesViewDialog::findResource(QTreeWidgetItem * rootNode, QString path) const {
-    
+
     QTreeWidgetItem * foundResource = nullptr;
     auto items = ui->resourceTreeWidget->findItems(path, Qt::MatchExactly, 0);
     for (auto iter = items.begin(); (iter != items.end()) && !foundResource; ++iter) {
@@ -73,8 +73,34 @@ QTreeWidgetItem* ResourcesViewDialog::findResource(QTreeWidgetItem * rootNode, Q
             foundResource = (*iter);
         }
     }
-    
+
     return foundResource;
+}
+
+
+QIcon ResourcesViewDialog::getIconForResourceType(rpgmapper::model::ResourceType type) const {
+
+    QIcon icon;
+    
+    switch (type) {
+        
+        case ResourceType::unknown:
+            break;
+        
+        case ResourceType::background:
+            icon = QIcon(":/icons/gfx/background.png");
+            break;
+    
+        case ResourceType::colorpalette:
+            icon = QIcon(":/icons/gfx/colorpalette.png");
+            break;
+    
+        case ResourceType::shape:
+            icon = QIcon(":/icons/gfx/shapes.png");
+            break;
+    }
+    
+    return icon;
 }
 
 

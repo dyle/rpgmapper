@@ -21,7 +21,7 @@ void ResourceCollection::addResource(QSharedPointer<Resource> resource) {
     if (resource->getData().isEmpty()) {
         throw std::runtime_error("Refused to add empty resource to resource DB.");
     }
-    resources[resource->getName()] = resource;
+    resources[resource->getPath()] = resource;
 }
 
 

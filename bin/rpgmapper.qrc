@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="icons">
+    <file>gfx/shapes.png</file>
+    <file>gfx/background.png</file>
+    <file>gfx/colorpalette.png</file>
     <file>gfx/freehand-draw-pencil.png</file>
     <file>gfx/copy.png</file>
     <file>gfx/magnifier.png</file>

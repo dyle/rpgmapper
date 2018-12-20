@@ -35,6 +35,7 @@
 #include <rpgmapper/resource.hpp>
 #include <rpgmapper/resource_collection.hpp>
 #include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/resource_type.hpp>
 #include <rpgmapper/session.hpp>
 
 #include "mappropertiesdialog.hpp"
@@ -296,7 +297,7 @@ void MapPropertiesDialog::clickedOk() {
 
 void MapPropertiesDialog::collectBackgroundImages() {
     
-    auto backgroundResourcePrefix = ResourceDB::getLocation(ResourceDB::Location::background);
+    auto backgroundResourcePrefix = getResourcePrefixForType(ResourceType::background);
     auto backgroundImageNames = ResourceDB::getResources(backgroundResourcePrefix);
     
     for (auto const & resourceName : backgroundImageNames) {

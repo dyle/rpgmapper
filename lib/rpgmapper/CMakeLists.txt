@@ -39,6 +39,7 @@ set(RPGMAPPER_LIB_SRC
     resource_collection.cpp
     resource_db.cpp
     resource_loader.cpp
+    resource_type.cpp
     session.cpp
     shape.cpp
     shape_catalog.cpp

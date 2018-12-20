@@ -65,27 +65,16 @@ protected:
     void showEvent(QShowEvent * event) override;
     
 private:
+    
+    /**
+     * Searches a path under a root node tree widget item.
+     *
+     * @param   rootNode            the root node item to search underneath.
+     * @param   path                the resource path to search.
+     * @return  the tree widget item, or nullptr if not found.
+     */
+    QTreeWidgetItem * findResource(QTreeWidgetItem * rootNode, QString path) const;
 
-    /**
-     * Adds all known resources to the view.
-     */
-    void addResources();
-    
-    /**
-     * Adds all local (current atlas) resources.
-     */
-    void addLocalResources();
-    
-    /**
-     * Adds all known user resources.
-     */
-    void addUserResources();
-    
-    /**
-     * Adds all system resources.
-     */
-    void addSystemResources();
-    
     /**
      * Inserts and/or updates a single resource under the given root node.
      *

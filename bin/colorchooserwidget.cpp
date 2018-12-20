@@ -17,6 +17,7 @@
 #include <rpgmapper/resource.hpp>
 #include <rpgmapper/resource_collection.hpp>
 #include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/resource_type.hpp>
 
 #include "colorchooserwidget.hpp"
 #include "ui_colorchooserwidget.h"
@@ -137,7 +138,7 @@ void ColorChooserWidget::copyPalette() {
     }
     
     auto newName = suggestNewName(ui->paletteBox->currentText());
-    auto resourceLocationName = ResourceDB::getLocation(ResourceDB::Location::colorpalettes) + "/" + newName + ".json";
+    auto resourceLocationName = getResourcePrefixForType(ResourceType::colorpalette) + "/" + newName + ".json";
     auto copy = ColorPalettePointer{new ColorPalette{resourceLocationName, (*iter).second->getData()}};
     copy->setName(newName);
     
@@ -243,9 +244,8 @@ void ColorChooserWidget::loadPaletteFromFile(QString filename) {
     }
     palettes.emplace(paletteName, palette);
     
-    auto resourceLocationName = ResourceDB::getLocation(ResourceDB::Location::colorpalettes) + "/" + paletteName;
     auto localResources = ResourceDB::getLocalResources();
-    localResources->addResource(resourceLocationName, data);
+    localResources->addResource(palette->getPath(), data);
     
     int index = ui->paletteBox->findText(paletteName);
     if (index != -1) {
@@ -263,7 +263,7 @@ void ColorChooserWidget::loadPalettes() {
     palettes.clear();
     ui->paletteBox->clear();
     
-    auto colorPalettesResourcePrefix = ResourceDB::getLocation(ResourceDB::Location::colorpalettes);
+    auto colorPalettesResourcePrefix = getResourcePrefixForType(ResourceType::colorpalette);
     auto colorPaletteResourceNames = ResourceDB::getResources(colorPalettesResourcePrefix);
     for (auto const & resourceName : colorPaletteResourceNames) {
     

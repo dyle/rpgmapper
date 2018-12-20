@@ -12,6 +12,7 @@
 #include <QString>
 
 #include <rpgmapper/resource_collection_pointer.hpp>
+#include <rpgmapper/resource_type.hpp>
 #include <rpgmapper/resource_pointer.hpp>
 
 
@@ -37,14 +38,6 @@ class ResourceDB {
 public:
     
     /**
-     * Well known locations of resources.
-     */
-    enum class Location {
-        background,             /**< Location of the background stuff. */
-        colorpalettes           /**< Location of colorpalettes. */
-    };
-    
-    /**
      * Constructor
      */
     ResourceDB() = delete;
@@ -55,14 +48,6 @@ public:
      * @return  the resources found in the atlas file.
      */
     static ResourceCollectionPointer getLocalResources();
-    
-    /**
-     * Gets the resource prefix of well known location.
-     *
-     * @param   location        the well known location
-     * @return  the prefix for this kind of resources.
-     */
-    static QString getLocation(Location location);
     
     /**
      * Gets a specific resource with a certain path.
@@ -103,14 +88,6 @@ public:
      * @return  the resources found in the user folder.
      */
     static ResourceCollectionPointer getUserResources();
-    
-    
-    /**
-     * Checks of the given path points to a known location.
-     * @param   path        a path to a resource.
-     * @return  true, if this denotes to known location.
-     */
-    static bool isLocationKnown(QString path);
 };
 
 

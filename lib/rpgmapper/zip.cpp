@@ -293,12 +293,10 @@ void loadLocalResources(Content const & content, QStringList & log) {
     log.append("Loading local resources.");
     for (auto const & pair : content) {
         
-        QString const & name = pair.first;
-        if (ResourceDB::isLocationKnown(name)) {
-            QByteArray const &data = pair.second;
-            ResourceDB::getLocalResources()->addResource(name, data);
-            log.append(QString{"Added : "} + name);
-        }
+        QString const & path = pair.first;
+        QByteArray const & data = pair.second;
+        ResourceDB::getLocalResources()->addResource(path, data);
+        log.append(QString{"Added : "} + path);
     }
 }
 

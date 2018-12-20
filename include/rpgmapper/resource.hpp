@@ -11,6 +11,8 @@
 #include <QSharedPointer>
 #include <QString>
 
+#include <rpgmapper/resource_type.hpp>
+
 
 namespace rpgmapper {
 namespace model {
@@ -26,7 +28,7 @@ class Resource {
     QString path;           /**< The path relative to the root resource base to the BLOB. */
 
 public:
-
+    
     /**
      * Constructor.
      *
@@ -107,6 +109,13 @@ public:
      * @param   name        the new name.
      */
     void setName(QString name);
+    
+    /**
+     * Strips a prefix from the path and returns the rest of the path.
+     *
+     * @return  the path without the known prefix.
+     */
+    QString stripPrefixFromPath() const;
 };
 
 

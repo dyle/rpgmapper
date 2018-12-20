@@ -23,10 +23,24 @@ using namespace rpgmapper::view;
 #endif
 
 
+/**
+ * The column id used for the path information.
+ */
+static int const pathColumn = 2;
+
+
+/**
+ * The column id used for the update counter.
+ */
+static int const updateColumn = 3;
+
+
 ResourcesViewDialog::ResourcesViewDialog(QWidget * parent) : QDialog{parent} {
     
     ui = std::make_shared<Ui_resourcesViewDialog>();
     ui->setupUi(this);
+    
+    ui->resourceTreeWidget->setColumnCount(updateColumn + 1);
     
     localResourcesRootNode = new QTreeWidgetItem{};
     localResourcesRootNode->setText(0, tr("Local resources"));
@@ -41,9 +55,18 @@ ResourcesViewDialog::ResourcesViewDialog(QWidget * parent) : QDialog{parent} {
 }
 
 
+QTreeWidgetItem* ResourcesViewDialog::findResource(QTreeWidgetItem * rootNode, QString path) const {
+    return nullptr;
+}
+
+
 void ResourcesViewDialog::insertResource(QTreeWidgetItem * rootNode,
         rpgmapper::model::ResourcePointer const & resource) {
     
+    auto item = findResource(rootNode, resource->getPath());
+    if (item) {
+        item->setText(updateColumn, QString::number(updateCounter));
+    }
 }
 
 void ResourcesViewDialog::insertResources(QTreeWidgetItem * rootNode,

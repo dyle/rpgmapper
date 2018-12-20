@@ -40,25 +40,6 @@ ResourceCollectionPointer ResourceDB::getLocalResources() {
 }
 
 
-QString ResourceDB::getLocation(Location location) {
-    
-    QString prefix;
-    
-    switch (location) {
-    
-    case Location::background:
-        prefix = "/backgrounds";
-        break;
-        
-    case Location::colorpalettes:
-        prefix = "/colorpalettes";
-        break;
-    }
-    
-    return prefix;
-}
-
-
 ResourcePointer ResourceDB::getResource(QString path) {
     
     ResourcePointer resource = findResource(getLocalResources(), path);
@@ -102,26 +83,6 @@ ResourceCollectionPointer ResourceDB::getUserResources() {
         userResources = ResourceCollectionPointer{new ResourceCollection};
     }
     return userResources;
-}
-
-
-bool ResourceDB::isLocationKnown(QString path) {
-    
-    static std::set<QString> knownLocations;
-    if (knownLocations.empty()) {
-        knownLocations.insert(getLocation(Location::background));
-        knownLocations.insert(getLocation(Location::colorpalettes));
-    }
-    
-    bool known = false;
-    for (auto const & location : knownLocations) {
-        known = path.left(location.size()) == location;
-        if (known) {
-            break;
-        }
-    }
-    
-    return known;
 }
 
 

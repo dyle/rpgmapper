@@ -64,10 +64,15 @@ void ResourcesViewDialog::insertResource(QTreeWidgetItem * rootNode,
         rpgmapper::model::ResourcePointer const & resource) {
     
     auto item = findResource(rootNode, resource->getPath());
-    if (item) {
-        item->setText(updateColumn, QString::number(updateCounter));
+    if (!item) {
+        item = new QTreeWidgetItem{rootNode};
     }
+    
+    item->setText(0, resource->getPath());
+    item->setText(1, resource->getName());
+    item->setText(updateColumn, QString::number(updateCounter));
 }
+
 
 void ResourcesViewDialog::insertResources(QTreeWidgetItem * rootNode,
         rpgmapper::model::ResourceCollectionPointer const & resources) {

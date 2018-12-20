@@ -89,12 +89,26 @@ public:
     }
     
     /**
+     * Returns the first prefix of the path.
+     *
+     * @return  the first prefix of the path used to identify the resource type.
+     */
+    QString getPrefix() const;
+    
+    /**
      * Calculate the SHA256 value of a BLOB.
      *
      * @param   data        a BLOB.
      * @return  A string holding the SHA256 of the BLOB.
      */
     static QString getSHA256(QByteArray const & data);
+    
+    /**
+     * Gets the type of this resource (based on the resource path).
+     *
+     * @return  the type of this resource.
+     */
+    ResourceType getType() const;
     
     /**
      * Sets a new data to this resource.

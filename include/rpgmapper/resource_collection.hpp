@@ -25,7 +25,7 @@ namespace model {
 class ResourceCollection {
     
     /**
-     * The resources an object of this class manages.
+     * The resources an object of this class manages by paths.
      */
     std::map<QString, ResourcePointer> resources;
 
@@ -49,10 +49,10 @@ public:
     /**
      * Adds a BLOB with a name to the resource database.
      *
-     * @param   name    the name of the BLOB
+     * @param   path    the path to the BLOB
      * @param   data    the BLOB.
      */
-    void addResource(QString name, QByteArray const & data);
+    void addResource(QString path, QByteArray const & data);
     
     /**
      * Adds an existing resource to the database.
@@ -62,11 +62,11 @@ public:
     void addResource(QSharedPointer<Resource> resource);
     
     /**
-     * Returns the names of all resources in this collection.
+     * Returns the paths of all resources in this collection.
      *
-     * @return  a ste of resource names.
+     * @return  a set of resource paths.
      */
-    std::set<QString> getNames() const;
+    std::set<QString> getPaths() const;
 
     /**
      * Gets all known resources.

@@ -65,27 +65,27 @@ public:
     static QString getLocation(Location location);
     
     /**
-     * Gets a specific resource with a certain name.
+     * Gets a specific resource with a certain path.
      *
      * This is the search order for the given named resource:
      *  1. local, atlas files.
      *  2. user files.
      *  3. system files.
      *
-     * @param   name        the name of the resource
+     * @param   path        the path to the resource
      * @return  a resource (maybe nullptr if not found)
      */
-    static ResourcePointer getResource(QString name);
+    static ResourcePointer getResource(QString path);
     
     /**
-     * Collects all resources having a certain name prefix.
+     * Collects all resources having a certain path prefix.
      *
      * This is the search order for resources:
      *  1. local, atlas files.
      *  2. user files.
      *  3. system files.
      *
-     * @param   prefix      the prefix of the name (e.g. '/backgrounds')
+     * @param   prefix      the prefix of the path (e.g. '/backgrounds')
      * @return  a list of resources names found.
      */
     static std::set<QString> getResources(QString prefix);

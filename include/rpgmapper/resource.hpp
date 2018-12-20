@@ -23,16 +23,17 @@ class Resource {
 
     QByteArray data;        /**< The Blob. */
     QString name;           /**< The name associated with the BLOB. */
+    QString path;           /**< The path relative to the root resource base to the BLOB. */
 
 public:
 
     /**
      * Constructor.
      *
-     * @param   name        name of the BLOB.
+     * @param   path        path to the BLOB.
      * @param   data        the BLOB.
      */
-    Resource(QString name, QByteArray const & data);
+    Resource(QString path, QByteArray const & data);
 
     /**
      * Copy constructor.
@@ -74,6 +75,15 @@ public:
      */
     static QString getHash(QByteArray const & data) {
         return getSHA256(data);
+    }
+    
+    /**
+     * Gets the path to this resource, relative to the resource root.
+     *
+     * @return  the path uniquely identifying this resource.
+     */
+    QString getPath() const {
+        return path;
     }
     
     /**

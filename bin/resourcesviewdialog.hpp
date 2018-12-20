@@ -10,6 +10,10 @@
 #include <memory>
 
 #include <QDialog>
+#include <QTreeWidgetItem>
+
+#include <rpgmapper/resource_collection_pointer.hpp>
+#include <rpgmapper/resource_pointer.hpp>
 
 
 // fwd
@@ -27,7 +31,13 @@ class ResourcesViewDialog : public QDialog {
 
     Q_OBJECT
     
-    std::shared_ptr<Ui_resourcesViewDialog> ui;       /**< The User Interface as created by the uic. */
+    std::shared_ptr<Ui_resourcesViewDialog> ui;      /**< The User Interface as created by the uic. */
+    
+    QTreeWidgetItem * localResourcesRootNode = nullptr;     /**< Tree node for the local resources */
+    QTreeWidgetItem * userResourcesRootNode = nullptr;      /**< Tree node for the user resources */
+    QTreeWidgetItem * systemResourcesRootNode = nullptr;    /**< Tree node for the system resources */
+    
+    unsigned int updateCounter = 0;                 /**< Current update run. */
 
 public:
     
@@ -37,6 +47,60 @@ public:
      * @param   parent      Parent QWidget instance.
      */
     explicit ResourcesViewDialog(QWidget * parent);
+
+public slots:
+    
+    /**
+     * Reinit view of used resources.
+     */
+    void updateResourcesView();
+
+protected:
+    
+    /**
+     * The dialog received a show event.
+     *
+     * @param   event       the show event involved.
+     */
+    void showEvent(QShowEvent * event) override;
+    
+private:
+
+    /**
+     * Adds all known resources to the view.
+     */
+    void addResources();
+    
+    /**
+     * Adds all local (current atlas) resources.
+     */
+    void addLocalResources();
+    
+    /**
+     * Adds all known user resources.
+     */
+    void addUserResources();
+    
+    /**
+     * Adds all system resources.
+     */
+    void addSystemResources();
+    
+    /**
+     * Inserts and/or updates a single resource under the given root node.
+     *
+     * @param   rootNode        the root node under which the resource is/should be located.
+     * @param   resource        the resource.
+     */
+    void insertResource(QTreeWidgetItem * rootNode, rpgmapper::model::ResourcePointer const & resource);
+    
+    /**
+     * Inserts and/or updates all resources of a resource collection.
+     *
+     * @param   rootNode        the root node to insert the resources under.
+     * @param   resources       the resources to add.
+     */
+    void insertResources(QTreeWidgetItem * rootNode, rpgmapper::model::ResourceCollectionPointer const & resources);
 };
 
 

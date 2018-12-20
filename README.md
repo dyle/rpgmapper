@@ -66,7 +66,7 @@ are free. Some picked by KDE Plasma stock Breeze icon set other from Open Clipar
 and other from other various places, like: 
 
 * https://www.freepik.com used under Creative Commons BY 3.0
-* http://www.iconarchive.com/show/oxygen-icons-by-oxygen-icons.org.1.html
+* https://github.com/pasnox/oxygen-icons-png
 
 ## Edit 1
 

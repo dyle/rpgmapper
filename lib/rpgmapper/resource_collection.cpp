@@ -12,8 +12,8 @@
 using namespace rpgmapper::model;
 
 
-void ResourceCollection::addResource(QString name, QByteArray const & data) {
-    addResource(QSharedPointer<Resource>{new rpgmapper::model::Resource{std::move(name), data}});
+void ResourceCollection::addResource(QString path, QByteArray const & data) {
+    addResource(QSharedPointer<Resource>{new rpgmapper::model::Resource{std::move(path), data}});
 }
 
 
@@ -25,13 +25,13 @@ void ResourceCollection::addResource(QSharedPointer<Resource> resource) {
 }
 
 
-std::set<QString> ResourceCollection::getNames() const {
+std::set<QString> ResourceCollection::getPaths() const {
     
-    std::set<QString> names;
+    std::set<QString> paths;
     
     std::for_each(resources.begin(),
                   resources.end(),
-                  [&] (auto p) { names.insert(p.first); });
+                  [&] (auto p) { paths.insert(p.first); });
     
-    return names;
+    return paths;
 }

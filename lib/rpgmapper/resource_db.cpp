@@ -59,16 +59,16 @@ QString ResourceDB::getLocation(Location location) {
 }
 
 
-ResourcePointer ResourceDB::getResource(QString name) {
+ResourcePointer ResourceDB::getResource(QString path) {
     
-    ResourcePointer resource = findResource(getLocalResources(), name);
+    ResourcePointer resource = findResource(getLocalResources(), path);
     
     if (!resource) {
-        resource = findResource(getUserResources(), name);
+        resource = findResource(getUserResources(), path);
     }
     
     if (!resource) {
-        resource = findResource(getSystemResources(), name);
+        resource = findResource(getSystemResources(), path);
     }
     
     return resource;
@@ -129,20 +129,20 @@ void collectResourcesWithPrefix(std::set<QString> & collection,
         ResourceCollectionPointer const & db,
         QString const & prefix) {
     
-    auto names = db->getNames();
-    for (auto const & name : names) {
-        if (name.startsWith(prefix)) {
-            collection.insert(name);
+    auto paths = db->getPaths();
+    for (auto const & path : paths) {
+        if (path.startsWith(prefix)) {
+            collection.insert(path);
         }
     }
 }
 
 
-ResourcePointer findResource(ResourceCollectionPointer db, QString const & name) {
+ResourcePointer findResource(ResourceCollectionPointer db, QString const & path) {
     
     ResourcePointer resource;
     auto & resources = db->getResources();
-    auto iter = resources.find(name);
+    auto iter = resources.find(path);
     if (iter != resources.end()) {
         resource = (*iter).second;
     }

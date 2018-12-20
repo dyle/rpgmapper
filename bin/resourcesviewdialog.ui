@@ -99,7 +99,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="rpgmapper.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>closeButton</sender>

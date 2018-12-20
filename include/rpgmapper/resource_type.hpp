@@ -34,6 +34,16 @@ enum class ResourceType {
 QString getResourcePrefixForType(ResourceType type);
 
 
+/**
+ * Gets a human readable name for the resource.
+ *
+ * @param   type        the resource type.
+ * @param   plural      if true, plural names are returned.
+ * @return  a human readable name for the resource type.
+ */
+QString getResourceTypeName(ResourceType type, bool plural);
+
+
 }
 }
 

@@ -12,7 +12,11 @@ QString rpgmapper::model::getResourcePrefixForType(rpgmapper::model::ResourceTyp
     QString prefix{"/"};
     
     switch (type) {
-        
+    
+        case rpgmapper::model::ResourceType::unknown:
+            prefix = "/???";
+            break;
+    
         case rpgmapper::model::ResourceType::background:
             prefix = "/backgrounds";
             break;
@@ -24,10 +28,34 @@ QString rpgmapper::model::getResourcePrefixForType(rpgmapper::model::ResourceTyp
         case rpgmapper::model::ResourceType::shape:
             prefix = "/shapes";
             break;
-            
-        default:
-            break;
     }
     
     return prefix;
+}
+
+
+QString rpgmapper::model::getResourceTypeName(rpgmapper::model::ResourceType type, bool plural) {
+    
+    QString name;
+    
+    switch (type) {
+        
+        case rpgmapper::model::ResourceType::unknown:
+            name = plural ? "<Unknown resources>" : "<Unknown resource>";
+            break;
+        
+        case rpgmapper::model::ResourceType::background:
+            name = plural ? "Backgrounds" : "Backhground";
+            break;
+        
+        case rpgmapper::model::ResourceType::colorpalette:
+            name = plural ? "Colorpalettes" : "Colorpalette";
+            break;
+        
+        case rpgmapper::model::ResourceType::shape:
+            name = plural ? "Shapes" : "Shape";
+            break;
+    }
+    
+    return name;
 }

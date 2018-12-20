@@ -103,7 +103,7 @@ void ResourceLoader::load(QStringList & log) {
 
 
 void ResourceLoader::loadResources(FileCollection const & fileCollection,
-        ResourceCollectionPointer db,
+        ResourceCollectionPointer collection,
         QStringList & log) {
     
     int fileNumber = 1;
@@ -122,10 +122,10 @@ void ResourceLoader::loadResources(FileCollection const & fileCollection,
         else {
     
             auto const & folder = std::get<0>(fileTuple);
-            auto resourceName = fileName.right(fileName.size() - folder.size());
+            auto resourcePath = fileName.right(fileName.size() - folder.size());
             auto byteArray = file.readAll();
             file.close();
-            db->addResource(resourceName, byteArray);
+            collection->addResource(resourcePath, byteArray);
         }
         
         fileNumber++;

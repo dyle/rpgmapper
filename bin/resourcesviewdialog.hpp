@@ -14,6 +14,7 @@
 
 #include <rpgmapper/resource_collection_pointer.hpp>
 #include <rpgmapper/resource_pointer.hpp>
+#include <rpgmapper/resource_type.hpp>
 
 
 // fwd
@@ -65,6 +66,15 @@ protected:
     void showEvent(QShowEvent * event) override;
     
 private:
+    
+    /**
+     * Returns the category node under the root node (and create one if not existing).
+     *
+     * @param   rootNode        the root node under which to create the category.
+     * @param   type            the resource type (== category).
+     * @return  a tree widget item holding the category node.
+     */
+    QTreeWidgetItem * ensureCategoryNode(QTreeWidgetItem * rootNode, rpgmapper::model::ResourceType type);
     
     /**
      * Searches a path under a root node tree widget item.

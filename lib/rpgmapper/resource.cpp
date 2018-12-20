@@ -13,7 +13,7 @@
 using namespace rpgmapper::model;
 
 
-Resource::Resource(QString name, QByteArray const & data) : data{data}, name{std::move(name)} {
+Resource::Resource(QString path, QByteArray const & data) : data{data}, path{std::move(path)} {
 }
 
 

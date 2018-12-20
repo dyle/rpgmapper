@@ -94,10 +94,10 @@ private:
      * Loads the resources.
      *
      * @param   fileCollection      the list of found files to load.
-     * @param   db                  the database to fill
+     * @param   collection          the resource collection to fill
      * @param   log                 the log of actions.
      */
-    void loadResources(FileCollection const & fileCollection, ResourceCollectionPointer db, QStringList & log);
+    void loadResources(FileCollection const & fileCollection, ResourceCollectionPointer collection, QStringList & log);
     
 signals:
     

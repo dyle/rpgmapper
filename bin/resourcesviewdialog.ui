@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="titleLabel">
      <property name="text">
-      <string>Current resources:</string>
+      <string>Currently loaded resources:</string>
      </property>
     </widget>
    </item>
@@ -39,19 +39,24 @@
       <bool>true</bool>
      </property>
      <property name="columnCount">
-      <number>2</number>
+      <number>3</number>
      </property>
      <attribute name="headerVisible">
-      <bool>false</bool>
+      <bool>true</bool>
      </attribute>
      <column>
       <property name="text">
-       <string notr="true">1</string>
+       <string notr="true">Path</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string notr="true">2</string>
+       <string notr="true">Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>updateCount</string>
       </property>
      </column>
     </widget>

@@ -4,8 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#include <map>
-
 #include <QCryptographicHash>
 #include <QMimeDatabase>
 
@@ -36,20 +34,7 @@ QString Resource::getPrefix() const {
 
 
 ResourceType Resource::getType() const {
-
-    static std::map<QString, ResourceType> knownPrefix;
-    if (knownPrefix.empty()) {
-        knownPrefix.emplace(getResourcePrefixForType(ResourceType::background), ResourceType::background);
-        knownPrefix.emplace(getResourcePrefixForType(ResourceType::colorpalette), ResourceType::colorpalette);
-        knownPrefix.emplace(getResourcePrefixForType(ResourceType::shape), ResourceType::shape);
-    }
-    
-    auto pair = knownPrefix.find(getPrefix());
-    if (pair == knownPrefix.end()) {
-        return ResourceType::unknown;
-    }
-
-    return (*pair).second;
+    return suggestResourceTypeByPath(getPath());
 }
 
 

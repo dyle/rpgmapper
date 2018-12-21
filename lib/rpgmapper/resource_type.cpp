@@ -4,6 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <map>
+
 #include <rpgmapper/resource_type.hpp>
 
 
@@ -58,4 +60,23 @@ QString rpgmapper::model::getResourceTypeName(rpgmapper::model::ResourceType typ
     }
     
     return name;
+}
+
+
+rpgmapper::model::ResourceType rpgmapper::model::suggestResourceTypeByPath(QString path) {
+    
+    static std::map<QString, ResourceType> knownPrefix;
+    if (knownPrefix.empty()) {
+        knownPrefix.emplace(getResourcePrefixForType(ResourceType::background), ResourceType::background);
+        knownPrefix.emplace(getResourcePrefixForType(ResourceType::colorpalette), ResourceType::colorpalette);
+        knownPrefix.emplace(getResourcePrefixForType(ResourceType::shape), ResourceType::shape);
+    }
+    
+    auto prefix = path.left(path.indexOf('/', 1));
+    auto pair = knownPrefix.find(prefix);
+    if (pair == knownPrefix.end()) {
+        return ResourceType::unknown;
+    }
+    
+    return (*pair).second;
 }

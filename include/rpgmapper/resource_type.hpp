@@ -44,6 +44,15 @@ QString getResourcePrefixForType(ResourceType type);
 QString getResourceTypeName(ResourceType type, bool plural);
 
 
+/**
+ * Detect resource type by the given path.
+ *
+ * @param   path        the path of the resource.
+ * @return  the detected resource type based on the path prefix.
+ */
+ResourceType suggestResourceTypeByPath(QString path);
+
+
 }
 }
 

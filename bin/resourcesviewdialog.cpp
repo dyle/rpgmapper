@@ -29,7 +29,7 @@ using namespace rpgmapper::view;
 enum class ResourceViewColumns {
     path = 0,
     name = 1,
-    mimetype = 2,
+    mimeType = 2,
     updateCounter = 3
 };
 
@@ -126,7 +126,7 @@ void ResourcesViewDialog::insertResource(QTreeWidgetItem * rootNode,
     
     item->setText(static_cast<int>(ResourceViewColumns::path), resource->getPath());
     item->setText(static_cast<int>(ResourceViewColumns::name), resource->getName());
-    item->setText(static_cast<int>(ResourceViewColumns::mimetype), resource->getMimeType().name());
+    item->setText(static_cast<int>(ResourceViewColumns::mimeType), resource->getMimeType().name());
     item->setText(static_cast<int>(ResourceViewColumns::updateCounter), QString::number(updateCounter));
 }
 
@@ -151,6 +151,7 @@ void ResourcesViewDialog::showEvent(UNUSED QShowEvent * event) {
     static bool firstShow = true;
     if (firstShow) {
         // TODO: stretch columns
+        // TODO: expand all nodes
         firstShow = false;
     }
 }

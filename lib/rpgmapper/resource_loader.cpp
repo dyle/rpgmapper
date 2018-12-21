@@ -11,12 +11,16 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QMimeDatabase>
+#include <QMimeType>
 #include <QStandardPaths>
 #include <QStringList>
 
+#include <rpgmapper/resource.hpp>
 #include <rpgmapper/resource_collection.hpp>
 #include <rpgmapper/resource_db.hpp>
 #include <rpgmapper/resource_loader.hpp>
+#include <rpgmapper/resource_type.hpp>
 
 using namespace rpgmapper::model;
 
@@ -75,6 +79,41 @@ ResourceLoader::ResourceLoader(QObject * parent) : QObject{parent} {
 }
 
 
+ResourcePointer ResourceLoader::createResource(QString path, QByteArray const & data, QStringList & log) {
+    
+    ResourcePointer resource;
+    
+    if (data.isEmpty()) {
+        appendLog(log, "Resource data is empty. Refusing to create empty resource.");
+        return resource;
+    }
+    
+    static QMimeDatabase mimeDatabase;
+    auto mimeType = mimeDatabase.mimeTypeForData(data).name();
+    auto resourceType = suggestResourceTypeByPath(path);
+    
+    switch (resourceType) {
+        
+        case ResourceType::unknown:
+            resource = ResourcePointer(new Resource{path, data});
+            break;
+            
+        case ResourceType::background:
+            resource = ResourcePointer(new Resource{path, data});
+            break;
+    
+        case ResourceType::colorpalette:
+            resource = ResourcePointer(new Resource{path, data});
+            break;
+            
+        case ResourceType::shape:
+            resource = ResourcePointer(new Resource{path, data});
+    }
+    
+    return resource;
+}
+
+
 void ResourceLoader::load(QStringList & log) {
     
     appendLog(log, "Collecting Resources...");
@@ -102,6 +141,26 @@ void ResourceLoader::load(QStringList & log) {
 }
 
 
+ResourcePointer ResourceLoader::load(QString filePath, QString fileRoot, QStringList & log) {
+    
+    ResourcePointer resource;
+    
+    QFile file{filePath};
+    if (!file.open(QIODevice::ReadOnly)) {
+        appendLog(log, QString{"Failed to open: %1"}.arg(filePath));
+    }
+    else {
+        
+        auto byteArray = file.readAll();
+        file.close();
+        auto resourcePath = filePath.right(filePath.size() - fileRoot.size());
+        resource = createResource(resourcePath, byteArray, log);
+    }
+    
+    return resource;
+}
+
+
 void ResourceLoader::loadResources(FileCollection const & fileCollection,
         ResourceCollectionPointer collection,
         QStringList & log) {
@@ -120,7 +179,8 @@ void ResourceLoader::loadResources(FileCollection const & fileCollection,
             appendLog(log, QString{"Failed to open: %1"}.arg(fileName));
         }
         else {
-    
+            
+            // TODO: switch to static load method
             auto const & folder = std::get<0>(fileTuple);
             auto resourcePath = fileName.right(fileName.size() - folder.size());
             auto byteArray = file.readAll();

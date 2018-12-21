@@ -14,6 +14,7 @@
 #include <QString>
 #include <QStringList>
 
+#include <rpgmapper/resource_pointer.hpp>
 #include <rpgmapper/resource_collection_pointer.hpp>
 
 
@@ -80,6 +81,16 @@ public:
     void load(QStringList & log);
 
     /**
+     * Loads a single resource.
+     *
+     * @param   filePath        the file path to load.
+     * @param   fileRoot        root of the resource (filePath - fileRoot is the resource path)
+     * @param   log             a list of log entries to be filled.
+     * @return  the resource (maybe not valid -> nullptr)
+     */
+    static ResourcePointer load(QString filePath, QString fileRoot, QStringList & log);
+    
+    /**
      * Sets the list of user folders to search.
      *
      * @param   folders     the list where we expect user defined resources
@@ -89,6 +100,18 @@ public:
     }
     
 private:
+    
+    /**
+     * Creates the resource with the given path and the given data.
+     *
+     * This is a factory method.
+     *
+     * @param   path        the resource path, identifying the resource.
+     * @param   data        the resource data.
+     * @param   log         actions to log.
+     * @return  a resource (or nullptr on fail).
+     */
+    static ResourcePointer createResource(QString path, QByteArray const & data, QStringList & log);
     
     /**
      * Loads the resources.

@@ -23,6 +23,17 @@ using namespace rpgmapper::view;
 #endif
 
 
+/**
+ * Columns of the resource view
+ */
+enum class ResourceViewColumns {
+    path = 0,
+    name = 1,
+    mimetype = 2,
+    updateCounter = 3
+};
+
+
 ResourcesViewDialog::ResourcesViewDialog(QWidget * parent) : QDialog{parent} {
     
     ui = std::make_shared<Ui_resourcesViewDialog>();
@@ -59,7 +70,7 @@ QTreeWidgetItem* ResourcesViewDialog::ensureCategoryNode(QTreeWidgetItem * rootN
         categoryNode->setIcon(0, getIconForResourceType(type));
     }
     
-    categoryNode->setText(2, QString::number(updateCounter));
+    categoryNode->setText(static_cast<int>(ResourceViewColumns::updateCounter), QString::number(updateCounter));
     return categoryNode;
 }
 
@@ -113,9 +124,10 @@ void ResourcesViewDialog::insertResource(QTreeWidgetItem * rootNode,
         item = new QTreeWidgetItem{categoryNode};
     }
     
-    item->setText(0, resource->getPath());
-    item->setText(1, resource->getName());
-    item->setText(2, QString::number(updateCounter));
+    item->setText(static_cast<int>(ResourceViewColumns::path), resource->getPath());
+    item->setText(static_cast<int>(ResourceViewColumns::name), resource->getName());
+    item->setText(static_cast<int>(ResourceViewColumns::mimetype), resource->getMimeType().name());
+    item->setText(static_cast<int>(ResourceViewColumns::updateCounter), QString::number(updateCounter));
 }
 
 
@@ -133,14 +145,21 @@ void ResourcesViewDialog::insertResources(QTreeWidgetItem * rootNode,
 
 
 void ResourcesViewDialog::showEvent(UNUSED QShowEvent * event) {
+    
     updateResourcesView();
+    
+    static bool firstShow = true;
+    if (firstShow) {
+        // TODO: stretch columns
+        firstShow = false;
+    }
 }
 
 
 void ResourcesViewDialog::updateResourcesView() {
     
     ++updateCounter;
-    
+    // TODO: remove items less than updateCounter
     insertResources(localResourcesRootNode, ResourceDB::getLocalResources());
     insertResources(userResourcesRootNode, ResourceDB::getUserResources());
     insertResources(systemResourcesRootNode, ResourceDB::getSystemResources());

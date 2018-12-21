@@ -8,6 +8,7 @@
 #define RPGMAPPER_RESOURCE_HPP
 
 #include <QByteArray>
+#include <QMimeType>
 #include <QSharedPointer>
 #include <QString>
 
@@ -78,6 +79,13 @@ public:
     static QString getHash(QByteArray const & data) {
         return getSHA256(data);
     }
+    
+    /**
+     * Returns the detected mime type of the resource.
+     *
+     * @return  the (suggested) mime type of the resource.
+     */
+    QMimeType getMimeType() const;
     
     /**
      * Gets the path to this resource, relative to the resource root.

@@ -39,7 +39,7 @@
       <bool>true</bool>
      </property>
      <property name="columnCount">
-      <number>3</number>
+      <number>4</number>
      </property>
      <attribute name="headerVisible">
       <bool>true</bool>
@@ -52,6 +52,11 @@
      <column>
       <property name="text">
        <string notr="true">Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Detected Mimetype</string>
       </property>
      </column>
      <column>

@@ -7,6 +7,7 @@
 #include <map>
 
 #include <QCryptographicHash>
+#include <QMimeDatabase>
 
 #include <rpgmapper/resource.hpp>
 
@@ -19,6 +20,12 @@ Resource::Resource(QString path, QByteArray const & data) : data{data}, path{std
 
 QString Resource::getSHA256(QByteArray const & data) {
     return QString(QCryptographicHash::hash(data, QCryptographicHash::Sha256).toHex());
+}
+
+
+QMimeType Resource::getMimeType() const {
+    static QMimeDatabase mimeDatabase;
+    return mimeDatabase.mimeTypeForData(getData());
 }
 
 

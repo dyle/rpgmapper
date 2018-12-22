@@ -14,11 +14,11 @@
 #include <QSharedPointer>
 
 #include <rpgmapper/command/processor_pointer.hpp>
+#include <rpgmapper/tile/tile_pointer.hpp>
 #include <rpgmapper/atlas_pointer.hpp>
 #include <rpgmapper/map_pointer.hpp>
 #include <rpgmapper/region_pointer.hpp>
 #include <rpgmapper/session_pointer.hpp>
-#include <rpgmapper/tile_pointer.hpp>
 
 
 namespace rpgmapper {
@@ -46,8 +46,8 @@ private:
     
     QString fileName;                   /**< Filename of the atlas loaded or recently saved. */
     
-    TilePointer currentTile;            /**< Current selected tile. */
-    TilePointer lastAppliedTile;        /**< The tile the user has just applied. */
+    rpgmapper::model::tile::TilePointer currentTile;        /**< Current selected tile. */
+    rpgmapper::model::tile::TilePointer lastAppliedTile;    /**< The tile the user has just applied. */
 
 public:
     
@@ -182,7 +182,7 @@ public:
      *
      * @return  the current selected tile.
      */
-    TilePointer getCurrentTile() {
+    rpgmapper::model::tile::TilePointer getCurrentTile() {
         return currentTile;
     }
     
@@ -191,7 +191,7 @@ public:
      *
      * @return  the current selected tile.
      */
-    TilePointer const getCurrentTile() const {
+    rpgmapper::model::tile::TilePointer const getCurrentTile() const {
         return currentTile;
     }
     
@@ -209,7 +209,7 @@ public:
      *
      * @return  the last tile the user applied.
      */
-    TilePointer const getLastAppliedTile() const {
+    rpgmapper::model::tile::TilePointer const getLastAppliedTile() const {
         return lastAppliedTile;
     }
     
@@ -288,14 +288,14 @@ public:
      *
      * @param   tile        the new current tile.
      */
-    void setCurrentTile(TilePointer & tile);
+    void setCurrentTile(rpgmapper::model::tile::TilePointer & tile);
     
     /**
      * Sets the last applied tile.
      *
      * @param   tile        the last applied tile.
      */
-    void setLastAppliedTile(TilePointer & tile);
+    void setLastAppliedTile(rpgmapper::model::tile::TilePointer & tile);
 
 signals:
     

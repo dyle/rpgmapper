@@ -24,9 +24,9 @@ namespace command {
  */
 class SetMapBackgroundImageRenderMode : public Command {
 
-    QString mapName;                                /**< the map to modify. */
-    rpgmapper::model::ImageRenderMode newMode;      /**< the new render mode. */
-    rpgmapper::model::ImageRenderMode oldMode;      /**< the old render mode. */
+    QString mapName;                                        /**< the map to modify. */
+    rpgmapper::model::layer::ImageRenderMode newMode;       /**< the new render mode. */
+    rpgmapper::model::layer::ImageRenderMode oldMode;       /**< the old render mode. */
 
 public:
     
@@ -36,7 +36,7 @@ public:
      * @param   mapName         the name of the map to change the background rendering mode.
      * @param   newMode         the new map background image render mode.
      */
-    SetMapBackgroundImageRenderMode(QString mapName, rpgmapper::model::ImageRenderMode newMode);
+    SetMapBackgroundImageRenderMode(QString mapName, rpgmapper::model::layer::ImageRenderMode newMode);
     
     /**
      * Destructor.

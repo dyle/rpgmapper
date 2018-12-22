@@ -10,15 +10,16 @@
 #include <QDateTime>
 #include <QJsonDocument>
 
+#include <rpgmapper/resource/resource.hpp>
+#include <rpgmapper/resource/resource_collection.hpp>
+#include <rpgmapper/resource/resource_db.hpp>
 #include <rpgmapper/atlas.hpp>
-#include <rpgmapper/resource.hpp>
-#include <rpgmapper/resource_collection.hpp>
-#include <rpgmapper/resource_db.hpp>
 
 #include "content.hpp"
 #include "zip.hpp"
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 
 // TODO: remove when done
 #if defined(__GNUC__) || defined(__GNUCPP__)

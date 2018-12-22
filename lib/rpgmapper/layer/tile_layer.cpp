@@ -5,11 +5,12 @@
  */
 
 #include <rpgmapper/layer/tile_layer.hpp>
+#include <rpgmapper/tile/tile.hpp>
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
-#include <rpgmapper/tile.hpp>
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::layer;
 
 // TODO: remove, when done
 #if defined(__GNUC__) || defined(__GNUCPP__)

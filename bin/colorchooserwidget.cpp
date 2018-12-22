@@ -13,16 +13,16 @@
 #include <QInputDialog>
 #include <QMessageBox>
 
-#include <rpgmapper/colorpalette.hpp>
-#include <rpgmapper/resource.hpp>
-#include <rpgmapper/resource_collection.hpp>
-#include <rpgmapper/resource_db.hpp>
-#include <rpgmapper/resource_type.hpp>
+#include <rpgmapper/resource/colorpalette.hpp>
+#include <rpgmapper/resource/resource.hpp>
+#include <rpgmapper/resource/resource_collection.hpp>
+#include <rpgmapper/resource/resource_db.hpp>
+#include <rpgmapper/resource/resource_type.hpp>
 
 #include "colorchooserwidget.hpp"
 #include "ui_colorchooserwidget.h"
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 using namespace rpgmapper::view;
 
 

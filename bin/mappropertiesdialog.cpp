@@ -29,13 +29,13 @@
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
 #include <rpgmapper/command/set_map_numeral_offset.hpp>
 #include <rpgmapper/command/set_map_origin.hpp>
+#include <rpgmapper/resource/resource.hpp>
+#include <rpgmapper/resource/resource_collection.hpp>
+#include <rpgmapper/resource/resource_db.hpp>
+#include <rpgmapper/resource/resource_type.hpp>
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
-#include <rpgmapper/resource.hpp>
-#include <rpgmapper/resource_collection.hpp>
-#include <rpgmapper/resource_db.hpp>
-#include <rpgmapper/resource_type.hpp>
 #include <rpgmapper/session.hpp>
 
 #include "mappropertiesdialog.hpp"
@@ -43,6 +43,8 @@
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
+using namespace rpgmapper::model::layer;
+using namespace rpgmapper::model::resource;
 using namespace rpgmapper::view;
 
 
@@ -310,7 +312,7 @@ void MapPropertiesDialog::collectBackgroundImages() {
 }
 
 
-rpgmapper::model::ImageRenderMode MapPropertiesDialog::getSelectedImageRenderMode() const {
+ImageRenderMode MapPropertiesDialog::getSelectedImageRenderMode() const {
 
     ImageRenderMode mode;
 

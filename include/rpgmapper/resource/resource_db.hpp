@@ -11,13 +11,14 @@
 
 #include <QString>
 
-#include <rpgmapper/resource_collection_pointer.hpp>
-#include <rpgmapper/resource_type.hpp>
-#include <rpgmapper/resource_pointer.hpp>
+#include <rpgmapper/resource/resource_collection_pointer.hpp>
+#include <rpgmapper/resource/resource_type.hpp>
+#include <rpgmapper/resource/resource_pointer.hpp>
 
 
 namespace rpgmapper {
 namespace model {
+namespace resource {
 
 
 /**
@@ -91,6 +92,7 @@ public:
 };
 
 
+}
 }
 }
 

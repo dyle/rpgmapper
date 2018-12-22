@@ -8,14 +8,15 @@
 
 #include <rpgmapper/exception/invalid_regionname.hpp>
 #include <rpgmapper/exception/invalid_session.hpp>
+#include <rpgmapper/tile/tile.hpp>
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/map_name_validator.hpp>
 #include <rpgmapper/session.hpp>
-#include <rpgmapper/tile.hpp>
 
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::layer;
 
 
 Map::Map(QString mapName) : Nameable{std::move(mapName)} {
@@ -56,7 +57,7 @@ MapPointer const & Map::null() {
 }
 
 
-bool Map::place(float x, float y, rpgmapper::model::TilePointer tile) {
+bool Map::place(float x, float y, rpgmapper::model::tile::TilePointer tile) {
     
     auto size = getCoordinateSystem()->getSize();
     if (!(x >= 0.0f) && (x < size.width()) && (y >= 0.0f) && (y < size.height()) && tile) {

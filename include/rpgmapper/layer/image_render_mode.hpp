@@ -13,6 +13,7 @@
 
 namespace rpgmapper {
 namespace model {
+namespace layer {
 
 
 /**
@@ -40,7 +41,7 @@ quint16 imageChecksum(QImage const & image);
  * @param   mode    the mode to convert.
  * @return  "plain", "scaled", ...
  */
-QString imageRenderModeToString(rpgmapper::model::ImageRenderMode mode);
+QString imageRenderModeToString(rpgmapper::model::layer::ImageRenderMode mode);
 
 
 /**
@@ -49,9 +50,10 @@ QString imageRenderModeToString(rpgmapper::model::ImageRenderMode mode);
  * @param   modeName        "plain", "scaled", ...
  * @return  the image render mode enumeration value.
  */
-rpgmapper::model::ImageRenderMode stringToImageRenderMode(QString modeName);
+rpgmapper::model::layer::ImageRenderMode stringToImageRenderMode(QString modeName);
 
 
+}
 }
 }
 

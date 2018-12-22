@@ -29,6 +29,7 @@
 #include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::layer;
 using namespace rpgmapper::model::command;
 
 

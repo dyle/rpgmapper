@@ -25,6 +25,15 @@ namespace model {
 class Map;
 
 
+}
+}
+
+
+namespace rpgmapper {
+namespace model {
+namespace layer {
+
+
 /**
  * A single map is built by Layer objects stacked upon each other.
  *
@@ -161,6 +170,7 @@ public:
 };
 
 
+}
 }
 }
 

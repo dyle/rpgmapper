@@ -6,9 +6,9 @@
 
 #include <utility>
 
-#include <rpgmapper/shape.hpp>
+#include <rpgmapper/resource/shape.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 
 
 Shape::Shape(QString name, QByteArray const & data) : Resource{std::move(name), data} {

@@ -12,13 +12,26 @@
 #include <QPainter>
 #include <QString>
 
+#include <rpgmapper/layer/layer_stack.hpp>
+
 
 namespace rpgmapper {
 namespace model {
+namespace layer {
 
 
 // fwd
 class LayerStack;
+
+
+}
+}
+}
+
+
+namespace rpgmapper {
+namespace model {
+namespace tile {
 
 
 /**
@@ -34,10 +47,10 @@ class Tile {
 public:
     
     using Attributes = std::map<QString, QString>;
-    
+
 private:
     
-     Attributes attributes;
+    Attributes attributes;
 
 public:
     
@@ -49,7 +62,7 @@ public:
     /**
      * Constructor.
      */
-    explicit Tile(Attributes & attributes);
+    explicit Tile(Attributes &attributes);
     
     /**
      * Copy Constructor.
@@ -92,8 +105,8 @@ public:
      * @param   painter     the painter used to draw the tile.
      * @param   tileSize    size of the tile.
      */
-    virtual void draw(QPainter & painter, int tileSize) = 0;
-
+    virtual void draw(QPainter &painter, int tileSize) = 0;
+    
     /**
      * Places this tile within the layer stack of a map.
      *
@@ -107,10 +120,11 @@ public:
      * @param   layerStack      the stack of layers of the map.
      * @return  true, if the element has been newly placed.
      */
-    virtual bool place(float x, float y, LayerStack * layerStack) = 0;
+    virtual bool place(float x, float y, rpgmapper::model::layer::LayerStack * layerStack) = 0;
 };
 
 
+}
 }
 }
 

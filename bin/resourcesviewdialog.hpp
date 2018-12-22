@@ -13,9 +13,9 @@
 #include <QIcon>
 #include <QTreeWidgetItem>
 
-#include <rpgmapper/resource_collection_pointer.hpp>
-#include <rpgmapper/resource_pointer.hpp>
-#include <rpgmapper/resource_type.hpp>
+#include <rpgmapper/resource/resource_collection_pointer.hpp>
+#include <rpgmapper/resource/resource_pointer.hpp>
+#include <rpgmapper/resource/resource_type.hpp>
 
 
 // fwd
@@ -74,7 +74,7 @@ private:
      * @param   type        the resource type.
      * @return  the icon for this resource type.
      */
-    QIcon getIconForResourceType(rpgmapper::model::ResourceType type) const;
+    QIcon getIconForResourceType(rpgmapper::model::resource::ResourceType type) const;
     
     /**
      * Returns the category node under the root node (and create one if not existing).
@@ -83,7 +83,7 @@ private:
      * @param   type            the resource type (== category).
      * @return  a tree widget item holding the category node.
      */
-    QTreeWidgetItem * ensureCategoryNode(QTreeWidgetItem * rootNode, rpgmapper::model::ResourceType type);
+    QTreeWidgetItem * ensureCategoryNode(QTreeWidgetItem * rootNode, rpgmapper::model::resource::ResourceType type);
     
     /**
      * Searches a path under a root node tree widget item.
@@ -100,7 +100,7 @@ private:
      * @param   rootNode        the root node under which the resource is/should be located.
      * @param   resource        the resource.
      */
-    void insertResource(QTreeWidgetItem * rootNode, rpgmapper::model::ResourcePointer const & resource);
+    void insertResource(QTreeWidgetItem * rootNode, rpgmapper::model::resource::ResourcePointer const & resource);
     
     /**
      * Inserts and/or updates all resources of a resource collection.
@@ -108,7 +108,8 @@ private:
      * @param   rootNode        the root node to insert the resources under.
      * @param   resources       the resources to add.
      */
-    void insertResources(QTreeWidgetItem * rootNode, rpgmapper::model::ResourceCollectionPointer const & resources);
+    void insertResources(QTreeWidgetItem * rootNode,
+            rpgmapper::model::resource::ResourceCollectionPointer const & resources);
 };
 
 

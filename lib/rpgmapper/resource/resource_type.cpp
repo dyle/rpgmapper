@@ -6,28 +6,28 @@
 
 #include <map>
 
-#include <rpgmapper/resource_type.hpp>
+#include <rpgmapper/resource/resource_type.hpp>
 
 
-QString rpgmapper::model::getResourcePrefixForType(rpgmapper::model::ResourceType type) {
+QString rpgmapper::model::resource::getResourcePrefixForType(rpgmapper::model::resource::ResourceType type) {
     
     QString prefix{"/"};
     
     switch (type) {
     
-        case rpgmapper::model::ResourceType::unknown:
+        case rpgmapper::model::resource::ResourceType::unknown:
             prefix = "/???";
             break;
     
-        case rpgmapper::model::ResourceType::background:
+        case rpgmapper::model::resource::ResourceType::background:
             prefix = "/backgrounds";
             break;
         
-        case rpgmapper::model::ResourceType::colorpalette:
+        case rpgmapper::model::resource::ResourceType::colorpalette:
             prefix = "/colorpalettes";
             break;
             
-        case rpgmapper::model::ResourceType::shape:
+        case rpgmapper::model::resource::ResourceType::shape:
             prefix = "/shapes";
             break;
     }
@@ -36,25 +36,25 @@ QString rpgmapper::model::getResourcePrefixForType(rpgmapper::model::ResourceTyp
 }
 
 
-QString rpgmapper::model::getResourceTypeName(rpgmapper::model::ResourceType type, bool plural) {
+QString rpgmapper::model::resource::getResourceTypeName(rpgmapper::model::resource::ResourceType type, bool plural) {
     
     QString name;
     
     switch (type) {
         
-        case rpgmapper::model::ResourceType::unknown:
+        case rpgmapper::model::resource::ResourceType::unknown:
             name = plural ? "<Unknown resources>" : "<Unknown resource>";
             break;
         
-        case rpgmapper::model::ResourceType::background:
+        case rpgmapper::model::resource::ResourceType::background:
             name = plural ? "Backgrounds" : "Backhground";
             break;
         
-        case rpgmapper::model::ResourceType::colorpalette:
+        case rpgmapper::model::resource::ResourceType::colorpalette:
             name = plural ? "Colorpalettes" : "Colorpalette";
             break;
         
-        case rpgmapper::model::ResourceType::shape:
+        case rpgmapper::model::resource::ResourceType::shape:
             name = plural ? "Shapes" : "Shape";
             break;
     }
@@ -63,7 +63,7 @@ QString rpgmapper::model::getResourceTypeName(rpgmapper::model::ResourceType typ
 }
 
 
-rpgmapper::model::ResourceType rpgmapper::model::suggestResourceTypeByPath(QString path) {
+rpgmapper::model::resource::ResourceType rpgmapper::model::resource::suggestResourceTypeByPath(QString path) {
     
     static std::map<QString, ResourceType> knownPrefix;
     if (knownPrefix.empty()) {

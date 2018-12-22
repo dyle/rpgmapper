@@ -12,7 +12,7 @@
 #include "startupdialog.hpp"
 #include "ui_startupdialog.h"
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 using namespace rpgmapper::view;
 
 

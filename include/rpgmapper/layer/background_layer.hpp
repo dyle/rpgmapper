@@ -16,11 +16,12 @@
 #include <rpgmapper/layer/background_renderer.hpp>
 #include <rpgmapper/layer/image_render_mode.hpp>
 #include <rpgmapper/layer/layer.hpp>
-#include <rpgmapper/resource_pointer.hpp>
+#include <rpgmapper/resource/resource_pointer.hpp>
 
 
 namespace rpgmapper {
 namespace model {
+namespace layer {
 
 
 /**
@@ -224,6 +225,7 @@ private:
 };
 
 
+}
 }
 }
 

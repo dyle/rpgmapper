@@ -8,8 +8,8 @@
 
 #include "color_tile.hpp"
 
-
-using namespace rpgmapper::model::tiles;
+using namespace rpgmapper::model::layer;
+using namespace rpgmapper::model::tile;
 
 #if defined(__GNUC__) || defined(__GNUCPP__)
 #   define UNUSED   __attribute__((unused))
@@ -23,12 +23,12 @@ ColorTile::ColorTile() : Tile() {
 }
 
 
-ColorTile::ColorTile(rpgmapper::model::Tile::Attributes & attributes) : Tile{attributes} {
+ColorTile::ColorTile(Tile::Attributes & attributes) : Tile{attributes} {
     getAttributes()["type"] = "color";
 }
 
 
-bool ColorTile::operator==(const rpgmapper::model::Tile & rhs) const {
+bool ColorTile::operator==(const Tile & rhs) const {
     return getAttributes() == rhs.getAttributes();
 }
 
@@ -50,7 +50,7 @@ void ColorTile::draw(QPainter & painter, int tileSize) {
 }
 
 
-bool ColorTile::place(float x, float y, rpgmapper::model::LayerStack * layerStack) {
+bool ColorTile::place(float x, float y, LayerStack * layerStack) {
     
     if (!layerStack) {
         throw std::runtime_error{"LayerStack must not be nullptr when placing a tile."};

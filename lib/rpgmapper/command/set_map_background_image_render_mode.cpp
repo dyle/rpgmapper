@@ -13,10 +13,10 @@
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
+using namespace rpgmapper::model::layer;
 
 
-SetMapBackgroundImageRenderMode::SetMapBackgroundImageRenderMode(QString mapName,
-                                                                 rpgmapper::model::ImageRenderMode newMode)
+SetMapBackgroundImageRenderMode::SetMapBackgroundImageRenderMode(QString mapName, ImageRenderMode newMode)
     : mapName{std::move(mapName)}, newMode{newMode}, oldMode{ImageRenderMode::plain} {
 }
 

@@ -4,12 +4,12 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#include <rpgmapper/tile.hpp>
+#include <rpgmapper/tile/tile.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::tile;
 
 
-Tile::Tile(rpgmapper::model::Tile::Attributes & attributes) : attributes{attributes} {
+Tile::Tile(Tile::Attributes & attributes) : attributes{attributes} {
 }
 
 

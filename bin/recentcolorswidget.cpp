@@ -6,8 +6,8 @@
 
 #include <QGridLayout>
 
+#include <rpgmapper/tile/tile.hpp>
 #include <rpgmapper/session.hpp>
-#include <rpgmapper/tile.hpp>
 
 #include "recentcolorswidget.hpp"
 

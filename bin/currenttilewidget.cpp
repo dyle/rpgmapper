@@ -6,10 +6,11 @@
 
 #include <QPainter>
 
-#include <rpgmapper/tile.hpp>
+#include <rpgmapper/tile/tile.hpp>
 
 #include "currenttilewidget.hpp"
 
+using namespace rpgmapper::model::tile;
 using namespace rpgmapper::view;
 
 
@@ -31,7 +32,7 @@ void CurrentTileWidget::paintEvent(QPaintEvent * event) {
     currentTile->draw(painter, tileSize);
 }
 
-void CurrentTileWidget::setCurrentTile(rpgmapper::model::TilePointer tile) {
+void CurrentTileWidget::setCurrentTile(TilePointer tile) {
     currentTile = tile;
     update();
 }

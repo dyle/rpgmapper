@@ -9,14 +9,16 @@
 #include <QJsonDocument>
 
 #include <rpgmapper/exception/invalid_map.hpp>
+#include <rpgmapper/resource/resource.hpp>
+#include <rpgmapper/resource/resource_db.hpp>
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
-#include <rpgmapper/resource.hpp>
-#include <rpgmapper/resource_db.hpp>
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::layer;
+using namespace rpgmapper::model::resource;
 
 #if defined(__GNUC__) || defined(__GNUCPP__)
 #   define UNUSED   __attribute__((unused))
@@ -123,7 +125,7 @@ QJsonObject BackgroundLayer::getJSON() const {
     QJsonObject jsonObject = Layer::getJSON();
 
     jsonObject["color"] = getColor().name(QColor::HexArgb);
-    jsonObject["renderImageMode"] = rpgmapper::model::imageRenderModeToString(getImageRenderMode());
+    jsonObject["renderImageMode"] = imageRenderModeToString(getImageRenderMode());
     jsonObject["renderImageName"] = getImageResource();
     jsonObject["rendering"] = getRendering();
 

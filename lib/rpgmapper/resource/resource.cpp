@@ -7,9 +7,9 @@
 #include <QCryptographicHash>
 #include <QMimeDatabase>
 
-#include <rpgmapper/resource.hpp>
+#include <rpgmapper/resource/resource.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 
 
 Resource::Resource(QString path, QByteArray const & data) : data{data}, path{std::move(path)} {

@@ -6,7 +6,7 @@
 
 #include <rpgmapper/layer/background_renderer.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::layer;
 
 #if defined(__GNUC__) || defined(__GNUCPP__)
 #   define UNUSED   __attribute__((unused))

@@ -19,7 +19,7 @@ namespace view {
 /**
  * This class renders a background (plain, scaled, tiled) on a QLabel.
  */
-class BackgroundImageLabel : public QLabel, public rpgmapper::model::BackgroundRenderer {
+class BackgroundImageLabel : public QLabel, public rpgmapper::model::layer::BackgroundRenderer {
 
     Q_OBJECT
 

@@ -21,6 +21,7 @@
 #include "zip.hpp"
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::tile;
 
 // TODO: remove, when done
 #if defined(__GNUC__) || defined(__GNUCPP__)
@@ -302,13 +303,13 @@ void Session::setCurrentSession(SessionPointer session) {
 }
 
 
-void Session::setCurrentTile(rpgmapper::model::TilePointer & tile) {
+void Session::setCurrentTile(rpgmapper::model::tile::TilePointer & tile) {
     currentTile = tile;
     emit selectedTile();
 }
 
 
-void Session::setLastAppliedTile(rpgmapper::model::TilePointer & tile) {
+void Session::setLastAppliedTile(rpgmapper::model::tile::TilePointer & tile) {
     lastAppliedTile = tile;
     emit newLastAppliedTile();
 }

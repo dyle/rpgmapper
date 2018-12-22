@@ -15,6 +15,7 @@
 
 namespace rpgmapper {
 namespace model {
+namespace layer {
 
 
 /**
@@ -39,7 +40,7 @@ public:
      *
      * @return  the current render mode.
      */
-    rpgmapper::model::ImageRenderMode getImageRenderMode() const {
+    rpgmapper::model::layer::ImageRenderMode getImageRenderMode() const {
         return renderMode;
     }
 
@@ -55,7 +56,7 @@ public:
      *
      * @param   renderMode  the new mode specifying how to draw the map background.
      */
-    virtual void setImageRenderMode(rpgmapper::model::ImageRenderMode renderMode) {
+    virtual void setImageRenderMode(rpgmapper::model::layer::ImageRenderMode renderMode) {
         this->renderMode = renderMode;
     }
 
@@ -97,6 +98,7 @@ private:
 };
 
 
+}
 }
 }
 

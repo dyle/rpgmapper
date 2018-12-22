@@ -7,17 +7,18 @@
 #ifndef RPGMAPPER_MODEL_TILE_COLOR_TILE_HPP
 #define RPGMAPPER_MODEL_TILE_COLOR_TILE_HPP
 
-#include <rpgmapper/tile.hpp>
+#include <rpgmapper/layer/layer_stack.hpp>
+#include <rpgmapper/tile/tile.hpp>
 
 
 namespace rpgmapper {
 namespace model {
-namespace tiles {
+namespace tile {
 
 /**
  * A ColorTile is a base tile, which draws a plain color.
  */
-class ColorTile : public rpgmapper::model::Tile {
+class ColorTile : public Tile {
 
 public:
     
@@ -61,7 +62,7 @@ public:
      * @param   layerStack      the stack of layers of the map.
      * @return  true, if the element has been newly placed.
      */
-    bool place(float x, float y, LayerStack * layerStack) override;
+    bool place(float x, float y, rpgmapper::model::layer::LayerStack * layerStack) override;
 };
 
 

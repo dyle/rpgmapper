@@ -6,14 +6,15 @@
 
 #include <QList>
 
-#include <rpgmapper/resource.hpp>
-#include <rpgmapper/resource_collection.hpp>
-#include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/resource/resource.hpp>
+#include <rpgmapper/resource/resource_collection.hpp>
+#include <rpgmapper/resource/resource_db.hpp>
 
 #include "resourcesviewdialog.hpp"
 #include "ui_resourcesviewdialog.h"
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 using namespace rpgmapper::view;
 
 #if defined(__GNUC__) || defined(__GNUCPP__)
@@ -52,8 +53,7 @@ ResourcesViewDialog::ResourcesViewDialog(QWidget * parent) : QDialog{parent} {
 }
 
 
-QTreeWidgetItem* ResourcesViewDialog::ensureCategoryNode(QTreeWidgetItem * rootNode,
-        rpgmapper::model::ResourceType type) {
+QTreeWidgetItem* ResourcesViewDialog::ensureCategoryNode(QTreeWidgetItem * rootNode, ResourceType type) {
     
     QTreeWidgetItem * categoryNode = nullptr;
     auto categoryName = getResourceTypeName(type, true);
@@ -89,7 +89,7 @@ QTreeWidgetItem* ResourcesViewDialog::findResource(QTreeWidgetItem * rootNode, Q
 }
 
 
-QIcon ResourcesViewDialog::getIconForResourceType(rpgmapper::model::ResourceType type) const {
+QIcon ResourcesViewDialog::getIconForResourceType(ResourceType type) const {
 
     QIcon icon;
     
@@ -115,8 +115,7 @@ QIcon ResourcesViewDialog::getIconForResourceType(rpgmapper::model::ResourceType
 }
 
 
-void ResourcesViewDialog::insertResource(QTreeWidgetItem * rootNode,
-        rpgmapper::model::ResourcePointer const & resource) {
+void ResourcesViewDialog::insertResource(QTreeWidgetItem * rootNode, ResourcePointer const & resource) {
     
     auto item = findResource(rootNode, resource->getPath());
     if (!item) {
@@ -131,8 +130,7 @@ void ResourcesViewDialog::insertResource(QTreeWidgetItem * rootNode,
 }
 
 
-void ResourcesViewDialog::insertResources(QTreeWidgetItem * rootNode,
-        rpgmapper::model::ResourceCollectionPointer const & resources) {
+void ResourcesViewDialog::insertResources(QTreeWidgetItem * rootNode, ResourceCollectionPointer const & resources) {
     
     if (!rootNode) {
         throw std::runtime_error{"No root node tree widget item to insert resources."};

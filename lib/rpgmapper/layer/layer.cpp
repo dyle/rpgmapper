@@ -6,7 +6,7 @@
 
 #include <rpgmapper/layer/layer.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::layer;
 
 #if defined(__GNUC__) || defined(__GNUCPP__)
 #   ifndef UNUSED

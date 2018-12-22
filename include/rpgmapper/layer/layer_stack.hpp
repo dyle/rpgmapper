@@ -28,6 +28,15 @@ namespace model {
 class Map;
 
 
+}
+}
+
+
+namespace rpgmapper {
+namespace model {
+namespace layer {
+
+
 /**
  * This class aggregates all known layers into a single object.
  *
@@ -265,6 +274,7 @@ private:
 };
 
 
+}
 }
 }
 

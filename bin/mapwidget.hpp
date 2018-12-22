@@ -180,7 +180,7 @@ private:
      *      [4] - tile layers (maybe more than 1)
      *      [5] - text
      */
-    std::list<rpgmapper::model::Layer const *> collectVisibleLayers() const;
+    std::list<rpgmapper::model::layer::Layer const *> collectVisibleLayers() const;
     
     /**
      * Draws the hovering rectangle over a tile.

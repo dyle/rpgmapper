@@ -4,26 +4,28 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_MODEL_SHAPE_POINTER_HPP
-#define RPGMAPPER_MODEL_SHAPE_POINTER_HPP
+#ifndef RPGMAPPER_MODEL_TILE_POINTER_HPP
+#define RPGMAPPER_MODEL_TILE_POINTER_HPP
 
 #include <QSharedPointer>
 
 
 namespace rpgmapper {
 namespace model {
+namespace tile {
 
 
 // fwd
-class Shape;
+class Tile;
 
 
 /**
- * A smart pointer to a shape.
+ * A smart pointer to a single tile.
  */
-using ShapePointer = QSharedPointer<Shape>;
+using TilePointer = QSharedPointer<Tile>;
 
 
+}
 }
 }
 

@@ -14,6 +14,7 @@
 
 namespace rpgmapper {
 namespace model {
+namespace layer {
 
 
 /**
@@ -168,6 +169,7 @@ signals:
 };
 
 
+}
 }
 }
 

@@ -16,13 +16,13 @@
 #include <QStandardPaths>
 #include <QStringList>
 
-#include <rpgmapper/resource.hpp>
-#include <rpgmapper/resource_collection.hpp>
-#include <rpgmapper/resource_db.hpp>
-#include <rpgmapper/resource_loader.hpp>
-#include <rpgmapper/resource_type.hpp>
+#include <rpgmapper/resource/resource.hpp>
+#include <rpgmapper/resource/resource_collection.hpp>
+#include <rpgmapper/resource/resource_db.hpp>
+#include <rpgmapper/resource/resource_loader.hpp>
+#include <rpgmapper/resource/resource_type.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 
 
 /**

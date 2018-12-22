@@ -9,6 +9,7 @@
 
 namespace rpgmapper {
 namespace model {
+namespace tile {
 
 
 /**
@@ -19,6 +20,7 @@ enum class TileType {
 };
 
 
+}
 }
 }
 

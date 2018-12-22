@@ -13,12 +13,12 @@ set(RPGMAPPER_LIB_MOC
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/text_layer.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/layer/tile_layer.hpp
+    ${CMAKE_SOURCE_DIR}/include/rpgmapper/resource/resource_loader.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/atlas.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/coordinate_system.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/map.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/nameable.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/region.hpp
-    ${CMAKE_SOURCE_DIR}/include/rpgmapper/resource_loader.hpp
     ${CMAKE_SOURCE_DIR}/include/rpgmapper/session.hpp
 )
 qt5_wrap_cpp(RPGMAPPER_LIB_MOC_CPP ${RPGMAPPER_LIB_MOC})
@@ -27,7 +27,6 @@ set(RPGMAPPER_LIB_SRC
 
     atlas.cpp
     atlas_name_validator.cpp
-    colorpalette.cpp
     coordinate_system.cpp
     field.cpp
     map.cpp
@@ -35,16 +34,7 @@ set(RPGMAPPER_LIB_SRC
     nameable.cpp
     region.cpp
     region_name_validator.cpp
-    resource.cpp
-    resource_collection.cpp
-    resource_db.cpp
-    resource_loader.cpp
-    resource_type.cpp
     session.cpp
-    shape.cpp
-    shape_catalog.cpp
-    tile.cpp
-    tile_factory.cpp
     zip.cpp
 
     command/composite_command.cpp
@@ -87,7 +77,18 @@ set(RPGMAPPER_LIB_SRC
     numeralconverter/numeric.cpp
     numeralconverter/roman.cpp
 
-    tiles/color_tile.cpp
+    resource/colorpalette.cpp
+    resource/resource.cpp
+    resource/resource_collection.cpp
+    resource/resource_db.cpp
+    resource/resource_loader.cpp
+    resource/resource_type.cpp
+    resource/shape.cpp
+    resource/shape_catalog.cpp
+
+    tile/color_tile.cpp
+    tile/tile.cpp
+    tile/tile_factory.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

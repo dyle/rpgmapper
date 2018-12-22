@@ -6,10 +6,10 @@
 
 #include <gtest/gtest.h>
 
-#include <rpgmapper/resource.hpp>
-#include <rpgmapper/resource_collection.hpp>
+#include <rpgmapper/resource/resource.hpp>
+#include <rpgmapper/resource/resource_collection.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 
 
 TEST(ResoucrceDB, InsertResource) {
@@ -28,7 +28,7 @@ TEST(ResoucrceDB, InsertResource) {
     pair = resources->getResources().find("data");
     found = (pair != resources->getResources().end());
     EXPECT_TRUE(found);
-    EXPECT_EQ((*pair).second->getName().toStdString(), "data");
+    EXPECT_EQ((*pair).second->getPath().toStdString(), "data");
     EXPECT_EQ((*pair).second->getHash(), Resource::getHash(data));
     EXPECT_EQ((*pair).second->getData().toHex().toStdString(), "0102030405060708090a0b0c0d0e0f10");
 }

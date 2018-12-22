@@ -9,7 +9,7 @@
 
 #include <QWidget>
 
-#include <rpgmapper/tile_pointer.hpp>
+#include <rpgmapper/tile/tile_pointer.hpp>
 
 
 namespace rpgmapper {
@@ -23,7 +23,7 @@ class CurrentTileWidget : public QWidget {
 
     Q_OBJECT
     
-    rpgmapper::model::TilePointer currentTile;            /**< The current tile. */
+    rpgmapper::model::tile::TilePointer currentTile;        /**< The current tile. */
     
 public:
     
@@ -39,7 +39,7 @@ public:
      *
      * @return  the current tile.
      */
-    rpgmapper::model::TilePointer getCurrentTile() {
+    rpgmapper::model::tile::TilePointer getCurrentTile() {
         return currentTile;
     }
     
@@ -48,7 +48,7 @@ public:
      *
      * @return  the current tile.
      */
-    rpgmapper::model::TilePointer const getCurrentTile() const {
+    rpgmapper::model::tile::TilePointer const getCurrentTile() const {
         return currentTile;
     }
     
@@ -57,7 +57,7 @@ public:
      *
      * @param   tile        the new current tile.
      */
-    void setCurrentTile(rpgmapper::model::TilePointer tile);
+    void setCurrentTile(rpgmapper::model::tile::TilePointer tile);
 
 protected:
     

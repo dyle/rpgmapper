@@ -14,11 +14,12 @@
 #include <QJsonDocument>
 #include <QString>
 
-#include <rpgmapper/resource.hpp>
+#include <rpgmapper/resource/resource.hpp>
 
 
 namespace rpgmapper {
 namespace model {
+namespace resource {
 
 
 /**
@@ -99,6 +100,7 @@ private:
 };
 
 
+}
 }
 }
 

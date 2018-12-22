@@ -6,7 +6,7 @@
 
 #include <rpgmapper/layer/text_layer.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::layer;
 
 // TODO: remove when done.
 #if defined(__GNUC__) || defined(__GNUCPP__)

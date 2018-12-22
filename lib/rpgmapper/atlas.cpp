@@ -11,9 +11,10 @@
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/atlas_name_validator.hpp>
 #include <rpgmapper/region.hpp>
-#include <rpgmapper/resource_collection.hpp>
+#include <rpgmapper/resource/resource_collection.hpp>
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 
 // TODO: remove, when done
 #if defined(__GNUC__) || defined(__GNUCPP__)

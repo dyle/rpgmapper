@@ -37,7 +37,7 @@ class Map : public Nameable {
     Q_OBJECT
 
     QSharedPointer<CoordinateSystem> coordinateSystem;      /**< the coordinate system of the map */
-    LayerStack layerStack;                                  /**< The layer stack of this map. */
+    rpgmapper::model::layer::LayerStack layerStack;         /**< The layer stack of this map. */
 
 public:
 
@@ -86,7 +86,7 @@ public:
      *
      * @return  all the layers of this map.
      */
-    LayerStack & getLayers() {
+    rpgmapper::model::layer::LayerStack & getLayers() {
         return layerStack;
     }
     
@@ -95,7 +95,7 @@ public:
      *
      * @return  all the layers of this map.
      */
-    LayerStack const & getLayers() const {
+    rpgmapper::model::layer::LayerStack const & getLayers() const {
         return layerStack;
     }
     
@@ -125,7 +125,7 @@ public:
      * @param   tile        The tile to place.
      * @return  true, if the map has changed.
      */
-    bool place(float x, float y, TilePointer tile);
+    bool place(float x, float y, rpgmapper::model::tile::TilePointer tile);
 };
 
 

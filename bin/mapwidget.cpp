@@ -18,6 +18,7 @@
 #include "mapwidget.hpp"
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::layer;
 using namespace rpgmapper::view;
 
 #if defined(__GNUC__) || defined(__GNUCPP__)
@@ -58,7 +59,7 @@ void MapWidget::applyCurrentSelectedTile() {
 }
 
 
-std::list<rpgmapper::model::Layer const *> MapWidget::collectVisibleLayers() const {
+std::list<Layer const *> MapWidget::collectVisibleLayers() const {
     
     auto map = Session::getCurrentSession()->findMap(mapName);
     if (!map->isValid()) {

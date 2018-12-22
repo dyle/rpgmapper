@@ -7,13 +7,14 @@
 #ifndef RPGMAPPER_MODEL_TILE_FACTORY_HPP
 #define RPGMAPPER_MODEL_TILE_FACTORY_HPP
 
-#include <rpgmapper/tile.hpp>
-#include <rpgmapper/tile_pointer.hpp>
-#include <rpgmapper/tile_types.hpp>
+#include <rpgmapper/tile/tile.hpp>
+#include <rpgmapper/tile/tile_pointer.hpp>
+#include <rpgmapper/tile/tile_types.hpp>
 
 
 namespace rpgmapper {
 namespace model {
+namespace tile {
 
 
 /**
@@ -41,6 +42,7 @@ public:
 };
 
 
+}
 }
 }
 

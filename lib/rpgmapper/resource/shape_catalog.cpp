@@ -6,9 +6,9 @@
 
 #include <utility>
 
-#include <rpgmapper/shape_catalog.hpp>
+#include <rpgmapper/resource/shape_catalog.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 
 
 ShapeCatalog::ShapeCatalog(QString name, QByteArray const & data) : Resource{std::move(name), data} {

@@ -10,10 +10,10 @@
 
 #include <rpgmapper/layer/image_render_mode.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::layer;
 
 
-quint16 rpgmapper::model::imageChecksum(QImage const & image) {
+quint16 rpgmapper::model::layer::imageChecksum(QImage const & image) {
 
     if (image.isNull()) {
         return 0;
@@ -27,7 +27,7 @@ quint16 rpgmapper::model::imageChecksum(QImage const & image) {
 }
 
 
-QString rpgmapper::model::imageRenderModeToString(rpgmapper::model::ImageRenderMode mode) {
+QString rpgmapper::model::layer::imageRenderModeToString(rpgmapper::model::layer::ImageRenderMode mode) {
 
     static std::map<ImageRenderMode, QString> const modes{
         {ImageRenderMode::plain, "plain"},
@@ -43,7 +43,7 @@ QString rpgmapper::model::imageRenderModeToString(rpgmapper::model::ImageRenderM
 }
 
 
-rpgmapper::model::ImageRenderMode rpgmapper::model::stringToImageRenderMode(QString modeName) {
+rpgmapper::model::layer::ImageRenderMode rpgmapper::model::layer::stringToImageRenderMode(QString modeName) {
 
     static std::map<QString, ImageRenderMode> const modes{
         {"plain", ImageRenderMode::plain},

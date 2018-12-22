@@ -12,11 +12,12 @@
 #include <QSharedPointer>
 #include <QString>
 
-#include <rpgmapper/resource_type.hpp>
+#include <rpgmapper/resource/resource_type.hpp>
 
 
 namespace rpgmapper {
 namespace model {
+namespace resource {
 
 
 /**
@@ -141,6 +142,7 @@ public:
 };
 
 
+}
 }
 }
 

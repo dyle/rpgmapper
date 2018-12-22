@@ -5,12 +5,12 @@
  */
 
 #include <rpgmapper/atlas.hpp>
-#include <rpgmapper/resource_collection.hpp>
-#include <rpgmapper/resource_db.hpp>
+#include <rpgmapper/resource/resource_collection.hpp>
+#include <rpgmapper/resource/resource_db.hpp>
 #include <rpgmapper/session.hpp>
 
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 
 
 /**

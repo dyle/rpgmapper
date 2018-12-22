@@ -8,7 +8,7 @@
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::layer;
 
 
 /**

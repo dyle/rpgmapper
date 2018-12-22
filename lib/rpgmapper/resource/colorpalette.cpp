@@ -10,9 +10,9 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include <rpgmapper/colorpalette.hpp>
+#include <rpgmapper/resource/colorpalette.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 
 
 ColorPalette::ColorPalette(QString name, QByteArray const & data) : Resource{std::move(name), data} {

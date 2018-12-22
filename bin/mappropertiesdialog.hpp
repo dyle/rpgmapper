@@ -114,7 +114,7 @@ private:
      *
      * @return  an ImageRenderMode enum value, as clicked by the user.
      */
-    rpgmapper::model::ImageRenderMode getSelectedImageRenderMode() const;
+    rpgmapper::model::layer::ImageRenderMode getSelectedImageRenderMode() const;
 
     /**
      * Returns the margin the user has set for the map.

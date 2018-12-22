@@ -4,26 +4,28 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_MODEL_COLORPALETTE_POINTER_HPP
-#define RPGMAPPER_MODEL_COLORPALETTE_POINTER_HPP
+#ifndef RPGMAPPER_MODEL_SHAPE_POINTER_HPP
+#define RPGMAPPER_MODEL_SHAPE_POINTER_HPP
 
 #include <QSharedPointer>
 
 
 namespace rpgmapper {
 namespace model {
+namespace resource {
 
 
 // fwd
-class ColorPalette;
+class Shape;
 
 
 /**
- * A smart pointer to a single resource.
+ * A smart pointer to a shape.
  */
-using ColorPalettePointer = QSharedPointer<ColorPalette>;
+using ShapePointer = QSharedPointer<Shape>;
 
 
+}
 }
 }
 

@@ -6,14 +6,14 @@
 
 #include <utility>
 
-#include <rpgmapper/resource.hpp>
-#include <rpgmapper/resource_collection.hpp>
+#include <rpgmapper/resource/resource.hpp>
+#include <rpgmapper/resource/resource_collection.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::resource;
 
 
 void ResourceCollection::addResource(QString path, QByteArray const & data) {
-    addResource(QSharedPointer<Resource>{new rpgmapper::model::Resource{std::move(path), data}});
+    addResource(QSharedPointer<Resource>{new Resource{std::move(path), data}});
 }
 
 

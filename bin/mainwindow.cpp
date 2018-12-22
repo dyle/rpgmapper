@@ -18,11 +18,11 @@
 #include <rpgmapper/command/remove_region.hpp>
 #include <rpgmapper/command/set_atlas_name.hpp>
 #include <rpgmapper/command/set_region_name.hpp>
+#include <rpgmapper/tile/tile_factory.hpp>
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/atlas_name_validator.hpp>
 #include <rpgmapper/region_name_validator.hpp>
 #include <rpgmapper/session.hpp>
-#include <rpgmapper/tile_factory.hpp>
 
 #include "mainwindow.hpp"
 #include "visibility_action_filter.hpp"
@@ -38,6 +38,8 @@
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
+using namespace rpgmapper::model::resource;
+using namespace rpgmapper::model::tile;
 using namespace rpgmapper::view;
 
 

@@ -12,7 +12,7 @@
 #include <QDialog>
 #include <QStringList>
 
-#include <rpgmapper/resource_loader.hpp>
+#include <rpgmapper/resource/resource_loader.hpp>
 
 #include "mainwindow.hpp"
 
@@ -34,7 +34,11 @@ class StartupDialog : public QDialog {
     std::shared_ptr<Ui_startupDialog> ui;        /**< The User Interface as created by the uic. */
     MainWindow * mainWindow;                     /**< The mainwindow to show, when we are done. */
     QStringList log;                             /**< The log of action doing startup. */
-    rpgmapper::model::ResourceLoader * loader;   /**< The resource loader used. */
+    
+    /**
+     * The resource loader used.
+     */
+    rpgmapper::model::resource::ResourceLoader * loader;
 
 public:
     
@@ -69,7 +73,7 @@ private slots:
      *
      * @param   loadingEvent        the loading event.
      */
-    void loadingResource(rpgmapper::model::ResourceLoader::LoadingEvent const & loadingEvent);
+    void loadingResource(rpgmapper::model::resource::ResourceLoader::LoadingEvent const & loadingEvent);
     
     /**
      * Does the startup phase.

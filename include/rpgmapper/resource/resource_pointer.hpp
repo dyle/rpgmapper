@@ -12,6 +12,7 @@
 
 namespace rpgmapper {
 namespace model {
+namespace resource {
 
 
 // fwd
@@ -24,6 +25,7 @@ class Resource;
 using ResourcePointer = QSharedPointer<Resource>;
 
 
+}
 }
 }
 

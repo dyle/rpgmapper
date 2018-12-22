@@ -6,7 +6,7 @@
 
 #include <rpgmapper/layer/layer_stack.hpp>
 
-using namespace rpgmapper::model;
+using namespace rpgmapper::model::layer;
 
 
 LayerStack::LayerStack(Map * map) : map{nullptr} {

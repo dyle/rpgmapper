@@ -84,7 +84,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Load a color palette from file.</string>
+        <string>Load a color palette as JSON format from a file.</string>
        </property>
        <property name="text">
         <string>...</string>
@@ -104,7 +104,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Save a color palette to a file.</string>
+        <string>Save a color palette in JSON format to a file.</string>
        </property>
        <property name="text">
         <string>...</string>

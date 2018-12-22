@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_MODEL_TILE_FACTORY_HPP
-#define RPGMAPPER_MODEL_TILE_FACTORY_HPP
+#ifndef RPGMAPPER_MODEL_TILE_TILE_FACTORY_HPP
+#define RPGMAPPER_MODEL_TILE_TILE_FACTORY_HPP
 
 #include <rpgmapper/tile/tile.hpp>
 #include <rpgmapper/tile/tile_pointer.hpp>

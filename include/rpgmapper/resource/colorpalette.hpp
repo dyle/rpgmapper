@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_COLOR_PALETTE_HPP
-#define RPGMAPPER_COLOR_PALETTE_HPP
+#ifndef RPGMAPPER_MODEL_RESOURCE_COLOR_PALETTE_HPP
+#define RPGMAPPER_MODEL_RESOURCE_COLOR_PALETTE_HPP
 
 #include <array>
 

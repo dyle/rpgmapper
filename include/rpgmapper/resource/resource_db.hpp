@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_RESOURCE_DB_HPP
-#define RPGMAPPER_RESOURCE_DB_HPP
+#ifndef RPGMAPPER_MODEL_RESOURCE_RESOURCE_DB_HPP
+#define RPGMAPPER_MODEL_RESOURCE_RESOURCE_DB_HPP
 
 #include <set>
 

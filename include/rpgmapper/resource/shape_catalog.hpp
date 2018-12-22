@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_SHAPE_CATALOG_HPP
-#define RPGMAPPER_SHAPE_CATALOG_HPP
+#ifndef RPGMAPPER_MODEL_RESOURCE_SHAPE_CATALOG_HPP
+#define RPGMAPPER_MODEL_RESOURCE_SHAPE_CATALOG_HPP
 
 #include <rpgmapper/resource/resource.hpp>
 

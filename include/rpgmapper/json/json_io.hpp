@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_MODEL_JSON_IO_HPP
-#define RPGMAPPER_MODEL_JSON_IO_HPP
+#ifndef RPGMAPPER_MODEL_JSON_JSON_IO_HPP
+#define RPGMAPPER_MODEL_JSON_JSON_IO_HPP
 
 #include <rpgmapper/json/json_source.hpp>
 #include <rpgmapper/json/json_target.hpp>

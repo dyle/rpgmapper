@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_RESOURCE_TYPE_HPP
-#define RPGMAPPER_RESOURCE_TYPE_HPP
+#ifndef RPGMAPPER_MODEL_RESOURCE_RESOURCE_TYPE_HPP
+#define RPGMAPPER_MODEL_RESOURCE_RESOURCE_TYPE_HPP
 
 #include <QString>
 

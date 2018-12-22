@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_MODEL_LAYER_HPP
-#define RPGMAPPER_MODEL_LAYER_HPP
+#ifndef RPGMAPPER_MODEL_LAYER_LAYER_HPP
+#define RPGMAPPER_MODEL_LAYER_LAYER_HPP
 
 #include <memory>
 

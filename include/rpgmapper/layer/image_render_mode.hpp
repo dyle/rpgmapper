@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_MODEL_IMAGE_RENDER_MODE_HPP
-#define RPGMAPPER_MODEL_IMAGE_RENDER_MODE_HPP
+#ifndef RPGMAPPER_MODEL_LAYER_IMAGE_RENDER_MODE_HPP
+#define RPGMAPPER_MODEL_LAYER_IMAGE_RENDER_MODE_HPP
 
 #include <QImage>
 #include <QString>

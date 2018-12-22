@@ -30,7 +30,7 @@ using namespace rpgmapper::model::resource;
 /**
  * Default background color.
  */
-static char const * BACKGROUND_COLOR_DEFAULT = "#fafaff";
+static char const * BACKGROUND_COLOR_DEFAULT = "#dddddd";
 
 
 BackgroundLayer::BackgroundLayer(Map * map) : Layer{map}, backgroundPixmap{nullptr} {

@@ -12,28 +12,19 @@
 
 QString rpgmapper::model::resource::getResourcePrefixForType(rpgmapper::model::resource::ResourceType type) {
     
-    QString prefix{"/"};
+    static std::map<ResourceType, QString> const prefixes {
+        {ResourceType::unknown, "/???"},
+        {ResourceType::background, "/backgrounds"},
+        {ResourceType::colorpalette, "/colorpalettes"},
+        {ResourceType::shape, "/shapes"}
+    };
     
-    switch (type) {
-    
-        case rpgmapper::model::resource::ResourceType::unknown:
-            prefix = "/???";
-            break;
-    
-        case rpgmapper::model::resource::ResourceType::background:
-            prefix = "/backgrounds";
-            break;
-        
-        case rpgmapper::model::resource::ResourceType::colorpalette:
-            prefix = "/colorpalettes";
-            break;
-            
-        case rpgmapper::model::resource::ResourceType::shape:
-            prefix = "/shapes";
-            break;
+    auto const & pair = prefixes.find(type);
+    if (pair == prefixes.end()) {
+        return getResourcePrefixForType(ResourceType::unknown);
     }
     
-    return prefix;
+    return (*pair).second;
 }
 
 
@@ -41,16 +32,16 @@ QString rpgmapper::model::resource::getResourceTypeName(rpgmapper::model::resour
     
     using PluralName = QString;
     using SingularName = QString;
-    static std::map<rpgmapper::model::resource::ResourceType, std::tuple<PluralName, SingularName>> const names = {
-        {rpgmapper::model::resource::ResourceType::unknown, {"<Unknown resources>", "<Unknown resource>"}},
-        {rpgmapper::model::resource::ResourceType::background, {"Backgrounds", "Background"}},
-        {rpgmapper::model::resource::ResourceType::colorpalette, {"Colorpalettes", "Colorpalette"}},
-        {rpgmapper::model::resource::ResourceType::shape, {"Shapes", "Shape"}},
+    static std::map<ResourceType, std::tuple<PluralName, SingularName>> const names = {
+        {ResourceType::unknown, {"<Unknown resources>", "<Unknown resource>"}},
+        {ResourceType::background, {"Backgrounds", "Background"}},
+        {ResourceType::colorpalette, {"Colorpalettes", "Colorpalette"}},
+        {ResourceType::shape, {"Shapes", "Shape"}},
     };
     
     auto const & pair = names.find(type);
     if (pair == names.end()) {
-        return getResourceTypeName(rpgmapper::model::resource::ResourceType::unknown, plural);
+        return getResourceTypeName(ResourceType::unknown, plural);
     }
     
     auto const & name = (*pair).second;

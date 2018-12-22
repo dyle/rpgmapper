@@ -23,7 +23,7 @@ namespace resource {
 
 
 /**
- * A color palette is has 256 colors.
+ * A color palette has 256 colors.
  */
 using Palette = std::array<QColor, 16 *16>;
 

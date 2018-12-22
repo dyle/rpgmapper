@@ -8,6 +8,7 @@
 
 #include <rpgmapper/resource/resource.hpp>
 #include <rpgmapper/resource/resource_collection.hpp>
+#include <rpgmapper/resource/resource_pointer.hpp>
 
 using namespace rpgmapper::model::resource;
 
@@ -17,7 +18,8 @@ TEST(ResoucrceDB, InsertResource) {
     auto resources = QSharedPointer<ResourceCollection>{new ResourceCollection};
 
     auto data = QByteArray::fromHex("0102030405060708090a0b0c0d0e0f10");
-    resources->addResource("data", data);
+    auto resource = ResourcePointer{new Resource{"data", data}};
+    resources->addResource(resource);
 
     EXPECT_EQ(resources->getResources().size(), 1);
 

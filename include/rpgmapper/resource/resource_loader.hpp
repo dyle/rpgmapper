@@ -57,6 +57,18 @@ public:
     explicit ResourceLoader(QObject * parent);
     
     /**
+     * Creates the resource with the given path and the given data.
+     *
+     * This is a factory method.
+     *
+     * @param   path        the resource path, identifying the resource.
+     * @param   data        the resource data.
+     * @param   log         actions to log.
+     * @return  a resource (or nullptr on fail).
+     */
+    static ResourcePointer createResource(QString path, QByteArray const & data, QStringList & log);
+    
+    /**
      * Returns the list of user folders.
      *
      * @return  the list of user folders searched.
@@ -101,18 +113,6 @@ public:
     }
     
 private:
-    
-    /**
-     * Creates the resource with the given path and the given data.
-     *
-     * This is a factory method.
-     *
-     * @param   path        the resource path, identifying the resource.
-     * @param   data        the resource data.
-     * @param   log         actions to log.
-     * @return  a resource (or nullptr on fail).
-     */
-    static ResourcePointer createResource(QString path, QByteArray const & data, QStringList & log);
     
     /**
      * Loads the resources.

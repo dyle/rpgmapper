@@ -29,6 +29,8 @@
 #include <rpgmapper/command/set_map_numeral_axis.hpp>
 #include <rpgmapper/command/set_map_numeral_offset.hpp>
 #include <rpgmapper/command/set_map_origin.hpp>
+#include <rpgmapper/resource/background.hpp>
+#include <rpgmapper/resource/background_pointer.hpp>
 #include <rpgmapper/resource/resource.hpp>
 #include <rpgmapper/resource/resource_collection.hpp>
 #include <rpgmapper/resource/resource_db.hpp>
@@ -504,12 +506,24 @@ void MapPropertiesDialog::selectBackgroundImage() {
     QFile file{fileName};
     if (file.open(QIODevice::ReadOnly)) {
         
-        auto byteArray = file.readAll();
+        auto data = file.readAll();
         file.close();
-        ResourceDB::getLocalResources()->addResource(fileName, byteArray);
         
-        ui->backgroundImageFileComboBox->addItem(fileName);
-        ui->backgroundImageFileComboBox->setCurrentText(fileName);
+        if (!Background::isBackground(data)) {
+            QMessageBox::critical(this,
+                    tr("Background image loading error."),
+                    tr("File seems not to be a background."));
+        }
+        else {
+            
+            auto name = QFileInfo{fileName}.fileName();
+            name = getResourcePrefixForType(ResourceType::background) + "/" + name;
+            auto resource = BackgroundPointer{new Background{name, data}};
+            ResourceDB::getLocalResources()->addResource(resource);
+            
+            ui->backgroundImageFileComboBox->addItem(name);
+            ui->backgroundImageFileComboBox->setCurrentText(name);
+        }
     }
 }
 

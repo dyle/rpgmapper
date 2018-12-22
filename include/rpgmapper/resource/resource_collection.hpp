@@ -48,14 +48,6 @@ public:
     ~ResourceCollection() = default;
 
     /**
-     * Adds a BLOB with a name to the resource database.
-     *
-     * @param   path    the path to the BLOB
-     * @param   data    the BLOB.
-     */
-    void addResource(QString path, QByteArray const & data);
-    
-    /**
      * Adds an existing resource to the database.
      *
      * @param   resource    the resource to add.

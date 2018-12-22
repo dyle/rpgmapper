@@ -12,11 +12,6 @@
 using namespace rpgmapper::model::resource;
 
 
-void ResourceCollection::addResource(QString path, QByteArray const & data) {
-    addResource(QSharedPointer<Resource>{new Resource{std::move(path), data}});
-}
-
-
 void ResourceCollection::addResource(QSharedPointer<Resource> resource) {
     if (resource->getData().isEmpty()) {
         throw std::runtime_error("Refused to add empty resource to resource DB.");

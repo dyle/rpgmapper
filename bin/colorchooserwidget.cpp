@@ -245,7 +245,7 @@ void ColorChooserWidget::loadPaletteFromFile(QString filename) {
     palettes.emplace(paletteName, palette);
     
     auto localResources = ResourceDB::getLocalResources();
-    localResources->addResource(palette->getPath(), data);
+    localResources->addResource(palette);
     
     int index = ui->paletteBox->findText(paletteName);
     if (index != -1) {

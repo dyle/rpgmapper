@@ -16,6 +16,10 @@
 #include <QStandardPaths>
 #include <QStringList>
 
+#include <rpgmapper/resource/background.hpp>
+#include <rpgmapper/resource/background_pointer.hpp>
+#include <rpgmapper/resource/colorpalette.hpp>
+#include <rpgmapper/resource/colorpalette_pointer.hpp>
 #include <rpgmapper/resource/resource.hpp>
 #include <rpgmapper/resource/resource_collection.hpp>
 #include <rpgmapper/resource/resource_db.hpp>
@@ -99,11 +103,21 @@ ResourcePointer ResourceLoader::createResource(QString path, QByteArray const & 
             break;
             
         case ResourceType::background:
-            resource = ResourcePointer(new Resource{path, data});
+            if (Background::isBackground(data)) {
+                resource = BackgroundPointer(new Background{path, data});
+            }
+            else {
+                appendLog(log, QString{"Resource data at %1 is not a Background as claimed."}.arg(path));
+            }
             break;
     
         case ResourceType::colorpalette:
-            resource = ResourcePointer(new Resource{path, data});
+            if (ColorPalette::isColorPalette(data)) {
+                resource = ColorPalettePointer(new ColorPalette{path, data});
+            }
+            else {
+                appendLog(log, QString{"Resource data at %1 is not a ColorPalette as claimed."}.arg(path));
+            }
             break;
             
         case ResourceType::shape:
@@ -180,12 +194,15 @@ void ResourceLoader::loadResources(FileCollection const & fileCollection,
         }
         else {
             
-            // TODO: switch to static load method
             auto const & folder = std::get<0>(fileTuple);
             auto resourcePath = fileName.right(fileName.size() - folder.size());
-            auto byteArray = file.readAll();
+            auto data = file.readAll();
             file.close();
-            collection->addResource(resourcePath, byteArray);
+            
+            auto resource = createResource(resourcePath, data, log);
+            if (resource) {
+                collection->addResource(resource);
+            }
         }
         
         fileNumber++;

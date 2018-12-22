@@ -9,6 +9,7 @@
 #include <QJsonDocument>
 
 #include <rpgmapper/exception/invalid_map.hpp>
+#include <rpgmapper/resource/background.hpp>
 #include <rpgmapper/resource/resource.hpp>
 #include <rpgmapper/resource/resource_db.hpp>
 #include <rpgmapper/atlas.hpp>
@@ -179,10 +180,16 @@ void BackgroundLayer::setImageResource(QString name) {
         
         auto resource = ResourceDB::getResource(name);
         if (resource) {
+    
             if (backgroundPixmap) {
                 delete backgroundPixmap;
+                backgroundPixmap = nullptr;
             }
-            backgroundPixmap = new QPixmap{QPixmap::fromImage(QImage::fromData(resource->getData()))};
+    
+            auto backgroundResource = dynamic_cast<rpgmapper::model::resource::Background *>(resource.data());
+            if (backgroundResource->isValid()) {
+                backgroundPixmap = new QPixmap{QPixmap::fromImage(backgroundResource->getImage())};
+            }
         }
         
         emit backgroundImageChanged(name);

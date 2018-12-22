@@ -46,6 +46,21 @@ void ColorPalette::fromJSON() {
 }
 
 
+bool ColorPalette::isColorPalette(QByteArray const & data) {
+    
+    auto jsonDocument = QJsonDocument::fromJson(data);
+    if (!jsonDocument.isObject()) {
+        return false;
+    }
+    
+    auto json = jsonDocument.object();
+    bool namePresent = json.contains("name") && json["name"].isString();
+    bool colorsPresent = json.contains("colors") && json["colors"].isArray();
+    
+    return namePresent && colorsPresent;
+}
+
+
 void ColorPalette::setData(QByteArray const & data) {
     Resource::setData(data);
     fromJSON();

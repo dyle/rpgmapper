@@ -13,6 +13,7 @@
 #include <rpgmapper/resource/resource.hpp>
 #include <rpgmapper/resource/resource_collection.hpp>
 #include <rpgmapper/resource/resource_db.hpp>
+#include <rpgmapper/resource/resource_loader.hpp>
 #include <rpgmapper/atlas.hpp>
 
 #include "content.hpp"
@@ -296,8 +297,12 @@ void loadLocalResources(Content const & content, QStringList & log) {
         
         QString const & path = pair.first;
         QByteArray const & data = pair.second;
-        ResourceDB::getLocalResources()->addResource(path, data);
-        log.append(QString{"Added : "} + path);
+        
+        auto resource = ResourceLoader::createResource(path, data, log);
+        if (resource) {
+            ResourceDB::getLocalResources()->addResource(resource);
+            log.append(QString{"Added : "} + path);
+        }
     }
 }
 

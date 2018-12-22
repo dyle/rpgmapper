@@ -77,6 +77,7 @@ set(RPGMAPPER_LIB_SRC
     numeralconverter/numeric.cpp
     numeralconverter/roman.cpp
 
+    resource/background.cpp
     resource/colorpalette.cpp
     resource/resource.cpp
     resource/resource_collection.cpp

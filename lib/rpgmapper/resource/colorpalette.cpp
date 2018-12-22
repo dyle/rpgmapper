@@ -15,7 +15,7 @@
 using namespace rpgmapper::model::resource;
 
 
-ColorPalette::ColorPalette(QString name, QByteArray const & data) : Resource{std::move(name), data} {
+ColorPalette::ColorPalette(QString path, QByteArray const & data) : Resource{std::move(path), data} {
     fromJSON();
 }
 

@@ -19,7 +19,7 @@ namespace resource {
  * A shape is the geometric information which can be drawn on a tile.
  */
 class Shape : public Resource {
-    
+
     bool valid = false;     /**< Validity flag. */
 
 public:

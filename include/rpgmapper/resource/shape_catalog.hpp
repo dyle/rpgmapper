@@ -7,6 +7,8 @@
 #ifndef RPGMAPPER_MODEL_RESOURCE_SHAPE_CATALOG_HPP
 #define RPGMAPPER_MODEL_RESOURCE_SHAPE_CATALOG_HPP
 
+#include <QString>
+
 #include <rpgmapper/resource/resource.hpp>
 
 
@@ -20,7 +22,8 @@ namespace resource {
  */
 class ShapeCatalog : public Resource {
     
-    bool valid = false;     /**< Validity flag. */
+    std::map<QString, QString> shapes;      /**< Map of shape name to shape path of this catalog. */
+    bool valid = false;                     /**< Validity flag. */
 
 public:
     
@@ -31,6 +34,24 @@ public:
      * @param   data        a JSON structure holding the palette.
      */
     ShapeCatalog(QString name, QByteArray const & data);
+    
+    /**
+     * Returns the catalog base path.
+     *
+     * E.g. "/shapes/my_shapes/base/my_catalog.json" --> "/shapes/my_shapes/base"
+     *
+     * @return  the full path without the final path particle.
+     */
+    QString getCatalogBase() const;
+    
+    /**
+     * Gets the shapes of this catalog.
+     *
+     * @return  the shapes assigned to this catalog.
+     */
+    std::map<QString, QString> const & getShapes() const {
+        return shapes;
+    }
     
     /**
      * Checks if the given data array could contain a shape catalog.
@@ -55,6 +76,13 @@ public:
      * @param   data        the new data.
      */
     void setData(QByteArray const & data) override;
+    
+private:
+    
+    /**
+     * Loads a shape catalog from the internal byte array data of the resource.
+     */
+    void fromJSON();
 };
 
 

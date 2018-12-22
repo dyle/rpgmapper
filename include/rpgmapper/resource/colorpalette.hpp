@@ -41,10 +41,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   name        name of the color palette.
+     * @param   path        resource path of the color palette.
      * @param   data        a JSON structure holding the palette.
      */
-    ColorPalette(QString name, QByteArray const & data);
+    ColorPalette(QString path, QByteArray const & data);
     
     /**
      * Gets the palette managed by this object (const version)
@@ -101,8 +101,6 @@ private:
      * Loads a palette from the internal byte array data of the resource.
      *
      * The Byte Array should contain a JSON 256 array of colors.
-     * If the color palette could not be loaded the isValid() will return false,
-     * otherwise true.
      */
     void fromJSON();
 };

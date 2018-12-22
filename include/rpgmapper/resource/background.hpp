@@ -31,10 +31,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   name        name of the color palette.
+     * @param   path        resource path of the background.
      * @param   data        a JSON structure holding the palette.
      */
-    Background(QString name, QByteArray const & data);
+    Background(QString path, QByteArray const & data);
     
     /**
      * Gets the internal image of the background.

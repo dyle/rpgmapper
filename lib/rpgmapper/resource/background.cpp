@@ -4,8 +4,7 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#include <utility>
-
+#include <QFileInfo>
 #include <QMimeDatabase>
 #include <QMimeType>
 
@@ -14,7 +13,10 @@
 using namespace rpgmapper::model::resource;
 
 
-Background::Background(QString name, QByteArray const & data) : Resource{std::move(name), data} {
+Background::Background(QString path, QByteArray const & data) : Resource{path, data} {
+    QFileInfo fileInfo{path};
+    auto fileName = fileInfo.fileName();
+    setName(fileName.left(fileName.indexOf('.')));
 }
 
 
@@ -31,7 +33,6 @@ bool Background::isBackground(QByteArray const & data) {
 void Background::setData(QByteArray const & data) {
     
     Resource::setData(data);
-    
     image = QImage::fromData(data);
     valid = image.isNull();
 }

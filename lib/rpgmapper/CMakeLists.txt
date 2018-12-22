@@ -40,6 +40,7 @@ set(RPGMAPPER_LIB_SRC
     command/composite_command.cpp
     command/create_map.cpp
     command/create_region.cpp
+    command/place_tile.cpp
     command/processor.cpp
     command/processor_impl.cpp
     command/remove_map.cpp

@@ -10,6 +10,8 @@
 
 #include <QMouseEvent>
 
+#include <rpgmapper/command/place_tile.hpp>
+#include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/layer/layer.hpp>
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
@@ -18,6 +20,7 @@
 #include "mapwidget.hpp"
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::command;
 using namespace rpgmapper::model::layer;
 using namespace rpgmapper::view;
 
@@ -53,9 +56,8 @@ void MapWidget::applyCurrentSelectedTile() {
         throw std::runtime_error("Invalid map to render.");
     }
     
-    if (map->place(static_cast<float>(hoveredTilePosition.x()), static_cast<float>(hoveredTilePosition.y()), tile)) {
-        update();
-    }
+    auto command = CommandPointer{new PlaceTile{mapName, tile, hoveredTilePosition}};
+    session->getCommandProcessor()->execute(command);
 }
 
 

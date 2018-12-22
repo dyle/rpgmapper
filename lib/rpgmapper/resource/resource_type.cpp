@@ -5,6 +5,7 @@
  */
 
 #include <map>
+#include <tuple>
 
 #include <rpgmapper/resource/resource_type.hpp>
 
@@ -38,28 +39,22 @@ QString rpgmapper::model::resource::getResourcePrefixForType(rpgmapper::model::r
 
 QString rpgmapper::model::resource::getResourceTypeName(rpgmapper::model::resource::ResourceType type, bool plural) {
     
-    QString name;
+    using PluralName = QString;
+    using SingularName = QString;
+    static std::map<rpgmapper::model::resource::ResourceType, std::tuple<PluralName, SingularName>> const names = {
+        {rpgmapper::model::resource::ResourceType::unknown, {"<Unknown resources>", "<Unknown resource>"}},
+        {rpgmapper::model::resource::ResourceType::background, {"Backgrounds", "Background"}},
+        {rpgmapper::model::resource::ResourceType::colorpalette, {"Colorpalettes", "Colorpalette"}},
+        {rpgmapper::model::resource::ResourceType::shape, {"Shapes", "Shape"}},
+    };
     
-    switch (type) {
-        
-        case rpgmapper::model::resource::ResourceType::unknown:
-            name = plural ? "<Unknown resources>" : "<Unknown resource>";
-            break;
-        
-        case rpgmapper::model::resource::ResourceType::background:
-            name = plural ? "Backgrounds" : "Backhground";
-            break;
-        
-        case rpgmapper::model::resource::ResourceType::colorpalette:
-            name = plural ? "Colorpalettes" : "Colorpalette";
-            break;
-        
-        case rpgmapper::model::resource::ResourceType::shape:
-            name = plural ? "Shapes" : "Shape";
-            break;
+    auto const & pair = names.find(type);
+    if (pair == names.end()) {
+        return getResourceTypeName(rpgmapper::model::resource::ResourceType::unknown, plural);
     }
     
-    return name;
+    auto const & name = (*pair).second;
+    return plural ? std::get<0>(name) : std::get<1>(name);
 }
 
 

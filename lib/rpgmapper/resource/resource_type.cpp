@@ -32,7 +32,7 @@ QString rpgmapper::model::resource::getResourceTypeName(rpgmapper::model::resour
     
     using PluralName = QString;
     using SingularName = QString;
-    static std::map<ResourceType, std::tuple<PluralName, SingularName>> const names = {
+    static std::map<ResourceType, std::tuple<PluralName, SingularName>> const names {
         {ResourceType::unknown, {"<Unknown resources>", "<Unknown resource>"}},
         {ResourceType::background, {"Backgrounds", "Background"}},
         {ResourceType::colorpalette, {"Colorpalettes", "Colorpalette"}},

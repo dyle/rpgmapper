@@ -165,11 +165,6 @@ protected:
 private:
     
     /**
-     * Adds the current selected tile of the current session at the hovered position on the map.
-     */
-    void applyCurrentSelectedTile();
-    
-    /**
      * Collects all layers, which are currently visible, in proper order.
      *
      * The order is:
@@ -188,6 +183,11 @@ private:
      * @param   painter     painter used to draw.
      */
     void drawHoveredTile(QPainter & painter);
+    
+    /**
+     * Places the current selected tile of the current session at the hovered position on the map.
+     */
+    void placeCurrentSelectedTile();
     
     /**
      * Get the map coordinates by x and y as screen/widget coordinates.

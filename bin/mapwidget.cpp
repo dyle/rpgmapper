@@ -43,24 +43,6 @@ MapWidget::MapWidget(QWidget * parent)
 }
 
 
-void MapWidget::applyCurrentSelectedTile() {
-
-    auto session = Session::getCurrentSession();
-    auto tile = session->getCurrentTile();
-    if (!tile) {
-        return;
-    }
-    
-    auto map = session->findMap(mapName);
-    if (!map->isValid()) {
-        throw std::runtime_error("Invalid map to render.");
-    }
-    
-    auto command = CommandPointer{new PlaceTile{mapName, tile, hoveredTilePosition}};
-    session->getCommandProcessor()->execute(command);
-}
-
-
 std::list<Layer const *> MapWidget::collectVisibleLayers() const {
     
     auto map = Session::getCurrentSession()->findMap(mapName);
@@ -152,7 +134,7 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
             
             hoveredTilePosition = newHoveredTilePosition;
             if (leftMouseButtonDown) {
-                applyCurrentSelectedTile();
+                placeCurrentSelectedTile();
             }
             
             update();
@@ -166,7 +148,7 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
 void MapWidget::mousePressEvent(QMouseEvent * event) {
     if (event->button() == Qt::LeftButton) {
         leftMouseButtonDown = true;
-        applyCurrentSelectedTile();
+        placeCurrentSelectedTile();
         event->accept();
     }
     else {
@@ -209,6 +191,24 @@ void MapWidget::paintEvent(QPaintEvent * event) {
     auto end = std::chrono::system_clock::now();
     auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     averagePaintDuration << milliseconds;
+}
+
+
+void MapWidget::placeCurrentSelectedTile() {
+    
+    auto session = Session::getCurrentSession();
+    auto tile = session->getCurrentTile();
+    if (!tile) {
+        return;
+    }
+    
+    auto map = session->findMap(mapName);
+    if (!map->isValid()) {
+        throw std::runtime_error("Invalid map to render.");
+    }
+    
+    auto command = CommandPointer{new PlaceTile{mapName, tile, hoveredTilePosition}};
+    session->getCommandProcessor()->execute(command);
 }
 
 

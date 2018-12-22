@@ -69,5 +69,8 @@ bool Map::place(float x, float y, rpgmapper::model::tile::TilePointer tile) {
         auto session = Session::getCurrentSession();
         session->setLastAppliedTile(tile);
     }
+    
+    emit tilePlaced();
+    
     return placed;
 }

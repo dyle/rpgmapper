@@ -126,6 +126,14 @@ public:
      * @return  true, if the map has changed.
      */
     bool place(float x, float y, rpgmapper::model::tile::TilePointer tile);
+
+signals:
+    
+    /**
+     * A tile has been placed on this map.
+     */
+    void tilePlaced();
+
 };
 
 

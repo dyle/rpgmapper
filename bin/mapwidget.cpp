@@ -241,6 +241,7 @@ void MapWidget::setMap(QString mapName) {
     this->mapName = mapName;
     
     connect(map.data(), &Nameable::nameChanged, this, &MapWidget::mapNameChanged);
+    connect(map.data(), SIGNAL(tilePlaced()), this, SLOT(update()));
    
     mapSizeChanged();
     auto coordinateSystem = map->getCoordinateSystem();

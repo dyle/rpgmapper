@@ -115,6 +115,56 @@ public:
 private:
     
     /**
+     * Creates a background resource.
+     *
+     * @param   path        the resource path, identifying the resource.
+     * @param   data        the resource data.
+     * @param   log         actions to log.
+     * @return  a resource (or nullptr on fail).
+     */
+    static ResourcePointer createBackground(QString path, QByteArray const & data, QStringList & log);
+    
+    /**
+     * Creates a color palette resource.
+     *
+     * @param   path        the resource path, identifying the resource.
+     * @param   data        the resource data.
+     * @param   log         actions to log.
+     * @return  a resource (or nullptr on fail).
+     */
+    static ResourcePointer createColorPalette(QString path, QByteArray const & data, QStringList & log);
+    
+    /**
+     * Creates a shape resource.
+     *
+     * @param   path        the resource path, identifying the resource.
+     * @param   data        the resource data.
+     * @param   log         actions to log.
+     * @return  a resource (or nullptr on fail).
+     */
+    static ResourcePointer createShape(QString path, QByteArray const & data, QStringList & log);
+    
+    /**
+     * Creates a shape catalog resource.
+     *
+     * @param   path        the resource path, identifying the resource.
+     * @param   data        the resource data.
+     * @param   log         actions to log.
+     * @return  a resource (or nullptr on fail).
+     */
+    static ResourcePointer createShapeCatalog(QString path, QByteArray const & data, QStringList & log);
+    
+    /**
+     * Creates a resource of unknown type
+     *
+     * @param   path        the resource path, identifying the resource.
+     * @param   data        the resource data.
+     * @param   log         actions to log.
+     * @return  a resource (or nullptr on fail).
+     */
+    static ResourcePointer createUnknownResource(QString path, QByteArray const & data);
+    
+    /**
      * Loads the resources.
      *
      * @param   fileCollection      the list of found files to load.

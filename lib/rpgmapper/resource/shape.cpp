@@ -6,12 +6,25 @@
 
 #include <utility>
 
+#include <QMimeDatabase>
+#include <QMimeType>
+
 #include <rpgmapper/resource/shape.hpp>
 
 using namespace rpgmapper::model::resource;
 
 
 Shape::Shape(QString name, QByteArray const & data) : Resource{std::move(name), data} {
+}
+
+
+bool Shape::isShape(QByteArray const & data) {
+    
+    static QMimeDatabase mimeDatabase;
+    auto mimeType = mimeDatabase.mimeTypeForData(data);
+    
+    auto mimeTypeString = mimeType.name();
+    return mimeTypeString == "image/svg+xml";
 }
 
 

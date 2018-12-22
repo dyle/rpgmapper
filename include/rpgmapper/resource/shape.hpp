@@ -33,6 +33,14 @@ public:
     Shape(QString name, QByteArray const & data);
     
     /**
+     * Checks if the given data array could contain a shape.
+     *
+     * @param   data        the data to check.
+     * @return  return true, if this data can be treated as a shape.
+     */
+    static bool isShape(QByteArray const & data);
+    
+    /**
      * Checks if this ColorPalette is a valid instance.
      *
      * @return  true if this is a valid instance.

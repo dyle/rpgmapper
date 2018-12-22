@@ -6,12 +6,27 @@
 
 #include <utility>
 
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+
 #include <rpgmapper/resource/shape_catalog.hpp>
 
 using namespace rpgmapper::model::resource;
 
 
 ShapeCatalog::ShapeCatalog(QString name, QByteArray const & data) : Resource{std::move(name), data} {
+}
+
+
+bool ShapeCatalog::isShapeCatalog(QByteArray const & data) {
+    
+    auto jsonDocument = QJsonDocument::fromJson(data);
+    if (!jsonDocument.isArray()) {
+        return false;
+    }
+    
+    return true;
 }
 
 

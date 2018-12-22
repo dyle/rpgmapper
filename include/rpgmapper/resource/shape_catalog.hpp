@@ -33,6 +33,14 @@ public:
     ShapeCatalog(QString name, QByteArray const & data);
     
     /**
+     * Checks if the given data array could contain a shape catalog.
+     *
+     * @param   data        the data to check.
+     * @return  return true, if this data can be treated as a shape catalog.
+     */
+    static bool isShapeCatalog(QByteArray const & data);
+    
+    /**
      * Checks if this ColorPalette is a valid instance.
      *
      * @return  true if this is a valid instance.

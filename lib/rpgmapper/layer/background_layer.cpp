@@ -153,7 +153,8 @@ bool BackgroundLayer::isImageRendered() const {
 
 
 bool BackgroundLayer::isValidRendering(QString rendering) {
-    static std::map<QString, bool> const renderingValues{
+    
+    static std::map<QString, bool> const renderingValues {
         {"color", true},
         {"image", true}
     };

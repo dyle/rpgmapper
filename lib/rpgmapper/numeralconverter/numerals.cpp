@@ -16,7 +16,7 @@ using namespace rpgmapper::model;
 
 QSharedPointer<NumeralConverter> const & NumeralConverter::create(QString method) {
 
-    static std::map<QString, QSharedPointer<NumeralConverter>> const converters{
+    static std::map<QString, QSharedPointer<NumeralConverter>> const converters {
         {"numeric", QSharedPointer<NumeralConverter>{new NumericConverter}},
         {"alphaSmall", QSharedPointer<NumeralConverter>{new AlphaSmallCapsConverter}},
         {"alphaBig", QSharedPointer<NumeralConverter>{new AlphaBigCapsConverter}},

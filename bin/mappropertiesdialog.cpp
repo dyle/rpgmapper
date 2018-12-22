@@ -666,7 +666,7 @@ void MapPropertiesDialog::setXAxisUiFromMap() {
     }
 
     using RadioButtonMap = std::map<QString, QRadioButton *>;
-    static RadioButtonMap const xAxisNumericalRadioButtons = {
+    static RadioButtonMap const xAxisNumericalRadioButtons {
         {"numeric", ui->xNumericalRadioButton},
         {"alphaSmall", ui->xAlphaSmallRadioButton},
         {"alphaBig", ui->xAlphaBigRadioButton},

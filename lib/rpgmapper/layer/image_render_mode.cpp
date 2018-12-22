@@ -29,7 +29,7 @@ quint16 rpgmapper::model::layer::imageChecksum(QImage const & image) {
 
 QString rpgmapper::model::layer::imageRenderModeToString(rpgmapper::model::layer::ImageRenderMode mode) {
 
-    static std::map<ImageRenderMode, QString> const modes{
+    static std::map<ImageRenderMode, QString> const modes {
         {ImageRenderMode::plain, "plain"},
         {ImageRenderMode::scaled, "scaled"},
         {ImageRenderMode::tiled, "tiled"}
@@ -45,7 +45,7 @@ QString rpgmapper::model::layer::imageRenderModeToString(rpgmapper::model::layer
 
 rpgmapper::model::layer::ImageRenderMode rpgmapper::model::layer::stringToImageRenderMode(QString modeName) {
 
-    static std::map<QString, ImageRenderMode> const modes{
+    static std::map<QString, ImageRenderMode> const modes {
         {"plain", ImageRenderMode::plain},
         {"scaled", ImageRenderMode::scaled},
         {"tiled", ImageRenderMode::tiled}

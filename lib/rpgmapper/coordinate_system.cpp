@@ -13,7 +13,7 @@ using namespace rpgmapper::model;
 
 QString rpgmapper::model::coordinatesOriginToString(rpgmapper::model::CoordinatesOrigin origin) {
 
-    static std::map<rpgmapper::model::CoordinatesOrigin, QString> const originNames{
+    static std::map<rpgmapper::model::CoordinatesOrigin, QString> const originNames {
         {rpgmapper::model::CoordinatesOrigin::topLeft, "topLeft"},
         {rpgmapper::model::CoordinatesOrigin::topRight, "topRight"},
         {rpgmapper::model::CoordinatesOrigin::bottomLeft, "bottomLeft"},
@@ -30,11 +30,11 @@ QString rpgmapper::model::coordinatesOriginToString(rpgmapper::model::Coordinate
 
 rpgmapper::model::CoordinatesOrigin rpgmapper::model::stringToCoordinatesOrigin(QString const & string) {
 
-    static std::map<QString, rpgmapper::model::CoordinatesOrigin> const originNames{
+    static std::map<QString, rpgmapper::model::CoordinatesOrigin> const originNames {
         {"topLeft", rpgmapper::model::CoordinatesOrigin::topLeft},
         {"topRight", rpgmapper::model::CoordinatesOrigin::topRight},
         {"bottomLeft", rpgmapper::model::CoordinatesOrigin::bottomLeft},
-        {"bottomRight", rpgmapper::model::CoordinatesOrigin::bottomRight, }
+        {"bottomRight", rpgmapper::model::CoordinatesOrigin::bottomRight}
     };
 
     auto pair = originNames.find(string);

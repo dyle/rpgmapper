@@ -27,7 +27,7 @@ void PlaceTile::execute() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    map->place(static_cast<float>(position.x()), static_cast<float>(position.y()), tile);
+    map->place(position, tile);
 }
 
 

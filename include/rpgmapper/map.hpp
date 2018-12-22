@@ -121,11 +121,22 @@ public:
      * Places the given tile on the specified position.
      *
      * @param   x           X position to place tile.
-     * @param   y           Y posiiton to place tile.
+     * @param   y           Y position to place tile.
      * @param   tile        The tile to place.
      * @return  true, if the map has changed.
      */
     bool place(float x, float y, rpgmapper::model::tile::TilePointer tile);
+    
+    /**
+     * Places the given tile on the specified position.
+     *
+     * @param   position    position of the place tile.
+     * @param   tile        The tile to place.
+     * @return  true, if the map has changed.
+     */
+    bool place(QPointF position, rpgmapper::model::tile::TilePointer tile) {
+        return place(static_cast<float>(position.x()), static_cast<float>(position.y()), std::move(tile));
+    }
 
 signals:
     

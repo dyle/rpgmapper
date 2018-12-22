@@ -50,10 +50,30 @@ void ColorTile::draw(QPainter & painter, int tileSize) {
 }
 
 
-bool ColorTile::place(float x, float y, LayerStack * layerStack) {
+bool ColorTile::isPlaceable(float x, float y, rpgmapper::model::layer::LayerStack const * layerStack) const {
     
     if (!layerStack) {
-        throw std::runtime_error{"LayerStack must not be nullptr when placing a tile."};
+        return false;
+    }
+    
+    // ColorTiles always add to the lowest base layer.
+    auto layer = layerStack->getBaseLayers()[0];
+    if (!layer->isFieldPresent(static_cast<int>(x), static_cast<int>(y))) {
+        return true;
+    }
+    auto field = layer->getField(static_cast<int>(x), static_cast<int>(y));
+    if (!field->getTiles().empty() && ((*field->getTiles()[0].data()) == (*this))) {
+        return false;
+    }
+    
+    return true;
+}
+
+
+bool ColorTile::place(float x, float y, LayerStack * layerStack) {
+    
+    if (!isPlaceable(x, y, layerStack)) {
+        throw std::runtime_error{"Tile is not placeable on this position on the given layer stack."};
     }
     
     // ColorTiles always add to the lowest base layer.
@@ -62,10 +82,6 @@ bool ColorTile::place(float x, float y, LayerStack * layerStack) {
         layer->addField(Field{static_cast<int>(x), static_cast<int>(y)});
     }
     auto field = layer->getField(static_cast<int>(x), static_cast<int>(y));
-    
-    if (!field->getTiles().empty() && ((*field->getTiles()[0].data()) == (*this))) {
-        return false;
-    }
     
     // placing a color tile removes all other tiles on the same layer.
     field->getTiles().clear();

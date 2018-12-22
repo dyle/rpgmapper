@@ -1,5 +1,3 @@
-#include <utility>
-
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -13,6 +11,7 @@
 #include <rpgmapper/command/place_tile.hpp>
 #include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/layer/layer.hpp>
+#include <rpgmapper/tile/tile.hpp>
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/session.hpp>
@@ -207,8 +206,10 @@ void MapWidget::placeCurrentSelectedTile() {
         throw std::runtime_error("Invalid map to render.");
     }
     
-    auto command = CommandPointer{new PlaceTile{mapName, tile, hoveredTilePosition}};
-    session->getCommandProcessor()->execute(command);
+    if (tile->isPlaceable(hoveredTilePosition, &map->getLayers())) {
+        auto command = CommandPointer{new PlaceTile{mapName, tile, hoveredTilePosition}};
+        session->getCommandProcessor()->execute(command);
+    }
 }
 
 

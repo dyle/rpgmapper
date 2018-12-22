@@ -55,6 +55,16 @@ public:
     void draw(QPainter & painter, int tileSize) override;
     
     /**
+     * Determines if the current tile is able to be placed at the map at the given position.
+     *
+     * @param   x               X position to place the tile.
+     * @param   y               Y position to place the tile.
+     * @param   layerStack      the stack of layers of the map.
+     * @return  true, if the current tile can be placed at this position.
+     */
+    bool isPlaceable(float x, float y, rpgmapper::model::layer::LayerStack const * layerStack) const override;
+    
+    /**
      * Places this tile within the layer stack of a map.
      *
      * @param   x               X position to place the tile.

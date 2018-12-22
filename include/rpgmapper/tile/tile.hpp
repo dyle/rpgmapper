@@ -13,6 +13,7 @@
 #include <QString>
 
 #include <rpgmapper/layer/layer_stack.hpp>
+#include <rpgmapper/map_pointer.hpp>
 
 
 namespace rpgmapper {
@@ -106,6 +107,27 @@ public:
      * @param   tileSize    size of the tile.
      */
     virtual void draw(QPainter &painter, int tileSize) = 0;
+    
+    /**
+     * Determines if the current tile is able to be placed at the map at the given position.
+     *
+     * @param   x               X position to place the tile.
+     * @param   y               Y position to place the tile.
+     * @param   layerStack      the stack of layers of the map.
+     * @return  true, if the current tile can be placed at this position.
+     */
+    virtual bool isPlaceable(float x, float y, rpgmapper::model::layer::LayerStack const * layerStack) const = 0;
+    
+    /**
+     * Determines if the current tile is able to be placed at the map at the given position.
+     *
+     * @param   position        position to place the tile.
+     * @param   layerStack      the stack of layer of the map.
+     * @return  true, if the current tile can be placed at this position.
+     */
+    bool isPlaceable(QPointF position, rpgmapper::model::layer::LayerStack const * layerStack) const {
+        return isPlaceable(static_cast<float>(position.x()), static_cast<float>(position.y()), layerStack);
+    }
     
     /**
      * Places this tile within the layer stack of a map.

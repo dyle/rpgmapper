@@ -47,13 +47,34 @@ ResourcesViewDialog::ResourcesViewDialog(QWidget * parent) : QDialog{parent} {
     systemResourcesRootNode = new QTreeWidgetItem{};
     systemResourcesRootNode->setText(0, tr("System resources"));
     
+    ui->resourceTreeWidget->setColumnCount(static_cast<int>(ResourceViewColumns::updateCounter));
     ui->resourceTreeWidget->addTopLevelItem(localResourcesRootNode);
     ui->resourceTreeWidget->addTopLevelItem(userResourcesRootNode);
     ui->resourceTreeWidget->addTopLevelItem(systemResourcesRootNode);
 }
 
 
-QTreeWidgetItem* ResourcesViewDialog::ensureCategoryNode(QTreeWidgetItem * rootNode, ResourceType type) {
+void ResourcesViewDialog::dropResources(QTreeWidgetItem * node) {
+    
+    if (!node) {
+        dropResources(localResourcesRootNode);
+        dropResources(userResourcesRootNode);
+        dropResources(systemResourcesRootNode);
+    }
+    else {
+        
+        for (int i = 0; i < node->childCount(); ++i) {
+            dropResources(node->child(i));
+        }
+        if ((node->childCount() == 0) && !isUpdated(node) && (node->parent() != nullptr)) {
+            node->parent()->removeChild(node);
+            delete node;
+        }
+    }
+}
+
+
+QTreeWidgetItem * ResourcesViewDialog::ensureCategoryNode(QTreeWidgetItem * rootNode, ResourceType type) {
     
     QTreeWidgetItem * categoryNode = nullptr;
     auto categoryName = getResourceTypeName(type, true);
@@ -72,6 +93,22 @@ QTreeWidgetItem* ResourcesViewDialog::ensureCategoryNode(QTreeWidgetItem * rootN
     
     categoryNode->setText(static_cast<int>(ResourceViewColumns::updateCounter), QString::number(updateCounter));
     return categoryNode;
+}
+
+
+void ResourcesViewDialog::expandAllItems(QTreeWidgetItem * node) {
+    
+    if (!node) {
+        expandAllItems(localResourcesRootNode);
+        expandAllItems(userResourcesRootNode);
+        expandAllItems(systemResourcesRootNode);
+    }
+    else {
+        node->setExpanded(true);
+        for (int i = 0; i < node->childCount(); ++i) {
+            expandAllItems(node->child(i));
+        }
+    }
 }
 
 
@@ -142,14 +179,26 @@ void ResourcesViewDialog::insertResources(QTreeWidgetItem * rootNode, ResourceCo
 }
 
 
+bool ResourcesViewDialog::isUpdated(QTreeWidgetItem * node) const {
+    
+    if (node) {
+        return node->text(static_cast<int>(ResourceViewColumns::updateCounter)).toUInt() == updateCounter;
+    }
+    return false;
+}
+
+
 void ResourcesViewDialog::showEvent(UNUSED QShowEvent * event) {
     
     updateResourcesView();
     
     static bool firstShow = true;
     if (firstShow) {
-        // TODO: stretch columns
-        // TODO: expand all nodes
+        
+        for (int i = 0; i < static_cast<int>(ResourceViewColumns::updateCounter); ++i) {
+            ui->resourceTreeWidget->resizeColumnToContents(i);
+        }
+        expandAllItems();
         firstShow = false;
     }
 }
@@ -158,8 +207,10 @@ void ResourcesViewDialog::showEvent(UNUSED QShowEvent * event) {
 void ResourcesViewDialog::updateResourcesView() {
     
     ++updateCounter;
-    // TODO: remove items less than updateCounter
+    
     insertResources(localResourcesRootNode, ResourceDB::getLocalResources());
     insertResources(userResourcesRootNode, ResourceDB::getUserResources());
     insertResources(systemResourcesRootNode, ResourceDB::getSystemResources());
+    
+    dropResources();
 }

@@ -69,6 +69,20 @@ protected:
 private:
     
     /**
+     * Removes all resource items in the view with an update counter been too less.
+     *
+     * @param   node            node to start.
+     */
+    void dropResources(QTreeWidgetItem * node = nullptr);
+    
+    /**
+     * Sets all items to expand under the current node.
+     *
+     * @param   node        node to expand and chdildren.
+     */
+    void expandAllItems(QTreeWidgetItem * node = nullptr);
+    
+    /**
      * Retrieves the icon for a resource type.
      *
      * @param   type        the resource type.
@@ -93,6 +107,14 @@ private:
      * @return  the tree widget item, or nullptr if not found.
      */
     QTreeWidgetItem * findResource(QTreeWidgetItem * rootNode, QString path) const;
+    
+    /**
+     * Checks if the node has been updated just recently.
+     *
+     * @param   node        the item in the view to check.
+     * @return  true, if the node has just been update.
+     */
+    bool isUpdated(QTreeWidgetItem * node) const;
 
     /**
      * Inserts and/or updates a single resource under the given root node.

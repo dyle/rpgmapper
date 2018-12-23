@@ -10,6 +10,7 @@
 #include <memory>
 
 #include <QDialog>
+#include <QFileDialog>
 #include <QIcon>
 #include <QTreeWidgetItem>
 
@@ -33,13 +34,17 @@ class ResourcesViewDialog : public QDialog {
 
     Q_OBJECT
     
-    std::shared_ptr<Ui_resourcesViewDialog> ui;      /**< The User Interface as created by the uic. */
+    std::shared_ptr<Ui_resourcesViewDialog> ui;            /**< The User Interface as created by the uic. */
     
-    QTreeWidgetItem * localResourcesRootNode = nullptr;     /**< Tree node for the local resources */
-    QTreeWidgetItem * userResourcesRootNode = nullptr;      /**< Tree node for the user resources */
-    QTreeWidgetItem * systemResourcesRootNode = nullptr;    /**< Tree node for the system resources */
+    QTreeWidgetItem * localResourcesRootNode = nullptr;    /**< Tree node for the local resources */
+    QTreeWidgetItem * userResourcesRootNode = nullptr;     /**< Tree node for the user resources */
+    QTreeWidgetItem * systemResourcesRootNode = nullptr;   /**< Tree node for the system resources */
     
-    unsigned int updateCounter = 0;                 /**< Current update run. */
+    unsigned int updateCounter = 0;                        /**< Current update run. */
+    
+    QFileDialog * saveDialog = nullptr;                    /**< Save color palette dialog. */
+    
+    QString lastFolderUsed;                                /**< Last folder of save operation. */
 
 public:
     
@@ -49,8 +54,24 @@ public:
      * @param   parent      Parent QWidget instance.
      */
     explicit ResourcesViewDialog(QWidget * parent);
+    
+    /**
+     * Returns the last folder selected by the user for a save operation.
+     *
+     * @return  the last folder selected by the user.
+     */
+    QString getLastUsedFolder() const {
+        return lastFolderUsed;
+    }
 
 public slots:
+    
+    /**
+     * Sets the last folder for save resource operations.
+     *
+     * @param   folder      the folder to select on resource save.
+     */
+    void setLastFolderUsed(QString folder);
     
     /**
      * Reinit view of used resources.
@@ -125,6 +146,18 @@ private:
      */
     void insertResources(QTreeWidgetItem * rootNode,
             rpgmapper::model::resource::ResourceCollectionPointer const & resources);
+
+private slots:
+    
+    /**
+     * The user selected an item.
+     */
+    void currentItemChanged();
+    
+    /**
+     * Saves the current resource.
+     */
+    void saveCurrentResource();
 };
 
 

@@ -5,6 +5,7 @@
  */
 
 #include <QList>
+#include <QMessageBox>
 
 #include <rpgmapper/resource/resource.hpp>
 #include <rpgmapper/resource/resource_collection.hpp>
@@ -31,7 +32,8 @@ enum class ResourceViewColumns {
     path = 0,
     name = 1,
     mimeType = 2,
-    updateCounter = 3
+    updateCounter = 3,
+    itemType = 4
 };
 
 
@@ -42,15 +44,36 @@ ResourcesViewDialog::ResourcesViewDialog(QWidget * parent) : QDialog{parent} {
     
     localResourcesRootNode = new QTreeWidgetItem{};
     localResourcesRootNode->setText(0, tr("Local resources"));
+    localResourcesRootNode->setText(static_cast<int>(ResourceViewColumns::itemType), "root");
     userResourcesRootNode = new QTreeWidgetItem{};
     userResourcesRootNode->setText(0, tr("User resources"));
+    userResourcesRootNode->setText(static_cast<int>(ResourceViewColumns::itemType), "root");
     systemResourcesRootNode = new QTreeWidgetItem{};
     systemResourcesRootNode->setText(0, tr("System resources"));
+    systemResourcesRootNode->setText(static_cast<int>(ResourceViewColumns::itemType), "root");
     
     ui->resourceTreeWidget->hideColumn(static_cast<int>(ResourceViewColumns::updateCounter));
+    ui->resourceTreeWidget->hideColumn(static_cast<int>(ResourceViewColumns::itemType));
     ui->resourceTreeWidget->addTopLevelItem(localResourcesRootNode);
     ui->resourceTreeWidget->addTopLevelItem(userResourcesRootNode);
     ui->resourceTreeWidget->addTopLevelItem(systemResourcesRootNode);
+    ui->saveButton->setEnabled(false);
+    
+    saveDialog = new QFileDialog{this};
+    saveDialog->setFileMode(QFileDialog::AnyFile);
+    saveDialog->setAcceptMode(QFileDialog::AcceptSave);
+    saveDialog->setWindowTitle(tr("Save resource"));
+
+    connect(ui->resourceTreeWidget, &QTreeWidget::currentItemChanged, this, &ResourcesViewDialog::currentItemChanged);
+    connect(ui->saveButton, &QPushButton::clicked, this, &ResourcesViewDialog::saveCurrentResource);
+}
+
+
+void ResourcesViewDialog::currentItemChanged() {
+    auto currentItem = ui->resourceTreeWidget->currentItem();
+    auto isResource = (currentItem != nullptr) &&
+                      (currentItem->text(static_cast<int>(ResourceViewColumns::itemType)) == "resource");
+    ui->saveButton->setEnabled(isResource);
 }
 
 
@@ -87,6 +110,7 @@ QTreeWidgetItem * ResourcesViewDialog::ensureCategoryNode(QTreeWidgetItem * root
     if (!categoryNode) {
         categoryNode = new QTreeWidgetItem{rootNode};
         categoryNode->setText(0, categoryName);
+        categoryNode->setText(static_cast<int>(ResourceViewColumns::itemType), "category");
         categoryNode->setIcon(0, getIconForResourceType(type));
     }
     
@@ -147,6 +171,7 @@ void ResourcesViewDialog::insertResource(QTreeWidgetItem * rootNode, ResourcePoi
     item->setText(static_cast<int>(ResourceViewColumns::name), resource->getName());
     item->setText(static_cast<int>(ResourceViewColumns::mimeType), resource->getMimeType().name());
     item->setText(static_cast<int>(ResourceViewColumns::updateCounter), QString::number(updateCounter));
+    item->setText(static_cast<int>(ResourceViewColumns::itemType), "resource");
 }
 
 
@@ -168,6 +193,55 @@ bool ResourcesViewDialog::isUpdated(QTreeWidgetItem * node) const {
         return node->text(static_cast<int>(ResourceViewColumns::updateCounter)).toUInt() == updateCounter;
     }
     return false;
+}
+
+
+void ResourcesViewDialog::saveCurrentResource() {
+    
+    auto currentItem = ui->resourceTreeWidget->currentItem();
+    if (!currentItem) {
+        throw std::runtime_error{"No item is selected to save."};
+    }
+    if (currentItem->text(static_cast<int>(ResourceViewColumns::itemType)) != "resource") {
+        throw std::runtime_error{"Current item is not a resource to save."};
+    }
+    
+    auto resourcePath = currentItem->text(static_cast<int>(ResourceViewColumns::path));
+    auto resource = ResourceDB::getResource(resourcePath);
+    if (!resource) {
+        throw std::runtime_error{"Could not locate resource in resource DB."};
+    }
+    
+    saveDialog->selectFile(resource->getName());
+    auto answer = saveDialog->exec();
+    if ((answer == 0) || saveDialog->selectedFiles().empty()) {
+        return;
+    }
+    auto fileName = saveDialog->selectedFiles().first();
+    
+    QFile file{fileName};
+    if (!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::critical(this,
+                              tr("Save resource"),
+                              tr("Failed to open file to save resource."),
+                              QMessageBox::Ok);
+        return;
+    }
+    
+    file.write(resource->getData());
+    file.close();
+    
+    lastFolderUsed = QFileInfo{file}.dir().absolutePath();
+}
+
+
+void ResourcesViewDialog::setLastFolderUsed(QString folder) {
+    
+    QFileInfo fileInfo{folder};
+    if (fileInfo.exists() && fileInfo.isDir()) {
+        lastFolderUsed = folder;
+        saveDialog->setDirectory(lastFolderUsed);
+    }
 }
 
 

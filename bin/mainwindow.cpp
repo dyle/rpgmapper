@@ -574,6 +574,9 @@ void MainWindow::loadSettings() {
     
     auto lastColorPaletteFolder = settings.value("recent/lastColorPaletteFolder").toString();
     ui->colorPickerDockWidgetContents->setLastFolderUsed(lastColorPaletteFolder);
+    
+    auto lastResourceSaveFolder = settings.value("recent/lastResourceSaveFolder").toString();
+    resourcesViewDialog->setLastFolderUsed(lastResourceSaveFolder);
 }
 
 
@@ -631,6 +634,7 @@ void MainWindow::saveSettings() {
     saveSettingsRecentFiles(settings);
     
     settings.setValue("recent/lastColorPaletteFolder", ui->colorPickerDockWidgetContents->getLastUsedFolder());
+    settings.setValue("recent/lastResourceSaveFolder", resourcesViewDialog->getLastUsedFolder());
 }
 
 

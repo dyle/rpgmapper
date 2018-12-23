@@ -76,13 +76,6 @@ private:
     void dropResources(QTreeWidgetItem * node = nullptr);
     
     /**
-     * Sets all items to expand under the current node.
-     *
-     * @param   node        node to expand and chdildren.
-     */
-    void expandAllItems(QTreeWidgetItem * node = nullptr);
-    
-    /**
      * Retrieves the icon for a resource type.
      *
      * @param   type        the resource type.

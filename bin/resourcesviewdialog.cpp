@@ -47,7 +47,7 @@ ResourcesViewDialog::ResourcesViewDialog(QWidget * parent) : QDialog{parent} {
     systemResourcesRootNode = new QTreeWidgetItem{};
     systemResourcesRootNode->setText(0, tr("System resources"));
     
-    ui->resourceTreeWidget->setColumnCount(static_cast<int>(ResourceViewColumns::updateCounter));
+    ui->resourceTreeWidget->hideColumn(static_cast<int>(ResourceViewColumns::updateCounter));
     ui->resourceTreeWidget->addTopLevelItem(localResourcesRootNode);
     ui->resourceTreeWidget->addTopLevelItem(userResourcesRootNode);
     ui->resourceTreeWidget->addTopLevelItem(systemResourcesRootNode);
@@ -62,7 +62,6 @@ void ResourcesViewDialog::dropResources(QTreeWidgetItem * node) {
         dropResources(systemResourcesRootNode);
     }
     else {
-        
         for (int i = 0; i < node->childCount(); ++i) {
             dropResources(node->child(i));
         }
@@ -96,26 +95,10 @@ QTreeWidgetItem * ResourcesViewDialog::ensureCategoryNode(QTreeWidgetItem * root
 }
 
 
-void ResourcesViewDialog::expandAllItems(QTreeWidgetItem * node) {
-    
-    if (!node) {
-        expandAllItems(localResourcesRootNode);
-        expandAllItems(userResourcesRootNode);
-        expandAllItems(systemResourcesRootNode);
-    }
-    else {
-        node->setExpanded(true);
-        for (int i = 0; i < node->childCount(); ++i) {
-            expandAllItems(node->child(i));
-        }
-    }
-}
-
-
 QTreeWidgetItem* ResourcesViewDialog::findResource(QTreeWidgetItem * rootNode, QString path) const {
 
     QTreeWidgetItem * foundResource = nullptr;
-    auto items = ui->resourceTreeWidget->findItems(path, Qt::MatchExactly, 0);
+    auto items = ui->resourceTreeWidget->findItems(path, Qt::MatchExactly | Qt::MatchRecursive, 0);
     for (auto iter = items.begin(); (iter != items.end()) && !foundResource; ++iter) {
         if ((*iter)->parent() && (*iter)->parent()->parent() == rootNode) {
             foundResource = (*iter);
@@ -153,7 +136,7 @@ QIcon ResourcesViewDialog::getIconForResourceType(ResourceType type) const {
 
 
 void ResourcesViewDialog::insertResource(QTreeWidgetItem * rootNode, ResourcePointer const & resource) {
-    
+
     auto item = findResource(rootNode, resource->getPath());
     if (!item) {
         auto categoryNode = ensureCategoryNode(rootNode, resource->getType());
@@ -194,11 +177,11 @@ void ResourcesViewDialog::showEvent(UNUSED QShowEvent * event) {
     
     static bool firstShow = true;
     if (firstShow) {
-        
+    
+        ui->resourceTreeWidget->expandAll();
         for (int i = 0; i < static_cast<int>(ResourceViewColumns::updateCounter); ++i) {
             ui->resourceTreeWidget->resizeColumnToContents(i);
         }
-        expandAllItems();
         firstShow = false;
     }
 }
@@ -213,4 +196,6 @@ void ResourcesViewDialog::updateResourcesView() {
     insertResources(systemResourcesRootNode, ResourceDB::getSystemResources());
     
     dropResources();
+    
+    ui->resourceTreeWidget->update();
 }

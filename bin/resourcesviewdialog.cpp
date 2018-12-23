@@ -65,6 +65,7 @@ ResourcesViewDialog::ResourcesViewDialog(QWidget * parent) : QDialog{parent} {
     saveDialog->setWindowTitle(tr("Save resource"));
 
     connect(ui->resourceTreeWidget, &QTreeWidget::currentItemChanged, this, &ResourcesViewDialog::currentItemChanged);
+    connect(ui->resourceTreeWidget, &QTreeWidget::itemDoubleClicked, this, &ResourcesViewDialog::saveCurrentResource);
     connect(ui->saveButton, &QPushButton::clicked, this, &ResourcesViewDialog::saveCurrentResource);
 }
 
@@ -200,10 +201,10 @@ void ResourcesViewDialog::saveCurrentResource() {
     
     auto currentItem = ui->resourceTreeWidget->currentItem();
     if (!currentItem) {
-        throw std::runtime_error{"No item is selected to save."};
+        return;
     }
     if (currentItem->text(static_cast<int>(ResourceViewColumns::itemType)) != "resource") {
-        throw std::runtime_error{"Current item is not a resource to save."};
+        return;
     }
     
     auto resourcePath = currentItem->text(static_cast<int>(ResourceViewColumns::path));

@@ -23,6 +23,9 @@
    </item>
    <item>
     <widget class="QTreeWidget" name="resourceTreeWidget">
+     <property name="toolTip">
+      <string>Doubleclick resource to save.</string>
+     </property>
      <property name="iconSize">
       <size>
        <width>16</width>

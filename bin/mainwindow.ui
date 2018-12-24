@@ -191,7 +191,7 @@
    <widget class="QWidget" name="shapesDockWidgetContent">
     <layout class="QVBoxLayout" name="shapesDockWidgetContentLayout">
      <item>
-      <widget class="QToolBox" name="shapeToolBox">
+      <widget class="rpgmapper::view::ShapeCatalogsBox" name="shapeToolBox">
        <property name="currentIndex">
         <number>1</number>
        </property>
@@ -710,6 +710,12 @@
    <class>rpgmapper::view::CurrentTileWidget</class>
    <extends>QWidget</extends>
    <header>currenttilewidget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>rpgmapper::view::ShapeCatalogsBox</class>
+   <extends>QToolBox</extends>
+   <header>shapecatalogsbox.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

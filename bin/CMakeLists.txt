@@ -43,6 +43,7 @@ set(RPGMAPPER_MOC
     mapwidget.hpp
     recentcolorswidget.hpp
     resourcesviewdialog.hpp
+    shapecatalogsbox.hpp
     startupdialog.hpp
     structuraltreewidget.hpp
     visibility_action_filter.hpp
@@ -69,6 +70,7 @@ set(RPGMAPPER_SRC
     mapwidget.cpp
     recentcolorswidget.cpp
     resourcesviewdialog.cpp
+    shapecatalogsbox.cpp
     startupdialog.cpp
     structuraltreewidget.cpp
     visibility_action_filter.cpp

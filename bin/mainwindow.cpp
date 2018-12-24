@@ -25,6 +25,7 @@
 #include <rpgmapper/session.hpp>
 
 #include "mainwindow.hpp"
+#include "shapecatalogsbox.hpp"
 #include "visibility_action_filter.hpp"
 #include "zoomslider.hpp"
 
@@ -104,6 +105,7 @@ void MainWindow::addUnusedActions() {
 
 void MainWindow::applyResources() {
     mapPropertiesDialog->collectBackgroundImages();
+    ui->shapeToolBox->applyResources();
     ui->colorPickerDockWidgetContents->loadPalettes();
 }
 

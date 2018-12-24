@@ -185,12 +185,12 @@ void MainWindow::connectActions() {
     connect(ui->actionViewMap, &QAction::triggered, this, &MainWindow::viewCurrentMap);
     connect(ui->actionViewColorPicker, &QAction::triggered, this, &MainWindow::visibleColorPicker);
     connect(ui->actionViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
+    connect(ui->actionViewShapesDock, &QAction::triggered, this, &MainWindow::visibleTiles);
     connect(ui->actionViewStructureTree, &QAction::triggered, this, &MainWindow::visibleStructure);
-    connect(ui->actionViewTilesDock, &QAction::triggered, this, &MainWindow::visibleTiles);
     connect(ui->actionViewCurrentTile, &QAction::triggered, this, &MainWindow::visibleCurrentTile);
     new VisibilityActionFiler(ui->miniMapDockWidget, ui->actionViewMinimap, this);
     new VisibilityActionFiler(ui->atlasStructureDockWidget, ui->actionViewStructureTree, this);
-    new VisibilityActionFiler(ui->tilesDockWidget, ui->actionViewTilesDock, this);
+    new VisibilityActionFiler(ui->shapesDockWidget, ui->actionViewShapesDock, this);
     new VisibilityActionFiler(ui->colorPickerDockWidget, ui->actionViewColorPicker, this);
     new VisibilityActionFiler(ui->currentTileWidget, ui->actionViewCurrentTile, this);
     
@@ -750,8 +750,8 @@ void MainWindow::showEvent(QShowEvent * cEvent) {
         // the visibility state in the saveState() and restoreState()
         // methods of the QDockWindow children --> anyone?
         ui->actionViewMinimap->setChecked(ui->miniMapDockWidget->isVisible());
+        ui->actionViewShapesDock->setChecked(ui->shapesDockWidget->isVisible());
         ui->actionViewStructureTree->setChecked(ui->atlasStructureDockWidget->isVisible());
-        ui->actionViewTilesDock->setChecked(ui->tilesDockWidget->isVisible());
         bFirstTime = false;
     }
 }
@@ -803,7 +803,7 @@ void MainWindow::visibleStructure(bool visible) {
 
 
 void MainWindow::visibleTiles(bool visible) {
-    ui->tilesDockWidget->setVisible(visible);
+    ui->shapesDockWidget->setVisible(visible);
 }
 
 

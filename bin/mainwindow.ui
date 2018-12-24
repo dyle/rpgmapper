@@ -68,12 +68,12 @@
      <x>0</x>
      <y>0</y>
      <width>904</width>
-     <height>30</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
     <property name="title">
-     <string>&amp;File</string>
+     <string>Fi&amp;le</string>
     </property>
     <widget class="QMenu" name="openRecentMenu">
      <property name="title">
@@ -120,7 +120,7 @@
     <addaction name="actionCloseMap"/>
     <addaction name="separator"/>
     <addaction name="actionViewMinimap"/>
-    <addaction name="actionViewTilesDock"/>
+    <addaction name="actionViewShapesDock"/>
     <addaction name="actionViewStructureTree"/>
     <addaction name="actionViewColorPicker"/>
     <addaction name="actionViewCurrentTile"/>
@@ -181,17 +181,17 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="tilesDockWidget">
+  <widget class="QDockWidget" name="shapesDockWidget">
    <property name="windowTitle">
-    <string>Ti&amp;les:</string>
+    <string>&amp;Shapes:</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="QWidget" name="tilesDockWidgetContent">
-    <layout class="QVBoxLayout" name="tilesDockWidgetContentLayout">
+   <widget class="QWidget" name="shapesDockWidgetContent">
+    <layout class="QVBoxLayout" name="shapesDockWidgetContentLayout">
      <item>
-      <widget class="QToolBox" name="iconsToolBox">
+      <widget class="QToolBox" name="shapeToolBox">
        <property name="currentIndex">
         <number>1</number>
        </property>
@@ -200,8 +200,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>96</width>
-          <height>26</height>
+          <width>80</width>
+          <height>265</height>
          </rect>
         </property>
         <attribute name="label">
@@ -214,7 +214,7 @@
           <x>0</x>
           <y>0</y>
           <width>80</width>
-          <height>264</height>
+          <height>265</height>
          </rect>
         </property>
         <attribute name="label">
@@ -584,7 +584,7 @@
     <string>&amp;Minimap</string>
    </property>
   </action>
-  <action name="actionViewTilesDock">
+  <action name="actionViewShapesDock">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -592,7 +592,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>&amp;Tiles Dock</string>
+    <string>&amp;Shapes Dock</string>
    </property>
   </action>
   <action name="actionViewStructureTree">
@@ -684,7 +684,7 @@
   </action>
   <action name="actionViewResources">
    <property name="text">
-    <string>View Resources</string>
+    <string>View &amp;Resources</string>
    </property>
   </action>
  </widget>

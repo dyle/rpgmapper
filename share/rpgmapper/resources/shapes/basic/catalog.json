@@ -1,9 +1,9 @@
 {
     "name": "Basic shapes",
     "shapes": [
-        {"name": "Wall (north)", "file": "wall_N.svg"},
-        {"name": "Wall (east)", "file": "wall_E.svg"},
-        {"name": "Wall (south)", "file": "wall_S.svg"},
-        {"name": "Wall (west)", "file": "wall_W.svg"}
+        {"name": "Wall (north)", "file": "wall_N.svg", "layer": "tile", "z": 0},
+        {"name": "Wall (east)", "file": "wall_E.svg", "layer": "tile", "z": 0},
+        {"name": "Wall (south)", "file": "wall_S.svg", "layer": "tile", "z": 0},
+        {"name": "Wall (west)", "file": "wall_W.svg", "layer": "tile", "z": 0}
     ] 
 }

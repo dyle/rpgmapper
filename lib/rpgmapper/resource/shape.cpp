@@ -90,3 +90,16 @@ QImage Shape::render(unsigned int tileSize) const {
 void Shape::setData(QByteArray const & data) {
     Resource::setData(data);
 }
+
+
+Shape::TargetLayer Shape::targetLayerFromString(QString layer) {
+    
+    if (layer == "base") {
+        return TargetLayer::base;
+    }
+    if (layer == "tile") {
+        return TargetLayer::tile;
+    }
+    
+    return TargetLayer::unknown;
+}

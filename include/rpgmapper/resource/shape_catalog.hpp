@@ -7,6 +7,7 @@
 #ifndef RPGMAPPER_MODEL_RESOURCE_SHAPE_CATALOG_HPP
 #define RPGMAPPER_MODEL_RESOURCE_SHAPE_CATALOG_HPP
 
+#include <QJsonObject>
 #include <QString>
 
 #include <rpgmapper/resource/resource.hpp>
@@ -34,6 +35,15 @@ public:
      * @param   data        a JSON structure holding the shape catalog.
      */
     ShapeCatalog(QString path, QByteArray const & data);
+    
+    /**
+     * Adds a single shape as defined in the JSON.
+     *
+     * This method will also adjust the shape resource accordingly.
+     *
+     * @param   json        the JSON object defining the shape.
+     */
+    void addShape(QJsonObject const & json);
     
     /**
      * Returns the catalog base path.

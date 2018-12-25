@@ -83,6 +83,24 @@ ResourceLoader::ResourceLoader(QObject * parent) : QObject{parent} {
 }
 
 
+void ResourceLoader::applyShapeCatalogs(QStringList & log) {
+    
+    appendLog(log, QString{"Applying shape catalog values to loaded shapes..."});
+    
+    auto shapePrefix = getResourcePrefixForType(ResourceType::shape);
+    for (auto const & path : ResourceDB::getResources(shapePrefix)) {
+        
+        auto resource = ResourceDB::getResource(path);
+        auto shapeCatalog = dynamic_cast<ShapeCatalog *>(resource.data());
+        if (shapeCatalog) {
+            
+            // "reloading" the shape catalog enforces resetting shape values
+            shapeCatalog->setData(shapeCatalog->getData());
+        }
+    }
+}
+
+
 ResourcePointer ResourceLoader::createBackground(QString path, QByteArray const & data, QStringList & log) {
     
     ResourcePointer background;
@@ -212,6 +230,8 @@ void ResourceLoader::load(QStringList & log) {
     appendLog(log, "Loading Resources...");
     loadResources(systemResourcesFiles, ResourceDB::getSystemResources(), log);
     loadResources(userResourcesFiles, ResourceDB::getUserResources(), log);
+    
+    applyShapeCatalogs(log);
     
     success = true;
     emit done();

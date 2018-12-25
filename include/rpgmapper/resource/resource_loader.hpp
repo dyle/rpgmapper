@@ -57,6 +57,13 @@ public:
     explicit ResourceLoader(QObject * parent);
     
     /**
+     * Applies all loaded shape catalog values to the shapes currently found in the system.
+     *
+     * @param   log     the log of actions.
+     */
+    void applyShapeCatalogs(QStringList & log);
+    
+    /**
      * Creates the resource with the given path and the given data.
      *
      * This is a factory method.

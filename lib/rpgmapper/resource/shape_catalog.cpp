@@ -12,6 +12,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+#include <rpgmapper/resource/resource_db.hpp>
+#include <rpgmapper/resource/shape.hpp>
 #include <rpgmapper/resource/shape_catalog.hpp>
 
 using namespace rpgmapper::model::resource;
@@ -19,6 +21,40 @@ using namespace rpgmapper::model::resource;
 
 ShapeCatalog::ShapeCatalog(QString name, QByteArray const & data) : Resource{std::move(name), data} {
     fromJSON();
+}
+
+
+void ShapeCatalog::addShape(QJsonObject const & json) {
+    
+    QString shapeName;
+    if (json.contains("name") && json["name"].isString()) {
+        shapeName = json["name"].toString();
+    }
+    
+    QString shapePath;
+    if (json.contains("file") && json["file"].isString()) {
+        shapePath = getCatalogBase() + "/" + json["file"].toString();
+    }
+    
+    if (!shapeName.isEmpty() && !shapePath.isEmpty()) {
+        shapes.emplace(shapeName, shapePath);
+    }
+    
+    auto resource = ResourceDB::getResource(shapePath);
+    auto shape = dynamic_cast<rpgmapper::model::resource::Shape *>(resource.data());
+    if (shape) {
+    
+        shape->setName(shapeName);
+        
+        if (json.contains("layer") && json["layer"].isString()) {
+            shape->setTargetLayer(Shape::targetLayerFromString(json["layer"].toString()));
+        }
+    
+        if (json.contains("z") && json["z"].isDouble()) {
+            shape->setZOrdering(static_cast<unsigned int>(json["z"].toDouble(0.0)));
+        }
+        
+    }
 }
 
 
@@ -36,29 +72,16 @@ void ShapeCatalog::fromJSON() {
         setName(json["name"].toString());
     }
     
-    auto catalogBase = getCatalogBase();
     if (json.contains("shapes") && json["shapes"].isArray()) {
+        
         auto jsonArray = json["shapes"].toArray();
-        for (int i = 0; i < jsonArray.size(); ++i) {
-            if (jsonArray.at(i).isObject()) {
-                
-                auto jsonShape = jsonArray.at(i).toObject();
-                
-                QString shapeName;
-                if (jsonShape.contains("name") && jsonShape["name"].isString()) {
-                    shapeName = jsonShape["name"].toString();
-                }
-                
-                QString shapePath;
-                if (jsonShape.contains("file") && jsonShape["file"].isString()) {
-                    shapePath = catalogBase + "/" + jsonShape["file"].toString();
-                }
-                
-                if (!shapeName.isEmpty() && !shapePath.isEmpty()) {
-                    shapes.emplace(shapeName, shapePath);
-                }
+        for (auto && element : jsonArray) {
+            if (element.isObject()) {
+                auto jsonShape = element.toObject();
+                addShape(jsonShape);
             }
         }
+        
         valid = true;
     }
 }

@@ -59,7 +59,6 @@ rpgmapper::model::resource::ResourcePointer ShapeTile::getShape() const {
     if (path.isEmpty()) {
         return ResourcePointer{};
     }
-    
     return ResourceDB::getResource(path);
 }
 

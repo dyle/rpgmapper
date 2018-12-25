@@ -23,12 +23,33 @@ namespace resource {
 
 /**
  * A shape is the geometric information which can be drawn on a tile.
+ *
+ * A shape is an SVG information. This SVG is targeted on a specific map layer (base or tile layer)
+ * and at a target Z-ordering position. Shapes with a hight Z-Order number are drawn above shapes
+ * with a lower number.
  */
 class Shape : public Resource {
+
+public:
+    
+    /**
+     * Different target layers for this tile.
+     */
+    enum class TargetLayer {
+        unknown,                /**< Unknown target layer for this shape. */
+        base,                   /**< The shape ought to be placed at the base layer. */
+        tile                    /**< The shape ought to be placed at the tile layer. */
+    };
+    
+private:
     
     mutable std::map<unsigned int, QIcon> icons;          /**< The shape icon at a certain scale (tile size). */
     mutable std::map<unsigned int, QImage> images;        /**< The shape image at a certain scale (tile size). */
     mutable std::map<unsigned int, QPixmap> pixmaps;      /**< The shape pixmap at a certain scale (tile size). */
+    
+    TargetLayer targetLayer = TargetLayer::tile;          /**< Where to place this shape. */
+    unsigned int zOrdering = 0;                           /**< Z-Order position of the shape in the target layer. */
+    
     bool valid = false;                                   /**< Validity flag. */
 
 public:
@@ -66,6 +87,24 @@ public:
     QPixmap getPixmap(unsigned int tileSize) const;
     
     /**
+     * Gets the target layer of the shape.
+     *
+     * @return  the layer at which this shape ought to be drawn.
+     */
+    TargetLayer getTargetLayer() const {
+        return targetLayer;
+    }
+    
+    /**
+     * Gets the Z-ordering of the shape.
+     *
+     * @return  the Z-Ordering of the shape.
+     */
+    unsigned int getZOrdering() const {
+        return zOrdering;
+    }
+    
+    /**
      * Checks if the given data array could contain a shape.
      *
      * @param   data        the data to check.
@@ -88,6 +127,32 @@ public:
      * @param   data        the new data.
      */
     void setData(QByteArray const & data) override;
+    
+    /**
+     * Sets the target layer of the shape.
+     *
+     * @param   targetLayer         the new target layer of the shape.
+     */
+    void setTargetLayer(TargetLayer layer) {
+        targetLayer = layer;
+    }
+    
+    /**
+     * Sets a new z ordering.
+     *
+     * @param   z       the new Z Ordering of the shape.
+     */
+    void setZOrdering(unsigned int z) {
+        zOrdering = z;
+    }
+    
+    /**
+     * Converts a string to a TargetLayer enum value.
+     *
+     * @param   layer       the layer as string.
+     * @return  the identified target layer.
+     */
+    static TargetLayer targetLayerFromString(QString layer);
     
 private:
     

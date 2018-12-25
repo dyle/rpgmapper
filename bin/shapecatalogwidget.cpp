@@ -15,10 +15,14 @@ using namespace rpgmapper::view;
 
 ShapeCatalogWidget::ShapeCatalogWidget(QWidget * parent) : QListWidget{parent} {
     setFlow(QListView::LeftToRight);
-    setViewMode(QListView::IconMode);
-    setResizeMode(QListView::Adjust);
+    setIconSize(QSize{48, 48});
     setMovement(QListView::Static);
-    setGridSize(QSize{48, 48});
+    setResizeMode(QListView::Adjust);
+    setSelectionRectVisible(false);
+    setSpacing(6);
+    setUniformItemSizes(true);
+    setViewMode(QListView::IconMode);
+    setWordWrap(true);
 }
 
 
@@ -49,8 +53,8 @@ void ShapeCatalogWidget::setCatalog(rpgmapper::model::resource::ShapeCatalog * s
         if (shape) {
             
             auto item = new QListWidgetItem{this};
-            item->setText(pair.first);
             item->setIcon(shape->getIcon(48));
+            item->setText(pair.first);
             addItem(item);
         }
     }

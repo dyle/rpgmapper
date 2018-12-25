@@ -10,9 +10,6 @@
 #include <QToolBox>
 #include <QString>
 
-#include <map>
-#include <set>
-
 #include <rpgmapper/resource/shape_catalog.hpp>
 
 

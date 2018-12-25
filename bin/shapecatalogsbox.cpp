@@ -9,6 +9,7 @@
 #include <rpgmapper/resource/shape_catalog_pointer.hpp>
 
 #include "shapecatalogsbox.hpp"
+#include "shapecatalogwidget.hpp"
 
 using namespace rpgmapper::model::resource;
 using namespace rpgmapper::view;
@@ -24,7 +25,9 @@ void ShapeCatalogsBox::addCatalog(rpgmapper::model::resource::ShapeCatalog const
         return;
     }
     
-    addItem(new QWidget{this}, catalog->getName());
+    auto shapeCatalogWidget = new ShapeCatalogWidget{this};
+    shapeCatalogWidget->setCatalog(catalog->getPath());
+    addItem(shapeCatalogWidget, catalog->getName());
 }
 
 

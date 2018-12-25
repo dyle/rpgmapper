@@ -94,4 +94,4 @@ set(RPGMAPPER_LIB_SRC
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})
-target_link_libraries(rpgm quazip5 Qt5::Gui Qt5::Core ${CMAKE_REQUIRED_LIBRARIES})
+target_link_libraries(rpgm quazip5 Qt5::Svg Qt5::Gui Qt5::Core ${CMAKE_REQUIRED_LIBRARIES})

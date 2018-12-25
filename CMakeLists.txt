@@ -72,6 +72,8 @@ message (STATUS "Looking for Qt5 - found, version ${Qt5Core_VERSION_STRING}")
 include_directories(${Qt5Core_INCLUDE_DIRS})
 find_package(Qt5Widgets REQUIRED)
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
+find_package(Qt5Svg REQUIRED)
+include_directories(${Qt5Svg_INCLUDE_DIRS})
 
 message(STATUS "Looking for QuaZip")
 find_path(QUAZIP_INCLUDE quazip/quazip.h)

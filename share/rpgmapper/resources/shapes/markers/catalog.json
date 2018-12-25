@@ -1,0 +1,7 @@
+{
+    "name": "Markers",
+    "shapes": [
+        {"name": "Star", "file": "star.svg"},
+        {"name": "Skull", "file": "skull.svg"}
+    ] 
+}

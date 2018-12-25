@@ -4,8 +4,8 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#ifndef RPGMAPPER_MODEL_TILE_COLOR_TILE_HPP
-#define RPGMAPPER_MODEL_TILE_COLOR_TILE_HPP
+#ifndef RPGMAPPER_MODEL_TILE_SHAPE_TILE_HPP
+#define RPGMAPPER_MODEL_TILE_SHAPE_TILE_HPP
 
 #include <rpgmapper/layer/layer_stack.hpp>
 #include <rpgmapper/tile/tile.hpp>
@@ -16,21 +16,21 @@ namespace model {
 namespace tile {
 
 /**
- * A ColorTile is a base tile, which draws a plain color.
+ * A ShapeTile is a tile drawing a shape.
  */
-class ColorTile : public Tile {
+class ShapeTile : public Tile {
 
 public:
     
     /**
      * Constructor.
      */
-    explicit ColorTile();
+    explicit ShapeTile();
     
     /**
      * Constructor.
      */
-    explicit ColorTile(Attributes & attributes);
+    explicit ShapeTile(Attributes & attributes);
     
     /**
      * Equality operator
@@ -39,13 +39,6 @@ public:
      * @return  true if (*this) == rhs.
      */
     bool operator==(Tile const & rhs) const override;
-    
-    /**
-     * Retrieves the color in this color tile.
-     *
-     * @return  the color within this color tile.
-     */
-    QColor getColor() const;
     
     /**
      * Draws the tile.

@@ -14,6 +14,7 @@ using namespace rpgmapper::view;
 
 
 ShapeCatalogWidget::ShapeCatalogWidget(QWidget * parent) : QListWidget{parent} {
+    
     setFlow(QListView::LeftToRight);
     setIconSize(QSize{48, 48});
     setMovement(QListView::Static);
@@ -23,6 +24,19 @@ ShapeCatalogWidget::ShapeCatalogWidget(QWidget * parent) : QListWidget{parent} {
     setUniformItemSizes(true);
     setViewMode(QListView::IconMode);
     setWordWrap(true);
+    
+    connect(this, &QListWidget::currentItemChanged, this, &ShapeCatalogWidget::newShapeSelected);
+}
+
+#include <QDebug>
+void ShapeCatalogWidget::newShapeSelected() {
+
+    auto pair = itemToShape.find(currentItem());
+    if (pair == itemToShape.end()) {
+        throw std::runtime_error{"Items points to not recognized shape path."};
+    }
+    
+    qDebug() << (*pair).second;
 }
 
 
@@ -46,6 +60,7 @@ void ShapeCatalogWidget::setCatalog(QString catalog) {
 void ShapeCatalogWidget::setCatalog(rpgmapper::model::resource::ShapeCatalog * shapeCatalog) {
     
     clear();
+    itemToShape.clear();
     for (auto const & pair : shapeCatalog->getShapes()) {
         
         auto resource = ResourceDB::getResource(pair.second);
@@ -56,6 +71,8 @@ void ShapeCatalogWidget::setCatalog(rpgmapper::model::resource::ShapeCatalog * s
             item->setIcon(shape->getIcon(48));
             item->setText(pair.first);
             addItem(item);
+            
+            itemToShape[item] = shape->getPath();
         }
     }
 }

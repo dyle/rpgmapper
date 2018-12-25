@@ -7,7 +7,10 @@
 #ifndef RPGMAPPER_VIEW_SHAPECATALOGWIDGET_HPP
 #define RPGMAPPER_VIEW_SHAPECATALOGWIDGET_HPP
 
+#include <map>
+
 #include <QListWidget>
+#include <QListWidgetItem>
 #include <QString>
 
 #include <rpgmapper/resource/shape_catalog.hpp>
@@ -24,7 +27,8 @@ class ShapeCatalogWidget : public QListWidget {
 
     Q_OBJECT
     
-    QString catalog;        /**< The reosurce path to the catalog displayed. */
+    QString catalog;                                        /**< The resource path to the catalog displayed. */
+    std::map<QListWidgetItem *, QString> itemToShape;       /**< Holds the items and the shape paths they point to. */
 
 public:
     
@@ -52,6 +56,13 @@ private:
      * @param   shapeCatalog        the new shape catalog to display.
      */
     void setCatalog(rpgmapper::model::resource::ShapeCatalog * shapeCatalog);
+    
+private slots:
+    
+    /**
+     * A new current shape.
+     */
+    void newShapeSelected();
 };
 
 

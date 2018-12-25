@@ -89,6 +89,7 @@ set(RPGMAPPER_LIB_SRC
     resource/shape_catalog.cpp
 
     tile/color_tile.cpp
+    tile/shape_tile.cpp
     tile/tile.cpp
     tile/tile_factory.cpp
 )

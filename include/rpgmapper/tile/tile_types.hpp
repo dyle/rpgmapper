@@ -16,7 +16,8 @@ namespace tile {
  * Different type of tiles we know.
  */
 enum class TileType {
-    color                           /**< A base color tile. */
+    color,            /**< A base color tile. */
+    shape             /**< A tile holding a shape. */
 };
 
 

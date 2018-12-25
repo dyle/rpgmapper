@@ -33,6 +33,12 @@ bool ColorTile::operator==(const Tile & rhs) const {
 }
 
 
+void ColorTile::draw(QPainter & painter, int tileSize) {
+    QRect rect{0, 0, tileSize, tileSize};
+    painter.fillRect(rect, getColor());
+}
+
+
 QColor ColorTile::getColor() const {
     
     auto const & attributes = getAttributes();
@@ -41,12 +47,6 @@ QColor ColorTile::getColor() const {
         return QColor{Qt::black};
     }
     return QColor{(*iter).second};
-}
-
-
-void ColorTile::draw(QPainter & painter, int tileSize) {
-    QRect rect{0, 0, tileSize, tileSize};
-    painter.fillRect(rect, getColor());
 }
 
 

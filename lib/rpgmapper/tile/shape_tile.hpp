@@ -9,6 +9,7 @@
 
 #include <rpgmapper/layer/layer_stack.hpp>
 #include <rpgmapper/resource/resource_pointer.hpp>
+#include <rpgmapper/resource/shape.hpp>
 #include <rpgmapper/tile/tile.hpp>
 
 
@@ -86,6 +87,31 @@ public:
      * @return  true, if the element has been newly placed.
      */
     bool place(float x, float y, rpgmapper::model::layer::LayerStack * layerStack) override;
+    
+private:
+    
+    /**
+     * Places this tile within the layer stack of a map.
+     *
+     * @param   x               X position to place the tile.
+     * @param   y               Y position to place the tile.
+     * @param   layerStack      the stack of layers of the map.
+     * @return  true, if the element has been newly placed.
+     */
+    bool placeOnLayer(rpgmapper::model::resource::Shape * shape,
+            float x,
+            float y,
+            std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layerStack);
+    
+    /**
+     * Places this tile within the layer stack of a map.
+     *
+     * @param   x               X position to place the tile.
+     * @param   y               Y position to place the tile.
+     * @param   layer           the layers to place the shape tile on.
+     * @return  true, if the element has been newly placed.
+     */
+    bool placeOnLayer(float x, float y, rpgmapper::model::layer::TileLayer * layer);
 };
 
 

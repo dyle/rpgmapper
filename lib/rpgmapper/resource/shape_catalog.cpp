@@ -51,9 +51,9 @@ void ShapeCatalog::addShape(QJsonObject const & json) {
         }
     
         if (json.contains("z") && json["z"].isDouble()) {
-            shape->setZOrdering(static_cast<unsigned int>(json["z"].toDouble(0.0)));
+            auto z = static_cast<unsigned int>(json["z"].toDouble(0.0));
+            shape->setZOrdering(z);
         }
-        
     }
 }
 

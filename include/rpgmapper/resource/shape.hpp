@@ -25,8 +25,10 @@ namespace resource {
  * A shape is the geometric information which can be drawn on a tile.
  *
  * A shape is an SVG information. This SVG is targeted on a specific map layer (base or tile layer)
- * and at a target Z-ordering position. Shapes with a hight Z-Order number are drawn above shapes
- * with a lower number.
+ * and at a target Z-ordering position.
+ *
+ * Shapes with a high Z-Order number are drawn above shapes with a lower number. However, the
+ * Z-order number is capped at a maximum of getMaxZOrder().
  */
 class Shape : public Resource {
 
@@ -77,6 +79,15 @@ public:
      * @return  the shape as QImage at the given scale.
      */
     QImage getImage(unsigned int tileSize) const;
+    
+    /**
+     * Maximum Z order value for shapes.
+     *
+     * @return  the maximum z-value for shapes.
+     */
+    constexpr static unsigned int getMaxZOrder() {
+        return 5;
+    }
     
     /**
      * Gets the pixmap of this shape at a specific tile size.
@@ -143,7 +154,7 @@ public:
      * @param   z       the new Z Ordering of the shape.
      */
     void setZOrdering(unsigned int z) {
-        zOrdering = z;
+        zOrdering = std::min(z, getMaxZOrder());
     }
     
     /**

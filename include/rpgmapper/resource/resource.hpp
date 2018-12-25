@@ -120,6 +120,15 @@ public:
     ResourceType getType() const;
     
     /**
+     * Checks if this is a valid resource.
+     *
+     * @return  true, if it is.
+     */
+    virtual bool isValid() const {
+        return false;
+    }
+    
+    /**
      * Sets a new data to this resource.
      *
      * @param   data        the new data.

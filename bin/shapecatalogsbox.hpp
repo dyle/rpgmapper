@@ -53,6 +53,13 @@ private:
      * @param   catalog     the catalog to add.
      */
     void addCatalog(rpgmapper::model::resource::ShapeCatalog const * catalog);
+    
+signals:
+    
+    /**
+     * A shape has been selected.
+     */
+    void shapeSelected(QString shapePath);
 };
 
 

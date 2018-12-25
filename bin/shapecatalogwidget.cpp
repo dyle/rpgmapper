@@ -25,10 +25,10 @@ ShapeCatalogWidget::ShapeCatalogWidget(QWidget * parent) : QListWidget{parent} {
     setViewMode(QListView::IconMode);
     setWordWrap(true);
     
-    connect(this, &QListWidget::currentItemChanged, this, &ShapeCatalogWidget::newShapeSelected);
+    connect(this, &QListWidget::itemClicked, this, &ShapeCatalogWidget::newShapeSelected);
 }
 
-#include <QDebug>
+
 void ShapeCatalogWidget::newShapeSelected() {
 
     auto pair = itemToShape.find(currentItem());
@@ -36,7 +36,7 @@ void ShapeCatalogWidget::newShapeSelected() {
         throw std::runtime_error{"Items points to not recognized shape path."};
     }
     
-    qDebug() << (*pair).second;
+    emit shapeSelected((*pair).second);
 }
 
 

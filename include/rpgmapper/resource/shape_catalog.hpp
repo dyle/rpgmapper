@@ -30,10 +30,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   name        name of the color palette.
-     * @param   data        a JSON structure holding the palette.
+     * @param   path        path to the shape catalog resource.
+     * @param   data        a JSON structure holding the shape catalog.
      */
-    ShapeCatalog(QString name, QByteArray const & data);
+    ShapeCatalog(QString path, QByteArray const & data);
     
     /**
      * Returns the catalog base path.
@@ -66,7 +66,7 @@ public:
      *
      * @return  true if this is a valid instance.
      */
-    bool isValid() const {
+    bool isValid() const override {
         return valid;
     }
     

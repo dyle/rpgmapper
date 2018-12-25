@@ -8,6 +8,7 @@
 #define RPGMAPPER_MODEL_TILE_SHAPE_TILE_HPP
 
 #include <rpgmapper/layer/layer_stack.hpp>
+#include <rpgmapper/resource/resource_pointer.hpp>
 #include <rpgmapper/tile/tile.hpp>
 
 
@@ -17,6 +18,10 @@ namespace tile {
 
 /**
  * A ShapeTile is a tile drawing a shape.
+ *
+ * Attributes:
+ *
+ *      "path"     - The resource path used for the shape resource.
  */
 class ShapeTile : public Tile {
 
@@ -47,6 +52,20 @@ public:
      * @param   tileSize        the tile size.
      */
     void draw(QPainter & painter, int tileSize) override;
+
+    /**
+     * Gets the resource path to the shape information.
+     *
+     * @return  the resource path.
+     */
+    QString getPath() const;
+    
+    /**
+     * Gets the shape attached to this tile.
+     *
+     * @return  the shape attached to this tile.
+     */
+    rpgmapper::model::resource::ResourcePointer getShape() const;
     
     /**
      * Determines if the current tile is able to be placed at the map at the given position.

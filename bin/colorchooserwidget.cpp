@@ -103,12 +103,16 @@ void ColorChooserWidget::colorChanged(int id, QColor color) {
     }
     
     auto palette = (*iter).second;
-    if ((id < 0) || (id >= static_cast<int>(palette->getPalette().size()))) {
+    auto colorPalette = dynamic_cast<ColorPalette *>(palette.data());
+    if (!colorPalette) {
+        throw std::runtime_error{"Not a color palette resource pointer present, when expected."};
+    }
+    if ((id < 0) || (id >= static_cast<int>(colorPalette->getPalette().size()))) {
         return;
     }
     
-    palette->getPalette()[id] = std::move(color);
-    palette->setData(palette->toJSON().toJson());
+    colorPalette->getPalette()[id] = std::move(color);
+    colorPalette->setData(colorPalette->toJSON().toJson());
 }
 
 
@@ -139,7 +143,7 @@ void ColorChooserWidget::copyPalette() {
     
     auto newName = suggestNewName(ui->paletteBox->currentText());
     auto resourceLocationName = getResourcePrefixForType(ResourceType::colorpalette) + "/" + newName + ".json";
-    auto copy = ColorPalettePointer{new ColorPalette{resourceLocationName, (*iter).second->getData()}};
+    auto copy = ResourcePointer{new ColorPalette{resourceLocationName, (*iter).second->getData()}};
     copy->setName(newName);
     
     palettes.emplace(newName, copy);
@@ -228,7 +232,7 @@ void ColorChooserWidget::loadPaletteFromFile(QString filename) {
     lastFolderUsed = QFileInfo{file}.dir().absolutePath();
     
     // TODO: get the right name
-    ColorPalettePointer palette{new ColorPalette{QString::null, data}};
+    ResourcePointer palette{new ColorPalette{QString::null, data}};
     if (!palette->isValid()) {
         QMessageBox::critical(this,
                               tr("Load color palette"),
@@ -270,7 +274,7 @@ void ColorChooserWidget::loadPalettes() {
         auto res = ResourceDB::getResource(resourceName);
         if (res) {
     
-            ColorPalettePointer palette{new ColorPalette{QString::null, res->getData()}};
+            ResourcePointer palette{new ColorPalette{QString::null, res->getData()}};
             if (palette->isValid() && !palette->getName().isEmpty()) {
                 palettes.emplace(palette->getName(), palette);
                 ui->paletteBox->addItem(palette->getName());
@@ -299,7 +303,12 @@ void ColorChooserWidget::saveCurrentPaletteToFile(QString filename) {
     if (iter == palettes.end()) {
         return;
     }
-    auto colorPalette = (*iter).second;
+    
+    auto palette = (*iter).second;
+    auto colorPalette = dynamic_cast<ColorPalette *>(palette.data());
+    if (!colorPalette) {
+        throw std::runtime_error{"Not a color palette resource pointer present, when expected."};
+    }
     auto json = colorPalette->toJSON();
     
     QFile file{filename};

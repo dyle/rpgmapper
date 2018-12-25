@@ -12,7 +12,7 @@
 #include <QColor>
 #include <QWidget>
 
-#include <rpgmapper/resource/colorpalette_pointer.hpp>
+#include <rpgmapper/resource/resource_pointer.hpp>
 #include "colorwidget.hpp"
 
 
@@ -57,7 +57,7 @@ public:
      *
      * @param   palette     the new palette to show.
      */
-    void setPalette(rpgmapper::model::resource::ColorPalettePointer palette);
+    void setPalette(rpgmapper::model::resource::ResourcePointer palette);
     
 public slots:
     

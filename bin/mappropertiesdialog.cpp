@@ -30,7 +30,6 @@
 #include <rpgmapper/command/set_map_numeral_offset.hpp>
 #include <rpgmapper/command/set_map_origin.hpp>
 #include <rpgmapper/resource/background.hpp>
-#include <rpgmapper/resource/background_pointer.hpp>
 #include <rpgmapper/resource/resource.hpp>
 #include <rpgmapper/resource/resource_collection.hpp>
 #include <rpgmapper/resource/resource_db.hpp>
@@ -518,7 +517,7 @@ void MapPropertiesDialog::selectBackgroundImage() {
             
             auto name = QFileInfo{fileName}.fileName();
             name = getResourcePrefixForType(ResourceType::background) + "/" + name;
-            auto resource = BackgroundPointer{new Background{name, data}};
+            auto resource = ResourcePointer{new Background{name, data}};
             ResourceDB::getLocalResources()->addResource(resource);
             
             ui->backgroundImageFileComboBox->addItem(name);

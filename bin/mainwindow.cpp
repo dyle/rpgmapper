@@ -214,6 +214,8 @@ void MainWindow::connectActions() {
     
     connect(ui->colorPickerDockWidgetContents, &ColorChooserWidget::colorSelected, this, &MainWindow::colorSelected);
     
+    connect(ui->shapeToolBox, &ShapeCatalogsBox::shapeSelected, this, &MainWindow::shapeSelected);
+    
     connect(zoomSlider, &ZoomSlider::zoomChanged, this, &MainWindow::zoomChanged);
 }
 
@@ -708,6 +710,13 @@ void MainWindow::setupDialogs() {
     saveAtlasDialog->setAcceptMode(QFileDialog::AcceptSave);
     saveAtlasDialog->setWindowTitle(tr("Save Atlas file"));
     saveAtlasDialog->setDirectory(recentAtlasFolderName);
+}
+
+
+void MainWindow::shapeSelected(QString shapePath) {
+    auto tile = TileFactory::create(TileType::shape, {{"path", shapePath}});
+    auto session = Session::getCurrentSession();
+    session->setCurrentTile(tile);
 }
 
 

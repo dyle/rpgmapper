@@ -270,6 +270,13 @@ private slots:
     void clearListOfRecentFiles();
     
     /**
+     * The user selected a color.
+     *
+     * @param   color       the color the user selected.
+     */
+    void colorSelected(QColor color);
+    
+    /**
      * The user wants to create a totally new atlas.
      */
     void createNewAtlas();
@@ -283,13 +290,6 @@ private slots:
      * A new region has been created.
      */
     void createNewRegion();
-    
-    /**
-     * The user selected a color.
-     *
-     * @param   color       the color the user selected.
-     */
-    void colorSelected(QColor color);
     
     /**
      * A map has been deleted.
@@ -334,6 +334,13 @@ private slots:
      * The user selected a new tile.
      */
     void selectedTile();
+    
+    /**
+     * The user selected a shape.
+     *
+     * @param   shapePath       resource path to the shape selected.
+     */
+    void shapeSelected(QString shapePath);
     
     /**
      * View the current map.

@@ -63,6 +63,13 @@ private slots:
      * A new current shape.
      */
     void newShapeSelected();
+    
+signals:
+    
+    /**
+     * A shape has been selected.
+     */
+    void shapeSelected(QString shapePath);
 };
 
 

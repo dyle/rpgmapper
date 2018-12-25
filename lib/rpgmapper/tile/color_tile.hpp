@@ -17,6 +17,10 @@ namespace tile {
 
 /**
  * A ColorTile is a base tile, which draws a plain color.
+ *
+ * Attributes:
+ *
+ *      "color"     - The color value used for this tile.
  */
 class ColorTile : public Tile {
 

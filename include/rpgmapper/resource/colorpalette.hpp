@@ -77,7 +77,7 @@ public:
      *
      * @return  true if this is a valid instance.
      */
-    bool isValid() const {
+    bool isValid() const override {
         return valid;
     }
     

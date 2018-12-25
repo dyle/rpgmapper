@@ -82,8 +82,12 @@ void ColorPaletteWidget::selectedColorChange(int id, bool selected) {
 }
 
 
-void ColorPaletteWidget::setPalette(ColorPalettePointer palette) {
+void ColorPaletteWidget::setPalette(ResourcePointer palette) {
     for (int i = 0; i < 16 * 16; ++i) {
-        colorWidgets[i]->setColor(palette->getPalette()[i]);
+        auto colorPalette = dynamic_cast<ColorPalette *>(palette.data());
+        if (!colorPalette) {
+            throw std::runtime_error{"Not a color palette resource pointer present, when expected."};
+        }
+        colorWidgets[i]->setColor(colorPalette->getPalette()[i]);
     }
 }

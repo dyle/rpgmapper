@@ -36,10 +36,10 @@ public:
     /**
      * Constructor.
      *
-     * @param   name        name of the color palette.
-     * @param   data        a JSON structure holding the palette.
+     * @param   path        path to the shape resource.
+     * @param   data        a JSON structure holding the shape catalog.
      */
-    Shape(QString name, QByteArray const & data);
+    Shape(QString path, QByteArray const & data);
     
     /**
      * Gets the icon of this shape at a specific tile size.
@@ -78,7 +78,7 @@ public:
      *
      * @return  true if this is a valid instance.
      */
-    bool isValid() const {
+    bool isValid() const override {
         return valid;
     }
     

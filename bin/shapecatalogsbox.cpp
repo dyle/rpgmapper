@@ -6,7 +6,6 @@
 
 #include <rpgmapper/resource/resource_db.hpp>
 #include <rpgmapper/resource/resource_type.hpp>
-#include <rpgmapper/resource/shape_catalog_pointer.hpp>
 
 #include "shapecatalogsbox.hpp"
 #include "shapecatalogwidget.hpp"
@@ -28,6 +27,8 @@ void ShapeCatalogsBox::addCatalog(rpgmapper::model::resource::ShapeCatalog const
     auto shapeCatalogWidget = new ShapeCatalogWidget{this};
     shapeCatalogWidget->setCatalog(catalog->getPath());
     addItem(shapeCatalogWidget, catalog->getName());
+    
+    connect(shapeCatalogWidget, SIGNAL(shapeSelected(QString)), this, SIGNAL(shapeSelected(QString)));
 }
 
 

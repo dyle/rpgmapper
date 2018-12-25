@@ -5,10 +5,12 @@
  */
 
 #include <rpgmapper/layer/layer_stack.hpp>
+#include <rpgmapper/resource/resource_db.hpp>
 
 #include "shape_tile.hpp"
 
 using namespace rpgmapper::model::layer;
+using namespace rpgmapper::model::resource;
 using namespace rpgmapper::model::tile;
 
 #if defined(__GNUC__) || defined(__GNUCPP__)
@@ -35,6 +37,30 @@ bool ShapeTile::operator==(const Tile & rhs) const {
 
 void ShapeTile::draw(QPainter & painter, int tileSize) {
     QRect rect{0, 0, tileSize, tileSize};
+}
+
+
+QString ShapeTile::getPath() const {
+    
+    auto const & attributes = getAttributes();
+    
+    auto pair = attributes.find("path");
+    if (pair == attributes.end()) {
+        return QString::null;
+    }
+    
+    return (*pair).second;
+}
+
+
+rpgmapper::model::resource::ResourcePointer ShapeTile::getShape() const {
+    
+    auto path = getPath();
+    if (path.isEmpty()) {
+        return ResourcePointer{};
+    }
+    
+    return ResourceDB::getResource(path);
 }
 
 

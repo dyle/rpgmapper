@@ -38,19 +38,23 @@ namespace tile {
 /**
  * A single tile on a field holds key-value pairs and knows how to draw itself.
  *
- * A tile may be:
- *  - "river" - "south-west"
- *  - "wall" - "east"
- *  - "special" - "trapdoor"
+ * There are color tiles and shape tiles. A TileFactory is used to produce the tile
+ * of desired type.
  */
 class Tile {
 
 public:
     
+    /**
+     * The key-value map type.
+     */
     using Attributes = std::map<QString, QString>;
 
 private:
     
+    /**
+     * All key-value pairs of the tile instance.
+     */
     Attributes attributes;
 
 public:

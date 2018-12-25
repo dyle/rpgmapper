@@ -17,9 +17,7 @@
 #include <QStringList>
 
 #include <rpgmapper/resource/background.hpp>
-#include <rpgmapper/resource/background_pointer.hpp>
 #include <rpgmapper/resource/colorpalette.hpp>
-#include <rpgmapper/resource/colorpalette_pointer.hpp>
 #include <rpgmapper/resource/resource.hpp>
 #include <rpgmapper/resource/resource_collection.hpp>
 #include <rpgmapper/resource/resource_db.hpp>
@@ -27,8 +25,6 @@
 #include <rpgmapper/resource/resource_type.hpp>
 #include <rpgmapper/resource/shape.hpp>
 #include <rpgmapper/resource/shape_catalog.hpp>
-#include <rpgmapper/resource/shape_catalog_pointer.hpp>
-#include <rpgmapper/resource/shape_pointer.hpp>
 
 using namespace rpgmapper::model::resource;
 
@@ -88,11 +84,11 @@ ResourceLoader::ResourceLoader(QObject * parent) : QObject{parent} {
 
 
 ResourcePointer ResourceLoader::createBackground(QString path, QByteArray const & data, QStringList & log) {
-
-    BackgroundPointer background;
+    
+    ResourcePointer background;
     
     if (Background::isBackground(data)) {
-        background = BackgroundPointer(new Background{path, data});
+        background = ResourcePointer(new Background{path, data});
     }
     else {
         appendLog(log, QString{"Resource data at %1 is not a background as claimed."}.arg(path));
@@ -104,10 +100,10 @@ ResourcePointer ResourceLoader::createBackground(QString path, QByteArray const 
 
 ResourcePointer ResourceLoader::createColorPalette(QString path, QByteArray const & data, QStringList & log) {
     
-    ColorPalettePointer colorPalette;
+    ResourcePointer colorPalette;
     
     if (ColorPalette::isColorPalette(data)) {
-        colorPalette = ColorPalettePointer(new ColorPalette{path, data});
+        colorPalette = ResourcePointer(new ColorPalette{path, data});
     }
     else {
         appendLog(log, QString{"Resource data at %1 is not a color palette as claimed."}.arg(path));
@@ -162,10 +158,10 @@ ResourcePointer ResourceLoader::createResource(QString path, QByteArray const & 
 
 ResourcePointer ResourceLoader::createShape(QString path, QByteArray const & data, QStringList & log) {
     
-    ShapePointer shape;
+    ResourcePointer shape;
     
     if (Shape::isShape(data)) {
-        shape = ShapePointer(new Shape{path, data});
+        shape = ResourcePointer(new Shape{path, data});
     }
     else {
         appendLog(log, QString{"Resource data at %1 is not a shape as claimed."}.arg(path));
@@ -177,10 +173,10 @@ ResourcePointer ResourceLoader::createShape(QString path, QByteArray const & dat
 
 ResourcePointer ResourceLoader::createShapeCatalog(QString path, QByteArray const & data, QStringList & log) {
     
-    ShapeCatalogPointer shapeCatalog;
+    ResourcePointer shapeCatalog;
     
     if (ShapeCatalog::isShapeCatalog(data)) {
-        shapeCatalog = ShapeCatalogPointer(new ShapeCatalog{path, data});
+        shapeCatalog = ResourcePointer(new ShapeCatalog{path, data});
     }
     else {
         appendLog(log, QString{"Resource data at %1 is not a shape catalog as claimed."}.arg(path));

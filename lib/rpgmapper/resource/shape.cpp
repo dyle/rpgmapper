@@ -74,13 +74,9 @@ QImage Shape::render(unsigned int tileSize) const {
     
     QSize size{static_cast<int>(tileSize), static_cast<int>(tileSize)};
     QImage image{size, QImage::Format_ARGB32_Premultiplied};
+    image.fill(0);
 
     QPainter painter{&image};
-    painter.setBackgroundMode(Qt::TransparentMode);
-    
-    QRect rect{{0, 0}, image.size()};
-    painter.eraseRect(rect);
-    
     QSvgRenderer svgRenderer{getData()};
     svgRenderer.render(&painter);
     return image;

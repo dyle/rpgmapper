@@ -15,8 +15,10 @@
 #include <rpgmapper/resource/resource_db.hpp>
 #include <rpgmapper/resource/shape.hpp>
 #include <rpgmapper/resource/shape_catalog.hpp>
+#include <rpgmapper/tile/tile_insert_modes.hpp>
 
 using namespace rpgmapper::model::resource;
+using namespace rpgmapper::model::tile;
 
 
 ShapeCatalog::ShapeCatalog(QString name, QByteArray const & data) : Resource{std::move(name), data} {
@@ -53,6 +55,11 @@ void ShapeCatalog::addShape(QJsonObject const & json) {
         if (json.contains("z") && json["z"].isDouble()) {
             auto z = static_cast<unsigned int>(json["z"].toDouble(0.0));
             shape->setZOrdering(z);
+        }
+        
+        if (json.contains("mode") && json["mode"].isString()) {
+            auto mode = getInsertModeFromString(json["mode"].toString());
+            shape->setInsertMode(mode);
         }
     }
 }

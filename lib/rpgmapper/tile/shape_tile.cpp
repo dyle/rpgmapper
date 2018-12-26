@@ -76,6 +76,7 @@ bool ShapeTile::isPlaceable(UNUSED float x,
         UNUSED float y,
         rpgmapper::model::layer::LayerStack const * layerStack) const {
     
+    // TODO: check if the given shapetile is already present on the layer
     if (!layerStack) {
         return false;
     }

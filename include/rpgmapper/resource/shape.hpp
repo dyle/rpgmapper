@@ -14,6 +14,7 @@
 #include <QPixmap>
 
 #include <rpgmapper/resource/resource.hpp>
+#include <rpgmapper/tile/tile_insert_modes.hpp>
 
 
 namespace rpgmapper {
@@ -53,6 +54,8 @@ private:
     unsigned int zOrdering = 0;                           /**< Z-Order position of the shape in the target layer. */
     
     bool valid = false;                                   /**< Validity flag. */
+    
+    rpgmapper::model::tile::TileInsertMode insertMode;    /**< Insert mode of tile based on this shape. */
 
 public:
     
@@ -79,6 +82,15 @@ public:
      * @return  the shape as QImage at the given scale.
      */
     QImage getImage(unsigned int tileSize) const;
+    
+    /**
+     * Gets the insert mode of tiles based on this shape.
+     *
+     * @return  the insert mode of tiles of this shape.
+     */
+    rpgmapper::model::tile::TileInsertMode getInsertMode() const {
+        return insertMode;
+    }
     
     /**
      * Maximum Z order value for shapes.
@@ -138,6 +150,15 @@ public:
      * @param   data        the new data.
      */
     void setData(QByteArray const & data) override;
+    
+    /**
+     * Applies a new insert mode for tiles based on this shape.
+     *
+     * @param   insertMode      the new insert mode for tiles on this shape.
+     */
+    void setInsertMode(rpgmapper::model::tile::TileInsertMode insertMode) {
+        this->insertMode = insertMode;
+    }
     
     /**
      * Sets the target layer of the shape.

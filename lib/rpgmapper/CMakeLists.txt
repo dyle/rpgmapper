@@ -92,6 +92,7 @@ set(RPGMAPPER_LIB_SRC
     tile/shape_tile.cpp
     tile/tile.cpp
     tile/tile_factory.cpp
+    tile/tile_insert_modes.cpp
 )
 
 add_library(rpgm STATIC ${RPGMAPPER_LIB_SRC} ${RPGMAPPER_LIB_MOC_CPP})

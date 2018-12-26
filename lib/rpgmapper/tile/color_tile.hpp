@@ -45,6 +45,14 @@ public:
     bool operator==(Tile const & rhs) const override;
     
     /**
+     * Draws the tile.
+     *
+     * @param   painter         painter used for drawing
+     * @param   tileSize        the tile size.
+     */
+    void draw(QPainter & painter, int tileSize) override;
+    
+    /**
      * Retrieves the color in this color tile.
      *
      * @return  the color within this color tile.
@@ -52,12 +60,13 @@ public:
     QColor getColor() const;
     
     /**
-     * Draws the tile.
+     * Returns the insert mode of this particular tile when placed on a field.
      *
-     * @param   painter         painter used for drawing
-     * @param   tileSize        the tile size.
+     * @return  the insert mode enum value of this tile.
      */
-    void draw(QPainter & painter, int tileSize) override;
+    TileInsertMode getInsertMode() const override {
+        return TileInsertMode::exclusive;
+    }
     
     /**
      * Determines if the current tile is able to be placed at the map at the given position.

@@ -25,6 +25,8 @@ namespace tile {
  *      "path"     - The resource path used for the shape resource.
  */
 class ShapeTile : public Tile {
+    
+    TileInsertMode insertMode = TileInsertMode::additive;        /**< The insert mode of this tile. */
 
 public:
     
@@ -53,7 +55,16 @@ public:
      * @param   tileSize        the tile size.
      */
     void draw(QPainter & painter, int tileSize) override;
-
+    
+    /**
+     * Returns the insert mode of this particular tile when placed on a field.
+     *
+     * @return  the insert mode enum value of this tile.
+     */
+    TileInsertMode getInsertMode() const override {
+        return insertMode;
+    }
+    
     /**
      * Gets the resource path to the shape information.
      *

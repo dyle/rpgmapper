@@ -13,6 +13,7 @@
 #include <QString>
 
 #include <rpgmapper/layer/layer_stack.hpp>
+#include <rpgmapper/tile/tile_insert_modes.hpp>
 #include <rpgmapper/map_pointer.hpp>
 
 
@@ -96,6 +97,13 @@ public:
     Attributes const & getAttributes() const {
         return attributes;
     }
+    
+    /**
+     * Returns the insert mode of this particular tile when placed on a field.
+     *
+     * @return  the insert mode enum value of this tile.
+     */
+    virtual TileInsertMode getInsertMode() const = 0;
     
     /**
      * Gets the type of the tile.

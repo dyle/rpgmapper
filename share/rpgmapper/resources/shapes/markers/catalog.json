@@ -1,7 +1,7 @@
 {
     "name": "Markers",
     "shapes": [
-        {"name": "Star", "file": "star.svg", "layer": "tile", "z": 1},
-        {"name": "Skull", "file": "skull.svg", "layer": "tile", "z": 1}
+        {"name": "Star",        "file": "star.svg",         "layer": "tile", "z": 1, "mode": "exclusive"},
+        {"name": "Skull",       "file": "skull.svg",        "layer": "tile", "z": 1, "mode": "exclusive"}
     ] 
 }

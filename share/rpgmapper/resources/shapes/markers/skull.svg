@@ -32,7 +32,7 @@
      id="namedview1025"
      showgrid="false"
      inkscape:zoom="10"
-     inkscape:cx="26.014092"
+     inkscape:cx="8.564092"
      inkscape:cy="23.132438"
      inkscape:window-x="297"
      inkscape:window-y="46"
@@ -40,7 +40,7 @@
      inkscape:current-layer="svg24159" />
   <g
      id="layer1"
-     transform="matrix(0.14565551,0,0,0.15118715,-5.2259754,-6.24899)">
+     transform="matrix(0.12143749,0,0,0.12592788,-0.38246698,-1.1972282)">
     <g
        id="g879"
        transform="matrix(0.652,0,0,0.652,-51.231,-96.825)">
@@ -241,9 +241,11 @@
             <dc:title>Openclipart</dc:title>
           </cc:Agent>
         </dc:publisher>
-        <dc:title></dc:title>
+        <dc:title />
         <dc:date>2006-11-16T21:17:17</dc:date>
-        <dc:description>a skull and crossbones i found in the wikicommons...\n\nurl - http://commons.wikimedia.org/wiki/Image:Skull_and_crossbones.svg</dc:description>
+        <dc:description>a skull and crossbones i found in the wikicommons...
+\n
+\nurl - http://commons.wikimedia.org/wiki/Image:Skull_and_crossbones.svg</dc:description>
         <dc:source>https://openclipart.org/detail/1448/skull-and-crossbones-by-ryanlerch</dc:source>
         <dc:creator>
           <cc:Agent>

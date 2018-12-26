@@ -33,7 +33,7 @@
      showgrid="false"
      borderopacity="1.0"
      inkscape:current-layer="layer1"
-     inkscape:cx="20.489132"
+     inkscape:cx="2.8688119"
      inkscape:cy="26.819224"
      fit-margin-right="0"
      fit-margin-bottom="0"
@@ -47,7 +47,7 @@
      transform="translate(-262.89,-599.59)">
     <g
        id="g3867"
-       transform="matrix(0.2471421,0,0,0.25984373,200.45772,497.98874)">
+       transform="matrix(0.20595175,0,0,0.21653644,214.86686,518.91989)">
       <path
          id="path2985"
          sodipodi:r2="23.082041"
@@ -116,7 +116,7 @@
             <dc:title>Openclipart</dc:title>
           </cc:Agent>
         </dc:publisher>
-        <dc:title></dc:title>
+        <dc:title />
         <dc:date>2010-11-13T20:17:55</dc:date>
         <dc:description>A star with simple shadowing</dc:description>
         <dc:source>https://openclipart.org/detail/95431/star-by-artokem</dc:source>

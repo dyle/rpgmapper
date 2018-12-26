@@ -1,5 +1,5 @@
 {
-    "name": "Basic shapes",
+    "name": "Basic",
     "shapes": [
         {"name": "Wall (north)",    "file": "wall_N.svg",       "layer": "tile", "z": 0, "mode": "additive"},
         {"name": "Wall (east)",     "file": "wall_E.svg",       "layer": "tile", "z": 0, "mode": "additive"},

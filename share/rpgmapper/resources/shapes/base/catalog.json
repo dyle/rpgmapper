@@ -1,0 +1,6 @@
+{
+    "name": "Base",
+    "shapes": [
+        {"name": "Grass 1",         "file": "grass_1.svg",      "layer": "base", "z": 0, "mode": "exclusive"}
+    ] 
+}

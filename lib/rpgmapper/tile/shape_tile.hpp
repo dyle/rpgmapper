@@ -102,17 +102,30 @@ public:
 private:
     
     /**
+     * Checks if the tile is placeable on the layer
+     *
+     * @param   x               X position to place the tile.
+     * @param   y               Y position to place the tile.
+     * @param   layers          the vector of intended tile layers.
+     * @return  true, if the element has been newly placed.
+     */
+    bool isPlaceableOnLayer(rpgmapper::model::resource::Shape const * shape,
+            float x,
+            float y,
+            std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> const & layers) const;
+    
+    /**
      * Places this tile within the layer stack of a map.
      *
      * @param   x               X position to place the tile.
      * @param   y               Y position to place the tile.
-     * @param   layerStack      the stack of layers of the map.
+     * @param   layers          the vector of intended tile layers.
      * @return  true, if the element has been newly placed.
      */
     bool placeOnLayer(rpgmapper::model::resource::Shape * shape,
             float x,
             float y,
-            std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layerStack);
+            std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layers);
     
     /**
      * Places this tile within the layer stack of a map.

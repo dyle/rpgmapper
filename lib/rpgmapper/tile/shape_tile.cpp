@@ -72,11 +72,8 @@ rpgmapper::model::resource::ResourcePointer ShapeTile::getShape() const {
 }
 
 
-bool ShapeTile::isPlaceable(UNUSED float x,
-        UNUSED float y,
-        rpgmapper::model::layer::LayerStack const * layerStack) const {
+bool ShapeTile::isPlaceable(float x, float y, rpgmapper::model::layer::LayerStack const * layerStack) const {
     
-    // TODO: check if the given shapetile is already present on the layer
     if (!layerStack) {
         return false;
     }
@@ -84,6 +81,40 @@ bool ShapeTile::isPlaceable(UNUSED float x,
     auto resource = getShape();
     auto shape = dynamic_cast<Shape const *>(resource.data());
     if (!shape) {
+        return false;
+    }
+    
+    switch (shape->getTargetLayer()) {
+        
+        case Shape::TargetLayer::unknown:
+            return false;
+        
+        case Shape::TargetLayer::base:
+            return isPlaceableOnLayer(shape, x, y, layerStack->getBaseLayers());
+        
+        case Shape::TargetLayer::tile:
+            return isPlaceableOnLayer(shape, x, y, layerStack->getTileLayers());
+    }
+    
+    return false;
+}
+
+
+bool ShapeTile::isPlaceableOnLayer(rpgmapper::model::resource::Shape const * shape,
+        float x,
+        float y,
+        std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> const & layers) const {
+    
+    if ((layers.size() - 1) < shape->getZOrdering()) {
+        return true;
+    }
+    auto layer = layers[shape->getZOrdering()].data();
+    if (!layer->isFieldPresent(static_cast<int>(x), static_cast<int>(y))) {
+        return true;
+    }
+    
+    auto field = layer->getField(static_cast<int>(x), static_cast<int>(y));
+    if (field->isTilePresent(this)) {
         return false;
     }
     
@@ -119,17 +150,17 @@ bool ShapeTile::place(float x, float y, LayerStack * layerStack) {
 bool ShapeTile::placeOnLayer(rpgmapper::model::resource::Shape * shape,
         float x,
         float y,
-        std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layerStack) {
+        std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layers) {
     
-    auto map = layerStack[0]->getMap();
+    auto map = layers[0]->getMap();
     if (!map) {
         return false;
     }
     
-    while (layerStack.size() <= shape->getZOrdering()) {
-        layerStack.push_back(QSharedPointer<TileLayer>{new TileLayer{map}});
+    while (layers.size() <= shape->getZOrdering()) {
+        layers.push_back(QSharedPointer<TileLayer>{new TileLayer{map}});
     }
-    auto layer = layerStack[shape->getZOrdering()].data();
+    auto layer = layers[shape->getZOrdering()].data();
     
     return placeOnLayer(x, y, layer);
 }

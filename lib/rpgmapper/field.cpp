@@ -5,9 +5,11 @@
  */
 
 #include <rpgmapper/coordinate_system.hpp>
+#include <rpgmapper/tile/tile.hpp>
 #include <rpgmapper/field.hpp>
 
 using namespace rpgmapper::model;
+using namespace rpgmapper::model::tile;
 
 /**
  * The very maximum dimension value we support regardless of the maximum size of a map.
@@ -30,6 +32,22 @@ int Field::getIndex(int x, int y) {
 
 QPoint Field::getPositionFromIndex(int index) {
     return {index / MAX_DIMENSION_VALUE, index % MAX_DIMENSION_VALUE};
+}
+
+
+bool Field::isTilePresent(rpgmapper::model::tile::Tile const * tile) const {
+    
+    if (!tile) {
+        return false;
+    }
+    
+    for (auto && tileIter : getTiles()) {
+        if ((*tileIter.data()) == (*tile)) {
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 

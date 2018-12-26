@@ -62,7 +62,7 @@ bool ColorTile::isPlaceable(float x, float y, rpgmapper::model::layer::LayerStac
         return true;
     }
     auto field = layer->getField(static_cast<int>(x), static_cast<int>(y));
-    if (!field->getTiles().empty() && ((*field->getTiles()[0].data()) == (*this))) {
+    if (field->isTilePresent(this)) {
         return false;
     }
     

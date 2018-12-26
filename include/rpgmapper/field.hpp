@@ -110,6 +110,13 @@ public:
     std::vector<rpgmapper::model::tile::TilePointer> const & getTiles() const {
         return tiles;
     }
+    
+    /**
+     * Checks if a specific tile is already placed on the field.
+     *
+     * @return  true, if this tile is already placed there.
+     */
+    bool isTilePresent(rpgmapper::model::tile::Tile const * tile) const;
 
     /**
      * Returns true if this is a valid Field.

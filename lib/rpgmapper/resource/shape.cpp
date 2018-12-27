@@ -20,28 +20,30 @@ Shape::Shape(QString name, QByteArray const & data) : Resource{std::move(name), 
 }
 
 
-void Shape::addCache(unsigned int tileSize, QImage image, QPixmap pixmap, QIcon icon) const {
-    icons.emplace(tileSize, icon);
-    images.emplace(tileSize, image);
-    pixmaps.emplace(tileSize, pixmap);
+void Shape::addCache(QString index, QImage image, QPixmap pixmap, QIcon icon) const {
+    icons.emplace(index, icon);
+    images.emplace(index, image);
+    pixmaps.emplace(index, pixmap);
 }
 
 
-QIcon Shape::getIcon(unsigned int tileSize) const {
-    prepare(tileSize);
-    return icons.at(tileSize);
+QIcon Shape::getIcon(unsigned int tileSize, double rotation, double stretch) const {
+    return icons.at(prepare(tileSize, rotation, stretch));
 }
 
 
-QImage Shape::getImage(unsigned int tileSize) const {
-    prepare(tileSize);
-    return images.at(tileSize);
+QImage Shape::getImage(unsigned int tileSize, double rotation, double stretch) const {
+    return images.at(prepare(tileSize, rotation, stretch));
 }
 
 
-QPixmap Shape::getPixmap(unsigned int tileSize) const {
-    prepare(tileSize);
-    return pixmaps.at(tileSize);
+QString Shape::getIndex(unsigned int tileSize, double rotation, double stretch) {
+    return QString{"%1@%2-%3"}.arg(tileSize).arg(rotation).arg(stretch);
+}
+
+
+QPixmap Shape::getPixmap(unsigned int tileSize, double rotation, double stretch) const {
+    return pixmaps.at(prepare(tileSize, rotation, stretch));
 }
 
 
@@ -55,22 +57,27 @@ bool Shape::isShape(QByteArray const & data) {
 }
 
 
-void Shape::prepare(unsigned int tileSize) const {
-
-    auto iconPresent = icons.find(tileSize) != icons.end();
-    auto imagePresent = images.find(tileSize) != images.end();
-    auto pixmapPresent = pixmaps.find(tileSize) != pixmaps.end();
+QString Shape::prepare(unsigned int tileSize, double rotation, double stretch) const {
+    
+    auto index = getIndex(tileSize, rotation, stretch);
+    
+    auto iconPresent = icons.find(index) != icons.end();
+    auto imagePresent = images.find(index) != images.end();
+    auto pixmapPresent = pixmaps.find(index) != pixmaps.end();
+    
     if (!iconPresent || !imagePresent || !pixmapPresent) {
     
-        auto image = render(tileSize);
+        auto image = render(tileSize, rotation, stretch);
         auto pixmap = QPixmap::fromImage(image);
         auto icon = QIcon{pixmap};
-        addCache(tileSize, image, pixmap, icon);
+        addCache(index, image, pixmap, icon);
     }
+    
+    return index;
 }
 
 
-QImage Shape::render(unsigned int tileSize) const {
+QImage Shape::render(unsigned int tileSize, double rotation, double stretch) const {
     
     QSize size{static_cast<int>(tileSize), static_cast<int>(tileSize)};
     QImage image{size, QImage::Format_ARGB32_Premultiplied};
@@ -79,7 +86,12 @@ QImage Shape::render(unsigned int tileSize) const {
     QPainter painter{&image};
     QSvgRenderer svgRenderer{getData()};
     svgRenderer.render(&painter);
-    return image;
+    
+    QMatrix matrix;
+    matrix.rotate(rotation);
+    matrix.scale(stretch, stretch);
+    
+    return image.transformed(matrix, Qt::SmoothTransformation);
 }
 
 

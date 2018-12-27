@@ -46,9 +46,9 @@ public:
     
 private:
     
-    mutable std::map<unsigned int, QIcon> icons;          /**< The shape icon at a certain scale (tile size). */
-    mutable std::map<unsigned int, QImage> images;        /**< The shape image at a certain scale (tile size). */
-    mutable std::map<unsigned int, QPixmap> pixmaps;      /**< The shape pixmap at a certain scale (tile size). */
+    mutable std::map<QString, QIcon> icons;               /**< The shape icon at "scale@rotation-stretch". */
+    mutable std::map<QString, QImage> images;             /**< The shape image at "scale@rotation-stretch". */
+    mutable std::map<QString, QPixmap> pixmaps;           /**< The shape pixmap at "scale@rotation-stretch". */
     
     TargetLayer targetLayer = TargetLayer::tile;          /**< Where to place this shape. */
     unsigned int zOrdering = 0;                           /**< Z-Order position of the shape in the target layer. */
@@ -68,20 +68,24 @@ public:
     Shape(QString path, QByteArray const & data);
     
     /**
-     * Gets the icon of this shape at a specific tile size.
+     * Gets the icon of this shape at a specific tile size, rotation and stretch.
      *
      * @param   tileSize        the tile size of the image requested.
-     * @return  the shape as QIcon at the given scale.
+     * @param   rotation        rotation in degree.
+     * @param   stretch         stretch scaling.
+     * @return  the shape as QIcon at the given scale, rotation and stretch.
      */
-    QIcon getIcon(unsigned int tileSize) const;
+    QIcon getIcon(unsigned int tileSize, double rotation = 0.0, double stretch = 1.0) const;
     
     /**
-     * Gets the image of this shape at a specific tile size.
+     * Gets the image of this shape at a specific tile size, rotation and stretch.
      *
      * @param   tileSize        the tile size of the image requested.
-     * @return  the shape as QImage at the given scale.
+     * @param   rotation        rotation in degree.
+     * @param   stretch         stretch scaling.
+     * @return  the shape as QImage at the given scale, rotation and stretch.
      */
-    QImage getImage(unsigned int tileSize) const;
+    QImage getImage(unsigned int tileSize, double rotation = 0.0, double stretch = 1.0) const;
     
     /**
      * Gets the insert mode of tiles based on this shape.
@@ -102,12 +106,24 @@ public:
     }
     
     /**
-     * Gets the pixmap of this shape at a specific tile size.
+     * Returns teh index string into the cache based on the given parameters.
+     *
+     * @param   tileSize        size of the image.
+     * @param   rotation        rotation of the image.
+     * @param   stretch         stretch factor of the image.
+     * @return  the index string for the image cache.
+     */
+    static QString getIndex(unsigned int tileSize, double rotation, double stretch);
+    
+    /**
+     * Gets the pixmap of this shape at a specific tile size, rotation and stretch.
      *
      * @param   tileSize        the tile size of the image requested.
-     * @return  the shape as QPixmap at the given scale.
+     * @param   rotation        rotation in degree.
+     * @param   stretch         stretch scaling.
+     * @return  the shape as QPixmap at the given scale, rotation and stretch.
      */
-    QPixmap getPixmap(unsigned int tileSize) const;
+    QPixmap getPixmap(unsigned int tileSize, double rotation = 0.0, double stretch = 1.0) const;
     
     /**
      * Gets the target layer of the shape.
@@ -191,27 +207,32 @@ private:
     /**
      * Adds the rendered drawings of this shape to the internal cache.
      *
-     * @param   tileSize        the length of the square.
+     * @param   index           the index identyfing the transformation of the image.
      * @param   image           the QImage of the shape at the given size.
      * @param   pixmap          the QPixmap of the shape at the given size.
      * @param   icon            the QIcon of the shape at the given size.
      */
-    void addCache(unsigned int tileSize, QImage image, QPixmap pixmap, QIcon icon) const;
+    void addCache(QString index, QImage image, QPixmap pixmap, QIcon icon) const;
     
     /**
      * Adds the drawings (icon, image and pixmap) of the shape at the given tile size.
      *
-     * @param   tileSize        the length of the square to draw.
+     * @param   tileSize        the tile size of the image requested.
+     * @param   rotation        rotation in degree.
+     * @param   stretch         stretch scaling.
+     * @return  the index identifying the image.
      */
-    void prepare(unsigned int tileSize) const;
+    QString prepare(unsigned int tileSize, double rotation, double stretch) const;
     
     /**
      * Renders the shape on an image of the given square with length tileSize.
      *
      * @param   tileSize        the length of the square.
+     * @param   rotation        rotation in degree.
+     * @param   stretch         stretch scaling.
      * @return  an image holding the shape at the given square size.
      */
-    QImage render(unsigned int tileSize) const;
+    QImage render(unsigned int tileSize, double rotation, double stretch) const;
 };
 
 

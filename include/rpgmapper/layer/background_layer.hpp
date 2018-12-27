@@ -164,9 +164,9 @@ public:
     /**
      * Applies a new name for the background image resource.
      *
-     * @param    name       the name of the new image resource.
+     * @param    path       the resource path of the new image resource.
      */
-    void setImageResource(QString name);
+    void setImageResource(QString path);
     
     /**
      * Sets a new rendering theme: "color" or "image".

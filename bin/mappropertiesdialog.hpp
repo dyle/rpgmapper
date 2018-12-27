@@ -50,6 +50,9 @@ class MapPropertiesDialog : public QDialog {
     std::list<QRadioButton *> xAxisNumeralButtons;          /**< List for each numeral converter on the x-axis. */
     std::list<QRadioButton *> yAxisNumeralButtons;          /**< List for each numeral converter on the y-axis. */
     
+    
+    std::map<QString, QString> backgroundImageNameToPath;   /**< Mapping of background names and resource paths. */
+    
     /**
      * The current map we work on.
      */

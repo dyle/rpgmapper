@@ -172,13 +172,13 @@ void BackgroundLayer::setColor(QColor color) {
 }
 
 
-void BackgroundLayer::setImageResource(QString name) {
+void BackgroundLayer::setImageResource(QString path) {
     
-    if (getImageResource() != name) {
+    if (getImageResource() != path) {
         
-        getAttributes()["renderImageName"] = name;
+        getAttributes()["renderImageName"] = path;
         
-        auto resource = ResourceDB::getResource(name);
+        auto resource = ResourceDB::getResource(path);
         if (resource) {
     
             if (backgroundPixmap) {
@@ -192,7 +192,7 @@ void BackgroundLayer::setImageResource(QString name) {
             }
         }
         
-        emit backgroundImageChanged(name);
+        emit backgroundImageChanged(path);
     }
 }
 

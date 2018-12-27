@@ -191,9 +191,14 @@ void MapPropertiesDialog::applyBackgroundValuesToMap(CompositeCommand * & comman
         commands->addCommand(CommandPointer{new SetMapBackgroundRendering{newMapName, "image"}});
     }
 
-    auto selectedImage = ui->backgroundImageFileComboBox->currentText();
-    if (selectedImage != tr("<applied on map>") && ui->backgroundImageRadioButton->isChecked()) {
-        commands->addCommand(CommandPointer{new SetMapBackgroundImage{newMapName, selectedImage}});
+    auto selectedImageName = ui->backgroundImageFileComboBox->currentText();
+    if (ui->backgroundImageRadioButton->isChecked()) {
+        
+        auto pair = backgroundImageNameToPath.find(selectedImageName);
+        if (pair != backgroundImageNameToPath.end()) {
+            auto backgroundImagePath = (*pair).second;
+            commands->addCommand(CommandPointer{new SetMapBackgroundImage{newMapName, backgroundImagePath}});
+        }
     }
 
     auto mode = getSelectedImageRenderMode();
@@ -269,24 +274,34 @@ void MapPropertiesDialog::applyValuesToMap() {
 
 
 void MapPropertiesDialog::backgroundImageSelected(QString backgroundImage) {
-
+    
+    QString backgroundImagePath;
+    if (!backgroundImage.isEmpty()) {
+        auto pair = backgroundImageNameToPath.find(backgroundImage);
+        if (pair == backgroundImageNameToPath.end()) {
+            backgroundImage = QString::null;
+        }
+        else {
+            backgroundImagePath = (*pair).second;
+        }
+    }
+    
     if (backgroundImage.isEmpty()) {
         backgroundPreviewLabel->setPixmap(QPixmap{});
         backgroundPreviewLabel->update();
+        return;
     }
-    else {
-        
-        auto resource = ResourceDB::getResource(backgroundImage);
-        if (!resource) {
-            auto errorText = "Unknown resource: " + backgroundImage.toStdString();
-            throw std::runtime_error{errorText};
-        }
-        
-        QPixmap pixmap;
-        pixmap.convertFromImage(QImage::fromData(resource->getData()));
-        backgroundPreviewLabel->setPixmap(pixmap);
-        backgroundPreviewLabel->update();
+    
+    auto resource = ResourceDB::getResource(backgroundImagePath);
+    if (!resource) {
+        auto errorText = "Unknown resource: " + backgroundImage.toStdString();
+        throw std::runtime_error{errorText};
     }
+    
+    QPixmap pixmap;
+    pixmap.convertFromImage(QImage::fromData(resource->getData()));
+    backgroundPreviewLabel->setPixmap(pixmap);
+    backgroundPreviewLabel->update();
 }
 
 
@@ -300,14 +315,18 @@ void MapPropertiesDialog::clickedOk() {
 
 void MapPropertiesDialog::collectBackgroundImages() {
     
+    backgroundImageNameToPath.clear();
+    
     auto backgroundResourcePrefix = getResourcePrefixForType(ResourceType::background);
-    auto backgroundImageNames = ResourceDB::getResources(backgroundResourcePrefix);
+    auto backgroundImagePaths = ResourceDB::getResources(backgroundResourcePrefix);
     
-    for (auto const & resourceName : backgroundImageNames) {
+    for (auto const & resourcePath : backgroundImagePaths) {
     
-        auto resource = ResourceDB::getResource(resourceName);
+        auto resource = ResourceDB::getResource(resourcePath);
         if (resource) {
-            ui->backgroundImageFileComboBox->addItem(resourceName);
+            auto name = resource->getName();
+            backgroundImageNameToPath[name] = resourcePath;
+            ui->backgroundImageFileComboBox->addItem(name);
         }
     }
 }

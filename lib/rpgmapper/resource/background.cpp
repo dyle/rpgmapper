@@ -14,9 +14,11 @@ using namespace rpgmapper::model::resource;
 
 
 Background::Background(QString path, QByteArray const & data) : Resource{path, data} {
+    
     QFileInfo fileInfo{path};
     auto fileName = fileInfo.fileName();
     setName(fileName.left(fileName.indexOf('.')));
+    setData(data);
 }
 
 
@@ -34,5 +36,5 @@ void Background::setData(QByteArray const & data) {
     
     Resource::setData(data);
     image = QImage::fromData(data);
-    valid = image.isNull();
+    valid = !image.isNull();
 }

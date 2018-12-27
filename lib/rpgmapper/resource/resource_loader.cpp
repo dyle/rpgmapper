@@ -139,7 +139,7 @@ ResourcePointer ResourceLoader::createResource(QString path, QByteArray const & 
         appendLog(log, "Resource data is empty. Refusing to create empty resource.");
         return resource;
     }
-    
+
     auto resourceType = suggestResourceTypeByPath(path);
     switch (resourceType) {
         

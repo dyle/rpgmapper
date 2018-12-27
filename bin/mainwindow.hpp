@@ -90,6 +90,16 @@ public slots:
     void enableActions();
     
     /**
+     * Rotates the current selected tile counter clockwise.
+     */
+    void rotateTileLeft();
+    
+    /**
+     * Rotates the current selected tile clockwise.
+     */
+    void rotateTileRight();
+    
+    /**
      * Adjust the window title.
      */
     void setApplicationWindowTitle();

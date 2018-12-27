@@ -176,6 +176,8 @@ void MainWindow::connectActions() {
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->actionOpenAtlasFile, &QAction::triggered, this, &MainWindow::load);
     connect(ui->actionRedraw, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::redrawCurrentMap);
+    connect(ui->actionRotateTileLeft, &QAction::triggered, this, &MainWindow::rotateTileLeft);
+    connect(ui->actionRotateTileRight, &QAction::triggered, this, &MainWindow::rotateTileRight);
     connect(ui->actionShowAboutDialog, &QAction::triggered, this, &MainWindow::showAboutDialog);
     connect(ui->actionShowAtlasProperties, &QAction::triggered, this, &MainWindow::editAtlasProperties);
     connect(ui->actionShowMapProperties, &QAction::triggered, this, &MainWindow::editMapProperties);
@@ -211,6 +213,8 @@ void MainWindow::connectActions() {
     connect(ui->mapTabWidget, &MapTabWidget::hoverCoordinates, this, &MainWindow::showCoordinates);
     connect(ui->mapTabWidget, &MapTabWidget::decreaseZoom, zoomSlider, &ZoomSlider::decrease);
     connect(ui->mapTabWidget, &MapTabWidget::increaseZoom, zoomSlider, &ZoomSlider::increase);
+    connect(ui->mapTabWidget, &MapTabWidget::rotateTileLeft, this, &MainWindow::rotateTileLeft);
+    connect(ui->mapTabWidget, &MapTabWidget::rotateTileRight, this, &MainWindow::rotateTileRight);
     
     connect(ui->colorPickerDockWidgetContents, &ColorChooserWidget::colorSelected, this, &MainWindow::colorSelected);
     
@@ -466,6 +470,7 @@ void MainWindow::enableActions() {
     auto session = Session::getCurrentSession();
     auto currentMapName = session->getCurrentMapName();
     auto currentRegionName = session->getCurrentRegionName();
+    auto currentTile = session->getCurrentTile();
     
     ui->actionClearRecentList->setEnabled(!recentAtlasFileNames.empty());
     ui->actionCloseMap->setEnabled(ui->mapTabWidget->currentWidget() != nullptr);
@@ -484,6 +489,9 @@ void MainWindow::enableActions() {
         ui->actionShowAxis->setChecked(mapWidget->isAxisVisible());
         ui->actionShowGrid->setChecked(mapWidget->isGridVisible());
     }
+    
+    ui->actionRotateTileLeft->setEnabled(currentTile != nullptr);
+    ui->actionRotateTileRight->setEnabled(currentTile != nullptr);
 }
 
 
@@ -584,6 +592,32 @@ void MainWindow::loadSettings() {
 }
 
 
+void MainWindow::rotateTileLeft() {
+    
+    auto session = Session::getCurrentSession();
+    auto tile = session->getCurrentTile();
+    if (!tile) {
+        return;
+    }
+    
+    tile->rotateLeft();
+    ui->currentTileWidget->update();
+}
+
+
+void MainWindow::rotateTileRight() {
+    
+    auto session = Session::getCurrentSession();
+    auto tile = session->getCurrentTile();
+    if (!tile) {
+        return;
+    }
+    
+    tile->rotateRight();
+    ui->currentTileWidget->update();
+}
+
+
 bool MainWindow::save() {
     
     auto session = Session::getCurrentSession();
@@ -665,9 +699,12 @@ void MainWindow::saveSettingsWindow(QSettings & settings) {
 
 
 void MainWindow::selectedTile() {
+    
     auto session = Session::getCurrentSession();
     auto tile = session->getCurrentTile();
+    
     ui->currentTileWidget->setCurrentTile(tile);
+    enableActions();
 }
 
 

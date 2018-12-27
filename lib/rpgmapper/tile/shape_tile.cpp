@@ -44,7 +44,7 @@ void ShapeTile::draw(QPainter & painter, int tileSize) {
         return;
     }
     
-    auto pixmap = shape->getPixmap(tileSize);
+    auto pixmap = shape->getPixmap(tileSize, getRotation(), getStretch());
     painter.drawPixmap(0, 0, pixmap);
 }
 

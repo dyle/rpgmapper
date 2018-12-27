@@ -38,6 +38,8 @@ MapWidget::MapWidget(QWidget * parent)
           axisVisible{true},
           gridVisible{true},
           hoveredTilePosition{-1, -1} {
+    
+    setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
 }
 
@@ -103,6 +105,28 @@ void MapWidget::drawHoveredTile(QPainter & painter) {
 }
 
 
+void MapWidget::focusInEvent(QFocusEvent * event) {
+    QWidget::focusInEvent(event);
+    grabKeyboard();
+}
+
+
+void MapWidget::focusOutEvent(QFocusEvent * event) {
+    QWidget::focusOutEvent(event);
+    releaseKeyboard();
+}
+
+
+void MapWidget::keyPressEvent(QKeyEvent * event) {
+    
+    QWidget::keyPressEvent(event);
+    auto shiftPressed = event->modifiers().testFlag(Qt::ShiftModifier);
+    if (shiftPressed) {
+        emit rotateTileRight();
+    }
+}
+
+
 void MapWidget::mapNameChanged(UNUSED QString oldName, QString newName) {
     mapName = std::move(newName);
 }
@@ -123,6 +147,7 @@ void MapWidget::mapSizeChanged() {
 void MapWidget::mouseMoveEvent(QMouseEvent * event) {
 
     QWidget::mouseMoveEvent(event);
+    setFocus(Qt::MouseFocusReason);
     
     auto pointInfo = widgetToMapCoordinates(event->x(), event->y());
     if (std::get<1>(pointInfo)) {

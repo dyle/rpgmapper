@@ -133,7 +133,28 @@ public slots:
     void setTileSize(int tileSize);
 
 protected:
-
+    
+    /**
+     * The map widget has received the focus.
+     *
+     * @param   event       the focus event.
+     */
+    void focusInEvent(QFocusEvent * event);
+    
+    /**
+     * The map widget has lost the focus.
+     *
+     * @param   event       the focus event.
+     */
+    void focusOutEvent(QFocusEvent * event);
+    
+    /**
+     * The user pressed a key.
+     *
+     * @param   event       the key event.
+     */
+    void keyPressEvent(QKeyEvent * event);
+    
     /**
      * Special handling of mouse move events.
      *
@@ -217,6 +238,16 @@ signals:
      * @param   mapY        map Y-coordinate the user currently hovers with the mouse.
      */
     void hoverCoordinates(int mapX, int mapY);
+    
+    /**
+     * Request to rotate the current tile left.
+     */
+    void rotateTileLeft();
+    
+    /**
+     * Request to rotate the current tile right.
+     */
+    void rotateTileRight();
 };
 
 

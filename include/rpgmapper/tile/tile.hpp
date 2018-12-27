@@ -63,7 +63,7 @@ public:
     /**
      * Constructor.
      */
-    Tile() = default;
+    explicit Tile();
     
     /**
      * Constructor.
@@ -121,6 +121,20 @@ public:
     virtual void draw(QPainter &painter, int tileSize) = 0;
     
     /**
+     * Returns the tile rotation value.
+     *
+     * @return  the tile rotation value in degrees.
+     */
+    double getRotation() const;
+    
+    /**
+     * Returns the tile stretch factor.
+     *
+     * @return  the tile stretch factor.
+     */
+    double getStretch() const;
+    
+    /**
      * Determines if the current tile is able to be placed at the map at the given position.
      *
      * @param   x               X position to place the tile.
@@ -155,6 +169,23 @@ public:
      * @return  true, if the element has been newly placed.
      */
     virtual bool place(float x, float y, rpgmapper::model::layer::LayerStack * layerStack) = 0;
+    
+    /**
+     * Rotates the tile counter clockwise.
+     */
+    void rotateLeft();
+    
+    /**
+     * Rotates the tile clockwise.
+     */
+    void rotateRight();
+    
+private:
+    
+    /**
+     * Inits the attributes.
+     */
+    void initAttributes();
 };
 
 

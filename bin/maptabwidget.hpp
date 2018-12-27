@@ -113,6 +113,16 @@ signals:
      * Requests to increase the map zoom level.
      */
     void increaseZoom();
+    
+    /**
+     * Request to rotate the current tile left.
+     */
+    void rotateTileLeft();
+    
+    /**
+     * Request to rotate the current tile right.
+     */
+    void rotateTileRight();
 };
 
 

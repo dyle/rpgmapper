@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icons">
+    <file>gfx/rotate-left.png</file>
+    <file>gfx/rotate-right.png</file>
     <file>gfx/shapes.png</file>
     <file>gfx/background.png</file>
     <file>gfx/colorpalette.png</file>

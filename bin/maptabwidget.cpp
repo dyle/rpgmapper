@@ -131,7 +131,10 @@ void MapTabWidget::selectMap(QString mapName) {
 
         auto mapWidget = new MapWidget{this};
         mapWidget->setMap(mapName);
+        
         connect(mapWidget, &MapWidget::hoverCoordinates, this, &MapTabWidget::hoverCoordinates);
+        connect(mapWidget, &MapWidget::rotateTileLeft, this, &MapTabWidget::rotateTileLeft);
+        connect(mapWidget, &MapWidget::rotateTileRight, this, &MapTabWidget::rotateTileRight);
 
         auto mapScrollArea = new MapScrollArea{this, mapWidget};
         connect(mapScrollArea, &MapScrollArea::decreaseZoom, this, &MapTabWidget::decreaseZoom);

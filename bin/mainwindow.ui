@@ -34,7 +34,7 @@
     <item>
      <widget class="rpgmapper::view::MapTabWidget" name="mapTabWidget">
       <property name="toolTip">
-       <string>Click to add a tile, drag with right mouse to move, mouse wheel to zoom.</string>
+       <string>Click to add a tile, press shift to rotate tile, drag with right mouse to move, mouse wheel to zoom.</string>
       </property>
       <property name="autoFillBackground">
        <bool>false</bool>
@@ -151,6 +151,8 @@
    <addaction name="separator"/>
    <addaction name="actionShowAxis"/>
    <addaction name="actionShowGrid"/>
+   <addaction name="actionRotateTileLeft"/>
+   <addaction name="actionRotateTileRight"/>
   </widget>
   <widget class="QDockWidget" name="miniMapDockWidget">
    <property name="windowTitle">
@@ -603,7 +605,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>&amp;Structure</string>
+    <string>Str&amp;ucture</string>
    </property>
   </action>
   <action name="actionCloseMap">
@@ -685,6 +687,30 @@
   <action name="actionViewResources">
    <property name="text">
     <string>View &amp;Resources</string>
+   </property>
+  </action>
+  <action name="actionRotateTileLeft">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/rotate-left.png</normaloff>:/icons/gfx/rotate-left.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rotate Left</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate current tile counter clockwise.</string>
+   </property>
+  </action>
+  <action name="actionRotateTileRight">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/rotate-right.png</normaloff>:/icons/gfx/rotate-right.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rotate Right</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate current tile clockwise.</string>
    </property>
   </action>
  </widget>

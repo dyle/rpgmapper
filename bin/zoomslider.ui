@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>280</width>
-    <height>24</height>
+    <width>260</width>
+    <height>32</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,19 +15,19 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0">
    <property name="spacing">
-    <number>6</number>
+    <number>2</number>
    </property>
    <property name="sizeConstraint">
     <enum>QLayout::SetFixedSize</enum>
    </property>
    <property name="leftMargin">
-    <number>6</number>
+    <number>2</number>
    </property>
    <property name="topMargin">
     <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>6</number>
+    <number>2</number>
    </property>
    <property name="bottomMargin">
     <number>0</number>
@@ -67,6 +67,11 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <tabstops>
+  <tabstop>zoomSlider</tabstop>
+ </tabstops>
+ <resources>
+  <include location="rpgmapper.qrc"/>
+ </resources>
  <connections/>
 </ui>

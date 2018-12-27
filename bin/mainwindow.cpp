@@ -184,8 +184,10 @@ void MainWindow::connectActions() {
     connect(ui->actionShowRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
     connect(ui->actionSaveAtlasFile, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionSaveAtlasFileAs, &QAction::triggered, this, &MainWindow::saveAs);
+    connect(ui->actionZoomMapIn, &QAction::triggered, zoomSlider, &ZoomSlider::increase);
+    connect(ui->actionZoomMapOut, &QAction::triggered, zoomSlider, &ZoomSlider::decrease);
+    
     connect(ui->actionViewResources, &QAction::triggered, this, &MainWindow::showResourcesViewDialog);
-
     connect(ui->actionViewMap, &QAction::triggered, this, &MainWindow::viewCurrentMap);
     connect(ui->actionViewColorPicker, &QAction::triggered, this, &MainWindow::visibleColorPicker);
     connect(ui->actionViewMinimap, &QAction::triggered, this, &MainWindow::visibleMinimap);
@@ -215,6 +217,8 @@ void MainWindow::connectActions() {
     connect(ui->mapTabWidget, &MapTabWidget::increaseZoom, zoomSlider, &ZoomSlider::increase);
     connect(ui->mapTabWidget, &MapTabWidget::rotateTileLeft, this, &MainWindow::rotateTileLeft);
     connect(ui->mapTabWidget, &MapTabWidget::rotateTileRight, this, &MainWindow::rotateTileRight);
+    
+    //connect(zoomSlider, &ZoomSlider::zoomChanged, this, &MainWindow::enableActions);
     
     connect(ui->colorPickerDockWidgetContents, &ColorChooserWidget::colorSelected, this, &MainWindow::colorSelected);
     
@@ -484,11 +488,18 @@ void MainWindow::enableActions() {
     auto mapWidget = getCurrentMapWidget();
     ui->actionShowAxis->setEnabled(mapWidget);
     ui->actionShowGrid->setEnabled(mapWidget);
+    
+    auto zoomInPossible = false;
+    auto zoomOutPossible = false;
     if (mapWidget) {
         zoomSlider->setTileSize(mapWidget->getTileSize());
+        zoomInPossible = zoomSlider->isZoomInPossible();
+        zoomOutPossible = zoomSlider->isZoomOutPossible();
         ui->actionShowAxis->setChecked(mapWidget->isAxisVisible());
         ui->actionShowGrid->setChecked(mapWidget->isGridVisible());
     }
+    ui->actionZoomMapIn->setEnabled(zoomInPossible);
+    ui->actionZoomMapOut->setEnabled(zoomOutPossible);
     
     ui->actionRotateTileLeft->setEnabled(currentTile != nullptr);
     ui->actionRotateTileRight->setEnabled(currentTile != nullptr);
@@ -856,8 +867,11 @@ void MainWindow::visibleTiles(bool visible) {
 
 
 void MainWindow::zoomChanged() {
+    
     auto mapWidget = getCurrentMapWidget();
     if (mapWidget) {
         mapWidget->setTileSize(zoomSlider->getTileSize());
+        ui->actionZoomMapIn->setEnabled(zoomSlider->isZoomInPossible());
+        ui->actionZoomMapOut->setEnabled(zoomSlider->isZoomOutPossible());
     }
 }

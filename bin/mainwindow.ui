@@ -109,12 +109,17 @@
     <addaction name="actionCreateNewMap"/>
     <addaction name="actionShowMapProperties"/>
     <addaction name="actionDeleteMap"/>
+    <addaction name="separator"/>
+    <addaction name="actionRotateTileLeft"/>
+    <addaction name="actionRotateTileRight"/>
    </widget>
    <widget class="QMenu" name="viewMenu">
     <property name="title">
      <string>&amp;View</string>
     </property>
     <addaction name="actionViewMap"/>
+    <addaction name="actionZoomMapIn"/>
+    <addaction name="actionZoomMapOut"/>
     <addaction name="actionShowAxis"/>
     <addaction name="actionShowGrid"/>
     <addaction name="actionCloseMap"/>
@@ -149,6 +154,8 @@
    <addaction name="actionCreateNewMap"/>
    <addaction name="actionDeleteMap"/>
    <addaction name="separator"/>
+   <addaction name="actionZoomMapOut"/>
+   <addaction name="actionZoomMapIn"/>
    <addaction name="actionShowAxis"/>
    <addaction name="actionShowGrid"/>
    <addaction name="actionRotateTileLeft"/>
@@ -695,7 +702,7 @@
      <normaloff>:/icons/gfx/rotate-left.png</normaloff>:/icons/gfx/rotate-left.png</iconset>
    </property>
    <property name="text">
-    <string>Rotate Left</string>
+    <string>Rotate Current Tile Left</string>
    </property>
    <property name="toolTip">
     <string>Rotate current tile counter clockwise.</string>
@@ -707,10 +714,34 @@
      <normaloff>:/icons/gfx/rotate-right.png</normaloff>:/icons/gfx/rotate-right.png</iconset>
    </property>
    <property name="text">
-    <string>Rotate Right</string>
+    <string>Rotate Current Tile Right</string>
    </property>
    <property name="toolTip">
     <string>Rotate current tile clockwise.</string>
+   </property>
+  </action>
+  <action name="actionZoomMapIn">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/magnifier-plus.png</normaloff>:/icons/gfx/magnifier-plus.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom In</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom In Map.</string>
+   </property>
+  </action>
+  <action name="actionZoomMapOut">
+   <property name="icon">
+    <iconset resource="rpgmapper.qrc">
+     <normaloff>:/icons/gfx/magnifier-minus.png</normaloff>:/icons/gfx/magnifier-minus.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom out map.</string>
    </property>
   </action>
  </widget>

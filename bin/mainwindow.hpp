@@ -357,7 +357,7 @@ private slots:
      */
     void viewCurrentMap();
     
-    /*+
+    /**
      * Zoom of the active map changed.
      */
     void zoomChanged();

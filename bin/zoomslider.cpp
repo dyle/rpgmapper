@@ -38,6 +38,7 @@ ZoomSlider::ZoomSlider(QWidget *parent) : QWidget{parent} {
 
 
 void ZoomSlider::decrease() {
+    
     int currentZoom = ui->zoomSlider->value();
     if (currentZoom > 0) {
         setTileSize(zoomTable[currentZoom - 1]);
@@ -48,6 +49,7 @@ void ZoomSlider::decrease() {
 int ZoomSlider::getTileSize() const {
     return zoomTable.at(ui->zoomSlider->value());
 }
+
 
 void ZoomSlider::increase() {
     int currentZoom = ui->zoomSlider->value();
@@ -70,6 +72,16 @@ void ZoomSlider::initZoomTable() const {
 }
 
 
+bool ZoomSlider::isZoomInPossible() const {
+    return ui->zoomSlider->value() < ui->zoomSlider->maximum();
+}
+
+
+bool ZoomSlider::isZoomOutPossible() const {
+    return ui->zoomSlider->value() > ui->zoomSlider->minimum();
+}
+
+
 void ZoomSlider::setTileSize(int tileSize) {
     
     auto iter = sizeTable.find(tileSize);
@@ -86,6 +98,7 @@ void ZoomSlider::setTileSize(int tileSize) {
 
 
 void ZoomSlider::sliderChanged() {
+    
     auto tileSize = zoomTable.at(ui->zoomSlider->value());
     ui->zoomValue->setText(QString::number(tileSize));
     emit zoomChanged(tileSize);

@@ -49,6 +49,20 @@ public:
     int getTileSize() const;
     
     /**
+     * Checks if we can still increase the tile size.
+     *
+     * @return  true, if we did not yet reached the maximum tile size.
+     */
+    bool isZoomInPossible() const;
+    
+    /**
+     * Checks if we can still decrease the tile size.
+     *
+     * @return  true, if we did not yet reached the minimum tile size.
+     */
+    bool isZoomOutPossible() const;
+    
+    /**
      * Sets the current zoomed tile size.
      *
      * @param   tileSize        thew new tile size
@@ -73,7 +87,6 @@ private:
      * Inits the static zoom tables.
      */
     void initZoomTable() const;
-
     
 private slots:
 
@@ -86,7 +99,8 @@ signals:
     
     /**
      * Zoom changed to
-     * @param tileSize
+     *
+     * @param   tileSize        the new tile.
      */
     void zoomChanged(int tileSize);
 };

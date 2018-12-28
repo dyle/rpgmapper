@@ -105,6 +105,11 @@ public slots:
     void enableZoomActions();
     
     /**
+     * Redo the last undone command.
+     */
+    void redo();
+    
+    /**
      * Rotates the current selected tile counter clockwise.
      */
     void rotateTileLeft();
@@ -146,6 +151,11 @@ public slots:
      * Switches the visibility of the grid of the current map widget
      */
     void toogleCurrentGridVisibility();
+    
+    /**
+     * Undo the last command.
+     */
+    void undo();
     
     /**
      * Show/hide the color picker widget.

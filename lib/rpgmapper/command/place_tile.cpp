@@ -39,5 +39,15 @@ QString PlaceTile::getDescription() const {
 
 
 void PlaceTile::undo() {
-    throw std::runtime_error{"PlaceTile::undo() called: instantiated a PlaceTile command directly."};
+    
+    auto map = Session::getCurrentSession()->findMap(mapName);
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
+    }
+    
+    tile->remove();
+    for (auto & replacedTile : replacedTiles) {
+        bool placed = false;
+        replacedTile->place(placed, map, position);
+    }
 }

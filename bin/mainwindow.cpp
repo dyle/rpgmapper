@@ -184,6 +184,8 @@ void MainWindow::connectActions() {
     connect(ui->actionShowRegionProperties, &QAction::triggered, this, &MainWindow::editRegionProperties);
     connect(ui->actionSaveAtlasFile, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionSaveAtlasFileAs, &QAction::triggered, this, &MainWindow::saveAs);
+    connect(ui->actionRedo, &QAction::triggered, this, &MainWindow::redo);
+    connect(ui->actionUndo, &QAction::triggered, this, &MainWindow::undo);
     connect(ui->actionZoomMapIn, &QAction::triggered, zoomSlider, &ZoomSlider::increase);
     connect(ui->actionZoomMapOut, &QAction::triggered, zoomSlider, &ZoomSlider::decrease);
     
@@ -631,6 +633,13 @@ void MainWindow::loadSettings() {
 }
 
 
+void MainWindow::redo() {
+    auto session = Session::getCurrentSession();
+    auto processor = session->getCommandProcessor();
+    processor->redo();
+}
+
+
 void MainWindow::rotateTileLeft() {
     
     auto session = Session::getCurrentSession();
@@ -857,6 +866,13 @@ void MainWindow::toogleCurrentGridVisibility() {
     if (mapWidget) {
         mapWidget->setGridVisible(ui->actionShowGrid->isChecked());
     }
+}
+
+
+void MainWindow::undo() {
+    auto session = Session::getCurrentSession();
+    auto processer = session->getCommandProcessor();
+    processer->undo();
 }
 
 

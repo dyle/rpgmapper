@@ -26,9 +26,5 @@ void ExclusiveTilePlacer::execute() {
 
 
 void ExclusiveTilePlacer::undo() {
-    
-    auto map = Session::getCurrentSession()->findMap(getMapName());
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
+    PlaceTile::undo();
 }

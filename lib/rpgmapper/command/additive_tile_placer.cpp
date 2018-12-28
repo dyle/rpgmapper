@@ -27,5 +27,5 @@ void AdditiveTilePlacer::execute() {
 
 
 void AdditiveTilePlacer::undo() {
-    getTile()->remove();
+    PlaceTile::undo();
 }

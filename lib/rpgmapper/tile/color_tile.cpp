@@ -5,6 +5,7 @@
  */
 
 #include <rpgmapper/command/exclusive_tile_placer.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/session.hpp>
@@ -109,4 +110,17 @@ Tiles ColorTile::place(bool & placed, rpgmapper::model::MapPointer map, QPointF 
 
 
 void ColorTile::remove() const {
+
+    auto map = getMap();
+    if (!map) {
+        throw rpgmapper::model::exception::invalid_map{};
+    }
+    
+    auto layer = map->getLayers().getBaseLayers()[0];
+    if (!layer->isFieldPresent(getPosition())) {
+        return;
+    }
+    
+    auto field = layer->getField(getPosition());
+    field->getTiles().clear();
 }

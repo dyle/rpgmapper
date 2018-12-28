@@ -79,7 +79,9 @@ bool ColorTile::isPlaceable(float x, float y, rpgmapper::model::layer::LayerStac
 }
 
 
-bool ColorTile::place(float x, float y, LayerStack * layerStack) {
+Tiles ColorTile::place(bool & placed, float x, float y, rpgmapper::model::layer::LayerStack * layerStack) {
+    
+    placed = false;
     
     if (!isPlaceable(x, y, layerStack)) {
         throw std::runtime_error{"Tile is not placeable on this position on the given layer stack."};
@@ -93,7 +95,11 @@ bool ColorTile::place(float x, float y, LayerStack * layerStack) {
     auto field = layer->getField(static_cast<int>(x), static_cast<int>(y));
     
     // placing a color tile removes all other tiles on the same layer.
+    auto tiles = field->getTiles();
+    
     field->getTiles().clear();
     field->getTiles().push_back(QSharedPointer<Tile>(new ColorTile{*this}));
-    return true;
+    placed = true;
+    
+    return tiles;
 }

@@ -12,7 +12,7 @@
 #include <QPoint>
 #include <QString>
 
-#include <rpgmapper/tile/tile_pointer.hpp>
+#include <rpgmapper/tile/tiles.hpp>
 
 
 namespace rpgmapper {
@@ -29,7 +29,7 @@ class Field {
     /**
      * All the tiles placed on the field.
      */
-    std::vector<rpgmapper::model::tile::TilePointer> tiles;
+    rpgmapper::model::tile::Tiles tiles;
 
 public:
 
@@ -98,7 +98,7 @@ public:
      *
      * @return  the tiles of this field.
      */
-    std::vector<rpgmapper::model::tile::TilePointer> & getTiles() {
+    rpgmapper::model::tile::Tiles & getTiles() {
         return tiles;
     }
 
@@ -107,7 +107,7 @@ public:
      *
      * @return  the tiles of this field.
      */
-    std::vector<rpgmapper::model::tile::TilePointer> const & getTiles() const {
+    rpgmapper::model::tile::Tiles const & getTiles() const {
         return tiles;
     }
     

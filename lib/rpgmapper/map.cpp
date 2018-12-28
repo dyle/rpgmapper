@@ -17,6 +17,7 @@
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::layer;
+using namespace rpgmapper::model::tile;
 
 
 Map::Map(QString mapName) : Nameable{std::move(mapName)} {
@@ -57,20 +58,19 @@ MapPointer const & Map::null() {
 }
 
 
-bool Map::place(float x, float y, rpgmapper::model::tile::TilePointer tile) {
+rpgmapper::model::tile::Tiles Map::place(bool & placed, float x, float y, rpgmapper::model::tile::TilePointer tile) {
     
     auto size = getCoordinateSystem()->getSize();
     if (!(x >= 0.0f) && (x < size.width()) && (y >= 0.0f) && (y < size.height()) && tile) {
-        return false;
+        return Tiles{};
     }
     
-    auto placed = tile->place(x, y, &layerStack);
+    auto tiles = tile->place(placed, x, y, &layerStack);
     if (placed) {
         auto session = Session::getCurrentSession();
         session->setLastAppliedTile(tile);
     }
-    
     emit tilePlaced();
     
-    return placed;
+    return tiles;
 }

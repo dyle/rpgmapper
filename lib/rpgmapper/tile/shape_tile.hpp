@@ -101,12 +101,13 @@ public:
     /**
      * Places this tile within the layer stack of a map.
      *
+     * @param   placed          will be set to true, if the tile has been placed.
      * @param   x               X position to place the tile.
      * @param   y               Y position to place the tile.
      * @param   layerStack      the stack of layers of the map.
-     * @return  true, if the element has been newly placed.
+     * @return  The list of tiles replaced.
      */
-    bool place(float x, float y, rpgmapper::model::layer::LayerStack * layerStack) override;
+    Tiles place(bool & placed, float x, float y, rpgmapper::model::layer::LayerStack * layerStack) override;
     
 private:
     
@@ -116,7 +117,7 @@ private:
      * @param   x               X position to place the tile.
      * @param   y               Y position to place the tile.
      * @param   layers          the vector of intended tile layers.
-     * @return  true, if the element has been newly placed.
+     * @return  true, if the element can be placed.
      */
     bool isPlaceableOnLayer(rpgmapper::model::resource::Shape const * shape,
             float x,
@@ -126,12 +127,14 @@ private:
     /**
      * Places this tile within the layer stack of a map.
      *
+     * @param   placed          will be set to true, if the tile has been placed.
      * @param   x               X position to place the tile.
      * @param   y               Y position to place the tile.
      * @param   layers          the vector of intended tile layers.
-     * @return  true, if the element has been newly placed.
+     * @return  The list of tiles replaced.
      */
-    bool placeOnLayer(rpgmapper::model::resource::Shape * shape,
+    Tiles placeOnLayer(bool & placed,
+            rpgmapper::model::resource::Shape * shape,
             float x,
             float y,
             std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layers);
@@ -139,12 +142,13 @@ private:
     /**
      * Places this tile within the layer stack of a map.
      *
+     * @param   placed          will be set to true, if the tile has been placed.
      * @param   x               X position to place the tile.
      * @param   y               Y position to place the tile.
      * @param   layer           the layers to place the shape tile on.
-     * @return  true, if the element has been newly placed.
+     * @return  The list of tiles replaced.
      */
-    bool placeOnLayer(float x, float y, rpgmapper::model::layer::TileLayer * layer);
+    Tiles placeOnLayer(bool & placed, float x, float y, rpgmapper::model::layer::TileLayer * layer);
 };
 
 

@@ -13,6 +13,7 @@
 
 #include <rpgmapper/json/json_io.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
+#include <rpgmapper/tile/tiles.hpp>
 #include <rpgmapper/map_pointer.hpp>
 #include <rpgmapper/nameable.hpp>
 
@@ -120,22 +121,24 @@ public:
     /**
      * Places the given tile on the specified position.
      *
+     * @param   placed      will be set to true, if tile has been placed.
      * @param   x           X position to place tile.
      * @param   y           Y position to place tile.
      * @param   tile        The tile to place.
-     * @return  true, if the map has changed.
+     * @return  The list of replaced tiles.
      */
-    bool place(float x, float y, rpgmapper::model::tile::TilePointer tile);
+    rpgmapper::model::tile::Tiles place(bool & placed, float x, float y, rpgmapper::model::tile::TilePointer tile);
     
     /**
      * Places the given tile on the specified position.
      *
+     * @param   placed      will be set to true, if tile has been placed.
      * @param   position    position of the place tile.
      * @param   tile        The tile to place.
-     * @return  true, if the map has changed.
+     * @return  The list of replaced tiles.
      */
-    bool place(QPointF position, rpgmapper::model::tile::TilePointer tile) {
-        return place(static_cast<float>(position.x()), static_cast<float>(position.y()), std::move(tile));
+    rpgmapper::model::tile::Tiles place(bool & placed, QPointF position, rpgmapper::model::tile::TilePointer tile) {
+        return place(placed, static_cast<float>(position.x()), static_cast<float>(position.y()), std::move(tile));
     }
 
 signals:

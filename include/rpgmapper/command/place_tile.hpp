@@ -12,6 +12,7 @@
 
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/tile/tile_pointer.hpp>
+#include <rpgmapper/tile/tiles.hpp>
 
 
 namespace rpgmapper {
@@ -24,10 +25,11 @@ namespace command {
  */
 class PlaceTile : public Command {
     
-    QString mapName;                            /**< The map to place the tile. */
-    QPointF position;                           /**< Position on the map to place the tile. */
-    rpgmapper::model::tile::TilePointer tile;   /**< The tile to place. */
-
+    QString mapName;                                    /**< The map to place the tile. */
+    QPointF position;                                   /**< Position on the map to place the tile. */
+    rpgmapper::model::tile::TilePointer tile;           /**< The tile to place. */
+    rpgmapper::model::tile::Tiles replacedTiles;        /**< The tiles replaced. */
+    
 public:
     
     /**

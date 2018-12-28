@@ -90,12 +90,13 @@ public:
     /**
      * Places this tile within the layer stack of a map.
      *
+     * @param   placed          will be set to true, if the tile has been placed.
      * @param   x               X position to place the tile.
      * @param   y               Y position to place the tile.
      * @param   layerStack      the stack of layers of the map.
-     * @return  true, if the element has been newly placed.
+     * @return  The list of tiles replaced.
      */
-    bool place(float x, float y, rpgmapper::model::layer::LayerStack * layerStack) override;
+    Tiles place(bool & placed, float x, float y, rpgmapper::model::layer::LayerStack * layerStack) override;
 };
 
 

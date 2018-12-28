@@ -15,6 +15,7 @@
 #include <rpgmapper/command/command_pointer.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
 #include <rpgmapper/tile/tile_insert_modes.hpp>
+#include <rpgmapper/tile/tiles.hpp>
 #include <rpgmapper/map_pointer.hpp>
 
 
@@ -173,12 +174,13 @@ public:
      * However, placing the very same tile twice might yield false
      * the second time (depends on the type if tile).
      *
+     * @param   placed          will be set to true, if the tile has been placed.
      * @param   x               X position to place the tile.
      * @param   y               Y position to place the tile.
      * @param   layerStack      the stack of layers of the map.
-     * @return  true, if the element has been newly placed.
+     * @return  The list of tiles replaced.
      */
-    virtual bool place(float x, float y, rpgmapper::model::layer::LayerStack * layerStack) = 0;
+    virtual Tiles place(bool & placed, float x, float y, rpgmapper::model::layer::LayerStack * layerStack) = 0;
     
     /**
      * Rotates the tile counter clockwise.

@@ -27,7 +27,8 @@ void PlaceTile::execute() {
         throw rpgmapper::model::exception::invalid_map();
     }
     
-    map->place(position, tile);
+    bool placed = false;
+    replacedTiles = map->place(placed, position, tile);
 }
 
 

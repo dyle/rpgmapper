@@ -27,11 +27,5 @@ void AdditiveTilePlacer::execute() {
 
 
 void AdditiveTilePlacer::undo() {
-    
-    auto map = Session::getCurrentSession()->findMap(getMapName());
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
-    
-    getTile()->remove(getMapName(), getPosition());
+    getTile()->remove();
 }

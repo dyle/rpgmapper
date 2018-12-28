@@ -6,6 +6,7 @@
 
 #include <rpgmapper/command/exclusive_tile_placer.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
+#include <rpgmapper/map.hpp>
 #include <rpgmapper/session.hpp>
 
 #include "color_tile.hpp"
@@ -60,56 +61,52 @@ QColor ColorTile::getColor() const {
 }
 
 
-bool ColorTile::isPlaceable(float x, float y, rpgmapper::model::layer::LayerStack const * layerStack) const {
+bool ColorTile::isPlaceable(rpgmapper::model::MapPointer map, QPointF position) const {
     
-    if (!layerStack) {
+    if (!map) {
         return false;
     }
     
     // ColorTiles always add to the lowest base layer.
-    auto layer = layerStack->getBaseLayers()[0];
-    if (!layer->isFieldPresent(static_cast<int>(x), static_cast<int>(y))) {
+    auto layer = map->getLayers().getBaseLayers()[0];
+    if (!layer->isFieldPresent(position)) {
         return true;
     }
-    auto field = layer->getField(static_cast<int>(x), static_cast<int>(y));
-    if (field->isTilePresent(this)) {
-        return false;
-    }
+    auto field = layer->getField(position);
     
-    return true;
+    return !field->isTilePresent(this);
 }
 
 
-Tiles ColorTile::place(bool & placed, float x, float y, rpgmapper::model::layer::LayerStack * layerStack) {
+Tiles ColorTile::place(bool & placed, rpgmapper::model::MapPointer map, QPointF position) {
     
     placed = false;
     
-    if (!isPlaceable(x, y, layerStack)) {
+    if (!isPlaceable(map, position)) {
         throw std::runtime_error{"Tile is not placeable on this position on the given layer stack."};
     }
     
     // ColorTiles always add to the lowest base layer.
-    auto layer = layerStack->getBaseLayers()[0];
-    if (!layer->isFieldPresent(static_cast<int>(x), static_cast<int>(y))) {
-        layer->addField(Field{static_cast<int>(x), static_cast<int>(y)});
+    auto layer = map->getLayers().getBaseLayers()[0];
+    if (!layer->isFieldPresent(position)) {
+        layer->addField(Field{position});
     }
-    auto field = layer->getField(static_cast<int>(x), static_cast<int>(y));
+    auto field = layer->getField(position);
     
     // placing a color tile removes all other tiles on the same layer.
     auto tiles = field->getTiles();
     field->getTiles().clear();
-    field->getTiles().push_back(QSharedPointer<Tile>(new ColorTile{*this}));
+    
+    auto placedTile = new ColorTile{*this};
+    placedTile->setMap(map);
+    placedTile->setPosition(position);
+    field->getTiles().push_back(QSharedPointer<Tile>{placedTile});
+    
     placed = true;
     
     return tiles;
 }
 
 
-void ColorTile::remove(QString mapName, UNUSED float x, UNUSED float y) const {
-    
-    auto session = Session::getCurrentSession();
-    auto map = session->findMap(mapName);
-    if (!map) {
-        return;
-    }
+void ColorTile::remove() const {
 }

@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
@@ -75,6 +77,16 @@ void Tile::rotateRight() {
     auto rotation = getRotation() + 90.0;
     rotation = normalizeDegree(rotation);
     getAttributes()["rotation"] = QString::number(rotation);
+}
+
+
+void Tile::setMap(rpgmapper::model::MapPointer map) {
+    this->map = std::move(map);
+}
+
+
+void Tile::setPosition(QPointF position) {
+    this->position = position;
 }
 
 

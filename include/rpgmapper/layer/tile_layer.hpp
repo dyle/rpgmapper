@@ -90,6 +90,17 @@ public:
     }
     
     /**
+     * Gets a field from the map.
+     *
+     * If the field is not found, an invalid field is returned.
+     *
+     * @param   position        position holding the field's position.
+     */
+    QSharedPointer<Field> const getField(QPointF position) const {
+        return getField(static_cast<int>(position.x()), static_cast<int>(position.y()));
+    }
+    
+    /**
      * Returns all known fields on this layer.
      *
      * @return  the fields of this layer.
@@ -118,11 +129,22 @@ public:
     
     /**
      * Checks if there is a field at the given position already present.
+     *
      * @param   position    the position.
      * @return  true, if there is a field at this position.
      */
     bool isFieldPresent(QPoint const & position) const {
         return isFieldPresent(position.x(), position.y());
+    }
+    
+    /**
+     * Checks if there is a field at the given position already present.
+     *
+     * @param   position    the position.
+     * @return  true, if there is a field at this position.
+     */
+    bool isFieldPresent(QPointF const & position) const {
+        return isFieldPresent(static_cast<int>(position.x()), static_cast<int>(position.y()));
     }
     
     /**

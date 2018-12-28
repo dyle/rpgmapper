@@ -80,32 +80,26 @@ public:
     /**
      * Determines if the current tile is able to be placed at the map at the given position.
      *
-     * @param   x               X position to place the tile.
-     * @param   y               Y position to place the tile.
-     * @param   layerStack      the stack of layers of the map.
+     * @param   map             the map to place the tile on.
+     * @param   position        the position to place the tile on the map.
      * @return  true, if the current tile can be placed at this position.
      */
-    bool isPlaceable(float x, float y, rpgmapper::model::layer::LayerStack const * layerStack) const override;
+    bool isPlaceable(rpgmapper::model::MapPointer map, QPointF position) const;
     
     /**
      * Places this tile within the layer stack of a map.
      *
      * @param   placed          will be set to true, if the tile has been placed.
-     * @param   x               X position to place the tile.
-     * @param   y               Y position to place the tile.
-     * @param   layerStack      the stack of layers of the map.
+     * @param   map             the map to place the tile on.
+     * @param   position        the position to place the tile on the map.
      * @return  The list of tiles replaced.
      */
-    Tiles place(bool & placed, float x, float y, rpgmapper::model::layer::LayerStack * layerStack) override;
+    Tiles place(bool & placed, rpgmapper::model::MapPointer map, QPointF position) override;
     
     /**
      * Removes exactly this tile from a map.
-     *
-     * @param   mapName     the map name.
-     * @param   x           the x position of the tile.
-     * @param   y           the y position of the tile.
      */
-    void remove(QString mapName, float x, float y) const override;
+    void remove() const override;
 };
 
 

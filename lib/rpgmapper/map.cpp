@@ -56,21 +56,3 @@ MapPointer const & Map::null() {
     static MapPointer nullMap{new InvalidMap};
     return nullMap;
 }
-
-
-rpgmapper::model::tile::Tiles Map::place(bool & placed, float x, float y, rpgmapper::model::tile::TilePointer tile) {
-    
-    auto size = getCoordinateSystem()->getSize();
-    if (!(x >= 0.0f) && (x < size.width()) && (y >= 0.0f) && (y < size.height()) && tile) {
-        return Tiles{};
-    }
-    
-    auto tiles = tile->place(placed, x, y, &layerStack);
-    if (placed) {
-        auto session = Session::getCurrentSession();
-        session->setLastAppliedTile(tile);
-    }
-    emit tilePlaced();
-    
-    return tiles;
-}

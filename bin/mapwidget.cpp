@@ -231,7 +231,7 @@ void MapWidget::placeCurrentSelectedTile() {
         throw std::runtime_error("Invalid map to render.");
     }
     
-    if (tile->isPlaceable(hoveredTilePosition, &map->getLayers())) {
+    if (tile->isPlaceable(map, hoveredTilePosition)) {
         auto command = tile->createPlacerCommand(mapName, hoveredTilePosition);
         session->getCommandProcessor()->execute(command);
     }

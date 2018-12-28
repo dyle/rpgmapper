@@ -91,79 +91,48 @@ public:
     /**
      * Determines if the current tile is able to be placed at the map at the given position.
      *
-     * @param   x               X position to place the tile.
-     * @param   y               Y position to place the tile.
-     * @param   layerStack      the stack of layers of the map.
+     * @param   map             the map to place the tile on.
+     * @param   position        the position to place the tile on the map.
      * @return  true, if the current tile can be placed at this position.
      */
-    bool isPlaceable(float x, float y, rpgmapper::model::layer::LayerStack const * layerStack) const override;
+    bool isPlaceable(rpgmapper::model::MapPointer map, QPointF position) const;
     
     /**
      * Places this tile within the layer stack of a map.
      *
      * @param   placed          will be set to true, if the tile has been placed.
-     * @param   x               X position to place the tile.
-     * @param   y               Y position to place the tile.
-     * @param   layerStack      the stack of layers of the map.
+     * @param   map             the map to place the tile on.
+     * @param   position        the position to place the tile on the map.
      * @return  The list of tiles replaced.
      */
-    Tiles place(bool & placed, float x, float y, rpgmapper::model::layer::LayerStack * layerStack) override;
+    Tiles place(bool & placed, rpgmapper::model::MapPointer map, QPointF position) override;
     
     /**
      * Removes exactly this tile from a map.
-     *
-     * @param   mapName     the map name.
-     * @param   x           the x position of the tile.
-     * @param   y           the y position of the tile.
      */
-    void remove(QString mapName, float x, float y) const override;
+    void remove() const override;
     
 private:
     
-    /**
-     * Checks if the tile is placeable on the layer
-     *
-     * @param   x               X position to place the tile.
-     * @param   y               Y position to place the tile.
-     * @param   layers          the vector of intended tile layers.
-     * @return  true, if the element can be placed.
-     */
-    bool isPlaceableOnLayer(rpgmapper::model::resource::Shape const * shape,
-            float x,
-            float y,
-            std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> const & layers) const;
     
     /**
-     * Places this tile within the layer stack of a map.
+     * Given a specfic map returns the layer to place this tile on.
      *
-     * @param   placed          will be set to true, if the tile has been placed.
-     * @param   shape           the shape been placed
-     * @param   x               X position to place the tile.
-     * @param   y               Y position to place the tile.
-     * @param   layers          the vector of intended tile layers.
-     * @return  The list of tiles replaced.
+     * @param   map     the map.
+     * @return  the layer to place the tile on.
      */
-    Tiles placeOnLayer(bool & placed,
-            rpgmapper::model::resource::Shape * shape,
-            float x,
-            float y,
-            std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layers);
+    QSharedPointer<rpgmapper::model::layer::TileLayer> & getLayer(rpgmapper::model::MapPointer map) const;
+    
     
     /**
-     * Places this tile within the layer stack of a map.
+     * Prepare the given vector or layers to contain at least the specified number of layers.
      *
-     * @param   placed          will be set to true, if the tile has been placed.
-     * @param   shape           the shape been placed
-     * @param   x               X position to place the tile.
-     * @param   y               Y position to place the tile.
-     * @param   layer           the layers to place the shape tile on.
-     * @return  The list of tiles replaced.
+     * @param   layers      the layer container.
+     * @param   index       the minimum index of layers requested.
      */
-    Tiles placeOnLayer(bool & placed,
-            rpgmapper::model::resource::Shape * shape,
-            float x,
-            float y,
-            rpgmapper::model::layer::TileLayer * layer);
+    void prepareLayers(std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layers,
+            unsigned int index) const;
+    
 };
 
 

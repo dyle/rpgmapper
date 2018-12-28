@@ -25,6 +25,10 @@ Field::Field(QPoint const & position) : position(position) {
 }
 
 
+Field::Field(QPointF const & position) : Field{static_cast<int>(position.x()), static_cast<int>(position.y())} {
+}
+
+
 int Field::getIndex(int x, int y) {
     return y * MAX_DIMENSION_VALUE + x;
 }

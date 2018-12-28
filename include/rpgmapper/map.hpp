@@ -118,29 +118,6 @@ public:
      */
     static MapPointer const & null();
     
-    /**
-     * Places the given tile on the specified position.
-     *
-     * @param   placed      will be set to true, if tile has been placed.
-     * @param   x           X position to place tile.
-     * @param   y           Y position to place tile.
-     * @param   tile        The tile to place.
-     * @return  The list of replaced tiles.
-     */
-    rpgmapper::model::tile::Tiles place(bool & placed, float x, float y, rpgmapper::model::tile::TilePointer tile);
-    
-    /**
-     * Places the given tile on the specified position.
-     *
-     * @param   placed      will be set to true, if tile has been placed.
-     * @param   position    position of the place tile.
-     * @param   tile        The tile to place.
-     * @return  The list of replaced tiles.
-     */
-    rpgmapper::model::tile::Tiles place(bool & placed, QPointF position, rpgmapper::model::tile::TilePointer tile) {
-        return place(placed, static_cast<float>(position.x()), static_cast<float>(position.y()), std::move(tile));
-    }
-
 signals:
     
     /**

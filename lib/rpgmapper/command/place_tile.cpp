@@ -8,6 +8,7 @@
 
 #include <rpgmapper/command/place_tile.hpp>
 #include <rpgmapper/exception/invalid_map.hpp>
+#include <rpgmapper/tile/tile.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/session.hpp>
 
@@ -28,7 +29,7 @@ void PlaceTile::execute() {
     }
     
     bool placed = false;
-    replacedTiles = map->place(placed, position, tile);
+    replacedTiles = tile->place(placed, map, position);
 }
 
 

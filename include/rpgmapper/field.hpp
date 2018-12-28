@@ -47,7 +47,14 @@ public:
      * @param   position    Position of the field.
      */
     explicit Field(QPoint const & position);
-
+    
+    /**
+     * Create a field at the given position.
+     *
+     * @param   position    Position of the field.
+     */
+    explicit Field(QPointF const & position);
+    
     /**
      * Returns a single integer identifying the field.
      *

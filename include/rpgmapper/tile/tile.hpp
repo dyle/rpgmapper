@@ -13,7 +13,6 @@
 #include <QString>
 
 #include <rpgmapper/command/command_pointer.hpp>
-#include <rpgmapper/layer/layer_stack.hpp>
 #include <rpgmapper/tile/tile_insert_modes.hpp>
 #include <rpgmapper/tile/tiles.hpp>
 #include <rpgmapper/map_pointer.hpp>
@@ -59,6 +58,9 @@ private:
      * All key-value pairs of the tile instance.
      */
     Attributes attributes;
+    
+    rpgmapper::model::MapPointer map;       /**< Where the tile has been placed. */
+    QPointF position;                       /**< Postion of the tile placed. */
 
 public:
     
@@ -125,6 +127,24 @@ public:
     virtual TileInsertMode getInsertMode() const = 0;
     
     /**
+     * Returns the map the tile is placed.
+     *
+     * @return  the map the tile is placed.
+     */
+    MapPointer getMap() const {
+        return map;
+    }
+    
+    /**
+     * Returns the position the tile is placed on the map.
+     *
+     * @return  the position of the tile.
+     */
+    QPointF getPosition() const {
+        return position;
+    }
+    
+    /**
      * Gets the type of the tile.
      *
      * @return  a string describing the type of tile.
@@ -148,58 +168,26 @@ public:
     /**
      * Determines if the current tile is able to be placed at the map at the given position.
      *
-     * @param   x               X position to place the tile.
-     * @param   y               Y position to place the tile.
-     * @param   layerStack      the stack of layers of the map.
+     * @param   map             the map to place the tile on.
+     * @param   position        the position to place the tile on the map.
      * @return  true, if the current tile can be placed at this position.
      */
-    virtual bool isPlaceable(float x, float y, rpgmapper::model::layer::LayerStack const * layerStack) const = 0;
-    
-    /**
-     * Determines if the current tile is able to be placed at the map at the given position.
-     *
-     * @param   position        position to place the tile.
-     * @param   layerStack      the stack of layer of the map.
-     * @return  true, if the current tile can be placed at this position.
-     */
-    bool isPlaceable(QPointF position, rpgmapper::model::layer::LayerStack const * layerStack) const {
-        return isPlaceable(static_cast<float>(position.x()), static_cast<float>(position.y()), layerStack);
-    }
+    virtual bool isPlaceable(rpgmapper::model::MapPointer map, QPointF position) const = 0;
     
     /**
      * Places this tile within the layer stack of a map.
      *
-     * The method returns true, if the map has been changed.
-     * Mostly tiles are added and the method returns true.
-     * However, placing the very same tile twice might yield false
-     * the second time (depends on the type if tile).
-     *
      * @param   placed          will be set to true, if the tile has been placed.
-     * @param   x               X position to place the tile.
-     * @param   y               Y position to place the tile.
-     * @param   layerStack      the stack of layers of the map.
+     * @param   map             the map to place the tile on.
+     * @param   position        the position to place the tile on the map.
      * @return  The list of tiles replaced.
      */
-    virtual Tiles place(bool & placed, float x, float y, rpgmapper::model::layer::LayerStack * layerStack) = 0;
+    virtual Tiles place(bool & placed, rpgmapper::model::MapPointer map, QPointF position) = 0;
     
     /**
      * Removes exactly this tile from a map.
-     *
-     * @param   mapName     the map name.
-     * @param   x           the x position of the tile.
-     * @param   y           the y position of the tile.
      */
-    virtual void remove(QString mapName, float x, float y) const = 0;
-    
-    /**
-     * Removes exactly this tile from a map.
-     *
-     * @param   mapName     the map name.
-     * @param   position        position to place the tile.
-     */
-    virtual void remove(QString mapName, QPointF position) const {
-        remove(std::move(mapName), static_cast<float>(position.x()), static_cast<float>(position.y()));
-    }
+    virtual void remove() const = 0;
     
     /**
      * Rotates the tile counter clockwise.
@@ -210,6 +198,22 @@ public:
      * Rotates the tile clockwise.
      */
     void rotateRight();
+    
+protected:
+    
+    /**
+     * Sets the map the tile is placed.
+     *
+     * @param map       the map the tile is placed.
+     */
+    void setMap(rpgmapper::model::MapPointer map);
+    
+    /**
+     * Sets the position the tile is placed on the map.
+     *
+     * @param   position        the position of the tile.
+     */
+    void setPosition(QPointF position);
     
 private:
     

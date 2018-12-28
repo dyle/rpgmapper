@@ -12,6 +12,7 @@
 #include <QIcon>
 #include <QImage>
 #include <QPixmap>
+#include <QSharedPointer>
 
 #include <rpgmapper/resource/resource.hpp>
 #include <rpgmapper/tile/tile_insert_modes.hpp>

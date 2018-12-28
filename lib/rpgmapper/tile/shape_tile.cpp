@@ -8,6 +8,7 @@
 #include <rpgmapper/command/exclusive_tile_placer.hpp>
 #include <rpgmapper/resource/resource_db.hpp>
 #include <rpgmapper/tile/tile_insert_modes.hpp>
+#include <rpgmapper/session.hpp>
 
 #include "shape_tile.hpp"
 
@@ -212,4 +213,17 @@ Tiles ShapeTile::placeOnLayer(bool & placed,
     placed = true;
     
     return tiles;
+}
+
+
+void ShapeTile::remove(QString mapName, UNUSED float x, UNUSED float y) const {
+    
+    auto resource = getShape();
+    UNUSED auto shape = dynamic_cast<Shape *>(resource.data());
+    
+    auto session = Session::getCurrentSession();
+    auto map = session->findMap(mapName);
+    if (!map) {
+        return;
+    }
 }

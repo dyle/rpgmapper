@@ -97,6 +97,15 @@ public:
      * @return  The list of tiles replaced.
      */
     Tiles place(bool & placed, float x, float y, rpgmapper::model::layer::LayerStack * layerStack) override;
+    
+    /**
+     * Removes exactly this tile from a map.
+     *
+     * @param   mapName     the map name.
+     * @param   x           the x position of the tile.
+     * @param   y           the y position of the tile.
+     */
+    void remove(QString mapName, float x, float y) const override;
 };
 
 

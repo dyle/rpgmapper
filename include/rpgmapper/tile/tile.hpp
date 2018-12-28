@@ -183,6 +183,25 @@ public:
     virtual Tiles place(bool & placed, float x, float y, rpgmapper::model::layer::LayerStack * layerStack) = 0;
     
     /**
+     * Removes exactly this tile from a map.
+     *
+     * @param   mapName     the map name.
+     * @param   x           the x position of the tile.
+     * @param   y           the y position of the tile.
+     */
+    virtual void remove(QString mapName, float x, float y) const = 0;
+    
+    /**
+     * Removes exactly this tile from a map.
+     *
+     * @param   mapName     the map name.
+     * @param   position        position to place the tile.
+     */
+    virtual void remove(QString mapName, QPointF position) const {
+        remove(std::move(mapName), static_cast<float>(position.x()), static_cast<float>(position.y()));
+    }
+    
+    /**
      * Rotates the tile counter clockwise.
      */
     void rotateLeft();

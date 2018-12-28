@@ -7,6 +7,11 @@
 #include <utility>
 
 #include <rpgmapper/command/additive_tile_placer.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
+#include <rpgmapper/tile/tile.hpp>
+#include <rpgmapper/map.hpp>
+#include <rpgmapper/map_pointer.hpp>
+#include <rpgmapper/session.hpp>
 
 using namespace rpgmapper::model::command;
 
@@ -22,5 +27,11 @@ void AdditiveTilePlacer::execute() {
 
 
 void AdditiveTilePlacer::undo() {
-    PlaceTile::undo();
+    
+    auto map = Session::getCurrentSession()->findMap(getMapName());
+    if (!map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
+    }
+    
+    getTile()->remove(getMapName(), getPosition());
 }

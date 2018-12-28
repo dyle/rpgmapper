@@ -22,6 +22,9 @@ namespace command {
 
 /**
  * This command places a tile on a map.
+ *
+ * This command is subclassed by AdditiveTilePlacer and ExclusiveTilePlacer. It must
+ * not be instantiated directly.
  */
 class PlaceTile : public Command {
     
@@ -62,6 +65,44 @@ public:
      * Undoes the command.
      */
     void undo() override;
+    
+protected:
+    
+    /**
+     * Gets the map name to place tile on.
+     *
+     * @return  the name of the map to place tile on.
+     */
+    QString getMapName() const {
+        return mapName;
+    }
+    
+    /**
+     * Returns the position to place tile on the map.
+     *
+     * @return  the position to place the tile on the map.
+     */
+    QPointF getPosition() const {
+        return position;
+    }
+    
+    /**
+     * Returns the tiles which have been replaced.
+     *
+     * @return  the tiles which have been replaced.
+     */
+    rpgmapper::model::tile::Tiles const & getReplacedTiles() const {
+        return replacedTiles;
+    }
+    
+    /**
+     * Returns the tile which has been placed.
+     *
+     * @return  the tile which has been placed.
+     */
+    rpgmapper::model::tile::TilePointer const & getTile() const {
+         return tile;
+    }
 };
 
 

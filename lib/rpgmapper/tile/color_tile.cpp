@@ -6,6 +6,7 @@
 
 #include <rpgmapper/command/exclusive_tile_placer.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
+#include <rpgmapper/session.hpp>
 
 #include "color_tile.hpp"
 
@@ -101,4 +102,14 @@ Tiles ColorTile::place(bool & placed, float x, float y, rpgmapper::model::layer:
     placed = true;
     
     return tiles;
+}
+
+
+void ColorTile::remove(QString mapName, UNUSED float x, UNUSED float y) const {
+    
+    auto session = Session::getCurrentSession();
+    auto map = session->findMap(mapName);
+    if (!map) {
+        return;
+    }
 }

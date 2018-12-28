@@ -4,10 +4,12 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <rpgmapper/command/exclusive_tile_placer.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
 
 #include "color_tile.hpp"
 
+using namespace rpgmapper::model::command;
 using namespace rpgmapper::model::layer;
 using namespace rpgmapper::model::tile;
 
@@ -30,6 +32,13 @@ ColorTile::ColorTile(Tile::Attributes & attributes) : Tile{attributes} {
 
 bool ColorTile::operator==(const Tile & rhs) const {
     return getAttributes() == rhs.getAttributes();
+}
+
+
+rpgmapper::model::command::CommandPointer ColorTile::createPlacerCommand(QString mapName, QPointF position) const {
+    auto tile = TilePointer{new ColorTile{*this}};
+    auto command = CommandPointer{new ExclusiveTilePlacer{mapName, tile, position}};
+    return command;
 }
 
 

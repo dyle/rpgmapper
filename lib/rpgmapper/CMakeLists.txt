@@ -37,9 +37,11 @@ set(RPGMAPPER_LIB_SRC
     session.cpp
     zip.cpp
 
+    command/additive_tile_placer.cpp
     command/composite_command.cpp
     command/create_map.cpp
     command/create_region.cpp
+    command/exclusive_tile_placer.cpp
     command/place_tile.cpp
     command/processor.cpp
     command/processor_impl.cpp

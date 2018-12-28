@@ -232,7 +232,7 @@ void MapWidget::placeCurrentSelectedTile() {
     }
     
     if (tile->isPlaceable(hoveredTilePosition, &map->getLayers())) {
-        auto command = CommandPointer{new PlaceTile{mapName, tile, hoveredTilePosition}};
+        auto command = tile->createPlacerCommand(mapName, hoveredTilePosition);
         session->getCommandProcessor()->execute(command);
     }
 }

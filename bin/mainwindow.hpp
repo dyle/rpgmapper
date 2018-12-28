@@ -90,6 +90,21 @@ public slots:
     void enableActions();
     
     /**
+     * Enable/disable rotate actions.
+     */
+    void enableRotateActions();
+    
+    /**
+     * Enable/disable undo and redo actions.
+     */
+    void enableUndoRedoActions();
+    
+    /**
+     * Enable/disable zoom actions.
+     */
+    void enableZoomActions();
+    
+    /**
      * Rotates the current selected tile counter clockwise.
      */
     void rotateTileLeft();

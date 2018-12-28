@@ -4,10 +4,13 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <rpgmapper/command/additive_tile_placer.hpp>
+#include <rpgmapper/command/exclusive_tile_placer.hpp>
 #include <rpgmapper/resource/resource_db.hpp>
 
 #include "shape_tile.hpp"
 
+using namespace rpgmapper::model::command;
 using namespace rpgmapper::model::layer;
 using namespace rpgmapper::model::resource;
 using namespace rpgmapper::model::tile;
@@ -31,6 +34,14 @@ ShapeTile::ShapeTile(Tile::Attributes & attributes) : Tile{attributes} {
 
 bool ShapeTile::operator==(const Tile & rhs) const {
     return getAttributes() == rhs.getAttributes();
+}
+
+
+rpgmapper::model::command::CommandPointer ShapeTile::createPlacerCommand(QString mapName, QPointF position) const {
+    
+    auto tile = TilePointer{new ShapeTile{*this}};
+    auto command = CommandPointer{new AdditiveTilePlacer{mapName, tile, position}};
+    return command;
 }
 
 

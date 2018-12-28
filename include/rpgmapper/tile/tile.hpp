@@ -12,6 +12,7 @@
 #include <QPainter>
 #include <QString>
 
+#include <rpgmapper/command/command_pointer.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
 #include <rpgmapper/tile/tile_insert_modes.hpp>
 #include <rpgmapper/map_pointer.hpp>
@@ -81,6 +82,23 @@ public:
     virtual bool operator==(Tile const &) const = 0;
     
     /**
+     * Creates the placer command to place this tile on a map.
+     *
+     * @param   mapName         the map name to place the tile.
+     * @param   position        the position where to place the tile.
+     * @return  a placer command which can be executed to place this tile.
+     */
+    virtual rpgmapper::model::command::CommandPointer createPlacerCommand(QString mapName, QPointF position) const = 0;
+    
+    /**
+     * Draws the tile.
+     *
+     * @param   painter     the painter used to draw the tile.
+     * @param   tileSize    size of the tile.
+     */
+    virtual void draw(QPainter &painter, int tileSize) = 0;
+    
+    /**
      * Returns the tile attributes.
      *
      * @return  the tile attributes.
@@ -111,14 +129,6 @@ public:
      * @return  a string describing the type of tile.
      */
     QString getType() const;
-    
-    /**
-     * Draws the tile.
-     *
-     * @param   painter     the painter used to draw the tile.
-     * @param   tileSize    size of the tile.
-     */
-    virtual void draw(QPainter &painter, int tileSize) = 0;
     
     /**
      * Returns the tile rotation value.

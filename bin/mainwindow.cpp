@@ -474,7 +474,6 @@ void MainWindow::enableActions() {
     auto session = Session::getCurrentSession();
     auto currentMapName = session->getCurrentMapName();
     auto currentRegionName = session->getCurrentRegionName();
-    auto currentTile = session->getCurrentTile();
     
     ui->actionClearRecentList->setEnabled(!recentAtlasFileNames.empty());
     ui->actionCloseMap->setEnabled(ui->mapTabWidget->currentWidget() != nullptr);
@@ -489,6 +488,36 @@ void MainWindow::enableActions() {
     ui->actionShowAxis->setEnabled(mapWidget);
     ui->actionShowGrid->setEnabled(mapWidget);
     
+    enableZoomActions();
+    enableRotateActions();
+    enableUndoRedoActions();
+}
+
+
+void MainWindow::enableRotateActions() {
+    
+    auto session = Session::getCurrentSession();
+    auto currentTile = session->getCurrentTile();
+    
+    ui->actionRotateTileLeft->setEnabled(currentTile != nullptr);
+    ui->actionRotateTileRight->setEnabled(currentTile != nullptr);
+}
+
+
+void MainWindow::enableUndoRedoActions() {
+    
+    auto session = Session::getCurrentSession();
+    auto processor = session->getCommandProcessor();
+    
+    ui->actionUndo->setEnabled(!processor->getHistory().empty());
+    ui->actionRedo->setEnabled(!processor->getUndone().empty());
+}
+
+
+void MainWindow::enableZoomActions() {
+    
+    auto mapWidget = getCurrentMapWidget();
+    
     auto zoomInPossible = false;
     auto zoomOutPossible = false;
     if (mapWidget) {
@@ -498,16 +527,15 @@ void MainWindow::enableActions() {
         ui->actionShowAxis->setChecked(mapWidget->isAxisVisible());
         ui->actionShowGrid->setChecked(mapWidget->isGridVisible());
     }
+    
     ui->actionZoomMapIn->setEnabled(zoomInPossible);
     ui->actionZoomMapOut->setEnabled(zoomOutPossible);
-    
-    ui->actionRotateTileLeft->setEnabled(currentTile != nullptr);
-    ui->actionRotateTileRight->setEnabled(currentTile != nullptr);
 }
 
 
 void MainWindow::executedCommand() {
     setApplicationWindowTitle();
+    enableUndoRedoActions();
 }
 
 

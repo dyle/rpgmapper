@@ -45,6 +45,15 @@ public:
     bool operator==(Tile const & rhs) const override;
     
     /**
+     * Creates the placer command to place this tile on a map.
+     *
+     * @param   mapName         the map name to place the tile.
+     * @param   position        the position where to place the tile.
+     * @return  a placer command which can be executed to place this tile.
+     */
+    rpgmapper::model::command::CommandPointer createPlacerCommand(QString mapName, QPointF position) const override;
+    
+    /**
      * Draws the tile.
      *
      * @param   painter         painter used for drawing

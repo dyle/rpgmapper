@@ -128,6 +128,7 @@ private:
      * Places this tile within the layer stack of a map.
      *
      * @param   placed          will be set to true, if the tile has been placed.
+     * @param   shape           the shape been placed
      * @param   x               X position to place the tile.
      * @param   y               Y position to place the tile.
      * @param   layers          the vector of intended tile layers.
@@ -143,12 +144,17 @@ private:
      * Places this tile within the layer stack of a map.
      *
      * @param   placed          will be set to true, if the tile has been placed.
+     * @param   shape           the shape been placed
      * @param   x               X position to place the tile.
      * @param   y               Y position to place the tile.
      * @param   layer           the layers to place the shape tile on.
      * @return  The list of tiles replaced.
      */
-    Tiles placeOnLayer(bool & placed, float x, float y, rpgmapper::model::layer::TileLayer * layer);
+    Tiles placeOnLayer(bool & placed,
+            rpgmapper::model::resource::Shape * shape,
+            float x,
+            float y,
+            rpgmapper::model::layer::TileLayer * layer);
 };
 
 

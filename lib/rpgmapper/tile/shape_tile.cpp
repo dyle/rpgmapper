@@ -7,6 +7,7 @@
 #include <rpgmapper/command/additive_tile_placer.hpp>
 #include <rpgmapper/command/exclusive_tile_placer.hpp>
 #include <rpgmapper/resource/resource_db.hpp>
+#include <rpgmapper/tile/tile_insert_modes.hpp>
 
 #include "shape_tile.hpp"
 
@@ -180,18 +181,35 @@ Tiles ShapeTile::placeOnLayer(bool & placed,
     }
     auto layer = layers[shape->getZOrdering()].data();
     
-    return placeOnLayer(placed, x, y, layer);
+    return placeOnLayer(placed, shape, x, y, layer);
 }
 
 
-Tiles ShapeTile::placeOnLayer(bool & placed, float x, float y, rpgmapper::model::layer::TileLayer * layer) {
+Tiles ShapeTile::placeOnLayer(bool & placed,
+        rpgmapper::model::resource::Shape * shape,
+        float x,
+        float y,
+        rpgmapper::model::layer::TileLayer * layer) {
     
     if (!layer->isFieldPresent(static_cast<int>(x), static_cast<int>(y))) {
         layer->addField(Field{static_cast<int>(x), static_cast<int>(y)});
     }
     auto field = layer->getField(static_cast<int>(x), static_cast<int>(y));
     
+    Tiles tiles;
+    switch (shape->getInsertMode()) {
+        
+        case TileInsertMode::additive:
+            break;
+        
+        case TileInsertMode::exclusive:
+            tiles = field->getTiles();
+            field->getTiles().clear();
+            break;
+    }
+    
     field->getTiles().push_back(QSharedPointer<Tile>(new ShapeTile{*this}));
     placed = true;
-    return Tiles{};
+    
+    return tiles;
 }

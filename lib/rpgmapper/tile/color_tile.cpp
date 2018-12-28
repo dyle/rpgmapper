@@ -96,7 +96,6 @@ Tiles ColorTile::place(bool & placed, float x, float y, rpgmapper::model::layer:
     
     // placing a color tile removes all other tiles on the same layer.
     auto tiles = field->getTiles();
-    
     field->getTiles().clear();
     field->getTiles().push_back(QSharedPointer<Tile>(new ColorTile{*this}));
     placed = true;

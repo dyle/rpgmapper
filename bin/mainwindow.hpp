@@ -218,11 +218,6 @@ private:
     void addRecentFileName(QString const & fileName);
 
     /**
-     * TODO: ?
-     */
-    void addUnusedActions();
-
-    /**
      * Centers the window in the middle of the desktop.
      */
     void centerWindow();

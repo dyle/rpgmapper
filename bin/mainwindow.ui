@@ -121,6 +121,8 @@
      <string>&amp;View</string>
     </property>
     <addaction name="actionViewMap"/>
+    <addaction name="actionRedraw"/>
+    <addaction name="separator"/>
     <addaction name="actionZoomMapIn"/>
     <addaction name="actionZoomMapOut"/>
     <addaction name="actionShowAxis"/>

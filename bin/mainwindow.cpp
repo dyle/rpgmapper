@@ -95,14 +95,6 @@ void MainWindow::addRecentFileName(QString const & fileName) {
 }
 
 
-void MainWindow::addUnusedActions() {
-    addAction(ui->actionCloseMap);
-    addAction(ui->actionCreateNewMap);
-    addAction(ui->actionDeleteMap);
-    addAction(ui->actionRedraw);
-}
-
-
 void MainWindow::applyResources() {
     mapPropertiesDialog->collectBackgroundImages();
     ui->shapeToolBox->applyResources();
@@ -163,8 +155,6 @@ void MainWindow::colorSelected(QColor color) {
 
 
 void MainWindow::connectActions() {
-
-    addUnusedActions();
 
     connect(ui->actionClearRecentList, &QAction::triggered, this, &MainWindow::clearListOfRecentFiles);
     connect(ui->actionCloseMap, &QAction::triggered, ui->mapTabWidget, &MapTabWidget::closeCurrentMap);
@@ -340,6 +330,7 @@ void MainWindow::deleteMap() {
     auto processor = session->getCommandProcessor();
     processor->execute(command);
     
+    // TODO: let region signal removal of map in map tab widgets
     ui->mapTabWidget->removeMap(mapName);
 }
 
@@ -367,6 +358,7 @@ void MainWindow::deleteRegion() {
     processor->execute(command);
     
     for (const auto & map : mapNamesOfRegion) {
+        // TODO: let region signal removal of map in map tab widgets
         ui->mapTabWidget->removeMap(map);
     }
     

@@ -52,6 +52,18 @@ void ShapeTile::draw(QPainter & painter, int tileSize) {
 }
 
 
+TileInsertMode ShapeTile::getInsertMode() const {
+    
+    auto shape = getShape();
+    if (!shape) {
+        return TileInsertMode::additive;
+    }
+    
+    return shape->getInsertMode();
+    
+}
+
+
 QSharedPointer<rpgmapper::model::layer::TileLayer> & ShapeTile::getLayer(rpgmapper::model::Map * map) const {
     
     static QSharedPointer<rpgmapper::model::layer::TileLayer> nullLayer;

@@ -5,7 +5,7 @@
  */
 
 #include <rpgmapper/command/set_region_name.hpp>
-#include <rpgmapper/exception/invalid_regionname.hpp>
+#include <rpgmapper/exception/invalid_region.hpp>
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/session.hpp>
 
@@ -13,17 +13,18 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetRegionName::SetRegionName(QString oldName, QString newName)
-        : newName{std::move(newName)}, oldName{std::move(oldName)} {
+SetRegionName::SetRegionName(rpgmapper::model::Region * region, QString newName)
+    : region{region},
+      newName{std::move(newName)} {
+    
+    if (!region || !region->isValid()) {
+        throw rpgmapper::model::exception::invalid_region{};
+    }
 }
 
 
 void SetRegionName::execute() {
-    
-    auto region = Session::getCurrentSession()->findRegion(oldName);
-    if (!region->isValid()) {
-        throw rpgmapper::model::exception::invalid_regionname();
-    }
+    oldName = region->getName();
     region->setName(newName);
 }
 
@@ -34,10 +35,5 @@ QString SetRegionName::getDescription() const {
 
 
 void SetRegionName::undo() {
-    
-    auto region = Session::getCurrentSession()->findRegion(newName);
-    if (!region->isValid()) {
-        throw rpgmapper::model::exception::invalid_regionname();
-    }
     region->setName(oldName);
 }

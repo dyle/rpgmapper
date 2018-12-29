@@ -15,33 +15,28 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapBackgroundRendering::SetMapBackgroundRendering(QString mapName, QString newRendering)
-    : mapName{std::move(mapName)}, newRendering{std::move(newRendering)} {
+SetMapBackgroundRendering::SetMapBackgroundRendering(rpgmapper::model::Map * map, QString newRendering)
+    : map{map},
+      newRendering{std::move(newRendering)} {
+    
+    if (!map || !map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map{};
+    }
 }
 
 
 void SetMapBackgroundRendering::execute() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
-    
     oldRendering = map->getLayers().getBackgroundLayer()->getRendering();
     map->getLayers().getBackgroundLayer()->setRendering(newRendering);
 }
 
 
 QString SetMapBackgroundRendering::getDescription() const {
+    auto mapName = map->getName();
     return QString{"Set background rendering of map %1 to %2"}.arg(mapName).arg(newRendering);
 }
 
 
 void SetMapBackgroundRendering::undo() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
     map->getLayers().getBackgroundLayer()->setRendering(oldRendering);
 }

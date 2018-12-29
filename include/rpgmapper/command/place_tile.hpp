@@ -13,6 +13,7 @@
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/tile/tile_pointer.hpp>
 #include <rpgmapper/tile/tiles.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -28,21 +29,31 @@ namespace command {
  */
 class PlaceTile : public Command {
     
-    QString mapName;                                    /**< The map to place the tile. */
-    QPointF position;                                   /**< Position on the map to place the tile. */
-    rpgmapper::model::tile::TilePointer tile;           /**< The tile to place. */
-    rpgmapper::model::tile::Tiles replacedTiles;        /**< The tiles replaced. */
+    rpgmapper::model::Map * map = nullptr;                  /**< The map to place the tile. */
+    QPointF position;                                       /**< Position on the map to place the tile. */
+    rpgmapper::model::tile::TilePointer tile;               /**< The tile to place. */
+    rpgmapper::model::tile::Tiles replacedTiles;            /**< The tiles replaced. */
     
 public:
     
     /**
      * Constructor.
      *
-     * @param   mapName         the name of the map to change the grid color for.
+     * @param   map             the map to place the tile.
      * @param   tile            the tile to place.
      * @param   position        position to place the tile.
      */
-    PlaceTile(QString mapName, rpgmapper::model::tile::TilePointer tile, QPointF position);
+    PlaceTile(rpgmapper::model::Map * map, rpgmapper::model::tile::TilePointer tile, QPointF position);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to place the tile.
+     * @param   tile            the tile to place.
+     * @param   position        position to place the tile.
+     */
+    PlaceTile(rpgmapper::model::MapPointer map, rpgmapper::model::tile::TilePointer tile, QPointF position)
+        : PlaceTile{map.data(), tile, position} {}
     
     /**
      * Destructor.
@@ -65,44 +76,6 @@ public:
      * Undoes the command.
      */
     void undo() override;
-    
-protected:
-    
-    /**
-     * Gets the map name to place tile on.
-     *
-     * @return  the name of the map to place tile on.
-     */
-    QString getMapName() const {
-        return mapName;
-    }
-    
-    /**
-     * Returns the position to place tile on the map.
-     *
-     * @return  the position to place the tile on the map.
-     */
-    QPointF getPosition() const {
-        return position;
-    }
-    
-    /**
-     * Returns the tiles which have been replaced.
-     *
-     * @return  the tiles which have been replaced.
-     */
-    rpgmapper::model::tile::Tiles const & getReplacedTiles() const {
-        return replacedTiles;
-    }
-    
-    /**
-     * Returns the tile which has been placed.
-     *
-     * @return  the tile which has been placed.
-     */
-    rpgmapper::model::tile::TilePointer const & getTile() const {
-         return tile;
-    }
 };
 
 

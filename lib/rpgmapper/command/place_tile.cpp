@@ -14,40 +14,42 @@
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
+using namespace rpgmapper::model::tile;
 
 
-PlaceTile::PlaceTile(QString mapName, rpgmapper::model::tile::TilePointer tile, QPointF position)
-        : mapName{std::move(mapName)}, position{position}, tile{std::move(tile)} {
+PlaceTile::PlaceTile(rpgmapper::model::Map * map, rpgmapper::model::tile::TilePointer tile, QPointF position)
+        : map{map}, position{position}, tile{std::move(tile)} {
 }
 
 
 void PlaceTile::execute() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
+    if (!map || !map->isValid()) {
         throw rpgmapper::model::exception::invalid_map();
     }
-    
-    bool placed = false;
-    replacedTiles = tile->place(placed, map, position);
+    tile = tile->place(replacedTiles, map, position);
 }
 
 
 QString PlaceTile::getDescription() const {
+    
+    QString mapName;
+    if (map) {
+        mapName = map->getName();
+    }
+    
     return QString{"Place tile on map %1 at (%2, %3)"}.arg(mapName).arg(position.x()).arg(position.y());
 }
 
 
 void PlaceTile::undo() {
     
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
+    if (!map || !map->isValid()) {
         throw rpgmapper::model::exception::invalid_map();
     }
     
     tile->remove();
     for (auto & replacedTile : replacedTiles) {
-        bool placed = false;
-        replacedTile->place(placed, map, position);
+        Tiles tiles;
+        replacedTile->place(tiles, map, position);
     }
 }

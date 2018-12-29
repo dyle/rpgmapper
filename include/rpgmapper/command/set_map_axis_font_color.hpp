@@ -11,6 +11,7 @@
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -22,20 +23,29 @@ namespace command {
  * This command changes the color of the axis font on maps.
  */
 class SetMapAxisFontColor : public Command {
-
-    QString mapName;            /**< the map for which the color is changed. */
-    QColor newColor;            /**< the new color of the axis font. */
-    QColor oldColor;            /**< the old color used. */
+    
+    rpgmapper::model::Map * map = nullptr;        /**< the map for which the color is changed. */
+    QColor newColor;                              /**< the new color of the axis font. */
+    QColor oldColor;                              /**< the old color used. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   mapName         the name of the map to change the font color for.
+     * @param   map             the map to change the font color for.
      * @param   newColor        the new font color.
      */
-    SetMapAxisFontColor(QString mapName, QColor newColor);
+    SetMapAxisFontColor(rpgmapper::model::Map * map, QColor newColor);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to change the font color for.
+     * @param   newColor        the new font color.
+     */
+    SetMapAxisFontColor(rpgmapper::model::MapPointer map, QColor newColor)
+        : SetMapAxisFontColor{map.data(), newColor} {}
     
     /**
      * Destructor.

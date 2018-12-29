@@ -331,11 +331,12 @@ void MainWindow::deleteMap() {
     
     auto session = Session::getCurrentSession();
     auto mapName = session->getCurrentMapName();
-    if (!session->findMap(mapName)->isValid()) {
+    auto map = session->findMap(mapName);
+    if (!map->isValid()) {
         throw std::runtime_error{"Current selected map vanished while tyring to delete it."};
     }
     
-    auto command = CommandPointer{new RemoveMap{mapName}};
+    auto command = CommandPointer{new RemoveMap{map}};
     auto processor = session->getCommandProcessor();
     processor->execute(command);
     
@@ -361,7 +362,7 @@ void MainWindow::deleteRegion() {
         }
     }
     
-    auto command = CommandPointer{new RemoveRegion{region->getName()}};
+    auto command = CommandPointer{new RemoveRegion{region}};
     auto processor = session->getCommandProcessor();
     processor->execute(command);
     
@@ -460,7 +461,8 @@ void MainWindow::editRegionProperties() {
                                       tr("A region with this name already exists."));
             }
             else {
-                auto command = CommandPointer{new SetRegionName{regionName, newRegionName}};
+                auto region = session->findRegion(regionName);
+                auto command = CommandPointer{new SetRegionName{region, newRegionName}};
                 processor->execute(command);
                 session->selectRegion(newRegionName);
                 abortLoop = true;

@@ -10,6 +10,7 @@
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/region.hpp>
 
 
 namespace rpgmapper {
@@ -21,19 +22,28 @@ namespace command {
  * This command changes the name of a region in the atlas.
  */
 class SetRegionName : public Command {
-
-    QString newName;        /**< the new name of the region. */
-    QString oldName;        /**< the old name of the region. */
+    
+    rpgmapper::model::Region * region = nullptr;        /**< Region to modify */
+    QString newName;                                    /**< the new name of the region. */
+    QString oldName;                                    /**< the old name of the region. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   oldName         the regions old name.
+     * @param   region          the region to modify.
      * @param   newName         the regions new name.
      */
-    SetRegionName(QString oldName, QString newName);
+    SetRegionName(rpgmapper::model::Region * region, QString newName);
+    
+    /**
+     * Constructor.
+     *
+     * @param   region          the region to modify.
+     * @param   newName         the regions new name.
+     */
+    SetRegionName(rpgmapper::model::RegionPointer region, QString newName) : SetRegionName{region.data(), newName} {}
     
     /**
      * Destructor.

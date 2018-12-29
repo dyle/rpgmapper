@@ -10,6 +10,7 @@
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -21,20 +22,29 @@ namespace command {
  * This command switches between plain color and image background rendering of a map.
  */
 class SetMapBackgroundRendering : public Command {
-
-    QString mapName;            /**< the map to modify. */
-    QString newRendering;       /**< the new rendering directive. */
-    QString oldRendering;       /**< the old rendering directive. */
+    
+    rpgmapper::model::Map * map = nullptr;        /**< the map to modify. */
+    QString newRendering;                         /**< the new rendering directive. */
+    QString oldRendering;                         /**< the old rendering directive. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   mapName         the name of the map to change the background rendering.
+     * @param   map             the map to change the background rendering.
      * @param   newRendering    the new rendering directive.
      */
-    SetMapBackgroundRendering(QString mapName, QString newRendering);
+    SetMapBackgroundRendering(rpgmapper::model::Map * map, QString newRendering);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to change the background rendering.
+     * @param   newRendering    the new rendering directive.
+     */
+    SetMapBackgroundRendering(rpgmapper::model::MapPointer map, QString newRendering)
+        : SetMapBackgroundRendering{map.data(), newRendering} {}
     
     /**
      * Destructor.

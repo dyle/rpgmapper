@@ -11,6 +11,7 @@
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -22,20 +23,28 @@ namespace command {
  * This command changes the margin of a map.
  */
 class SetMapMargin : public Command {
-
-    QString mapName;             /**< the map to modify. */
-    float newMargin;             /**< the new margins of the map. */
-    float oldMargin;             /**< the old margins of the map. */
+    
+    rpgmapper::model::Map * map = nullptr;        /**< the map to modify. */
+    float newMargin;                              /**< the new margins of the map. */
+    float oldMargin;                              /**< the old margins of the map. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   mapName         the name of the map to change the margins for.
+     * @param   map             the map to change the margins for.
      * @param   newMargin       the new margin  value
      */
-    SetMapMargin(QString mapName, float newMargin);
+    SetMapMargin(rpgmapper::model::Map * map, float newMargin);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to change the margins for.
+     * @param   newMargin       the new margin  value
+     */
+    SetMapMargin(rpgmapper::model::MapPointer map, float newMargin) : SetMapMargin{map.data(), newMargin} {}
     
     /**
      * Destructor.

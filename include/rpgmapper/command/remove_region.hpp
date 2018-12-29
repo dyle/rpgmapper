@@ -22,17 +22,25 @@ namespace command {
  * This class deletes a region from the atlas.
  */
 class RemoveRegion : public Command {
-
-    QSharedPointer<Region> region;              /**< The region removed. */
+    
+    rpgmapper::model::Region * region = nullptr;            /**< The region removed. */
+    rpgmapper::model::RegionPointer removedRegion;          /**< The removed region as a RegionPointer. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   name        the name of the region to delete.
+     * @param   region          the region to delete.
      */
-    RemoveRegion(QString name);
+    RemoveRegion(rpgmapper::model::Region * region);
+    
+    /**
+     * Constructor.
+     *
+     * @param   region          the region to delete.
+     */
+    RemoveRegion(rpgmapper::model::RegionPointer region) : RemoveRegion{region.data()} {}
     
     /**
      * Destructor.

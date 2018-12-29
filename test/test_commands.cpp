@@ -169,7 +169,8 @@ TEST(ProcessorTest, RemoveMap) {
     auto mapNames = session->getAllMapNames();
     EXPECT_NE(mapNames.find("bar"), mapNames.end());
 
-    processor->execute(CommandPointer{new RemoveMap{"bar"}});
+    auto map = session->findMap("bar");
+    processor->execute(CommandPointer{new RemoveMap{map}});
 
     mapNames = session->getAllMapNames();
     EXPECT_EQ(mapNames.find("bar"), mapNames.end());
@@ -201,7 +202,8 @@ TEST(ProcessorTest, RemoveRegion) {
     EXPECT_NE(mapNames.find("baz"), mapNames.end());
     EXPECT_NE(mapNames.find("bam"), mapNames.end());
 
-    processor->execute(CommandPointer{new RemoveRegion{"foo"}});
+    auto region = session->findRegion("foo");
+    processor->execute(CommandPointer{new RemoveRegion{region}});
 
     regionNames = session->getAllRegionNames();
     EXPECT_EQ(regionNames.find("foo"), regionNames.end());
@@ -231,7 +233,7 @@ TEST(ProcessorTest, SetRegionName) {
     auto region = session->findRegion("foo");
     EXPECT_TRUE(region->isValid());
 
-    processor->execute(CommandPointer{new SetRegionName{"foo", "bar"}});
+    processor->execute(CommandPointer{new SetRegionName{region, "bar"}});
     region = session->findRegion("bar");
     ASSERT_TRUE(region->isValid());
     EXPECT_EQ(region->getName().toStdString(), "bar");

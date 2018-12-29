@@ -15,33 +15,28 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapBackgroundColor::SetMapBackgroundColor(QString mapName, QColor newColor)
-    : mapName{std::move(mapName)}, newColor{std::move(newColor)} {
+SetMapBackgroundColor::SetMapBackgroundColor(rpgmapper::model::Map * map, QColor newColor)
+    : map{map},
+      newColor{std::move(newColor)} {
+    
+    if (!map || !map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map{};
+    }
 }
 
 
 void SetMapBackgroundColor::execute() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
-
     oldColor = map->getLayers().getBackgroundLayer()->getColor();
     map->getLayers().getBackgroundLayer()->setColor(newColor);
 }
 
 
 QString SetMapBackgroundColor::getDescription() const {
+    auto mapName = map->getName();
     return QString{"Set background color of map %1 to %2"}.arg(mapName).arg(newColor.name(QColor::HexArgb));
 }
 
 
 void SetMapBackgroundColor::undo() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
     map->getLayers().getBackgroundLayer()->setColor(oldColor);
 }

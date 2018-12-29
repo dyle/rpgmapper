@@ -12,6 +12,7 @@
 
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/layer/image_render_mode.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -23,8 +24,8 @@ namespace command {
  * This command changes the way how the background image is rendered on a map.
  */
 class SetMapBackgroundImageRenderMode : public Command {
-
-    QString mapName;                                        /**< the map to modify. */
+    
+    rpgmapper::model::Map * map = nullptr;                  /**< the map to modify. */
     rpgmapper::model::layer::ImageRenderMode newMode;       /**< the new render mode. */
     rpgmapper::model::layer::ImageRenderMode oldMode;       /**< the old render mode. */
 
@@ -33,10 +34,19 @@ public:
     /**
      * Constructor.
      *
-     * @param   mapName         the name of the map to change the background rendering mode.
+     * @param   map             the map to change the background rendering mode.
      * @param   newMode         the new map background image render mode.
      */
-    SetMapBackgroundImageRenderMode(QString mapName, rpgmapper::model::layer::ImageRenderMode newMode);
+    SetMapBackgroundImageRenderMode(rpgmapper::model::Map * map, rpgmapper::model::layer::ImageRenderMode newMode);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to change the background rendering mode.
+     * @param   newMode         the new map background image render mode.
+     */
+    SetMapBackgroundImageRenderMode(rpgmapper::model::MapPointer map, rpgmapper::model::layer::ImageRenderMode newMode)
+        : SetMapBackgroundImageRenderMode(map.data(), newMode) {}
     
     /**
      * Destructor.

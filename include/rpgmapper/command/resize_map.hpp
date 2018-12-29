@@ -11,6 +11,7 @@
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -22,20 +23,28 @@ namespace command {
  * With this class, maps a assigned new dimensions.
  */
 class ResizeMap : public Command {
-
-    QString mapName;            /**< The name of the map to resize. */
-    QSize newSize;              /**< The new size of the map. */
-    QSize oldSize;              /**< The old size of the map. */
+    
+    rpgmapper::model::Map * map = nullptr;      /**< The map resized. */
+    QSize newSize;                              /**< The new size of the map. */
+    QSize oldSize;                              /**< The old size of the map. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   mapName         the map to resize.
+     * @param   map             the map to resize.
      * @param   newSize         the maps new size.
      */
-    ResizeMap(QString mapName, QSize newSize);
+    ResizeMap(rpgmapper::model::Map * map, QSize newSize);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to resize.
+     * @param   newSize         the maps new size.
+     */
+    ResizeMap(rpgmapper::model::MapPointer map, QSize newSize) : ResizeMap{map.data(), newSize} {}
     
     /**
      * Destructor.

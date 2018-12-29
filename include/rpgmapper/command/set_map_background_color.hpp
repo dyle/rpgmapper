@@ -11,6 +11,7 @@
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -22,20 +23,29 @@ namespace command {
  * This command changes the color used for drawing a maps background.
  */
 class SetMapBackgroundColor : public Command {
-
-    QString mapName;            /**< the map to change the background color. */
-    QColor newColor;            /**< the new background color. */
-    QColor oldColor;            /**< the old backgroudn color. */
+    
+    rpgmapper::model::Map * map = nullptr;        /**< the map to change the background color. */
+    QColor newColor;                              /**< the new background color. */
+    QColor oldColor;                              /**< the old background color. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   mapName         the name of the map to change the background color for.
+     * @param   map             the map to change the background color for.
      * @param   newColor        the new background color.
      */
-    SetMapBackgroundColor(QString mapName, QColor newColor);
+    SetMapBackgroundColor(rpgmapper::model::Map * map, QColor newColor);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to change the background color for.
+     * @param   newColor        the new background color.
+     */
+    SetMapBackgroundColor(rpgmapper::model::MapPointer map, QColor newColor)
+        : SetMapBackgroundColor{map.data(), newColor} {}
     
     /**
      * Destructor.

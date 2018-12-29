@@ -10,6 +10,7 @@
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -21,19 +22,28 @@ namespace command {
  * This class changes the name of a map.
  */
 class SetMapName : public Command {
-
-    QString newName;        /**< the new name of the map. */
-    QString oldName;        /**< the old name of the map. */
+    
+    rpgmapper::model::Map * map = nullptr;      /**< the map to change to name. */
+    QString newName;                            /**< the new name of the map. */
+    QString oldName;                            /**< the old name of the map. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   oldName         the old name of the map.
+     * @param   map             the map to change the name for.
      * @param   newName         the new name of the map.
      */
-    SetMapName(QString oldName, QString newName);
+    SetMapName(rpgmapper::model::Map * map, QString newName);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to change the name for.
+     * @param   newName         the new name of the map.
+     */
+    SetMapName(rpgmapper::model::MapPointer map, QString newName) : SetMapName{map.data(), newName} {}
     
     /**
      * Destructor.

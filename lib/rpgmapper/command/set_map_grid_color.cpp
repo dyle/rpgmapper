@@ -15,33 +15,28 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapGridColor::SetMapGridColor(QString mapName, QColor newColor)
-    : mapName{std::move(mapName)}, newColor{std::move(newColor)} {
+SetMapGridColor::SetMapGridColor(rpgmapper::model::Map * map, QColor newColor)
+    : map{map},
+      newColor{std::move(newColor)} {
+    
+    if (!map || !map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map{};
+    }
 }
 
 
 void SetMapGridColor::execute() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
-    
     oldColor = map->getLayers().getGridLayer()->getColor();
     map->getLayers().getGridLayer()->setColor(newColor);
 }
 
 
 QString SetMapGridColor::getDescription() const {
+    auto mapName = map->getName();
     return QString{"Set grid color of map %1 to %2"}.arg(mapName).arg(newColor.name(QColor::HexArgb));
 }
 
 
 void SetMapGridColor::undo() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
     map->getLayers().getGridLayer()->setColor(oldColor);
 }

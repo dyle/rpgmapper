@@ -7,7 +7,7 @@
 #include <utility>
 
 #include <rpgmapper/command/remove_map.hpp>
-#include <rpgmapper/exception/invalid_mapname.hpp>
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/exception/invalid_region.hpp>
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/session.hpp>
@@ -16,42 +16,36 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-RemoveMap::RemoveMap(QString mapName) {
+RemoveMap::RemoveMap(rpgmapper::model::Map * map) : map{map} {
     
-    auto session = Session::getCurrentSession();
-    map = session->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_mapname();
+    if (!map || !map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map();
     }
     
-    regionName = session->getAllMapNames()[mapName];
+    auto session = Session::getCurrentSession();
+    removedMap = session->findMap(map->getName());
+    
+    auto regionName = session->getAllMapNames()[map->getName()];
+    region = session->findRegion(regionName).data();
+    
+    if (!region || !region->isValid()) {
+        throw rpgmapper::model::exception::invalid_region();
+    }
 }
 
 
 void RemoveMap::execute() {
-    
-    auto session = Session::getCurrentSession();
-    auto region = session->findRegion(regionName);
-    if (!region->isValid()) {
-        throw exception::invalid_region{};
-    }
-    
     region->removeMap(map->getName());
 }
 
 
 QString RemoveMap::getDescription() const {
-    return QString{"Remove map %1 from region %2."}.arg(map->getName()).arg(regionName);
+    auto mapName = map->getName();
+    auto regionName = region->getName();
+    return QString{"Remove map %1 from region %2."}.arg(mapName).arg(regionName);
 }
 
 
 void RemoveMap::undo() {
-    
-    auto session = Session::getCurrentSession();
-    auto region = session->findRegion(regionName);
-    if (!region->isValid()) {
-        throw exception::invalid_region{};
-    }
-    
-    region->addMap(map);
+    region->addMap(removedMap);
 }

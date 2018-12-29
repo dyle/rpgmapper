@@ -15,32 +15,25 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapAxisFont::SetMapAxisFont(QString mapName, QFont newFont) : mapName{std::move(mapName)}, newFont{newFont} {
+SetMapAxisFont::SetMapAxisFont(rpgmapper::model::Map * map, QFont newFont) : map{map}, newFont{newFont} {
+    if (!map || !map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map{};
+    }
 }
 
 
 void SetMapAxisFont::execute() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
-    
     oldFont = map->getLayers().getAxisLayer()->getFont();
     map->getLayers().getAxisLayer()->setFont(newFont);
 }
 
 
 QString SetMapAxisFont::getDescription() const {
+    auto mapName = map->getName();
     return QString{"Set axis font of map %1 to %2 %3pt"}.arg(mapName).arg(newFont.family()).arg(newFont.pointSize());
 }
 
 
 void SetMapAxisFont::undo() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
     map->getLayers().getAxisLayer()->setFont(oldFont);
 }

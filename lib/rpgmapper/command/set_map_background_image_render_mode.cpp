@@ -16,34 +16,29 @@ using namespace rpgmapper::model::command;
 using namespace rpgmapper::model::layer;
 
 
-SetMapBackgroundImageRenderMode::SetMapBackgroundImageRenderMode(QString mapName, ImageRenderMode newMode)
-    : mapName{std::move(mapName)}, newMode{newMode}, oldMode{ImageRenderMode::plain} {
+SetMapBackgroundImageRenderMode::SetMapBackgroundImageRenderMode(rpgmapper::model::Map * map, ImageRenderMode newMode)
+    : map{map},
+      newMode{newMode},
+      oldMode{ImageRenderMode::plain} {
+    
+    if (!map || !map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map{};
+    }
 }
 
 
 void SetMapBackgroundImageRenderMode::execute() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
-    
     oldMode = map->getLayers().getBackgroundLayer()->getImageRenderMode();
     map->getLayers().getBackgroundLayer()->setImageRenderMode(newMode);
 }
 
 
 QString SetMapBackgroundImageRenderMode::getDescription() const {
+    auto mapName = map->getName();
     return QString{"Set background image rendering of map %1 to %2"}.arg(mapName).arg(imageRenderModeToString(newMode));
 }
 
 
 void SetMapBackgroundImageRenderMode::undo() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
-    
     map->getLayers().getBackgroundLayer()->setImageRenderMode(oldMode);
 }

@@ -10,8 +10,8 @@
 #include <QPointF>
 #include <QString>
 
-
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -23,20 +23,29 @@ namespace command {
  * This command changes the offset values on the axis of a map.
  */
 class SetMapNumeralOffset : public Command {
-
-    QString mapName;            /**< the map to modify. */
-    QPointF newOffset;          /**< the new offset values. */
-    QPointF oldOffset;          /**< the old offset values. */
+    
+    rpgmapper::model::Map * map = nullptr;        /**< the map to modify. */
+    QPointF newOffset;                            /**< the new offset values. */
+    QPointF oldOffset;                            /**< the old offset values. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   mapName         the name of the map to modify.
+     * @param   map             the map to modify.
      * @param   newOffset       the new offset values of the map.
      */
-    SetMapNumeralOffset(QString mapName, QPointF newOffset);
+    SetMapNumeralOffset(rpgmapper::model::Map * map, QPointF newOffset);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to modify.
+     * @param   newOffset       the new offset values of the map.
+     */
+    SetMapNumeralOffset(rpgmapper::model::MapPointer map, QPointF newOffset)
+        : SetMapNumeralOffset{map.data(), newOffset} {}
     
     /**
      * Destructor.

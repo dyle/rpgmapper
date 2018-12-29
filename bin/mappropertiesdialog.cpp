@@ -116,7 +116,7 @@ MapPropertiesDialog::MapPropertiesDialog(QWidget * parent) : QDialog{parent} {
 }
 
 
-void MapPropertiesDialog::applyAxisValuesToMap(CompositeCommand * & commands, QString newMapName) {
+void MapPropertiesDialog::applyAxisValuesToMap(CompositeCommand * & commands) {
 
     if (!commands) {
         throw std::invalid_argument{"Commands argument must not be nullptr."};
@@ -129,41 +129,41 @@ void MapPropertiesDialog::applyAxisValuesToMap(CompositeCommand * & commands, QS
 
     auto xNumeric = getSelectedXAxisNumeral();
     if (!xNumeric.isEmpty() && (xNumeric != coordinateSystem->getNumeralXAxis()->getName())) {
-        commands->addCommand(CommandPointer{new SetMapNumeralAxis{newMapName, true, xNumeric}});
+        commands->addCommand(CommandPointer{new SetMapNumeralAxis{map, true, xNumeric}});
     }
 
     auto yNumeric = getSelectedYAxisNumeral();
     if (!yNumeric.isEmpty() && (yNumeric != coordinateSystem->getNumeralYAxis()->getName())) {
-        commands->addCommand(CommandPointer{new SetMapNumeralAxis{newMapName, false, yNumeric}});
+        commands->addCommand(CommandPointer{new SetMapNumeralAxis{map, false, yNumeric}});
     }
 
     auto offset = QPoint{ui->xStartValueSpinBox->value(), ui->yStartValueSpinBox->value()};
     if (offset != coordinateSystem->getOffset()) {
-        commands->addCommand(CommandPointer{new SetMapNumeralOffset{newMapName, offset}});
+        commands->addCommand(CommandPointer{new SetMapNumeralOffset{map, offset}});
     }
 
     auto layers = map->getLayers();
     auto axisPalette = ui->axisColorFrame->palette();
     auto axisColor = axisPalette.window().color();
     if (layers.getAxisLayer()->getColor() != axisColor) {
-        commands->addCommand(CommandPointer{new SetMapAxisFontColor{newMapName, axisColor}});
+        commands->addCommand(CommandPointer{new SetMapAxisFontColor{map, axisColor}});
     }
 
     QFont axisFont;
     axisFont.fromString(ui->axisFontLineEdit->text());
     if (layers.getAxisLayer()->getFont().toString() != axisFont.toString()) {
-        commands->addCommand(CommandPointer{new SetMapAxisFont{newMapName, axisFont}});
+        commands->addCommand(CommandPointer{new SetMapAxisFont{map, axisFont}});
     }
 
     auto gridPalette = ui->gridColorFrame->palette();
     auto gridColor = gridPalette.window().color();
     if (layers.getGridLayer()->getColor() != gridColor) {
-        commands->addCommand(CommandPointer{new SetMapGridColor{newMapName, gridColor}});
+        commands->addCommand(CommandPointer{new SetMapGridColor{map, gridColor}});
     }
 }
 
 
-void MapPropertiesDialog::applyBackgroundValuesToMap(CompositeCommand * & commands, QString newMapName) {
+void MapPropertiesDialog::applyBackgroundValuesToMap(CompositeCommand * & commands) {
     
     if (!commands) {
         throw std::invalid_argument{"Commands argument must not be nullptr."};
@@ -180,15 +180,15 @@ void MapPropertiesDialog::applyBackgroundValuesToMap(CompositeCommand * & comman
     auto backgroundColor = backgroundPalette.window().color();
     
     if (backgroundLayer->getColor() != backgroundColor) {
-        commands->addCommand(CommandPointer{new SetMapBackgroundColor{newMapName, backgroundColor}});
+        commands->addCommand(CommandPointer{new SetMapBackgroundColor{map, backgroundColor}});
     }
 
     if (ui->backgroundColorRadioButton->isChecked() && !backgroundLayer->isColorRendered()) {
-        commands->addCommand(CommandPointer{new SetMapBackgroundRendering{newMapName, "color"}});
+        commands->addCommand(CommandPointer{new SetMapBackgroundRendering{map, "color"}});
     }
 
     if (ui->backgroundImageRadioButton->isChecked() && !backgroundLayer->isImageRendered()) {
-        commands->addCommand(CommandPointer{new SetMapBackgroundRendering{newMapName, "image"}});
+        commands->addCommand(CommandPointer{new SetMapBackgroundRendering{map, "image"}});
     }
 
     auto selectedImageName = ui->backgroundImageFileComboBox->currentText();
@@ -197,18 +197,18 @@ void MapPropertiesDialog::applyBackgroundValuesToMap(CompositeCommand * & comman
         auto pair = backgroundImageNameToPath.find(selectedImageName);
         if (pair != backgroundImageNameToPath.end()) {
             auto backgroundImagePath = (*pair).second;
-            commands->addCommand(CommandPointer{new SetMapBackgroundImage{newMapName, backgroundImagePath}});
+            commands->addCommand(CommandPointer{new SetMapBackgroundImage{map, backgroundImagePath}});
         }
     }
 
     auto mode = getSelectedImageRenderMode();
     if (backgroundLayer->getImageRenderMode() != mode) {
-        commands->addCommand(CommandPointer{new SetMapBackgroundImageRenderMode{newMapName, mode}});
+        commands->addCommand(CommandPointer{new SetMapBackgroundImageRenderMode{map, mode}});
     }
 }
 
 
-void MapPropertiesDialog::applyDimensionValuesToMap(CompositeCommand * & commands, QString newMapName) {
+void MapPropertiesDialog::applyDimensionValuesToMap(CompositeCommand * & commands) {
     
     if (!commands) {
         throw std::invalid_argument{"Commands argument must not be nullptr."};
@@ -224,17 +224,17 @@ void MapPropertiesDialog::applyDimensionValuesToMap(CompositeCommand * & command
     auto newHeight = ui->heightSpinBox->value();
     auto mapSize = coordinateSystem->getSize();
     if ((mapSize.width() != newWidth) || (mapSize.height() != newHeight)) {
-        commands->addCommand(CommandPointer{new ResizeMap{newMapName, QSize{newWidth, newHeight}}});
+        commands->addCommand(CommandPointer{new ResizeMap{map, QSize{newWidth, newHeight}}});
     }
 
     auto origin = ui->coordinatesOriginWidget->getOrigin();
     if (origin != coordinateSystem->getOrigin()) {
-        commands->addCommand(CommandPointer{new SetMapOrigin{newMapName, origin}});
+        commands->addCommand(CommandPointer{new SetMapOrigin{map, origin}});
     }
     
     auto margin = getSelectedMargin();
     if (margin != coordinateSystem->getMargin()) {
-        commands->addCommand(CommandPointer{new SetMapMargin{newMapName, margin}});
+        commands->addCommand(CommandPointer{new SetMapMargin{map, margin}});
     }
 }
 
@@ -249,13 +249,13 @@ void MapPropertiesDialog::applyValuesToMap() {
     auto newMapName = map->getName();
     auto commands = new CompositeCommand{};
     if (ui->nameEdit->text() != map->getName()) {
-        commands->addCommand(CommandPointer{new SetMapName(map->getName(), ui->nameEdit->text())});
+        commands->addCommand(CommandPointer{new SetMapName(map, ui->nameEdit->text())});
         newMapName = ui->nameEdit->text();
     }
 
-    applyDimensionValuesToMap(commands, newMapName);
-    applyAxisValuesToMap(commands, newMapName);
-    applyBackgroundValuesToMap(commands, newMapName);
+    applyDimensionValuesToMap(commands);
+    applyAxisValuesToMap(commands);
+    applyBackgroundValuesToMap(commands);
 
     if (commands->size() > 0) {
         auto session = Session::getCurrentSession();

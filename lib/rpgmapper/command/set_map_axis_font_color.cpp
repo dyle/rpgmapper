@@ -15,33 +15,28 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapAxisFontColor::SetMapAxisFontColor(QString mapName, QColor newColor)
-    : mapName{std::move(mapName)}, newColor{std::move(newColor)} {
+SetMapAxisFontColor::SetMapAxisFontColor(rpgmapper::model::Map * map, QColor newColor)
+    : map{map},
+      newColor{std::move(newColor)} {
+    
+    if (!map || !map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map{};
+    }
 }
 
 
 void SetMapAxisFontColor::execute() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
-    
     oldColor = map->getLayers().getAxisLayer()->getColor();
     map->getLayers().getAxisLayer()->setColor(newColor);
 }
 
 
 QString SetMapAxisFontColor::getDescription() const {
+    auto mapName = map->getName();
     return QString{"Set axis color of map %1 to %2"}.arg(mapName).arg(newColor.name(QColor::HexArgb));
 }
 
 
 void SetMapAxisFontColor::undo() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
     map->getLayers().getAxisLayer()->setColor(oldColor);
 }

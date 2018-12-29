@@ -11,6 +11,7 @@
 
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/coordinate_system.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -22,20 +23,29 @@ namespace command {
  * This command lets the maps origin move around.
  */
 class SetMapOrigin : public Command {
-
-    QString mapName;                    /**< the map to modify. */
-    CoordinatesOrigin newOrigin;        /**< the new origin of the map. */
-    CoordinatesOrigin oldOrigin;        /**< the maps old origin. */
+    
+    rpgmapper::model::Map * map = nullptr;        /**< the map to modify. */
+    CoordinatesOrigin newOrigin;                  /**< the new origin of the map. */
+    CoordinatesOrigin oldOrigin;                  /**< the maps old origin. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   mapName         the name of the map to modify.
+     * @param   map             the map to modify.
      * @param   origin          the new origin of the map.
      */
-    SetMapOrigin(QString mapName, rpgmapper::model::CoordinatesOrigin origin);
+    SetMapOrigin(rpgmapper::model::Map * map, rpgmapper::model::CoordinatesOrigin origin);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to modify.
+     * @param   origin          the new origin of the map.
+     */
+    SetMapOrigin(rpgmapper::model::MapPointer map, rpgmapper::model::CoordinatesOrigin origin)
+        : SetMapOrigin{map.data(), origin} {}
     
     /**
      * Destructor.

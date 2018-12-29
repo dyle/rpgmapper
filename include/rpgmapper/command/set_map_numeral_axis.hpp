@@ -10,6 +10,7 @@
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -22,22 +23,32 @@ namespace command {
  * This class changes how the axis numerals are drawn on the map.
  */
 class SetMapNumeralAxis : public Command {
-
-    QString mapName;            /**< the map to modify. */
-    bool xAxis;                 /**< flag for X-axis (if false, then Y-axis is targeted). */
-    QString newNumeral;         /**< the new numeral setting. */
-    QString oldNumeral;         /**< the old numeral setting. */
+    
+    rpgmapper::model::Map * map = nullptr;        /**< the map to modify. */
+    bool xAxis;                                   /**< flag for X-axis (if false, then Y-axis is targeted). */
+    QString newNumeral;                           /**< the new numeral setting. */
+    QString oldNumeral;                           /**< the old numeral setting. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   mapName         the name of the map to modify.
+     * @param   map             the map to modify.
      * @param   xAxis           true, for X-axis, false for Y-axis.
      * @param   newNumeral      the new numeral setting for the maps axis.
      */
-    SetMapNumeralAxis(QString mapName, bool xAxis, QString newNumeral);
+    SetMapNumeralAxis(rpgmapper::model::Map * map, bool xAxis, QString newNumeral);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to modify.
+     * @param   xAxis           true, for X-axis, false for Y-axis.
+     * @param   newNumeral      the new numeral setting for the maps axis.
+     */
+    SetMapNumeralAxis(rpgmapper::model::MapPointer map, bool xAxis, QString newNumeral)
+        : SetMapNumeralAxis{map.data(), xAxis, newNumeral} {}
     
     /**
      * Destructor.

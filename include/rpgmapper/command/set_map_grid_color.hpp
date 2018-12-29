@@ -11,6 +11,7 @@
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -22,20 +23,28 @@ namespace command {
  * This command changes the color of a maps grid.
  */
 class SetMapGridColor : public Command {
-
-    QString mapName;        /**< the map to modify. */
-    QColor newColor;        /**< the new grid color. */
-    QColor oldColor;        /**< the old grid color. */
+    
+    rpgmapper::model::Map * map = nullptr;        /**< the map to modify. */
+    QColor newColor;                              /**< the new grid color. */
+    QColor oldColor;                              /**< the old grid color. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   mapName         the name of the map to change the grid color for.
+     * @param   map             the map to change the grid color for.
      * @param   newColor        the new grid color.
      */
-    SetMapGridColor(QString mapName, QColor newColor);
+    SetMapGridColor(rpgmapper::model::Map * map, QColor newColor);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to change the grid color for.
+     * @param   newColor        the new grid color.
+     */
+    SetMapGridColor(rpgmapper::model::MapPointer map, QColor newColor) : SetMapGridColor{map.data(), newColor} {}
     
     /**
      * Destructor.

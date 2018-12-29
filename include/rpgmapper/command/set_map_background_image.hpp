@@ -10,6 +10,7 @@
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -21,20 +22,29 @@ namespace command {
  * This command changes the image used as background image on a map.
  */
 class SetMapBackgroundImage : public Command {
-
-    QString mapName;            /**< the map to modify. */
-    QString newImage;           /**< the new background image. */
-    QString oldImage;           /**< the old background image. */
+    
+    rpgmapper::model::Map * map = nullptr;        /**< the map to modify. */
+    QString newImage;                             /**< the new background image. */
+    QString oldImage;                             /**< the old background image. */
 
 public:
     
     /**
      * Constructor.
      *
-     * @param   mapName         the name of the map to change the background image for.
+     * @param   map             the map to change the background image for.
      * @param   newImage        the new background image.
      */
-    SetMapBackgroundImage(QString mapName, QString newImage);
+    SetMapBackgroundImage(rpgmapper::model::Map * map, QString newImage);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map             the map to change the background image for.
+     * @param   newImage        the new background image.
+     */
+    SetMapBackgroundImage(rpgmapper::model::MapPointer map, QString newImage)
+        : SetMapBackgroundImage{map.data(), newImage} {}
     
     /**
      * Destructor.

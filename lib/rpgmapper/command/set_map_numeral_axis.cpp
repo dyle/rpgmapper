@@ -16,17 +16,18 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapNumeralAxis::SetMapNumeralAxis(QString mapName, bool xAxis, QString newNumeral)
-        : mapName{std::move(mapName)}, xAxis{xAxis}, newNumeral{std::move(newNumeral)} {
+SetMapNumeralAxis::SetMapNumeralAxis(rpgmapper::model::Map * map, bool xAxis, QString newNumeral)
+        : map{map},
+          xAxis{xAxis},
+          newNumeral{std::move(newNumeral)} {
+    
+    if (!map || !map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map{};
+    }
 }
 
 
 void SetMapNumeralAxis::execute() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
     
     if (xAxis) {
         oldNumeral = map->getCoordinateSystem()->getNumeralXAxis()->getName();
@@ -40,18 +41,13 @@ void SetMapNumeralAxis::execute() {
 
 
 QString SetMapNumeralAxis::getDescription() const {
+    auto mapName = map->getName();
     QString axis = xAxis ? "X" : "Y";
     return QString{"Set numeral of map %1 on %2-axis to %3"}.arg(mapName).arg(axis).arg(newNumeral);
 }
 
 
 void SetMapNumeralAxis::undo() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
-    
     if (xAxis) {
         map->getCoordinateSystem()->setNumeralXAxis(oldNumeral);
     }

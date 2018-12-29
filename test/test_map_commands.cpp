@@ -49,7 +49,7 @@ TEST(MapCommand, SetMapName) {
     ASSERT_TRUE(map->isValid());
     EXPECT_EQ(map->getName().toStdString(), "bar");
     
-    processor->execute(CommandPointer{new SetMapName{"bar", "baz"}});
+    processor->execute(CommandPointer{new SetMapName{map, "baz"}});
     map = session->findMap("baz");
     ASSERT_TRUE(map->isValid());
     EXPECT_EQ(map->getName().toStdString(), "baz");
@@ -72,7 +72,7 @@ TEST(MapCommand, ResizeMap) {
     EXPECT_EQ(map->getCoordinateSystem()->getSize().width(), 10);
     EXPECT_EQ(map->getCoordinateSystem()->getSize().height(), 10);
     
-    processor->execute(CommandPointer{new ResizeMap{"bar", QSize{100, 50}}});
+    processor->execute(CommandPointer{new ResizeMap{map, QSize{100, 50}}});
     EXPECT_EQ(map->getCoordinateSystem()->getSize().width(), 100);
     EXPECT_EQ(map->getCoordinateSystem()->getSize().height(), 50);
     processor->undo();
@@ -96,25 +96,25 @@ TEST(MapCommand, SetMapOrigin) {
     ASSERT_TRUE(map->isValid());
     EXPECT_EQ(map->getCoordinateSystem()->getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
     
-    processor->execute(CommandPointer{new SetMapOrigin{"bar",
+    processor->execute(CommandPointer{new SetMapOrigin{map,
                                                        rpgmapper::model::CoordinatesOrigin::topLeft}});
     EXPECT_EQ(map->getCoordinateSystem()->getOrigin(), rpgmapper::model::CoordinatesOrigin::topLeft);
     processor->undo();
     EXPECT_EQ(map->getCoordinateSystem()->getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
     
-    processor->execute(CommandPointer{new SetMapOrigin{"bar",
+    processor->execute(CommandPointer{new SetMapOrigin{map,
                                                        rpgmapper::model::CoordinatesOrigin::topRight}});
     EXPECT_EQ(map->getCoordinateSystem()->getOrigin(), rpgmapper::model::CoordinatesOrigin::topRight);
     processor->undo();
     EXPECT_EQ(map->getCoordinateSystem()->getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
     
-    processor->execute(CommandPointer{new SetMapOrigin{"bar",
+    processor->execute(CommandPointer{new SetMapOrigin{map,
                                                        rpgmapper::model::CoordinatesOrigin::bottomRight}});
     EXPECT_EQ(map->getCoordinateSystem()->getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomRight);
     processor->undo();
     EXPECT_EQ(map->getCoordinateSystem()->getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
     
-    processor->execute(CommandPointer{new SetMapOrigin{"bar",
+    processor->execute(CommandPointer{new SetMapOrigin{map,
                                                        rpgmapper::model::CoordinatesOrigin::bottomLeft}});
     EXPECT_EQ(map->getCoordinateSystem()->getOrigin(), rpgmapper::model::CoordinatesOrigin::bottomLeft);
     processor->undo();
@@ -136,7 +136,7 @@ TEST(MapCommand, SetMapGridColor) {
     auto map = session->findMap("bar");
     ASSERT_TRUE(map->isValid());
     
-    processor->execute(CommandPointer{new SetMapGridColor{"bar", QColor{"#FFAA88"}}});
+    processor->execute(CommandPointer{new SetMapGridColor{map, QColor{"#FFAA88"}}});
     EXPECT_EQ(map->getLayers().getGridLayer()->getColor(), QColor{"#FFAA88"});
 }
 
@@ -155,7 +155,7 @@ TEST(MapCommand, SetMapAxisFontColor) {
     auto map = session->findMap("bar");
     ASSERT_TRUE(map->isValid());
     
-    processor->execute(CommandPointer{new SetMapAxisFontColor{"bar", QColor{"#883311"}}});
+    processor->execute(CommandPointer{new SetMapAxisFontColor{map, QColor{"#883311"}}});
     EXPECT_EQ(map->getLayers().getAxisLayer()->getColor(), QColor{"#883311"});
 }
 
@@ -175,7 +175,7 @@ TEST(MapCommand, SetMapAxisFont) {
     ASSERT_TRUE(map->isValid());
 
     QFont font{"Arial", 16};
-    processor->execute(CommandPointer{new SetMapAxisFont{"bar", font}});
+    processor->execute(CommandPointer{new SetMapAxisFont{map, font}});
     EXPECT_EQ(map->getLayers().getAxisLayer()->getFont().toString().toStdString(), font.toString().toStdString());
 }
 
@@ -195,22 +195,22 @@ TEST(MapCommand, SetMapNumeralXAxis) {
     ASSERT_TRUE(map->isValid());
 
     auto defaultNumeral = map->getCoordinateSystem()->getNumeralXAxis()->getName();
-    processor->execute(CommandPointer{new SetMapNumeralAxis{"bar", true, "alphaBig"}});
+    processor->execute(CommandPointer{new SetMapNumeralAxis{map, true, "alphaBig"}});
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralXAxis()->getName().toStdString(), "alphaBig");
     processor->undo();
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralXAxis()->getName().toStdString(), defaultNumeral.toStdString());
 
-    processor->execute(CommandPointer{new SetMapNumeralAxis{"bar", true, "alphaSmall"}});
+    processor->execute(CommandPointer{new SetMapNumeralAxis{map, true, "alphaSmall"}});
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralXAxis()->getName().toStdString(), "alphaSmall");
     processor->undo();
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralXAxis()->getName().toStdString(), defaultNumeral.toStdString());
 
-    processor->execute(CommandPointer{new SetMapNumeralAxis{"bar", true, "roman"}});
+    processor->execute(CommandPointer{new SetMapNumeralAxis{map, true, "roman"}});
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralXAxis()->getName().toStdString(), "roman");
     processor->undo();
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralXAxis()->getName().toStdString(), defaultNumeral.toStdString());
 
-    processor->execute(CommandPointer{new SetMapNumeralAxis{"bar", true, "numeric"}});
+    processor->execute(CommandPointer{new SetMapNumeralAxis{map, true, "numeric"}});
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralXAxis()->getName().toStdString(), "numeric");
     processor->undo();
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralXAxis()->getName().toStdString(), defaultNumeral.toStdString());
@@ -232,22 +232,22 @@ TEST(MapCommand, SetMapNumeralYAxis) {
     ASSERT_TRUE(map->isValid());
 
     auto defaultNumeral = map->getCoordinateSystem()->getNumeralYAxis()->getName();
-    processor->execute(CommandPointer{new SetMapNumeralAxis{"bar", false, "alphaBig"}});
+    processor->execute(CommandPointer{new SetMapNumeralAxis{map, false, "alphaBig"}});
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralYAxis()->getName().toStdString(), "alphaBig");
     processor->undo();
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralYAxis()->getName().toStdString(), defaultNumeral.toStdString());
 
-    processor->execute(CommandPointer{new SetMapNumeralAxis{"bar", false, "alphaSmall"}});
+    processor->execute(CommandPointer{new SetMapNumeralAxis{map, false, "alphaSmall"}});
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralYAxis()->getName().toStdString(), "alphaSmall");
     processor->undo();
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralYAxis()->getName().toStdString(), defaultNumeral.toStdString());
 
-    processor->execute(CommandPointer{new SetMapNumeralAxis{"bar", false, "roman"}});
+    processor->execute(CommandPointer{new SetMapNumeralAxis{map, false, "roman"}});
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralYAxis()->getName().toStdString(), "roman");
     processor->undo();
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralYAxis()->getName().toStdString(), defaultNumeral.toStdString());
 
-    processor->execute(CommandPointer{new SetMapNumeralAxis{"bar", false, "numeric"}});
+    processor->execute(CommandPointer{new SetMapNumeralAxis{map, false, "numeric"}});
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralYAxis()->getName().toStdString(), "numeric");
     processor->undo();
     EXPECT_EQ(map->getCoordinateSystem()->getNumeralYAxis()->getName().toStdString(), defaultNumeral.toStdString());
@@ -268,7 +268,7 @@ TEST(MapCommand, SetMapBackgroundColor) {
     auto map = session->findMap("bar");
     ASSERT_TRUE(map->isValid());
 
-    processor->execute(CommandPointer{new SetMapBackgroundColor{"bar", QColor{"#112233"}}});
+    processor->execute(CommandPointer{new SetMapBackgroundColor{map, QColor{"#112233"}}});
     EXPECT_EQ(map->getLayers().getBackgroundLayer()->getColor(), QColor{"#112233"});
 }
 
@@ -287,10 +287,10 @@ TEST(MapCommand, SetMapBackgroundRendering) {
     auto map = session->findMap("bar");
     ASSERT_TRUE(map->isValid());
 
-    processor->execute(CommandPointer{new SetMapBackgroundRendering{"bar", "color"}});
+    processor->execute(CommandPointer{new SetMapBackgroundRendering{map, "color"}});
     EXPECT_TRUE(map->getLayers().getBackgroundLayer()->isColorRendered());
     EXPECT_FALSE(map->getLayers().getBackgroundLayer()->isImageRendered());
-    processor->execute(CommandPointer{new SetMapBackgroundRendering{"bar", "image"}});
+    processor->execute(CommandPointer{new SetMapBackgroundRendering{map, "image"}});
     EXPECT_FALSE(map->getLayers().getBackgroundLayer()->isColorRendered());
     EXPECT_TRUE(map->getLayers().getBackgroundLayer()->isImageRendered());
 }
@@ -310,17 +310,17 @@ TEST(MapCommand, SetMapBackgroundImageRenderMode) {
     auto map = session->findMap("bar");
     ASSERT_TRUE(map->isValid());
 
-    processor->execute(CommandPointer{new SetMapBackgroundImageRenderMode{"bar", ImageRenderMode::plain}});
+    processor->execute(CommandPointer{new SetMapBackgroundImageRenderMode{map, ImageRenderMode::plain}});
     EXPECT_TRUE(map->getLayers().getBackgroundLayer()->isImageRenderedPlain());
     EXPECT_FALSE(map->getLayers().getBackgroundLayer()->isImageRenderedScaled());
     EXPECT_FALSE(map->getLayers().getBackgroundLayer()->isImageRenderedTiled());
 
-    processor->execute(CommandPointer{new SetMapBackgroundImageRenderMode{"bar", ImageRenderMode::scaled}});
+    processor->execute(CommandPointer{new SetMapBackgroundImageRenderMode{map, ImageRenderMode::scaled}});
     EXPECT_FALSE(map->getLayers().getBackgroundLayer()->isImageRenderedPlain());
     EXPECT_TRUE(map->getLayers().getBackgroundLayer()->isImageRenderedScaled());
     EXPECT_FALSE(map->getLayers().getBackgroundLayer()->isImageRenderedTiled());
 
-    processor->execute(CommandPointer{new SetMapBackgroundImageRenderMode{"bar", ImageRenderMode::tiled}});
+    processor->execute(CommandPointer{new SetMapBackgroundImageRenderMode{map, ImageRenderMode::tiled}});
     EXPECT_FALSE(map->getLayers().getBackgroundLayer()->isImageRenderedPlain());
     EXPECT_FALSE(map->getLayers().getBackgroundLayer()->isImageRenderedScaled());
     EXPECT_TRUE(map->getLayers().getBackgroundLayer()->isImageRenderedTiled());
@@ -341,11 +341,11 @@ TEST(MapCommand, SetMapMargins) {
     auto map = session->findMap("bar");
     ASSERT_TRUE(map->isValid());
 
-    processor->execute(CommandPointer{new SetMapMargin{"bar", 1.0}});
+    processor->execute(CommandPointer{new SetMapMargin{map, 1.0}});
     auto margin = map->getCoordinateSystem()->getMargin();
     EXPECT_EQ(margin, 1.0);
     
-    processor->execute(CommandPointer{new SetMapMargin{"bar", 0.0}});
+    processor->execute(CommandPointer{new SetMapMargin{map, 0.0}});
     margin = map->getCoordinateSystem()->getMargin();
     EXPECT_EQ(margin, 0.0);
 }

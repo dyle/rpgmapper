@@ -12,6 +12,7 @@
 
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/map.hpp>
+#include <rpgmapper/region.hpp>
 
 
 namespace rpgmapper {
@@ -24,17 +25,25 @@ namespace command {
  */
 class RemoveMap : public Command {
 
-    QSharedPointer<Map> map;        /**< The map removed. */
-    QString regionName;             /**< The region from which the map is removed. */
+    rpgmapper::model::Map * map = nullptr;              /**< The map removed. */
+    rpgmapper::model::Region * region = nullptr;        /**< The region from which the map is removed. */
+    rpgmapper::model::MapPointer removedMap;            /**< The removed map as a MapPointer instance. */
 
 public:
 
     /**
      * Constructor.
      *
-     * @param   mapName         the map to remove.
+     * @param   map         the map to remove.
      */
-    RemoveMap(QString mapName);
+    RemoveMap(rpgmapper::model::Map * map);
+    
+    /**
+     * Constructor.
+     *
+     * @param   map         the map to remove.
+     */
+    RemoveMap(rpgmapper::model::MapPointer map) : RemoveMap(map.data()) {}
     
     /**
      * Destructor.

@@ -15,33 +15,28 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapBackgroundImage::SetMapBackgroundImage(QString mapName, QString newImage)
-    : mapName{std::move(mapName)}, newImage{std::move(newImage)} {
+SetMapBackgroundImage::SetMapBackgroundImage(rpgmapper::model::Map * map, QString newImage)
+    : map{map},
+      newImage{std::move(newImage)} {
+    
+    if (!map || !map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map{};
+    }
 }
 
 
 void SetMapBackgroundImage::execute() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
-    
     oldImage = map->getLayers().getBackgroundLayer()->getImageResource();
     map->getLayers().getBackgroundLayer()->setImageResource(newImage);
 }
 
 
 QString SetMapBackgroundImage::getDescription() const {
+    auto mapName = map->getName();
     return QString{"Set background image of map %1"}.arg(mapName);
 }
 
 
 void SetMapBackgroundImage::undo() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
     map->getLayers().getBackgroundLayer()->setImageResource(oldImage);
 }

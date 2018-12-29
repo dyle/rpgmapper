@@ -16,33 +16,25 @@ using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
 
 
-SetMapMargin::SetMapMargin(QString mapName, float newMargin)
-    : mapName{std::move(mapName)}, newMargin{newMargin} {
+SetMapMargin::SetMapMargin(rpgmapper::model::Map * map, float newMargin) : map{map}, newMargin{newMargin} {
+    if (!map || !map->isValid()) {
+        throw rpgmapper::model::exception::invalid_map{};
+    }
 }
 
 
 void SetMapMargin::execute() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
-    
     oldMargin = map->getCoordinateSystem()->getMargin();
     map->getCoordinateSystem()->setMargin(newMargin);
 }
 
 
 QString SetMapMargin::getDescription() const {
+    auto mapName = map->getName();
     return QString{"Set background margins of map %1"}.arg(mapName);
 }
 
 
 void SetMapMargin::undo() {
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
-        throw rpgmapper::model::exception::invalid_map();
-    }
     map->getCoordinateSystem()->setMargin(oldMargin);
 }

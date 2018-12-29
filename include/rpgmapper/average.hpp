@@ -63,7 +63,7 @@ public:
     /**
      * Calculate the average.
      *
-     * @return  the avarage of all values held in this structure.
+     * @return  the average of all values held in this structure.
      */
     T average() const {
         trim();
@@ -100,7 +100,7 @@ private:
 
 
 /**
- * This is a moving average with holds up to the maxElements.
+ * This is a moving average with holds up to the maximum elements.
  */
 template<typename T> class AverageOverSize : public Average<T> {
 
@@ -114,7 +114,7 @@ public:
     /**
      * Constructor
      *
-     * @param   maxElements     maximum Number of elements to calcultae the average for.
+     * @param   maxElements     maximum Number of elements to calculate the average for.
      */
     explicit AverageOverSize(unsigned int maxElements = 10) : maxElements{maxElements} {};
 
@@ -134,7 +134,7 @@ private:
 
 
 /**
- * This is a moving avberage over time.
+ * This is a moving average over time.
  */
 template<typename T> class AverageOverTime : public Average<T> {
 
@@ -146,7 +146,7 @@ template<typename T> class AverageOverTime : public Average<T> {
 public:
     
     /**
-     * Creates a moving average of all values inserted in the last maxDuration milliseconds.
+     * Creates a moving average of all values inserted in the last milliseconds.
      *
      * @param   maxDuration     milliseconds managed by this moving average.
      */
@@ -172,6 +172,7 @@ private:
 
 }
 }
+
 
 /**
  * Streams any value into a moving average instance.

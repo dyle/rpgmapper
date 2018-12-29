@@ -38,6 +38,7 @@ int Processor::modifications() const {
 
 void Processor::redo() {
     impl->redo();
+    emit commandExecuted();
 }
 
 
@@ -48,4 +49,5 @@ void Processor::resetModifications() {
 
 void Processor::undo() {
     impl->undo();
+    emit commandExecuted();
 }

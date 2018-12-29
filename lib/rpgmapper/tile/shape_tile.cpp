@@ -4,8 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#include <rpgmapper/command/additive_tile_placer.hpp>
-#include <rpgmapper/command/exclusive_tile_placer.hpp>
 #include <rpgmapper/layer/tile_layer.hpp>
 #include <rpgmapper/resource/resource_db.hpp>
 #include <rpgmapper/resource/shape.hpp>
@@ -42,20 +40,9 @@ bool ShapeTile::operator==(const Tile & rhs) const {
 }
 
 
-rpgmapper::model::command::CommandPointer ShapeTile::createPlacerCommand(QString mapName, QPointF position) const {
-    
-    auto tile = TilePointer{new ShapeTile{*this}};
-    auto command = CommandPointer{new AdditiveTilePlacer{mapName, tile, position}};
-    return command;
-}
-
-
 void ShapeTile::draw(QPainter & painter, int tileSize) {
     
-    QRect rect{0, 0, tileSize, tileSize};
-    
-    auto resource = getShape();
-    auto shape = dynamic_cast<Shape const *>(resource.data());
+    auto shape = getShape();
     if (!shape) {
         return;
     }
@@ -65,15 +52,14 @@ void ShapeTile::draw(QPainter & painter, int tileSize) {
 }
 
 
-QSharedPointer<rpgmapper::model::layer::TileLayer> & ShapeTile::getLayer(rpgmapper::model::MapPointer map) const {
+QSharedPointer<rpgmapper::model::layer::TileLayer> & ShapeTile::getLayer(rpgmapper::model::Map * map) const {
     
     static QSharedPointer<rpgmapper::model::layer::TileLayer> nullLayer;
     
     if (!map) {
         return nullLayer;
     }
-    auto resource = getShape();
-    auto shape = dynamic_cast<Shape const *>(resource.data());
+    auto shape = getShape();
     if (!shape) {
         return nullLayer;
     }
@@ -83,7 +69,6 @@ QSharedPointer<rpgmapper::model::layer::TileLayer> & ShapeTile::getLayer(rpgmapp
     
         case Shape::TargetLayer::unknown:
             return nullLayer;
-            break;
     
         case Shape::TargetLayer::base:
             prepareLayers(map->getLayers().getBaseLayers(), layerIndex);
@@ -91,6 +76,42 @@ QSharedPointer<rpgmapper::model::layer::TileLayer> & ShapeTile::getLayer(rpgmapp
     
         case Shape::TargetLayer::tile:
             prepareLayers(map->getLayers().getTileLayers(), layerIndex);
+            return map->getLayers().getTileLayers()[layerIndex];
+    }
+    
+    return nullLayer;
+}
+
+
+QSharedPointer<rpgmapper::model::layer::TileLayer> const &
+        ShapeTile::getLayer(rpgmapper::model::Map const * map) const {
+    
+    static QSharedPointer<rpgmapper::model::layer::TileLayer> nullLayer;
+    
+    if (!map) {
+        return nullLayer;
+    }
+    auto shape = getShape();
+    if (!shape) {
+        return nullLayer;
+    }
+    
+    auto layerIndex = shape->getZOrdering();
+    switch (shape->getTargetLayer()) {
+        
+        case Shape::TargetLayer::unknown:
+            return nullLayer;
+        
+        case Shape::TargetLayer::base:
+            if (map->getLayers().getBaseLayers().size() <= layerIndex) {
+                return nullLayer;
+            }
+            return map->getLayers().getBaseLayers()[layerIndex];
+        
+        case Shape::TargetLayer::tile:
+            if (map->getLayers().getTileLayers().size() <= layerIndex) {
+                return nullLayer;
+            }
             return map->getLayers().getTileLayers()[layerIndex];
     }
     
@@ -111,17 +132,19 @@ QString ShapeTile::getPath() const {
 }
 
 
-rpgmapper::model::resource::ResourcePointer ShapeTile::getShape() const {
+rpgmapper::model::resource::Shape * ShapeTile::getShape() const {
     
     auto path = getPath();
     if (path.isEmpty()) {
-        return ResourcePointer{};
+        return nullptr;
     }
-    return ResourceDB::getResource(path);
+    
+    auto resource = ResourceDB::getResource(path);
+    return dynamic_cast<Shape *>(resource.data());
 }
 
 
-bool ShapeTile::isPlaceable(rpgmapper::model::MapPointer map, QPointF position) const {
+bool ShapeTile::isPlaceable(rpgmapper::model::Map const * map, QPointF position) const {
     
     auto & layer = getLayer(map);
     if (!layer) {
@@ -141,22 +164,20 @@ bool ShapeTile::isPlaceable(rpgmapper::model::MapPointer map, QPointF position) 
 }
 
 
-Tiles ShapeTile::place(bool & placed, rpgmapper::model::MapPointer map, QPointF position) {
+TilePointer ShapeTile::place(Tiles & replaced, rpgmapper::model::Map * map, QPointF position) {
     
-    placed = false;
     if (!isPlaceable(map, position)) {
         throw std::runtime_error{"Tile is not placeable on this position on the given layer stack."};
     }
     
-    auto resource = getShape();
-    auto shape = dynamic_cast<Shape const *>(resource.data());
+    auto shape = getShape();
     if (!shape) {
         throw std::runtime_error{"Failed to lookup shape for tile."};
     }
     
     auto & layer = getLayer(map);
     if (!layer) {
-        throw std::runtime_error{"Got a NULL layer though tile thinks it is placeable."};
+        throw std::runtime_error{"Got a nullptr layer though tile thinks it is placeable."};
     }
     
     if (!layer->isFieldPresent(position)) {
@@ -164,14 +185,13 @@ Tiles ShapeTile::place(bool & placed, rpgmapper::model::MapPointer map, QPointF 
     }
     auto field = layer->getField(position);
     
-    Tiles tiles;
     switch (shape->getInsertMode()) {
         
         case TileInsertMode::additive:
             break;
         
         case TileInsertMode::exclusive:
-            tiles = field->getTiles();
+            replaced = field->getTiles();
             field->getTiles().clear();
             break;
     }
@@ -179,11 +199,10 @@ Tiles ShapeTile::place(bool & placed, rpgmapper::model::MapPointer map, QPointF 
     auto placedTile = new ShapeTile{*this};
     placedTile->setMap(map);
     placedTile->setPosition(position);
-    field->getTiles().push_back(QSharedPointer<Tile>{placedTile});
     
-    placed = true;
-    
-    return tiles;
+    auto tile = QSharedPointer<Tile>{placedTile};
+    field->getTiles().push_back(tile);
+    return tile;
 }
 
 

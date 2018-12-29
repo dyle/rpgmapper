@@ -107,7 +107,7 @@ public:
     }
     
     /**
-     * Returns teh index string into the cache based on the given parameters.
+     * Returns the index string into the cache based on the given parameters.
      *
      * @param   tileSize        size of the image.
      * @param   rotation        rotation of the image.

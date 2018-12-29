@@ -26,8 +26,6 @@ namespace tile {
  */
 class ShapeTile : public Tile {
     
-    TileInsertMode insertMode = TileInsertMode::additive;        /**< The insert mode of this tile. */
-
 public:
     
     /**
@@ -49,15 +47,6 @@ public:
     bool operator==(Tile const & rhs) const override;
     
     /**
-     * Creates the placer command to place this tile on a map.
-     *
-     * @param   mapName         the map name to place the tile.
-     * @param   position        the position where to place the tile.
-     * @return  a placer command which can be executed to place this tile.
-     */
-    rpgmapper::model::command::CommandPointer createPlacerCommand(QString mapName, QPointF position) const override;
-    
-    /**
      * Draws the tile.
      *
      * @param   painter         painter used for drawing
@@ -70,9 +59,7 @@ public:
      *
      * @return  the insert mode enum value of this tile.
      */
-    TileInsertMode getInsertMode() const override {
-        return insertMode;
-    }
+    TileInsertMode getInsertMode() const override;
     
     /**
      * Gets the resource path to the shape information.
@@ -86,7 +73,7 @@ public:
      *
      * @return  the shape attached to this tile.
      */
-    rpgmapper::model::resource::ResourcePointer getShape() const;
+    rpgmapper::model::resource::Shape * getShape() const;
     
     /**
      * Determines if the current tile is able to be placed at the map at the given position.
@@ -95,17 +82,17 @@ public:
      * @param   position        the position to place the tile on the map.
      * @return  true, if the current tile can be placed at this position.
      */
-    bool isPlaceable(rpgmapper::model::MapPointer map, QPointF position) const;
+    bool isPlaceable(rpgmapper::model::Map const * map, QPointF position) const override;
     
     /**
      * Places this tile within the layer stack of a map.
      *
-     * @param   placed          will be set to true, if the tile has been placed.
+     * @param   replaced        will receive the list of replaced tiles.
      * @param   map             the map to place the tile on.
      * @param   position        the position to place the tile on the map.
-     * @return  The list of tiles replaced.
+     * @return  The tile placed (maybe nullptr if failed to placed the tile).
      */
-    Tiles place(bool & placed, rpgmapper::model::MapPointer map, QPointF position) override;
+    TilePointer place(Tiles & replaced, rpgmapper::model::Map * map, QPointF position) override;
     
     /**
      * Removes exactly this tile from a map.
@@ -114,15 +101,23 @@ public:
     
 private:
     
-    
     /**
-     * Given a specfic map returns the layer to place this tile on.
+     * Given a specific map returns the layer to place this tile on.
      *
      * @param   map     the map.
      * @return  the layer to place the tile on.
      */
-    QSharedPointer<rpgmapper::model::layer::TileLayer> & getLayer(rpgmapper::model::MapPointer map) const;
+    QSharedPointer<rpgmapper::model::layer::TileLayer> & getLayer(rpgmapper::model::Map * map) const;
     
+    /**
+     * Given a specific map returns the layer to place this tile on.
+     *
+     * Maybe nullptr if the layer is yet not present on the map.
+     *
+     * @param   map     the map.
+     * @return  the layer to place the tile on.
+     */
+    QSharedPointer<rpgmapper::model::layer::TileLayer> const & getLayer(rpgmapper::model::Map const * map) const;
     
     /**
      * Prepare the given vector or layers to contain at least the specified number of layers.

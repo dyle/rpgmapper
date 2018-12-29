@@ -4,7 +4,6 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
-#include <rpgmapper/command/exclusive_tile_placer.hpp>
 #include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
 #include <rpgmapper/map.hpp>
@@ -38,13 +37,6 @@ bool ColorTile::operator==(const Tile & rhs) const {
 }
 
 
-rpgmapper::model::command::CommandPointer ColorTile::createPlacerCommand(QString mapName, QPointF position) const {
-    auto tile = TilePointer{new ColorTile{*this}};
-    auto command = CommandPointer{new ExclusiveTilePlacer{mapName, tile, position}};
-    return command;
-}
-
-
 void ColorTile::draw(QPainter & painter, int tileSize) {
     QRect rect{0, 0, tileSize, tileSize};
     painter.fillRect(rect, getColor());
@@ -62,7 +54,7 @@ QColor ColorTile::getColor() const {
 }
 
 
-bool ColorTile::isPlaceable(rpgmapper::model::MapPointer map, QPointF position) const {
+bool ColorTile::isPlaceable(rpgmapper::model::Map const * map, QPointF position) const {
     
     if (!map) {
         return false;
@@ -79,9 +71,7 @@ bool ColorTile::isPlaceable(rpgmapper::model::MapPointer map, QPointF position) 
 }
 
 
-Tiles ColorTile::place(bool & placed, rpgmapper::model::MapPointer map, QPointF position) {
-    
-    placed = false;
+TilePointer ColorTile::place(Tiles & replaced, rpgmapper::model::Map * map, QPointF position) {
     
     if (!isPlaceable(map, position)) {
         throw std::runtime_error{"Tile is not placeable on this position on the given layer stack."};
@@ -95,17 +85,16 @@ Tiles ColorTile::place(bool & placed, rpgmapper::model::MapPointer map, QPointF 
     auto field = layer->getField(position);
     
     // placing a color tile removes all other tiles on the same layer.
-    auto tiles = field->getTiles();
+    replaced = field->getTiles();
     field->getTiles().clear();
     
     auto placedTile = new ColorTile{*this};
     placedTile->setMap(map);
     placedTile->setPosition(position);
-    field->getTiles().push_back(QSharedPointer<Tile>{placedTile});
     
-    placed = true;
-    
-    return tiles;
+    auto tile = QSharedPointer<Tile>{placedTile};
+    field->getTiles().push_back(tile);
+    return tile;
 }
 
 

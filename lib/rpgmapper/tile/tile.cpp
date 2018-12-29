@@ -80,8 +80,8 @@ void Tile::rotateRight() {
 }
 
 
-void Tile::setMap(rpgmapper::model::MapPointer map) {
-    this->map = std::move(map);
+void Tile::setMap(rpgmapper::model::Map * map) {
+    this->map = map;
 }
 
 

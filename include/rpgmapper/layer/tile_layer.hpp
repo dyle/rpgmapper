@@ -172,6 +172,15 @@ public:
     void removeField(QPoint position) {
         removeField(Field::getIndex(position.x(), position.y()));
     }
+    
+    /**
+     * Removes a field from the layer
+     *
+     * @param   position    point holding the field's position.
+     */
+    void removeField(QPointF position) {
+        removeField(static_cast<int>(position.x()), static_cast<int>(position.y()));
+    }
 
 signals:
     
@@ -187,7 +196,6 @@ signals:
      * @param   position        position of the field removed.
      */
     void fieldRemoved(QPoint position);
-
 };
 
 

@@ -45,15 +45,6 @@ public:
     bool operator==(Tile const & rhs) const override;
     
     /**
-     * Creates the placer command to place this tile on a map.
-     *
-     * @param   mapName         the map name to place the tile.
-     * @param   position        the position where to place the tile.
-     * @return  a placer command which can be executed to place this tile.
-     */
-    rpgmapper::model::command::CommandPointer createPlacerCommand(QString mapName, QPointF position) const override;
-    
-    /**
      * Draws the tile.
      *
      * @param   painter         painter used for drawing
@@ -84,17 +75,17 @@ public:
      * @param   position        the position to place the tile on the map.
      * @return  true, if the current tile can be placed at this position.
      */
-    bool isPlaceable(rpgmapper::model::MapPointer map, QPointF position) const;
+    bool isPlaceable(rpgmapper::model::Map const * map, QPointF position) const override;
     
     /**
      * Places this tile within the layer stack of a map.
      *
-     * @param   placed          will be set to true, if the tile has been placed.
+     * @param   replaced        will receive the list of replaced tiles.
      * @param   map             the map to place the tile on.
      * @param   position        the position to place the tile on the map.
-     * @return  The list of tiles replaced.
+     * @return  The tile placed (maybe nullptr if failed to placed the tile).
      */
-    Tiles place(bool & placed, rpgmapper::model::MapPointer map, QPointF position) override;
+    TilePointer place(Tiles & replaced, rpgmapper::model::Map * map, QPointF position) override;
     
     /**
      * Removes exactly this tile from a map.

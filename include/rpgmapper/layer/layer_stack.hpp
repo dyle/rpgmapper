@@ -45,7 +45,7 @@ namespace layer {
  */
 class LayerStack {
     
-    Map * map;                                              /**< The map this LayerStack belongs to. */
+    rpgmapper::model::Map * map;                            /**< The map this LayerStack belongs to. */
     
     QSharedPointer<AxisLayer> axisLayer;                    /**< The axis layer */
     QSharedPointer<BackgroundLayer> backgroundLayer;        /**< The background layer. */

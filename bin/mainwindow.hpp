@@ -85,7 +85,7 @@ public slots:
     void editRegionProperties();
 
     /**
-     * Check which action can currently be enabled and which disabled.
+     * Enable/disable all actions.
      */
     void enableActions();
     
@@ -312,22 +312,22 @@ private slots:
     void createNewAtlas();
     
     /**
-     * A new map has been created.
+     * The user wants to create a new map.
      */
     void createNewMap();
 
     /**
-     * A new region has been created.
+     * The user wants to create a new region.
      */
     void createNewRegion();
     
     /**
-     * A map has been deleted.
+     * The user wants to delete map.
      */
     void deleteMap();
 
     /**
-     * A region has been deleted.
+     * The user wants to delete a region.
      */
     void deleteRegion();
 

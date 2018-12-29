@@ -7,6 +7,7 @@
 #include <QPixmapCache>
 #include <QScrollArea>
 
+#include <rpgmapper/atlas.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/session.hpp>
 
@@ -120,10 +121,16 @@ void MapTabWidget::selectMap(QString mapName) {
         QPixmapCache::find("map", &pixmap);
     }
 
-    auto map = Session::getCurrentSession()->findMap(mapName);
+    auto session = Session::getCurrentSession();
+    
+    // this might be connected multiple times -> find a better solution?
+    connect(session->getAtlas().data(), &Atlas::mapRemoved, this, &MapTabWidget::removeMap);
+    
+    auto map = session->findMap(mapName);
     if (!map->isValid()) {
         throw std::runtime_error{"Invalid map to select in tab."};
     }
+    
     connect(map.data(), &Nameable::nameChanged, this, &MapTabWidget::mapNameChanged);
     
     auto iter = mapScrollAreas.find(mapName);

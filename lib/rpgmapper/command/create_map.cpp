@@ -28,14 +28,17 @@ void CreateMap::execute() {
     
     auto session = Session::getCurrentSession();
     
-    auto map = session->findMap(mapName);
-    if (map->isValid()) {
+    auto presentMap = session->findMap(mapName);
+    if (presentMap->isValid()) {
         throw exception::invalid_mapname{};
     }
     
     auto region = session->findRegion(regionName);
     if (region->isValid()) {
-        map = MapPointer{new Map{mapName}};
+        
+        if (!map) {
+            map = MapPointer{new Map{mapName}};
+        }
         region->addMap(map);
     }
     else {
@@ -50,10 +53,12 @@ QString CreateMap::getDescription() const {
 
 
 void CreateMap::undo() {
+    
     auto session = Session::getCurrentSession();
     auto region = session->findRegion(regionName);
     if (!region->isValid()) {
         throw exception::invalid_region{};
     }
+    
     region->removeMap(mapName);
 }

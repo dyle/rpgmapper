@@ -73,7 +73,11 @@ void Atlas::addRegion(RegionPointer region) {
     
     auto regionName = region->getName();
     this->regions[regionName] = region;
+    
     connect(region.data(), &Nameable::nameChanged, this, &Atlas::regionNameChanged);
+    connect(region.data(), &Region::mapAdded, this, &Atlas::mapAdded);
+    connect(region.data(), &Region::mapRemoved, this, &Atlas::mapRemoved);
+    
     emit regionAdded(regionName);
 }
 

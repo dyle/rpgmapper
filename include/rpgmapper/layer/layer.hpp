@@ -66,7 +66,7 @@ public:
      *
      * @param   map     the map this layer belongs to.
      */
-    explicit Layer(Map * map);
+    explicit Layer(rpgmapper::model::Map * map);
 
     /**
      * Destructs the object.
@@ -115,7 +115,7 @@ public:
      *
      * @return  the map the layer belongs to.
      */
-    Map * getMap() {
+    rpgmapper::model::Map * getMap() {
         return map;
     }
     
@@ -124,7 +124,7 @@ public:
      *
      * @return  the map the layer belongs to.
      */
-    Map const * getMap() const {
+    rpgmapper::model::Map const * getMap() const {
         return map;
     }
     
@@ -142,7 +142,7 @@ public:
      *
      * @parant  map     the new parent map.
      */
-    void setMap(Map * map);    
+    void setMap(rpgmapper::model::Map * map);
 };
 
 

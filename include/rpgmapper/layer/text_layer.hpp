@@ -29,7 +29,7 @@ public:
      *
      * @param   map     the map this layer belongs to.
      */
-    explicit TextLayer(Map * map);
+    explicit TextLayer(rpgmapper::model::Map * map);
 
     /**
      * Destructs the TextLayer.

@@ -22,6 +22,8 @@ namespace resource {
 
 /**
  * A resource is a named BLOB.
+ *
+ * A resource has a name and is uniquely identified by a resource path.
  */
 class Resource {
 

@@ -644,7 +644,7 @@
   </action>
   <action name="actionRedraw">
    <property name="text">
-    <string>Redraw</string>
+    <string>R&amp;edraw</string>
    </property>
    <property name="shortcut">
     <string>F5</string>
@@ -715,6 +715,9 @@
    <property name="toolTip">
     <string>Rotate current tile counter clockwise.</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+L, Ctrl+Left</string>
+   </property>
   </action>
   <action name="actionRotateTileRight">
    <property name="icon">
@@ -726,6 +729,9 @@
    </property>
    <property name="toolTip">
     <string>Rotate current tile clockwise.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R, Ctrl+Right</string>
    </property>
   </action>
   <action name="actionZoomMapIn">

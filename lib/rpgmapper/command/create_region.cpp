@@ -25,12 +25,15 @@ void CreateRegion::execute() {
     
     auto session = Session::getCurrentSession();
     auto atlas = session->getAtlas();
-    auto region = session->findRegion(name);
-    if (region->isValid()) {
+    
+    auto regionPresent = session->findRegion(name);
+    if (regionPresent->isValid()) {
         throw exception::invalid_regionname{};
     }
 
-    region = RegionPointer{new Region{name}};
+    if (!region) {
+        region = RegionPointer{new Region{name}};
+    }
     atlas->addRegion(region);
 }
 
@@ -42,11 +45,6 @@ QString CreateRegion::getDescription() const {
 
 void CreateRegion::undo() {
     auto session = Session::getCurrentSession();
-    auto region = session->findRegion(name);
-    if (!region->isValid()) {
-        throw exception::invalid_region{};
-    }
-    
     auto atlas = session->getAtlas();
-    atlas->removeRegion(name);
+    atlas->removeRegion(region->getName());
 }

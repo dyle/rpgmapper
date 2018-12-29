@@ -33,7 +33,7 @@ public:
      *
      * @param   map     the map this layer belongs to.
      */
-    explicit TileLayer(Map * map);
+    explicit TileLayer(rpgmapper::model::Map * map);
 
     /**
      * Destructs the TileLayer.

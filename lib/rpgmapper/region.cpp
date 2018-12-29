@@ -139,7 +139,7 @@ void Region::removeMap(QString mapName) {
     }
     
     auto map = (*iter).second;
-    disconnect(map.data(), &Nameable::nameChanged, this, &Region::mapNameChanged);
     maps.erase(iter);
+    
     emit mapRemoved(mapName);
 }

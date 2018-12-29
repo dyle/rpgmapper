@@ -34,7 +34,7 @@ public:
      *
      * @param   map     the map this layer belongs to.
      */
-    explicit AxisLayer(Map * map);
+    explicit AxisLayer(rpgmapper::model::Map * map);
 
     /**
      * Destructs the AxisLayer.

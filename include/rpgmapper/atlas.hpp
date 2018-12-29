@@ -155,6 +155,20 @@ private slots:
 signals:
     
     /**
+     * Added a mape to the atlas.
+     *
+     * @param   name        name of the map added.
+     */
+    void mapAdded(QString name);
+    
+    /**
+     * Removed a map from the atlas.
+     *
+     * @param   name        name of the map removed.
+     */
+    void mapRemoved(QString name);
+    
+    /**
      * Added a region to the atlas.
      *
      * @param   name        name of the region added.

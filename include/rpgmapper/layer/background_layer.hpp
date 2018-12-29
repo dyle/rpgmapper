@@ -40,7 +40,7 @@ public:
      *
      * @param   map     the map this layer belongs to.
      */
-    explicit BackgroundLayer(Map * map);
+    explicit BackgroundLayer(rpgmapper::model::Map * map);
 
     /**
      * Destructs the BackgroundLayer.

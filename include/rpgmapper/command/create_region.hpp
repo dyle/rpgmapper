@@ -8,6 +8,7 @@
 #define RPGMAPPER_MODEL_COMMAND_CREATE_REGION_HPP
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/region_pointer.hpp>
 
 
 namespace rpgmapper {
@@ -20,7 +21,8 @@ namespace command {
  */
 class CreateRegion : public Command {
 
-    QString name;           /**< The name of the region to create. */
+    rpgmapper::model::RegionPointer region;     /**< The region created. */
+    QString name;                               /**< The name of the region to create. */
 
 public:
 

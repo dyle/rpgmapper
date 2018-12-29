@@ -8,6 +8,7 @@
 #define RPGMAPPER_MODEL_COMMAND_CREATE_MAP_HPP
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/map_pointer.hpp>
 
 
 namespace rpgmapper {
@@ -20,8 +21,9 @@ namespace command {
  */
 class CreateMap : public Command {
 
-    QString mapName;                /**< the name of the map. */
-    QString regionName;             /**< the name of the region. */
+    rpgmapper::model::MapPointer map;       /**< The map created. */
+    QString mapName;                        /**< the name of the map. */
+    QString regionName;                     /**< the name of the region. */
 
 public:
 

@@ -329,9 +329,6 @@ void MainWindow::deleteMap() {
     auto command = CommandPointer{new RemoveMap{map}};
     auto processor = session->getCommandProcessor();
     processor->execute(command);
-    
-    // TODO: let region signal removal of map in map tab widgets
-    ui->mapTabWidget->removeMap(mapName);
 }
 
 
@@ -356,11 +353,6 @@ void MainWindow::deleteRegion() {
     auto command = CommandPointer{new RemoveRegion{region}};
     auto processor = session->getCommandProcessor();
     processor->execute(command);
-    
-    for (const auto & map : mapNamesOfRegion) {
-        // TODO: let region signal removal of map in map tab widgets
-        ui->mapTabWidget->removeMap(map);
-    }
     
     session->selectAtlas();
 }
@@ -536,9 +528,10 @@ void MainWindow::executedCommand() {
 
 
 MapWidget * MainWindow::getCurrentMapWidget() {
-    auto * mapScrollArea = dynamic_cast<MapScrollArea *>(ui->mapTabWidget->currentWidget());
+    auto mapScrollArea = dynamic_cast<MapScrollArea *>(ui->mapTabWidget->currentWidget());
     return mapScrollArea ? dynamic_cast<MapWidget *>(mapScrollArea->widget()) : nullptr;
 }
+
 
 void MainWindow::load() {
 

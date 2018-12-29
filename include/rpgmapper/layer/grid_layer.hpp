@@ -32,7 +32,7 @@ public:
      *
      * @param   map     the map this layer belongs to.
      */
-    explicit GridLayer(Map * map);
+    explicit GridLayer(rpgmapper::model::Map * map);
 
     /**
      * Destructs the GridLayer.

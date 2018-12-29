@@ -25,14 +25,29 @@ class BackgroundImageLabel : public QLabel, public rpgmapper::model::layer::Back
 
 public:
 
+    /**
+     * Constructor
+     *
+     * @param   parent      parent widget.
+     */
     explicit BackgroundImageLabel(QWidget * parent);
 
+    /**
+     * Returns the pixmap used as background.
+     *
+     * @return  the pixmap used as background.
+     */
     QPixmap const * getBackgroundPixmap() const override {
         return pixmap();
     }
 
 protected:
 
+    /**
+     * Draws this widget.
+     *
+     * @param   event       the paint event involved.
+     */
     void paintEvent(QPaintEvent * event) override;
 };
 

@@ -19,9 +19,36 @@ MapScrollArea::MapScrollArea(QWidget * parent, MapWidget * mapWidget) : QScrollA
 
     setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     setBackgroundRole(QPalette::Dark);
+    
+    connect(horizontalScrollBar(), &QAbstractSlider::valueChanged, this, &MapScrollArea::adjustHorizontalFactor);
+    connect(verticalScrollBar(), &QAbstractSlider::valueChanged, this, &MapScrollArea::adjustVerticalFactor);
 
     mapWidget->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     setWidget(mapWidget);
+}
+
+
+void MapScrollArea::adjustHorizontalFactor() {
+    
+    auto max = horizontalScrollBar()->maximum();
+    if (max) {
+        horizontalPositionFactor = static_cast<float>(horizontalScrollBar()->value()) / max;
+    }
+    else {
+        horizontalPositionFactor = 0.5;
+    }
+}
+
+
+void MapScrollArea::adjustVerticalFactor() {
+    
+    auto max = verticalScrollBar()->maximum();
+    if (max) {
+        verticalPositionFactor = static_cast<float>(verticalScrollBar()->value()) / max;
+    }
+    else {
+        verticalPositionFactor = 0.5;
+    }
 }
 
 
@@ -59,6 +86,14 @@ void MapScrollArea::mouseReleaseEvent(QMouseEvent * event) {
         mouseButtonDown = false;
         event->accept();
     }
+}
+
+
+void MapScrollArea::mapResized() {
+    auto horizontalValue = static_cast<int>(horizontalPositionFactor * horizontalScrollBar()->maximum());
+    auto verticalValue = static_cast<int>(verticalPositionFactor * verticalScrollBar()->maximum());
+    horizontalScrollBar()->setValue(horizontalValue);
+    verticalScrollBar()->setValue(verticalValue);
 }
 
 

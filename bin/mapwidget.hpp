@@ -229,6 +229,11 @@ signals:
     void hoverCoordinates(int mapX, int mapY);
     
     /**
+     * The map widget has resized itself.
+     */
+    void resized();
+    
+    /**
      * Request to rotate the current tile left.
      */
     void rotateTileLeft();

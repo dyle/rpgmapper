@@ -25,6 +25,9 @@ class MapScrollArea : public QScrollArea {
     
     QPoint mousePosition;               /**< The position where the user pressed the right mouse on the map. */
     bool mouseButtonDown = false;       /**< The user has pressed the right mouse button. */
+    
+    float horizontalPositionFactor = 0.5;    /**< Horizontal position factor. */
+    float verticalPositionFactor = 0.5;      /**< Vertical position factor. */
 
 public:
 
@@ -43,6 +46,13 @@ public:
     MapWidget * getMapWidget() {
         return dynamic_cast<MapWidget *>(widget());
     }
+
+public slots:
+    
+    /**
+     * The map widget has resized itself.
+     */
+    void mapResized();
 
 protected:
     
@@ -74,6 +84,19 @@ protected:
      */
     void wheelEvent(QWheelEvent * event) override;
     
+    
+private slots:
+    
+    /**
+     * Adjust horizontal position factor.
+     */
+    void adjustHorizontalFactor();
+    
+    /**
+     * Adjust vertical position factor.
+     */
+    void adjustVerticalFactor();
+
 signals:
 
     /**

@@ -139,6 +139,7 @@ void MapWidget::mapSizeChanged() {
     }
     auto rect = map->getCoordinateSystem()->getOuterRect(getTileSize());
     resize(rect.size());
+    emit resized();
 }
 
 
@@ -283,7 +284,6 @@ void MapWidget::setTileSize(int tileSize) {
     
     this->tileSize = tileSize;
     mapSizeChanged();
-    
     update();
 }
 

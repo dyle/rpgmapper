@@ -13,7 +13,6 @@
 #include <rpgmapper/layer/layer.hpp>
 #include <rpgmapper/tile/tile.hpp>
 #include <rpgmapper/coordinate_system.hpp>
-#include <rpgmapper/map.hpp>
 #include <rpgmapper/session.hpp>
 
 #include "mapwidget.hpp"
@@ -46,8 +45,7 @@ MapWidget::MapWidget(QWidget * parent)
 
 std::list<Layer const *> MapWidget::collectVisibleLayers() const {
     
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
+    if (!map || !map->isValid()) {
         throw std::runtime_error("Invalid map to render.");
     }
 
@@ -80,8 +78,7 @@ std::list<Layer const *> MapWidget::collectVisibleLayers() const {
 
 void MapWidget::drawHoveredTile(QPainter & painter) {
     
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
+    if (!map || !map->isValid()) {
         return;
     }
     
@@ -117,6 +114,14 @@ void MapWidget::focusOutEvent(QFocusEvent * event) {
 }
 
 
+QString MapWidget::getMapName() const {
+    if (!map) {
+        return QString::null;
+    }
+    return map->getName();
+}
+
+
 void MapWidget::keyPressEvent(QKeyEvent * event) {
     
     QWidget::keyPressEvent(event);
@@ -127,18 +132,11 @@ void MapWidget::keyPressEvent(QKeyEvent * event) {
 }
 
 
-void MapWidget::mapNameChanged(UNUSED QString oldName, QString newName) {
-    mapName = std::move(newName);
-}
-
-
 void MapWidget::mapSizeChanged() {
     
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
+    if (!map || !map->isValid()) {
         throw std::runtime_error("Invalid map to render.");
     }
-    
     auto rect = map->getCoordinateSystem()->getOuterRect(getTileSize());
     resize(rect.size());
 }
@@ -201,8 +199,7 @@ void MapWidget::paintEvent(QPaintEvent * event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
+    if (!map || !map->isValid()) {
         throw std::runtime_error("Invalid map to render.");
     }
 
@@ -226,12 +223,11 @@ void MapWidget::placeCurrentSelectedTile() {
         return;
     }
     
-    auto map = session->findMap(mapName);
-    if (!map->isValid()) {
+    if (!map || !map->isValid()) {
         throw std::runtime_error("Invalid map to render.");
     }
     
-    if (tile->isPlaceable(map.data(), hoveredTilePosition)) {
+    if (tile->isPlaceable(map, hoveredTilePosition)) {
         auto command = CommandPointer{new PlaceTile{map, tile, hoveredTilePosition}};
         session->getCommandProcessor()->execute(command);
     }
@@ -254,20 +250,17 @@ void MapWidget::setGridVisible(bool visible) {
 }
 
 
-void MapWidget::setMap(QString mapName) {
+void MapWidget::setMap(rpgmapper::model::Map * map) {
     
-    if (this->mapName == mapName) {
+    if (this->map == map) {
         return;
     }
-    
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
+    if (!map || !map->isValid()) {
         throw std::runtime_error("Invalid map to render.");
     }
-    this->mapName = mapName;
+    this->map = map;
     
-    connect(map.data(), &Nameable::nameChanged, this, &MapWidget::mapNameChanged);
-    connect(map.data(), SIGNAL(tilePlaced()), this, SLOT(update()));
+    connect(map, SIGNAL(tilePlaced()), this, SLOT(update()));
    
     mapSizeChanged();
     auto coordinateSystem = map->getCoordinateSystem();
@@ -290,14 +283,14 @@ void MapWidget::setTileSize(int tileSize) {
     
     this->tileSize = tileSize;
     mapSizeChanged();
+    
     update();
 }
 
 
 std::tuple<QPointF, bool> MapWidget::widgetToMapCoordinates(float x, float y) const {
     
-    auto map = Session::getCurrentSession()->findMap(mapName);
-    if (!map->isValid()) {
+    if (!map || !map->isValid()) {
         throw std::runtime_error("Invalid map to render.");
     }
     

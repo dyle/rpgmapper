@@ -34,13 +34,13 @@ public:
      * @param   mapWidget       The map widget contained.
      */
     explicit MapScrollArea(QWidget * parent, MapWidget * mapWidget);
-
+    
     /**
      * Gets the contained map widget rendered.
      *
      * @return  the contained map widget rendering a map.
      */
-    MapWidget * mapWidget() {
+    MapWidget * getMapWidget() {
         return dynamic_cast<MapWidget *>(widget());
     }
 

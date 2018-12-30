@@ -16,6 +16,7 @@
 
 #include <rpgmapper/average.hpp>
 #include <rpgmapper/layer/layer.hpp>
+#include <rpgmapper/map.hpp>
 
 
 namespace rpgmapper {
@@ -29,8 +30,8 @@ class MapWidget : public QWidget {
 
     Q_OBJECT
 
-    QString mapName;               /**< The name of the map displayed. */
-    int tileSize;                  /**< The current size of a single tile. */
+    rpgmapper::model::Map * map = nullptr;        /**< The map displayed. */
+    int tileSize;                                 /**< The current size of a single tile. */
     
     bool axisVisible;              /**< Visibility flag for the current axis. */
     bool gridVisible;              /**< Visibility flag for the current grid. */
@@ -66,9 +67,7 @@ public:
      *
      * @return  the name of the map displayed.
      */
-    QString getMapName() const {
-        return mapName;
-    }
+    QString getMapName() const;
     
     /**
      * Returns the current tile size in pixels.
@@ -114,9 +113,9 @@ public:
     /**
      * Sets the map to display.
      *
-     * @param   mapName     the map to render.
+     * @param   map             the map to render.
      */
-    void setMap(QString mapName);
+    void setMap(rpgmapper::model::Map * map);
 
 public slots:
     
@@ -219,16 +218,6 @@ private:
      */
     std::tuple<QPointF, bool> widgetToMapCoordinates(float x, float y) const;
     
-private slots:
-    
-    /**
-     * The name of the map has changed.
-     *
-     * @param   oldName     the old name
-     * param    newName     the new name
-     */
-    void mapNameChanged(QString oldName, QString newName);
-
 signals:
 
     /**

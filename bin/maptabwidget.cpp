@@ -137,7 +137,7 @@ void MapTabWidget::selectMap(QString mapName) {
     if (iter == mapScrollAreas.end()) {
 
         auto mapWidget = new MapWidget{this};
-        mapWidget->setMap(mapName);
+        mapWidget->setMap(map.data());
         
         connect(mapWidget, &MapWidget::hoverCoordinates, this, &MapTabWidget::hoverCoordinates);
         connect(mapWidget, &MapWidget::rotateTileLeft, this, &MapTabWidget::rotateTileLeft);

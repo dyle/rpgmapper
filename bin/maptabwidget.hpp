@@ -38,7 +38,7 @@ public:
      * @param   parent      Parent QWidget instance.
      */
     explicit MapTabWidget(QWidget * parent = nullptr);
-
+    
 public slots:
 
     /**

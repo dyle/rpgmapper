@@ -56,3 +56,8 @@ MapPointer const & Map::null() {
     static MapPointer nullMap{new InvalidMap};
     return nullMap;
 }
+
+
+void Map::triggerTilePlaced() {
+    emit tilePlaced();
+}

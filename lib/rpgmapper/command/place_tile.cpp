@@ -9,6 +9,7 @@
 #include <rpgmapper/command/place_tile.hpp>
 #include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/tile/tile.hpp>
+#include <rpgmapper/tile/tiles.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/session.hpp>
 
@@ -23,10 +24,15 @@ PlaceTile::PlaceTile(rpgmapper::model::Map * map, rpgmapper::model::tile::TilePo
 
 
 void PlaceTile::execute() {
+    
     if (!map || !map->isValid()) {
         throw rpgmapper::model::exception::invalid_map();
     }
+    
     tile = tile->place(replacedTiles, map, position);
+    if (tile) {
+        map->triggerTilePlaced();
+    }
 }
 
 

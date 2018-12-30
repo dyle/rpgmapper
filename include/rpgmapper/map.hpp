@@ -118,6 +118,11 @@ public:
      */
     static MapPointer const & null();
     
+    /**
+     * Triggers the tile placed signal.
+     */
+    void triggerTilePlaced();
+    
 signals:
     
     /**

@@ -210,8 +210,6 @@ void MainWindow::connectActions() {
     connect(ui->mapTabWidget, &MapTabWidget::rotateTileLeft, this, &MainWindow::rotateTileLeft);
     connect(ui->mapTabWidget, &MapTabWidget::rotateTileRight, this, &MainWindow::rotateTileRight);
     
-    //connect(zoomSlider, &ZoomSlider::zoomChanged, this, &MainWindow::enableActions);
-    
     connect(ui->colorPickerDockWidgetContents, &ColorChooserWidget::colorSelected, this, &MainWindow::colorSelected);
     
     connect(ui->shapeToolBox, &ShapeCatalogsBox::shapeSelected, this, &MainWindow::shapeSelected);

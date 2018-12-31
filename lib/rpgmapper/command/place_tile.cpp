@@ -32,6 +32,8 @@ void PlaceTile::execute() {
     tile = tile->place(replacedTiles, map, position);
     if (tile) {
         map->triggerTilePlaced();
+        auto session = Session::getCurrentSession();
+        session->setLastAppliedTile(tile);
     }
 }
 

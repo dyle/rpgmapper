@@ -160,7 +160,7 @@ bool ShapeTile::isPlaceable(rpgmapper::model::Map const * map, QPointF position)
     
     auto & layer = getLayer(map);
     if (!layer) {
-        return false;
+        return true;
     }
     
     if (!layer->isFieldPresent(position)) {

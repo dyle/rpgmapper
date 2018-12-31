@@ -1,11 +1,11 @@
 {
     "name": "Basic",
     "shapes": [
-        {"name": "Mid door 1",    "file": "door_mid_1.svg",   "layer": "tile", "z": 0, "mode": "additive"},
-        {"name": "Mid wall 1",    "file": "wall_mid_1.svg",   "layer": "tile", "z": 0, "mode": "additive"},
-        {"name": "Mid corner 1",  "file": "corner_mid_1.svg", "layer": "tile", "z": 0, "mode": "additive"},
-        {"name": "Edge door 1",   "file": "door_edge_1.svg",  "layer": "tile", "z": 0, "mode": "additive"},
-        {"name": "Edge wall 1",   "file": "wall_edge_1.svg",  "layer": "tile", "z": 0, "mode": "additive"},
-        {"name": "Edge corner 1", "file": "wall_corner_1.svg", "layer": "tile", "z": 0, "mode": "additive"}
+        {"name": "Mid door 1",    "file": "door_mid_1.svg",     "layer": "tile", "z": 0, "mode": "additive"},
+        {"name": "Mid wall 1",    "file": "wall_mid_1.svg",     "layer": "tile", "z": 0, "mode": "additive"},
+        {"name": "Mid corner 1",  "file": "corner_mid_1.svg",   "layer": "tile", "z": 0, "mode": "additive"},
+        {"name": "Edge door 1",   "file": "door_edge_1.svg",    "layer": "tile", "z": 0, "mode": "additive"},
+        {"name": "Edge wall 1",   "file": "wall_edge_1.svg",    "layer": "tile", "z": 0, "mode": "additive"},
+        {"name": "Edge corner 1", "file": "wall_corner_1.svg",  "layer": "tile", "z": 0, "mode": "additive"}
     ]
 }

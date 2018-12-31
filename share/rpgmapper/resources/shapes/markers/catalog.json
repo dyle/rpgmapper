@@ -1,9 +1,10 @@
 {
     "name": "Markers",
     "shapes": [
-        {"name": "Treasure Chest",  "file": "chest.svg",    "layer": "tile", "z": 1, "mode": "exclusive"},
-        {"name": "Star",            "file": "star.svg",     "layer": "tile", "z": 1, "mode": "exclusive"},
-        {"name": "Skull",           "file": "skull.svg",    "layer": "tile", "z": 1, "mode": "exclusive"},
-        {"name": "Swirl",           "file": "swirl.svg",    "layer": "tile", "z": 1, "mode": "exclusive"}
+        {"name": "Treasure Chest",  "file": "chest.svg",        "layer": "tile", "z": 1, "mode": "exclusive"},
+        {"name": "Lightning",       "file": "lightning.svg",    "layer": "tile", "z": 1, "mode": "exclusive"},
+        {"name": "Star",            "file": "star.svg",         "layer": "tile", "z": 1, "mode": "exclusive"},
+        {"name": "Skull",           "file": "skull.svg",        "layer": "tile", "z": 1, "mode": "exclusive"},
+        {"name": "Swirl",           "file": "swirl.svg",        "layer": "tile", "z": 1, "mode": "exclusive"}
     ]
 }

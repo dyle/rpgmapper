@@ -184,7 +184,7 @@ public:
     /**
      * Removes exactly this tile from a map.
      */
-    virtual void remove() const = 0;
+    virtual void remove() = 0;
     
     /**
      * Rotates the tile counter clockwise.

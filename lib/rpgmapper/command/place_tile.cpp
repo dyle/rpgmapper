@@ -58,4 +58,5 @@ void PlaceTile::undo() {
         Tiles tiles;
         replacedTile->place(tiles, map, position);
     }
+    map->triggerTilePlaced();
 }

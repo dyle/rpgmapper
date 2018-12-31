@@ -4,6 +4,7 @@
  * (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/layer/tile_layer.hpp>
 #include <rpgmapper/resource/resource_db.hpp>
 #include <rpgmapper/resource/shape.hpp>
@@ -232,5 +233,32 @@ void ShapeTile::prepareLayers(std::vector<QSharedPointer<rpgmapper::model::layer
 }
 
 
-void ShapeTile::remove() const {
+void ShapeTile::remove() {
+    
+    auto map = getMap();
+    if (!map) {
+        throw rpgmapper::model::exception::invalid_map{};
+    }
+    
+    auto shape = getShape();
+    if (!shape) {
+        throw std::runtime_error{"Failed to lookup shape for tile."};
+    }
+    
+    auto & layer = getLayer(map);
+    if (!layer) {
+        throw std::runtime_error{"Got a nullptr layer though tile thinks it is on a layer."};
+    }
+    if (!layer->isFieldPresent(getPosition())) {
+        return;
+    }
+    
+    auto field = layer->getField(getPosition());
+    auto & tiles = field->getTiles();
+    for (auto iter = tiles.begin(); iter != tiles.end(); ++iter) {
+        if ((*(*iter).data()) == (*this)) {
+            tiles.erase(iter);
+            break;
+        }
+    }
 }

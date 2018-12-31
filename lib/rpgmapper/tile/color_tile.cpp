@@ -98,7 +98,7 @@ TilePointer ColorTile::place(Tiles & replaced, rpgmapper::model::Map * map, QPoi
 }
 
 
-void ColorTile::remove() const {
+void ColorTile::remove() {
 
     auto map = getMap();
     if (!map) {

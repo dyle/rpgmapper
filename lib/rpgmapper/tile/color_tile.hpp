@@ -90,7 +90,7 @@ public:
     /**
      * Removes exactly this tile from a map.
      */
-    void remove() const override;
+    void remove() override;
 };
 
 

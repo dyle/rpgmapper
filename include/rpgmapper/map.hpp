@@ -101,6 +101,46 @@ public:
     }
     
     /**
+     * Checks if there is at least a single tile on a field (base or tile layer) present.
+     *
+     * @param   x           X-coordinate of the field requested
+     * @param   y           Y-coordinate of the field requested
+     * @return  true, if there is some tile on the given field.
+     */
+    bool isTileOnField(int x, int y) const;
+    
+    /**
+     * Checks if there is at least a single tile on a field (base or tile layer) present.
+     *
+     * @param   x           X-coordinate of the field requested
+     * @param   y           Y-coordinate of the field requested
+     * @return  true, if there is some tile on the given field.
+     */
+    bool isTileOnField(float x, float y) const {
+        return isTileOnField(static_cast<int>(x), static_cast<int>(y));
+    }
+    
+    /**
+     * Checks if there is at least a single tile on a field (base or tile layer) present.
+     *
+     * @param   position    position of field requested.
+     * @return  true, if there is some tile on the given field.
+     */
+    bool isTileOnField(QPoint position) const {
+        return isTileOnField(position.x(), position.y());
+    }
+    
+    /**
+     * Checks if there is at least a single tile on a field (base or tile layer) present.
+     *
+     * @param   position    position of field requested.
+     * @return  true, if there is some tile on the given field.
+     */
+    bool isTileOnField(QPointF position) const {
+        return isTileOnField(static_cast<float>(position.x()), static_cast<float>(position.y()));
+    }
+    
+    /**
      * Checks if this is a valid map.
      *
      * @return  returns true, if this is a valid map.

@@ -61,6 +61,13 @@ public:
      * Constructor.
      */
     MainWindow();
+    
+    /**
+     * Checks if the erase action is enabled.
+     *
+     * @return  true, if the user enabled the erase action instead of placing tiles.
+     */
+    bool isEraseEnabled() const;
 
 public slots:
     
@@ -330,7 +337,7 @@ private slots:
      * The user wants to delete a region.
      */
     void deleteRegion();
-
+    
     /**
      * A command has been executed.
      */

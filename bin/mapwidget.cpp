@@ -6,8 +6,10 @@
 
 #include <utility>
 
+#include <QApplication>
 #include <QMouseEvent>
 
+#include <rpgmapper/command/erase_field.hpp>
 #include <rpgmapper/command/place_tile.hpp>
 #include <rpgmapper/command/processor.hpp>
 #include <rpgmapper/layer/layer.hpp>
@@ -15,6 +17,7 @@
 #include <rpgmapper/coordinate_system.hpp>
 #include <rpgmapper/session.hpp>
 
+#include "mainwindow.hpp"
 #include "mapwidget.hpp"
 
 using namespace rpgmapper::model;
@@ -102,6 +105,20 @@ void MapWidget::drawHoveredTile(QPainter & painter) {
 }
 
 
+void MapWidget::eraseField() {
+    
+    if (!map || !map->isValid()) {
+        throw std::runtime_error("Invalid map.");
+    }
+    
+    if (map->isTileOnField(hoveredTilePosition)) {
+        auto command = CommandPointer{new EraseField{map, hoveredTilePosition}};
+        auto session = Session::getCurrentSession();
+        session->getCommandProcessor()->execute(command);
+    }
+}
+
+
 void MapWidget::focusInEvent(QFocusEvent * event) {
     QWidget::focusInEvent(event);
     grabKeyboard();
@@ -157,7 +174,7 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
             
             hoveredTilePosition = newHoveredTilePosition;
             if (leftMouseButtonDown) {
-                placeCurrentSelectedTile();
+                placeOrEraseTile();
             }
             
             update();
@@ -169,9 +186,10 @@ void MapWidget::mouseMoveEvent(QMouseEvent * event) {
 
 
 void MapWidget::mousePressEvent(QMouseEvent * event) {
+    
     if (event->button() == Qt::LeftButton) {
         leftMouseButtonDown = true;
-        placeCurrentSelectedTile();
+        placeOrEraseTile();
         event->accept();
     }
     else {
@@ -181,6 +199,7 @@ void MapWidget::mousePressEvent(QMouseEvent * event) {
 
 
 void MapWidget::mouseReleaseEvent(QMouseEvent *event) {
+    
     if (event->button() == Qt::LeftButton) {
         leftMouseButtonDown = false;
         event->accept();
@@ -225,13 +244,25 @@ void MapWidget::placeCurrentSelectedTile() {
     }
     
     if (!map || !map->isValid()) {
-        throw std::runtime_error("Invalid map to render.");
+        throw std::runtime_error("Invalid map to place tiles.");
     }
     
     if (tile->isPlaceable(map, hoveredTilePosition)) {
         auto command = CommandPointer{new PlaceTile{map, tile, hoveredTilePosition}};
         session->getCommandProcessor()->execute(command);
     }
+}
+
+
+void MapWidget::placeOrEraseTile() {
+    
+    auto mainWindow = dynamic_cast<MainWindow *>(QApplication::activeWindow());
+    if (mainWindow && mainWindow->isEraseEnabled()) {
+        eraseField();
+        return;
+    }
+    
+    placeCurrentSelectedTile();
 }
 
 

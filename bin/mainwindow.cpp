@@ -531,6 +531,11 @@ MapWidget * MainWindow::getCurrentMapWidget() {
 }
 
 
+bool MainWindow::isEraseEnabled() const {
+    return ui->actionErase->isChecked();
+}
+
+
 void MainWindow::load() {
 
     auto nAnswer = loadAtlasDialog->exec();

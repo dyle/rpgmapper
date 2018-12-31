@@ -52,6 +52,24 @@ QJsonObject Map::getJSON() const {
 }
 
 
+bool Map::isTileOnField(int x, int y) const {
+    
+    bool tileOnFieldPresent = false;
+    
+    auto const & baseLayers = getLayers().getBaseLayers();
+    auto const & tileLayers = getLayers().getTileLayers();
+    
+    for (auto iter = baseLayers.begin(); (iter != baseLayers.end()) && !tileOnFieldPresent; ++iter) {
+        tileOnFieldPresent = (*iter)->isFieldPresent(x, y);
+    }
+    for (auto iter = tileLayers.begin(); (iter != tileLayers.end()) && !tileOnFieldPresent; ++iter) {
+        tileOnFieldPresent = (*iter)->isFieldPresent(x, y);
+    }
+    
+    return tileOnFieldPresent;
+}
+
+
 MapPointer const & Map::null() {
     static MapPointer nullMap{new InvalidMap};
     return nullMap;

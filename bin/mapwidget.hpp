@@ -205,9 +205,19 @@ private:
     void drawHoveredTile(QPainter & painter);
     
     /**
+     * Erase all tiles under the current hovered field.
+     */
+    void eraseField();
+    
+    /**
      * Places the current selected tile of the current session at the hovered position on the map.
      */
     void placeCurrentSelectedTile();
+    
+    /**
+     * The user engaged over a field.
+     */
+    void placeOrEraseTile();
     
     /**
      * Get the map coordinates by x and y as screen/widget coordinates.

@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>gfx/eraser.png</file>
     <file>gfx/redo.png</file>
     <file>gfx/undo.png</file>
     <file>gfx/rotate-left.png</file>

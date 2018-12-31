@@ -23,9 +23,6 @@ namespace command {
 
 /**
  * This command places a tile on a map.
- *
- * This command is subclassed by AdditiveTilePlacer and ExclusiveTilePlacer. It must
- * not be instantiated directly.
  */
 class PlaceTile : public Command {
     

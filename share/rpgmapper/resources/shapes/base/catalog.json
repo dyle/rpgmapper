@@ -1,6 +1,9 @@
 {
     "name": "Base",
     "shapes": [
-        {"name": "Grass 1",         "file": "grass_1.svg",      "layer": "base", "z": 0, "mode": "exclusive"}
+        {"name": "Brick 1",         "file": "brick_1.svg",      "layer": "base", "z": 0, "mode": "exclusive"},
+        {"name": "Grass 1",         "file": "grass_1.svg",      "layer": "base", "z": 0, "mode": "exclusive"},
+        {"name": "Grass 1 (half)",  "file": "grass_1_half.svg", "layer": "base", "z": 0, "mode": "additive"},
+        {"name": "Stone 1",         "file": "stone_1.svg",      "layer": "base", "z": 0, "mode": "exclusive"}
     ] 
 }

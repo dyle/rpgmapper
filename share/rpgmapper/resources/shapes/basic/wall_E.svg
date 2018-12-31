@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="48" height="48">
-    <rect id="wall east" 
-          width="4"
-          height="48"
-          x="44"
-          y="0"
-          style="fill:#552200;stroke-width:0.5" />
-</svg>

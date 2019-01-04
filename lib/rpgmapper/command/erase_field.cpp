@@ -12,6 +12,8 @@
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::command;
+using namespace rpgmapper::model::layer;
+using namespace rpgmapper::model::tile;
 
 
 EraseField::EraseField(rpgmapper::model::Map * map, QPointF position) : map{map}, position{position} {
@@ -26,6 +28,8 @@ void EraseField::execute() {
     
     remove(removedBaseTiles, map->getLayers().getBaseLayers());
     remove(removedTileTiles, map->getLayers().getTileLayers());
+    
+    map->triggerTilePlaced();
 }
 
 
@@ -40,7 +44,7 @@ QString EraseField::getDescription() const {
 }
 
 
-void EraseField::remove(std::map<int, rpgmapper::model::tile::Tiles> & backup,
+void EraseField::remove(std::map<unsigned int, rpgmapper::model::tile::Tiles> & backup,
         std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layers) {
 
     for (unsigned int i = 0; i < layers.size(); ++i) {
@@ -59,4 +63,33 @@ void EraseField::undo() {
     if (!map || !map->isValid()) {
         throw rpgmapper::model::exception::invalid_map();
     }
+    
+    undoLayer(removedBaseTiles, map->getLayers().getBaseLayers());
+    undoLayer(removedTileTiles, map->getLayers().getTileLayers());
+    
+    map->triggerTilePlaced();
+}
+
+
+void EraseField::undoLayer(std::map<unsigned int, rpgmapper::model::tile::Tiles> & backup,
+        std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layers) {
+    
+    for (auto & pair : backup) {
+        
+        auto layerIndex = pair.first;
+        if (layers.size() <= layerIndex) {
+            layers.push_back(QSharedPointer<TileLayer>{new TileLayer{map}});
+        }
+        if (!layers[layerIndex]->isFieldPresent(position)) {
+            layers[layerIndex]->addField(Field{position});
+        }
+        
+        auto & tilesOnField = layers[layerIndex]->getField(position)->getTiles();
+        tilesOnField.clear();
+        for (auto & tile : pair.second) {
+            tilesOnField.push_back(tile);
+        }
+    }
+    
+    backup.clear();
 }

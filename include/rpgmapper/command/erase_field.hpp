@@ -27,10 +27,18 @@ namespace command {
  */
 class EraseField : public Command {
     
-    rpgmapper::model::Map * map = nullptr;                              /**< The map to place the tile. */
-    QPointF position;                                                   /**< Position on the map to place the tile. */
-    std::map<int, rpgmapper::model::tile::Tiles> removedBaseTiles;      /**< All tiles removed at the base layer. */
-    std::map<int, rpgmapper::model::tile::Tiles> removedTileTiles;      /**< All tiles removed at the tile layer. */
+    rpgmapper::model::Map * map = nullptr;        /**< The map to place the tile. */
+    QPointF position;                             /**< Position on the map to place the tile. */
+    
+    /**
+     * All tiles removed at the base layer.
+     */
+    std::map<unsigned int, rpgmapper::model::tile::Tiles> removedBaseTiles;
+    
+    /**
+     * All tiles removed at the tile layer.
+     */
+    std::map<unsigned int, rpgmapper::model::tile::Tiles> removedTileTiles;
 
 public:
     
@@ -72,8 +80,17 @@ private:
      * @param   backup      where to move the found tiles to.
      * @param   layers      source layers.
      */
-    void remove(std::map<int, rpgmapper::model::tile::Tiles> & backup,
+    void remove(std::map<unsigned int, rpgmapper::model::tile::Tiles> & backup,
             std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layers);
+    
+    /**
+     * Undoes the removal of tiles on a layer
+     *
+     * @param   backup      container holding the files at a layer index.
+     * @param   layers      destination layers.
+     */
+    void undoLayer(std::map<unsigned int, rpgmapper::model::tile::Tiles> & backup,
+                std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layers);
 };
 
 

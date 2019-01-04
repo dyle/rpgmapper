@@ -7,10 +7,13 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_ERASE_FIELD_HPP
 #define RPGMAPPER_MODEL_COMMAND_ERASE_FIELD_HPP
 
+#include <QSharedPointer>
 #include <QPointF>
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
+#include <rpgmapper/layer/tile_layer.hpp>
+#include <rpgmapper/tile/tiles.hpp>
 #include <rpgmapper/map.hpp>
 
 
@@ -24,8 +27,10 @@ namespace command {
  */
 class EraseField : public Command {
     
-    rpgmapper::model::Map * map = nullptr;                  /**< The map to place the tile. */
-    QPointF position;                                       /**< Position on the map to place the tile. */
+    rpgmapper::model::Map * map = nullptr;                              /**< The map to place the tile. */
+    QPointF position;                                                   /**< Position on the map to place the tile. */
+    std::map<int, rpgmapper::model::tile::Tiles> removedBaseTiles;      /**< All tiles removed at the base layer. */
+    std::map<int, rpgmapper::model::tile::Tiles> removedTileTiles;      /**< All tiles removed at the tile layer. */
 
 public:
     
@@ -58,6 +63,17 @@ public:
      * Undoes the command.
      */
     void undo() override;
+    
+private:
+    
+    /**
+     * Moves all tiles found at our position from a layer into the backup containers.
+     *
+     * @param   backup      where to move the found tiles to.
+     * @param   layers      source layers.
+     */
+    void remove(std::map<int, rpgmapper::model::tile::Tiles> & backup,
+            std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layers);
 };
 
 

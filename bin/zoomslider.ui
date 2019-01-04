@@ -41,6 +41,9 @@
    </item>
    <item>
     <widget class="QSlider" name="zoomSlider">
+     <property name="toolTip">
+      <string>Current zoom level of map.</string>
+     </property>
      <property name="minimum">
       <number>1</number>
      </property>
@@ -63,6 +66,9 @@
    </item>
    <item>
     <widget class="QLabel" name="zoomValue">
+     <property name="toolTip">
+      <string>Current tile size in pixels.</string>
+     </property>
      <property name="text">
       <string>XXX</string>
      </property>

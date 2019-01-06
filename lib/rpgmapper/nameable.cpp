@@ -40,6 +40,11 @@ QJsonObject Nameable::getJSON() const {
 }
 
 
+std::string Nameable::json() const {
+    return R"("name": ")" + name.toStdString() + "\"";
+}
+
+
 void Nameable::setName(QString name) {
     
     if (name == this->name) {

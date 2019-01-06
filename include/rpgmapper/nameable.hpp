@@ -11,6 +11,7 @@
 #include <QString>
 
 #include <rpgmapper/json/json_io.hpp>
+#include <rpgmapper/base.hpp>
 
 
 namespace rpgmapper {
@@ -20,7 +21,7 @@ namespace model {
 /**
  * An instance of this class can be assigned a name and read/writes it form/to JSON instances.
  */
-class Nameable : public QObject, public json::JSONIO {
+class Nameable : public QObject, public Base, public json::JSONIO {
     
     Q_OBJECT
     
@@ -70,7 +71,16 @@ public:
      * @param   name    a new name of this object.
      */
     virtual void setName(QString name);
+
+protected:
     
+    /**
+     * Collects all fields of this object as JSON members.
+     *
+     * @return  a JSON string of all member fields.
+     */
+    std::string json() const override;
+
 signals:
     
     /**

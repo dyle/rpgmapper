@@ -8,6 +8,7 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data  DESTINATION ${CMAKE_CURRENT_BINARY_D
 
 set(TEST_UNITS_SRC
     test_average.cpp
+    test_nameable.cpp
     test_numerals.cpp
     test_coordinate_system.cpp
     test_resource.cpp

@@ -1,6 +1,6 @@
 # This file is part of rpgmapper.
 # See the LICENSE file for the software license.
-# (C) Copyright 2018, Oliver Maurhart, dyle71@gmail.com
+# (C) Copyright 2018-2019, Oliver Maurhart, dyle71@gmail.com
 
 project(rpgmapper C CXX)
 cmake_minimum_required(VERSION 3.9.1)

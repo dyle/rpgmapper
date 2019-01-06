@@ -33,9 +33,9 @@ public:
      *
      * @return  a human readable JSON string of this object.
      */
-    operator std::string() const {
+    explicit operator std::string() const {
         std::stringstream ss;
-        ss << "{ " << json() << " }";
+        ss << "{" << json() << "}";
         return ss.str();
     }
 

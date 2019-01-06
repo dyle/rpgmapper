@@ -1,12 +1,14 @@
-#include <utility>
-
 /*
  * This file is part of rpgmapper.
  * See the LICENSE file for the software license.
  * (C) Copyright 2018-2019, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <sstream>
+#include <utility>
+
 #include <rpgmapper/tile/tile.hpp>
+#include <rpgmapper/map.hpp>
 
 using namespace rpgmapper::model::tile;
 
@@ -63,6 +65,29 @@ QString Tile::getType() const {
 void Tile::initAttributes() {
     getAttributes()["rotation"] = "0.0";
     getAttributes()["stretch"] = "1.0";
+}
+
+
+std::string Tile::json() const {
+    
+    std::stringstream ss;
+    
+    ss << R"("attributes": {)";
+    {
+        bool addComma = false;
+        for (auto const &pair : getAttributes()) {
+            ss << (addComma ? ", " : "");
+            addComma = true;
+            ss << "\"" << pair.first.toStdString() << "\": \"" << pair.second.toStdString() << "\"";
+        }
+    }
+    ss << "}, ";
+    
+    std::string mapName = map ? "\"" + map->getName().toStdString() + "\"" : "null";
+    ss << "\"map\": " << mapName << ", ";
+    ss << R"("position": {"x": )" << position.x() << ", \"y\": " << position.y() << "}";
+    
+    return ss.str();
 }
 
 

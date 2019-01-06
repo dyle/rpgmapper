@@ -15,6 +15,6 @@ TEST(NameableTest, CreateNameable) {
 
     Nameable foo("foo");
     
-    std::string n = foo;
-    ASSERT_EQ(n, R"({ "name": "foo" })");
+    std::string n = static_cast<std::string>(foo);
+    ASSERT_EQ(n, R"({"name": "foo"})");
 }

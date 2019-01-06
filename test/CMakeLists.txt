@@ -10,6 +10,7 @@ set(TEST_UNITS_SRC
     test_average.cpp
     test_nameable.cpp
     test_numerals.cpp
+    test_tile.cpp
     test_coordinate_system.cpp
     test_resource.cpp
     test_field.cpp

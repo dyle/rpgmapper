@@ -15,6 +15,7 @@
 #include <rpgmapper/command/command_pointer.hpp>
 #include <rpgmapper/tile/tile_insert_modes.hpp>
 #include <rpgmapper/tile/tiles.hpp>
+#include <rpgmapper/base.hpp>
 
 
 namespace rpgmapper {
@@ -40,7 +41,7 @@ namespace tile {
  * There are color tiles and shape tiles. A TileFactory is used to produce the tile
  * of desired type.
  */
-class Tile {
+class Tile : public rpgmapper::model::Base {
 
 public:
     
@@ -197,6 +198,13 @@ public:
     void rotateRight();
     
 protected:
+    
+    /**
+     * Collects all fields of this object as JSON members.
+     *
+     * @return  a JSON string of all member fields.
+     */
+    std::string json() const override;
     
     /**
      * Sets the map the tile is placed.

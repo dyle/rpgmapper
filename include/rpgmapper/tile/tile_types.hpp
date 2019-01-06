@@ -7,9 +7,8 @@
 #ifndef RPGMAPPER_MODEL_TILE_TILE_TYPES_HPP
 #define RPGMAPPER_MODEL_TILE_TILE_TYPES_HPP
 
-namespace rpgmapper {
-namespace model {
-namespace tile {
+
+namespace rpgmapper::model::tile {
 
 
 /**
@@ -21,8 +20,6 @@ enum class TileType {
 };
 
 
-}
-}
 }
 
 

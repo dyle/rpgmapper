@@ -15,9 +15,7 @@
 #include <rpgmapper/command/commands.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace command {
+namespace rpgmapper::model::command {
 
 
 /**
@@ -100,8 +98,6 @@ signals:
 
 
 
-}
-}
 }
 
 

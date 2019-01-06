@@ -20,21 +20,11 @@
 #include <rpgmapper/layer/tile_layer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+// fwd
+namespace rpgmapper::model { class Map; }
 
 
-// Forward
-class Map;
-
-
-}
-}
-
-
-namespace rpgmapper {
-namespace model {
-namespace layer {
+namespace rpgmapper::model::layer {
 
 
 /**
@@ -275,7 +265,6 @@ private:
 
 
 }
-}
-}
+
 
 #endif

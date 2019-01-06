@@ -17,21 +17,11 @@
 #include <rpgmapper/field.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+// fwd
+namespace rpgmapper::model { class Map; }
 
 
-// Forward declaration of Map class.
-class Map;
-
-
-}
-}
-
-
-namespace rpgmapper {
-namespace model {
-namespace layer {
+namespace rpgmapper::model::layer {
 
 
 /**
@@ -170,8 +160,6 @@ public:
 };
 
 
-}
-}
 }
 
 

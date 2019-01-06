@@ -10,9 +10,7 @@
 #include <QJsonObject>
 
 
-namespace rpgmapper {
-namespace model {
-namespace json {
+namespace rpgmapper::model::json {
 
 
 /**
@@ -32,8 +30,6 @@ public:
 };
 
 
-}
-}
 }
 
 

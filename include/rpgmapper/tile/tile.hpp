@@ -18,21 +18,11 @@
 #include <rpgmapper/base.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-
-
 // fwd
-class Map;
+namespace rpgmapper::model { class Map; }
 
 
-}
-}
-
-
-namespace rpgmapper {
-namespace model {
-namespace tile {
+namespace rpgmapper::model::tile {
 
 
 /**
@@ -229,8 +219,6 @@ private:
 };
 
 
-}
-}
 }
 
 

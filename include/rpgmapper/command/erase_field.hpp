@@ -17,9 +17,7 @@
 #include <rpgmapper/map.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace command {
+namespace rpgmapper::model::command {
 
 
 /**
@@ -94,8 +92,6 @@ private:
 };
 
 
-}
-}
 }
 
 

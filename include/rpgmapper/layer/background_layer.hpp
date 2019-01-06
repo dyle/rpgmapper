@@ -19,9 +19,7 @@
 #include <rpgmapper/resource/resource_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace layer {
+namespace rpgmapper::model::layer {
 
 
 /**
@@ -225,8 +223,6 @@ private:
 };
 
 
-}
-}
 }
 
 

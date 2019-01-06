@@ -14,11 +14,8 @@ in such books as:
 * Stephan Roth, "Clean C++: Sustainable Software Development, and Best Practices 
 with C++17"  
 
-As for the latter, due to my target to support Debian, whose version number is - at the time
-of writing - 9 and therefore ships with gcc-6.3, I'm locked at C++14. 
-
-This is also a playground of mine to study, learn and experience new C++11, C++14 and C++17 
-techniques.
+This is also a playground of mine to study, learn and experience new C++11, C++14, 
+and C++17 techniques.
 
 Some more notes:
 * The software is licensed under [GPL-3](http://gplv3.fsf.org).
@@ -28,7 +25,7 @@ Some more notes:
 
 ## Building
 
-This is a CMake - Qt 5 - C++14 project. On a Ubuntu/Debian based operating 
+This is a CMake - Qt 5 - C++17 project. On a Ubuntu/Debian based operating 
 system you'll need at least these packages:
 * build-essential
 * qtbase5-dev

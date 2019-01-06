@@ -12,9 +12,7 @@
 #include <rpgmapper/tile/tile_types.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace tile {
+namespace rpgmapper::model::tile {
 
 
 /**
@@ -42,8 +40,6 @@ public:
 };
 
 
-}
-}
 }
 
 

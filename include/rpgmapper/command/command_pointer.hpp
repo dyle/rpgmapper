@@ -10,9 +10,7 @@
 #include <QSharedPointer>
 
 
-namespace rpgmapper {
-namespace model {
-namespace command {
+namespace rpgmapper::model::command {
 
 
 // fwd
@@ -25,8 +23,6 @@ class Command;
 using CommandPointer = QSharedPointer<Command>;
 
 
-}
-}
 }
 
 

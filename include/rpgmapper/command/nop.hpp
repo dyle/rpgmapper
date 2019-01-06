@@ -10,9 +10,7 @@
 #include <rpgmapper/command/command.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace command {
+namespace rpgmapper::model::command {
 
 
 /**
@@ -48,8 +46,6 @@ public:
 };
 
 
-}
-}
 }
 
 

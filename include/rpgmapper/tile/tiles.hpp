@@ -12,9 +12,7 @@
 #include <rpgmapper/tile/tile_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace tile {
+namespace rpgmapper::model::tile {
 
 
 /**
@@ -23,8 +21,6 @@ namespace tile {
 using Tiles = std::vector<TilePointer>;
 
 
-}
-}
 }
 
 

@@ -10,9 +10,7 @@
 #include <stdexcept>
 
 
-namespace rpgmapper {
-namespace model {
-namespace exception {
+namespace rpgmapper::model::exception {
 
 
 /**
@@ -30,8 +28,6 @@ public:
 };
 
 
-}
-}
 }
 
 

@@ -11,9 +11,7 @@
 #include <QString>
 
 
-namespace rpgmapper {
-namespace model {
-namespace layer {
+namespace rpgmapper::model::layer {
 
 
 /**
@@ -53,8 +51,6 @@ QString imageRenderModeToString(rpgmapper::model::layer::ImageRenderMode mode);
 rpgmapper::model::layer::ImageRenderMode stringToImageRenderMode(QString modeName);
 
 
-}
-}
 }
 
 

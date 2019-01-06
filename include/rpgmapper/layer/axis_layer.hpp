@@ -13,9 +13,7 @@
 #include <rpgmapper/layer/layer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace layer {
+namespace rpgmapper::model::layer {
 
 
 /**
@@ -120,8 +118,6 @@ private:
 };
 
 
-}
-}
 }
 
 

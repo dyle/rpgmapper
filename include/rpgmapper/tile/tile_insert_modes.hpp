@@ -10,9 +10,7 @@
 #include <QString>
 
 
-namespace rpgmapper {
-namespace model {
-namespace tile {
+namespace rpgmapper::model::tile {
 
 
 /**
@@ -26,8 +24,6 @@ enum class TileInsertMode {
 
 TileInsertMode getInsertModeFromString(QString mode);
 
-}
-}
 }
 
 

@@ -10,14 +10,10 @@
 #include <QSharedPointer>
 
 
-namespace rpgmapper {
-namespace model {
-namespace tile {
-
+namespace rpgmapper::model::tile {
 
 // fwd
 class Tile;
-
 
 /**
  * A smart pointer to a single tile.
@@ -25,8 +21,6 @@ class Tile;
 using TilePointer = QSharedPointer<Tile>;
 
 
-}
-}
 }
 
 

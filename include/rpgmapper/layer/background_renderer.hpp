@@ -13,9 +13,7 @@
 #include <rpgmapper/layer/image_render_mode.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace layer {
+namespace rpgmapper::model::layer {
 
 
 /**
@@ -98,8 +96,6 @@ private:
 };
 
 
-}
-}
 }
 
 

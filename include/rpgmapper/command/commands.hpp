@@ -12,9 +12,7 @@
 #include <rpgmapper/command/command_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace command {
+namespace rpgmapper::model::command {
 
 
 /**
@@ -23,8 +21,6 @@ namespace command {
 using Commands = std::list<CommandPointer>;
 
 
-}
-}
 }
 
 

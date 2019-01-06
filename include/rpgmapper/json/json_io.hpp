@@ -11,9 +11,7 @@
 #include <rpgmapper/json/json_target.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace json {
+namespace rpgmapper::model::json {
 
 
 /**
@@ -23,8 +21,6 @@ class JSONIO : public JSONSource, public JSONTarget {
 };
 
 
-}
-}
 }
 
 

@@ -23,11 +23,6 @@ class Base {
 public:
     
     /**
-     * Constructor.
-     */
-    Base() = default;
-    
-    /**
      * Returns a JSON string of this object by casting it to std::string.
      *
      * @return  a human readable JSON string of this object.

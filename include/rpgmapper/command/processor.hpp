@@ -93,7 +93,6 @@ signals:
      * A command has been executed.
      */
     void commandExecuted();
-
 };
 
 

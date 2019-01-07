@@ -7,6 +7,8 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_CREATE_MAP_HPP
 #define RPGMAPPER_MODEL_COMMAND_CREATE_MAP_HPP
 
+#include <QString>
+
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/map_pointer.hpp>
 

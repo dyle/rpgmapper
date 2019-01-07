@@ -7,11 +7,11 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_SET_MAP_MARGINS_HPP
 #define RPGMAPPER_MODEL_COMMAND_SET_MAP_MARGINS_HPP
 
-#include <QMargins>
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/map.hpp>
+#include <rpgmapper/map_pointer.hpp>
 
 
 namespace rpgmapper::model::command {

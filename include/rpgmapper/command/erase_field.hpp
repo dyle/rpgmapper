@@ -7,6 +7,9 @@
 #ifndef RPGMAPPER_MODEL_COMMAND_ERASE_FIELD_HPP
 #define RPGMAPPER_MODEL_COMMAND_ERASE_FIELD_HPP
 
+#include <map>
+#include <vector>
+
 #include <QSharedPointer>
 #include <QPointF>
 #include <QString>

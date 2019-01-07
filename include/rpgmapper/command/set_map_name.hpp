@@ -11,6 +11,7 @@
 
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/map.hpp>
+#include <rpgmapper/map_pointer.hpp>
 
 
 namespace rpgmapper::model::command {

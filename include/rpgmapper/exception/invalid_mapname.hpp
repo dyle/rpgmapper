@@ -24,7 +24,6 @@ public:
      * Constructor
      */
     invalid_mapname() : std::invalid_argument("Invalid map name given.") {}
-    
 };
 
 

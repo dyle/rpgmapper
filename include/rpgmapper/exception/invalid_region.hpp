@@ -24,7 +24,6 @@ public:
      * Constructor
      */
     invalid_region() : std::invalid_argument("Invalid region.") {}
-
 };
 
 

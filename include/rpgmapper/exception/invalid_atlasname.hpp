@@ -24,7 +24,6 @@ public:
      * Constructor
      */
     invalid_atlasname() : std::invalid_argument("Invalid atlas name given.") {}
-    
 };
 
 

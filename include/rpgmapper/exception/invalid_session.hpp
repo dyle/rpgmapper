@@ -24,7 +24,6 @@ public:
      * Constructor
      */
     invalid_session() : std::invalid_argument("Invalid session.") {}
-    
 };
 
 

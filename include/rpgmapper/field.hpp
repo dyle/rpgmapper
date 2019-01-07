@@ -10,9 +10,14 @@
 #include <vector>
 
 #include <QPoint>
+#include <QPointF>
 #include <QString>
 
 #include <rpgmapper/tile/tiles.hpp>
+
+
+// fwd
+namespace rpgmapper::model::tile { class Tile; }
 
 
 namespace rpgmapper::model {

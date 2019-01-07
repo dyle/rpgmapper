@@ -9,10 +9,11 @@
 
 #include <map>
 
+#include <QByteArray>
 #include <QIcon>
 #include <QImage>
 #include <QPixmap>
-#include <QSharedPointer>
+#include <QString>
 
 #include <rpgmapper/resource/resource.hpp>
 #include <rpgmapper/tile/tile_insert_modes.hpp>

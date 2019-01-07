@@ -50,7 +50,7 @@ public:
      *
      * @param   resource    the resource to add.
      */
-    void addResource(QSharedPointer<Resource> resource);
+    void addResource(ResourcePointer resource);
     
     /**
      * Returns the paths of all resources in this collection.

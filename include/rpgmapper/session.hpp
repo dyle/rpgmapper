@@ -11,7 +11,10 @@
 #include <set>
 
 #include <QFile>
+#include <QObject>
 #include <QSharedPointer>
+#include <QString>
+#include <QStringList>
 
 #include <rpgmapper/command/processor_pointer.hpp>
 #include <rpgmapper/tile/tile_pointer.hpp>
@@ -296,6 +299,13 @@ public:
      */
     void setLastAppliedTile(rpgmapper::model::tile::TilePointer & tile);
 
+private:
+    
+    /**
+     * Constructor
+     */
+    Session();
+    
 signals:
     
     /**
@@ -326,13 +336,6 @@ signals:
      * A new tile has been selected as new current tile.
      */
     void selectedTile();
-    
-private:
-    
-    /**
-     * Constructor
-     */
-    Session();
 };
 
 

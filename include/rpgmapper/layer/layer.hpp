@@ -38,9 +38,6 @@ public:
     
     /**
      * A Layer instance may have an arbitrary set of additional attributes as key-value pairs.
-     *
-     * E.g. one of the most important attributes of a layer is visibility:
-     *      "visible" -> "true"
      */
     using Attributes = std::map<QString, QString>;
     

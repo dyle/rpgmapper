@@ -7,13 +7,11 @@
 #ifndef RPGMAPPER_MODEL_MAP_HPP
 #define RPGMAPPER_MODEL_MAP_HPP
 
-#include <QObject>
+#include <QJsonObject>
 #include <QSharedPointer>
 #include <QString>
 
-#include <rpgmapper/json/json_io.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
-#include <rpgmapper/tile/tiles.hpp>
 #include <rpgmapper/map_pointer.hpp>
 #include <rpgmapper/nameable.hpp>
 
@@ -115,7 +113,7 @@ public:
      * @param   y           Y-coordinate of the field requested
      * @return  true, if there is some tile on the given field.
      */
-    bool isTileOnField(float x, float y) const {
+    bool isTileOnField(double x, double y) const {
         return isTileOnField(static_cast<int>(x), static_cast<int>(y));
     }
     
@@ -136,7 +134,7 @@ public:
      * @return  true, if there is some tile on the given field.
      */
     bool isTileOnField(QPointF position) const {
-        return isTileOnField(static_cast<float>(position.x()), static_cast<float>(position.y()));
+        return isTileOnField(position.x(), position.y());
     }
     
     /**

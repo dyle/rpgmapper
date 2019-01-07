@@ -10,7 +10,6 @@
 #include <QColor>
 #include <QJsonObject>
 #include <QPainter>
-#include <QPixmap>
 #include <QString>
 
 #include <rpgmapper/layer/background_renderer.hpp>
@@ -19,6 +18,7 @@
 
 
 // fwd
+class QPixmap;
 namespace rpgmapper::model { class Map; }
 
 

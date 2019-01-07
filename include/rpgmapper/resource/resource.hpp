@@ -9,7 +9,6 @@
 
 #include <QByteArray>
 #include <QMimeType>
-#include <QSharedPointer>
 #include <QString>
 
 #include <rpgmapper/resource/resource_type.hpp>

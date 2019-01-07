@@ -9,8 +9,11 @@
 
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QString>
 
+#include <rpgmapper/atlas_pointer.hpp>
 #include <rpgmapper/nameable.hpp>
+#include <rpgmapper/region_pointer.hpp>
 #include <rpgmapper/regions.hpp>
 #include <rpgmapper/resource/resource_collection_pointer.hpp>
 
@@ -122,7 +125,7 @@ public:
      *
      * @return  an invalid null atlas.
      */
-    static QSharedPointer<Atlas> const & null();
+    static AtlasPointer const & null();
     
     /**
      * Removes a region from this region.

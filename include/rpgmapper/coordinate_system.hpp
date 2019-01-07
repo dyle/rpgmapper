@@ -14,6 +14,7 @@
 #include <QPointF>
 #include <QObject>
 #include <QRect>
+#include <QSharedPointer>
 #include <QSize>
 
 #include <rpgmapper/json/json_io.hpp>
@@ -59,7 +60,7 @@ class CoordinateSystem : public QObject, public json::JSONIO {
     QSharedPointer<NumeralConverter> numeralXAxis;                  /**< Numerals used for the X-Axis. */
     QSharedPointer<NumeralConverter> numeralYAxis;                  /**< Numerals used for the Y-Axis. */
     QPointF offset{0.0, 0.0};                                       /**< Offset of the origin. */
-    float margin{0.0};                                              /**< Margin in tile size steps. */
+    double margin{0.0};                                             /**< Margin in tile size steps. */
 
 public:
 
@@ -98,7 +99,7 @@ public:
      *
      * @return  the margin for the map.
      */
-    float getMargin() const {
+    double getMargin() const {
         return margin;
     }
     
@@ -314,44 +315,6 @@ public:
         resize(QSize{width, height});
     }
 
-signals:
-
-    /**
-     * The margin value changed.
-     */
-    void marginChanged();
-    
-    /**
-     * The X-Axis numeral converter has changed.
-     */
-    void numeralXAxisChanged();
-    
-    /**
-     * The Y-Axis numeral converter has changed.
-     */
-    void numeralYAxisChanged();
-
-    /**
-     * The offset of the origin changed.
-     *
-     * @param   offset      the new offset.
-     */
-    void offsetChanged(QPointF offset);
-    
-    /**
-     * The position of the origin changed.
-     *
-     * @param   origin      the new origin.
-     */
-    void originChanged(CoordinatesOrigin origin);
-    
-    /**
-     * The size of the map changed.
-     *
-     * @param   size        the new size of the map.
-     */
-    void sizeChanged(QSize size);
-    
 private:
 
     /**
@@ -377,6 +340,44 @@ private:
      * @return  true, if the found JSON values have been applies.
      */
     bool applyJSONSize(QJsonObject const & json);
+    
+signals:
+    
+    /**
+     * The margin value changed.
+     */
+    void marginChanged();
+    
+    /**
+     * The X-Axis numeral converter has changed.
+     */
+    void numeralXAxisChanged();
+    
+    /**
+     * The Y-Axis numeral converter has changed.
+     */
+    void numeralYAxisChanged();
+    
+    /**
+     * The offset of the origin changed.
+     *
+     * @param   offset      the new offset.
+     */
+    void offsetChanged(QPointF offset);
+    
+    /**
+     * The position of the origin changed.
+     *
+     * @param   origin      the new origin.
+     */
+    void originChanged(CoordinatesOrigin origin);
+    
+    /**
+     * The size of the map changed.
+     *
+     * @param   size        the new size of the map.
+     */
+    void sizeChanged(QSize size);
 };
 
 

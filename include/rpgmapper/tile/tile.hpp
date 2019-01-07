@@ -8,11 +8,12 @@
 #define RPGMAPPER_MODEL_TILE_TILE_HPP
 
 #include <map>
+#include <string>
 
 #include <QPainter>
+#include <QPointF>
 #include <QString>
 
-#include <rpgmapper/command/command_pointer.hpp>
 #include <rpgmapper/tile/tile_insert_modes.hpp>
 #include <rpgmapper/tile/tiles.hpp>
 #include <rpgmapper/base.hpp>
@@ -47,7 +48,9 @@ private:
      */
     Attributes attributes;
     
+    // TODO: remove map
     rpgmapper::model::Map * map = nullptr;        /**< Where the tile has been placed. */
+    // TODO: remove position
     QPointF position;                             /**< Position of the tile placed. */
 
 public:
@@ -78,7 +81,7 @@ public:
      * @param   painter     the painter used to draw the tile.
      * @param   tileSize    size of the tile.
      */
-    virtual void draw(QPainter &painter, int tileSize) = 0;
+    virtual void draw(QPainter & painter, int tileSize) = 0;
     
     /**
      * Returns the tile attributes.
@@ -164,6 +167,8 @@ public:
     
     /**
      * Places this tile within the layer stack of a map.
+     *
+     * TODO: turn to tuple result
      *
      * @param   replaced        will receive the list of replaced tiles.
      * @param   map             the map to place the tile on.

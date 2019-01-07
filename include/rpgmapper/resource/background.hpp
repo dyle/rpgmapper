@@ -9,6 +9,7 @@
 
 #include <QByteArray>
 #include <QImage>
+#include <QString>
 
 #include <rpgmapper/resource/resource.hpp>
 

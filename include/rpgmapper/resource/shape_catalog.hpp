@@ -7,6 +7,9 @@
 #ifndef RPGMAPPER_MODEL_RESOURCE_SHAPE_CATALOG_HPP
 #define RPGMAPPER_MODEL_RESOURCE_SHAPE_CATALOG_HPP
 
+#include <map>
+
+#include <QByteArray>
 #include <QJsonObject>
 #include <QString>
 

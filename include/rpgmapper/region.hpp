@@ -11,7 +11,7 @@
 
 #include <QJsonArray>
 #include <QJsonObject>
-#include <QObject>
+#include <QString>
 
 #include <rpgmapper/nameable.hpp>
 #include <rpgmapper/maps.hpp>

@@ -7,6 +7,7 @@
 #ifndef RPGMAPPER_MODEL_NAMEABLE_HPP
 #define RPGMAPPER_MODEL_NAMEABLE_HPP
 
+#include <QJsonObject>
 #include <QObject>
 #include <QString>
 

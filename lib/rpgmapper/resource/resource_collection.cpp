@@ -12,7 +12,7 @@
 using namespace rpgmapper::model::resource;
 
 
-void ResourceCollection::addResource(QSharedPointer<Resource> resource) {
+void ResourceCollection::addResource(ResourcePointer resource) {
     if (resource->getData().isEmpty()) {
         throw std::runtime_error("Refused to add empty resource to resource DB.");
     }

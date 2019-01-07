@@ -10,6 +10,7 @@
 #include <list>
 #include <tuple>
 
+#include <QByteArray>
 #include <QObject>
 #include <QString>
 #include <QStringList>

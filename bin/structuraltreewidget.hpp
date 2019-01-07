@@ -13,8 +13,7 @@
 #include <rpgmapper/region_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 // fwd
@@ -206,7 +205,6 @@ signals:
 };
 
 
-}
 }
 
 

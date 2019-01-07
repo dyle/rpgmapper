@@ -12,8 +12,7 @@
 #include <rpgmapper/tile/tile_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -70,7 +69,6 @@ protected:
 };
 
 
-}
 }
 
 

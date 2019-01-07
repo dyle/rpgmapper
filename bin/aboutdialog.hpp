@@ -16,8 +16,7 @@
 class Ui_aboutDialog;
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -40,7 +39,6 @@ public:
 };
 
 
-}
 }
 
 

@@ -14,8 +14,7 @@
 #include <QWidget>
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -51,7 +50,6 @@ protected:
 };
 
 
-}
 }
 
 

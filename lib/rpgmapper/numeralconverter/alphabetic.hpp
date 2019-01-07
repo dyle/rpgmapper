@@ -10,8 +10,7 @@
 #include <QString>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -24,7 +23,6 @@ namespace model {
 QString convertToAlphabetic(int value, bool bigCaps);
 
 
-}
 }
 
 

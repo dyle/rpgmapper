@@ -16,8 +16,7 @@
 class Ui_ZoomSlider;
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -106,7 +105,6 @@ signals:
 };
 
 
-}
 }
 
 

@@ -10,9 +10,7 @@
 #include <rpgmapper/command/processor.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace command {
+namespace rpgmapper::model::command {
 
 
 /**
@@ -95,8 +93,6 @@ private:
 };
 
 
-}
-}
 }
 
 

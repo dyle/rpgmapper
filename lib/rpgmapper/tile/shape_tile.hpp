@@ -13,9 +13,7 @@
 #include <rpgmapper/tile/tile.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace tile {
+namespace rpgmapper::model::tile {
 
 /**
  * A ShapeTile is a tile drawing a shape.
@@ -131,8 +129,6 @@ private:
 };
 
 
-}
-}
 }
 
 

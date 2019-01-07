@@ -12,8 +12,7 @@
 #include <rpgmapper/layer/background_renderer.hpp>
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -52,7 +51,6 @@ protected:
 };
 
 
-}
 }
 
 

@@ -20,8 +20,7 @@
 class Ui_startupDialog;
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -87,7 +86,6 @@ private slots:
 };
 
 
-}
 }
 
 

@@ -16,8 +16,7 @@
 class Ui_logDialog;
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -61,7 +60,6 @@ public:
 };
 
 
-}
 }
 
 

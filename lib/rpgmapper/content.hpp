@@ -13,8 +13,7 @@
 #include <QStringList>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -23,7 +22,6 @@ namespace model {
 using Content = std::map<QString, QByteArray>;
 
 
-}
 }
 
 

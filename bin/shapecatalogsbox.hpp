@@ -13,8 +13,7 @@
 #include <rpgmapper/resource/shape_catalog.hpp>
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -63,7 +62,6 @@ signals:
 };
 
 
-}
 }
 
 

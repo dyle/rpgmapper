@@ -22,8 +22,7 @@
 class Ui_mapPropertiesDialog;
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -258,7 +257,6 @@ private slots:
 };
 
 
-}
 }
 
 

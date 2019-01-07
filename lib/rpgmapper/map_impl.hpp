@@ -15,8 +15,7 @@
 #include <rpgmapper/nameable.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 class Map::Impl final : public Nameable, public CoordinateSystem {
@@ -111,7 +110,7 @@ private:
     bool applyJsonTileLayers(QJsonArray const & jsonArray);
 };
 
-}
+
 }
 
 

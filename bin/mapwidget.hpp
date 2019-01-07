@@ -19,8 +19,7 @@
 #include <rpgmapper/map.hpp>
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -255,7 +254,6 @@ signals:
 };
 
 
-}
 }
 
 

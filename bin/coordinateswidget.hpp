@@ -18,8 +18,7 @@
 class Ui_coordinatesWidget;
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -56,7 +55,6 @@ public slots:
 };
 
 
-}
 }
 
 

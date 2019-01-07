@@ -13,8 +13,7 @@
 #include <rpgmapper/atlas_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -40,7 +39,7 @@ bool writeAtlas(AtlasPointer const & atlas, QFile & file, QStringList & log);
 
 
 
-}
+
 }
 
 

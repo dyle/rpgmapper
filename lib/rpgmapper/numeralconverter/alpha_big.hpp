@@ -10,8 +10,7 @@
 #include <rpgmapper/numerals.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -45,7 +44,6 @@ public:
 };
 
 
-}
 }
 
 

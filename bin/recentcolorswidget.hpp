@@ -14,8 +14,7 @@
 #include "colorwidget.hpp"
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -91,7 +90,6 @@ signals:
 };
 
 
-}
 }
 
 

@@ -21,8 +21,7 @@
 class Ui_ColorChooserWidget;
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -181,7 +180,6 @@ signals:
 };
 
 
-}
 }
 
 

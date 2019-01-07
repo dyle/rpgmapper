@@ -11,9 +11,7 @@
 #include <rpgmapper/tile/tile.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace tile {
+namespace rpgmapper::model::tile {
 
 /**
  * A ColorTile is a base tile, which draws a plain color.
@@ -94,8 +92,6 @@ public:
 };
 
 
-}
-}
 }
 
 

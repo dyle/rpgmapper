@@ -23,8 +23,7 @@
 class Ui_resourcesViewDialog;
 
 
-namespace rpgmapper {
-namespace view {
+namespace rpgmapper::view {
 
 
 /**
@@ -161,7 +160,6 @@ private slots:
 };
 
 
-}
 }
 
 

@@ -14,8 +14,7 @@
 #include <rpgmapper/base.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -93,7 +92,6 @@ signals:
 };
 
 
-}
 }
 
 

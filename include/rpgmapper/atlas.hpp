@@ -15,8 +15,7 @@
 #include <rpgmapper/resource/resource_collection_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -208,7 +207,6 @@ public:
 };
 
 
-}
 }
 
 

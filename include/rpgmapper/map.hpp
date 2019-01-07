@@ -18,8 +18,7 @@
 #include <rpgmapper/nameable.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 // fwd
@@ -197,7 +196,6 @@ public:
 };
 
 
-}
 }
 
 

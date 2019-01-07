@@ -18,9 +18,7 @@
 #include <rpgmapper/resource/resource_collection_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace resource {
+namespace rpgmapper::model::resource {
 
 
 /**
@@ -196,8 +194,6 @@ signals:
 };
 
 
-}
-}
 }
 
 

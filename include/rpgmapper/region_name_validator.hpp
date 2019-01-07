@@ -10,8 +10,7 @@
 #include <QString>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -33,7 +32,6 @@ public:
 };
 
 
-}
 }
 
 

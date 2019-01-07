@@ -14,14 +14,15 @@
 #include <rpgmapper/map_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
+/**
+ * A collection of maps identified by their names.
+ */
 using Maps = std::map<QString, MapPointer>;
 
 
-}
 }
 
 

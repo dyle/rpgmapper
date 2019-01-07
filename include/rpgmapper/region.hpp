@@ -18,8 +18,7 @@
 #include <rpgmapper/region_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -185,7 +184,6 @@ public:
 };
 
 
-}
 }
 
 

@@ -10,8 +10,7 @@
 #include <QSharedPointer>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 // fwd
@@ -22,9 +21,8 @@ class Session;
  * A smart pointer to a single atlas.
  */
 using SessionPointer = QSharedPointer<Session>;
-            
-            
-}
+
+
 }
 
 

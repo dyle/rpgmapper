@@ -14,14 +14,15 @@
 #include <rpgmapper/region_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
+/**
+ * A collection of regions identified by the region name.
+ */
 using Regions = std::map<QString, RegionPointer>;
 
 
-}
 }
 
 

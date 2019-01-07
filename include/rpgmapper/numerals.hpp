@@ -11,8 +11,7 @@
 #include <QSharedPointer>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -138,7 +137,6 @@ struct NumeralCoordinates {
 };
 
 
-}
 }
 
 

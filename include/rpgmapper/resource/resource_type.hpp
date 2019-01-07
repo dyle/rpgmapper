@@ -10,9 +10,7 @@
 #include <QString>
 
 
-namespace rpgmapper {
-namespace model {
-namespace resource {
+namespace rpgmapper::model::resource {
 
 
 /**
@@ -54,8 +52,6 @@ QString getResourceTypeName(ResourceType type, bool plural);
 ResourceType suggestResourceTypeByPath(QString path);
 
 
-}
-}
 }
 
 

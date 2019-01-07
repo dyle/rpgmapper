@@ -21,8 +21,7 @@
 #include <rpgmapper/session_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -335,9 +334,8 @@ private:
      */
     Session();
 };
-    
 
-}
+
 }
 
 

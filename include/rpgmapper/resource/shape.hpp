@@ -18,9 +18,7 @@
 #include <rpgmapper/tile/tile_insert_modes.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace resource {
+namespace rpgmapper::model::resource {
 
 
 /**
@@ -237,8 +235,6 @@ private:
 };
 
 
-}
-}
 }
 
 

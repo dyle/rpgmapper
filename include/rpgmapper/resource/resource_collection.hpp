@@ -15,9 +15,7 @@
 #include <rpgmapper/resource/resource_pointer.hpp>
 
 
-namespace rpgmapper {
-namespace model {
-namespace resource {
+namespace rpgmapper::model::resource {
 
 
 /**
@@ -72,8 +70,6 @@ public:
 };
 
 
-}
-}
 }
 
 

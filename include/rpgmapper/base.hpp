@@ -12,8 +12,7 @@
 #include <sstream>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -50,7 +49,6 @@ protected:
 };
 
 
-}
 }
 
 

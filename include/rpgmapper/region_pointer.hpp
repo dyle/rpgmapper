@@ -10,8 +10,7 @@
 #include <QSharedPointer>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 // fwd
@@ -24,7 +23,6 @@ class Region;
 using RegionPointer = QSharedPointer<Region>;
 
 
-}
 }
 
 

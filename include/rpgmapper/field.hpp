@@ -15,8 +15,7 @@
 #include <rpgmapper/tile/tiles.hpp>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -166,7 +165,6 @@ public:
 };
 
 
-}
 }
 
 

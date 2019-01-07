@@ -11,8 +11,7 @@
 #include <list>
 
 
-namespace rpgmapper {
-namespace model {
+namespace rpgmapper::model {
 
 
 /**
@@ -170,7 +169,6 @@ private:
 };
 
 
-}
 }
 
 

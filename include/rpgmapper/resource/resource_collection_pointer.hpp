@@ -10,9 +10,7 @@
 #include <QSharedPointer>
 
 
-namespace rpgmapper {
-namespace model {
-namespace resource {
+namespace rpgmapper::model::resource {
 
 
 // fwd
@@ -25,8 +23,6 @@ class ResourceCollection;
 using ResourceCollectionPointer = QSharedPointer<ResourceCollection>;
 
 
-}
-}
 }
 
 

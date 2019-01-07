@@ -7,14 +7,14 @@
 #ifndef RPGMAPPER_MODEL_LAYER_LAYER_HPP
 #define RPGMAPPER_MODEL_LAYER_LAYER_HPP
 
-#include <memory>
+#include <map>
 
 #include <QJsonObject>
 #include <QObject>
 #include <QPainter>
+#include <QString>
 
 #include <rpgmapper/json/json_io.hpp>
-#include <rpgmapper/field.hpp>
 
 
 // fwd
@@ -47,7 +47,7 @@ public:
 private:
     
     Attributes attributes;          /**< The attributes of the current Layer. */
-    Map * map;                      /**< The map this layer belongs to. */
+    rpgmapper::model::Map * map;    /**< The map this layer belongs to. */
 
 public:
 

@@ -7,9 +7,19 @@
 #ifndef RPGMAPPER_MODEL_LAYER_TILE_LAYER_HPP
 #define RPGMAPPER_MODEL_LAYER_TILE_LAYER_HPP
 
+#include <map>
+
+#include <QJsonObject>
+#include <QPainter>
 #include <QPoint>
+#include <QSharedPointer>
 
 #include <rpgmapper/layer/layer.hpp>
+#include <rpgmapper/field_pointer.hpp>
+
+
+// fwd
+namespace rpgmapper::model { class Map; }
 
 
 namespace rpgmapper::model::layer {
@@ -22,7 +32,7 @@ class TileLayer : public Layer {
 
     Q_OBJECT
 
-    std::map<int, QSharedPointer<Field>> fields;            /**< All known fields of this layer. */
+    std::map<int, rpgmapper::model::FieldPointer> fields;        /**< All known fields of this layer. */
 
 public:
 
@@ -45,7 +55,7 @@ public:
      *
      * @param   field       the new field to add to this layer.
      */
-    void addField(Field const & field);
+    void addField(rpgmapper::model::FieldPointer field);
 
     /**
      * Draws the tiles defined on the map.
@@ -62,7 +72,7 @@ public:
      *
      * @param   index       the field index.
      */
-    QSharedPointer<Field> const getField(int index) const;
+    rpgmapper::model::FieldPointer const getField(int index) const;
 
     /**
      * Gets a field from the map.
@@ -72,9 +82,7 @@ public:
      * @param   x       X-coordinate of the field.
      * @param   y       Y-coordinate of the field.
      */
-    QSharedPointer<Field> const getField(int x, int y) const {
-        return getField(Field::getIndex(x, y));
-    }
+    rpgmapper::model::FieldPointer const getField(int x, int y) const;
     
     /**
      * Gets a field from the map.
@@ -83,7 +91,7 @@ public:
      *
      * @param   position        position holding the field's position.
      */
-    QSharedPointer<Field> const getField(QPoint position) const {
+    rpgmapper::model::FieldPointer const getField(QPoint position) const {
         return getField(position.x(), position.y());
     }
     
@@ -94,7 +102,7 @@ public:
      *
      * @param   position        position holding the field's position.
      */
-    QSharedPointer<Field> const getField(QPointF position) const {
+    rpgmapper::model::FieldPointer const getField(QPointF position) const {
         return getField(static_cast<int>(position.x()), static_cast<int>(position.y()));
     }
     
@@ -103,7 +111,7 @@ public:
      *
      * @return  the fields of this layer.
      */
-    std::map<int, QSharedPointer<Field>> const & getFields() const {
+    std::map<int, rpgmapper::model::FieldPointer> const & getFields() const {
         return fields;
     }
 
@@ -121,9 +129,7 @@ public:
      * @param   y       the Y coordinate.
      * @return  true, of there is a field already.
      */
-    bool isFieldPresent(int x, int y) const {
-        return getField(Field::getIndex(x, y))->isValid();
-    }
+    bool isFieldPresent(int x, int y) const;
     
     /**
      * Checks if there is a field at the given position already present.
@@ -158,9 +164,7 @@ public:
      * @param   x       x-coordinate of field.
      * @param   y       y-coordinate of field.
      */
-    void removeField(int x, int y) {
-        removeField(Field::getIndex(x, y));
-    }
+    void removeField(int x, int y);
     
     /**
      * Removes a field from the layer
@@ -168,7 +172,7 @@ public:
      * @param   position    point holding the field's position.
      */
     void removeField(QPoint position) {
-        removeField(Field::getIndex(position.x(), position.y()));
+        removeField(position.x(), position.y());
     }
     
     /**

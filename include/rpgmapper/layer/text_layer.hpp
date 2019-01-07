@@ -7,7 +7,14 @@
 #ifndef RPGMAPPER_MODEL_LAYER_TEXT_LAYER_HPP
 #define RPGMAPPER_MODEL_LAYER_TEXT_LAYER_HPP
 
+#include <QJsonObject>
+#include <QPainter>
+
 #include <rpgmapper/layer/layer.hpp>
+
+
+// fwd
+namespace rpgmapper::model { class Map; }
 
 
 namespace rpgmapper::model::layer {

@@ -9,6 +9,7 @@
 #include <rpgmapper/resource/resource_db.hpp>
 #include <rpgmapper/resource/shape.hpp>
 #include <rpgmapper/tile/tile_insert_modes.hpp>
+#include <rpgmapper/field.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/session.hpp>
 
@@ -194,7 +195,7 @@ TilePointer ShapeTile::place(Tiles & replaced, rpgmapper::model::Map * map, QPoi
     }
     
     if (!layer->isFieldPresent(position)) {
-        layer->addField(Field{position});
+        layer->addField(FieldPointer{new Field{position}});
     }
     auto field = layer->getField(position);
     

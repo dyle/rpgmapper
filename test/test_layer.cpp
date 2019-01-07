@@ -9,6 +9,7 @@
 #include <QApplication>
 
 #include <rpgmapper/layer/layer.hpp>
+#include <rpgmapper/field.hpp>
 #include <rpgmapper/map.hpp>
 
 using namespace rpgmapper::model;
@@ -44,7 +45,7 @@ TEST(LayerTest, BaseLayerAddFields) {
     ASSERT_GE(layers.size(), 1);
 
     int index = Field::getIndex(10, 10);
-    layers.front()->addField(Field{10, 10});
+    layers.front()->addField(FieldPointer{new Field{10, 10}});
 
     auto field1 = layers.front()->getField(index);
     auto field2 = layers.front()->getField(10, 10);
@@ -86,7 +87,7 @@ TEST(LayerTest, TileLayerAddFields) {
     ASSERT_GE(layers.size(), 1);
 
     int index = Field::getIndex(10, 10);
-    layers.front()->addField(Field{10, 10});
+    layers.front()->addField(FieldPointer{new Field{10, 10}});
 
     auto field1 = layers.front()->getField(index);
     auto field2 = layers.front()->getField(10, 10);

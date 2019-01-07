@@ -4,43 +4,47 @@
  * (C) Copyright 2018-2019, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <rpgmapper/exception/invalid_field.hpp>
 #include <rpgmapper/layer/tile_layer.hpp>
 #include <rpgmapper/tile/tile.hpp>
 #include <rpgmapper/coordinate_system.hpp>
+#include <rpgmapper/field.hpp>
 #include <rpgmapper/map.hpp>
 
 using namespace rpgmapper::model;
 using namespace rpgmapper::model::layer;
-
-// TODO: remove, when done
-#if defined(__GNUC__) || defined(__GNUCPP__)
-#   define UNUSED   __attribute__((unused))
-#else
-#   define UNUSED
-#endif
 
 
 TileLayer::TileLayer(Map * map) : Layer{map} {
 }
 
 
-void TileLayer::addField(Field const & field) {
+void TileLayer::addField(rpgmapper::model::FieldPointer field) {
     
-    int index = field.getIndex();
+    if (!field) {
+        throw rpgmapper::model::exception::invalid_field{};
+    }
+    
+    int index = field->getIndex();
     removeField(index);
     
-    fields[field.getIndex()] = QSharedPointer<Field>{new Field{field}};
-    emit fieldAdded(field.getPosition());
+    fields[index] = field;
+    emit fieldAdded(field->getPosition());
 }
 
 
-QSharedPointer<Field> const TileLayer::getField(int index) const {
+rpgmapper::model::FieldPointer const TileLayer::getField(int index) const {
     static QSharedPointer<Field> invalidField{new InvalidField};
     auto iter = fields.find(index);
     if (iter == fields.end()) {
         return invalidField;
     }
     return (*iter).second;
+}
+
+
+rpgmapper::model::FieldPointer const TileLayer::getField(int x, int y) const {
+    return getField(Field::getIndex(x, y));
 }
 
 
@@ -71,6 +75,11 @@ QJsonObject TileLayer::getJSON() const {
 }
 
 
+bool TileLayer::isFieldPresent(int x, int y) const {
+    return getField(Field::getIndex(x, y))->isValid();
+}
+
+
 void TileLayer::removeField(int index) {
     
     auto iter = fields.find(index);
@@ -78,4 +87,9 @@ void TileLayer::removeField(int index) {
         fields.erase(iter);
         emit fieldRemoved(Field::getPositionFromIndex(index));
     }
+}
+
+
+void TileLayer::removeField(int x, int y) {
+    removeField(Field::getIndex(x, y));
 }

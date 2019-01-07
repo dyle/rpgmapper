@@ -21,6 +21,7 @@
 #include <rpgmapper/tile/tile_factory.hpp>
 #include <rpgmapper/atlas.hpp>
 #include <rpgmapper/atlas_name_validator.hpp>
+#include <rpgmapper/region.hpp>
 #include <rpgmapper/region_name_validator.hpp>
 #include <rpgmapper/session.hpp>
 

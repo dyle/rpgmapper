@@ -8,6 +8,7 @@
 
 #include <rpgmapper/command/erase_field.hpp>
 #include <rpgmapper/exception/invalid_map.hpp>
+#include <rpgmapper/field.hpp>
 #include <rpgmapper/map.hpp>
 
 using namespace rpgmapper::model;
@@ -74,6 +75,8 @@ void EraseField::undo() {
 void EraseField::undoLayer(std::map<unsigned int, rpgmapper::model::tile::Tiles> & backup,
         std::vector<QSharedPointer<rpgmapper::model::layer::TileLayer>> & layers) {
     
+    // TODO: does not work. Fixme!
+/*
     for (auto & pair : backup) {
         
         auto layerIndex = pair.first;
@@ -92,4 +95,5 @@ void EraseField::undoLayer(std::map<unsigned int, rpgmapper::model::tile::Tiles>
     }
     
     backup.clear();
+*/
 }

@@ -6,6 +6,7 @@
 
 #include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/layer/layer_stack.hpp>
+#include <rpgmapper/field.hpp>
 #include <rpgmapper/map.hpp>
 #include <rpgmapper/session.hpp>
 
@@ -80,7 +81,7 @@ TilePointer ColorTile::place(Tiles & replaced, rpgmapper::model::Map * map, QPoi
     // ColorTiles always add to the lowest base layer.
     auto layer = map->getLayers().getBaseLayers()[0];
     if (!layer->isFieldPresent(position)) {
-        layer->addField(Field{position});
+        layer->addField(FieldPointer{new Field{position}});
     }
     auto field = layer->getField(position);
     

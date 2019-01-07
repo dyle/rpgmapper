@@ -9,8 +9,14 @@
 
 #include <QColor>
 #include <QFont>
+#include <QJsonObject>
+#include <QPainter>
 
 #include <rpgmapper/layer/layer.hpp>
+
+
+// fwd
+namespace rpgmapper::model { class Map; }
 
 
 namespace rpgmapper::model::layer {

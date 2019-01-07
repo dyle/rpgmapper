@@ -9,6 +9,7 @@
 #include <rpgmapper/command/remove_map.hpp>
 #include <rpgmapper/exception/invalid_map.hpp>
 #include <rpgmapper/exception/invalid_region.hpp>
+#include <rpgmapper/map.hpp>
 #include <rpgmapper/region.hpp>
 #include <rpgmapper/session.hpp>
 

@@ -13,8 +13,11 @@
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/tile/tile_pointer.hpp>
 #include <rpgmapper/tile/tiles.hpp>
-#include <rpgmapper/map.hpp>
 #include <rpgmapper/map_pointer.hpp>
+
+
+// fwd
+namespace rpgmapper::model { class Map; }
 
 
 namespace rpgmapper::model::command {

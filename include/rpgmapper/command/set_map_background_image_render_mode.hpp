@@ -12,8 +12,11 @@
 
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/layer/image_render_mode.hpp>
-#include <rpgmapper/map.hpp>
 #include <rpgmapper/map_pointer.hpp>
+
+
+// fwd
+namespace rpgmapper::model { class Map; }
 
 
 namespace rpgmapper::model::command {

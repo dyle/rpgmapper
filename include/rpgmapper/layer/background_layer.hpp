@@ -8,15 +8,18 @@
 #define RPGMAPPER_MODEL_LAYER_BACKGROUND_LAYER_HPP
 
 #include <QColor>
-#include <QMargins>
+#include <QJsonObject>
+#include <QPainter>
 #include <QPixmap>
-#include <QRect>
 #include <QString>
 
 #include <rpgmapper/layer/background_renderer.hpp>
 #include <rpgmapper/layer/image_render_mode.hpp>
 #include <rpgmapper/layer/layer.hpp>
-#include <rpgmapper/resource/resource_pointer.hpp>
+
+
+// fwd
+namespace rpgmapper::model { class Map; }
 
 
 namespace rpgmapper::model::layer {

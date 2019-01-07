@@ -8,9 +8,14 @@
 #define RPGMAPPER_MODEL_LAYER_GRID_LAYER_HPP
 
 #include <QColor>
-#include <QFont>
+#include <QJsonObject>
+#include <QPainter>
 
 #include <rpgmapper/layer/layer.hpp>
+
+
+// fwd
+namespace rpgmapper::model { class Map; }
 
 
 namespace rpgmapper::model::layer {

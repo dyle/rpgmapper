@@ -17,7 +17,10 @@
 #include <rpgmapper/command/command.hpp>
 #include <rpgmapper/layer/tile_layer.hpp>
 #include <rpgmapper/tile/tiles.hpp>
-#include <rpgmapper/map.hpp>
+
+
+// fwd
+namespace rpgmapper::model { class Map; }
 
 
 namespace rpgmapper::model::command {

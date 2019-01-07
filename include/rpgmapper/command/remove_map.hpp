@@ -11,9 +11,11 @@
 #include <QString>
 
 #include <rpgmapper/command/command.hpp>
-#include <rpgmapper/map.hpp>
 #include <rpgmapper/map_pointer.hpp>
-#include <rpgmapper/region.hpp>
+
+
+// fwd
+namespace rpgmapper::model { class Map; class Region; }
 
 
 namespace rpgmapper::model::command {

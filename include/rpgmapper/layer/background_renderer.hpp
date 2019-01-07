@@ -9,6 +9,7 @@
 
 #include <QPainter>
 #include <QPixmap>
+#include <QRect>
 
 #include <rpgmapper/layer/image_render_mode.hpp>
 

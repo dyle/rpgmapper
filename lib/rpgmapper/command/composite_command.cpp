@@ -22,8 +22,8 @@ void CompositeCommand::clearCommands() {
 QString CompositeCommand::getDescription() const {
 
     QStringList commandDescriptions;
-    for (auto iter = std::begin(commands); iter != std::end(commands); ++iter) {
-        commandDescriptions << (*iter)->getDescription();
+    for (auto const & command : commands) {
+        commandDescriptions << command->getDescription();
     }
 
     return QString{"Composite command of [%1]."}.arg(commandDescriptions.join(", "));
@@ -31,8 +31,8 @@ QString CompositeCommand::getDescription() const {
 
 
 void CompositeCommand::execute() {
-    for (auto iter = std::begin(commands); iter != std::end(commands); ++iter) {
-        (*iter)->execute();
+    for (auto & command : commands) {
+        command->execute();
     }
 }
 

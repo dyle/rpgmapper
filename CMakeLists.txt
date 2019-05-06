@@ -24,9 +24,13 @@ add_definitions(-D_DEFAULT_SOURCE)
 add_definitions(-DSOURCE_PATH=\"${CMAKE_SOURCE_DIR}\")
 
 if (CMAKE_BUILD_TYPE STREQUAL "")
-    set(CMAKE_BUILD_TYPE "Debug")
+    set(CMAKE_BUILD_TYPE "DEBUG")
 endif (CMAKE_BUILD_TYPE STREQUAL "")
 message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    include(cmake/CodeCoverage.cmake)
+    append_coverage_compiler_flags()
+endif (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 set(CMAKE_CXX_STANDARD 17)
 if (CMAKE_COMPILER_IS_GNUCC)
@@ -99,7 +103,6 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QUAZIP_INCLUDE})
 add_subdirectory(lib)
 add_subdirectory(bin)
 add_subdirectory(test)
-
 
 # set(CPACK_PACKAGE_NAME "rpgmapper")
 #

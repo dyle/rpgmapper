@@ -17,7 +17,7 @@
 #include <QSharedPointer>
 #include <QSize>
 
-#include <rpgmapper/json/json_io.hpp>
+#include <rpgmapper/base.hpp>
 #include <rpgmapper/numerals.hpp>
 
 
@@ -51,7 +51,7 @@ CoordinatesOrigin stringToCoordinatesOrigin(QString const & string);
 /**
  * A coordinate system manages translation and naming of axis and points on a map.
  */
-class CoordinateSystem : public QObject, public json::JSONIO {
+class CoordinateSystem : public QObject, public Base {
     
     Q_OBJECT
 
@@ -73,9 +73,8 @@ public:
      * Applies a JSON to this instance.
      *
      * @param   json    the JSON.
-     * @return  true, if the found values in the JSON data has been applied.
      */
-    bool applyJSON(QJsonObject const & json) override;
+    void applyJson(QJsonObject const & json) override;
     
     /**
      * Gets the inner rect of the map.
@@ -92,7 +91,7 @@ public:
      *
      * @return      a valid JSON  structure from ourselves.
      */
-    QJsonObject getJSON() const override;
+    QJsonObject getJson() const override;
     
     /**
      * Returns the margin as a factor of tile size.
@@ -232,6 +231,14 @@ public:
     void setMargin(float newMargin);
 
     /**
+     * Applies a new numeral converter to both axis.
+     *
+     * @param   numeralXAxis        the new X-Axis converter
+     * @param   numeralYAxis        the new Y-Axis converter
+     */
+    void setNumeralAxis(QSharedPointer<NumeralConverter> numeralXAxis, QSharedPointer<NumeralConverter> numeralYAxis);
+
+    /**
      * Applies a new numeral converter to the X-Axis.
      *
      * @param   numeral     the name of the new X-Axis converter
@@ -303,8 +310,7 @@ public:
      * @param   size        the new size of the map.
      */
     void resize(QSize size);
-    
-    
+
     /**
      * Resizes the map.
      *
@@ -318,28 +324,39 @@ public:
 private:
 
     /**
+     * Applies margin found in a JSON.
+     *
+     * @param   json        the JSON holding the marin.
+     */
+    void applyJsonMargin(QJsonValue const & json);
+
+    /**
      * Applies numerals found in a JSON.
      *
      * @param   json        the JSON holding the numerals.
-     * @return  true, if the found JSON values have been applies.
      */
-    bool applyJSONNumerals(QJsonObject const & json);
-    
+    void applyJsonNumerals(QJsonValue const & json);
+
     /**
      * Applies the origin offset found in a JSON.
      *
      * @param   json        the JSON holding the origin offset.
-     * @return  true, if the found JSON values have been applies.
      */
-    bool applyJSONOffset(QJsonObject const & json);
-    
+    void applyJsonOffset(QJsonValue const & json);
+
+    /**
+     * Applies the origin enum found in a JSON.
+     *
+     * @param   json        the JSON holding the origin.
+     */
+    void applyJsonOrigin(QJsonValue const & json);
+
     /**
      * Applies the size found in a JSON.
      *
      * @param   json        the JSON holding the size.
-     * @return  true, if the found JSON values have been applies.
      */
-    bool applyJSONSize(QJsonObject const & json);
+    void applyJsonSize(QJsonValue const & json);
     
 signals:
     

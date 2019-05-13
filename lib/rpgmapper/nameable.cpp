@@ -4,8 +4,10 @@
  * (C) Copyright 2018-2019, Oliver Maurhart, dyle71@gmail.com
  */
 
+#include <algorithm>
 #include <utility>
 
+#include <rpgmapper/exception/invalid_json.hpp>
 #include <rpgmapper/nameable.hpp>
 
 using namespace rpgmapper::model;
@@ -15,14 +17,17 @@ Nameable::Nameable(QString name) : name{std::move(name)} {
 }
 
 
-bool Nameable::applyJSON(QJsonObject const & json) {
+void Nameable::applyJson(QJsonObject const & json) {
     
-    if (!json.contains("name") || !json["name"].isString()) {
-        return false;
+    if (!json.contains("name")) {
+        throw rpgmapper::model::exception::invalid_json{"No 'name' defined in json."};
     }
-    
+
+    if (!json["name"].isString()) {
+        throw rpgmapper::model::exception::invalid_json{"'name' attribute is not a string."};
+    }
+
     setName(json["name"].toString());
-    return true;
 }
 
 
@@ -33,21 +38,30 @@ void Nameable::clear() {
 }
 
 
-QJsonObject Nameable::getJSON() const {
+QJsonObject Nameable::getJson() const {
     QJsonObject json;
     json["name"] = name;
     return json;
 }
 
 
-std::string Nameable::json() const {
-    return R"("name": ")" + name.toStdString() + "\"";
+bool Nameable::isValidName(QString const & name) {
+
+    if (name.isEmpty()) {
+        return false;
+    }
+
+    static QStringList const invalidCharacters = { "'", "\"" };
+
+    return std::any_of(invalidCharacters.begin(),
+                       invalidCharacters.end(),
+                       [&] (auto s) { return name.contains(s); });
 }
 
 
-void Nameable::setName(QString name) {
-    
-    if (name == this->name) {
+void Nameable::setName(QString const & name) {
+
+    if ((name == this->name) || (!isValidName(name))) {
         return;
     }
     auto oldName = this->name;

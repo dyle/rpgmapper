@@ -9,7 +9,10 @@
 
 #include <ostream>
 #include <string>
-#include <sstream>
+
+#include <QtCore/QByteArray>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
 
 
 namespace rpgmapper::model {
@@ -28,19 +31,25 @@ public:
      * @return  a human readable JSON string of this object.
      */
     explicit operator std::string() const {
-        std::stringstream ss;
-        ss << "{" << json() << "}";
-        return ss.str();
+        QJsonDocument doc{getJson()};
+        auto byteArray = doc.toJson(QJsonDocument::JsonFormat::Compact);
+        return byteArray.toStdString();
     }
 
-protected:
-    
     /**
-     * Collects all fields of this object as JSON members.
+     * Applies a state defined in the given JSON to this object.
      *
-     * @return  a JSON string of all member fields.
+     * @param   json        the state to apply to this object.
      */
-    virtual std::string json() const = 0;
+    virtual void applyJson(QJsonObject const & json) = 0;
+
+
+    /**
+     * Returns the state of this object as JSON.
+     *
+     * @return  a string describing the current object state in json.
+     */
+    virtual QJsonObject getJson() const = 0;
 };
 
 
@@ -54,7 +63,8 @@ protected:
  * @param   o       the object to stream
  */
 inline std::ostream & operator<<(std::ostream & s, rpgmapper::model::Base const & o) {
-    return s << static_cast<std::string>(o);
+    auto json = static_cast<std::string>(o);
+    return s << json;
 }
 
 

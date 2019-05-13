@@ -6,6 +6,7 @@
 
 #include <utility>
 
+#include <rpgmapper/exception/invalid_json.hpp>
 #include <rpgmapper/coordinate_system.hpp>
 
 using namespace rpgmapper::model;
@@ -59,89 +60,137 @@ CoordinateSystem::CoordinateSystem() {
 }
 
 
-bool CoordinateSystem::applyJSON(QJsonObject const & json) {
+void CoordinateSystem::applyJson(QJsonObject const & json) {
     
-    if (json.contains("origin") && json["origin"].isString()) {
-        origin = stringToCoordinatesOrigin(json["origin"].toString());
-    }
-    
-    if (json.contains("size") && json["size"].isObject() && !applyJSONSize(json["size"].toObject())) {
-        return false;
-    }
-    
-    if (json.contains("margin") && json["margin"].isDouble()) {
-        auto newMargin = static_cast<float>(json["margin"].toDouble());
-        if (newMargin >= 0.0) {
-            margin = newMargin;
-        }
+    if (json.contains("origin")) {
+        applyJsonOrigin(json["origin"]);
     }
 
-    if (json.contains("offset") && json["offset"].isObject() && !applyJSONOffset(json["offset"].toObject())) {
-        return false;
+    if (json.contains("size")) {
+        applyJsonSize(json["size"]);
     }
-    
-    if (json.contains("numerals") && json["numerals"].isObject()) {
-        return applyJSONNumerals(json["numerals"].toObject());
+
+    if (json.contains("margin")) {
+        applyJsonMargin(json["margin"]);
     }
-    
-    return true;
+
+    if (json.contains("offset")) {
+        applyJsonOffset(json["offset"]);
+    }
+
+    if (json.contains("numerals")) {
+        applyJsonNumerals(json["numerals"]);
+    }
 }
 
 
-bool CoordinateSystem::applyJSONNumerals(QJsonObject const & json) {
+void CoordinateSystem::applyJsonMargin(QJsonValue const & json) {
 
-    if (json.contains("x") && json["x"].isString()) {
-        auto numeralXAxis = NumeralConverter::create(json["x"].toString());
-        if (!numeralXAxis->isValid()) {
-            return false;
-        }
-        this->numeralXAxis = numeralXAxis;
-    }
-    if (json.contains("y") && json["y"].isString()) {
-        auto numeralYAxis = NumeralConverter::create(json["y"].toString());
-        if (!numeralYAxis->isValid()) {
-            return false;
-        }
-        this->numeralYAxis = numeralYAxis;
+    if (!json.isDouble()) {
+        throw rpgmapper::model::exception::invalid_json{"'margin' attribute is not a float."};
     }
 
-    return true;
+    auto newMargin = static_cast<float>(json.toDouble());
+    if (newMargin >= 0.0) {
+        setMargin(newMargin);
+    }
 }
 
 
-bool CoordinateSystem::applyJSONOffset(QJsonObject const & json) {
-    
-    if (json.contains("x") && json["x"].isDouble()) {
-        offset.setX(json["x"].toDouble());
+void CoordinateSystem::applyJsonNumerals(QJsonValue const & json) {
+
+    if (!json.isObject()) {
+        throw rpgmapper::model::exception::invalid_json{"'numerals' attribute is not an object."};
     }
-    if (json.contains("y") && json["y"].isDouble()) {
-        offset.setY(json["y"].toDouble());
+
+    auto jsonObject = json.toObject();
+
+    if (!jsonObject.contains("x")) {
+        throw rpgmapper::model::exception::invalid_json{"'numerals' attribute does not contains 'x' value."};
     }
-    return true;
+    if (!jsonObject["x"].isString()) {
+        throw rpgmapper::model::exception::invalid_json{"'numerals' attribute 'x' value is not a string."};
+    }
+
+    if (!jsonObject.contains("y")) {
+        throw rpgmapper::model::exception::invalid_json{"'numerals' attribute does not contains 'y' value."};
+    }
+    if (!jsonObject["y"].isString()) {
+        throw rpgmapper::model::exception::invalid_json{"'numerals' attribute 'y' value is not a string."};
+    }
+
+    auto numeralXAxis = NumeralConverter::create(jsonObject["x"].toString());
+    if (!numeralXAxis->isValid()) {
+        throw rpgmapper::model::exception::invalid_json{"'numerals' attribute 'x' value is invalid."};
+    }
+    auto numeralYAxis = NumeralConverter::create(jsonObject["y"].toString());
+    if (!numeralYAxis->isValid()) {
+        throw rpgmapper::model::exception::invalid_json{"'numerals' attribute 'y' value is invalid."};
+    }
+
+    setNumeralAxis(numeralXAxis, numeralYAxis);
 }
 
 
-bool CoordinateSystem::applyJSONSize(QJsonObject const & json) {
+void CoordinateSystem::applyJsonOffset(QJsonValue const & json) {
 
+    if (!json.isObject()) {
+        throw rpgmapper::model::exception::invalid_json{"'offset' attribute is not an object."};
+    }
+
+    auto jsonObject = json.toObject();
+
+    if (!jsonObject.contains("x")) {
+        throw rpgmapper::model::exception::invalid_json{"'offset' attribute does not contains 'x' value."};
+    }
+    if (!jsonObject["x"].isDouble()) {
+        throw rpgmapper::model::exception::invalid_json{"'offset' attribute 'x' value is not a float."};
+    }
+
+    if (!jsonObject.contains("y")) {
+        throw rpgmapper::model::exception::invalid_json{"'offset' attribute does not contains 'y' value."};
+    }
+    if (!jsonObject["y"].isDouble()) {
+        throw rpgmapper::model::exception::invalid_json{"'offset' attribute 'y' value is not a float."};
+    }
+
+    setOffset(QPointF{jsonObject["x"].toDouble(), jsonObject["y"].toDouble()});
+}
+
+
+void CoordinateSystem::applyJsonOrigin(QJsonValue const & json) {
+
+    if (!json.isString()) {
+        throw rpgmapper::model::exception::invalid_json{"Invalid value for coordinate system origin."};
+    }
+    setOrigin(stringToCoordinatesOrigin(json.toString()));
+}
+
+
+void CoordinateSystem::applyJsonSize(QJsonValue const & json) {
+
+    if (!json.isObject()) {
+        throw rpgmapper::model::exception::invalid_json{"Invalid value for coordinate system size."};
+    }
+
+    auto jsonObject = json.toObject();
     QSize size;
 
-    if (json.contains("width") && json["width"].isDouble()) {
-        size.setWidth(static_cast<int>(json["width"].toDouble()));
+    if (jsonObject.contains("width") && jsonObject["width"].isDouble()) {
+        size.setWidth(static_cast<int>(jsonObject["width"].toDouble()));
     }
-    if (json.contains("height") && json["height"].isDouble()) {
-        size.setHeight(static_cast<int>(json["height"].toDouble()));
+    if (jsonObject.contains("height") && jsonObject["height"].isDouble()) {
+        size.setHeight(static_cast<int>(jsonObject["height"].toDouble()));
     }
 
     if (size.width() < getMinimumSize().width() || size.width() >= getMaximumSize().width()) {
-        return false;
+        throw rpgmapper::model::exception::invalid_json{"Coordinate system width is out of bounds."};
     }
     if (size.height() < getMinimumSize().height() || size.height() >= getMaximumSize().height()) {
-        return false;
+        throw rpgmapper::model::exception::invalid_json{"Coordinate system height is out of bounds."};
     }
 
-    this->size = size;
-
-    return true;
+    resize(size);
 }
 
 
@@ -164,26 +213,20 @@ QRect CoordinateSystem::getInnerRect(int tileSize) const {
 }
 
 
-QJsonObject CoordinateSystem::getJSON() const {
+QJsonObject CoordinateSystem::getJson() const {
 
     QJsonObject json;
     json["origin"] = coordinatesOriginToString(origin);
 
-    QJsonObject jsonSize;
-    jsonSize["width"] = size.width();
-    jsonSize["height"] = size.height();
+    QJsonObject jsonSize = {{"width", size.width()}, {"height", size.height()}};
     json["size"] = jsonSize;
     
     json["margin"] = margin;
 
-    QJsonObject jsonOffset;
-    jsonOffset["x"] = offset.x();
-    jsonOffset["y"] = offset.y();
+    QJsonObject jsonOffset= {{"x", offset.x()}, {"y", offset.y()}};
     json["offset"] = jsonOffset;
 
-    QJsonObject jsonNumerals;
-    jsonNumerals["x"] = numeralXAxis->getName();
-    jsonNumerals["y"] = numeralYAxis->getName();
+    QJsonObject jsonNumerals {{"x", numeralXAxis->getName()}, {"y", numeralYAxis->getName()}};
     json["numerals"] = jsonNumerals;
 
     return json;
@@ -213,8 +256,6 @@ QRect CoordinateSystem::getOuterRect(int tileSize) const {
 
 
 QRect CoordinateSystem::getRect() const {
-    auto offset = getOffset();
-    auto size = getSize();
     return QRect{static_cast<int>(offset.x()), static_cast<int>(offset.y()), size.width(), size.height()};
 }
 
@@ -255,6 +296,15 @@ void CoordinateSystem::setMargin(float newMargin) {
         margin = newMargin;
         emit marginChanged();
     }
+}
+
+
+void CoordinateSystem::setNumeralAxis(QSharedPointer<rpgmapper::model::NumeralConverter> numeralXAxis,
+                                      QSharedPointer<rpgmapper::model::NumeralConverter> numeralYAxis) {
+    this->numeralXAxis = numeralXAxis;
+    this->numeralYAxis = numeralYAxis;
+    emit numeralXAxisChanged();
+    emit numeralYAxisChanged();
 }
 
 

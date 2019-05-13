@@ -90,9 +90,9 @@ void CoordinateSystem::applyJsonMargin(QJsonValue const & json) {
         throw rpgmapper::model::exception::invalid_json{"'margin' attribute is not a float."};
     }
 
-    auto newMargin = static_cast<float>(json.toDouble());
-    if (newMargin >= 0.0) {
-        setMargin(newMargin);
+    auto margin = static_cast<float>(json.toDouble());
+    if (margin >= 0.0) {
+        setMargin(margin);
     }
 }
 
@@ -301,8 +301,8 @@ void CoordinateSystem::setMargin(float newMargin) {
 
 void CoordinateSystem::setNumeralAxis(QSharedPointer<rpgmapper::model::NumeralConverter> numeralXAxis,
                                       QSharedPointer<rpgmapper::model::NumeralConverter> numeralYAxis) {
-    this->numeralXAxis = numeralXAxis;
-    this->numeralYAxis = numeralYAxis;
+    this->numeralXAxis = std::move(numeralXAxis);
+    this->numeralYAxis = std::move(numeralYAxis);
     emit numeralXAxisChanged();
     emit numeralYAxisChanged();
 }

@@ -63,8 +63,7 @@ public:
  * @param   o       the object to stream
  */
 inline std::ostream & operator<<(std::ostream & s, rpgmapper::model::Base const & o) {
-    auto json = static_cast<std::string>(o);
-    return s << json;
+    return s << std::string{o};
 }
 
 

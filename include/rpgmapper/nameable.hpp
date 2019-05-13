@@ -84,7 +84,7 @@ signals:
      * The name of the instance has changed.
      *
      * @param   oldName     the old name
-     * param    newName     the new name
+     * @param   newName     the new name
      */
     void nameChanged(QString oldName, QString newName);
 };

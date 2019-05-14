@@ -286,7 +286,7 @@ public:
     
     
     /**
-     * Translate a point to map coordinates respecting the origin.
+     * Translates a point to map coordinates respecting the origin.
      *
      * @param   point       the point measured from top/left.
      * @return  a point as for map coordinates.

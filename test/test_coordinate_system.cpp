@@ -173,29 +173,62 @@ TEST(CoordinateSystemTest, Margin) {
 }
 
 
+TEST(CoordinateSystemTest, InnerRect) {
+
+    CoordinateSystem coordinateSystem;
+    int width = 10;
+    int height = 10;
+    coordinateSystem.resize(QSize{width, height});
+
+    coordinateSystem.setMargin(0.0);
+    EXPECT_EQ(coordinateSystem.getMargin(), 0.0);
+
+    int tileSize = 48;
+    auto innerRect = coordinateSystem.getOuterRect(tileSize);
+    auto marginInPixel = coordinateSystem.getMarginInPixels(tileSize);
+    auto axisMargins = tileSize;
+    EXPECT_EQ(innerRect.x(), axisMargins + marginInPixel);
+    EXPECT_EQ(innerRect.y(), axisMargins + marginInPixel);
+    EXPECT_EQ(innerRect.width(), tileSize * width);
+    EXPECT_EQ(innerRect.width(), tileSize * height);
+
+    tileSize = 32;
+    marginInPixel = coordinateSystem.getMarginInPixels(tileSize);
+    axisMargins = tileSize;
+    EXPECT_EQ(innerRect.x(), axisMargins + marginInPixel);
+    EXPECT_EQ(innerRect.y(), axisMargins + marginInPixel);
+    EXPECT_EQ(innerRect.width(), tileSize * width);
+    EXPECT_EQ(innerRect.width(), tileSize * height);
+}
+
+
 TEST(CoordinateSystemTest, OuterRect) {
     
     CoordinateSystem coordinateSystem;
-    coordinateSystem.resize(QSize{10, 10});
-    
+    int width = 10;
+    int height = 10;
+    coordinateSystem.resize(QSize{width, height});
+
     coordinateSystem.setMargin(0.0);
     EXPECT_EQ(coordinateSystem.getMargin(), 0.0);
 
     int tileSize = 48;
     auto outerRect = coordinateSystem.getOuterRect(tileSize);
     auto marginInPixel = coordinateSystem.getMarginInPixels(tileSize);
+    auto axisMargins = tileSize + tileSize;
     EXPECT_EQ(outerRect.x(), 0);
     EXPECT_EQ(outerRect.y(), 0);
-    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
-    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * width + axisMargins + marginInPixel * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * height + axisMargins + marginInPixel * 2);
 
     tileSize = 32;
     outerRect = coordinateSystem.getOuterRect(tileSize);
     marginInPixel = coordinateSystem.getMarginInPixels(tileSize);
+    axisMargins = tileSize + tileSize;
     EXPECT_EQ(outerRect.x(), 0);
     EXPECT_EQ(outerRect.y(), 0);
-    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
-    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * width + axisMargins + marginInPixel * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * height + axisMargins + marginInPixel * 2);
     
     coordinateSystem.setMargin(1.0);
     EXPECT_EQ(coordinateSystem.getMargin(), 1.0);
@@ -204,8 +237,8 @@ TEST(CoordinateSystemTest, OuterRect) {
     marginInPixel = coordinateSystem.getMarginInPixels(tileSize);
     EXPECT_EQ(outerRect.x(), 0);
     EXPECT_EQ(outerRect.y(), 0);
-    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
-    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * width + axisMargins + marginInPixel * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * height + axisMargins + marginInPixel * 2);
     
     coordinateSystem.setMargin(2.5);
     EXPECT_EQ(coordinateSystem.getMargin(), 2.5);
@@ -213,8 +246,18 @@ TEST(CoordinateSystemTest, OuterRect) {
     tileSize = 48;
     outerRect = coordinateSystem.getOuterRect(48);
     marginInPixel = coordinateSystem.getMarginInPixels(tileSize);
+    axisMargins = tileSize + tileSize;
     EXPECT_EQ(outerRect.x(), 0);
     EXPECT_EQ(outerRect.y(), 0);
-    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
-    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * width + axisMargins + marginInPixel * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * height + axisMargins + marginInPixel * 2);
+}
+
+
+TEST(CoordinateSystemTest, TranslateToMap) {
+
+    CoordinateSystem coordinateSystem;
+    int width = 10;
+    int height = 10;
+    coordinateSystem.resize(QSize{width, height});
 }

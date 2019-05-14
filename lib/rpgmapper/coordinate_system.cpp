@@ -200,12 +200,11 @@ QRect CoordinateSystem::getInnerRect(int tileSize) const {
     QSize size = getSize();
     
     int axisLabelHeight = tileSize;
-    int marginHeight = static_cast<int>(getMargin() * tileSize);
     int axisLabelWidth = tileSize;
-    int marginWidth = static_cast<int>(getMargin() * tileSize);
-    
-    rect.setX(axisLabelWidth + marginWidth);
-    rect.setY(axisLabelHeight + marginHeight);
+    auto marginInPixels = getMarginInPixels(tileSize);
+
+    rect.setX(axisLabelWidth + marginInPixels);
+    rect.setY(axisLabelHeight + marginInPixels);
     rect.setHeight(size.height() * tileSize);
     rect.setWidth(size.width() * tileSize);
     
@@ -244,12 +243,11 @@ QRect CoordinateSystem::getOuterRect(int tileSize) const {
     QSize size = getSize();
     
     int axisLabelHeight = tileSize;
-    int marginHeight = static_cast<int>(getMargin() * tileSize);
     int axisLabelWidth = tileSize;
-    int marginWidth = static_cast<int>(getMargin() * tileSize);
-    
-    rect.setHeight(size.height() * tileSize + axisLabelHeight * 2 + marginHeight * 2);
-    rect.setWidth(size.width() * tileSize + axisLabelWidth * 2 + marginWidth * 2);
+    auto marginInPixel = getMarginInPixels(tileSize);
+
+    rect.setHeight(size.height() * tileSize + axisLabelHeight * 2 + marginInPixel * 2);
+    rect.setWidth(size.width() * tileSize + axisLabelWidth * 2 + marginInPixel * 2);
     
     return rect;
 }

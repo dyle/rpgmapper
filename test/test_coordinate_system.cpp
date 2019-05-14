@@ -61,7 +61,7 @@ TEST(CoordinateSystemTest, SizeAboveMaximum) {
 
     CoordinateSystem coordinateSystem;
     auto oldSize = coordinateSystem.getSize();
-    coordinateSystem.resize(QSize{1000000, 1000000});
+    coordinateSystem.resize(QSize{1'000'000, 1'000'000});
     auto size = coordinateSystem.getSize();
 
     EXPECT_LE(size.width(), CoordinateSystem::getMaximumSize().width());
@@ -151,6 +151,28 @@ TEST(CoordinateSystemTest, NumeralsRoman) {
 }
 
 
+TEST(CoordinateSystemTest, Margin) {
+
+    CoordinateSystem coordinateSystem;
+    coordinateSystem.resize(QSize{10, 10});
+
+    coordinateSystem.setMargin(0.0);
+    EXPECT_EQ(coordinateSystem.getMarginInPixels(16), 0);
+    EXPECT_EQ(coordinateSystem.getMarginInPixels(32), 0);
+    EXPECT_EQ(coordinateSystem.getMarginInPixels(48), 0);
+
+    coordinateSystem.setMargin(0.5);
+    EXPECT_EQ(coordinateSystem.getMarginInPixels(16), 8);
+    EXPECT_EQ(coordinateSystem.getMarginInPixels(32), 16);
+    EXPECT_EQ(coordinateSystem.getMarginInPixels(48), 24);
+
+    coordinateSystem.setMargin(0.1);
+    EXPECT_EQ(coordinateSystem.getMarginInPixels(16), 1);
+    EXPECT_EQ(coordinateSystem.getMarginInPixels(32), 3);
+    EXPECT_EQ(coordinateSystem.getMarginInPixels(48), 4);
+}
+
+
 TEST(CoordinateSystemTest, OuterRect) {
     
     CoordinateSystem coordinateSystem;
@@ -158,34 +180,41 @@ TEST(CoordinateSystemTest, OuterRect) {
     
     coordinateSystem.setMargin(0.0);
     EXPECT_EQ(coordinateSystem.getMargin(), 0.0);
-    
-    auto outerRect = coordinateSystem.getOuterRect(48);
+
+    int tileSize = 48;
+    auto outerRect = coordinateSystem.getOuterRect(tileSize);
+    auto marginInPixel = coordinateSystem.getMarginInPixels(tileSize);
     EXPECT_EQ(outerRect.x(), 0);
     EXPECT_EQ(outerRect.y(), 0);
-    EXPECT_EQ(outerRect.width(), 48 * 12 + 48 * 0.0 * 2);
-    EXPECT_EQ(outerRect.width(), 48 * 12 + 48 * 0.0 * 2);
-    
-    outerRect = coordinateSystem.getOuterRect(32);
+    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
+
+    tileSize = 32;
+    outerRect = coordinateSystem.getOuterRect(tileSize);
+    marginInPixel = coordinateSystem.getMarginInPixels(tileSize);
     EXPECT_EQ(outerRect.x(), 0);
     EXPECT_EQ(outerRect.y(), 0);
-    EXPECT_EQ(outerRect.width(), 32 * 12 + 32 * 0.0 * 2);
-    EXPECT_EQ(outerRect.width(), 32 * 12 + 32 * 0.0 * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
     
     coordinateSystem.setMargin(1.0);
     EXPECT_EQ(coordinateSystem.getMargin(), 1.0);
-    
-    outerRect = coordinateSystem.getOuterRect(32);
+
+    outerRect = coordinateSystem.getOuterRect(tileSize);
+    marginInPixel = coordinateSystem.getMarginInPixels(tileSize);
     EXPECT_EQ(outerRect.x(), 0);
     EXPECT_EQ(outerRect.y(), 0);
-    EXPECT_EQ(outerRect.width(), 32 * 12 + 32 * 1.0 * 2);
-    EXPECT_EQ(outerRect.width(), 32 * 12 + 32 * 1.0 * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
     
     coordinateSystem.setMargin(2.5);
     EXPECT_EQ(coordinateSystem.getMargin(), 2.5);
-    
+
+    tileSize = 48;
     outerRect = coordinateSystem.getOuterRect(48);
+    marginInPixel = coordinateSystem.getMarginInPixels(tileSize);
     EXPECT_EQ(outerRect.x(), 0);
     EXPECT_EQ(outerRect.y(), 0);
-    EXPECT_EQ(outerRect.width(), 48 * 12 + 48 * 2.5 * 2);
-    EXPECT_EQ(outerRect.width(), 48 * 12 + 48 * 2.5 * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
+    EXPECT_EQ(outerRect.width(), tileSize * 12 + marginInPixel * 2);
 }

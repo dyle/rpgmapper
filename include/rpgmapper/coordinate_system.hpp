@@ -101,7 +101,16 @@ public:
     double getMargin() const {
         return margin;
     }
-    
+
+    /**
+     * Returns the margin in pixels by a given tile size.
+     *
+     * @return  the margin in pixel for a given tile size.
+     */
+    int getMarginInPixels(int tileSize) const {
+        return getMargin() * tileSize;
+    }
+
     /**
      * Gets the maximum dimension of a map.
      *

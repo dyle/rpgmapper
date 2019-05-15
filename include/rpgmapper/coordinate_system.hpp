@@ -335,7 +335,7 @@ private:
     /**
      * Applies margin found in a JSON.
      *
-     * @param   json        the JSON holding the marin.
+     * @param   json        the JSON holding the margin.
      */
     void applyJsonMargin(QJsonValue const & json);
 

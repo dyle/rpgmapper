@@ -55,16 +55,15 @@ public:
      * Applies a JSON to this instance.
      *
      * @param   json    the JSON.
-     * @return  true, if the found values in the JSON data has been applied.
      */
-    bool applyJSON(QJsonObject const & json) override;
+    void applyJson(QJsonObject const & json) override;
     
     /**
      * Create a JSON structure from ourselves.
      *
      * @return      a valid JSON  structure from ourselves.
      */
-    QJsonObject getJSON() const override;
+    QJsonObject getJson() const override;
     
     /**
      * Gets a known region.
@@ -137,12 +136,13 @@ public:
 private:
     
     /**
-     * Applies the regions defined in the JSON array.
+     * Applies the regions found in a JSON.
      *
-     * @param   jsonRegions     the array of regions.
-     * @return  true, if the values found have been applied.
+     * Note: previous regions will be removed.
+     *
+     * @param   json        the JSON holding the regions.
      */
-    bool applyJSONRegionsArray(QJsonArray const & jsonRegions);
+    void applyJsonRegions(QJsonValue const & json);
 
 private slots:
     

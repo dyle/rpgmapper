@@ -44,15 +44,14 @@ public:
      *
      * @param   mapName         the new name of the map.
      */
-    explicit Map(QString mapName);
+    explicit Map(QString mapName = QString::null);
 
     /**
      * Applies a JSON to this instance.
      *
      * @param   json    the JSON.
-     * @return  true, if the found values in the JSON data has been applied.
      */
-    bool applyJSON(QJsonObject const & json) override;
+    void applyJson(QJsonObject const & json) override;
     
     /**
      * Gets the coordinate system of the map.
@@ -77,7 +76,7 @@ public:
      *
      * @return      a valid JSON  structure from ourselves.
      */
-    QJsonObject getJSON() const override;
+    QJsonObject getJson() const override;
     
     /**
      * Gets the layers of this map.

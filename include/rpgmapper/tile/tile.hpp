@@ -74,7 +74,14 @@ public:
      * Equality operator.
      */
     virtual bool operator==(Tile const &) const = 0;
-    
+
+    /**
+     * Applies a JSON to this instance.
+     *
+     * @param   json    the JSON  holding  the name.
+     */
+    void applyJson(QJsonObject const & json) override;
+
     /**
      * Draws the tile.
      *
@@ -107,7 +114,14 @@ public:
      * @return  the insert mode enum value of this tile.
      */
     virtual TileInsertMode getInsertMode() const = 0;
-    
+
+    /**
+     * Create a JSON object.
+     *
+     * @return  the JSON describing this instance.
+     */
+    QJsonObject getJson() const override;
+
     /**
      * Returns the map the tile is placed.
      *
@@ -193,13 +207,6 @@ public:
     void rotateRight();
     
 protected:
-    
-    /**
-     * Collects all fields of this object as JSON members.
-     *
-     * @return  a JSON string of all member fields.
-     */
-    std::string json() const override;
     
     /**
      * Sets the map the tile is placed.

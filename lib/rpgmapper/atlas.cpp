@@ -6,6 +6,7 @@
 
 #include <utility>
 
+#include <rpgmapper/exception/invalid_json.hpp>
 #include <rpgmapper/exception/invalid_region.hpp>
 #include <rpgmapper/exception/invalid_regionname.hpp>
 #include <rpgmapper/atlas.hpp>
@@ -29,26 +30,29 @@ Atlas::Atlas(QString name) : Nameable{std::move(name)} {
 }
 
 
-bool Atlas::applyJSON(QJsonObject const & json) {
+void Atlas::applyJson(QJsonObject const & json) {
     
-    if (!Nameable::applyJSON(json)) {
-        return false;
-    }
+    Nameable::applyJson(json);
+
     if (json.contains("regions")) {
-        if (!json["regions"].isArray()) {
-            return false;
-        }
-        if (!applyJSONRegionsArray(json["regions"].toArray())) {
-            return false;
-        }
+        applyJsonRegions(json["regions"]);
     }
-    return true;
 }
 
 
-bool Atlas::applyJSONRegionsArray(QJsonArray const & jsonRegions) {
+void Atlas::applyJsonRegions(QJsonValue const & json) {
 
-    for (auto && jsonRegion : jsonRegions) {
+    if (!json.isArray()) {
+        throw rpgmapper::model::exception::invalid_json{"regions in atlas json is not an array."};
+    }
+
+    Regions regions;
+    for (auto && jsonRegion : json.toArray()) {
+
+        auto
+
+
+        // TODO: 1. create region, 2. applyJson, 3. fetch name
         if (jsonRegion.toObject().contains("name") && jsonRegion.toObject()["name"].isString()) {
             auto region = RegionPointer{new Region{jsonRegion.toObject()["name"].toString()}};
             if (!region->applyJSON(jsonRegion.toObject())) {
@@ -57,8 +61,6 @@ bool Atlas::applyJSONRegionsArray(QJsonArray const & jsonRegions) {
             addRegion(region);
         }
     }
-    
-    return true;
 }
 
 

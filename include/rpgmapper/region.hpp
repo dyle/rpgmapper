@@ -37,7 +37,7 @@ public:
      *
      * @param   name        name of the new region.
      */
-    explicit Region(QString name);
+    explicit Region(QString name = QString::null);
 
     /**
      * Destructor.
@@ -55,16 +55,15 @@ public:
      * Applies a JSON to this instance.
      *
      * @param   json    the JSON.
-     * @return  true, if the found values in the JSON data has been applied.
      */
-    bool applyJSON(QJsonObject const & json) override;
+    void applyJson(QJsonObject const & json) override;
     
     /**
      * Create a JSON structure from ourselves.
      *
      * @return      a valid JSON  structure from ourselves.
      */
-    QJsonObject getJSON() const override;
+    QJsonObject getJson() const override;
     
     /**
      * Gets a known map.
